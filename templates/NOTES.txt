@@ -1,0 +1,10 @@
+It may take a few minutes for the Aqua Console UI to become available. You can watch its status by running:
+
+  kubectl get svc -w {{ template "fullname" . }}-web
+
+Once the console is available you can get the address of the Aqua Console UI with the following commands:
+
+   export SERVICE_IP=$(kubectl get svc {{ template "fullname" . }}-web -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+   echo http://$SERVICE_IP:{{ .Values.web.servicePort }}
+
+You will need to install the Aqua Agent daemonset on your cluster. We recommend using the "Batch install" process available in the UI under the "Hosts" tab.
