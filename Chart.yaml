@@ -1,7 +1,7 @@
 apiVersion: v1
 description: Secure your container deployment
 name: aqua
-version: 2.1.0
+version: 2.1
 home: aquasec.com
 keywords:
 - aqua

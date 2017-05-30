@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    component: {{ template "fullname" .}}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"    
+spec:
+  ports:
+    - port: {{ default 8080 .Values.web.servicePort }}
+  selector:
+    app: {{ template "fullname" . }}
+  type: LoadBalancer
