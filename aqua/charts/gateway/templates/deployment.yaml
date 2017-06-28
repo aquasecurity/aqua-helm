@@ -28,8 +28,8 @@ spec:
           - name: SCALOCK_DBPASSWORD
             valueFrom: 
               secretKeyRef:
-                name: {{ .Release.Name }}-secret
-                # name: aqua-db                
+                # name: {{ .Release.Name }}-secret
+                name: aqua-db                
                 key: password
           - name: SCALOCK_DBNAME
             value: "scalock"
@@ -42,8 +42,8 @@ spec:
           - name: SCALOCK_AUDIT_DBPASSWORD
             valueFrom: 
               secretKeyRef:
-                name: {{ .Release.Name  }}-secret
-                # name: aqua-db                
+                # name: {{ .Release.Name  }}-secret
+                name: aqua-db                
                 key: password
           - name: SCALOCK_AUDIT_DBNAME
             value: "slk_audit"

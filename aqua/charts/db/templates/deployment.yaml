@@ -24,8 +24,8 @@ spec:
           - name: POSTGRES_PASSWORD
             valueFrom: 
               secretKeyRef:
-                name: {{ .Release.Name }}-secret
-                # name: aqua-db
+                # name: {{ .Release.Name }}-secret
+                name: aqua-db
                 key: password
         ports:
         - containerPort: {{.Values.db.containerPort}}
