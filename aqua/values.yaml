@@ -6,4 +6,4 @@ global:
   imagePullPolicy: IfNotPresent
   imagePullSecretName: dockerhub
   dbServicePort: 5432
-  dbExternalServiceHost: "myHost.host.com" #If this value is <String>false the databse will create from the helm chart otherwise specify external host.
+  dbExternalServiceHost: "false" #If this value is <String>false the databse will create from the helm chart otherwise specify external host.
