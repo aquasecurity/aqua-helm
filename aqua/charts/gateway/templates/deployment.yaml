@@ -19,36 +19,44 @@ spec:
       containers:
       - name: {{ template "fullname" . }}
         image: "{{.Values.gateway.image}}:{{.Values.global.imageTag}}"
-        imagePullPolicy: {{default "" .Values.global.pullPolicy | quote }}        
+        imagePullPolicy: {{default "" .Values.global.pullPolicy | quote }}
         env:
           - name: SCALOCK_GATEWAY_PUBLIC_IP
             value: {{ template "fullname" . }}
           - name: SCALOCK_DBUSER
             value: "postgres"
           - name: SCALOCK_DBPASSWORD
-            valueFrom: 
+            valueFrom:
               secretKeyRef:
                 # name: {{ .Release.Name }}-secret
-                name: aqua-db                
+                name: aqua-db
                 key: password
           - name: SCALOCK_DBNAME
             value: "scalock"
           - name: SCALOCK_DBHOST
+            {{ if eq .Values.global.dbExternalServiceHost "false" }}
             value: {{ .Release.Name }}-aqua-db
+            {{ else }}
+            value: {{ .Values.global.dbExternalServiceHost }}
+            {{ end }}
           - name: SCALOCK_DBPORT
             value: {{ default 5432 .Values.global.dbServicePort | quote }}
           - name: SCALOCK_AUDIT_DBUSER
             value: "postgres"
           - name: SCALOCK_AUDIT_DBPASSWORD
-            valueFrom: 
+            valueFrom:
               secretKeyRef:
                 # name: {{ .Release.Name  }}-secret
-                name: aqua-db                
+                name: aqua-db
                 key: password
           - name: SCALOCK_AUDIT_DBNAME
             value: "slk_audit"
           - name: SCALOCK_AUDIT_DBHOST
-            value: {{ .Release.Name  }}-aqua-db
+            {{ if eq .Values.global.dbExternalServiceHost "false" }}
+            value: {{ .Release.Name }}-aqua-db
+            {{ else }}
+            value: {{ .Values.global.dbExternalServiceHost }}
+            {{ end }}
           - name: SCALOCK_AUDIT_DBPORT
             value: {{ default 5432 .Values.global.dbServicePort | quote }}
         ports:
