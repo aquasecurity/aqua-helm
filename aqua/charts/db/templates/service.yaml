@@ -1,4 +1,5 @@
-{{ if eq .Values.global.dbExternalServiceHost "false" }}
+{{ if .Values.global.dbExternalServiceHost }}
+{{ else }}
 apiVersion: v1
 kind: Service
 metadata:

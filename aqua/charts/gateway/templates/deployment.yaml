@@ -34,10 +34,10 @@ spec:
           - name: SCALOCK_DBNAME
             value: "scalock"
           - name: SCALOCK_DBHOST
-            {{ if eq .Values.global.dbExternalServiceHost "false" }}
-            value: {{ .Release.Name }}-aqua-db
-            {{ else }}
+            {{ if .Values.global.dbExternalServiceHost }}
             value: {{ .Values.global.dbExternalServiceHost }}
+            {{ else }}
+            value: {{ .Release.Name }}-aqua-db
             {{ end }}
           - name: SCALOCK_DBPORT
             value: {{ default 5432 .Values.global.dbServicePort | quote }}
@@ -52,10 +52,10 @@ spec:
           - name: SCALOCK_AUDIT_DBNAME
             value: "slk_audit"
           - name: SCALOCK_AUDIT_DBHOST
-            {{ if eq .Values.global.dbExternalServiceHost "false" }}
-            value: {{ .Release.Name }}-aqua-db
-            {{ else }}
+            {{ if .Values.global.dbExternalServiceHost }}
             value: {{ .Values.global.dbExternalServiceHost }}
+            {{ else }}
+            value: {{ .Release.Name }}-aqua-db
             {{ end }}
           - name: SCALOCK_AUDIT_DBPORT
             value: {{ default 5432 .Values.global.dbServicePort | quote }}
