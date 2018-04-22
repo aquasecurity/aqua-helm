@@ -7,7 +7,7 @@ metadata:
     component: {{ template "fullname" .}}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"    
+    heritage: "{{ .Release.Service }}"
 spec:
   ports:
     - port: {{ default 8080 .Values.web.servicePort }}

@@ -1,3 +1,5 @@
+{{ if .Values.global.dbExternalServiceHost }}
+{{ else }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -7,13 +9,14 @@ metadata:
     component: {{ template "fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"    
+    heritage: "{{ .Release.Service }}"
 spec:
   ports:
-  {{ if .Values.global.dbServicePort }} 
+  {{ if .Values.global.dbServicePort }}
     - port: {{ default 5432 .Values.global.dbServicePort}}
-  {{ else }}   
+  {{ else }}
     - port: {{ default 5432 .Values.db.servicePort}}
   {{ end }}
   selector:
     app: {{ template "fullname" . }}
+{{ end }}

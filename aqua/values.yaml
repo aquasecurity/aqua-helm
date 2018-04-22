@@ -1,30 +1,10 @@
 # Default values for aqua.
 # imageTag specifies the version number for all the Aqua components
 global:
-  imageTag: "2.6"
+  imageTag: "3.0"
   # imagePullPolicy specifies the pull policy for all the Aqua component containers
   imagePullPolicy: IfNotPresent
   imagePullSecretName: dockerhub
   dbServicePort: 5432
-
-# db is the Aqua Database component
-db: 
-  image: "aquasec/database"
-  servicePort: 5432
-  containerPort: 5432
-  password: "change me"
-
-# gateway is the Aqua Gateway component
-gateway: 
-  image: "aquasec/gateway"
-  servicePort: 3622
-  containerPort: 3622
-
-# web is the Aqua Web Server component
-web:
-  image: "aquasec/server"
-  servicePort: 8080
-  containerPort: 8080
-
-
-
+  #If dbExternalServiceHost is empty, a database will be created from the Helm chart, otherwise specify the address of the external database.
+  dbExternalServiceHost:

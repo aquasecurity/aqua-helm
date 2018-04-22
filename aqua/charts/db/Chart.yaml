@@ -1,4 +1,4 @@
 apiVersion: v1
 description: A Helm chart for Kubernetes
 name: aqua-db
-version: 2.1
+version: 3.0
