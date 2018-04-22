@@ -1,7 +1,7 @@
 # Default values for aqua.
 # imageTag specifies the version number for all the Aqua components
 global:
-  imageTag: "2.6"
+  imageTag: "3.0"
   # imagePullPolicy specifies the pull policy for all the Aqua component containers
   imagePullPolicy: IfNotPresent
   imagePullSecretName: dockerhub
