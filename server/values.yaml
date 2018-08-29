@@ -1,0 +1,59 @@
+# Specifies the secret data for imagePullSecrets needed to fetch the private docker images
+registry:
+  secret: dockerhub
+  username:
+  password:
+  email:
+
+rbac:
+  enabled: true
+
+# Optionally the chart can install a postgreSql chart and configure it with a random password and persistence.
+# If the user specified `db.external.true`, the chart should avoid installing the above.
+db:
+  external:
+    enabled: false
+    name:
+    host:
+    port:
+    user:
+    password:
+
+  image:
+    repo: aquasec/database
+    tag: 3.2
+
+  service:
+    type: ClusterIP
+
+  persistence:
+    enabled: true
+    storageClass: default
+    size: 8Gi
+    accessMode: ReadWriteOnce
+
+web:
+  service:
+    type: ClusterIP
+
+  ingress:
+    enabled: true
+
+    annotations: {}
+    #   kubernetes.io/ingress.class: nginx
+    #   kubernetes.io/tls-acme: 'true'
+
+    hosts: []
+    #   - alertmanager.domain.com
+    #   - domain.com/alertmanager
+
+    tls: []
+    #   - secretName: aquasec-tls
+    #     hosts:
+    #       - aquasec.domain.com
+
+
+scanner:
+  enabled: false
+  replicas: 1
+
