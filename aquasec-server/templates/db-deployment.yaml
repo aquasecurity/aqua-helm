@@ -1,0 +1,64 @@
+{{- if not .Values.db.external.enabled }}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-db
+  labels:
+    app: {{ .Release.Name }}-db
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-db
+      name: {{ .Release.Name }}-db
+    spec:
+      serviceAccount: {{ .Release.Name }}-account
+      containers:
+      - name: db
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
+        imagePullPolicy: "{{ .Values.db.image.pullPolicy }}"
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-db-password
+              key: db-password
+        - name: POD_IP
+          valueFrom: { fieldRef: { fieldPath: status.podIP } }
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/
+          name: postgres-db
+        ports:
+        - containerPort: 5432
+          protocol: TCP
+{{- with .Values.db.livenessProbe }}
+        livenessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- with .Values.db.readinessProbe }}
+        readinessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+        resources:
+{{ toYaml .Values.db.resources | indent 10 }}
+      {{- with .Values.db.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.db.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.db.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      volumes:
+      - name: postgres-db
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-db-pvc
+{{- end }}

@@ -23,13 +23,13 @@ Then, run one of the commands below to install the relevant services.
 ### Server
 
 ```
-helm install --namespace aquasec aquasec-charts/server server --set registry.username=<>,registry.password=<>,registry.email=<>
+helm upgrade --install --namespace aquasec server aquasec-charts/server --set registry.username=<>,registry.password=<>,registry.email=<>
 ```
 
 ### Enforcer
 
 ```
-helm install --namespace aquasec aquasec-charts/enforcer enforcer --set registry.username=<>,registry.password=<>,registry.email=<>
+helm upgrade --install --namespace aquasec enforcer aquasec-charts/enforcer --set registry.username=<>,registry.password=<>,registry.email=<>,token=<aquasec-token>
 ```
 
 ## Configuration
@@ -59,12 +59,14 @@ The following tables list the configurable parameters of the Server and Enforcer
 | `db.persistence.size`             | Postgresql PVC volume size  | `8Gi`                                        |
 | `db.persistence.accessMode`       | Postgresql PVC volume AccessMode  | `ReadWriteOnce`                                        |
 | `web.service.type`                | Web service type  | `ClusterIP`                                        |
-| `web.ingress.enabled`             | Install ingress for the web component  | `true`                                        |
+| `web.ingress.enabled`             | Install ingress for the web component  | `false`                                        |
 | `web.ingress.annotations`         | Web ingress annotations  | `{}`                                        |
 | `web.ingress.hosts`               | Web ingress hosts definition  | `[]`                                        |
 | `web.ingress.tls`                 | Web ingress tls  | `[]`                                        |
 | `scanner.enabled`                 | Enable the Scanner CLI component  | `false`                                        |
 | `scanner.replicas`                | Number of Scanner CLI replicas to run  | `1`                                        |
+| `scanner.user`                | Username with the Scanner role  | N/A                                        |
+| `scanner.password`                | Password for the username with the Scanner role  | N/A                                        |
 
 
 ### Enforcer

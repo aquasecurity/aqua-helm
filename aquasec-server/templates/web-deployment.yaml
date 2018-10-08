@@ -1,0 +1,100 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-web
+  labels:
+    app: {{ .Release.Name }}-web
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.web.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-web
+      name: {{ .Release.Name }}-web
+    spec:
+      serviceAccount: {{ .Release.Name }}-account
+      containers:
+      - name: web
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
+        imagePullPolicy: "{{ .Values.web.image.pullPolicy }}"
+        securityContext:
+          privileged: true
+        env:
+        - name: SCALOCK_DBUSER
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
+        - name: SCALOCK_DBPASSWORD
+          {{- if .Values.db.external.enabled }}
+          value: {{ .Values.db.external.password }}
+          {{- else }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-db-password
+              key: db-password
+          {{- end }}
+        - name: SCALOCK_DBNAME
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.name "scalock" }}
+        - name: SCALOCK_DBHOST
+          {{- if .Values.db.external.enabled }}
+          value: {{ .Values.db.external.host }}
+          {{- else }}
+          value: {{ .Release.Name }}-db
+          {{- end }}
+        - name: SCALOCK_DBPORT
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
+        - name: SCALOCK_AUDIT_DBUSER
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditUser "postgres" }}
+        - name: SCALOCK_AUDIT_DBPASSWORD
+          {{- if .Values.db.external.enabled }}
+          value: {{ .Values.db.external.auditPassword }}
+          {{- else }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-db-password
+              key: db-password
+          {{- end }}
+        - name: SCALOCK_AUDIT_DBNAME
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
+        - name: SCALOCK_AUDIT_DBHOST
+          {{- if .Values.db.external.enabled }}
+          value: {{ .Values.db.external.auditHost }}
+          {{- else }}
+          value: {{ .Release.Name }}-db
+          {{- end }}
+        - name: SCALOCK_AUDIT_DBPORT
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+{{- with .Values.web.livenessProbe }}
+        livenessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- with .Values.web.readinessProbe }}
+        readinessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+        volumeMounts:
+        - mountPath: /var/run/docker.sock
+          name: docker-socket-mount
+        resources:
+{{ toYaml .Values.web.resources | indent 12 }}
+      {{- with .Values.web.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.web.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.web.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      volumes:
+      - name: docker-socket-mount
+        hostPath:
+          path: /var/run/docker.sock

@@ -1,0 +1,33 @@
+imageCredentials:
+  repositoryUriPrefix: "docker.io"
+  registry: "index.docker.io/v1/" #for docker.io #REQUIRED
+  username: #REQUIRED
+  password: #REQUIRED
+  email:
+
+token: #REQUIRED
+
+server:
+  host: server-gateway
+  port: 3622
+
+rbac:
+  enabled: true
+  roleRef:
+
+image:
+  repository: aquasec/agent
+  tag: 3.2
+  pullPolicy: IfNotPresent
+
+# TODO: Fill-in the correct liveness and readiness probes
+livenessProbe: {}
+readinessProbe: {}
+
+resources:
+  requests:
+    memory: "150Mi"
+    cpu: "30m"
+  limits:
+    memory: "300Mi"
+    cpu: "60m"
