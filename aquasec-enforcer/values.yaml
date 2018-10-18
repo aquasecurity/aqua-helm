@@ -7,8 +7,8 @@ imageCredentials:
 
 token: #REQUIRED
 
-server:
-  host: server-gateway
+gate:
+  host: server-gate
   port: 3622
 
 rbac:
