@@ -23,13 +23,13 @@ Then, run one of the commands below to install the relevant services.
 ### Server
 
 ```
-helm upgrade --install --namespace aquasec server aquasec-charts/server --set registry.username=<>,registry.password=<>,registry.email=<>
+helm upgrade --install --namespace aquasec server aquasec-charts/server --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
 ```
 
 ### Enforcer
 
 ```
-helm upgrade --install --namespace aquasec enforcer aquasec-charts/enforcer --set registry.username=<>,registry.password=<>,registry.email=<>,token=<aquasec-token>
+helm upgrade --install --namespace aquasec enforcer aquasec-charts/enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,token=<aquasec-token>
 ```
 
 ## Configuration
@@ -40,29 +40,36 @@ The following tables list the configurable parameters of the Server and Enforcer
 
 | Parameter                         | Description                          | Default                                                                      |
 | --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
-| `registry.secret`                 | The name of the secret that will hold the regestry credentials    | `dockerhub`                                                     |
-| `registry.usernmae`               | Your Dockerhub username    | N/A                                                                   |
-| `registry.password`               | Your Dockerhub password    | N/A                                                                   |
-| `registry.email`                  | Your Dockerhub email    | N/A                                                                   |
-| `rbac.enabled`                    | Create a service account and a ClusterRole    | `true`                                                                   |
+| `imageCredentials.usernmae`               | Your Dockerhub username    | N/A                                                                   |
+| `imageCredentials.password`               | Your Dockerhub password    | N/A                                                                   |
+| `imageCredentials.email`                  | Your Dockerhub email    | N/A                                                                   |
+| `rbac.enabled`                    | Create a service account and a ClusterRole    | `false`                                                                   |
+| `rbac.roleRef`                    | Use an existing ClusterRole    | ``                                                                   |
 | `db.external.enabled`             | Avoid installing a Postgres container and use an external database instead    | `false`                          |
 | `db.external.name`                | Postresql DB name    | N/A                                        |
 | `db.external.host`                | Postresql DB hostname    | N/A                                        |
 | `db.external.port`                | Postresql DB port    | N/A                                        |
 | `db.external.user`                | Postresql DB username    | N/A                                        |
 | `db.external.password`            | Postresql DB password    | N/A                                        |
-| `db.image.repo`                   | Default Postgresql Docker image repository    | `aquasec/database`                                        |
+| `db.image.repository`                   | Default Postgresql Docker image repository    | `aquasec/database`                                        |
 | `db.image.tag`                    | Default Postgresql Docker image tag    | `3.2`                                        |
-| `db.service`                      | Default Postgresql service type    | `ClusterIP`                                        |
+| `db.service.type`                      | Default Postgresql service type    | `ClusterIP`                                        |
 | `db.persistence.enabled`          | Enable a use of a Postgresql PVC    | `true`                                        |
 | `db.persistence.storageClass`     | Postgresql PVC StorageClass   | `default`                                        |
-| `db.persistence.size`             | Postgresql PVC volume size  | `8Gi`                                        |
+| `db.persistence.size`             | Postgresql PVC volume size  | `30Gi`                                        |
 | `db.persistence.accessMode`       | Postgresql PVC volume AccessMode  | `ReadWriteOnce`                                        |
+| `db.resources`       | Postgresql pod resources  | `{}`                                        |
 | `web.service.type`                | Web service type  | `ClusterIP`                                        |
 | `web.ingress.enabled`             | Install ingress for the web component  | `false`                                        |
+| `web.image.repository`                   | Default Web Docker image repository    | `aquasec/server`                                        |
+| `web.image.tag`                    | Default Web Docker image tag    | `3.2`                                        |
 | `web.ingress.annotations`         | Web ingress annotations  | `{}`                                        |
 | `web.ingress.hosts`               | Web ingress hosts definition  | `[]`                                        |
 | `web.ingress.tls`                 | Web ingress tls  | `[]`                                        |
+| `gate.service.type`                | Gate service type  | `ClusterIP`                                        |
+| `gate.image.repository`                   | Default Gate Docker image repository    | `aquasec/gate`                                        |
+| `gate.image.tag`                    | Default Gate Docker image tag    | `3.2`                                        |
+| `gate.publicIP`                    | Default Gate service public IP    | ``                                        |
 | `scanner.enabled`                 | Enable the Scanner CLI component  | `false`                                        |
 | `scanner.replicas`                | Number of Scanner CLI replicas to run  | `1`                                        |
 | `scanner.user`                | Username with the Scanner role  | N/A                                        |
@@ -73,6 +80,9 @@ The following tables list the configurable parameters of the Server and Enforcer
 
 | Parameter                         | Description                          | Default                                                                      |
 | --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
+| `imageCredentials.usernmae`               | Your Dockerhub username    | N/A                                                                   |
+| `imageCredentials.password`               | Your Dockerhub password    | N/A                                                                   |
+| `imageCredentials.email`                  | Your Dockerhub email    | N/A                                                                   |
 | `token`                           | Aquasec Enforcer token    | N/A                                                     |
 | `server`                          | Gateways host name    | `server-gateway`                                                     |
 | `port`                            | Gateway port    | `3622`                                                     |
