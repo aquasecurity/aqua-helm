@@ -11,16 +11,11 @@ gate:
   host: server-gate
   port: 3622
 
-rbac:
-  enabled: true
-  roleRef:
-
 image:
   repository: aquasec/agent
   tag: 3.2
   pullPolicy: IfNotPresent
 
-# TODO: Fill-in the correct liveness and readiness probes
 livenessProbe: {}
 readinessProbe: {}
 
