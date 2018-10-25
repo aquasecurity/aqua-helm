@@ -52,8 +52,13 @@ db:
     initialDelaySeconds: 5
     timeoutSeconds: 3
     periodSeconds: 5
-  # TODO: Specify the minimal DB resource requirements
-  resources: {}
+  resources:
+    requests:
+      cpu: 0.1
+      memory: 0.2Gi
+    limits:
+      cpu: 1
+      memory: 1Gi
   nodeSelector: {}
   tolerations: []
   affinity: {}
@@ -66,8 +71,8 @@ gate:
   service:
     type: ClusterIP
     externalPort: 3622
+  publicIP: server-gate
   replicaCount: 1
-  # TODO: Fill-in the correct liveness and readiness probes
   livenessProbe: {}
   readinessProbe: {}
   resources:
@@ -119,11 +124,9 @@ scanner:
     repository: aquasec/scanner-cli
     tag: 3.2
     pullPolicy: IfNotPresent
-  # TODO: Are there any defaults for the following values?
   user:
   password:
   replicaCount: 1
-  # TODO: Fill-in the correct liveness and readiness probes and basic resource configuration
   livenessProbe: {}
   readinessProbe: {}
   resources: {}
