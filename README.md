@@ -15,7 +15,7 @@ This repository includes two charts that can be installed separately:
 
 First add Aquasec's repository to Helm:
 
-```
+```bash
 helm repo add aquasec-charts https://aquasec-charts.storage.googleapis.com
 ```
 
@@ -24,13 +24,13 @@ Then, run one of the commands below to install the relevant services.
 
 ### Server (console)
 
-```
+```bash
 helm upgrade --install --namespace aquasec server aquasec-charts/server --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
 ```
 
 ### Enforcer
 
-```
+```bash
 helm upgrade --install --namespace aquasec enforcer aquasec-charts/enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,token=<aquasec-token>
 ```
 
@@ -97,7 +97,7 @@ The Aqua server components are private, and you will need to set up an imagePull
 
 You can do this manually by running:
 
-```
+```bash
 kubectl create secret docker-registry dockerhub --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
 ```
 
@@ -109,7 +109,7 @@ By default the server chart will also install a Postgresql database and attach p
 
 If you want to override this behaviour and specify an existing Postgresql database, set the following variables when running Helm:
 
-```
+```yaml
 db:
   external:
     enabled: true
@@ -124,7 +124,7 @@ db:
 
 To install the scanner CLI along with the server components set the following variables:
 
-```
+```yaml
 scanner:
   enabled: true
 ```
