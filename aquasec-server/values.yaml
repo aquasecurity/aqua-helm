@@ -1,5 +1,8 @@
 # Specifies the secret data for imagePullSecrets needed to fetch the private docker images
 imageCredentials:
+  conditions:
+    create: true
+    name: # if create is true then need the image pull secret name
   repositoryUriPrefix: "docker.io"
   registry: "index.docker.io/v1/" #for docker.io #REQUIRED
   username: #REQUIRED
@@ -71,7 +74,7 @@ gate:
   service:
     type: ClusterIP
     externalPort: 3622
-  publicIP: server-gate
+  publicIP: aqua-gateway
   replicaCount: 1
   livenessProbe: {}
   readinessProbe: {}

@@ -1,13 +1,15 @@
-# Aquasec Helm Charts
+<img src="https://www.aquasec.com/wp-content/uploads/2016/05/aqua_logo_fullcolor.png" heigth="89" width="246" />
 
-Helm charts for installing and maintaining Aquasec server and agent components.
+# Aqua Security Helm Charts
+
+Helm charts for installing and maintaining Aqua Security CSP server and agent components, and enforcers.
 
 ## Chart Details
 
-This repo includes two charts that can be installed separately:
+This repository includes two charts that can be installed separately:
 
-1. Server - installs the web, gateway and optionally database and a scanner CLI component 
-2. Enforcer - installs the enforcer daemonset
+* [**Server**](aquasec-server/) - installs the web, gateway and optionally database and a scanner CLI components 
+* [**Enforcer**](aquasec-enforcer/) - installs the enforcer daemonset by the specific token.
 
 ## Install the Chart
 
@@ -20,7 +22,7 @@ helm repo add aquasec-charts https://aquasec-charts.storage.googleapis.com
 Then, run one of the commands below to install the relevant services.
 
 
-### Server
+### Server (console)
 
 ```
 helm upgrade --install --namespace aquasec server aquasec-charts/server --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
@@ -40,6 +42,8 @@ The following tables list the configurable parameters of the Server and Enforcer
 
 | Parameter                         | Description                          | Default                                                                      |
 | --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
+| `imageCredentials.conditions.create`               | Set if to create new pull image secret    | `true`                                                                 |
+| `imageCredentials.conditions.name`               | Your Dockerhub pull image secret name    | N/A                                                                   |
 | `imageCredentials.usernmae`               | Your Dockerhub username    | N/A                                                                   |
 | `imageCredentials.password`               | Your Dockerhub password    | N/A                                                                   |
 | `imageCredentials.email`                  | Your Dockerhub email    | N/A                                                                   |
@@ -84,10 +88,10 @@ The following tables list the configurable parameters of the Server and Enforcer
 | `imageCredentials.password`               | Your Dockerhub password    | N/A                                                                   |
 | `imageCredentials.email`                  | Your Dockerhub email    | N/A                                                                   |
 | `token`                           | Aquasec Enforcer token    | N/A                                                     |
-| `server`                          | Gateways host name    | `server-gateway`                                                     |
+| `server`                          | Gateways host name    | `aqua-gateway`                                                     |
 | `port`                            | Gateway port    | `3622`                                                     |
 
-## Specify the Dockerhub credentials
+## Create Docker Registry Secret Credentials
 
 The Aqua server components are private, and you will need to set up an imagePullSecret.
 
@@ -97,7 +101,7 @@ You can do this manually by running:
 kubectl create secret docker-registry dockerhub --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
 ```
 
-Or by setting your Dockerhub credentials when you're running the Helm install commands as specified above, in which case Helm will create a new imagePullSecret for you.
+Or by setting your Dockerhub or external docker registry credentials when you're running the Helm install commands as specified above, in which case Helm will create a new imagePullSecret for you.
 
 ## Use existing Postgresql database
 
@@ -125,3 +129,34 @@ scanner:
   enabled: true
 ```
 
+## For non-cloud deployment
+
+When you execute kubectl get events you will see the following **error:** 
+
+*no persistent volumes available for this claim and no storage class is set*
+
+**or**
+
+*PersistentVolumeClaim is not bound*
+
+This error comes in kubernetes set with kubeadm or kubespray and etc, you have an option to run this yaml to create presistent volume with generic storage class or to use existing storage class.
+
+```yaml
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: aqua-console-db-data
+  labels:
+    type: local
+spec:
+  storageClassName: generic
+  capacity:
+    storage: 30Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/aqua/data/db/"
+```
+
+## Issues and feedback
+If you come across any problems or would like to give us feedback on deployments we encourage you to raise issues here on GitHub.

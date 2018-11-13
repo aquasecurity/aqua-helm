@@ -8,7 +8,7 @@ imageCredentials:
 token: #REQUIRED
 
 gate:
-  host: server-gate
+  host: aqua-gateway
   port: 3622
 
 image:

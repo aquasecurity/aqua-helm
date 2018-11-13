@@ -30,7 +30,7 @@ spec:
               name: {{ .Release.Name }}-token
               key: token
         - name: AQUA_SERVER
-          value: {{ .Values.gate.host | default "server-gate" }}:{{ .Values.gate.port | default "3622" }}
+          value: {{ .Values.gate.host | default "aqua-gateway" }}:{{ .Values.gate.port | default "3622" }}
         - name: AQUA_INSTALL_PATH
           value: /var/lib/aquasec
         - name: AQUA_LOGICAL_NAME
