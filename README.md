@@ -4,7 +4,7 @@
 
 Helm charts for installing and maintaining Aqua Security CSP server and agent components, and enforcers.
 
-## Chart Details
+## Charts Details
 
 This repository includes two charts that can be installed separately:
 
@@ -49,6 +49,8 @@ The following tables list the configurable parameters of the Server and Enforcer
 | `imageCredentials.email`                  | Your Dockerhub email    | N/A                                                                   |
 | `rbac.enabled`                    | Create a service account and a ClusterRole    | `false`                                                                   |
 | `rbac.roleRef`                    | Use an existing ClusterRole    | ``                                                                   |
+| `admin.token`                    | Use this aqua license token   | N/A                                                                   |
+| `admin.password`                    | Use this aqua admin password   | N/A                                                                  |
 | `db.external.enabled`             | Avoid installing a Postgres container and use an external database instead    | `false`                          |
 | `db.external.name`                | Postresql DB name    | N/A                                        |
 | `db.external.host`                | Postresql DB hostname    | N/A                                        |
