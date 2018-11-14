@@ -13,6 +13,10 @@ rbac:
   enabled: true
   roleRef:
 
+admin:
+  token:
+  password:
+
 db:
   external:
     enabled: false

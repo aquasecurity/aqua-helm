@@ -13,25 +13,25 @@ This repository includes two charts that can be installed separately:
 
 ## Install the Chart
 
-First add Aquasec's repository to Helm:
+First pre commands
 
 ```bash
-helm repo add aquasec-charts https://aquasec-charts.storage.googleapis.com
+git clone https://github.com/aquasecurity/aqua-helm.git
+cd aqua-helm/
 ```
 
 Then, run one of the commands below to install the relevant services.
 
-
 ### Server (console)
 
 ```bash
-helm upgrade --install --namespace aquasec server aquasec-charts/server --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
+helm upgrade --install --namespace aquasec server ./aquasec-server --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
 ```
 
 ### Enforcer
 
 ```bash
-helm upgrade --install --namespace aquasec enforcer aquasec-charts/enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,token=<aquasec-token>
+helm upgrade --install --namespace aquasec enforcer ./aquasec-enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,token=<aquasec-token>
 ```
 
 ## Configuration

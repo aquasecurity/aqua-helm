@@ -66,6 +66,14 @@ spec:
           {{- end }}
         - name: SCALOCK_AUDIT_DBPORT
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
+          {{- if .Values.admin.token }}
+        - name: LICENSE_TOKEN
+          value: {{ .Values.admin.token }}
+          {{-end }}
+          {{- if .Values.admin.password }}
+        - name: ADMIN_PASSWORD
+          value: {{ .Values.admin.password }}
+          {{-end }}
         ports:
         - containerPort: 8080
           protocol: TCP

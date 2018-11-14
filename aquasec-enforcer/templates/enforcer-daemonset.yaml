@@ -87,3 +87,7 @@ spec:
       - name: aquasec-audit
         hostPath:
           path: /var/lib/aquasec/audit
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+      {{- end }}

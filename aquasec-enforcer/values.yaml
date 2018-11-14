@@ -18,6 +18,7 @@ image:
 
 livenessProbe: {}
 readinessProbe: {}
+nodeSelector: {}
 
 resources:
   requests:
