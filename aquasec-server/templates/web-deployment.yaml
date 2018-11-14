@@ -69,11 +69,11 @@ spec:
           {{- if .Values.admin.token }}
         - name: LICENSE_TOKEN
           value: {{ .Values.admin.token }}
-          {{-end }}
+          {{- end }}
           {{- if .Values.admin.password }}
         - name: ADMIN_PASSWORD
           value: {{ .Values.admin.password }}
-          {{-end }}
+          {{- end }}
         ports:
         - containerPort: 8080
           protocol: TCP
