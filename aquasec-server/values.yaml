@@ -2,7 +2,7 @@
 imageCredentials:
   conditions:
     create: true
-    name: # if create is true then need the image pull secret name
+    name: # if create is false then need the image pull secret name
   repositoryUriPrefix: "docker.io"
   registry: "index.docker.io/v1/" #for docker.io #REQUIRED
   username: #REQUIRED
