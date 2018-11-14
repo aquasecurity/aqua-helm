@@ -13,7 +13,7 @@ This repository includes two charts that can be installed separately:
 
 ## Install the Chart
 
-First pre commands
+Clone the github repository with the charts
 
 ```bash
 git clone https://github.com/aquasecurity/aqua-helm.git
@@ -42,11 +42,11 @@ The following tables list the configurable parameters of the Server and Enforcer
 
 | Parameter                         | Description                          | Default                                                                      |
 | --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
-| `imageCredentials.conditions.create`               | Set if to create new pull image secret    | `true`                                                                 |
-| `imageCredentials.conditions.name`               | Your Dockerhub pull image secret name    | N/A                                                                   |
-| `imageCredentials.usernmae`               | Your Dockerhub username    | N/A                                                                   |
-| `imageCredentials.password`               | Your Dockerhub password    | N/A                                                                   |
-| `imageCredentials.email`                  | Your Dockerhub email    | N/A                                                                   |
+| `imageCredentials.create`               | Set if to create new pull image secret    | `true`                                                                 |
+| `imageCredentials.name`               | Your Docker pull image secret name    | `aqua-image-pull-secret`                                                                   |
+| `imageCredentials.usernmae`               | Your Docker registry (DockerHub and etc) username    | N/A                                                                   |
+| `imageCredentials.password`               | Your Docker registry (DockerHub and etc) password    | N/A                                                                   |
+| `imageCredentials.email`                  | Your Docker registry (DockerHub and etc) email    | N/A                                                                   |
 | `rbac.enabled`                    | Create a service account and a ClusterRole    | `false`                                                                   |
 | `rbac.roleRef`                    | Use an existing ClusterRole    | ``                                                                   |
 | `admin.token`                    | Use this aqua license token   | N/A                                                                   |
@@ -86,9 +86,11 @@ The following tables list the configurable parameters of the Server and Enforcer
 
 | Parameter                         | Description                          | Default                                                                      |
 | --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
-| `imageCredentials.usernmae`               | Your Dockerhub username    | N/A                                                                   |
-| `imageCredentials.password`               | Your Dockerhub password    | N/A                                                                   |
-| `imageCredentials.email`                  | Your Dockerhub email    | N/A                                                                   |
+| `imageCredentials.create`               | Set if to create new pull image secret    | `false`                                                                 |
+| `imageCredentials.name`               | Your Docker pull image secret name    | `aqua-image-pull-secret`                                                                   |
+| `imageCredentials.usernmae`               | Your Docker registry (DockerHub and etc) username    | N/A                                                                   |
+| `imageCredentials.password`               | Your Docker registry (DockerHub and etc) password    | N/A                                                                   |
+| `imageCredentials.email`                  | Your Docker registry (DockerHub and etc) email    | N/A                                                                   |
 | `token`                           | Aquasec Enforcer token    | N/A                                                     |
 | `server`                          | Gateways host name    | `aqua-gateway`                                                     |
 | `port`                            | Gateway port    | `3622`                                                     |
