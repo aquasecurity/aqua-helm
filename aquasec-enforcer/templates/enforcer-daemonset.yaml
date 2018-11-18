@@ -1,0 +1,93 @@
+---
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: {{ .Release.Name }}-enforcer
+  labels:
+    app: {{ .Release.Name }}-enforcer
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-enforcer
+      name: {{ .Release.Name }}-enforcer
+    spec:
+      serviceAccount: {{ .Release.Name }}-account
+      hostPID: true
+      containers:
+      - name: enforcer
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        securityContext:
+          privileged: true
+        env:
+        - name: AQUA_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-token
+              key: token
+        - name: AQUA_SERVER
+          value: {{ .Values.gate.host | default "aqua-gateway" }}:{{ .Values.gate.port | default "3622" }}
+        - name: AQUA_INSTALL_PATH
+          value: /var/lib/aquasec
+        - name: AQUA_LOGICAL_NAME
+          value: gke-aqua-c1
+        - name: AQUA_NETWORK_CONTROL
+          value: "1"
+        - name: RESTART_CONTAINERS
+          value: "no"
+        volumeMounts:
+        - mountPath: /var/run
+          name: var-run
+        - mountPath: /dev
+          name: dev
+        - mountPath: /host/sys
+          name: sys
+          readOnly: true
+        - mountPath: /host/proc
+          name: proc
+          readOnly: true
+        - mountPath: /host/etc
+          name: etc
+          readOnly: true
+        - mountPath: /host/opt/aquasec
+          name: aquasec
+          readOnly: true
+        - mountPath: /opt/aquasec/tmp
+          name: aquasec-tmp
+        - mountPath: /opt/aquasec/audit
+          name: aquasec-audit
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+      volumes:
+      - name: var-run
+        hostPath:
+          path: /var/run
+      - name: dev
+        hostPath:
+          path: /dev
+      - name: sys
+        hostPath:
+          path: /sys
+      - name: proc
+        hostPath:
+          path: /proc
+      - name: etc
+        hostPath:
+          path: /etc
+      - name: aquasec
+        hostPath:
+          path: /var/lib/aquasec
+      - name: aquasec-tmp
+        hostPath:
+          path: /var/lib/aquasec/tmp
+      - name: aquasec-audit
+        hostPath:
+          path: /var/lib/aquasec/audit
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+      {{- end }}
