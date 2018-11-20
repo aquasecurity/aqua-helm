@@ -2,14 +2,14 @@
 
 # Aqua Security Helm Charts
 
-Helm charts for installing and maintaining Aqua Security CSP server and agent components, and enforcers.
+Helm charts for installation and maintenance of Aqua Container Security Platform components
 
 ## Charts Details
 
-This repository includes two charts that can be installed separately:
+This repository includes two charts that may be installed separately:
 
-* [**Server**](aquasec-server/) - installs the web, gateway and optionally database and a scanner CLI components 
-* [**Enforcer**](aquasec-enforcer/) - installs the enforcer daemonset by the specific token.
+* [**Server**](aquasec-server/) - installs the console and gateway containers and provides options for database and scanner CLI deployments
+* [**Enforcer**](aquasec-enforcer/) - installs the enforcer daemonset
 
 ## Install the Chart
 
@@ -97,21 +97,21 @@ The following tables list the configurable parameters of the Server and Enforcer
 
 ## Create Docker Registry Secret Credentials
 
-The Aqua server components are private, and you will need to set up an imagePullSecret.
+The Aqua server components are hosted in a private repository, and you will need to set up an imagePullSecret.
 
-You can do this manually by running:
+You can do this by running:
 
 ```bash
 kubectl create secret docker-registry dockerhub --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
 ```
 
-Or by setting your Dockerhub or external docker registry credentials when you're running the Helm install commands as specified above, in which case Helm will create a new imagePullSecret for you.
+Or by setting your Dockerhub/corporate docker registry credentials when you're running the Helm install commands as specified above, in which case Helm will create a new imagePullSecret for you.
 
-## Use existing Postgresql database
+## Use existing PostgreSQL database
 
-By default the server chart will also install a Postgresql database and attach persistent storage to it.
+By default the server chart will install an Aqua provided PostgreSQL database container and attach persistent storage to it. Aqua recommends implementing an HA PostgreSQL database like RDS, ClouD SQL, etc.
 
-If you want to override this behaviour and specify an existing Postgresql database, set the following variables when running Helm:
+In order to override this behaviour and specify a predefined PostgreSQL database, set the following variables when running Helm:
 
 ```yaml
 db:
@@ -133,9 +133,9 @@ scanner:
   enabled: true
 ```
 
-## For non-cloud deployment
+## Non-cloud platfom based deployments
 
-When you execute kubectl get events you will see the following **error:** 
+When you execute kubectl 'get events' you will see the following **error:** 
 
 *no persistent volumes available for this claim and no storage class is set*
 
@@ -143,7 +143,7 @@ When you execute kubectl get events you will see the following **error:**
 
 *PersistentVolumeClaim is not bound*
 
-This error comes in kubernetes set with kubeadm or kubespray and etc, you have an option to run this yaml to create presistent volume with generic storage class or to use existing storage class.
+This error exists when kubernetes deployed with kubeadm or kubespray, etc. This optional yaml can be ran to create a presistent volume with generic storage class or modified to use an existing storage class.
 
 ```yaml
 kind: PersistentVolume
@@ -163,4 +163,4 @@ spec:
 ```
 
 ## Issues and feedback
-If you come across any problems or would like to give us feedback on deployments we encourage you to raise issues here on GitHub.
+If you come across any problems or would like to provide feedback on deployments we encourage you to raise issues here on GitHub.
