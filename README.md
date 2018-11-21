@@ -133,34 +133,66 @@ scanner:
   enabled: true
 ```
 
-## For non-cloud deployment
+## Helm troubleshooting
 
-When you execute kubectl get events you will see the following **error:** 
+* Error: **UPGRADE FAILED**: configmaps is forbidden
+  ```sh
+  Error: UPGRADE FAILED: configmaps is forbidden: User "system:serviceaccount:kube-system:default" cannot list configmaps in the namespace "kube-system"
+  ```
+  **Solution:**
+  ```sh
+  kubectl create serviceaccount --namespace kube-system tiller
+  kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+  kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'     
+  helm init --service-account tiller --upgrade
+  ```
 
-*no persistent volumes available for this claim and no storage class is set*
+* no persistent volumes available for this claim on EKS, AKE or other managed kubernetes
+  
+  *for examples:*
 
-**or**
+  * **Amazon EKS - Managed Kubernetes Services**
+    ```yaml
+    kind: StorageClass
+    apiVersion: storage.k8s.io/v1
+    metadata:
+      name: aqua-console-db-data
+    provisioner: kubernetes.io/aws-ebs
+    parameters:
+      type: gp2
+    reclaimPolicy: Retain
+    mountOptions:
+      - debug
+    volumeBindingMode: Immediate
+    ```
+* For non-cloud deployment
 
-*PersistentVolumeClaim is not bound*
+  When you execute kubectl get events you will see the following **error:** 
 
-This error comes in kubernetes set with kubeadm or kubespray and etc, you have an option to run this yaml to create presistent volume with generic storage class or to use existing storage class.
+  *no persistent volumes available for this claim and no storage class is set*
 
-```yaml
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: aqua-console-db-data
-  labels:
-    type: local
-spec:
-  storageClassName: generic
-  capacity:
-    storage: 30Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/opt/aqua/data/db/"
-```
+  **or**
+
+  *PersistentVolumeClaim is not bound*
+
+  This error comes in kubernetes set with kubeadm or kubespray and etc, you have an option to run this yaml to create presistent volume with generic storage class or to use existing storage class.
+
+  ```yaml
+  kind: PersistentVolume
+  apiVersion: v1
+  metadata:
+    name: aqua-console-db-data
+    labels:
+      type: local
+  spec:
+    storageClassName: generic
+    capacity:
+      storage: 30Gi
+    accessModes:
+      - ReadWriteOnce
+    hostPath:
+      path: "/opt/aqua/data/db/"
+  ```
 
 ## Issues and feedback
 If you come across any problems or would like to give us feedback on deployments we encourage you to raise issues here on GitHub.

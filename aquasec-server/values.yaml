@@ -2,7 +2,7 @@
 imageCredentials:
   create: true
   name: aqua-image-pull-secret
-  repositoryUriPrefix: "docker.io"
+  repositoryUriPrefix: "registry.aquasec.com"
   registry: "index.docker.io/v1/" #for docker.io #REQUIRED only if create is true
   username: #REQUIRED only if create is true
   password: #REQUIRED only if create is true
@@ -30,8 +30,8 @@ db:
     auditUser:
     auditPassword:
   image:
-    repository: aquasec/database
-    tag: 3.2
+    repository: database
+    tag: 3.5.rc9
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -71,8 +71,8 @@ db:
 
 gate:
   image:
-    repository: aquasec/gateway
-    tag: 3.2
+    repository: gateway
+    tag: 3.5.rc9
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -94,8 +94,8 @@ gate:
 
 web:
   image:
-    repository: aquasec/server
-    tag: 3.2
+    repository: console
+    tag: 3.5.rc9
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -127,8 +127,8 @@ web:
 scanner:
   enabled: false
   image:
-    repository: aquasec/scanner-cli
-    tag: 3.2
+    repository: scanner
+    tag: 3.5.rc9
     pullPolicy: IfNotPresent
   user:
   password:
