@@ -1,6 +1,0 @@
-# db is the Aqua Database component
-db: 
-  image: "aquasec/database"
-  servicePort: 5432
-  containerPort: 5432
-  password: "change me"

@@ -22,6 +22,8 @@ cd aqua-helm/
 
 Then, run one of the commands below to install the relevant services.
 
+> Note: ***Optional*** - Update the helm charts values.yaml file with the updated values you need without to pass the parameters in the helm command 
+
 ### Server (console)
 
 ```bash
@@ -57,8 +59,8 @@ The following tables list the configurable parameters of the Server and Enforcer
 | `db.external.port`                | Postresql DB port    | N/A                                        |
 | `db.external.user`                | Postresql DB username    | N/A                                        |
 | `db.external.password`            | Postresql DB password    | N/A                                        |
-| `db.image.repository`                   | Default Postgresql Docker image repository    | `aquasec/database`                                        |
-| `db.image.tag`                    | Default Postgresql Docker image tag    | `3.2`                                        |
+| `db.image.repository`                   | Default Postgresql Docker image repository    | `database`                                        |
+| `db.image.tag`                    | Default Postgresql Docker image tag    | `3.5`                                        |
 | `db.service.type`                      | Default Postgresql service type    | `ClusterIP`                                        |
 | `db.persistence.enabled`          | Enable a use of a Postgresql PVC    | `true`                                        |
 | `db.persistence.storageClass`     | Postgresql PVC StorageClass   | `default`                                        |
@@ -67,14 +69,14 @@ The following tables list the configurable parameters of the Server and Enforcer
 | `db.resources`       | Postgresql pod resources  | `{}`                                        |
 | `web.service.type`                | Web service type  | `ClusterIP`                                        |
 | `web.ingress.enabled`             | Install ingress for the web component  | `false`                                        |
-| `web.image.repository`                   | Default Web Docker image repository    | `aquasec/server`                                        |
-| `web.image.tag`                    | Default Web Docker image tag    | `3.2`                                        |
+| `web.image.repository`                   | Default Web Docker image repository    | `server`                                        |
+| `web.image.tag`                    | Default Web Docker image tag    | `3.5`                                        |
 | `web.ingress.annotations`         | Web ingress annotations  | `{}`                                        |
 | `web.ingress.hosts`               | Web ingress hosts definition  | `[]`                                        |
 | `web.ingress.tls`                 | Web ingress tls  | `[]`                                        |
 | `gate.service.type`                | Gate service type  | `ClusterIP`                                        |
-| `gate.image.repository`                   | Default Gate Docker image repository    | `aquasec/gate`                                        |
-| `gate.image.tag`                    | Default Gate Docker image tag    | `3.2`                                        |
+| `gate.image.repository`                   | Default Gate Docker image repository    | `gate`                                        |
+| `gate.image.tag`                    | Default Gate Docker image tag    | `3.5`                                        |
 | `gate.publicIP`                    | Default Gate service public IP    | ``                                        |
 | `scanner.enabled`                 | Enable the Scanner CLI component  | `false`                                        |
 | `scanner.replicas`                | Number of Scanner CLI replicas to run  | `1`                                        |
@@ -133,34 +135,70 @@ scanner:
   enabled: true
 ```
 
-## For non-cloud deployment
+## Helm troubleshooting
 
-When you execute kubectl get events you will see the following **error:** 
+* Error: **UPGRADE FAILED**: configmaps is forbidden
+  ```sh
+  Error: UPGRADE FAILED: configmaps is forbidden: User "system:serviceaccount:kube-system:default" cannot list configmaps in the namespace "kube-system"
+  ```
+  **Solution:**
+  ```sh
+  kubectl create serviceaccount --namespace kube-system tiller
+  kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+  kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'     
+  helm init --service-account tiller --upgrade
+  ```
 
-*no persistent volumes available for this claim and no storage class is set*
+* **no persistent volumes available for this claim and no storage class is set** 
+  
+  * ***For EKS, AKE or other managed kubernetes***
+  
+    *for examples:*
 
-**or**
+    * **Amazon EKS - Managed Kubernetes Services**
+      ```yaml
+      kind: StorageClass
+      apiVersion: storage.k8s.io/v1
+      metadata:
+        name: aqua-console-db-data
+      provisioner: kubernetes.io/aws-ebs
+      parameters:
+        type: gp2
+      reclaimPolicy: Retain
+      mountOptions:
+        - debug
+      volumeBindingMode: Immediate
+      ```
+  * ***For non-cloud deployment***
 
-*PersistentVolumeClaim is not bound*
+    When you execute kubectl get events you will see the following **error:** 
 
-This error comes in kubernetes set with kubeadm or kubespray and etc, you have an option to run this yaml to create presistent volume with generic storage class or to use existing storage class.
+    *no persistent volumes available for this claim and no storage class is set*
 
-```yaml
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: aqua-console-db-data
-  labels:
-    type: local
-spec:
-  storageClassName: generic
-  capacity:
-    storage: 30Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/opt/aqua/data/db/"
-```
+    **or**
+
+    *PersistentVolumeClaim is not bound*
+
+    This error comes in kubernetes set with kubeadm or kubespray and etc, you have an option to run this yaml to create presistent volume with generic storage class or to use existing storage class.
+
+    ```yaml
+    kind: PersistentVolume
+    apiVersion: v1
+    metadata:
+      name: aqua-console-db-data
+      labels:
+        type: local
+    spec:
+      storageClassName: generic
+      capacity:
+        storage: 30Gi
+      accessModes:
+        - ReadWriteOnce
+      hostPath:
+        path: "/opt/aqua/data/db/"
+    ```
+
+  And update the `db.persistence.storageClass` to the Storage Class name.
 
 ## Issues and feedback
 If you come across any problems or would like to give us feedback on deployments we encourage you to raise issues here on GitHub.

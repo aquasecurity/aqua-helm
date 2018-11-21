@@ -1,5 +1,0 @@
-# web is the Aqua Web Server component
-web:
-  image: "aquasec/server"
-  servicePort: 8080
-  containerPort: 8080
