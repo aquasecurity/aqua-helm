@@ -15,7 +15,7 @@ gate:
 
 image:
   repository: agent
-  tag: 3.5.rc9
+  tag: 3.5
   pullPolicy: IfNotPresent
 
 livenessProbe: {}

@@ -60,7 +60,7 @@ The following tables list the configurable parameters of the Server and Enforcer
 | `db.external.user`                | Postresql DB username    | N/A                                        |
 | `db.external.password`            | Postresql DB password    | N/A                                        |
 | `db.image.repository`                   | Default Postgresql Docker image repository    | `database`                                        |
-| `db.image.tag`                    | Default Postgresql Docker image tag    | `3.5.rc9`                                        |
+| `db.image.tag`                    | Default Postgresql Docker image tag    | `3.5`                                        |
 | `db.service.type`                      | Default Postgresql service type    | `ClusterIP`                                        |
 | `db.persistence.enabled`          | Enable a use of a Postgresql PVC    | `true`                                        |
 | `db.persistence.storageClass`     | Postgresql PVC StorageClass   | `default`                                        |
@@ -70,13 +70,13 @@ The following tables list the configurable parameters of the Server and Enforcer
 | `web.service.type`                | Web service type  | `ClusterIP`                                        |
 | `web.ingress.enabled`             | Install ingress for the web component  | `false`                                        |
 | `web.image.repository`                   | Default Web Docker image repository    | `server`                                        |
-| `web.image.tag`                    | Default Web Docker image tag    | `3.5.rc9`                                        |
+| `web.image.tag`                    | Default Web Docker image tag    | `3.5`                                        |
 | `web.ingress.annotations`         | Web ingress annotations  | `{}`                                        |
 | `web.ingress.hosts`               | Web ingress hosts definition  | `[]`                                        |
 | `web.ingress.tls`                 | Web ingress tls  | `[]`                                        |
 | `gate.service.type`                | Gate service type  | `ClusterIP`                                        |
 | `gate.image.repository`                   | Default Gate Docker image repository    | `gate`                                        |
-| `gate.image.tag`                    | Default Gate Docker image tag    | `3.5.rc9`                                        |
+| `gate.image.tag`                    | Default Gate Docker image tag    | `3.5`                                        |
 | `gate.publicIP`                    | Default Gate service public IP    | ``                                        |
 | `scanner.enabled`                 | Enable the Scanner CLI component  | `false`                                        |
 | `scanner.replicas`                | Number of Scanner CLI replicas to run  | `1`                                        |

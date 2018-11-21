@@ -31,7 +31,7 @@ db:
     auditPassword:
   image:
     repository: database
-    tag: 3.5.rc9
+    tag: 3.5
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -72,7 +72,7 @@ db:
 gate:
   image:
     repository: gateway
-    tag: 3.5.rc9
+    tag: 3.5
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -95,7 +95,7 @@ gate:
 web:
   image:
     repository: console
-    tag: 3.5.rc9
+    tag: 3.5
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -128,7 +128,7 @@ scanner:
   enabled: false
   image:
     repository: scanner
-    tag: 3.5.rc9
+    tag: 3.5
     pullPolicy: IfNotPresent
   user:
   password:
