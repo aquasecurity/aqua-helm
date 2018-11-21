@@ -2,7 +2,7 @@ imageCredentials:
   create: false
   name: aqua-image-pull-secret
   repositoryUriPrefix: "registry.aquasec.com"
-  registry: "index.docker.io/v1/" #for docker.io #REQUIRED only if create is true
+  registry: "registry.aquasec.com" #REQUIRED only if create is true
   username: #REQUIRED only if create is true
   password: #REQUIRED only if create is true
   email:
