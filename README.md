@@ -27,13 +27,13 @@ Then, run one of the commands below to install the relevant services.
 ### Server (console)
 
 ```bash
-helm upgrade --install --namespace aquasec server ./aquasec-server --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
+helm upgrade --install --namespace aqua server ./aquasec-server --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
 ```
 
 ### Enforcer
 
 ```bash
-helm upgrade --install --namespace aquasec enforcer ./aquasec-enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,token=<aquasec-token>
+helm upgrade --install --namespace aqua enforcer ./aquasec-enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,token=<aquasec-token>
 ```
 
 ## Configuration
