@@ -14,7 +14,7 @@ gate:
   port: 3622
 
 image:
-  repository: agent
+  repository: enforcer
   tag: 3.5
   pullPolicy: IfNotPresent
 
