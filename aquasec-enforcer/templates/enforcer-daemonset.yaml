@@ -34,7 +34,7 @@ spec:
         - name: AQUA_INSTALL_PATH
           value: /var/lib/aquasec
         - name: AQUA_LOGICAL_NAME
-          value: gke-aqua-c1
+          value: aqua-c1
         - name: AQUA_NETWORK_CONTROL
           value: "1"
         - name: RESTART_CONTAINERS
