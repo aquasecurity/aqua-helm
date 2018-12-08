@@ -27,10 +27,12 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-db-password
               key: db-password
+        - name: PGDATA
+          value: "/var/lib/postgresql/data/db-files"
         - name: POD_IP
           valueFrom: { fieldRef: { fieldPath: status.podIP } }
         volumeMounts:
-        - mountPath: /var/lib/postgresql/
+        - mountPath: /var/lib/postgresql/data
           name: postgres-db
         ports:
         - containerPort: 5432

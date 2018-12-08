@@ -2,14 +2,14 @@
 
 # Aqua Security Helm Charts
 
-Helm charts for installing and maintaining Aqua Security CSP server and agent components, and enforcers.
+Helm charts for installing and maintaining Aqua Container Security Platform server componants and enforcer.
 
 ## Charts Details
 
 This repository includes two charts that can be installed separately:
 
-* [**Server**](aquasec-server/) - installs the web, gateway and optionally database and a scanner CLI components 
-* [**Enforcer**](aquasec-enforcer/) - installs the enforcer daemonset by the specific token.
+* [**Console**](aquasec-server/) - installs the console, gateway and optionally a database and/or scanner CLI component
+* [**Enforcer**](aquasec-enforcer/) - installs the enforcer daemonset
 
 ## Install the Chart
 
@@ -22,25 +22,25 @@ cd aqua-helm/
 
 Then, run one of the commands below to install the relevant services.
 
-> Note: ***Optional*** - Update the helm charts values.yaml file with the updated values you need without to pass the parameters in the helm command 
+> Note: ***Optional*** - Update the helm charts values.yaml file with your values you. This eliminates the need to pass the parameters to the helm command
 
 ### Server (console)
 
 ```bash
-helm upgrade --install --namespace aqua server ./aquasec-server --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
+helm upgrade --install --namespace aqua csp ./console --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
 ```
 
 ### Enforcer
 
 ```bash
-helm upgrade --install --namespace aqua enforcer ./aquasec-enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,token=<aquasec-token>
+helm upgrade --install --namespace aqua enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,token=<aquasec-token>
 ```
 
 ## Configuration
 
-The following tables list the configurable parameters of the Server and Enforcer charts and their default values.
+The following table lists the configurable parameters of the Console and Enforcer charts with their default values.
 
-### Server
+### Console
 
 | Parameter                         | Description                          | Default                                                                      |
 | --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
@@ -59,14 +59,14 @@ The following tables list the configurable parameters of the Server and Enforcer
 | `db.external.port`                | Postresql DB port    | N/A                                        |
 | `db.external.user`                | Postresql DB username    | N/A                                        |
 | `db.external.password`            | Postresql DB password    | N/A                                        |
-| `db.image.repository`                   | Default Postgresql Docker image repository    | `database`                                        |
-| `db.image.tag`                    | Default Postgresql Docker image tag    | `3.5`                                        |
-| `db.service.type`                      | Default Postgresql service type    | `ClusterIP`                                        |
-| `db.persistence.enabled`          | Enable a use of a Postgresql PVC    | `true`                                        |
-| `db.persistence.storageClass`     | Postgresql PVC StorageClass   | `default`                                        |
-| `db.persistence.size`             | Postgresql PVC volume size  | `30Gi`                                        |
-| `db.persistence.accessMode`       | Postgresql PVC volume AccessMode  | `ReadWriteOnce`                                        |
-| `db.resources`       | Postgresql pod resources  | `{}`                                        |
+| `db.image.repository`                   | Default PostgreSQL Docker image repository    | `database`                                        |
+| `db.image.tag`                    | Default PostgreSQL Docker image tag    | `3.5`                                        |
+| `db.service.type`                      | Default PostgreSQL service type    | `ClusterIP`                                        |
+| `db.persistence.enabled`          | Enable a use of a PostgreSQL PVC    | `true`                                        |
+| `db.persistence.storageClass`     | PostgreSQL PVC StorageClass   | `default`                                        |
+| `db.persistence.size`             | PostgreSQL PVC volume size  | `30Gi`                                        |
+| `db.persistence.accessMode`       | PostgreSQL PVC volume AccessMode  | `ReadWriteOnce`                                        |
+| `db.resources`       | PostgreSQL pod resources  | `{}`                                        |
 | `web.service.type`                | Web service type  | `ClusterIP`                                        |
 | `web.ingress.enabled`             | Install ingress for the web component  | `false`                                        |
 | `web.image.repository`                   | Default Web Docker image repository    | `server`                                        |
@@ -99,7 +99,7 @@ The following tables list the configurable parameters of the Server and Enforcer
 
 ## Create Docker Registry Secret Credentials
 
-The Aqua server components are private, and you will need to set up an imagePullSecret.
+The Aqua console components are available in our private repository, and you will need to set up an imagePullSecret.
 
 You can do this manually by running:
 
@@ -109,11 +109,11 @@ kubectl create secret docker-registry dockerhub --docker-username=<your-name> --
 
 Or by setting your Dockerhub or external docker registry credentials when you're running the Helm install commands as specified above, in which case Helm will create a new imagePullSecret for you.
 
-## Use existing Postgresql database
+## PostgreSQL database
 
-By default the server chart will also install a Postgresql database and attach persistent storage to it.
+Aqua Security recommends implementing a highly available PostgreSQL database. By default the console chart will install a PostgreSQL database and attach it to persistent storage for POC useage and testing.
 
-If you want to override this behaviour and specify an existing Postgresql database, set the following variables when running Helm:
+For production use one may override this default behavour and specify an existing PostgreSQL database by setting the following variables in values.yaml:
 
 ```yaml
 db:
@@ -128,7 +128,8 @@ db:
 
 ## Include Scanner CLI installation
 
-To install the scanner CLI along with the server components set the following variables:
+Aqua CSP includes the ability to deploy a scanning pod. This dedicated scanning pod allows the console to run unpriviliged, as well as providing a high scanning throughput scanning queue for proction useage.
+To install the scanner CLI along with the console components set the following variables in values.yaml:
 
 ```yaml
 scanner:
@@ -169,9 +170,9 @@ scanner:
         - debug
       volumeBindingMode: Immediate
       ```
-  * ***For non-cloud deployment***
+  * ***For non-cloud provider based deployment***
 
-    When you execute kubectl get events you will see the following **error:** 
+    Most kubernetes service providers do not add all possible storage providers during initial deployment of workers. It is possible when you execute kubectl 'get events' you will encounter the following **error:**
 
     *no persistent volumes available for this claim and no storage class is set*
 
@@ -179,26 +180,11 @@ scanner:
 
     *PersistentVolumeClaim is not bound*
 
-    This error comes in kubernetes set with kubeadm or kubespray and etc, you have an option to run this yaml to create presistent volume with generic storage class or to use existing storage class.
+    If you see this error, you will have to create a persistant volume with a generic storage class or to use existing storage class. Update the values.yaml `db.persistence.storageClass` to the storage class you have chosen. An example file using `aqua-storage` included in the repo and applied as below prior to installation.
 
-    ```yaml
-    kind: PersistentVolume
-    apiVersion: v1
-    metadata:
-      name: aqua-console-db-data
-      labels:
-        type: local
-    spec:
-      storageClassName: generic
-      capacity:
-        storage: 30Gi
-      accessModes:
-        - ReadWriteOnce
-      hostPath:
-        path: "/opt/aqua/data/db/"
+    ```bash
+    kubectl apply -f pv-example.yaml
     ```
-
-  And update the `db.persistence.storageClass` to the Storage Class name.
 
 ## Issues and feedback
 If you come across any problems or would like to give us feedback on deployments we encourage you to raise issues here on GitHub.

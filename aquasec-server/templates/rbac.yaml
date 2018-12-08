@@ -1,6 +1,30 @@
 {{- if .Values.rbac.enabled -}}
 {{- if not .Values.rbac.roleRef }}
 ---
+apiVersion: extensions/v1beta1
+kind: PodSecurityPolicy
+metadata:
+    name: {{ .Release.Name }}-psp
+    labels:
+    app: {{ .Release.Name }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  privileged: true
+  allowedCapabilities:
+  - '*'
+  fsGroup:
+    rule: RunAsAny
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  volumes:
+  - '*'
+---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -10,33 +34,35 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
-# TODO: Make role's permissions much more specific for server component needs
+  # TODO: Make role's permissions much more specific for server component needs
 rules:
-- apiGroups: [""]
-  resources: ["*"]
-  verbs: ["*"]
+- apiGroups: ["extensions"]
+  resourceNames: [{{ .Release.Name }}-psp]
+  resources: ["podsecuritypolicies"]
+  verbs: ["use"]
 {{- end }}
 
 ---
-apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-cluster-role-binding
+  name: {{ .Release.Name }}-role-binding
+  namespace: aquasec
   labels:
     app: {{ .Release.Name }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Release.Name }}-account
+    namespace: aquasec
 roleRef:
-  apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
   {{- if .Values.rbac.roleRef }}
   name: {{ .Values.rbac.roleRef }}
   {{- else }}
-  name: {{ .Release.Name }}-account
+  name: {{ .Release.Name }}-cluster-role
   {{- end }}
-  subjects:
-  - kind: ServiceAccount
-    name: {{ .Release.Name }}-account
-
 {{- end }}
