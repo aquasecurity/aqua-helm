@@ -5,9 +5,9 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}-web-ingress
+  name: {{ .Release.Name }}-console-ingress
   labels:
-    app: {{ .Release.Name }}-web-ingress
+    app: {{ .Release.Name }}-console-ingress
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -23,7 +23,7 @@ spec:
           paths:
             - path: /
               backend:
-                serviceName: {{ $fullname }}-web
+                serviceName: {{ $fullname }}-console
                 servicePort: {{ $servicePort }}
     {{- end -}}
   {{- if .Values.web.ingress.tls }}

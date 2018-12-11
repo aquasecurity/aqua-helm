@@ -2,9 +2,9 @@
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
-  name: {{ .Release.Name }}-enforcer
+  name: {{ .Release.Name }}-ds
   labels:
-    app: {{ .Release.Name }}-enforcer
+    app: {{ .Release.Name }}-ds
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -12,10 +12,10 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-enforcer
-      name: {{ .Release.Name }}-enforcer
+        app: {{ .Release.Name }}-ds
+      name: {{ .Release.Name }}-ds
     spec:
-      serviceAccount: {{ .Release.Name }}-account
+      serviceAccount: {{ .Release.Name }}-sa
       hostPID: true
       containers:
       - name: enforcer
@@ -30,7 +30,7 @@ spec:
               name: {{ .Release.Name }}-token
               key: token
         - name: AQUA_SERVER
-          value: {{ .Values.gate.host | default "aqua-gateway" }}:{{ .Values.gate.port | default "3622" }}
+          value: {{ .Values.gate.host | default "csp-gateway-svc" }}:{{ .Values.gate.port | default "3622" }}
         - name: AQUA_LOGICAL_NAME
           value: {{ .Release.Name }}-helm
         - name: AQUA_NETWORK_CONTROL

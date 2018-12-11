@@ -1,20 +1,20 @@
 imageCredentials:
   create: false
-  name: aqua-image-pull-secret
+  imageCredentials.name:
   repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
   registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
-  username: "johnm@aquasec.com"
-  password: "#L7wWTEt972QsbbZ"
+  username: ""
+  password: ""
   email:
 
-token: "fcfbdc9e-5475-4e3d-8cc5-d8ceb950a331"
+enforcerToken: ""
 
 rbac:
   enabled: true
   roleRef:
 
 gate:
-  host: aqua-gateway
+  host: csp-gateway-svc
   port: 3622
 
 image:
