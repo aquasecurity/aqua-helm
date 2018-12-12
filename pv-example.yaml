@@ -1,0 +1,14 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: aqua-db-pv
+  labels:
+    type: local
+spec:
+  storageClassName: aqua-storage
+  capacity:
+    storage: 30Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/aqua/data/database/"

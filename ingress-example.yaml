@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+    ingress.kubernetes.io/add-base-url: "true"
+  name: aqua-console
+  namespace: aqua
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: csp-console-svc
+          servicePort: 8080
+        path: /aqua-console
+status:
+  loadBalancer:
+    ingress:
+    - ip: 192.168.27.100

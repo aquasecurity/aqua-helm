@@ -1,0 +1,95 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-gateway
+  labels:
+    app: {{ .Release.Name }}-gateway
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.gate.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-gateway
+      name: {{ .Release.Name }}-gateway
+    spec:
+      serviceAccount: {{ .Release.Name }}-sa
+      containers:
+      - name: gate
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ .Values.gate.image.tag }}"
+        imagePullPolicy: "{{ .Values.gate.image.pullPolicy }}"
+        env:
+        # TODO: What default value should we use for SCALOCK_GATEWAY_PUBLIC_IP
+        - name: SCALOCK_GATEWAY_PUBLIC_IP
+          value: {{ .Values.gate.publicIP | default "aqua-security-gateway" }}
+          value: aqua-security-gateway
+        - name: SCALOCK_DBUSER
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
+        - name: SCALOCK_DBPASSWORD
+          {{- if .Values.db.external.enabled }}
+          value: {{ .Values.db.external.password }}
+          {{- else }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-database-password
+              key: db-password
+          {{- end }}
+        - name: SCALOCK_DBNAME
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.name "scalock" }}
+        - name: SCALOCK_DBHOST
+          {{- if .Values.db.external.enabled }}
+          value: {{ .Values.db.external.host }}
+          {{- else }}
+          value: {{ .Release.Name }}-database-svc
+          {{- end }}
+        - name: SCALOCK_DBPORT
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
+        - name: SCALOCK_AUDIT_DBUSER
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditUser "postgres" }}
+        - name: SCALOCK_AUDIT_DBPASSWORD
+          {{- if .Values.db.external.enabled }}
+          value: {{ .Values.db.external.auditPassword }}
+          {{- else }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-database-password
+              key: db-password
+          {{- end }}
+        - name: SCALOCK_AUDIT_DBNAME
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
+        - name: SCALOCK_AUDIT_DBHOST
+          {{- if .Values.db.external.enabled }}
+          value: {{ .Values.db.external.auditHost }}
+          {{- else }}
+          value: {{ .Release.Name }}-database-svc
+          {{- end }}
+        - name: SCALOCK_AUDIT_DBPORT
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
+        ports:
+        - containerPort: 3622
+          protocol: TCP
+{{- with .Values.gate.livenessProbe }}
+        livenessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- with .Values.gate.readinessProbe }}
+        readinessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+        resources:
+{{ toYaml .Values.gate.resources | indent 12 }}
+      {{- with .Values.gate.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.gate.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.gate.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+      {{- end }}

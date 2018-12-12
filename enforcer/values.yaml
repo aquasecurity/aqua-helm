@@ -1,0 +1,35 @@
+imageCredentials:
+  create: false
+  imageCredentials.name:
+  repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
+  registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+  username: ""
+  password: ""
+  email:
+
+enforcerToken: ""
+
+rbac:
+  enabled: true
+  roleRef:
+
+gate:
+  host: csp-gateway-svc
+  port: 3622
+
+image:
+  repository: enforcer
+  tag: 3.5
+  pullPolicy: IfNotPresent
+
+livenessProbe: {}
+readinessProbe: {}
+nodeSelector: {}
+
+resources:
+  requests:
+    memory: "150Mi"
+    cpu: "30m"
+  limits:
+    memory: "300Mi"
+    cpu: "60m"
