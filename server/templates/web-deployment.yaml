@@ -2,9 +2,9 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-web
+  name: {{ .Release.Name }}-console
   labels:
-    app: {{ .Release.Name }}-web
+    app: {{ .Release.Name }}-console
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -13,10 +13,10 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-web
-      name: {{ .Release.Name }}-web
+        app: {{ .Release.Name }}-console
+      name: {{ .Release.Name }}-console
     spec:
-      serviceAccount: {{ .Release.Name }}-account
+      serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: web
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
@@ -32,7 +32,7 @@ spec:
           {{- else }}
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-db-password
+              name: {{ .Release.Name }}-database-password
               key: db-password
           {{- end }}
         - name: SCALOCK_DBNAME
@@ -41,7 +41,7 @@ spec:
           {{- if .Values.db.external.enabled }}
           value: {{ .Values.db.external.host }}
           {{- else }}
-          value: {{ .Release.Name }}-db
+          value: {{ .Release.Name }}-database-svc
           {{- end }}
         - name: SCALOCK_DBPORT
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
@@ -53,7 +53,7 @@ spec:
           {{- else }}
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-db-password
+              name: {{ .Release.Name }}-database-password
               key: db-password
           {{- end }}
         - name: SCALOCK_AUDIT_DBNAME
@@ -62,7 +62,7 @@ spec:
           {{- if .Values.db.external.enabled }}
           value: {{ .Values.db.external.auditHost }}
           {{- else }}
-          value: {{ .Release.Name }}-db
+          value: {{ .Release.Name }}-database-svc
           {{- end }}
         - name: SCALOCK_AUDIT_DBPORT
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}

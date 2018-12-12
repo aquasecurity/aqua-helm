@@ -1,18 +1,17 @@
-{{- if not .Values.db.external.enabled }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-db
+  name: {{ .Release.Name }}-console-svc
   labels:
-    app: {{ .Release.Name }}-db
+    app: {{ .Release.Name }}-console
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  type: {{ .Values.db.service.type }}
+  type: {{ .Values.web.service.type }}
   selector:
-    app: {{ .Release.Name }}-db
+    app: {{ .Release.Name }}-console
   ports:
-    - port: 5432
-{{- end }}
+  - port: {{ .Values.web.service.externalPort }}
+    targetPort: 8080

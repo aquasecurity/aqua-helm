@@ -2,9 +2,9 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-gate
+  name: {{ .Release.Name }}-gateway
   labels:
-    app: {{ .Release.Name }}-gate
+    app: {{ .Release.Name }}-gateway
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -13,10 +13,10 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-gate
-      name: {{ .Release.Name }}-gate
+        app: {{ .Release.Name }}-gateway
+      name: {{ .Release.Name }}-gateway
     spec:
-      serviceAccount: {{ .Release.Name }}-account
+      serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: gate
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ .Values.gate.image.tag }}"
@@ -24,8 +24,8 @@ spec:
         env:
         # TODO: What default value should we use for SCALOCK_GATEWAY_PUBLIC_IP
         - name: SCALOCK_GATEWAY_PUBLIC_IP
-          value: {{ .Values.gate.publicIP | default "aqua-gateway" }}
-          value: aqua-gateway
+          value: {{ .Values.gate.publicIP | default "aqua-security-gateway" }}
+          value: aqua-security-gateway
         - name: SCALOCK_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
         - name: SCALOCK_DBPASSWORD
@@ -34,7 +34,7 @@ spec:
           {{- else }}
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-db-password
+              name: {{ .Release.Name }}-database-password
               key: db-password
           {{- end }}
         - name: SCALOCK_DBNAME
@@ -43,7 +43,7 @@ spec:
           {{- if .Values.db.external.enabled }}
           value: {{ .Values.db.external.host }}
           {{- else }}
-          value: {{ .Release.Name }}-db
+          value: {{ .Release.Name }}-database-svc
           {{- end }}
         - name: SCALOCK_DBPORT
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
@@ -55,7 +55,7 @@ spec:
           {{- else }}
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-db-password
+              name: {{ .Release.Name }}-database-password
               key: db-password
           {{- end }}
         - name: SCALOCK_AUDIT_DBNAME
@@ -64,7 +64,7 @@ spec:
           {{- if .Values.db.external.enabled }}
           value: {{ .Values.db.external.auditHost }}
           {{- else }}
-          value: {{ .Release.Name }}-db
+          value: {{ .Release.Name }}-database-svc
           {{- end }}
         - name: SCALOCK_AUDIT_DBPORT
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}

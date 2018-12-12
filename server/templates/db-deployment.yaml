@@ -3,9 +3,9 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-db
+  name: {{ .Release.Name }}-database
   labels:
-    app: {{ .Release.Name }}-db
+    app: {{ .Release.Name }}-database
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -13,10 +13,10 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-db
-      name: {{ .Release.Name }}-db
+        app: {{ .Release.Name }}-database
+      name: {{ .Release.Name }}-database
     spec:
-      serviceAccount: {{ .Release.Name }}-account
+      serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: db
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
@@ -25,13 +25,15 @@ spec:
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-db-password
+              name: {{ .Release.Name }}-database-password
               key: db-password
+        - name: PGDATA
+          value: "/var/lib/postgresql/data/db-files"
         - name: POD_IP
           valueFrom: { fieldRef: { fieldPath: status.podIP } }
         volumeMounts:
-        - mountPath: /var/lib/postgresql/
-          name: postgres-db
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-database
         ports:
         - containerPort: 5432
           protocol: TCP
@@ -58,7 +60,7 @@ spec:
 {{ toYaml . | indent 8 }}
       {{- end }}
       volumes:
-      - name: postgres-db
+      - name: postgres-database
         persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-db-pvc
+          claimName: {{ .Release.Name }}-database-pvc
 {{- end }}
