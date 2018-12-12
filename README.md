@@ -8,7 +8,7 @@ Helm charts for installation and maintainence of Aqua Container Security Platfor
 
 This repository includes two charts that may be installed separately:
 
-* [**Server**](server/) - installs the console, gateway and optional componants. Ie; database, scanner CLI, Enforcer daemonset
+* [**Server**](server/) - installs the console, gateway and optional componants. Ie; database, scanner CLI
 * [**Enforcer**](enforcer/) - installs the enforcer daemonset
 
 ## Prerequsites
