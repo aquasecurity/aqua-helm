@@ -28,7 +28,7 @@ spec:
         - "--password"
         - "{{ required "Please specify a password for a user associated with the Scanner role!" .Values.scanner.password }}"
         - "--host"
-        - "http://{{ .Release.Name }}-console:{{ .Values.web.service.externalPort }}"
+        - "http://{{ .Release.Name }}-console-svc:{{ .Values.web.service.externalPort }}"
         volumeMounts:
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
