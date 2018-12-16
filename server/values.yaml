@@ -1,6 +1,7 @@
 # Specifies the secret data for imagePullSecrets needed to fetch the private docker images
 imageCredentials:
   create: true
+  name: 
   repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
   registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
   username: ""
@@ -14,7 +15,7 @@ rbac:
 
 admin:
   token: ""
-  password: "!"
+  password: ""
 
 db:
   external:
@@ -37,7 +38,7 @@ db:
     type: ClusterIP
   persistence:
     enabled: true
-    storageClass: aqua-storage
+    storageClass:
     size: 30Gi
     accessMode: ReadWriteOnce
   livenessProbe:

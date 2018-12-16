@@ -24,8 +24,8 @@ spec:
         env:
         # TODO: What default value should we use for SCALOCK_GATEWAY_PUBLIC_IP
         - name: SCALOCK_GATEWAY_PUBLIC_IP
-          value: {{ .Values.gate.publicIP | default "aqua-security-gateway" }}
-          value: aqua-security-gateway
+          value: {{ .Values.gate.publicIP | default "aqua-gateway" }}
+          value: aqua-gateway
         - name: SCALOCK_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
         - name: SCALOCK_DBPASSWORD
