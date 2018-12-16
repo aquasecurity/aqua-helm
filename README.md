@@ -151,7 +151,7 @@ helm upgrade --install --namespace aqua csp ./server --set imageCredentials.user
 ### Enforcer
 
 ```bash
-helm upgrade --install --namespace aqua csp-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,token=<aquasec-token>
+helm upgrade --install --namespace aqua csp-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,enforcerToken=<aquasec-token>
 ```
 
 ## Configurable Variables
@@ -211,7 +211,7 @@ The following table lists the configurable parameters of the Console and Enforce
 | `imageCredentials.usernmae`               | Your Docker registry (DockerHub and etc) username    | N/A                                                                   |
 | `imageCredentials.password`               | Your Docker registry (DockerHub and etc) password    | N/A                                                                   |
 | `imageCredentials.email`                  | Your Docker registry (DockerHub and etc) email    | N/A                                                                   |
-| `token`                           | Aquasec Enforcer token    | N/A                                                     |
+| `enforcerToken`                           | Aquasec Enforcer token    | N/A                                                     |
 | `server`                          | Gateways host name    | `aqua-gateway`                                                     |
 | `port`                            | Gateway port    | `3622`                                                     |
     ```
