@@ -1,4 +1,4 @@
 apiVersion: v1
 description: A Helm chart for the Aqua Console Componants
-name: aqua-server
+name: server
 version: 1.0.0

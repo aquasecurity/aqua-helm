@@ -126,7 +126,7 @@ kubectl apply -f ingress-example.yaml
 ```
 
 * **Alternative Ingress Configuration**
-* The services charts are set to create `ClusterIP' ingress types An example ingress yaml is included in the repo.
+* The services charts are set to create `ClusterIP' ingress types. You may tune these as appropriate for your environment.
 
 
 ## Installing the Charts
@@ -214,7 +214,6 @@ The following table lists the configurable parameters of the Console and Enforce
 | `enforcerToken`                           | Aquasec Enforcer token    | N/A                                                     |
 | `server`                          | Gateways host name    | `aqua-gateway`                                                     |
 | `port`                            | Gateway port    | `3622`                                                     |
-    ```
 
 ## Issues and feedback
 If you come across any problems or would like to give us feedback on deployments we encourage you to raise issues here on GitHub.
