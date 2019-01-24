@@ -29,14 +29,10 @@ spec:
         - name: SCALOCK_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
         - name: SCALOCK_DBPASSWORD
-          {{- if .Values.db.external.enabled }}
-          value: {{ .Values.db.external.password }}
-          {{- else }}
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
               key: db-password
-          {{- end }}
         - name: SCALOCK_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.name "scalock" }}
         - name: SCALOCK_DBHOST
@@ -50,14 +46,10 @@ spec:
         - name: SCALOCK_AUDIT_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditUser "postgres" }}
         - name: SCALOCK_AUDIT_DBPASSWORD
-          {{- if .Values.db.external.enabled }}
-          value: {{ .Values.db.external.auditPassword }}
-          {{- else }}
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
               key: db-password
-          {{- end }}
         - name: SCALOCK_AUDIT_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
         - name: SCALOCK_AUDIT_DBHOST
