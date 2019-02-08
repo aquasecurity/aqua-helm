@@ -66,11 +66,17 @@ spec:
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
           {{- if .Values.admin.token }}
         - name: LICENSE_TOKEN
-          value: {{ .Values.admin.token }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-console-secrets
+              key: license-token
           {{- end }}
           {{- if .Values.admin.password }}
         - name: ADMIN_PASSWORD
-          value: {{ .Values.admin.password }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-console-secrets
+              key: admin-password
           {{- end }}
         ports:
         - containerPort: 8080
