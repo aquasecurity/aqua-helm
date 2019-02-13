@@ -33,3 +33,9 @@ resources:
   limits:
     memory: "300Mi"
     cpu: "60m"
+
+tolerations: []
+# - key: "key"
+#   operator: "Equal|Exists"
+#   value: "value"
+#   effect: "NoSchedule|PreferNoSchedule|NoExecute(1.6 only)"

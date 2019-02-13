@@ -14,6 +14,10 @@ spec:
       labels:
         app: {{ .Release.Name }}-ds
       name: {{ .Release.Name }}-ds
+      annotations:
+      {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
+      {{- end }}
     spec:
       serviceAccount: {{ .Release.Name }}-sa
       hostPID: true
@@ -90,4 +94,8 @@ spec:
       {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
+      {{- end }}
+      {{- if and (.Values.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 6 }}
       {{- end }}
