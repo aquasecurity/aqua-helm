@@ -161,7 +161,7 @@ The following table lists the configurable parameters of the Console and Enforce
 | --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
 | `imageCredentials.create`               | Set if to create new pull image secret    | `true`                                                                 |
 | `imageCredentials.name`               | Your Docker pull image secret name    | `csp-registry-secret`                                                                   |
-| `imageCredentials.usernmae`               | Your Docker registry (DockerHub, etc.) username    | N/A                                                                   |
+| `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | N/A                                                                   |
 | `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | N/A                                                                   |
 | `imageCredentials.email`                  | Your Docker registry (DockerHub, etc.) email    | N/A                                                                   |
 | `rbac.enabled`                    | Create a service account and a ClusterRole    | `false`                                                                   |
@@ -205,7 +205,7 @@ The following table lists the configurable parameters of the Console and Enforce
 | --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
 | `imageCredentials.create`               | Set if to create new pull image secret    | `false`                                                                 |
 | `imageCredentials.name`               | Your Docker pull image secret name    | `aqua-image-pull-secret`                                                                   |
-| `imageCredentials.usernmae`               | Your Docker registry (DockerHub, etc.) username    | N/A                                                                   |
+| `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | N/A                                                                   |
 | `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | N/A                                                                   |
 | `imageCredentials.email`                  | Your Docker registry (DockerHub, etc.) email    | N/A                                                                   |
 | `enforcerToken`                           | Aqua Enforcer token    | N/A                                                     |
