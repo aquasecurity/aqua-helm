@@ -15,7 +15,15 @@ This repository includes two charts that may be deployed separately:
 
 ### Container Registry Credentials
 
-The Aqua server (Console and Gateway) components are available in our private repository, which requires authentication. By default, the charts create a secret based on the values.yaml. One may manually pre-create this secret via the following command:
+The Aqua server (Console and Gateway) components are available in our private repository, which requires authentication. By default, the charts create a secret based on the values.yaml. 
+
+First, create a new namespace named "aqua":
+
+```bash
+kubectl create namespace aqua
+```
+
+Next, create the secret:
 
 ```bash
 kubectl create secret docker-registry csp-registry-secret  --docker-server="registry.aquasec.com" --namespace aqua --docker-username="jg@example.com" --docker-password="Truckin" --docker-email="jg@example.com"
