@@ -12,6 +12,10 @@ spec:
   replicas: {{ .Values.web.replicaCount }}
   template:
     metadata:
+      annotations:
+      {{- if and (.Values.web.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.web.tolerations }}'
+      {{- end }}
       labels:
         app: {{ .Release.Name }}-console
       name: {{ .Release.Name }}-console
@@ -25,14 +29,10 @@ spec:
         - name: SCALOCK_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
         - name: SCALOCK_DBPASSWORD
-          {{- if .Values.db.external.enabled }}
-          value: {{ .Values.db.external.password }}
-          {{- else }}
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
               key: db-password
-          {{- end }}
         - name: SCALOCK_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.name "scalock" }}
         - name: SCALOCK_DBHOST
@@ -46,14 +46,10 @@ spec:
         - name: SCALOCK_AUDIT_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditUser "postgres" }}
         - name: SCALOCK_AUDIT_DBPASSWORD
-          {{- if .Values.db.external.enabled }}
-          value: {{ .Values.db.external.auditPassword }}
-          {{- else }}
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
               key: db-password
-          {{- end }}
         - name: SCALOCK_AUDIT_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
         - name: SCALOCK_AUDIT_DBHOST
@@ -66,11 +62,17 @@ spec:
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
           {{- if .Values.admin.token }}
         - name: LICENSE_TOKEN
-          value: {{ .Values.admin.token }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-console-secrets
+              key: license-token
           {{- end }}
           {{- if .Values.admin.password }}
         - name: ADMIN_PASSWORD
-          value: {{ .Values.admin.password }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-console-secrets
+              key: admin-password
           {{- end }}
         ports:
         - containerPort: 8080
@@ -96,11 +98,11 @@ spec:
       affinity:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- with .Values.web.tolerations }}
+      {{- if and (.Values.web.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
       tolerations:
-{{ toYaml . | indent 8 }}
+{{ toYaml .Values.web.tolerations | indent 6 }}
       {{- end }}
       volumes:
       - name: docker-socket-mount
         hostPath:
-          path: /var/run/docker.sock
+          path: {{ .Values.docker.socket.path }}

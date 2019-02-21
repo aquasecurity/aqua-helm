@@ -11,6 +11,10 @@ metadata:
 spec:
   template:
     metadata:
+      annotations:
+      {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
+      {{- end }}
       labels:
         app: {{ .Release.Name }}-ds
       name: {{ .Release.Name }}-ds
@@ -21,8 +25,27 @@ spec:
       - name: enforcer
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        {{- if .Values.privileged }}
         securityContext:
           privileged: true
+        {{- else }}
+        securityContext:
+          privileged: false
+          capabilities:
+            add:
+              - SYS_ADMIN
+              - NET_ADMIN
+              - NET_RAW
+              - SYS_PTRACE
+              - KILL
+              - MKNOD
+              - SETGID
+              - SETUID
+              - SYS_MODULE
+              - AUDIT_CONTROL
+              - SYSLOG
+              - SYS_CHROOT
+        {{- end }}
         env:
         - name: AQUA_TOKEN
           valueFrom:
@@ -90,4 +113,8 @@ spec:
       {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
+      {{- end }}
+      {{- if and (.Values.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 6 }}
       {{- end }}

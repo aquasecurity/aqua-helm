@@ -12,6 +12,10 @@ spec:
   replicas: {{ .Values.scanner.replicaCount }}
   template:
     metadata:
+      annotations:
+      {{- if and (.Values.scanner.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.scanner.tolerations }}'
+      {{- end }}
       labels:
         app: {{ .Release.Name }}-scanner
       name: {{ .Release.Name }}-scanner
@@ -53,12 +57,12 @@ spec:
       affinity:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- with .Values.scanner.tolerations }}
+      {{- if and (.Values.scanner.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
       tolerations:
-{{ toYaml . | indent 8 }}
+{{ toYaml .Values.scanner.tolerations | indent 6 }}
       {{- end }}
       volumes:
       - name: docker-socket-mount
         hostPath:
-          path: /var/run/docker.sock
+          path: {{ .Values.docker.socket.path }}
 {{- end }}

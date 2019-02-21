@@ -11,7 +11,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  privileged: true
+  privileged: {{ .Values.privileged }}
   allowedCapabilities:
   - '*'
   fsGroup:

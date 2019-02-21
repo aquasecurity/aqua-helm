@@ -5,9 +5,10 @@ imageCredentials:
   registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
   username: ""
   password: ""
-  email:
+  email: "example@gmail.com"
 
 enforcerToken: ""
+privileged: true
 
 rbac:
   enabled: false
@@ -19,12 +20,13 @@ gate:
 
 image:
   repository: enforcer
-  tag: 3.5
+  tag: 4.0
   pullPolicy: IfNotPresent
 
 livenessProbe: {}
 readinessProbe: {}
 nodeSelector: {}
+tolerations: []
 
 resources:
   requests:

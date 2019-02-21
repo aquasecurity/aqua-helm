@@ -12,6 +12,10 @@ spec:
   replicas: {{ .Values.gate.replicaCount }}
   template:
     metadata:
+      annotations:
+      {{- if and (.Values.gate.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.gate.tolerations }}'
+      {{- end }}
       labels:
         app: {{ .Release.Name }}-gateway
       name: {{ .Release.Name }}-gateway
@@ -22,21 +26,16 @@ spec:
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ .Values.gate.image.tag }}"
         imagePullPolicy: "{{ .Values.gate.image.pullPolicy }}"
         env:
-        # TODO: What default value should we use for SCALOCK_GATEWAY_PUBLIC_IP
         - name: SCALOCK_GATEWAY_PUBLIC_IP
-          value: {{ .Values.gate.publicIP | default "aqua-gateway" }}
+          value: {{ .Values.gate.publicIP | default "aqua-gateway-svc" }}
           value: aqua-gateway
         - name: SCALOCK_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
         - name: SCALOCK_DBPASSWORD
-          {{- if .Values.db.external.enabled }}
-          value: {{ .Values.db.external.password }}
-          {{- else }}
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
               key: db-password
-          {{- end }}
         - name: SCALOCK_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.name "scalock" }}
         - name: SCALOCK_DBHOST
@@ -50,14 +49,10 @@ spec:
         - name: SCALOCK_AUDIT_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditUser "postgres" }}
         - name: SCALOCK_AUDIT_DBPASSWORD
-          {{- if .Values.db.external.enabled }}
-          value: {{ .Values.db.external.auditPassword }}
-          {{- else }}
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
               key: db-password
-          {{- end }}
         - name: SCALOCK_AUDIT_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
         - name: SCALOCK_AUDIT_DBHOST
@@ -89,7 +84,7 @@ spec:
       affinity:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- with .Values.gate.tolerations }}
+      {{- if and (.Values.gate.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
       tolerations:
-{{ toYaml . | indent 8 }}
+{{ toYaml .Values.gate.tolerations | indent 6 }}
       {{- end }}

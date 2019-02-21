@@ -15,3 +15,5 @@ spec:
   ports:
   - port: {{ .Values.web.service.externalPort }}
     targetPort: 8080
+    protocol: TCP
+    name: {{ .Release.Name }}-console
