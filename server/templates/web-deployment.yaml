@@ -74,6 +74,14 @@ spec:
               name: {{ .Release.Name }}-console-secrets
               key: admin-password
           {{- end }}
+          {{- if .Values.dockerless }}
+        - name: AQUA_DOCKERLESS_SCANNING
+          value: "1/0"
+        - name: AQUA_PPROF_ENABLED
+          value: "1/0"
+        - name: DISABLE_IP_BAN
+          value: "1/0"
+          {{- end }}
         ports:
         - containerPort: 8080
           protocol: TCP

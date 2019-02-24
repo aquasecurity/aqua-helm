@@ -21,6 +21,8 @@ docker:
   socket:
     path: /var/run/docker.sock # pks - /var/vcap/data/sys/run/docker/docker.sock
 
+dockerless: false
+
 db:
   external:
     enabled: false

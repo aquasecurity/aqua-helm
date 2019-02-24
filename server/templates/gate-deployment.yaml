@@ -28,7 +28,8 @@ spec:
         env:
         - name: SCALOCK_GATEWAY_PUBLIC_IP
           value: {{ .Values.gate.publicIP | default "aqua-gateway-svc" }}
-          value: aqua-gateway
+        - name: HEALTH_MONITOR
+          value: "0.0.0.0:8082"
         - name: SCALOCK_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
         - name: SCALOCK_DBPASSWORD
