@@ -35,7 +35,6 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
-  # TODO: Make role's permissions much more specific for server component needs
 rules:
 - apiGroups: ["extensions"]
   resourceNames: [{{ .Release.Name }}-psp]

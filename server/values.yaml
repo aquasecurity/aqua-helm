@@ -1,7 +1,7 @@
 # Specifies the secret data for imagePullSecrets needed to fetch the private docker images
 imageCredentials:
   create: true
-  name: csp-registry-secret
+  name: csp-registry-secret # example
   repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
   registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
   username: ""
@@ -36,7 +36,7 @@ db:
     auditPassword:
   image:
     repository: database
-    tag: 4.0
+    tag: "4.0"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -77,7 +77,7 @@ db:
 gate:
   image:
     repository: gateway
-    tag: 4.0
+    tag: "4.0"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -100,7 +100,7 @@ gate:
 web:
   image:
     repository: console
-    tag: 4.0
+    tag: "4.0"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -133,7 +133,7 @@ scanner:
   enabled: false
   image:
     repository: scanner
-    tag: 4.0
+    tag: "4.0"
     pullPolicy: IfNotPresent
   user:
   password:

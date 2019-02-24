@@ -5,21 +5,21 @@ imageCredentials:
   registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
   username: ""
   password: ""
-  email: "example@gmail.com"
+  email: "example@gmail.com" # example
 
 docker:
   socket:
     path: /var/run/docker.sock # pks - /var/vcap/data/sys/run/docker/docker.sock
 
 enabled: false
-serviceAccount: aqua-sa
+serviceAccount: csp-sa
 server:
-  serviceName: aqua-console-svc
+  serviceName: csp-console-svc # example
   port: 8080
 
 image:
   repository: scanner
-  tag: 4.0
+  tag: "4.0"
   pullPolicy: IfNotPresent
 
 user:
