@@ -12,6 +12,10 @@ metadata:
 spec:
   template:
     metadata:
+      annotations:
+      {{- if and (.Values.db.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.db.tolerations }}'
+      {{- end }}
       labels:
         app: {{ .Release.Name }}-database
       name: {{ .Release.Name }}-database
@@ -55,9 +59,9 @@ spec:
       affinity:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- with .Values.db.tolerations }}
+      {{- if and (.Values.db.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
       tolerations:
-{{ toYaml . | indent 8 }}
+{{ toYaml .Values.db.tolerations | indent 6 }}
       {{- end }}
       volumes:
       - name: postgres-database

@@ -4,12 +4,34 @@
 
 These are Helm charts for installation and maintenance of Aqua Container Security Platform Console, Database, Gateway, Scanner, and Enforcer components.
 
+## Contents
+
+- [Aqua Security Helm Charts](#aqua-security-helm-charts)
+  - [Contents](#contents)
+  - [Chart Details](#chart-details)
+  - [Prerequisites](#prerequisites)
+    - [Container Registry Credentials](#container-registry-credentials)
+    - [PostgreSQL database](#postgresql-database)
+    - [High-Volume Scanner Installation](#high-volume-scanner-installation)
+    - [Helm Customizations / Troubleshooting](#helm-customizations--troubleshooting)
+    - [Non-public cloud provider deployments](#non-public-cloud-provider-deployments)
+  - [Installing the Charts](#installing-the-charts)
+    - [Server (console)](#server-console)
+    - [Enforcer](#enforcer)
+    - [Scanner](#scanner)
+  - [Configurable Variables](#configurable-variables)
+    - [Console](#console)
+    - [Enforcer](#enforcer-1)
+    - [Scanner](#scanner-1)
+  - [Issues and feedback](#issues-and-feedback)
+
 ## Chart Details
 
 This repository includes two charts that may be deployed separately:
 
 * [**Server**](server/) - deploys the Console, Gateway, and Database components, and optionally the Scanner component
 * [**Enforcer**](enforcer/) - deploys the Enforcer daemonset
+* [**Scanner**](scanner/) - deploys the aqua scanner cli deployment
 
 ## Prerequisites
 
@@ -23,7 +45,7 @@ First, create a new namespace named "aqua":
 kubectl create namespace aqua
 ```
 
-Next, create the secret:
+Next, **(Optional)** create the secret:
 
 ```bash
 kubectl create secret docker-registry csp-registry-secret  --docker-server="registry.aquasec.com" --namespace aqua --docker-username="jg@example.com" --docker-password="Truckin" --docker-email="jg@example.com"
@@ -159,6 +181,12 @@ helm upgrade --install --namespace aqua csp ./server --set imageCredentials.user
 helm upgrade --install --namespace aqua csp-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,enforcerToken=<aquasec-token>
 ```
 
+### Scanner
+
+```bash
+helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
+```
+
 ## Configurable Variables
 
 The following table lists the configurable parameters of the Console and Enforcer charts with their default values.
@@ -169,21 +197,21 @@ The following table lists the configurable parameters of the Console and Enforce
 | --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
 | `imageCredentials.create`               | Set if to create new pull image secret    | `true`                                                                 |
 | `imageCredentials.name`               | Your Docker pull image secret name    | `csp-registry-secret`                                                                   |
-| `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | N/A                                                                   |
-| `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | N/A                                                                   |
-| `imageCredentials.email`                  | Your Docker registry (DockerHub, etc.) email    | N/A                                                                   |
+| `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   |
+| `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`                                                                   |
+| `imageCredentials.email`                  | Your Docker registry (DockerHub, etc.) email    | `N/A`                                                                   |
 | `rbac.enabled`                    | Create a service account and a ClusterRole    | `false`                                                                   |
 | `rbac.roleRef`                    | Use an existing ClusterRole    | ``                                                                   |
-| `admin.token`                    | Use this Aqua license token   | N/A                                                                   |
-| `admin.password`                    | Use this Aqua admin password   | N/A                                                                  |
+| `admin.token`                    | Use this Aqua license token   | `N/A`                                                                   |
+| `admin.password`                    | Use this Aqua admin password   | `N/A`                                                                  |
 | `db.external.enabled`             | Avoid installing a Postgres container and use an external database instead    | `false`                          |
-| `db.external.name`                | PostgreSQL DB name    | N/A                                        |
-| `db.external.host`                | PostgreSQL DB hostname    | N/A                                        |
-| `db.external.port`                | PostgreSQL DB port    | N/A                                        |
-| `db.external.user`                | PostgreSQL DB username    | N/A                                        |
-| `db.external.password`            | PostgreSQL DB password    | N/A                                        |
+| `db.external.name`                | PostgreSQL DB name    | ``N/A``                                        |
+| `db.external.host`                | PostgreSQL DB hostname    | ``N/A``                                        |
+| `db.external.port`                | PostgreSQL DB port    | `N/A`                                        |
+| `db.external.user`                | PostgreSQL DB username    | `N/A`                                        |
+| `db.external.password`            | PostgreSQL DB password    | `N/A`                                        |
 | `db.image.repository`                   | Default PostgreSQL Docker image repository    | `database`                                        |
-| `db.image.tag`                    | Default PostgreSQL Docker image tag    | `3.5`                                        |
+| `db.image.tag`                    | Default PostgreSQL Docker image tag    | `4.0`                                        |
 | `db.service.type`                      | Default PostgreSQL service type    | `ClusterIP`                                        |
 | `db.persistence.enabled`          | Enable a use of a PostgreSQL PVC    | `true`                                        |
 | `db.persistence.storageClass`     | PostgreSQL PVC StorageClass   | `default`                                        |
@@ -193,18 +221,18 @@ The following table lists the configurable parameters of the Console and Enforce
 | `web.service.type`                | Web service type  | `ClusterIP`                                        |
 | `web.ingress.enabled`             | Install ingress for the web component  | `false`                                        |
 | `web.image.repository`                   | Default Web Docker image repository    | `server`                                        |
-| `web.image.tag`                    | Default Web Docker image tag    | `3.5`                                        |
+| `web.image.tag`                    | Default Web Docker image tag    | `4.0`                                        |
 | `web.ingress.annotations`         | Web ingress annotations  | `{}`                                        |
 | `web.ingress.hosts`               | Web ingress hosts definition  | `[]`                                        |
 | `web.ingress.tls`                 | Web ingress tls  | `[]`                                        |
 | `gate.service.type`                | Gate service type  | `ClusterIP`                                        |
 | `gate.image.repository`                   | Default Gate Docker image repository    | `gate`                                        |
-| `gate.image.tag`                    | Default Gate Docker image tag    | `3.5`                                        |
+| `gate.image.tag`                    | Default Gate Docker image tag    | `4.0`                                        |
 | `gate.publicIP`                    | Default Gate service public IP    | ``                                        |
 | `scanner.enabled`                 | Enable the Scanner-CLI component  | `false`                                        |
 | `scanner.replicas`                | Number of Scanner-CLI replicas to run  | `1`                                        |
-| `scanner.user`                | Username for the scanner user assigned to the Scanner role  | N/A                                        |
-| `scanner.password`                | Password for scanner user  | N/A                                        |
+| `scanner.user`                | Username for the scanner user assigned to the Scanner role  | `N/A`                                        |
+| `scanner.password`                | Password for scanner user  | `N/A`                                        |
 
 
 ### Enforcer
@@ -213,12 +241,16 @@ The following table lists the configurable parameters of the Console and Enforce
 | --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
 | `imageCredentials.create`               | Set if to create new pull image secret    | `false`                                                                 |
 | `imageCredentials.name`               | Your Docker pull image secret name    | `aqua-image-pull-secret`                                                                   |
-| `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | N/A                                                                   |
-| `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | N/A                                                                   |
-| `imageCredentials.email`                  | Your Docker registry (DockerHub, etc.) email    | N/A                                                                   |
-| `enforcerToken`                           | Aqua Enforcer token    | N/A                                                     |
+| `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   |
+| `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`                                                                   |
+| `imageCredentials.email`                  | Your Docker registry (DockerHub, etc.) email    | `N/A`                                                                   |
+| `enforcerToken`                           | Aqua Enforcer token    | `N/A`                                                     |
 | `server`                          | Gateway host name    | `aqua-gateway`                                                     |
 | `port`                            | Gateway port    | `3622`                                                     |
+
+
+### Scanner
+
 
 ## Issues and feedback
 
