@@ -74,6 +74,16 @@ spec:
               name: {{ .Release.Name }}-console-secrets
               key: admin-password
           {{- end }}
+          {{- if .Values.db.ssl }}
+        - name: SCALOCK_DBSSL
+          value: require
+        - name: SCALOCK_AUDIT_DBSSL
+          value: require
+          {{- end }}
+          {{- if .Values.web.encryptionKey }}
+        - name: SCALOCK_ENCRYPTION_KEY
+          value: {{ .Values.web.encryptionKey }}
+          {{- end }}
           {{- if .Values.dockerless }}
         - name: AQUA_DOCKERLESS_SCANNING
           value: "1/0"
