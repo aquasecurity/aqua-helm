@@ -62,6 +62,14 @@ spec:
           value: "1"
         - name: RESTART_CONTAINERS
           value: "no"
+        - name: AQUA_HOST_RUN_PATH
+          value: {{ .Values.hostRunPath }}
+        {{- if .Values.runcInterception }}
+        - name: AQUA_RUNC_INTERCEPTION
+          value: "{{ .Values.runcInterception }}"
+        {{- end }}
+        - name: SENDING_HOST_IMAGES_DISABLED
+          value: "{{ .Values.sendingHostImagesDisables }}"
         volumeMounts:
         - mountPath: /var/run
           name: var-run
@@ -88,7 +96,7 @@ spec:
       volumes:
       - name: var-run
         hostPath:
-          path: /var/run
+          path: {{ .Values.hostRunPath }}
       - name: dev
         hostPath:
           path: /dev
