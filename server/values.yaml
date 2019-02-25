@@ -12,6 +12,8 @@ rbac:
   enabled: true
   roleRef:
 
+privileged: true
+
 admin:
   token:
   password:

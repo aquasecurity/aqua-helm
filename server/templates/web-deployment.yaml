@@ -77,6 +77,8 @@ spec:
           {{- if .Values.db.ssl }}
         - name: SCALOCK_DBSSL
           value: require
+          {{- end }}
+          {{- if .Values.db.auditssl }}
         - name: SCALOCK_AUDIT_DBSSL
           value: require
           {{- end }}
