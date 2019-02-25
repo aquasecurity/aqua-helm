@@ -88,11 +88,11 @@ spec:
           {{- end }}
           {{- if .Values.dockerless }}
         - name: AQUA_DOCKERLESS_SCANNING
-          value: "1/0"
+          value: "1"
         - name: AQUA_PPROF_ENABLED
-          value: "1/0"
+          value: "1"
         - name: DISABLE_IP_BAN
-          value: "1/0"
+          value: "1"
           {{- end }}
         ports:
         - containerPort: 8080

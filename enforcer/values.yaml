@@ -15,7 +15,7 @@ docker:
     path: "/var/run/docker.sock" # pks - /var/vcap/data/sys/run/docker/docker.sock
 
 hostRunPath: "/var/run" # pks - /var/vcap/sys/run/docker
-runcInterception: # pks - true , dockerless - "1/0"
+runcInterception: # pks - true , dockerless - "1" to enable and "0" to not
 sendingHostImagesDisables: false
 
 rbac:
