@@ -64,6 +64,14 @@ spec:
           {{- end }}
         - name: SCALOCK_AUDIT_DBPORT
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
+          {{- if .Values.db.ssl }}
+        - name: SCALOCK_DBSSL
+          value: require
+          {{- end }}
+          {{- if .Values.db.auditssl }}
+        - name: SCALOCK_AUDIT_DBSSL
+          value: require
+          {{- end }}
         ports:
         - containerPort: 3622
           protocol: TCP

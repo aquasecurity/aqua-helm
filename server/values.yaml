@@ -12,6 +12,8 @@ rbac:
   enabled: true
   roleRef:
 
+privileged: true
+
 admin:
   token:
   password:
@@ -36,6 +38,8 @@ db:
     auditPort:
     auditUser:
     auditPassword:
+  ssl: false
+  auditssl: false
   image:
     repository: database
     tag: "4.0"
@@ -107,6 +111,7 @@ web:
   service:
     type: ClusterIP
     externalPort: 8080
+  encryptionKey:
   ingress:
     enabled: false
     annotations: {}
