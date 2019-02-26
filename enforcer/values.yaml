@@ -28,7 +28,7 @@ gate:
 
 image:
   repository: enforcer
-  tag: "4.0"
+  tag: "3.5"
   pullPolicy: IfNotPresent
 
 livenessProbe: {}
