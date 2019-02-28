@@ -6,10 +6,10 @@ kind: PodSecurityPolicy
 metadata:
     name: {{ .Release.Name }}-psp
     labels:
-    app: {{ .Release.Name }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+      app: {{ .Release.Name }}
+      chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+      release: "{{ .Release.Name }}"
+      heritage: "{{ .Release.Service }}"
 spec:
   privileged: {{ .Values.privileged }}
   allowedCapabilities:
