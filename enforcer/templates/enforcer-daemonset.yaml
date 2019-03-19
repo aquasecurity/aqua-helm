@@ -65,7 +65,7 @@ spec:
         - name: AQUA_HOST_RUN_PATH
           value: {{ .Values.hostRunPath }}
         - name: AQUA_RUNC_INTERCEPTION
-          value: {{ .Values.runcInterception }}
+          value: "{{ .Values.runcInterception }}"
         - name: SENDING_HOST_IMAGES_DISABLED
           value: "{{ .Values.sendingHostImagesDisables }}"
         volumeMounts:
