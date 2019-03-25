@@ -25,6 +25,10 @@ spec:
       - name: gate
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ .Values.gate.image.tag }}"
         imagePullPolicy: "{{ .Values.gate.image.pullPolicy }}"
+        {{- if .Values.privileged }}
+        securityContext:
+          privileged: {{ .Values.privileged }}
+        {{- end }}
         env:
         - name: SCALOCK_GATEWAY_PUBLIC_IP
           value: {{ .Values.gate.publicIP | default "aqua-gateway-svc" }}
