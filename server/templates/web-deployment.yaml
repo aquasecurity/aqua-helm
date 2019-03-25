@@ -25,6 +25,10 @@ spec:
       - name: web
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
         imagePullPolicy: "{{ .Values.web.image.pullPolicy }}"
+        {{- if .Values.privileged }}
+        securityContext:
+          privileged: {{ .Values.privileged }}
+        {{- end }}
         env:
         - name: SCALOCK_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
