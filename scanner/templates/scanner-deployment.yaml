@@ -23,7 +23,7 @@ spec:
       serviceAccount: {{ .Values.serviceAccount }}
       containers:
       - name: scanner
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         args:
         - "daemon"

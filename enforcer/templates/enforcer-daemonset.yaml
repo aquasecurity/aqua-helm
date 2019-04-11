@@ -47,11 +47,19 @@ spec:
               - SYS_CHROOT
         {{- end }}
         env:
+        {{- if .Values.enforcerTokenSecretName }}
+        - name: AQUA_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.enforcerTokenSecretName }}
+              key: {{ .Values.enforcerTokenSecretKey }}
+        {{- else }}
         - name: AQUA_TOKEN
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-token
               key: token
+        {{- end }}
         - name: AQUA_SERVER
           value: {{ .Values.gate.host | default "csp-gateway-svc" }}:{{ .Values.gate.port | default "3622" }}
         - name: AQUA_INSTALL_PATH
