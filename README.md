@@ -23,7 +23,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
     - [Console](#console)
     - [Enforcer](#enforcer-1)
     - [Scanner](#scanner-1)
-  - [Issues and feedback](#issues-and-feedback)
+  - [Support](#support)
 
 ## Chart Details
 
@@ -199,7 +199,6 @@ The following table lists the configurable parameters of the Console and Enforce
 | `imageCredentials.name`               | Your Docker pull image secret name    | `csp-registry-secret`                                                                   |
 | `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   |
 | `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`                                                                   |
-| `imageCredentials.email`                  | Your Docker registry (DockerHub, etc.) email    | `N/A`                                                                   |
 | `rbac.enabled`                    | Create a service account and a ClusterRole    | `false`                                                                   |
 | `rbac.roleRef`                    | Use an existing ClusterRole    | ``                                                                   |
 | `admin.token`                    | Use this Aqua license token   | `N/A`                                                                   |
@@ -243,7 +242,6 @@ The following table lists the configurable parameters of the Console and Enforce
 | `imageCredentials.name`               | Your Docker pull image secret name    | `aqua-image-pull-secret`                                                                   |
 | `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   |
 | `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`                                                                   |
-| `imageCredentials.email`                  | Your Docker registry (DockerHub, etc.) email    | `N/A`                                                                   |
 | `enforcerToken`                           | Aqua Enforcer token    | `N/A`                                                     |
 | `server`                          | Gateway host name    | `aqua-gateway`                                                     |
 | `port`                            | Gateway port    | `3622`                                                     |
@@ -251,7 +249,24 @@ The following table lists the configurable parameters of the Console and Enforce
 
 ### Scanner
 
+| Parameter                         | Description                          | Default                                                                      |
+| --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
+| `rbac.enabled`                    | Create a service account and a ClusterRole    | `false`                                                                   |
+| `rbac.roleRef`                    | Use an existing ClusterRole    | ``                                                                   |
+| `admin.token`                    | Use this Aqua license token   | `N/A`                                                                   |
+| `admin.password`                    | Use this Aqua admin password   | `N/A`                                                                  |
+| `docker.socket.path`                    | Docker Socket Path   | `/var/run/docker.sock`                                                                  |
+| `serviceAccount`                    | Service Account to use   | `csp-sa`                                                                  |
+| `server.serviceName`                    | Service name of aqua server ui   | `csp-consul-svc`                                                                  |
+| `server.port`                    | service svc port   | `8080`                                                                  |
+| `docker.socket.path`                    | Docker Socket Path   | `/var/run/docker.sock`                                                                  |
+| `docker.socket.path`                    | Docker Socket Path   | `/var/run/docker.sock`                                                                  |
+| `enabled`                 | Enable the Scanner-CLI component  | `false`                                        |
+| `replicaCount`                | Number of Scanner-CLI replicas to run  | `1`                                        |
+| `user`                | Username for the scanner user assigned to the Scanner role  | `N/A`                                        |
+| `password`                | Password for scanner user  | `N/A`                                        |
 
-## Issues and feedback
 
-If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub.
+## Support
+
+If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub please contact us at https://github.com/aquasecurity.

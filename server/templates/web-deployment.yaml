@@ -32,11 +32,19 @@ spec:
         env:
         - name: SCALOCK_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
+          {{- if .Values.db.passwordSecret }}
+        - name: SCALOCK_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.db.dbPasswordName }}
+              key: {{ .Values.db.dbPasswordKey }}
+          {{- else }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
               key: db-password
+          {{- end }}
         - name: SCALOCK_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.name "scalock" }}
         - name: SCALOCK_DBHOST
@@ -49,11 +57,27 @@ spec:
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
         - name: SCALOCK_AUDIT_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditUser "postgres" }}
+          {{- if .Values.db.passwordSecret }}
+        - name: SCALOCK_AUDIT_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.db.dbAuditPasswordName }}
+              key: {{ .Values.db.dbAuditPasswordKey }}
+          {{- else }}
+          {{- if .Values.db.external.enabled }}
+        - name: SCALOCK_AUDIT_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-database-audit-password
+              key: db-audit-password
+          {{- else }}
         - name: SCALOCK_AUDIT_DBPASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
-              key: db-password
+              key: db-password 
+          {{- end }}
+          {{- end }}
         - name: SCALOCK_AUDIT_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
         - name: SCALOCK_AUDIT_DBHOST
@@ -64,6 +88,13 @@ spec:
           {{- end }}
         - name: SCALOCK_AUDIT_DBPORT
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
+          {{- if .Values.admin.secretname }}
+        - name: LICENSE_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.admin.secretname }}
+              key: {{ .Values.admin.tokenkey }}
+          {{- else }}
           {{- if .Values.admin.token }}
         - name: LICENSE_TOKEN
           valueFrom:
@@ -71,12 +102,21 @@ spec:
               name: {{ .Release.Name }}-console-secrets
               key: license-token
           {{- end }}
+          {{- end }}
+          {{- if .Values.admin.secretname }}
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.admin.secretname }}
+              key: {{ .Values.admin.passwordkey }}
+          {{- else }}
           {{- if .Values.admin.password }}
         - name: ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-console-secrets
               key: admin-password
+          {{- end }}
           {{- end }}
           {{- if .Values.db.ssl }}
         - name: SCALOCK_DBSSL
@@ -104,6 +144,10 @@ spec:
           value: "0"
         - name: DISABLE_IP_BAN
           value: "0"
+          {{- end }}
+          {{- if .Values.clustermode }}
+        - name: CLUSTER_MODE
+          value: "enable"  
           {{- end }}
         ports:
         - containerPort: 8080

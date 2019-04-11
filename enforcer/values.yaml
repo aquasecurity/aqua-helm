@@ -5,14 +5,13 @@ imageCredentials:
   registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
   username: ""
   password: ""
-  email: "example@gmail.com" # example
 
 enforcerToken: ""
-privileged: true
 
-docker:
-  socket:
-    path: "/var/run/docker.sock" # pks - /var/vcap/data/sys/run/docker/docker.sock
+enforcerTokenSecretName: null
+enforcerTokenSecretKey: null
+
+privileged: true
 
 hostRunPath: "/var/run" # pks - /var/vcap/sys/run/docker
 runcInterception: false # pks - true , dockerless - true to enable and false to not

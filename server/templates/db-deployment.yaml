@@ -26,11 +26,19 @@ spec:
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
         imagePullPolicy: "{{ .Values.db.image.pullPolicy }}"
         env:
+          {{- if .Values.db.passwordSecret }}
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.db.dbPasswordName }}
+              key: {{ .Values.db.dbPasswordKey }}
+          {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
               key: db-password
+          {{- end }}
         - name: PGDATA
           value: "/var/lib/postgresql/data/db-files"
         - name: POD_IP

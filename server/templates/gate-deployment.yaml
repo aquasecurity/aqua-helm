@@ -36,11 +36,19 @@ spec:
           value: "0.0.0.0:8082"
         - name: SCALOCK_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
+        {{- if .Values.db.passwordSecret }}
+        - name: SCALOCK_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.db.dbPasswordName }}
+              key: {{ .Values.db.dbPasswordKey }}
+          {{- else }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
               key: db-password
+          {{- end }}
         - name: SCALOCK_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.name "scalock" }}
         - name: SCALOCK_DBHOST
@@ -53,11 +61,27 @@ spec:
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
         - name: SCALOCK_AUDIT_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditUser "postgres" }}
+          {{- if .Values.db.passwordSecret }}
+        - name: SCALOCK_AUDIT_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.db.dbAuditPasswordName }}
+              key: {{ .Values.db.dbAuditPasswordKey }}
+          {{- else }}
+          {{- if .Values.db.external.enabled }}
+        - name: SCALOCK_AUDIT_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-database-audit-password
+              key: db-audit-password
+          {{- else }}
         - name: SCALOCK_AUDIT_DBPASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
-              key: db-password
+              key: db-password 
+          {{- end }}
+          {{- end }}
         - name: SCALOCK_AUDIT_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
         - name: SCALOCK_AUDIT_DBHOST
