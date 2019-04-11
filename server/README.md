@@ -21,7 +21,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
 
 ### Container Registry Credentials
 
-The Aqua server (Console and Gateway) components are available in our private repository, which requires authentication. By default, the charts create a secret based on the values.yaml. 
+The Aqua server (Console and Gateway) components are available in our private repository, which requires authentication. By default, the charts create a secret based on the values.yaml.
 
 First, create a new namespace named "aqua":
 

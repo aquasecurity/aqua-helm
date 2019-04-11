@@ -145,7 +145,7 @@ spec:
         - name: DISABLE_IP_BAN
           value: "0"
           {{- end }}
-          {{- if Values.clustermode }}
+          {{- if .Values.clustermode }}
         - name: CLUSTER_MODE
           value: "enable"  
           {{- end }}
