@@ -14,7 +14,7 @@ enforcerTokenSecretKey: null
 privileged: true
 
 hostRunPath: "/var/run" # pks - /var/vcap/sys/run/docker
-runcInterception: false # pks - true , dockerless - true to enable and false to not
+runcInterception: true 
 sendingHostImagesDisables: false
 
 rbac:
