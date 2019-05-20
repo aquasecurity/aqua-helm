@@ -97,8 +97,6 @@ spec:
           name: aquasec-tmp
         - mountPath: /opt/aquasec/audit
           name: aquasec-audit
-        resources:
-{{ toYaml .Values.resources | indent 10 }}
       volumes:
       - name: var-run
         hostPath:

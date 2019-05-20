@@ -34,11 +34,3 @@ livenessProbe: {}
 readinessProbe: {}
 nodeSelector: {}
 tolerations: []
-
-resources:
-  requests:
-    memory: "150Mi"
-    cpu: "30m"
-  limits:
-    memory: "300Mi"
-    cpu: "60m"
