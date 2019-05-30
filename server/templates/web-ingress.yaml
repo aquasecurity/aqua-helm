@@ -23,7 +23,7 @@ spec:
           paths:
             - path: /
               backend:
-                serviceName: {{ .Release.Name }}-console-svc
+                serviceName: "{{ .Release.Name }}-console-svc"
                 servicePort: {{ $servicePort }}
     {{- end -}}
   {{- if .Values.web.ingress.tls }}
