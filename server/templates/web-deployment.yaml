@@ -128,7 +128,10 @@ spec:
           {{- end }}
           {{- if .Values.web.encryptionKey }}
         - name: SCALOCK_ENCRYPTION_KEY
-          value: {{ .Values.web.encryptionKey }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-encryption-key
+              key: encryption-key
           {{- end }}
           {{- if .Values.dockerless }}
         - name: AQUA_DOCKERLESS_SCANNING

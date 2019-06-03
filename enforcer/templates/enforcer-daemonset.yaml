@@ -64,8 +64,13 @@ spec:
           value: {{ .Values.gate.host | default "csp-gateway-svc" }}:{{ .Values.gate.port | default "3622" }}
         - name: AQUA_INSTALL_PATH
           value: /var/lib/aquasec
+          {{- if .Values.enforcerLogicalName }}
+        - name: AQUA_LOGICAL_NAME
+          value: {{ .Values.enforcerLogicalName }}
+          {{- else }}
         - name: AQUA_LOGICAL_NAME
           value: {{ .Release.Name }}-helm
+          {{- end }}
         - name: AQUA_NETWORK_CONTROL
           value: "1"
         - name: RESTART_CONTAINERS

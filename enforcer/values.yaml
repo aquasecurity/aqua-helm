@@ -10,6 +10,7 @@ enforcerToken: ""
 
 enforcerTokenSecretName: null
 enforcerTokenSecretKey: null
+enforcerLogicalName: 
 
 privileged: true
 
