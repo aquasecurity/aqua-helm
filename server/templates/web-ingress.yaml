@@ -8,7 +8,7 @@ metadata:
   name: {{ .Release.Name }}-console-ingress
   labels:
     app: {{ .Release.Name }}-console-ingress
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- if .Values.web.ingress.annotations }}
@@ -23,7 +23,7 @@ spec:
           paths:
             - path: /
               backend:
-                serviceName: "{{ .Release.Name }}-console-svc"
+                serviceName: {{ $fullname }}-console-svc
                 servicePort: {{ $servicePort }}
     {{- end -}}
   {{- if .Values.web.ingress.tls }}
