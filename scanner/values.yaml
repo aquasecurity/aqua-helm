@@ -9,6 +9,11 @@ server:
   serviceName: "csp-console-svc" # example
   port: 8080
 
+deployment: Deployment
+
+command:
+  - daemon
+
 image:
   repository: scanner
   tag: "4.0"

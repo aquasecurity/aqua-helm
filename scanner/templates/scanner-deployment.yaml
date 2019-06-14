@@ -1,6 +1,6 @@
 ---
 apiVersion: extensions/v1beta1
-kind: Deployment
+kind: {{ .Values.deployment }}
 metadata:
   name: {{ .Release.Name }}-scanner
   labels:
@@ -26,7 +26,9 @@ spec:
         image: "{{ .Values.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         args:
-        - "daemon"
+        {{- range .Values.command }}
+        - {{ . | quote }}
+        {{- end }}
         - "--user"
         - "{{ required "Please specify a username associated with the Scanner role!" .Values.user }}"
         - "--password"

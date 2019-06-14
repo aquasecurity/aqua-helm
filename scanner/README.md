@@ -12,7 +12,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Configurable Variables](#configurable-variables)
     - [Scanner](#scanner)
   - [Support](#support)
-  
+
 ## Installing the Chart
 
 Clone the GitHub repository with the chart
@@ -34,20 +34,15 @@ The following table lists the configurable parameters of the Console and Enforce
 
 | Parameter                         | Description                          | Default                                                                      |
 | --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
-| `rbac.enabled`                    | Create a service account and a ClusterRole    | `false`                                                                   |
-| `rbac.roleRef`                    | Use an existing ClusterRole    | ``                                                                   |
-| `admin.token`                    | Use this Aqua license token   | `N/A`                                                                   |
-| `admin.password`                    | Use this Aqua admin password   | `N/A`                                                                  |
 | `docker.socket.path`                    | Docker Socket Path   | `/var/run/docker.sock`                                                                  |
 | `serviceAccount`                    | Service Account to use   | `csp-sa`                                                                  |
 | `server.serviceName`                    | Service name of aqua server ui   | `csp-consul-svc`                                                                  |
-| `server.port`                    | service svc port   | `8080`                                                                  |
-| `docker.socket.path`                    | Docker Socket Path   | `/var/run/docker.sock`                                                                  |
-| `docker.socket.path`                    | Docker Socket Path   | `/var/run/docker.sock`                                                                  |
-| `enabled`                 | Enable the Scanner-CLI component  | `false`                                        |
+| `server.port`                    | service svc port   | `8080`                                                                  |                                   |
 | `replicaCount`                | Number of Scanner-CLI replicas to run  | `1`                                        |
 | `user`                | Username for the scanner user assigned to the Scanner role  | `N/A`                                        |
 | `password`                | Password for scanner user  | `N/A`                                        |
+| `deployment`                | Deployment Type  | `Deployment`                                        |
+| `command`                | Scanner CLI Command  | `daemon`                                        |
 
 ## Support
 
