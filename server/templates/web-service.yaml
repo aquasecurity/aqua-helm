@@ -17,3 +17,7 @@ spec:
     targetPort: 8080
     protocol: TCP
     name: {{ .Release.Name }}-console
+  - port: 443
+    protocol: TCP
+    targetPort: 8443
+    name: aqua-web-ssl
