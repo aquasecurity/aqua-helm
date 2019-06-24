@@ -80,7 +80,7 @@ scanner.replicas: "Set quantity"
 
 ***This section not all-inclusive. It includes information regarding common issues Aqua has encountered during deployments***
 
-**Error:** UPGRADE/INSTALL FAILED, configmaps is forbidden.
+**Error:** *UPGRADE/INSTALL FAILED*, configmaps is forbidden.
 
   ```sh
   Error: UPGRADE FAILED: configmaps is forbidden: User "system:serviceaccount:kube-system:default" cannot list configmaps in the namespace "kube-system"
