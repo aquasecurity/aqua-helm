@@ -16,6 +16,7 @@ metadata:
 {{ toYaml .Values.web.ingress.annotations | indent 4 }}
 {{- end }}
 spec:
+  {{ if .Values.web.ingress.hosts }}
   rules:
     {{- range $host := (required "A valid .Values.web.ingress.hosts entry required!" .Values.web.ingress.hosts) }}
       - host: {{ $host }}
@@ -26,6 +27,11 @@ spec:
                 serviceName: {{ $fullname }}-console-svc
                 servicePort: {{ $servicePort }}
     {{- end -}}
+  {{ else }}
+  backend:
+    serviceName: {{ $fullname }}-console-svc
+    servicePort: {{ $servicePort }}
+  {{ end }}
   {{- if .Values.web.ingress.tls }}
   tls:
 {{ toYaml .Values.web.ingress.tls | indent 4 }}
