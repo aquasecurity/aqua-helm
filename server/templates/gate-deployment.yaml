@@ -31,7 +31,7 @@ spec:
         {{- end }}
         env:
         - name: AQUA_CONSOLE_SECURE_ADDRESS
-          value: "aqua-web:443"
+          value: "{{ .Release.Name }}-console-svc:443"
         - name: SCALOCK_GATEWAY_PUBLIC_IP
           value: {{ .Values.gate.publicIP | default "aqua-gateway-svc" }}
         - name: HEALTH_MONITOR
