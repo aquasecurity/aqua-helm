@@ -39,6 +39,9 @@ rules:
   resourceNames: [{{ .Release.Name }}-psp]
   resources: ["podsecuritypolicies"]
   verbs: ["use"]
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["list"]
 {{- end }}
 
 ---
