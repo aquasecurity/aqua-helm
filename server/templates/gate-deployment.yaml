@@ -105,6 +105,10 @@ spec:
         ports:
         - containerPort: 3622
           protocol: TCP
+          name: gw-com-port
+        - containerPort: 8082
+          protocol: TCP
+          name: gw-health-port
 {{- with .Values.gate.livenessProbe }}
         livenessProbe:
 {{ toYaml . | indent 10 }}
