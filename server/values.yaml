@@ -94,7 +94,9 @@ gate:
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
-    externalPort: 3622
+    externalcomPort: 3622
+    type: ClusterIP
+    externalhealthPort: 8082
   publicIP: aqua-gateway
   replicaCount: 1
   livenessProbe: {}

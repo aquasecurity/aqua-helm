@@ -13,5 +13,9 @@ spec:
   selector:
     app: {{ .Release.Name }}-gateway
   ports:
-  - port: {{ .Values.gate.service.externalPort }}
+  - port: {{ .Values.gate.service.externalcomPort }}
     targetPort: 3622
+    name: communication-port
+  - port: {{ .Values.gate.service.externalhealthPort }}
+    targetPort: 8082
+    name: health-probe-port
