@@ -15,3 +15,4 @@ spec:
   ports:
   - port: {{ .Values.gate.service.externalPort }}
     targetPort: 3622
+  - port: 8443

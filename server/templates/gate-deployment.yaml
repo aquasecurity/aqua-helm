@@ -105,6 +105,8 @@ spec:
         ports:
         - containerPort: 3622
           protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
 {{- with .Values.gate.livenessProbe }}
         livenessProbe:
 {{ toYaml . | indent 10 }}

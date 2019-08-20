@@ -155,6 +155,8 @@ spec:
         ports:
         - containerPort: 8080
           protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
 {{- with .Values.web.livenessProbe }}
         livenessProbe:
 {{ toYaml . | indent 10 }}
