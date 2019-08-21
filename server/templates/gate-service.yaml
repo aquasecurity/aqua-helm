@@ -15,4 +15,9 @@ spec:
   ports:
   - port: {{ .Values.gate.service.externalPort }}
     targetPort: 3622
+    protocol: TCP
+    name: aqua-gate
   - port: 8443
+    protocol: TCP
+    targetPort: 8443
+    name: aqua-gate-ssl
