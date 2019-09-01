@@ -25,10 +25,6 @@ spec:
       - name: gate
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ .Values.gate.image.tag }}"
         imagePullPolicy: "{{ .Values.gate.image.pullPolicy }}"
-        {{- if .Values.privileged }}
-        securityContext:
-          privileged: {{ .Values.privileged }}
-        {{- end }}
         env:
         - name: AQUA_CONSOLE_SECURE_ADDRESS
           value: "{{ .Release.Name }}-console-svc:443"
