@@ -9,9 +9,9 @@ imageCredentials:
 
 rbac:
   enabled: true
+  privileged: true
   roleRef:
 
-privileged: true
 clustermode: false
 
 admin:
