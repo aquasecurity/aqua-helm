@@ -1,5 +1,6 @@
 # Specifies the secret data for imagePullSecrets needed to fetch the private docker images
 imageCredentials:
+  use: true
   create: true
   name: csp-registry-secret # example
   repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"

@@ -1,4 +1,5 @@
 imageCredentials:
+  use: true
   create: false
   name: csp-registry-secret # When create is false please specify
   repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
