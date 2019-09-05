@@ -39,7 +39,7 @@ and then run aquactl deploy command with interactive interface or one line comma
 ./aquactl deploy csp -p eks --marketplace
 ```
 
-with external database
+**Or** with external database
 
 DB_HOST - External database IP or DNS
 DB_PORT - External database port
@@ -75,7 +75,7 @@ cd aqua-helm; helm install --namespace aqua --name csp./server \
     --set imageCredentials.repositoryUriPrefix=117940112483.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.registry=117940112483.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.create=false,imageCredentials.use=false,db.image.repository=marketplace-database,db.image.tag=4.2.19233-latest,db.persistence.storageClass=gp2,gate.image.repository=marketplace-gateway,gate.image.tag=4.2.19233-latest,web.image.repository=marketplace-console,web.image.tag=4.2.19233-latest,web.service.type=LoadBalancer
 ```
 
-with external database
+**Or** with external database
 
 DB_HOST - External database IP or DNS
 DB_PORT - External database port
