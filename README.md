@@ -229,7 +229,7 @@ The following table lists the configurable parameters of the Console and Enforce
 | `gate.image.tag`                    | Default Gate Docker image tag    | `4.2`                                        |
 | `gate.publicIP`                    | Default Gate service public IP    | ``                                        |
 | `scanner.enabled`                 | Enable the Scanner-CLI component  | `false`                                        |
-| `scanner.replicas`                | Number of Scanner-CLI replicas to run  | `1`                                        |
+| `scanner.replicaCount`                | Number of Scanner-CLI replicas to run  | `1`                                        |
 | `scanner.user`                | Username for the scanner user assigned to the Scanner role  | `N/A`                                        |
 | `scanner.password`                | Password for scanner user  | `N/A`                                        |
 
