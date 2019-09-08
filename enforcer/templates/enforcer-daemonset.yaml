@@ -102,6 +102,16 @@ spec:
           name: aquasec-tmp
         - mountPath: /opt/aquasec/audit
           name: aquasec-audit
+{{- with .Values.livenessProbe }}
+        livenessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- with .Values.readinessProbe }}
+        readinessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
       volumes:
       - name: var-run
         hostPath:
