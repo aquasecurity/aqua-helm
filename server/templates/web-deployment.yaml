@@ -148,6 +148,18 @@ spec:
         - name: CLUSTER_MODE
           value: "enable"  
           {{- end }}
+          {{- if .Values.web.proxy.httpProxy }}
+        - name: http_proxy
+          value: {{ .Values.web.proxy.httpProxy }}
+          {{- end }}
+          {{- if .Values.web.proxy.httpsProxy }}
+        - name: https_proxy
+          value: {{ .Values.web.proxy.httpsProxy }}
+          {{- end }}
+          {{- if .Values.web.proxy.noProxy }}
+        - name: no_proxy
+          value: {{ .Values.web.proxy.noProxy }}
+          {{- end }}
         ports:
         - containerPort: 8080
           protocol: TCP
