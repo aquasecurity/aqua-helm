@@ -63,7 +63,7 @@ spec:
         - name: AQUA_SERVER
           value: {{ .Values.gate.host | default "csp-gateway-svc" }}:{{ .Values.gate.port | default "3622" }}
         - name: AQUA_INSTALL_PATH
-          value: /opt/aquasec
+          value: /var/lib/aquasec
           {{- if .Values.enforcerLogicalName }}
         - name: AQUA_LOGICAL_NAME
           value: {{ .Values.enforcerLogicalName }}
