@@ -40,11 +40,11 @@ spec:
               key: db-password
           {{- end }}
         - name: PGDATA
-          value: "/var/lib/postgresql/data/db-files"
+          value: "/opt/postgresql/data/db-files"
         - name: POD_IP
           valueFrom: { fieldRef: { fieldPath: status.podIP } }
         volumeMounts:
-        - mountPath: /var/lib/postgresql/data
+        - mountPath: /opt/postgresql/data
           name: postgres-database
         ports:
         - containerPort: 5432

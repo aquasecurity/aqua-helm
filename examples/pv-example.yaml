@@ -11,4 +11,4 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/var/lib/aqua/data/database/"
+    path: "/opt/aqua/data/database/"
