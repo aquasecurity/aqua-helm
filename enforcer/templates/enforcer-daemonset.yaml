@@ -130,13 +130,13 @@ spec:
           path: /etc
       - name: aquasec
         hostPath:
-          path: /opt/aquasec
+          path: /var/lib/aquasec
       - name: aquasec-tmp
         hostPath:
-          path: /opt/aquasec/tmp
+          path: /var/lib/aquasec/tmp
       - name: aquasec-audit
         hostPath:
-          path: /opt/aquasec/audit
+          path: /var/lib/aquasec/audit
       {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
