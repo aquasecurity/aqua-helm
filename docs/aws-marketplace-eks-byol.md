@@ -69,10 +69,19 @@ AQUA_PASSWORD - Aqua console password
 
 ### Helm
 
+## Installing the Charts
+
+Clone the GitHub repository with the charts
+
+```bash
+git clone https://github.com/aquasecurity/aqua-helm.git
+cd aqua-helm/
+```
+
 * **Server**:
 ```bash
-cd aqua-helm; helm install --namespace aqua --name csp./server \
-    --set imageCredentials.repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.registry=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.create=false,imageCredentials.use=false,db.image.repository=marketplace-database,db.image.tag=4.2.19233-latest,db.persistence.storageClass=gp2,gate.image.repository=marketplace-gateway,gate.image.tag=4.2.19233-latest,web.image.repository=marketplace-console,web.image.tag=4.2.19233-latest,web.service.type=LoadBalancer
+helm install --namespace aqua --name csp ./server \
+    --set imageCredentials.repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.registry=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.create=false,imageCredentials.use=false,db.image.repository=marketplace-database,db.image.tag=4.2-latest,db.persistence.storageClass=gp2,gate.image.repository=marketplace-gateway,gate.image.tag=4.2-latest,web.image.repository=marketplace-console,web.image.tag=4.2-latest,web.service.type=LoadBalancer
 ```
 
 **Or** with external database
@@ -83,8 +92,8 @@ DB_USERNAME - External database username
 DB_PASSWORD - External database password
 
 ```bash
-cd aqua-helm; helm install --namespace aqua --name csp./server \
-    --set imageCredentials.repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.registry=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.create=false,imageCredentials.use=false,db.external.enabled=true,db.external.name=scalock,db.external.host=<DB_HOST>,db.external.port=<DB_PORT>,db.external.user=<DB_USER>,db.external.password=<DB_PASSWORD>,db.external.auditName=slk_audit,db.external.auditHost=<DB_HOST>,db.external.auditPort=<DB_PORT>,db.external.auditUser=<DB_USER>,db.external.auditPassword=<DB_PASSWORD>,gate.image.repository=marketplace-gateway,gate.image.tag=4.2.19233-latest,web.image.repository=marketplace-console,web.image.tag=4.2.19233-latest,web.service.type=LoadBalancer
+helm install --namespace aqua --name csp ./server \
+    --set imageCredentials.repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.registry=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.create=false,imageCredentials.use=false,db.external.enabled=true,db.external.name=scalock,db.external.host=<DB_HOST>,db.external.port=<DB_PORT>,db.external.user=<DB_USER>,db.external.password=<DB_PASSWORD>,db.external.auditName=slk_audit,db.external.auditHost=<DB_HOST>,db.external.auditPort=<DB_PORT>,db.external.auditUser=<DB_USER>,db.external.auditPassword=<DB_PASSWORD>,gate.image.repository=marketplace-gateway,gate.image.tag=4.2-latest,web.image.repository=marketplace-console,web.image.tag=4.2-latest,web.service.type=LoadBalancer
 ```
 
 * **Enforcer**:
@@ -92,8 +101,8 @@ cd aqua-helm; helm install --namespace aqua --name csp./server \
 ENFORCER_TOKEN - Enforcer group token
 
 ```bash
-cd aqua-helm; helm install --namespace aqua --name csp-enforcer ./enforcer \
-    --set imageCredentials.repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.registry=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.create=false,imageCredentials.use=false,enforcerToken=<TOKEN>,gate.host=csp-gateway-svc,image.repository=marketplace-enforcer,image.tag=4.2.19233-latest
+helm install --namespace aqua --name csp-enforcer ./enforcer \
+    --set imageCredentials.repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.registry=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.create=false,imageCredentials.use=false,enforcerToken=<TOKEN>,gate.host=csp-gateway-svc,image.repository=marketplace-enforcer,image.tag=4.2-latest
 ```
 
 * **Scanner**:
@@ -102,6 +111,23 @@ AQUA_USERNAME - Aqua console username
 AQUA_PASSWORD - Aqua console password
 
 ```bash
-cd aqua-helm; helm install --namespace aqua --name csp-scanner ./scanner \
-    --set imageCredentials.repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,image.repository=marketplace-scanner,image.tag=4.2.19233-latest,user=<AQUA_USERNAME>,password=<AQUA_PASSWORD>,serviceAccount=csp-sa,server.serviceName=csp-console-svc
+helm install --namespace aqua --name csp-scanner ./scanner \
+    --set imageCredentials.repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,image.repository=marketplace-scanner,image.tag=4.2-latest,user=<AQUA_USERNAME>,password=<AQUA_PASSWORD>,serviceAccount=csp-sa,server.serviceName=csp-console-svc
 ```
+
+### Helm Customizations / Troubleshooting
+
+***This section not all-inclusive. It includes information regarding common issues Aqua has encountered during deployments***
+
+**Error:** 
+
+  ```sh
+  Error: secrets "csp-database-password" is forbidden: User "system:serviceaccount:kube-system:default" cannot delete resource "secrets" in API group "" in the namespace "aqua"
+  ```
+
+**Solution:** Create a service account for Tiller to utilize.
+  ```sh
+  kubectl create serviceaccount --namespace kube-system tiller
+  kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+  kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+  helm init --service-account tiller --upgrade
