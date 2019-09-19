@@ -74,15 +74,16 @@ AQUA_PASSWORD - Aqua console password
 Clone the GitHub repository with the charts
 
 ```bash
-git clone https://github.com/aquasecurity/aqua-helm.git
+git clone -b 4.2 https://github.com/aquasecurity/aqua-helm.git
 cd aqua-helm/
 ```
 
 * **Server**:
 ```bash
 helm install --namespace aqua --name csp ./server \
-    --set imageCredentials.repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.registry=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.create=false,imageCredentials.use=false,db.image.repository=marketplace-database,db.image.tag=4.2-latest,db.persistence.storageClass=gp2,gate.image.repository=marketplace-gateway,gate.image.tag=4.2-latest,web.image.repository=marketplace-console,web.image.tag=4.2-latest,web.service.type=LoadBalancer
+    --set imageCredentials.repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-3563552377,imageCredentials.registry=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-3563552377,imageCredentials.create=false,imageCredentials.use=false,db.image.repository=marketplace-database,db.image.tag=4.2-latest,db.persistence.storageClass=gp2,gate.image.repository=marketplace-gateway,gate.image.tag=4.2-latest,web.image.repository=marketplace-console,web.image.tag=4.2-latest,web.service.type=LoadBalancer
 ```
+
 
 **Or** with external database
 
@@ -93,7 +94,13 @@ DB_PASSWORD - External database password
 
 ```bash
 helm install --namespace aqua --name csp ./server \
-    --set imageCredentials.repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.registry=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.create=false,imageCredentials.use=false,db.external.enabled=true,db.external.name=scalock,db.external.host=<DB_HOST>,db.external.port=<DB_PORT>,db.external.user=<DB_USER>,db.external.password=<DB_PASSWORD>,db.external.auditName=slk_audit,db.external.auditHost=<DB_HOST>,db.external.auditPort=<DB_PORT>,db.external.auditUser=<DB_USER>,db.external.auditPassword=<DB_PASSWORD>,gate.image.repository=marketplace-gateway,gate.image.tag=4.2-latest,web.image.repository=marketplace-console,web.image.tag=4.2-latest,web.service.type=LoadBalancer
+    --set imageCredentials.repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-3563552377,imageCredentials.registry=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-3563552377,imageCredentials.create=false,imageCredentials.use=false,db.external.enabled=true,db.external.name=scalock,db.external.host=<DB_HOST>,db.external.port=<DB_PORT>,db.external.user=<DB_USER>,db.external.password=<DB_PASSWORD>,db.external.auditName=slk_audit,db.external.auditHost=<DB_HOST>,db.external.auditPort=<DB_PORT>,db.external.auditUser=<DB_USER>,db.external.auditPassword=<DB_PASSWORD>,gate.image.repository=marketplace-gateway,gate.image.tag=4.2-latest,web.image.repository=marketplace-console,web.image.tag=4.2-latest,web.service.type=LoadBalancer
+```
+
+
+Get aqua console address
+```
+kubectl get svc csp-console-svc -n aqua
 ```
 
 * **Enforcer**:
@@ -102,7 +109,7 @@ ENFORCER_TOKEN - Enforcer group token
 
 ```bash
 helm install --namespace aqua --name csp-enforcer ./enforcer \
-    --set imageCredentials.repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.registry=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,imageCredentials.create=false,imageCredentials.use=false,enforcerToken=<TOKEN>,gate.host=csp-gateway-svc,image.repository=marketplace-enforcer,image.tag=4.2-latest
+    --set imageCredentials.repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-3563552377,imageCredentials.registry=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-3563552377,imageCredentials.create=false,imageCredentials.use=false,enforcerToken=<TOKEN>,gate.host=csp-gateway-svc,image.repository=marketplace-enforcer,image.tag=4.2-latest
 ```
 
 * **Scanner**:
@@ -112,7 +119,7 @@ AQUA_PASSWORD - Aqua console password
 
 ```bash
 helm install --namespace aqua --name csp-scanner ./scanner \
-    --set imageCredentials.repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-4171980317,image.repository=marketplace-scanner,image.tag=4.2-latest,user=<AQUA_USERNAME>,password=<AQUA_PASSWORD>,serviceAccount=csp-sa,server.serviceName=csp-console-svc
+    --set repositoryUriPrefix=709373726912.dkr.ecr.us-east-1.amazonaws.com/62da55d2-e19f-4d6d-b78f-4957796d2480/cg-3563552377,image.repository=marketplace-scanner,image.tag=4.2-latest,user=<AQUA_USERNAME>,password=<AQUA_PASSWORD>,serviceAccount=csp-sa,server.serviceName=csp-console-svc
 ```
 
 ### Helm Customizations / Troubleshooting
