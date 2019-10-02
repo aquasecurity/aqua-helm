@@ -34,11 +34,18 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
+    rbac.example.com/aggregate-to-monitoring: "true"
 rules:
 - apiGroups: ["extensions"]
   resourceNames: [{{ .Release.Name }}-psp]
   resources: ["podsecuritypolicies"]
   verbs: ["use"]
+- apiGroups: [""]
+  resources: ["nodes", "services", "endpoints", "pods", "deployments", "namespaces","componentstatuses"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["rbac.authorization.k8s.io"]
+  resources: ["*"]
+  verbs: ["get", "list", "watch"]
 {{- end }}
 
 ---
