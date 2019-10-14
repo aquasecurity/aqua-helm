@@ -243,7 +243,7 @@ The following table lists the configurable parameters of the Console and Enforce
 | `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   |
 | `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`                                                                   |
 | `enforcerToken`                           | Aqua Enforcer token    | `N/A`                                                     |
-| `server`                          | Gateway host name    | `aqua-gateway`                                                     |
+| `server`                          | Gateway host name    | `csp-gateway-svc`                                                     |
 | `port`                            | Gateway port    | `3622`                                                     |
 
 
