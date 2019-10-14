@@ -53,6 +53,7 @@ db:
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
+    annotations: {}
   persistence:
     enabled: true
     storageClass:
@@ -95,6 +96,7 @@ gate:
   service:
     type: ClusterIP
     externalPort: 3622
+    annnotations: {}
   publicIP: aqua-gateway
   replicaCount: 1
   livenessProbe: {}
@@ -118,6 +120,7 @@ web:
   service:
     type: ClusterIP
     externalPort: 8080
+    annnotations: {}
   encryptionKey:
   ingress:
     enabled: false

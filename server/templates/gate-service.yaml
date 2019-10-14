@@ -3,6 +3,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-gateway-svc
+  {{- with .Values.gate.service.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
   labels:
     app: {{ .Release.Name }}-gateway
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
