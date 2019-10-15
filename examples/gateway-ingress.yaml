@@ -1,0 +1,33 @@
+{{- if .Values.gateway.ingress.enabled -}}
+{{- $fullname := .Release.Name -}}
+{{- $servicePort := .Values.gateway.service.externalcomPort -}}
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-gateway-ingress
+  labels:
+    app: {{ .Release.Name }}-gateway-ingress
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+{{- if .Values.gateway.ingress.annotations }}
+  annotations:
+{{ toYaml .Values.gateway.ingress.annotations | indent 4 }}
+{{- end }}
+spec:
+  rules:
+    {{- range $host := (required "A valid .Values.gateway.ingress.hosts entry required!" .Values.gateway.ingress.hosts) }}
+      - host: {{ $host }}
+        http:
+          paths:
+            - path: /
+              backend:
+                serviceName: {{ $fullname }}-gateway-svc
+                servicePort: {{ $servicePort }}
+    {{- end -}}
+  {{- if .Values.gateway.ingress.tls }}
+  tls:
+{{ toYaml .Values.gayeway.ingress.tls | indent 4 }}
+  {{- end -}}
+{{- end -}}

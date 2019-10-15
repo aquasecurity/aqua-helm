@@ -98,6 +98,16 @@ gate:
     type: ClusterIP
     externalhealthPort: 8082
   publicIP: aqua-gateway
+  #ingress:
+    #enabled: false
+    #annotations: {}
+    #  kubernetes.io/ingress.class: nginx
+    #hosts: #REQUIRED
+    #- aquasec-test.example.com
+    #tls: []
+    #  - secretName: aquasec-tls
+    #    hosts:
+    #      - aquasec.domain.com
   replicaCount: 1
   livenessProbe: {}
   readinessProbe: {}
