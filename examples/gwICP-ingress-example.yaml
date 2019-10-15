@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+    ingress.kubernetes.io/add-base-url: "true"
+  name: aqua-gateway
+  namespace: aqua
+spec:
+  rules:
+  - TCP:
+      paths:
+      - backend:
+          serviceName: csp-gateway-svc
+          servicePort: 3622
+        path: /
+status:
+  loadBalancer:
+    ingress:
+    - ip: 192.168.27.101
