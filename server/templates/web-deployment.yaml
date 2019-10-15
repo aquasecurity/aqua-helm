@@ -1,5 +1,5 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-console
@@ -10,6 +10,9 @@ metadata:
     heritage: "{{ .Release.Service }}"
 spec:
   replicas: {{ .Values.web.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-console
   template:
     metadata:
       annotations:
@@ -160,6 +163,8 @@ spec:
         - name: no_proxy
           value: {{ .Values.web.proxy.noProxy }}
           {{- end }}
+        - name: AQUA_CONSOLE_RAW_SCAN_RESULTS_STORAGE_SIZE
+          value: {{ .Values.web.persistence.size | quote }}
         ports:
         - containerPort: 8080
           protocol: TCP
@@ -176,6 +181,8 @@ spec:
         volumeMounts:
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
+        - mountPath: /opt/aquasec/raw-scan-results
+          name: aqua-web-pvc
         resources:
 {{ toYaml .Values.web.resources | indent 12 }}
       {{- with .Values.web.nodeSelector }}
@@ -194,3 +201,6 @@ spec:
       - name: docker-socket-mount
         hostPath:
           path: {{ .Values.docker.socket.path }}
+      - name: aqua-web-pvc
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-web-pvc

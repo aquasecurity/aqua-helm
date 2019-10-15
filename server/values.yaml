@@ -132,6 +132,10 @@ web:
   replicaCount: 1
   livenessProbe: {}
   readinessProbe: {}
+  persistence:
+    storageClass:
+    size: 4
+    accessMode: ReadWriteOnce
   resources:
     requests:
       cpu: 0.1

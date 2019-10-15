@@ -1,6 +1,6 @@
 {{- if not .Values.db.external.enabled }}
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-database
@@ -10,6 +10,9 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-database
   template:
     metadata:
       annotations:
