@@ -169,6 +169,8 @@ cd aqua-helm/
 
 ***Optional*** Update the Helm charts values.yaml file with your environment's custom values. This eliminates the need to pass the parameters to the helm command. Then run one of the commands below to install the relevant services.
 
+***Optional*** For more stability, either [download a tagged release](https://github.com/aquasecurity/aqua-helm/releases) or use git checkout to a tagged release. 
+
 ### Server (console)
 
 ```bash
