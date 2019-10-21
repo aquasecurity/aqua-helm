@@ -56,7 +56,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: {{ .Release.Name }}-sa
-    namespace: aqua
+    namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
   apiGroup: rbac.authorization.k8s.io
