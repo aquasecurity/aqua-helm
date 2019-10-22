@@ -11,7 +11,7 @@ server:
 
 image:
   repository: scanner
-  tag: "4.2"
+  tag: "4.5"
   pullPolicy: IfNotPresent
 
 user:

@@ -49,7 +49,7 @@ db:
   auditssl: false
   image:
     repository: database
-    tag: "4.2"
+    tag: "4.5"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -90,7 +90,7 @@ db:
 gate:
   image:
     repository: gateway
-    tag: "4.2"
+    tag: "4.5"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -114,7 +114,7 @@ gate:
 web:
   image:
     repository: console
-    tag: "4.2"
+    tag: "4.5"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -157,7 +157,7 @@ scanner:
   enabled: false
   image:
     repository: scanner
-    tag: "4.2"
+    tag: "4.5"
     pullPolicy: IfNotPresent
   user:
   password:
