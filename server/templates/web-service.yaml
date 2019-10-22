@@ -17,6 +17,9 @@ spec:
     targetPort: 8080
     protocol: TCP
     name: {{ .Release.Name }}-console
+  {{- if and (eq .Values.web.service.type "NodePort") (.Values.web.service.nodePort) }}
+    nodePort: {{ .Values.web.service.nodePort }}
+  {{- end }}
   - port: 443
     protocol: TCP
     targetPort: 8443

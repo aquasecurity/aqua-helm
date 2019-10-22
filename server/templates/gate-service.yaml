@@ -17,6 +17,9 @@ spec:
     targetPort: 3622
     protocol: TCP
     name: aqua-gate
+  {{- if and (eq .Values.gate.service.type "NodePort") (.Values.gate.service.nodePort) }}
+    nodePort: {{ .Values.gate.service.nodePort }}
+  {{- end }}
   - port: 8443
     protocol: TCP
     targetPort: 8443

@@ -95,6 +95,7 @@ gate:
   service:
     type: ClusterIP
     externalPort: 3622
+    nodePort:
   publicIP: aqua-gateway
   replicaCount: 1
   livenessProbe: {}
@@ -118,6 +119,7 @@ web:
   service:
     type: ClusterIP
     externalPort: 8080
+    nodePort:
   encryptionKey:
   ingress:
     enabled: false
