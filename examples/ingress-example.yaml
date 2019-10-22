@@ -5,7 +5,6 @@ metadata:
     ingress.kubernetes.io/rewrite-target: /
     ingress.kubernetes.io/add-base-url: "true"
   name: aqua-console
-  namespace: aqua
 spec:
   rules:
   - http:
