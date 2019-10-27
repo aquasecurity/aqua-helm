@@ -49,7 +49,7 @@ db:
   auditssl: false
   image:
     repository: database
-    tag: "4.2"
+    tag: "4.5"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -91,12 +91,13 @@ db:
 gate:
   image:
     repository: gateway
-    tag: "4.2"
+    tag: "4.5"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
     externalPort: 3622
     annnotations: {}
+    nodePort:
   publicIP: aqua-gateway
   replicaCount: 1
   livenessProbe: {}
@@ -115,12 +116,13 @@ gate:
 web:
   image:
     repository: console
-    tag: "4.2"
+    tag: "4.5"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
     externalPort: 8080
     annnotations: {}
+    nodePort:
   encryptionKey:
   ingress:
     enabled: false
@@ -135,6 +137,10 @@ web:
   replicaCount: 1
   livenessProbe: {}
   readinessProbe: {}
+  persistence:
+    storageClass:
+    size: 4
+    accessMode: ReadWriteOnce
   resources:
     requests:
       cpu: 0.1
@@ -154,7 +160,7 @@ scanner:
   enabled: false
   image:
     repository: scanner
-    tag: "4.2"
+    tag: "4.5"
     pullPolicy: IfNotPresent
   user:
   password:
