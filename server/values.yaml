@@ -135,6 +135,7 @@ web:
   livenessProbe: {}
   readinessProbe: {}
   persistence:
+    enabled: true
     storageClass:
     size: 4
     accessMode: ReadWriteOnce
