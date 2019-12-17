@@ -224,6 +224,10 @@ The following table lists the configurable parameters of the Console and Enforce
 | `web.ingress.annotations`         | Web ingress annotations  | `{}`                                        |
 | `web.ingress.hosts`               | Web ingress hosts definition  | `[]`                                        |
 | `web.ingress.tls`                 | Web ingress tls  | `[]`                                        |
+| `web.persistence.enabled` |   enable presistence volume for fast scanning cache | `true` |
+| `web.persistence.storageClass` |   define the storage class if you don't want to use the default storage class | `` |
+| `web.persistence.size` |   size of the presistence volume in Gi | `4` |
+| `web.persistence.accessMode` |   access mode of the presistence volume | `ReadWriteOnce` |
 | `gate.service.type`                | Gate service type  | `ClusterIP`                                        |
 | `gate.image.repository`                   | Default Gate Docker image repository    | `gate`                                        |
 | `gate.image.tag`                    | Default Gate Docker image tag    | `4.5`                                        |
