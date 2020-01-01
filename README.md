@@ -35,6 +35,37 @@ This repository includes two charts that may be deployed separately:
 
 ## Prerequisites
 
+### Add Aqua Helm Repository
+
+First, you need to add the Aqua Helm repository to your local Helm repos, instead of cloning this aqua-helm source code repository, by executing the following command:
+
+```bash 
+helm repo add aqua-helm http://helm.aquasec.com
+```
+
+* Search for all components of the latest version in our Aqua Helm repository
+
+```bash
+helm search aqua-helm/
+```
+
+Example output:
+
+```text 
+NAME                  CHART VERSION		    APP VERSION		      DESCRIPTION
+aqua-helm/enforcer    4.5.0        			  4.5        				  A Helm chart for the Aqua Enforcer
+aqua-helm/scanner 	  4.5.0        			  4.5        				  A Helm chart for the aqua scanner cli component
+aqua-helm/server  	  4.5.0        			  4.5        				  A Helm chart for the Aqua Console Componants
+```
+
+* Search for all components of a specific version in our Aqua Helm repository
+
+Example: for Version 4.2
+
+```bash 
+helm search aqua-helm/ -v 4.2
+```
+
 ### Container Registry Credentials
 
 The Aqua server (Console and Gateway) components are available in our private repository, which requires authentication. By default, the charts create a secret based on the values.yaml. 
