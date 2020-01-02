@@ -53,9 +53,9 @@ Example output:
 
 ```text 
 NAME                  CHART VERSION		    APP VERSION		      DESCRIPTION
-aqua-helm/enforcer    4.5.0        			  4.5        				  A Helm chart for the Aqua Enforcer
-aqua-helm/scanner 	  4.5.0        			  4.5        				  A Helm chart for the aqua scanner cli component
-aqua-helm/server  	  4.5.0        			  4.5        				  A Helm chart for the Aqua Console Componants
+aqua-helm/enforcer    4.6.0        			  4.6        				  A Helm chart for the Aqua Enforcer
+aqua-helm/scanner 	  4.6.0        			  4.6        				  A Helm chart for the aqua scanner cli component
+aqua-helm/server  	  4.6.0        			  4.6        				  A Helm chart for the Aqua Console Componants
 ```
 
 * Search for all components of a specific version in our Aqua Helm repository
@@ -241,7 +241,7 @@ The following table lists the configurable parameters of the Console and Enforce
 | `db.external.user`                | PostgreSQL DB username    | `N/A`                                        |
 | `db.external.password`            | PostgreSQL DB password    | `N/A`                                        |
 | `db.image.repository`                   | Default PostgreSQL Docker image repository    | `database`                                        |
-| `db.image.tag`                    | Default PostgreSQL Docker image tag    | `4.5`                                        |
+| `db.image.tag`                    | Default PostgreSQL Docker image tag    | `4.6`                                        |
 | `db.service.type`                      | Default PostgreSQL service type    | `ClusterIP`                                        |
 | `db.persistence.enabled`          | Enable a use of a PostgreSQL PVC    | `true`                                        |
 | `db.persistence.storageClass`     | PostgreSQL PVC StorageClass   | `default`                                        |
@@ -251,7 +251,7 @@ The following table lists the configurable parameters of the Console and Enforce
 | `web.service.type`                | Web service type  | `ClusterIP`                                        |
 | `web.ingress.enabled`             | Install ingress for the web component  | `false`                                        |
 | `web.image.repository`                   | Default Web Docker image repository    | `server`                                        |
-| `web.image.tag`                    | Default Web Docker image tag    | `4.5`                                        |
+| `web.image.tag`                    | Default Web Docker image tag    | `4.6`                                        |
 | `web.ingress.annotations`         | Web ingress annotations  | `{}`                                        |
 | `web.ingress.hosts`               | Web ingress hosts definition  | `[]`                                        |
 | `web.ingress.tls`                 | Web ingress tls  | `[]`                                        |
@@ -261,7 +261,7 @@ The following table lists the configurable parameters of the Console and Enforce
 | `web.persistence.accessMode` |   access mode of the presistence volume | `ReadWriteOnce` |
 | `gate.service.type`                | Gate service type  | `ClusterIP`                                        |
 | `gate.image.repository`                   | Default Gate Docker image repository    | `gate`                                        |
-| `gate.image.tag`                    | Default Gate Docker image tag    | `4.5`                                        |
+| `gate.image.tag`                    | Default Gate Docker image tag    | `4.6`                                        |
 | `gate.publicIP`                    | Default Gate service public IP    | ``                                        |
 | `scanner.enabled`                 | Enable the Scanner-CLI component  | `false`                                        |
 | `scanner.replicaCount`                | Number of Scanner-CLI replicas to run  | `1`                                        |
