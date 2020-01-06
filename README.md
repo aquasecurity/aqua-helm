@@ -60,10 +60,10 @@ aqua-helm/server  	  4.6.0        			  4.6        				  A Helm chart for the Aqu
 
 * Search for all components of a specific version in our Aqua Helm repository
 
-Example: for Version 4.2
+Example: for Version 4.6
 
 ```bash 
-helm search aqua-helm/ -v 4.2
+helm search aqua-helm/ -v 4.6
 ```
 
 ### Container Registry Credentials
