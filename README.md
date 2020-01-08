@@ -45,8 +45,13 @@ helm repo add aqua-helm http://helm.aquasec.com
 
 * Search for all components of the latest version in our Aqua Helm repository
 
-```bash
+```bash 
 helm search aqua-helm/
+```
+
+for helm 3.x
+```bash
+helm search repo aqua-helm
 ```
 
 Example output:
@@ -64,6 +69,18 @@ Example: for Version 4.6
 
 ```bash 
 helm search aqua-helm/ -v 4.6
+```
+
+for helm 3.x
+```bash
+helm search repo aqua-helm --version 4.6
+```
+
+* Search for all components:
+
+for helm 3.x
+```bash
+helm search repo aqua-helm --versions
 ```
 
 ### Container Registry Credentials
