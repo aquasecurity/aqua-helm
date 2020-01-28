@@ -2,7 +2,7 @@
 
 # Aqua Security Helm Charts
 
-This topic contains Helm charts and instructions for the deployment and maintenance of Aqua Cloud Native Security (CSP). 
+This topic contains Helm charts and instructions for the deployment and maintenance of Aqua Cloud Native Security (CSP).
 
 CSP deployments include the following components:
 - Server (Console, Database, and Gateway)
@@ -32,7 +32,7 @@ CSP deployments include the following components:
 - [Troubleshooting](#troubleshooting)
 - [Support](#support)
 
-## Helm charts 
+## Helm charts
 
 This repository includes three charts that may be deployed separately:
 
@@ -48,14 +48,14 @@ Follow the steps in this section.
 
 First, you need to add the Aqua Helm repository to your local Helm repos, instead of cloning this aqua-helm source code repository, by executing the following command:
 
-```bash 
-helm repo add aqua-helm http://helm.aquasec.com
+```bash
+helm repo add aqua-helm https://helm.aquasec.com
 ```
 
 * Search for all components of the latest version in our Aqua Helm repository
 
-```bash 
-helm search aqua-helm/
+```bash
+helm search aqua-helm
 ```
 
 for helm 3.x
@@ -65,7 +65,7 @@ helm search repo aqua-helm
 
 Example output:
 
-```csv 
+```csv
 NAME                  CHART VERSION		    APP VERSION		      DESCRIPTION
 aqua-helm/enforcer    4.6.0        			  4.6        				  A Helm chart for the Aqua Enforcer
 aqua-helm/scanner 	  4.6.0        			  4.6        				  A Helm chart for the aqua scanner cli component
@@ -76,8 +76,8 @@ aqua-helm/server  	  4.6.0        			  4.6        				  A Helm chart for the Aqu
 
 Example: for Version 4.6
 
-```bash 
-helm search aqua-helm/ -v 4.6
+```bash
+helm search aqua-helm -v 4.6
 ```
 
 for helm 3.x
@@ -94,7 +94,7 @@ helm search repo aqua-helm --versions
 
 ## Container registry credentials
 
-The Aqua Server (Console and Gateway) components are available in our private repository, which requires authentication. By default, the charts create a secret based on the values.yaml file. 
+The Aqua Server (Console and Gateway) components are available in our private repository, which requires authentication. By default, the charts create a secret based on the values.yaml file.
 
 1. Create a new namespace named "aqua":
 
@@ -110,9 +110,9 @@ kubectl create secret docker-registry csp-registry-secret  --docker-server="regi
 
 ## PostgreSQL database
 
-Aqua Security recommends implementing a highly-available PostgreSQL database for production use of Aqua CSP. 
+Aqua Security recommends implementing a highly-available PostgreSQL database for production use of Aqua CSP.
 
-By default, the console chart will install a PostgreSQL database and attach it to persistent storage; this is recommended only for POC usage and testing. 
+By default, the console chart will install a PostgreSQL database and attach it to persistent storage; this is recommended only for POC usage and testing.
 
 **For production use,** you can override this default behavior and specify an existing PostgreSQL database by setting the following variables in values.yaml:
 
@@ -129,7 +129,7 @@ db:
 
 ## Customize your configuration
 
-The following tables list the configurable parameters for the Server, Enforcer, and Scanner charts. 
+The following tables list the configurable parameters for the Server, Enforcer, and Scanner charts.
 
 Change some or all of these parameters per the requirements of your deployment, if the default values are not appropriate.
 
@@ -286,7 +286,7 @@ Example: The services charts are set to create `ClusterIP' ingress types. You ma
   ```
 
 **(2) Error:** No persistent volumes available for this claim and no storage class is set.
-  
+
 **Solution:** Most managed Kubernetes deployments do NOT include all possible storage provider variations at setup time. Refer to the [official Kubernetes guidance on storage classes](https://kubernetes.io/docs/concepts/storage/storage-classes/) for your platform. Three examples are shown below.
 
   * Amazon EKS
@@ -303,7 +303,7 @@ Example: The services charts are set to create `ClusterIP' ingress types. You ma
       - debug
     volumeBindingMode: Immediate
       ```
-  
+
   * Azure AKS
     ```yaml
     kind: StorageClass
@@ -331,7 +331,7 @@ Example: The services charts are set to create `ClusterIP' ingress types. You ma
 **(3) Error:** When executing `kubectl get events -n aqua` you might encounter one of the following errors:
   *no persistent volumes available for this claim and no storage class is set* **or** *PersistentVolumeClaim is not bound*.
 
-**Solution:** If you encounter this error, you need to create a persistent volume prior to chart installation with a generic or existing storage class, specifying `db.persistence.storageClass` in the values.yaml file. A sample file using `aqua-storage` is included in the repo. 
+**Solution:** If you encounter this error, you need to create a persistent volume prior to chart installation with a generic or existing storage class, specifying `db.persistence.storageClass` in the values.yaml file. A sample file using `aqua-storage` is included in the repo.
 
   ```sh
   kubectl apply -f pv-example.yaml
