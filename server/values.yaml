@@ -96,6 +96,10 @@ gate:
     type: ClusterIP
     externalPort: 3622
     nodePort:
+  grpcservice:
+    type: ClusterIP
+    externalPort: 8443
+    nodePort:
   publicIP: aqua-gateway
   replicaCount: 1
   livenessProbe: {}
