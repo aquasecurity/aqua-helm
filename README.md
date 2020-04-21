@@ -167,6 +167,7 @@ Change some or all of these parameters per the requirements of your deployment, 
 | `web.ingress.hosts`               | Web ingress hosts definition  | `[]`                                        |
 | `web.ingress.tls`                 | Web ingress TLS  | `[]`                                        |
 | `web.persistence.enabled` |   Enable persistent volume for fast scanning cache | `true` |
+| `web.privileged.enabled`          | Run Aqua web privileged  | `false` |
 | `web.persistence.storageClass` |   Define the storage class if you don't want to use the default storage class | `` |
 | `web.persistence.size` |   Size of the persistent volume in Gi | `4` |
 | `web.persistence.accessMode` |   Access mode of the persistent volume | `ReadWriteOnce` |

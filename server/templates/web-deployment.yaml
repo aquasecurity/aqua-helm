@@ -24,6 +24,12 @@ spec:
       name: {{ .Release.Name }}-console
     spec:
       serviceAccount: {{ .Release.Name }}-sa
+      {{- if .Values.web.privileged }}
+      securityContext:
+        runAsUser: 11431
+        runAsGroup: 11433
+        fsGroup: 11433
+      {{- end }}
       containers:
       - name: web
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"

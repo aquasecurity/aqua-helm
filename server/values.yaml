@@ -143,6 +143,7 @@ web:
     storageClass:
     size: 4
     accessMode: ReadWriteOnce
+  privileged: false
   resources:
     requests:
       cpu: 0.1
