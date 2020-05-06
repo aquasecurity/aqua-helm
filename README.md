@@ -167,7 +167,7 @@ Change some or all of these parameters per the requirements of your deployment, 
 | `web.ingress.hosts`               | Web ingress hosts definition  | `[]`                                        |
 | `web.ingress.tls`                 | Web ingress TLS  | `[]`                                        |
 | `web.persistence.enabled` |   Enable persistent volume for fast scanning cache | `true` |
-| `web.privileged.enabled`          | Run Aqua web privileged  | `false` |
+| `web.privileged`          | Run Aqua web privileged  | `false` |
 | `web.persistence.storageClass` |   Define the storage class if you don't want to use the default storage class | `` |
 | `web.persistence.size` |   Size of the persistent volume in Gi | `4` |
 | `web.persistence.accessMode` |   Access mode of the persistent volume | `ReadWriteOnce` |
@@ -175,6 +175,7 @@ Change some or all of these parameters per the requirements of your deployment, 
 | `gate.image.repository`                   | Default Gateway Docker image repository    | `gate`                                        |
 | `gate.image.tag`                    | Default Gateway Docker image tag    | `4.6`                                        |
 | `gate.publicIP`                    | Default Gateway service public IP    | ``                                        |
+| `gate.privileged`           | Run Aqua Gateway privileged    | `true`                                        |
 | `scanner.enabled`                 | Enable the Scanner component  | `false`                                        |
 | `scanner.replicaCount`                | Number of Scanner replicas to run  | `1`                                        |
 | `scanner.user`                | Username of the Scanner user assigned to the Scanner role  | `N/A`                                        |

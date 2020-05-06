@@ -24,6 +24,12 @@ spec:
       name: {{ .Release.Name }}-gateway
     spec:
       serviceAccount: {{ .Release.Name }}-sa
+      {{- if .Values.gate.privileged }}
+      securityContext:
+        runAsUser: 11431
+        runAsGroup: 11433
+        fsGroup: 11433
+      {{- end }}
       containers:
       - name: gate
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ .Values.gate.image.tag }}"

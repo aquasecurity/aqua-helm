@@ -101,6 +101,7 @@ gate:
     externalPort: 8443
     nodePort:
   publicIP: aqua-gateway
+  privileged: false
   replicaCount: 1
   livenessProbe: {}
   readinessProbe: {}
