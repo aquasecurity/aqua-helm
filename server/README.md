@@ -78,6 +78,7 @@ helm upgrade --install --namespace aqua csp ./server --set imageCredentials.user
 | `rbac.roleRef`                    | Use an existing ClusterRole    | ``                                                                   |
 | `admin.token`                    | Use this Aqua license token   | `N/A`                                                                   |
 | `admin.password`                    | Use this Aqua admin password   | `N/A`                                                                  |
+| `activeactive`               | change to true to enable active active mode    | `false`                                                                 |
 | `db.external.enabled`             | Avoid installing a Postgres container and use an external database instead    | `false`                          |
 | `db.external.name`                | PostgreSQL DB name    | ``N/A``                                        |
 | `db.external.host`                | PostgreSQL DB hostname    | ``N/A``                                        |
