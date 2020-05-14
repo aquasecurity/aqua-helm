@@ -145,6 +145,7 @@ Change some or all of these parameters per the requirements of your deployment, 
 | `rbac.roleRef`                    | Use an existing ClusterRole    | ``                                                                   |
 | `admin.token`                    | Use this Aqua license token   | `N/A`                                                                   |
 | `admin.password`                    | Use this Aqua admin password   | `N/A`                                                                  |
+| `activeactive`               | change to true to enable active active mode    | `false`                                                                 |
 | `db.external.enabled`             | Use an external database (instead of deploying a Postgres container)    | `false`                          |
 | `db.external.name`                | PostgreSQL DB name    | ``N/A``                                        |
 | `db.external.host`                | PostgreSQL DB hostname    | ``N/A``                                        |
