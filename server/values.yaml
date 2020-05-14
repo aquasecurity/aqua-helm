@@ -12,7 +12,9 @@ rbac:
   privileged: true
   roleRef:
 
+# enable only one of the modes
 clustermode: false
+activeactive: true
 
 admin:
   token:
@@ -36,17 +38,11 @@ db:
     user:
     password:
     auditName:
-    auditHost:
-    auditPort:
-    auditUser:
-    auditPassword:
+    pubsubName:
   passwordSecret: null
   dbPasswordName: null
   dbPasswordKey: null
-  dbAuditPasswordName: null
-  dbAuditPasswordKey: null
   ssl: false
-  auditssl: false
   image:
     repository: database
     tag: "4.6"
