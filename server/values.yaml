@@ -38,11 +38,24 @@ db:
     user:
     password:
     auditName:
+    auditHost:
+    auditPort:
+    auditUser:
+    auditPassword:
     pubsubName:
+    pubsubHost:
+    pubsubPort:
+    pubsubUser:
+    pubsubPassword:
   passwordSecret: null
   dbPasswordName: null
   dbPasswordKey: null
+  dbAuditPasswordName: null
+  dbAuditPasswordKey: null
+  dbPubsubPasswordName: null
+  dbPubsubPasswordKey: null
   ssl: false
+  auditssl: false
   image:
     repository: database
     tag: "4.6"

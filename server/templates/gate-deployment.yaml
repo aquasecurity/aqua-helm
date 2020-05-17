@@ -61,13 +61,13 @@ spec:
         - name: SCALOCK_DBPORT
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
         - name: SCALOCK_AUDIT_DBUSER
-          value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditUser "postgres" }}
           {{- if .Values.db.passwordSecret }}
         - name: SCALOCK_AUDIT_DBPASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.dbPasswordName }}
-              key: {{ .Values.db.dbPasswordKey }}
+              name: {{ .Values.db.dbAuditPasswordName }}
+              key: {{ .Values.db.dbAuditPasswordKey }}
           {{- else }}
         - name: SCALOCK_AUDIT_DBPASSWORD
           valueFrom:
@@ -79,21 +79,21 @@ spec:
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
         - name: SCALOCK_AUDIT_DBHOST
           {{- if .Values.db.external.enabled }}
-          value: {{ .Values.db.external.host }}
+          value: {{ .Values.db.external.auditHost }}
           {{- else }}
           value: {{ .Release.Name }}-database-svc
           {{- end }}
         - name: SCALOCK_AUDIT_DBPORT
-          value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
         {{- if .Values.activeactive }}
         - name: AQUA_PUBSUB_DBUSER
-          value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubUser "postgres" }}
           {{- if .Values.db.passwordSecret }}
         - name: AQUA_PUBSUB_DBPASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.dbPasswordName }}
-              key: {{ .Values.db.dbPasswordKey }}
+              name: {{ .Values.db.dbPubsubPasswordName }}
+              key: {{ .Values.db.dbPubsubPasswordKey }}
           {{- else }}
         - name: AQUA_PUBSUB_DBPASSWORD
           valueFrom:
@@ -105,16 +105,18 @@ spec:
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubName "aqua_pubsub" }}
         - name: AQUA_PUBSUB_DBHOST
           {{- if .Values.db.external.enabled }}
-          value: {{ .Values.db.external.host }}
+          value: {{ .Values.db.external.pubsubHost }}
           {{- else }}
           value: {{ .Release.Name }}-database-svc
           {{- end }}
         - name: AQUA_PUBSUB_DBPORT
-          value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubPort "5432" | quote }}
           {{- end }}
           {{- if .Values.db.ssl }}
         - name: SCALOCK_DBSSL
           value: require
+          {{- end }}
+          {{- if .Values.db.auditssl }}
         - name: SCALOCK_AUDIT_DBSSL
           value: require
           {{- end }}
