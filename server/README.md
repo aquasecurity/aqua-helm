@@ -105,7 +105,7 @@ helm upgrade --install --namespace aqua csp ./server --set imageCredentials.user
 | `gate.image.tag`                    | Default Gate Docker image tag    | `4.6`                                        |
 | `gate.publicIP`                    | Default Gate service public IP    | ``                                        |
 | `scanner.enabled`                 | Enable the Scanner-CLI component  | `false`                                        |
-| `scanner.replicas`                | Number of Scanner-CLI replicas to run  | `1`                                        |
+| `scanner.replicaCount`            | Number of Scanner-CLI replicas to run  | `1`                                        |
 | `scanner.user`                | Username for the scanner user assigned to the Scanner role  | `N/A`                                        |
 | `scanner.password`                | Password for scanner user  | `N/A`                                        |
 | `proxy.httpProxy`                | Set a HTTP Proxy - http_proxy  | `N/A`                                        |
