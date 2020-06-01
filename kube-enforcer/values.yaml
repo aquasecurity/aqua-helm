@@ -1,0 +1,66 @@
+# Specifies the secret data for imagePullSecrets needed to fetch the private docker images
+imageCredentials:
+  # If aqua-registry already exists in the cluster. Make create to false. So it won't attempt to create a new registry secret. 
+  create: true
+  name: aqua-image-pull-secret # example
+  repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
+  registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+  username: ""
+  password: ""
+  email: "example@gmail.com"
+
+managed: false
+environment: aws # aws, acs, onprem
+
+aqua_enable_cache: yes
+aqua_cache_expiration_period: 60
+
+image:
+  repository: kube-enforcer
+  tag: 5.0.0
+  pullPolicy: Always
+
+nameOverride: "aqua-kube-enforcer"
+fullnameOverride: "aqua-kube-enforcer"
+
+namespace: "aqua"
+
+certsSecret:
+  name: aqua-kube-enforcer-certs
+  serverCertificate: "fgfdgfdgfdgfdgsdrgfdfd"
+  serverKey: ""
+
+aquaSecret:
+  name: aqua-kube-enforcer-token  
+  aquaUsername: ""
+  aquaPassword: ""
+  kubeEnforcerToken: ""
+
+envs:
+  gatewayAddress: aqua-gateway:8443 
+
+
+serviceAccount:
+  name: aqua-kube-enforcer-sa
+
+clusterRole:
+  name: aqua-kube-enforcer
+
+clusterRoleBinding:
+  name: aqua-kube-enforcer  
+
+validatingWebhook:
+  name: kube-enforcer-admission-hook-config
+  caBundle: ""
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi

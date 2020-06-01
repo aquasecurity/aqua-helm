@@ -7,6 +7,7 @@ This topic contains Helm charts and instructions for the deployment and maintena
 CSP deployments include the following components:
 - Server (Console, Database, and Gateway)
 - Enforcer
+- KubeEnforcer
 - Scanner (optional)
 
 ## Contents
@@ -22,6 +23,7 @@ CSP deployments include the following components:
     - [Server](#server)
     - [Enforcer](#enforcer)
     - [Scanner](#scanner)
+    - [KubeEnforcer](#KubeEnforcer)
   - [Deploy the Helm charts](#deploy-the-helm-charts)
     - [Server chart](#server-chart)
     - [Enforcer chart](#enforcer-chart)
@@ -39,6 +41,7 @@ This repository includes three charts that may be deployed separately:
 * [**Server**](server/) - deploys the Console, Database, and Gateway components; and (optionally) the Scanner component
 * [**Enforcer**](enforcer/) - deploys the Enforcer daemonset
 * [**Scanner**](scanner/) - deploys the Scanner deployment
+* [**KubeEnforcer**](kube-enforcer/) - deploys the KubeEnforcer deployment
 
 # Deployment instructions
 
@@ -66,10 +69,11 @@ helm search repo aqua-helm
 Example output:
 
 ```csv
-NAME                  CHART VERSION		    APP VERSION		      DESCRIPTION
-aqua-helm/enforcer    4.6.0        			  4.6        				  A Helm chart for the Aqua Enforcer
-aqua-helm/scanner 	  4.6.0        			  4.6        				  A Helm chart for the aqua scanner cli component
-aqua-helm/server  	  4.6.0        			  4.6        				  A Helm chart for the Aqua Console Componants
+NAME                      CHART VERSION		    APP VERSION		      DESCRIPTION
+aqua-helm/enforcer        4.6.0        			  4.6        				  A Helm chart for the Aqua Enforcer
+aqua-helm/scanner 	      4.6.0        			  4.6        				  A Helm chart for the aqua scanner cli component
+aqua-helm/server  	      4.6.0        			  4.6        				  A Helm chart for the Aqua Console Componants
+aqua-helm/kube-enforcer   4.6.0                   4.6                         A helm chart for the Aqua KubeEnforcer
 ```
 
 * Search for all components of a specific version in our Aqua Helm repository
@@ -193,6 +197,22 @@ Change some or all of these parameters per the requirements of your deployment, 
 | `server`                          | Gateway host name    | `aqua-gateway`                                                     |
 | `port`                            | Gateway port    | `3622`                                                     |
 
+### KubeEnforcer
+
+| Parameter                         | Description                          | Default                                                                      |
+| --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
+| `imageCredentials.create`               | Set if to create new pull image secret    | `true`                                                                 |
+| `imageCredentials.name`               | Your Docker pull image secret name    | `aqua-image-pull-secret`                                                                   |
+| `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   |
+| `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`                                                                   |
+| `aquaSecret.aquaUsername`                           | Aqua Console Username    | `N/A`
+| `aquaSecret.aquaPassword`                           | Aqua Console Password   | `N/A`
+| `aquaSecret.kubeEnforcerToken`                           | Aqua KubeEnforcer token    | `N/A`    
+| `certsSecret.serverCertificate`                           | Certificate for TLS authentication with Kubernetes api-server    | `N/A`
+| `certsSecret.serverKey`                           | Certificate key for TLS authentication with Kubernetes api-server    | `N/A`
+| `validatingWebhook.caBundle`                           | Root Certificate for TLS authentication with Kubernetes api-server   | `N/A`                                                 |
+| `envs.gatewayAddress`                          | Gateway host Address    | `aqua-gateway:8443`                                                     |
+ 
 
 ### Scanner
 
@@ -234,6 +254,12 @@ helm upgrade --install --namespace aqua csp ./server --set imageCredentials.user
 
 ```bash
 helm upgrade --install --namespace aqua csp-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,enforcerToken=<aquasec-token>
+```
+
+### KubeEnforcer chart
+
+```bash
+helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>,aquaSecret.kubeEnforcerToken=<kube-enforcer-token>,certsSecret.serverCertificate="$(cat server.crt)",certsSecret.serverKey="$(cat server.key)",validatingWebhook.caBundle="$(cat ca.crt)",aquaSecret.aquaUsername=<aqua-username>,aquaSecret.aquaPassword=<aqua-password>
 ```
 
 ### Scanner chart (optional)
