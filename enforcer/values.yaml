@@ -6,6 +6,8 @@ imageCredentials:
   username: ""
   password: ""
 
+enforcerName: "enforcer"
+
 enforcerToken: ""
 
 enforcerTokenSecretName: null

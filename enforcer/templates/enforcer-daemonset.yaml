@@ -25,7 +25,7 @@ spec:
       serviceAccount: {{ .Release.Name }}-sa
       hostPID: true
       containers:
-      - name: enforcer
+      - name: {{ .Values.enforcerName }}
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         {{- if .Values.privileged }}

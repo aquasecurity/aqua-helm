@@ -58,6 +58,7 @@ helm upgrade --install --namespace aqua csp-enforcer ./enforcer --set imageCrede
 | `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   |
 | `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`                                                                   |
 | `enforcerToken`                           | Aqua Enforcer token    | `N/A`                                                     |
+| `enforcerName`                          | Enforcer name    | `enforcer`                                                     |
 | `server`                          | Gateway host name    | `aqua-gateway`                                                     |
 | `port`                            | Gateway port    | `3622`                                                     |
 
