@@ -204,7 +204,7 @@ Change some or all of these parameters per the requirements of your deployment, 
 | `admin.password`                    | Use this Aqua admin password   | `N/A`                                                                  |
 | `docker.socket.path`                    | Docker Socket Path   | `/var/run/docker.sock`                                                                  |
 | `serviceAccount`                    | Service account to use   | `csp-sa`                                                                  |
-| `server.serviceName`                    | Service name of the Aqua Server (console) UI   | `csp-consul-svc`                                                                  |
+| `server.serviceName`                    | Service name of the Aqua Server (console) UI   | `csp-console-svc`                                                                  |
 | `server.port`                    | Service svc port   | `8080`                                                                  |
 | `docker.socket.path`                    | Docker socket path   | `/var/run/docker.sock`                                                                  |
 | `docker.socket.path`                    | Docker socket path   | `/var/run/docker.sock`                                                                  |
