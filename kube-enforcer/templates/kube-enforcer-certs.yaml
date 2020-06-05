@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.certsSecret.name }}
+  namespace: {{ .Values.namespace }}
+data:
+  server.crt: {{ template "serverCertificate" . }}  # place server cert
+  server.key: {{ template "serverKey" . }}  # place server key

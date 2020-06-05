@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    role: {{ .Release.Name }}
+    app: {{ include "kube-enforcer.fullname" . }}
+  name: {{ include "kube-enforcer.fullname" . }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ include "kube-enforcer.fullname" . }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      containers:
+        - name: kube-enforcer
+          image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.aquaSecret.name }}
+                  key: username
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.aquaSecret.name }}
+                  key: password
+            - name: AQUA_TOKEN
+              valueFrom: 
+                secretKeyRef:
+                  name: {{ .Values.aquaSecret.name }}
+                  key: token      
+            - name: AQUA_ENABLE_CACHE
+              value: "{{ .Values.aqua_enable_cache }}"
+            - name: AQUA_CACHE_EXPIRATION_PERIOD
+              value: "{{ .Values.aqua_cache_expiration_period }}"
+            - name: TLS_SERVER_CERT_FILEPATH
+              value: /certs/server.crt
+            - name: TLS_SERVER_KEY_FILEPATH
+              value: /certs/server.key
+            - name: AQUA_GATEWAY_SECURE_ADDRESS
+              value: {{ .Values.envs.gatewayAddress }}
+            - name: AQUA_TLS_PORT
+              value: "8443"
+          volumeMounts:
+            - name: "certs"
+              mountPath: "/certs"
+      volumes:
+        - name: "certs"
+          secret:
+            secretName: {{ .Values.certsSecret.name }}
+      imagePullSecrets:
+        - name: {{ .Values.imageCredentials.name }}
+  selector:
+    matchLabels:
+      app: {{ include "kube-enforcer.fullname" . }}                           
