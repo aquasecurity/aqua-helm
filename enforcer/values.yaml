@@ -34,6 +34,7 @@ image:
 livenessProbe: {}
 readinessProbe: {}
 resources: {}
+  # Note: For recommendations please check the official sizing guide.
   # limits:
   #   cpu: 800m
   #   memory: 2G
