@@ -251,7 +251,7 @@ Aqua CSP can deploy a scanner pod that is external to the Aqua Server. This dedi
 ```yaml
 scanner:
   enabled: true
-scanner.replicas: "Set quantity"
+  replicaCount: "Set quantity"
 ```
 
 ## Non-public cloud provider deployments (examples)
