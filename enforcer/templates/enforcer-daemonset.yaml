@@ -105,6 +105,8 @@ spec:
           name: aquasec-tmp
         - mountPath: /opt/aquasec/audit
           name: aquasec-audit
+        - mountPath: /data
+          name: aquasec-data
 {{- with .Values.livenessProbe }}
         livenessProbe:
 {{ toYaml . | indent 10 }}
@@ -140,6 +142,9 @@ spec:
       - name: aquasec-audit
         hostPath:
           path: /var/lib/aquasec/audit
+      - name: aquasec-data
+        hostPath:
+          path: /var/lib/aquasec/data
       {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
