@@ -15,6 +15,9 @@ spec:
   template:
     metadata:
       annotations:
+      {{- if eq .Values.privileged false }}
+        container.apparmor.security.beta.kubernetes.io/aqua-agent: unconfined
+      {{- end }}
       {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
       {{- end }}
@@ -64,7 +67,7 @@ spec:
               key: token
         {{- end }}
         - name: AQUA_SERVER
-          value: {{ .Values.gate.host | default "csp-gateway-svc" }}:{{ .Values.gate.port | default "3622" }}
+          value: {{ .Values.gate.host | default "csp-gateway-svc" }}:{{ .Values.gate.port | default "8443" }}
         - name: AQUA_INSTALL_PATH
           value: /var/lib/aquasec
           {{- if .Values.enforcerLogicalName }}
@@ -74,16 +77,36 @@ spec:
         - name: AQUA_LOGICAL_NAME
           value: {{ .Release.Name }}-helm
           {{- end }}
+        {{- if eq .Values.aquaNetworkControl true }}
         - name: AQUA_NETWORK_CONTROL
           value: "1"
+        {{- end }}
+        {{- if eq .Values.aquaNetworkControl false }}
+        - name: AQUA_NETWORK_CONTROL
+          value: "0"
+        {{- end }}
         - name: RESTART_CONTAINERS
           value: "no"
+        {{- if .Values.hostRunPath }}
         - name: AQUA_HOST_RUN_PATH
           value: {{ .Values.hostRunPath }}
+        {{- end }}
+        {{- if eq .Values.runcInterception true }}
         - name: AQUA_RUNC_INTERCEPTION
-          value: "{{ .Values.runcInterception }}"
+          value: "1"
+        {{- end }}
+        {{- if eq .Values.runcInterception false }}
+        - name: AQUA_RUNC_INTERCEPTION
+          value: "0"
+        {{- end }}
+        {{- if eq .Values.sendingHostImagesDisables true }}
         - name: SENDING_HOST_IMAGES_DISABLED
-          value: "{{ .Values.sendingHostImagesDisables }}"
+          value: "1"
+        {{- end }}
+        {{- if eq .Values.sendingHostImagesDisables false }}
+        - name: SENDING_HOST_IMAGES_DISABLED
+          value: "0"
+        {{- end }}
         volumeMounts:
         - mountPath: /var/run
           name: var-run
@@ -118,9 +141,15 @@ spec:
         resources:
 {{ toYaml .Values.resources | indent 12 }}
       volumes:
+      {{- if .Values.hostRunPath }}
       - name: var-run
         hostPath:
           path: {{ .Values.hostRunPath }}
+      {{- else }}
+      - name: var-run
+        hostPath:
+          path: /var/run
+      {{- end }}
       - name: dev
         hostPath:
           path: /dev

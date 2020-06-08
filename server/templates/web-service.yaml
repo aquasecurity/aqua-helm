@@ -16,11 +16,14 @@ spec:
   - port: {{ .Values.web.service.externalPort }}
     targetPort: 8080
     protocol: TCP
-    name: {{ .Release.Name }}-console
+    name: aqua-web
   {{- if and (eq .Values.web.service.type "NodePort") (.Values.web.service.nodePort) }}
     nodePort: {{ .Values.web.service.nodePort }}
   {{- end }}
-  - port: 443
-    protocol: TCP
+  - port: {{ .Values.web.grpcService.externalPort }}
     targetPort: 8443
+    protocol: TCP
     name: aqua-web-ssl
+  {{- if and (eq .Values.web.grpcService.type "NodePort") (.Values.web.grpcService.nodePort) }}
+    nodePort: {{ .Values.web.grpcService.nodePort }}
+  {{- end }}

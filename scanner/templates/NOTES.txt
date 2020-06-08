@@ -3,7 +3,7 @@ Thank you for installing Aqua Security Scanner.
 
 Now that you have deployed Aqua Scanner, you should look over the docs on using: 
 
-https://read.aquasec.com/docs
+https://docs.aquasec.com/docs
 
 
 Your release is named {{ .Release.Name }}. To learn more about the release, try:
