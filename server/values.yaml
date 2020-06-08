@@ -27,7 +27,7 @@ docker:
   socket:
     path: /var/run/docker.sock # pks - /var/vcap/data/sys/run/docker/docker.sock
 
-dockerless:
+dockerless: true
 
 db:
   external:
@@ -58,7 +58,7 @@ db:
   auditssl: false
   image:
     repository: database
-    tag: "5.0"
+    tag: "4.6"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -100,7 +100,7 @@ db:
 gate:
   image:
     repository: gateway
-    tag: "5.0"
+    tag: "4.6"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -129,7 +129,7 @@ gate:
 web:
   image:
     repository: console
-    tag: "5.0"
+    tag: "4.6"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -178,7 +178,7 @@ scanner:
   enabled: false
   image:
     repository: scanner
-    tag: "5.0"
+    tag: "4.6"
     pullPolicy: IfNotPresent
   user:
   password:

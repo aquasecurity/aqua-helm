@@ -15,9 +15,8 @@ enforcerLogicalName:
 privileged: true
 
 hostRunPath: # pks - /var/vcap/sys/run/docker
-runcInterception: 
-sendingHostImagesDisables:
-aquaNetworkControl:
+runcInterception: false
+aquaNetworkControl: true
 
 gate:
   host: csp-gateway-svc # example
@@ -25,7 +24,7 @@ gate:
 
 image:
   repository: enforcer
-  tag: "5.0"
+  tag: "4.6"
   pullPolicy: IfNotPresent
 
 livenessProbe: {}

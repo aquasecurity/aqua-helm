@@ -70,23 +70,23 @@ Example output:
 
 ```csv
 NAME                      CHART VERSION		    APP VERSION		      DESCRIPTION
-aqua-helm/enforcer        5.0.0        			  5.0        				  A Helm chart for the Aqua Enforcer
-aqua-helm/scanner 	      5.0.0        			  5.0        				  A Helm chart for the aqua scanner cli component
-aqua-helm/server  	      5.0.0        			  5.0        				  A Helm chart for the Aqua Console Componants
-aqua-helm/kube-enforcer   5.0.0                   5.0                         A helm chart for the Aqua KubeEnforcer
+aqua-helm/enforcer        4.6.0        			  4.6        				  A Helm chart for the Aqua Enforcer
+aqua-helm/scanner 	      4.6.0        			  4.6        				  A Helm chart for the aqua scanner cli component
+aqua-helm/server  	      4.6.0        			  4.6        				  A Helm chart for the Aqua Console Componants
+aqua-helm/kube-enforcer   4.6.0                   4.6                         A helm chart for the Aqua KubeEnforcer
 ```
 
 * Search for all components of a specific version in our Aqua Helm repository
 
-Example: for Version 5.0
+Example: for Version 4.6
 
 ```bash
-helm search aqua-helm -v 5.0
+helm search aqua-helm -v 4.6
 ```
 
 for helm 3.x
 ```bash
-helm search repo aqua-helm --version 5.0
+helm search repo aqua-helm --version 4.6
 ```
 
 * Search for all components:
@@ -157,7 +157,7 @@ Change some or all of these parameters per the requirements of your deployment, 
 | `db.external.user`                | PostgreSQL DB username    | `N/A`                                        |
 | `db.external.password`            | PostgreSQL DB password    | `N/A`                                        |
 | `db.image.repository`                   | Default PostgreSQL Docker image repository    | `database`                                        |
-| `db.image.tag`                    | Default PostgreSQL Docker image tag    | `5.0`                                        |
+| `db.image.tag`                    | Default PostgreSQL Docker image tag    | `4.6`                                        |
 | `db.service.type`                      | Default PostgreSQL service type    | `ClusterIP`                                        |
 | `db.persistence.enabled`          | Enable a use of a PostgreSQL PVC    | `true`                                        |
 | `db.persistence.storageClass`     | PostgreSQL PVC StorageClass   | `default`                                        |
@@ -167,7 +167,7 @@ Change some or all of these parameters per the requirements of your deployment, 
 | `web.service.type`                | Web service type  | `ClusterIP`                                        |
 | `web.ingress.enabled`             | Install ingress for the web component  | `false`                                        |
 | `web.image.repository`                   | Default Web Docker image repository    | `server`                                        |
-| `web.image.tag`                    | Default Web Docker image tag    | `5.0`                                        |
+| `web.image.tag`                    | Default Web Docker image tag    | `4.6`                                        |
 | `web.ingress.annotations`         | Web ingress annotations  | `{}`                                        |
 | `web.ingress.hosts`               | Web ingress hosts definition  | `[]`                                        |
 | `web.ingress.tls`                 | Web ingress TLS  | `[]`                                        |
@@ -177,7 +177,7 @@ Change some or all of these parameters per the requirements of your deployment, 
 | `web.persistence.accessMode` |   Access mode of the persistent volume | `ReadWriteOnce` |
 | `gate.service.type`                | Gateway service type  | `ClusterIP`                                        |
 | `gate.image.repository`                   | Default Gateway Docker image repository    | `gate`                                        |
-| `gate.image.tag`                    | Default Gateway Docker image tag    | `5.0`                                        |
+| `gate.image.tag`                    | Default Gateway Docker image tag    | `4.6`                                        |
 | `gate.publicIP`                    | Default Gateway service public IP    | ``                                        |
 | `scanner.enabled`                 | Enable the Scanner component  | `false`                                        |
 | `scanner.replicaCount`                | Number of Scanner replicas to run  | `1`                                        |

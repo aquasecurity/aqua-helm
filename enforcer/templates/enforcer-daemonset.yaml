@@ -15,7 +15,7 @@ spec:
   template:
     metadata:
       annotations:
-      {{- if eq .Values.privileged false }}
+      {{- if not .Values.privileged }}
         container.apparmor.security.beta.kubernetes.io/aqua-agent: unconfined
       {{- end }}
       {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
@@ -77,11 +77,10 @@ spec:
         - name: AQUA_LOGICAL_NAME
           value: {{ .Release.Name }}-helm
           {{- end }}
-        {{- if eq .Values.aquaNetworkControl true }}
+        {{- if .Values.aquaNetworkControl }}
         - name: AQUA_NETWORK_CONTROL
           value: "1"
-        {{- end }}
-        {{- if eq .Values.aquaNetworkControl false }}
+        {{- else }}
         - name: AQUA_NETWORK_CONTROL
           value: "0"
         {{- end }}
@@ -91,20 +90,11 @@ spec:
         - name: AQUA_HOST_RUN_PATH
           value: {{ .Values.hostRunPath }}
         {{- end }}
-        {{- if eq .Values.runcInterception true }}
+        {{- if .Values.runcInterception }}
         - name: AQUA_RUNC_INTERCEPTION
           value: "1"
-        {{- end }}
-        {{- if eq .Values.runcInterception false }}
+        {{- else }}
         - name: AQUA_RUNC_INTERCEPTION
-          value: "0"
-        {{- end }}
-        {{- if eq .Values.sendingHostImagesDisables true }}
-        - name: SENDING_HOST_IMAGES_DISABLED
-          value: "1"
-        {{- end }}
-        {{- if eq .Values.sendingHostImagesDisables false }}
-        - name: SENDING_HOST_IMAGES_DISABLED
           value: "0"
         {{- end }}
         volumeMounts:

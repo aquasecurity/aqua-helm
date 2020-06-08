@@ -151,13 +151,12 @@ spec:
               name: {{ .Release.Name }}-encryption-key
               key: encryption-key
           {{- end }}
-          {{- if eq .Values.dockerless true }}
+          {{- if .Values.dockerless }}
         - name: AQUA_DOCKERLESS_SCANNING
           value: "1"
         - name: DISABLE_IP_BAN
           value: "1"
-          {{- end }}
-          {{- if eq .Values.dockerless false }}
+          {{- else }}
         - name: AQUA_DOCKERLESS_SCANNING
           value: "0"
         - name: DISABLE_IP_BAN
