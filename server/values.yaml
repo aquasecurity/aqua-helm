@@ -107,7 +107,6 @@ gate:
     externalPort: 3622
     nodePort:
   grpcservice:
-    type: ClusterIP
     externalPort: 8443
     nodePort:
   publicIP: aqua-gateway
@@ -132,11 +131,10 @@ web:
     tag: "5.0"
     pullPolicy: IfNotPresent
   service:
-    type: ClusterIP
+    type: LoadBalancer
     externalPort: 8080
     nodePort:
   grpcService:
-    type: ClusterIP
     externalPort: 443
     nodePort:
   encryptionKey:

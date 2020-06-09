@@ -25,6 +25,6 @@ spec:
     targetPort: 8443
     protocol: TCP
     name: aqua-gate-ssl
-  {{- if and (eq .Values.gate.grpcservice.type "NodePort") (.Values.gate.grpcservice.nodePort) }}
+  {{- if and (eq .Values.gate.service.type "NodePort") (.Values.gate.grpcservice.nodePort) }}
     nodePort: {{ .Values.gate.grpcservice.nodePort }}
   {{- end }}
