@@ -67,7 +67,11 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
+              {{- if .Values.db.external.auditPassword }}
+              key: audit-password
+              {{- else }}
               key: db-password
+              {{- end }}
           {{- end }}
         - name: SCALOCK_AUDIT_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
@@ -93,7 +97,11 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
+              {{- if .Values.db.external.pubsubPassword }}
+              key: pubsub-password
+              {{- else }}
               key: db-password
+              {{- end }}
           {{- end }}
         - name: AQUA_PUBSUB_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubName "aqua_pubsub" }}
