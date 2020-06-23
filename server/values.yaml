@@ -62,11 +62,6 @@ db:
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
-  persistence:
-    enabled: true
-    storageClass:
-    size: 30Gi
-    accessMode: ReadWriteOnce
   livenessProbe:
     exec:
       command:
