@@ -160,6 +160,8 @@ spec:
               key: encryption-key
           {{- end }}
           {{- if .Values.dockerless }}
+          {{- if (ne "-" .Values.dockerless) }}
+          {{- if .Values.dockerless }}
         - name: AQUA_DOCKERLESS_SCANNING
           value: "1"
         - name: DISABLE_IP_BAN
@@ -169,6 +171,8 @@ spec:
           value: "0"
         - name: DISABLE_IP_BAN
           value: "0"
+          {{- end }}
+          {{- end }}
           {{- end }}
           {{- if .Values.clustermode }}
         - name: CLUSTER_MODE
