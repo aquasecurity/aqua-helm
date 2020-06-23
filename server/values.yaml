@@ -62,6 +62,11 @@ db:
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
+  persistence:
+    enabled: true
+    storageClass:
+    size: 30Gi
+    accessMode: ReadWriteOnce
   livenessProbe:
     exec:
       command:
@@ -146,11 +151,6 @@ web:
   replicaCount: 1
   livenessProbe: {}
   readinessProbe: {}
-  persistence:
-    enabled: true
-    storageClass:
-    size: 4
-    accessMode: ReadWriteOnce
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
