@@ -67,7 +67,11 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
+              {{- if .Values.db.external.auditPassword }}
+              key: audit-password
+              {{- else }}
               key: db-password
+              {{- end }}
           {{- end }}
         - name: SCALOCK_AUDIT_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
@@ -93,7 +97,11 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
+              {{- if .Values.db.external.pubsubPassword }}
+              key: pubsub-password
+              {{- else }}
               key: db-password
+              {{- end }}
           {{- end }}
         - name: AQUA_PUBSUB_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubName "aqua_pubsub" }}
@@ -152,6 +160,8 @@ spec:
               key: encryption-key
           {{- end }}
           {{- if .Values.dockerless }}
+          {{- if (ne "-" .Values.dockerless) }}
+          {{- if .Values.dockerless }}
         - name: AQUA_DOCKERLESS_SCANNING
           value: "1"
         - name: DISABLE_IP_BAN
@@ -161,6 +171,8 @@ spec:
           value: "0"
         - name: DISABLE_IP_BAN
           value: "0"
+          {{- end }}
+          {{- end }}
           {{- end }}
           {{- if .Values.clustermode }}
         - name: CLUSTER_MODE
@@ -182,10 +194,6 @@ spec:
         - name: no_proxy
           value: {{ .Values.web.proxy.noProxy }}
           {{- end }}
-        {{- if .Values.web.persistence.enabled }}
-        - name: AQUA_CONSOLE_RAW_SCAN_RESULTS_STORAGE_SIZE
-          value: {{ .Values.web.persistence.size | quote }}
-        {{- end }}
         ports:
         - containerPort: 8080
           protocol: TCP
@@ -202,10 +210,6 @@ spec:
         volumeMounts:
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
-        {{- if .Values.web.persistence.enabled }}
-        - mountPath: /opt/aquasec/raw-scan-results
-          name: aqua-web-pvc
-        {{- end }}
         resources:
 {{ toYaml .Values.web.resources | indent 12 }}
       {{- with .Values.web.nodeSelector }}
@@ -224,8 +228,3 @@ spec:
       - name: docker-socket-mount
         hostPath:
           path: {{ .Values.docker.socket.path }}
-      {{- if .Values.web.persistence.enabled }}
-      - name: aqua-web-pvc
-        persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-web-pvc
-      {{- end }}

@@ -171,10 +171,6 @@ Change some or all of these parameters per the requirements of your deployment, 
 | `web.ingress.annotations`         | Web ingress annotations  | `{}`                                        |
 | `web.ingress.hosts`               | Web ingress hosts definition  | `[]`                                        |
 | `web.ingress.tls`                 | Web ingress TLS  | `[]`                                        |
-| `web.persistence.enabled` |   Enable persistent volume for fast scanning cache | `true` |
-| `web.persistence.storageClass` |   Define the storage class if you don't want to use the default storage class | `` |
-| `web.persistence.size` |   Size of the persistent volume in Gi | `4` |
-| `web.persistence.accessMode` |   Access mode of the persistent volume | `ReadWriteOnce` |
 | `gate.service.type`                | Gateway service type  | `ClusterIP`                                        |
 | `gate.image.repository`                   | Default Gateway Docker image repository    | `gate`                                        |
 | `gate.image.tag`                    | Default Gateway Docker image tag    | `4.6`                                        |
@@ -195,7 +191,7 @@ Change some or all of these parameters per the requirements of your deployment, 
 | `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`                                                                   |
 | `enforcerToken`                           | Aqua Enforcer token    | `N/A`                                                     |
 | `server`                          | Gateway host name    | `aqua-gateway`                                                     |
-| `port`                            | Gateway port    | `3622`                                                     |
+| `port`                            | Gateway port    | `8443`                                                     |
 
 ### KubeEnforcer
 

@@ -15,12 +15,12 @@ enforcerLogicalName:
 privileged: true
 
 hostRunPath: # pks - /var/vcap/sys/run/docker
-runcInterception: false
-aquaNetworkControl: true
+runcInterception: "-" # true/false values
+aquaNetworkControl: "-" # true/false values
 
 gate:
   host: csp-gateway-svc # example
-  port: 3622
+  port: 8443
 
 image:
   repository: enforcer
