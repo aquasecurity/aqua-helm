@@ -8,7 +8,7 @@ CSP deployments include the following components:
 - Server (Console, Database, and Gateway)
 - Enforcer
 - KubeEnforcer
-- Scanner (optional)
+- Scanner
 
 ## Contents
 
@@ -52,18 +52,21 @@ Follow the steps in this section.
 First, you need to add the Aqua Helm repository to your local Helm repos, instead of cloning this aqua-helm source code repository, by executing the following command:
 
 ```bash
-helm repo add aqua-helm https://helm.aquasec.com
+$ helm repo add aqua-helm https://helm.aquasec.com
 ```
 
 * Search for all components of the latest version in our Aqua Helm repository
 
 ```bash
-helm search aqua-helm
+$ helm search aqua-helm
+# Examples
+$ helm search aqua-helm --versions
+$ helm search aqua-helm --version 4.6.0
 ```
 
 for helm 3.x
 ```bash
-helm search repo aqua-helm
+$ helm search repo aqua-helm
 ```
 
 Example output:
@@ -81,19 +84,19 @@ aqua-helm/kube-enforcer   5.0.0                   5.0                         A 
 Example: for Version 5.0
 
 ```bash
-helm search aqua-helm -v 5.0
+$ helm search aqua-helm -v 5.0
 ```
 
 for helm 3.x
 ```bash
-helm search repo aqua-helm --version 5.0
+$ helm search repo aqua-helm --version 5.0
 ```
 
 * Search for all components:
 
 for helm 3.x
 ```bash
-helm search repo aqua-helm --versions
+$ helm search repo aqua-helm --versions
 ```
 
 ## Container registry credentials
@@ -234,7 +237,7 @@ Change some or all of these parameters per the requirements of your deployment, 
 First, clone the GitHub repository with the charts
 
 ```bash
-git clone https://github.com/aquasecurity/aqua-helm.git
+git clone https://github.com/aquasecurity/aqua-helm.git -b <BRANCH_NAME>
 cd aqua-helm/
 ```
 

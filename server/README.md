@@ -2,7 +2,7 @@
 
 # Aqua Security Server Helm Chart
 
-These are Helm charts for installation and maintenance of Aqua Container Security Platform Console Server, Gateway, Database and Scanner CLI
+These are Helm charts for installation and maintenance of Aqua Container Security Platform Console Server, Gateway, Database.
 
 ## Contents
 
@@ -104,13 +104,6 @@ helm upgrade --install --namespace aqua csp ./server --set imageCredentials.user
 | `gate.image.repository`                   | Default Gate Docker image repository    | `gate`                                        |
 | `gate.image.tag`                    | Default Gate Docker image tag    | `5.0`                                        |
 | `gate.publicIP`                    | Default Gate service public IP    | ``                                        |
-| `scanner.enabled`                 | Enable the Scanner-CLI component  | `false`                                        |
-| `scanner.replicaCount`            | Number of Scanner-CLI replicas to run  | `1`                                        |
-| `scanner.user`                | Username for the scanner user assigned to the Scanner role  | `N/A`                                        |
-| `scanner.password`                | Password for scanner user  | `N/A`                                        |
-| `proxy.httpProxy`                | Set a HTTP Proxy - http_proxy  | `N/A`                                        |
-| `proxy.httpsProxy`                | Set a HTTP Proxy - https_proxy  | `N/A`                                        |
-| `proxy.noProxy`                | Set a HTTP Proxy - no_proxy  | `N/A`                                        |
 
 
 

@@ -4,6 +4,8 @@ docker:
   socket:
     path: "/var/run/docker.sock" # pks - /var/vcap/data/sys/run/docker/docker.sock
 
+docker: "-" # true/false
+
 serviceAccount: "csp-sa"
 server:
   serviceName: "csp-console-svc" # example

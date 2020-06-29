@@ -17,7 +17,7 @@ aqua_cache_expiration_period: 60
 
 image:
   repository: kube-enforcer
-  tag: 5.0.0
+  tag: 5.0
   pullPolicy: Always
 
 nameOverride: "aqua-kube-enforcer"
@@ -54,7 +54,6 @@ validatingWebhook:
   caBundle: ""
 
 resources: {}
-  # Note: For recommendations please check the official sizing guide.
   # limits:
   #  cpu: 100m
   #  memory: 128Mi
