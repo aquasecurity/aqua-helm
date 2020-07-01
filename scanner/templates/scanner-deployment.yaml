@@ -43,6 +43,8 @@ spec:
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
         {{- end }}
+        {{- end }}
+        {{- end }}
         ports:
         - containerPort: 8080
           protocol: TCP
@@ -75,4 +77,6 @@ spec:
       - name: docker-socket-mount
         hostPath:
           path: {{ .Values.docker.socket.path }}
+      {{- end }}
+      {{- end }}
       {{- end }}
