@@ -1,5 +1,7 @@
 repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
 
+docker: "-" # true/false
+
 docker:
   socket:
     path: "/var/run/docker.sock" # pks - /var/vcap/data/sys/run/docker/docker.sock

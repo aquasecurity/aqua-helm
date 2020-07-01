@@ -27,7 +27,7 @@ docker:
   socket:
     path: /var/run/docker.sock # pks - /var/vcap/data/sys/run/docker/docker.sock
 
-dockerless: "-" # true/false values
+docker: "-" # true/false values
 
 db:
   external:
@@ -167,25 +167,3 @@ web:
     httpsProxy:
     noProxy:
 
-scanner:
-  enabled: false
-  image:
-    repository: scanner
-    tag: "4.6"
-    pullPolicy: IfNotPresent
-  user:
-  password:
-  replicaCount: 1
-  livenessProbe: {}
-  readinessProbe: {}
-  resources: {}
-  # Note: For recommendations please check the official sizing guide.
-  # requests:
-  #   cpu: 0.1
-  #   memory: 0.2Gi
-  # limits:
-  #   cpu: 1
-  #   memory: 2Gi
-  nodeSelector: {}
-  tolerations: []
-  affinity: {}
