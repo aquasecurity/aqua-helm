@@ -2,7 +2,7 @@
 imageCredentials:
   # If aqua-registry already exists in the cluster. Make create to false. So it won't attempt to create a new registry secret. 
   create: true
-  name: aqua-image-pull-secret # example
+  name: csp-registry-secret # example
   repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
   registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
   username: ""
@@ -17,7 +17,7 @@ aqua_cache_expiration_period: 60
 
 image:
   repository: kube-enforcer
-  tag: 5.0
+  tag: "5.0"
   pullPolicy: Always
 
 nameOverride: "aqua-kube-enforcer"
@@ -27,17 +27,15 @@ namespace: "aqua"
 
 certsSecret:
   name: aqua-kube-enforcer-certs
-  serverCertificate: "fgfdgfdgfdgfdgsdrgfdfd"
+  serverCertificate: ""
   serverKey: ""
 
 aquaSecret:
-  name: aqua-kube-enforcer-token  
-  aquaUsername: ""
-  aquaPassword: ""
+  name: aqua-kube-enforcer-token
   kubeEnforcerToken: ""
 
 envs:
-  gatewayAddress: aqua-gateway:8443 
+  gatewayAddress: csp-gateway-svc:8443 
 
 
 serviceAccount:
@@ -52,11 +50,3 @@ clusterRoleBinding:
 validatingWebhook:
   name: kube-enforcer-admission-hook-config
   caBundle: ""
-
-resources: {}
-  # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
-  # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
