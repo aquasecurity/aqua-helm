@@ -203,9 +203,7 @@ Change some or all of these parameters per the requirements of your deployment, 
 | `imageCredentials.create`               | Set if to create new pull image secret    | `true`                                                                 |
 | `imageCredentials.name`               | Your Docker pull image secret name    | `aqua-image-pull-secret`                                                                   |
 | `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   |
-| `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`                                                                   |
-| `aquaSecret.aquaUsername`                           | Aqua Console Username    | `N/A`
-| `aquaSecret.aquaPassword`                           | Aqua Console Password   | `N/A`
+| `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`
 | `aquaSecret.kubeEnforcerToken`                           | Aqua KubeEnforcer token    | `N/A`    
 | `certsSecret.serverCertificate`                           | Certificate for TLS authentication with Kubernetes api-server    | `N/A`
 | `certsSecret.serverKey`                           | Certificate key for TLS authentication with Kubernetes api-server    | `N/A`
@@ -258,7 +256,7 @@ helm upgrade --install --namespace aqua csp-enforcer ./enforcer --set imageCrede
 ### KubeEnforcer chart
 
 ```bash
-helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>,aquaSecret.kubeEnforcerToken=<kube-enforcer-token>,certsSecret.serverCertificate="$(cat server.crt)",certsSecret.serverKey="$(cat server.key)",validatingWebhook.caBundle="$(cat ca.crt)",aquaSecret.aquaUsername=<aqua-username>,aquaSecret.aquaPassword=<aqua-password>
+helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>,certsSecret.serverCertificate="$(cat server.crt)",certsSecret.serverKey="$(cat server.key)",validatingWebhook.caBundle="$(cat ca.crt)"
 ```
 
 ### Scanner chart (optional)
