@@ -11,7 +11,7 @@ spec:
   - http:
       paths:
       - backend:
-          serviceName: csp-console-svc
+          serviceName: aqua-console-svc
           servicePort: 8080
         path: /
 status:

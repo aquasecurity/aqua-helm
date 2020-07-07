@@ -67,7 +67,7 @@ spec:
               key: token
         {{- end }}
         - name: AQUA_SERVER
-          value: {{ .Values.gate.host | default "csp-gateway-svc" }}:{{ .Values.gate.port | default "8443" }}
+          value: {{ .Values.gate.host | default "aqua-gateway-svc" }}:{{ .Values.gate.port | default "8443" }}
         - name: AQUA_INSTALL_PATH
           value: /var/lib/aquasec
           {{- if .Values.enforcerLogicalName }}

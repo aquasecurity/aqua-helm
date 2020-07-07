@@ -32,22 +32,24 @@ The following table lists the configurable parameters of the Console and Enforce
 
 ### Scanner
 
-| Parameter                         | Description                          | Default                                                                      |
-| --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
-| `rbac.enabled`                    | Create a service account and a ClusterRole    | `false`                                                                   |
-| `rbac.roleRef`                    | Use an existing ClusterRole    | ``                                                                   |
-| `admin.token`                    | Use this Aqua license token   | `N/A`                                                                   |
-| `admin.password`                    | Use this Aqua admin password   | `N/A`                                                                  |
-| `docker.socket.path`                    | Docker Socket Path   | `/var/run/docker.sock`                                                                  |
-| `serviceAccount`                    | Service Account to use   | `csp-sa`                                                                  |
-| `server.serviceName`                    | Service name of aqua server ui   | `csp-consul-svc`                                                                  |
-| `server.port`                    | service svc port   | `8080`                                                                  |
-| `docker.socket.path`                    | Docker Socket Path   | `/var/run/docker.sock`                                                                  |
-| `docker.socket.path`                    | Docker Socket Path   | `/var/run/docker.sock`                                                                  |
-| `enabled`                 | Enable the Scanner-CLI component  | `false`                                        |
-| `replicaCount`                | Number of Scanner-CLI replicas to run  | `1`                                        |
-| `user`                | Username for the scanner user assigned to the Scanner role  | `N/A`                                        |
-| `password`                | Password for scanner user  | `N/A`                                        |
+Parameter | Description | Default
+--------- | ----------- | -------
+`repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com`
+`docker.socket.path` | docker socket path | `/var/run/docker.sock`
+`docker` | Scanning mode direct or docker [link](https://docs.aquasec.com/docs/scanning-mode#default-scanning-mode) | `-`
+`serviceAccount` | k8s service account to use | `aqua-sa`
+`server.serviceName` | service name for server to connect | `aqua-console-svc`
+`server.port` | service port for server to connect | `8080`
+`image.repository` | the docker image name to use | `scanner`
+`image.tag` | The image tag to use. | `5.0`
+`image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
+`user` | scanner username | `unset`
+`password` | scanner password | `unset`
+`replicaCount` | replica count | `1`
+`resources` |	Resource requests and limits | `{}`
+`nodeSelector` |	Kubernetes node selector	| `{}`
+`tolerations` |	Kubernetes node tolerations	| `[]`
+`affinity` |	Kubernetes node affinity | `{}`
 
 ## Support
 
