@@ -6,9 +6,9 @@ docker:
 
 docker: "-" # true/false
 
-serviceAccount: "aqua-sa"
+serviceAccount: "server-sa"
 server:
-  serviceName: "aqua-console-svc" # example
+  serviceName: "server-console-svc" # example
   port: 8080
 
 image:
