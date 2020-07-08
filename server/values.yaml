@@ -106,6 +106,8 @@ gate:
     type: ClusterIP
     externalPort: 3622
     nodePort:
+    loadBalancerIP:
+    annotations: {}
   grpcservice:
     externalPort: 8443
     nodePort:
@@ -134,6 +136,8 @@ web:
     type: LoadBalancer
     externalPort: 8080
     nodePort:
+    loadBalancerIP:
+    annotations: {}
   grpcService:
     externalPort: 443
     nodePort:

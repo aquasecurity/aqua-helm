@@ -1,8 +1,13 @@
----
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-console-svc
+{{- if .Values.web.service.annotations }}
+  annotations:
+  {{- range $key, $value := .Values.web.service.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+{{- end }}
   labels:
     app: {{ .Release.Name }}-console
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
@@ -12,6 +17,9 @@ spec:
   type: {{ .Values.web.service.type }}
   selector:
     app: {{ .Release.Name }}-console
+{{- if .Values.web.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.web.service.loadBalancerIP }}
+{{- end }}
   ports:
   - port: {{ .Values.web.service.externalPort }}
     targetPort: 8080
