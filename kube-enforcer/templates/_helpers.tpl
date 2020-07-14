@@ -46,15 +46,3 @@ Create chart name and version as used by the chart label.
 {{- define "caBundle" }}
 {{- printf "%s" (required "A valid .Values.validatingWebhook.caBundle entry required!" .Values.validatingWebhook.caBundle) | b64enc | replace "\n" "" }}
 {{- end }}
-
-{{- define "token" }}
-{{- printf "%s" (required "A valid .Values.aquaSecret.kubeEnforcerToken entry required!" .Values.aquaSecret.kubeEnforcerToken) | b64enc }}
-{{- end }}
-
-{{- define "username" }}
-{{- printf "%s" (required "A valid .Values.aquaSecret.aquaUsername entry required!" .Values.aquaSecret.aquaUsername) | b64enc }}
-{{- end }}
-
-{{- define "password" }}
-{{- printf "%s" (required "A valid .Values.aquaSecret.aquaPassword entry required!" .Values.aquaSecret.aquaPassword) | b64enc }}
-{{- end }}

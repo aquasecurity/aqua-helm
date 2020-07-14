@@ -5,6 +5,4 @@ metadata:
   namespace: {{ .Values.namespace }}
 type: Opaque
 data:
-  username: {{ template "username" . }}            # place server username
-  password: {{ template "password" . }}            # place server password
-  token:    {{ template "token" . }}               # aqua kube enforcer token
+  token:    {{ .Values.aquaSecret.kubeEnforcerToken | b64enc | quote }}               # aqua kube enforcer token

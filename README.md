@@ -140,7 +140,7 @@ helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCred
 ### KubeEnforcer chart
 
 ```bash
-helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>,aquaSecret.kubeEnforcerToken=<kube-enforcer-token>,certsSecret.serverCertificate="$(cat server.crt)",certsSecret.serverKey="$(cat server.key)",validatingWebhook.caBundle="$(cat ca.crt)",aquaSecret.aquaUsername=<aqua-username>,aquaSecret.aquaPassword=<aqua-password>
+helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>,certsSecret.serverCertificate="$(cat server.crt)",certsSecret.serverKey="$(cat server.key)",validatingWebhook.caBundle="$(cat ca.crt)"
 ```
 
 ### Scanner chart (optional)

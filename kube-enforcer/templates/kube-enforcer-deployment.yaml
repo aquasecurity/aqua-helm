@@ -19,18 +19,8 @@ spec:
           image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: 8443
           env:
-            - name: USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.aquaSecret.name }}
-                  key: username
-            - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.aquaSecret.name }}
-                  key: password
             - name: AQUA_TOKEN
               valueFrom: 
                 secretKeyRef:
