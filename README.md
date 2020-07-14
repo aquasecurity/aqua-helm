@@ -12,25 +12,13 @@ CSP deployments include the following components:
 
 ## Contents
 
-- [Aqua Security Helm Charts](#aqua-security-helm-charts)
-  - [Contents](#contents)
-  - [Helm charts](#helm-charts)
+- [Helm charts](#helm-charts)
 - [Deployment instructions](#deployment-instructions)
   - [Add Aqua Helm repository](#add-aqua-helm-repository)
   - [Container registry credentials](#container-registry-credentials)
   - [PostgreSQL database](#postgresql-database)
-  - [Customize your configuration](#customize-your-configuration)
-    - [Server](#server)
-    - [Enforcer](#enforcer)
-    - [Scanner](#scanner)
-    - [KubeEnforcer](#KubeEnforcer)
+  - [Ingress](#ingress)
   - [Deploy the Helm charts](#deploy-the-helm-charts)
-    - [Server chart](#server-chart)
-    - [Enforcer chart](#enforcer-chart)
-    - [Scanner chart (optional)](#scanner-chart-optional)
-- [Additional deployment items](#additional-deployment-items)
-  - [High-volume scanner installation](#high-volume-scanner-installation)
-  - [Non-public cloud provider deployments (examples)](#non-public-cloud-provider-deployments-examples)
 - [Troubleshooting](#troubleshooting)
 - [Support](#support)
 
@@ -101,19 +89,11 @@ $ helm search repo aqua-helm --versions
 
 ## Container registry credentials
 
-The Aqua Server (Console and Gateway) components are available in our private repository, which requires authentication. By default, the charts create a secret based on the values.yaml file.
+[Link](docs/imagepullsecret.md)
 
-1. Create a new namespace named "aqua":
+## Ingress
 
-```bash
-kubectl create namespace aqua
-```
-
-2. ***Optional:*** Create the secret:
-
-```bash
-kubectl create secret docker-registry csp-registry-secret  --docker-server="registry.aquasec.com" --namespace aqua --docker-username="jg@example.com" --docker-password="Truckin" --docker-email="jg@example.com"
-```
+[Link](docs/ingress.md)
 
 ## PostgreSQL database
 
@@ -134,104 +114,6 @@ db:
     password: verysecret
 ```
 
-## Customize your configuration
-
-The following tables list the configurable parameters for the Server, Enforcer, and Scanner charts.
-
-Change some or all of these parameters per the requirements of your deployment, if the default values are not appropriate.
-
-### Server
-
-| Parameter                         | Description                          | Default                                                                      |
-| --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
-| `imageCredentials.create`               | Set if to create new pull image secret    | `true`                                                                 |
-| `imageCredentials.name`               | Your Docker pull image secret name    | `csp-registry-secret`                                                                   |
-| `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   |
-| `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`                                                                   |
-| `rbac.enabled`                    | Create a service account and a ClusterRole    | `false`                                                                   |
-| `rbac.roleRef`                    | Use an existing ClusterRole    | ``                                                                   |
-| `admin.token`                    | Use this Aqua license token   | `N/A`                                                                   |
-| `admin.password`                    | Use this Aqua admin password   | `N/A`                                                                  |
-| `activeactive`               | change to true to enable active active mode    | `false`                                                                 |
-| `db.external.enabled`             | Use an external database (instead of deploying a Postgres container)    | `false`                          |
-| `db.external.name`                | PostgreSQL DB name    | ``N/A``                                        |
-| `db.external.host`                | PostgreSQL DB hostname    | ``N/A``                                        |
-| `db.external.port`                | PostgreSQL DB port    | `N/A`                                        |
-| `db.external.user`                | PostgreSQL DB username    | `N/A`                                        |
-| `db.external.password`            | PostgreSQL DB password    | `N/A`                                        |
-| `db.image.repository`                   | Default PostgreSQL Docker image repository    | `database`                                        |
-| `db.image.tag`                    | Default PostgreSQL Docker image tag    | `4.6`                                        |
-| `db.service.type`                      | Default PostgreSQL service type    | `ClusterIP`                                        |
-| `db.persistence.enabled`          | Enable a use of a PostgreSQL PVC    | `true`                                        |
-| `db.persistence.storageClass`     | PostgreSQL PVC StorageClass   | `default`                                        |
-| `db.persistence.size`             | PostgreSQL PVC volume size  | `30Gi`                                        |
-| `db.persistence.accessMode`       | PostgreSQL PVC volume AccessMode  | `ReadWriteOnce`                                        |
-| `db.resources`       | PostgreSQL pod resources  | `{}`                                        |
-| `web.service.type`                | Web service type  | `ClusterIP`                                        |
-| `web.ingress.enabled`             | Install ingress for the web component  | `false`                                        |
-| `web.image.repository`                   | Default Web Docker image repository    | `server`                                        |
-| `web.image.tag`                    | Default Web Docker image tag    | `4.6`                                        |
-| `web.ingress.annotations`         | Web ingress annotations  | `{}`                                        |
-| `web.ingress.hosts`               | Web ingress hosts definition  | `[]`                                        |
-| `web.ingress.tls`                 | Web ingress TLS  | `[]`                                        |
-| `gate.service.type`                | Gateway service type  | `ClusterIP`                                        |
-| `gate.image.repository`                   | Default Gateway Docker image repository    | `gate`                                        |
-| `gate.image.tag`                    | Default Gateway Docker image tag    | `4.6`                                        |
-| `gate.publicIP`                    | Default Gateway service public IP    | ``                                        |
-| `scanner.enabled`                 | Enable the Scanner component  | `false`                                        |
-| `scanner.replicaCount`                | Number of Scanner replicas to run  | `1`                                        |
-| `scanner.user`                | Username of the Scanner user assigned to the Scanner role  | `N/A`                                        |
-| `scanner.password`                | Password of the Scanner user  | `N/A`                                        |
-
-
-### Enforcer
-
-| Parameter                         | Description                          | Default                                                                      |
-| --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
-| `imageCredentials.create`               | Set if to create new pull image secret    | `false`                                                                 |
-| `imageCredentials.name`               | Your Docker pull image secret name    | `aqua-image-pull-secret`                                                                   |
-| `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   |
-| `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`                                                                   |
-| `enforcerToken`                           | Aqua Enforcer token    | `N/A`                                                     |
-| `server`                          | Gateway host name    | `aqua-gateway`                                                     |
-| `port`                            | Gateway port    | `8443`                                                     |
-
-### KubeEnforcer
-
-| Parameter                         | Description                          | Default                                                                      |
-| --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
-| `imageCredentials.create`               | Set if to create new pull image secret    | `true`                                                                 |
-| `imageCredentials.name`               | Your Docker pull image secret name    | `aqua-image-pull-secret`                                                                   |
-| `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   |
-| `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`                                                                   |
-| `aquaSecret.aquaUsername`                           | Aqua Console Username    | `N/A`
-| `aquaSecret.aquaPassword`                           | Aqua Console Password   | `N/A`
-| `aquaSecret.kubeEnforcerToken`                           | Aqua KubeEnforcer token    | `N/A`    
-| `certsSecret.serverCertificate`                           | Certificate for TLS authentication with Kubernetes api-server    | `N/A`
-| `certsSecret.serverKey`                           | Certificate key for TLS authentication with Kubernetes api-server    | `N/A`
-| `validatingWebhook.caBundle`                           | Root Certificate for TLS authentication with Kubernetes api-server   | `N/A`                                                 |
-| `envs.gatewayAddress`                          | Gateway host Address    | `aqua-gateway:8443`                                                     |
- 
-
-### Scanner
-
-| Parameter                         | Description                          | Default                                                                      |
-| --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
-| `rbac.enabled`                    | Create a service account and a ClusterRole    | `false`                                                                   |
-| `rbac.roleRef`                    | Use an existing ClusterRole    | ``                                                                   |
-| `admin.token`                    | Use this Aqua license token   | `N/A`                                                                   |
-| `admin.password`                    | Use this Aqua admin password   | `N/A`                                                                  |
-| `docker.socket.path`                    | Docker Socket Path   | `/var/run/docker.sock`                                                                  |
-| `serviceAccount`                    | Service account to use   | `csp-sa`                                                                  |
-| `server.serviceName`                    | Service name of the Aqua Server (console) UI   | `csp-console-svc`                                                                  |
-| `server.port`                    | Service svc port   | `8080`                                                                  |
-| `docker.socket.path`                    | Docker socket path   | `/var/run/docker.sock`                                                                  |
-| `docker.socket.path`                    | Docker socket path   | `/var/run/docker.sock`                                                                  |
-| `enabled`                 | Enable the Scanner component  | `false`                                        |
-| `replicaCount`                | Number of Scanner replicas to run  | `1`                                        |
-| `user`                | Username of the Scanner user assigned to the Scanner role  | `N/A`                                        |
-| `password`                | Password of the Scanner user  | `N/A`                                        |
-
 ## Deploy the Helm charts
 
 First, clone the GitHub repository with the charts
@@ -246,13 +128,13 @@ cd aqua-helm/
 ### Server chart
 
 ```bash
-helm upgrade --install --namespace aqua csp ./server --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
+helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
 ```
 
 ### Enforcer chart
 
 ```bash
-helm upgrade --install --namespace aqua csp-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,enforcerToken=<aquasec-token>
+helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,enforcerToken=<aquasec-token>
 ```
 
 ### KubeEnforcer chart
@@ -266,32 +148,6 @@ helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set imag
 ```bash
 helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
 ```
-
-# Additional deployment items
-
-## High-volume scanner installation
-
-Aqua CSP can deploy a scanner pod that is external to the Aqua Server. This dedicated scanner pod allows the Server to run unprivileged, and provides a high-throughput scan queue anywhere you choose. To install the Scanner alongside the Server components, set the following variables in values.yaml:
-
-```yaml
-scanner:
-  enabled: true
-  replicaCount: "Set quantity"
-```
-
-## Non-public cloud provider deployments (examples)
-
-**Creating an ingress to access the Aqua Server**
-
-Example: IBM Cloud Private includes a bundled ingress controller. A sample ingress yaml file is included in the repo.
-
-```sh
-kubectl apply -f ingress-example.yaml
-```
-
-**Alternative ingress configuration**
-
-Example: The services charts are set to create `ClusterIP' ingress types. You may tune these as appropriate for your environment.
 
 # Troubleshooting
 
@@ -315,44 +171,7 @@ Example: The services charts are set to create `ClusterIP' ingress types. You ma
 
 **Solution:** Most managed Kubernetes deployments do NOT include all possible storage provider variations at setup time. Refer to the [official Kubernetes guidance on storage classes](https://kubernetes.io/docs/concepts/storage/storage-classes/) for your platform. Three examples are shown below.
 
-  * Amazon EKS
-    ```yaml
-    kind: StorageClass
-    apiVersion: storage.k8s.io/v1
-    metadata:
-      name: aqua-console-db-data
-    provisioner: kubernetes.io/aws-ebs
-    parameters:
-      type: gp2
-    reclaimPolicy: Retain
-    mountOptions:
-      - debug
-    volumeBindingMode: Immediate
-      ```
-
-  * Azure AKS
-    ```yaml
-    kind: StorageClass
-    apiVersion: storage.k8s.io/v1
-    metadata:
-      name: slow
-    provisioner: kubernetes.io/azure-disk
-    parameters:
-      storageaccounttype: Standard_LRS
-      kind: Shared
-    ```
-
-  * Google GKE
-    ```yaml
-    kind: StorageClass
-    apiVersion: storage.k8s.io/v1
-    metadata:
-      name: slow
-    provisioner: kubernetes.io/gce-pd
-    parameters:
-      type: pd-standard
-    replication-type: none
-    ```
+for more information go to storage docs, [Link](docs/storage.md)
 
 **(3) Error:** When executing `kubectl get events -n aqua` you might encounter one of the following errors:
   *no persistent volumes available for this claim and no storage class is set* **or** *PersistentVolumeClaim is not bound*.
