@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-tenant-manager-svc
+  labels:
+    app: {{ .Release.Name }}-tenant-manager
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  ports:
+    - port: 8081
+  selector:
+    app: {{ .Release.Name }}-tenant-manager

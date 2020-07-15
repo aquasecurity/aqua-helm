@@ -1,0 +1,25 @@
+imageCredentials:
+  create: false
+  name: aqua-registry-secret # When create is false please specify
+  repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
+  registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+  username: ""
+  password: ""
+
+image:
+  repository: tenant-manager
+  tag: "5.0"
+  pullPolicy: IfNotPresent
+
+livenessProbe: {}
+readinessProbe: {}
+resources: {}
+  # Note: For recommendations please check the official sizing guide.
+  # limits:
+  #   cpu: 800m
+  #   memory: 2G
+  # requests:
+  #   cpu: 500m
+  #   memory: 1.5G
+nodeSelector: {}
+tolerations: []

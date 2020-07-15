@@ -1,0 +1,80 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-tenant-manager
+  labels:
+    app: {{ .Release.Name }}-tenant-manager
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  template:
+    metadata:
+      annotations:
+      {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
+      {{- end }}
+      labels:
+        app: {{ .Release.Name }}-tenant-manager
+      name: {{ .Release.Name }}-tenant-manager
+    spec:
+      serviceAccount: {{ .Release.Name }}-sa
+      containers:
+      - name: tenant-manager
+        image: "{{ .Values.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        env:
+          - name: AQUA_TM_DBNAME
+            value: "tenantmanager"
+          - name: AQUA_TM_DBUSER
+            value: "postgres"
+          - name: AQUA_TM_DBPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: aqua-db
+                key: password
+          - name: AQUA_TM_DBHOST
+            value: aqua-db
+          - name: AQUA_TM_DBPORT
+            value: "5432"
+          - name: AQUA_TM_AUDIT_DBNAME
+            value: "tm_audit"
+          - name: AQUA_TM_AUDIT_DBUSER
+            value: "postgres"
+          - name: AQUA_TM_AUDIT_DBPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: aqua-db
+                key: password
+          - name: AQUA_TM_AUDIT_DBHOST
+            value: aqua-db
+          - name: AQUA_TM_AUDIT_DBPORT
+            value: "5432"
+          - name: SCALOCK_LOG_LEVEL
+            value: "DEBUG"
+        ports:
+        - containerPort: 8081
+          protocol: TCP
+{{- with .Values.livenessProbe }}
+        livenessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- with .Values.readinessProbe }}
+        readinessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- if and (.Values.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 6 }}
+      {{- end }}

@@ -9,6 +9,7 @@ CSP deployments include the following components:
 - Enforcer
 - KubeEnforcer
 - Scanner
+- Tenant Manager
 
 ## Contents
 
@@ -30,6 +31,7 @@ This repository includes three charts that may be deployed separately:
 * [**Enforcer**](enforcer/) - deploys the Enforcer daemonset
 * [**Scanner**](scanner/) - deploys the Scanner deployment
 * [**KubeEnforcer**](kube-enforcer/) - deploys the KubeEnforcer deployment
+* [**TenantManager**](tenant-manager/) - deploys the Tenant Manager deployment
 
 # Deployment instructions
 
@@ -64,6 +66,7 @@ NAME                      CHART VERSION		    APP VERSION		      DESCRIPTION
 aqua-helm/enforcer        5.0.0        			  5.0        				  A Helm chart for the Aqua Enforcer
 aqua-helm/scanner 	      5.0.0        			  5.0        				  A Helm chart for the aqua scanner cli component
 aqua-helm/server  	      5.0.0        			  5.0        				  A Helm chart for the Aqua Console Componants
+aqua-helm/tenant-manager  5.0.0               5.0                 A Helm chart for the Aqua Tenant Manager
 aqua-helm/kube-enforcer   5.0.0                   5.0                         A helm chart for the Aqua KubeEnforcer
 ```
 
@@ -147,6 +150,12 @@ helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set imag
 
 ```bash
 helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
+```
+
+## Tenant Manager chart (optional)
+
+```bash
+helm upgrade --install --namespace aqua aqua-tenant-manager ./tenant-manager --set imageCredentials.username=<>,imageCredentials.password=<>
 ```
 
 # Troubleshooting
