@@ -160,14 +160,10 @@ spec:
               key: encryption-key
           {{- end }}
           {{- if .Values.docker }}
-          {{- if (ne "-" .Values.docker) }}
-          {{- if .Values.docker }}
         - name: AQUA_DOCKERLESS_SCANNING
           value: "0"
         - name: DISABLE_IP_BAN
           value: "0"
-          {{- end }}
-          {{- end }}
           {{- end }}
           {{- if .Values.clustermode }}
         - name: CLUSTER_MODE
@@ -203,13 +199,9 @@ spec:
 {{ toYaml . | indent 10 }}
 {{- end }}
         {{- if .Values.docker }}
-        {{- if (ne "-" .Values.docker) }}
-        {{- if .Values.docker }}
         volumeMounts:
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
-        {{- end }}
-        {{- end }}
         {{- end }}
         resources:
 {{ toYaml .Values.web.resources | indent 12 }}
@@ -226,12 +218,8 @@ spec:
 {{ toYaml .Values.web.tolerations | indent 6 }}
       {{- end }}
       {{- if .Values.docker }}
-      {{- if (ne "-" .Values.docker) }}
-      {{- if .Values.docker }}
       volumes:
       - name: docker-socket-mount
         hostPath:
           path: {{ .Values.docker.socket.path }}
-      {{- end }}
-      {{- end }}
       {{- end }}

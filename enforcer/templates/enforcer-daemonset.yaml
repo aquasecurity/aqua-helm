@@ -78,15 +78,11 @@ spec:
           value: {{ .Release.Name }}-helm
           {{- end }}
         {{- if .Values.aquaNetworkControl }}
-        {{- if (ne "-" .Values.aquaNetworkControl) }}
-        {{- if .Values.aquaNetworkControl }}
         - name: AQUA_NETWORK_CONTROL
           value: "1"
         {{- else }}
         - name: AQUA_NETWORK_CONTROL
           value: "0"
-        {{- end }}
-        {{- end }}
         {{- end }}
         - name: RESTART_CONTAINERS
           value: "no"
@@ -95,15 +91,11 @@ spec:
           value: {{ .Values.hostRunPath }}
         {{- end }}
         {{- if .Values.runcInterception }}
-        {{- if (ne "-" .Values.runcInterception) }}
-        {{- if .Values.runcInterception }}
         - name: AQUA_RUNC_INTERCEPTION
           value: "1"
         {{- else }}
         - name: AQUA_RUNC_INTERCEPTION
           value: "0"
-        {{- end }}
-        {{- end }}
         {{- end }}
         volumeMounts:
         - mountPath: /var/run
