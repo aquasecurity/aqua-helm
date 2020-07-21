@@ -15,8 +15,8 @@ enforcerLogicalName:
 privileged: true
 
 hostRunPath: # pks - /var/vcap/sys/run/docker
-runcInterception: "-" # true/false values
-aquaNetworkControl: "-" # true/false values
+runcInterception: true
+aquaNetworkControl: true
 
 gate:
   host: aqua-gateway-svc # example

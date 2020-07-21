@@ -37,13 +37,9 @@ spec:
         - "--host"
         - "http://{{ .Values.server.serviceName }}:{{ .Values.server.port }}"
         {{- if .Values.docker }}
-        {{- if (ne "-" .Values.docker) }}
-        {{- if .Values.docker }}
         volumeMounts:
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
-        {{- end }}
-        {{- end }}
         {{- end }}
         ports:
         - containerPort: 8080
@@ -71,12 +67,8 @@ spec:
 {{ toYaml .Values.tolerations | indent 6 }}
       {{- end }}
       {{- if .Values.docker }}
-      {{- if (ne "-" .Values.docker) }}
-      {{- if .Values.docker }}
       volumes:
       - name: docker-socket-mount
         hostPath:
           path: {{ .Values.docker.socket.path }}
-      {{- end }}
-      {{- end }}
       {{- end }}
