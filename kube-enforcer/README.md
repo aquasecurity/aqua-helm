@@ -2,7 +2,7 @@
 
 Contents:
 - [Aqua Kube Enforcer Helm Chart](#aqua-kube-enforcer-helm-chart)
-  - [Configure TLS Authentication to the API Server](#optional-configure-tls-authentication-to-the-api-server)
+  - [Configure TLS Authentication between KubeEnforcer & API Server](#configure-tls-authentication-between-kubeenforcer-&-api-server)
   - [Deploy The Helm Chart](#deploy-the-helm-chart)
     - [Installing the Chart](#installing-the-chart)
   - [Issues and feedback](#issues-and-feedback)
