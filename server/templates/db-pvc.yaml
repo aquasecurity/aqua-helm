@@ -1,4 +1,4 @@
-{{- if and ((not .Values.db.external.enabled) .Values.db.persistence.enabled) }}
+{{- if and (not .Values.db.external.enabled) (.Values.db.persistence.enabled) }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
