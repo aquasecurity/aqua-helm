@@ -29,6 +29,10 @@ docker:
 
 docker:
 
+common:
+  image:
+    tag: "5.0"
+
 db:
   external:
     enabled: false

@@ -72,6 +72,7 @@ Parameter | Description | Default
 `admin.passwordkey` | administrator password key in the secret | `null`
 `docker.socket.path` | docker socket path | `/var/run/docker.sock`
 `docker` | Scanning mode direct or docker [link](https://docs.aquasec.com/docs/scanning-mode#default-scanning-mode) | `-`
+`common.image.tag` | Images are commonly in lockstep; use this value if a <component>.image.tag is not set | `5.0`
 `db.external.enabled` | Avoid installing a Postgres container and use an external database instead | `false`
 `db.external.name` | PostgreSQL DB name | `unset`
 `db.external.host` | PostgreSQL DB hostname | `unset`
@@ -102,7 +103,7 @@ Parameter | Description | Default
 `db.persistence.size` |	Persistent Volume size | `30Gi`
 `db.persistence.storageClass` |	Persistent Volume Storage Class | `unset`
 `db.image.repository` | the docker image name to use | `database`
-`db.image.tag` | The image tag to use. | `5.0`
+`db.image.tag` | The image tag to use. | `unset`
 `db.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
 `db.service.type` | k8s service type | `ClusterIP`
 `db.resources` |	Resource requests and limits | `{}`
@@ -110,7 +111,7 @@ Parameter | Description | Default
 `db.tolerations` |	Kubernetes node tolerations	| `[]`
 `db.affinity` |	Kubernetes node affinity | `{}`
 `gate.image.repository` | the docker image name to use | `gateway`
-`gate.image.tag` | The image tag to use. | `5.0`
+`gate.image.tag` | The image tag to use. | `unset`
 `gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
 `gate.service.type` | k8s service type | `ClusterIP`
 `gate.service.externalPort` | k8s service type | `3622`
@@ -124,7 +125,7 @@ Parameter | Description | Default
 `gate.tolerations` |	Kubernetes node tolerations	| `[]`
 `gate.affinity` |	Kubernetes node affinity | `{}`
 `web.image.repository` | the docker image name to use | `console`
-`web.image.tag` | The image tag to use. | `5.0`
+`web.image.tag` | The image tag to use. | `unset`
 `web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
 `web.service.type` | k8s service type | `LoadBalancer`
 `web.service.externalPort` | k8s service type | `8080`

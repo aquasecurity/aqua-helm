@@ -26,7 +26,7 @@ spec:
       serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: web
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.web.image.repository }}:{{ or .Values.web.image.tag .Values.common.image.tag }}"
         imagePullPolicy: "{{ .Values.web.image.pullPolicy }}"
         env:
         - name: SCALOCK_DBUSER

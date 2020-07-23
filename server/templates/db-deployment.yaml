@@ -26,7 +26,7 @@ spec:
       serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: db
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ or .Values.db.image.tag .Values.common.image.tag }}"
         imagePullPolicy: "{{ .Values.db.image.pullPolicy }}"
         env:
           {{- if .Values.db.passwordSecret }}

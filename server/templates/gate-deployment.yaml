@@ -26,7 +26,7 @@ spec:
       serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: gate
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ .Values.gate.image.tag }}"
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ or .Values.gate.image.tag .Values.common.image.tag }}"
         imagePullPolicy: "{{ .Values.gate.image.pullPolicy }}"
         env:
         - name: AQUA_CONSOLE_SECURE_ADDRESS
