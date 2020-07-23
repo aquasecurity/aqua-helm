@@ -63,7 +63,7 @@ Parameter | Description | Default
 `rbac.enabled` | if to create rbac configuration for aqua | `true`
 `rbac.privileged` | determines if any container in a pod can enable privileged mode. | `true`
 `rbac.roleRef` | name of rbac role to set in not create by helm | `unset`
-`activeative` |	set in active active mode | `false`
+`activeactive` |	set in active active mode | `false`
 `clustermode` |	set in HA cluster mode | `false`
 `admin.token`| Use this Aqua license token | `unset`
 `admin.password` | Use this Aqua admin password | `unset`
