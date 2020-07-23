@@ -14,7 +14,6 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Configurable Variables](#configurable-variables)
     - [Enforcer](#enforcer)
   - [Issues and feedback](#issues-and-feedback)
-  - [Support](#support)
 
 ## Prerequisites
 
@@ -76,7 +75,3 @@ Parameter | Description | Default
 ## Issues and feedback
 
 If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub.
-
-## Support
-
-If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub please contact us at https://github.com/aquasecurity.

@@ -11,8 +11,8 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Installing the Chart](#installing-the-chart)
   - [Configurable Variables](#configurable-variables)
     - [Scanner](#scanner)
-  - [Support](#support)
-  
+  - [Issues and feedback](#issues-and-feedback)
+
 ## Installing the Chart
 
 Clone the GitHub repository with the chart
@@ -51,6 +51,6 @@ Parameter | Description | Default
 `tolerations` |	Kubernetes node tolerations	| `[]`
 `affinity` |	Kubernetes node affinity | `{}`
 
-## Support
+## Issues and feedback
 
-If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub please contact us at https://github.com/aquasecurity.
+If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub.
