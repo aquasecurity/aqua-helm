@@ -8,10 +8,18 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
 
 - [Aqua Security Scanner Helm Chart](#aqua-security-scanner-helm-chart)
   - [Contents](#contents)
+  - [Prerequisites](#prerequisites)
+    - [Container Registry Credentials](#container-registry-credentials)
   - [Installing the Chart](#installing-the-chart)
   - [Configurable Variables](#configurable-variables)
     - [Scanner](#scanner)
   - [Issues and feedback](#issues-and-feedback)
+
+## Prerequisites
+
+### Container Registry Credentials
+
+[Link](../docs/imagepullsecret.md)
 
 ## Installing the Chart
 
