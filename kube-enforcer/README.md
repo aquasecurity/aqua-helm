@@ -1,10 +1,18 @@
-# Aqua Kube Enforcer Helm Chart
+<img src="https://avatars3.githubusercontent.com/u/12783832?s=200&v=4" height="100" width="100" /><img src="https://avatars3.githubusercontent.com/u/15859888?s=200&v=4" width="100" height="100"/>
 
-Contents:
-- [Aqua Kube Enforcer Helm Chart](#aqua-kube-enforcer-helm-chart)
+# Aqua Security Kube Enforcer Helm Chart
+
+These are Helm charts for installation and maintenance of Aqua Container Security Enforcer
+
+## Contents
+
+- [Aqua Security Kube Enforcer Helm Chart](#aqua-security-kube-enforcer-helm-chart)
+  - [Contents](#contents)
   - [Configure TLS Authentication to the API Server](#optional-configure-tls-authentication-to-the-api-server)
   - [Deploy The Helm Chart](#deploy-the-helm-chart)
     - [Installing the Chart](#installing-the-chart)
+  - [Configurable Variables](#configurable-variables)
+    - [KubeEnforcer](#kubeenforcer)
   - [Issues and feedback](#issues-and-feedback)
 
 ## Configure TLS Authentication between KubeEnforcer & API Server
@@ -66,7 +74,9 @@ Optional flags:
 --aquaSecret.kubeEnforcerToken           default to "" you can find the KubeEnforcer token from aqua csp under enforcers tab in default/custom KubeEnforcer group or you can manually approve KubeEnforcer authentication from aqua CSP under default/custom KubeEnforcer group in enforcers tab. 
 ```
 
-### Customize your configuration
+## Configurable Variables
+
+### KubeEnforcer
 
 | Parameter                         | Description                          | Default                                                                      |
 | --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
