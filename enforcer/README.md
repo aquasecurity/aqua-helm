@@ -10,7 +10,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Contents](#contents)
   - [Prerequisites](#prerequisites)
     - [Container Registry Credentials](#container-registry-credentials)
-  - [Installing the Charts](#installing-the-charts)
+  - [Installing the Chart](#installing-the-chart)
   - [Configurable Variables](#configurable-variables)
     - [Enforcer](#enforcer)
   - [Issues and feedback](#issues-and-feedback)
@@ -33,7 +33,7 @@ Next, **(Optional)** create the secret:
 kubectl create secret docker-registry aqua-registry-secret  --docker-server="registry.aquasec.com" --namespace aqua --docker-username="jg@example.com" --docker-password="Truckin" --docker-email="jg@example.com"
 ```
 
-## Installing the Charts
+## Installing the Chart
 
 Clone the GitHub repository with the charts
 
