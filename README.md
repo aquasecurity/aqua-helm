@@ -60,11 +60,11 @@ $ helm search repo aqua-helm
 Example output:
 
 ```csv
-NAME                      CHART VERSION		    APP VERSION		      DESCRIPTION
-aqua-helm/enforcer        5.0.0        			  5.0        				  A Helm chart for the Aqua Enforcer
-aqua-helm/scanner 	      5.0.0        			  5.0        				  A Helm chart for the aqua scanner cli component
-aqua-helm/server  	      5.0.0        			  5.0        				  A Helm chart for the Aqua Console Componants
-aqua-helm/kube-enforcer   5.0.0                   5.0                         A helm chart for the Aqua KubeEnforcer
+NAME                      CHART VERSION       APP VERSION         DESCRIPTION
+aqua-helm/enforcer        5.0.0               5.0                 A Helm chart for the Aqua Enforcer
+aqua-helm/scanner         5.0.0               5.0                 A Helm chart for the Aqua Scanner CLI component
+aqua-helm/server          5.0.0               5.0                 A Helm chart for the Aqua Console components
+aqua-helm/kube-enforcer   5.0.0               5.0                 A Helm chart for the Aqua KubeEnforcer
 ```
 
 * Search for all components of a specific version in our Aqua Helm repository
