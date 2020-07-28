@@ -11,7 +11,7 @@ kubectl create namespace aqua
 2. Create the image pull secret:
 
 ```bash
-kubectl create secret docker-registry aqua-registry --docker-server="registry.aquasec.com" --namespace aqua --docker-username="user@example.com" --docker-password="<Password>" --docker-email="user@example.com"
+kubectl create secret docker-registry aqua-registry-secret --docker-server="registry.aquasec.com" --namespace aqua --docker-username="user@example.com" --docker-password="<Password>" --docker-email="user@example.com"
 ```
 
 > Note: in case you using the csp chart the chart can create the image pull secret automaticly.
