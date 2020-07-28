@@ -19,19 +19,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
 
 ### Container Registry Credentials
 
-The Aqua server (Console and Gateway) components are available in our private repository, which requires authentication. By default, the charts create a secret based on the values.yaml. 
-
-First, create a new namespace named "aqua":
-
-```bash
-kubectl create namespace aqua
-```
-
-Next, **(Optional)** create the secret:
-
-```bash
-kubectl create secret docker-registry aqua-registry-secret  --docker-server="registry.aquasec.com" --namespace aqua --docker-username="jg@example.com" --docker-password="Truckin" --docker-email="jg@example.com"
-```
+[Link](../docs/imagepullsecret.md)
 
 ## Installing the Chart
 
