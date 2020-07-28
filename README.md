@@ -20,7 +20,7 @@ CSP deployments include the following components:
   - [Ingress](#ingress)
   - [Deploy the Helm charts](#deploy-the-helm-charts)
 - [Troubleshooting](#troubleshooting)
-- [Support](#support)
+- [Issues and feedback](#issues-and-feedback)
 
 ## Helm charts
 
@@ -182,6 +182,6 @@ for more information go to storage docs, [Link](docs/storage.md)
   kubectl apply -f pv-example.yaml
   ```
 
-# Support
+## Issues and feedback
 
-If you encounter any problems, or would like to give us feedback, we encourage you to raise issues here on GitHub. Please contact us at https://github.com/aquasecurity.
+If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub.

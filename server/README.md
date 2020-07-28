@@ -12,6 +12,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [PostgreSQL database](#postgresql-database)
 - [Installing the Chart](#installing-the-chart)
 - [Configurable Variables](#configurable-variables)
+- [Issues and feedback](#issues-and-feedback)
 
 ## Prerequisites
 
@@ -141,6 +142,6 @@ Parameter | Description | Default
 `web.ingress.hosts` | Ingress hostnames |	`[]`
 `web.ingress.tls` |	Ingress TLS configuration (YAML) | `[]`
 
-## Support
+## Issues and feedback
 
-If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub please contact us at https://github.com/aquasecurity.
+If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub.

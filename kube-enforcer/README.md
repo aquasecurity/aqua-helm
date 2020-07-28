@@ -84,12 +84,12 @@ Optional flags:
 | `imageCredentials.name`               | Your Docker pull image secret name    | `aqua-image-pull-secret`                                                                   |
 | `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   |
 | `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`
-| `aquaSecret.kubeEnforcerToken`                           | Aqua KubeEnforcer token    | `N/A`    
+| `aquaSecret.kubeEnforcerToken`                           | Aqua KubeEnforcer token    | `N/A`
 | `certsSecret.serverCertificate`                           | Certificate for TLS authentication with Kubernetes api-server    | `N/A`
 | `certsSecret.serverKey`                           | Certificate key for TLS authentication with Kubernetes api-server    | `N/A`
 | `validatingWebhook.caBundle`                           | Root Certificate for TLS authentication with Kubernetes api-server   | `N/A`                                                 |
 | `envs.gatewayAddress`                          | Gateway host Address    | `aqua-gateway:8443`                                                     |
- 
+
 
 ## Issues and feedback
 
