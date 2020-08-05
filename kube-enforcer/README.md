@@ -77,8 +77,10 @@ Optional flags:
 
 | Parameter                         | Description                          | Default                                                                      |
 | --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
-| `imageCredentials.create`               | Set if to create new pull image secret    | `true`                                                                 |
-| `imageCredentials.name`               | Your Docker pull image secret name    | `aqua-image-pull-secret`                                                                   |
+| `imageCredentials.create` | Set if to create new pull image secret | `false`
+| `imageCredentials.name` | Your Docker pull image secret name | `aqua-registry-secret`
+| `imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com`
+| `imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/` | `registry.aquasec.com`
 | `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   |
 | `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`
 | `aquaSecret.kubeEnforcerToken`                           | Aqua KubeEnforcer token    | `N/A`
