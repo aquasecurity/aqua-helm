@@ -13,7 +13,7 @@ rbac:
   roleRef:
 
 # enable only one of the modes
-clustermode: false
+clustermode: false # Active-Passive. To be deprecated, use Active-Active instead
 activeactive: false
 
 admin:
