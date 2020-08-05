@@ -59,7 +59,7 @@ Parameter | Description | Default
 `imageCredentials.name` | Your Docker pull image secret name | `aqua-registry-secret`
 `imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com`
 `imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/` | `registry.aquasec.com`
-`imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret`
+`imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `unset`
 `imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`
 `rbac.enabled` | if to create rbac configuration for aqua | `true`
 `rbac.privileged` | determines if any container in a pod can enable privileged mode. | `true`
