@@ -104,7 +104,7 @@ Parameter | Description | Default
 `db.persistence.storageClass` |	Persistent Volume Storage Class | `unset`
 `db.image.repository` | the docker image name to use | `database`
 `db.image.tag` | The image tag to use. | `5.0`
-`db.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
+`db.image.pullPolicy` | The kubernetes image pull policy. | `Always`
 `db.service.type` | k8s service type | `ClusterIP`
 `db.resources` |	Resource requests and limits | `{}`
 `db.nodeSelector` |	Kubernetes node selector	| `{}`
@@ -112,7 +112,7 @@ Parameter | Description | Default
 `db.affinity` |	Kubernetes node affinity | `{}`
 `gate.image.repository` | the docker image name to use | `gateway`
 `gate.image.tag` | The image tag to use. | `5.0`
-`gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
+`gate.image.pullPolicy` | The kubernetes image pull policy. | `Always`
 `gate.service.type` | k8s service type | `ClusterIP`
 `gate.service.externalPort` | k8s service type | `3622`
 `gate.service.nodePort` | k8s service type | `unset`
@@ -126,7 +126,7 @@ Parameter | Description | Default
 `gate.affinity` |	Kubernetes node affinity | `{}`
 `web.image.repository` | the docker image name to use | `console`
 `web.image.tag` | The image tag to use. | `5.0`
-`web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
+`web.image.pullPolicy` | The kubernetes image pull policy. | `Always`
 `web.service.type` | k8s service type | `LoadBalancer`
 `web.service.externalPort` | k8s service type | `8080`
 `web.service.nodePort` | k8s service type | `unset`

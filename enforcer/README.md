@@ -54,7 +54,7 @@ Parameter | Description | Default
 `gate.port` | gateway port | `8443`
 `image.repository` | the docker image name to use | `enforcer`
 `image.tag` | The image tag to use. | `5.0`
-`image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
+`image.pullPolicy` | The kubernetes image pull policy. | `Always`
 `resources` |	Resource requests and limits | `{}`
 `nodeSelector` |	Kubernetes node selector	| `{}`
 `tolerations` |	Kubernetes node tolerations	| `[]`

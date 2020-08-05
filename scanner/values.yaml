@@ -14,7 +14,7 @@ server:
 image:
   repository: scanner
   tag: "5.0"
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 user:
 password:

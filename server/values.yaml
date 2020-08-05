@@ -59,7 +59,7 @@ db:
   image:
     repository: database
     tag: "5.0"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     type: ClusterIP
   persistence:
@@ -101,7 +101,7 @@ gate:
   image:
     repository: gateway
     tag: "5.0"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     type: ClusterIP
     externalPort: 3622
@@ -129,7 +129,7 @@ web:
   image:
     repository: console
     tag: "5.0"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     type: LoadBalancer
     externalPort: 8080
