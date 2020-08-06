@@ -128,13 +128,13 @@ cd aqua-helm/
 ### Server chart
 
 ```bash
-helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
+helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>
 ```
 
 ### Enforcer chart
 
 ```bash
-helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,enforcerToken=<aquasec-token>
+helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
 ```
 
 ### KubeEnforcer chart
@@ -146,7 +146,7 @@ helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set imag
 ### Scanner chart (optional)
 
 ```bash
-helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
+helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>
 ```
 
 # Troubleshooting
