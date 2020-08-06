@@ -2,7 +2,7 @@
 imageCredentials:
   # If aqua-registry already exists in the cluster. Make create to false. So it won't attempt to create a new registry secret. 
   create: true
-  name: csp-registry-secret # example
+  name: aqua-registry-secret # example
   repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
   registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
   username: ""
@@ -35,7 +35,7 @@ aquaSecret:
   kubeEnforcerToken: ""
 
 envs:
-  gatewayAddress: csp-gateway-svc:8443 
+  gatewayAddress: aqua-gateway-svc:8443 
 
 
 serviceAccount:
