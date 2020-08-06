@@ -30,3 +30,30 @@ Create chart name and version as used by the chart label.
 {{- define "scanner.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Inject extra environment vars in the format key:value, if populated
+*/}}
+{{- define "scanner.extraEnvironmentVars" -}}
+{{- if .extraEnvironmentVars -}}
+{{- range $key, $value := .extraEnvironmentVars }}
+- name: {{ printf "%s" $key | replace "." "_" | upper | quote }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Inject extra environment populated by secrets, if populated
+*/}}
+{{- define "scanner.extraSecretEnvironmentVars" -}}
+{{- if .extraSecretEnvironmentVars -}}
+{{- range .extraSecretEnvironmentVars }}
+- name: {{ .envName }}
+  valueFrom:
+   secretKeyRef:
+     name: {{ .secretName }}
+     key: {{ .secretKey }}
+{{- end -}}
+{{- end -}}
+{{- end -}}

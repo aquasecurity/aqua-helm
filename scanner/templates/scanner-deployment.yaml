@@ -36,7 +36,14 @@ spec:
         - "{{ required "Please specify a password for a user associated with the Scanner role!" .Values.password }}"
         - "--host"
         - "http://{{ .Values.server.serviceName }}:{{ .Values.server.port }}"
-        {{- if .Values.docker }}
+        env:
+        - name: AQUA_SCANNER_LOGICAL_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        {{- include "scanner.extraEnvironmentVars" .Values | nindent 8 }}
+        {{- include "scanner.extraSecretEnvironmentVars" .Values | nindent 8 }}
+        {{- if .Values.dockerSock.mount }}
         volumeMounts:
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
@@ -66,9 +73,9 @@ spec:
       tolerations:
 {{ toYaml .Values.tolerations | indent 6 }}
       {{- end }}
-      {{- if .Values.docker }}
+      {{- if .Values.dockerSock.mount }}
       volumes:
       - name: docker-socket-mount
         hostPath:
-          path: {{ .Values.docker.socket.path }}
+          path: {{ .Values.dockerSock.path }}
       {{- end }}

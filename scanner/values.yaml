@@ -1,10 +1,8 @@
 repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
 
-docker:
-  socket:
-    path: "/var/run/docker.sock" # pks - /var/vcap/data/sys/run/docker/docker.sock
-
-docker:
+dockerSock:
+  mount: # put true for mount docker socket.
+  path: /var/run/docker.sock # pks - /var/vcap/data/sys/run/docker/docker.sock
 
 serviceAccount: "aqua-sa"
 server:
@@ -32,3 +30,15 @@ resources: {}
 nodeSelector: {}
 tolerations: []
 affinity: {}
+
+# extraEnvironmentVars is a list of extra enviroment variables to set in the scanner deployments.
+# https://docs.aquasec.com/docs/scanner-optional-variables
+extraEnvironmentVars: {}
+  # ENV_NAME: value
+
+# extraSecretEnvironmentVars is a list of extra enviroment variables to set in the scanner deployments.
+# These variables take value from existing Secret objects.
+extraSecretEnvironmentVars: []
+  # - envName: ENV_NAME
+  #   secretName: name
+  #   secretKey: key

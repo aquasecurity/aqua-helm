@@ -128,6 +128,8 @@ spec:
         - name: SCALOCK_AUDIT_DBSSL
           value: require
           {{- end }}
+        {{- include "server.extraEnvironmentVars" .Values.gate | nindent 8 }}
+        {{- include "server.extraSecretEnvironmentVars" .Values.gate | nindent 8 }}
         ports:
         - containerPort: 3622
           protocol: TCP

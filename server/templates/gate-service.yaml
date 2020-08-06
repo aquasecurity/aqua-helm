@@ -14,17 +14,14 @@ spec:
   selector:
     app: {{ .Release.Name }}-gateway
   ports:
-  - port: {{ .Values.gate.service.externalPort }}
-    targetPort: 3622
-    protocol: TCP
-    name: aqua-gate
-  {{- if and (eq .Values.gate.service.type "NodePort") (.Values.gate.service.nodePort) }}
-    nodePort: {{ .Values.gate.service.nodePort }}
-  {{- end }}
-  - port: {{ .Values.gate.grpcservice.externalPort }}
-    targetPort: 8443
-    protocol: TCP
-    name: aqua-gate-ssl
-  {{- if and (eq .Values.gate.service.type "NodePort") (.Values.gate.grpcservice.nodePort) }}
-    nodePort: {{ .Values.gate.grpcservice.nodePort }}
+  {{- range $port := .Values.gate.service.ports }}
+    - name: {{ $port.name }}
+      port: {{ $port.port }}
+      targetPort: {{ $port.targetPort }}
+      {{- if $port.nodePort }}
+      nodePort: {{ $port.nodePort }}
+      {{- end }}
+      {{- if $port.protocol }}
+      protocol: {{ $port.protocol }}
+      {{- end }}
   {{- end }}

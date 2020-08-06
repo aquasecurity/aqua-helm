@@ -13,17 +13,14 @@ spec:
   selector:
     app: {{ .Release.Name }}-console
   ports:
-  - port: {{ .Values.web.service.externalPort }}
-    targetPort: 8080
-    protocol: TCP
-    name: aqua-web
-  {{- if and (eq .Values.web.service.type "NodePort") (.Values.web.service.nodePort) }}
-    nodePort: {{ .Values.web.service.nodePort }}
-  {{- end }}
-  - port: {{ .Values.web.grpcService.externalPort }}
-    targetPort: 8443
-    protocol: TCP
-    name: aqua-web-ssl
-  {{- if and (eq .Values.web.service.type "NodePort") (.Values.web.grpcService.nodePort) }}
-    nodePort: {{ .Values.web.grpcService.nodePort }}
+  {{- range $port := .Values.web.service.ports }}
+    - name: {{ $port.name }}
+      port: {{ $port.port }}
+      targetPort: {{ $port.targetPort }}
+      {{- if $port.nodePort }}
+      nodePort: {{ $port.nodePort }}
+      {{- end }}
+      {{- if $port.protocol }}
+      protocol: {{ $port.protocol }}
+      {{- end }}
   {{- end }}

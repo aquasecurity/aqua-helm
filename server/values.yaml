@@ -13,21 +13,16 @@ rbac:
   roleRef:
 
 # enable only one of the modes
-clustermode: false
-activeactive: false
+clustermode: 
+activeactive:
 
 admin:
   token:
   password:
-  secretname: null
-  tokenkey: null
-  passwordkey: null
 
-docker:
-  socket:
-    path: /var/run/docker.sock # pks - /var/vcap/data/sys/run/docker/docker.sock
-
-docker:
+dockerSock:
+  mount: # put true for mount docker socket.
+  path: /var/run/docker.sock # pks - /var/vcap/data/sys/run/docker/docker.sock
 
 db:
   external:
@@ -47,13 +42,13 @@ db:
     pubsubPort:
     pubsubUser:
     pubsubPassword:
-  passwordSecret: null
-  dbPasswordName: null
-  dbPasswordKey: null
-  dbAuditPasswordName: null
-  dbAuditPasswordKey: null
-  dbPubsubPasswordName: null
-  dbPubsubPasswordKey: null
+  passwordSecret:
+  dbPasswordName:
+  dbPasswordKey:
+  dbAuditPasswordName:
+  dbAuditPasswordKey:
+  dbPubsubPasswordName:
+  dbPubsubPasswordKey:
   ssl: false
   auditssl: false
   image:
@@ -98,19 +93,25 @@ db:
   affinity: {}
 
 gate:
+  replicaCount: 1
   image:
     repository: gateway
     tag: "5.0"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
-    externalPort: 3622
-    nodePort:
-  grpcservice:
-    externalPort: 8443
-    nodePort:
-  publicIP: aqua-gateway
-  replicaCount: 1
+    ports:
+      - name: aqua-gate
+        port: 3622
+        targetPort: 3622
+        nodePort:
+        protocol: TCP
+      - name: aqua-gate-ssl
+        port: 8443
+        targetPort: 8443
+        nodePort:
+        protocol: TCP
+  publicIP:
   livenessProbe: {}
   readinessProbe: {}
   resources: {}
@@ -125,19 +126,36 @@ gate:
   tolerations: []
   affinity: {}
 
+  # extraEnvironmentVars is a list of extra enviroment variables to set in the gateway deployments.
+  extraEnvironmentVars: {}
+    # ENV_NAME: value
+
+  # extraSecretEnvironmentVars is a list of extra enviroment variables to set in the gateway deployments.
+  # These variables take value from existing Secret objects.
+  extraSecretEnvironmentVars: []
+    # - envName: ENV_NAME
+    #   secretName: name
+    #   secretKey: key
+
 web:
+  replicaCount: 1
   image:
     repository: console
     tag: "5.0"
     pullPolicy: IfNotPresent
   service:
     type: LoadBalancer
-    externalPort: 8080
-    nodePort:
-  grpcService:
-    externalPort: 443
-    nodePort:
-  encryptionKey:
+    ports:
+      - name: aqua-web
+        port: 8080
+        targetPort: 8080
+        nodePort:
+        protocol: TCP
+      - name: aqua-web-ssl
+        port: 443
+        targetPort: 8443
+        nodePort:
+        protocol: TCP
   ingress:
     enabled: false
     annotations: {}
@@ -148,7 +166,6 @@ web:
     #  - secretName: aquasec-tls
     #    hosts:
     #      - aquasec.domain.com
-  replicaCount: 1
   livenessProbe: {}
   readinessProbe: {}
   resources: {}
@@ -162,7 +179,14 @@ web:
   nodeSelector: {}
   tolerations: []
   affinity: {}
-  proxy:
-    httpProxy:
-    httpsProxy:
-    noProxy:
+
+  # extraEnvironmentVars is a list of extra enviroment variables to set in the web deployments.
+  extraEnvironmentVars: {}
+    # ENV_NAME: value
+
+  # extraSecretEnvironmentVars is a list of extra enviroment variables to set in the web deployments.
+  # These variables take value from existing Secret objects.
+  extraSecretEnvironmentVars: []
+    # - envName: ENV_NAME
+    #   secretName: name
+    #   secretKey: key

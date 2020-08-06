@@ -31,27 +31,28 @@ spec:
         env:
         - name: SCALOCK_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
-          {{- if .Values.db.passwordSecret }}
+        {{- if .Values.db.passwordSecret }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Values.db.dbPasswordName }}
               key: {{ .Values.db.dbPasswordKey }}
-          {{- else }}
+        {{- else }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
               key: db-password
-          {{- end }}
+        {{- end }}
         - name: SCALOCK_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.name "scalock" }}
+        {{- if .Values.db.external.enabled }}
         - name: SCALOCK_DBHOST
-          {{- if .Values.db.external.enabled }}
           value: {{ .Values.db.external.host }}
-          {{- else }}
+        {{- else }}
+        - name: SCALOCK_DBHOST
           value: {{ .Release.Name }}-database-svc
-          {{- end }}
+        {{- end }}
         - name: SCALOCK_DBPORT
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
         - name: SCALOCK_AUDIT_DBUSER
@@ -83,7 +84,7 @@ spec:
           {{- end }}
         - name: SCALOCK_AUDIT_DBPORT
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
-          {{- if .Values.activeactive }}
+        {{- if .Values.activeactive }}
         - name: AQUA_PUBSUB_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubUser "postgres" }}
           {{- if .Values.db.passwordSecret }}
@@ -114,36 +115,6 @@ spec:
         - name: AQUA_PUBSUB_DBPORT
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubPort "5432" | quote }}
           {{- end }}
-          {{- if .Values.admin.secretname }}
-        - name: LICENSE_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.admin.secretname }}
-              key: {{ .Values.admin.tokenkey }}
-          {{- else }}
-          {{- if .Values.admin.token }}
-        - name: LICENSE_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Release.Name }}-console-secrets
-              key: license-token
-          {{- end }}
-          {{- end }}
-          {{- if .Values.admin.secretname }}
-        - name: ADMIN_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.admin.secretname }}
-              key: {{ .Values.admin.passwordkey }}
-          {{- else }}
-          {{- if .Values.admin.password }}
-        - name: ADMIN_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Release.Name }}-console-secrets
-              key: admin-password
-          {{- end }}
-          {{- end }}
           {{- if .Values.db.ssl }}
         - name: SCALOCK_DBSSL
           value: require
@@ -152,39 +123,30 @@ spec:
         - name: SCALOCK_AUDIT_DBSSL
           value: require
           {{- end }}
-          {{- if .Values.web.encryptionKey }}
-        - name: SCALOCK_ENCRYPTION_KEY
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Release.Name }}-encryption-key
-              key: encryption-key
-          {{- end }}
-          {{- if .Values.docker }}
-        - name: AQUA_DOCKERLESS_SCANNING
-          value: "0"
-        - name: DISABLE_IP_BAN
-          value: "0"
-          {{- end }}
-          {{- if .Values.clustermode }}
+        {{- if .Values.clustermode }}
         - name: CLUSTER_MODE
           value: "enable"  
-          {{- end }}
-          {{- if .Values.activeactive }}
+        {{- end }}
+        {{- if .Values.activeactive }}
         - name: AQUA_CLUSTER_MODE
           value: "active-active"  
-          {{- end }}
-          {{- if .Values.web.proxy.httpProxy }}
-        - name: http_proxy
-          value: {{ .Values.web.proxy.httpProxy }}
-          {{- end }}
-          {{- if .Values.web.proxy.httpsProxy }}
-        - name: https_proxy
-          value: {{ .Values.web.proxy.httpsProxy }}
-          {{- end }}
-          {{- if .Values.web.proxy.noProxy }}
-        - name: no_proxy
-          value: {{ .Values.web.proxy.noProxy }}
-          {{- end }}
+        {{- end }}
+        {{- if .Values.admin.token }}
+        - name: LICENSE_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-console-secrets
+              key: license-token
+        {{- end }}
+        {{- if .Values.admin.password }}
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-console-secrets
+              key: admin-password
+        {{- end }}
+        {{- include "server.extraEnvironmentVars" .Values.web | nindent 8 }}
+        {{- include "server.extraSecretEnvironmentVars" .Values.web | nindent 8 }}
         ports:
         - containerPort: 8080
           protocol: TCP
@@ -198,7 +160,7 @@ spec:
         readinessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
-        {{- if .Values.docker }}
+        {{- if .Values.dockerSock.mount }}
         volumeMounts:
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
@@ -217,9 +179,9 @@ spec:
       tolerations:
 {{ toYaml .Values.web.tolerations | indent 6 }}
       {{- end }}
-      {{- if .Values.docker }}
+      {{- if .Values.dockerSock.mount }}
       volumes:
       - name: docker-socket-mount
         hostPath:
-          path: {{ .Values.docker.socket.path }}
+          path: {{ .Values.dockerSock.path }}
       {{- end }}

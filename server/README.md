@@ -68,10 +68,8 @@ Parameter | Description | Default
 `clustermode` |	set in HA cluster mode | `false`
 `admin.token`| Use this Aqua license token | `unset`
 `admin.password` | Use this Aqua admin password | `unset`
-`admin.secretname` | use existing secret for admin password and token | `null`
-`admin.tokenkey` | token key in the secret | `null`
-`admin.passwordkey` | administrator password key in the secret | `null`
-`docker.socket.path` | docker socket path | `/var/run/docker.sock`
+`dockerSocket.mount` | boolean parameter if to mount docker socket | `unset`
+`dockerSocket.path` | docker socket path | `/var/run/docker.sock`
 `docker` | Scanning mode direct or docker [link](https://docs.aquasec.com/docs/scanning-mode#default-scanning-mode) | `-`
 `db.external.enabled` | Avoid installing a Postgres container and use an external database instead | `false`
 `db.external.name` | PostgreSQL DB name | `unset`
@@ -114,24 +112,20 @@ Parameter | Description | Default
 `gate.image.tag` | The image tag to use. | `5.0`
 `gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
 `gate.service.type` | k8s service type | `ClusterIP`
-`gate.service.externalPort` | k8s service type | `3622`
-`gate.service.nodePort` | k8s service type | `unset`
-`gate.grpcservice.externalPort` | k8s service type | `8443`
-`gate.grpcservice.nodePort` | k8s service type | `unset`
+`gate.service.ports` | array of ports settings | `array`
 `gate.publicIP` | gateway public ip | `aqua-gateway`
 `gate.replicaCount` | replica count | `1`
 `gate.resources` |	Resource requests and limits | `{}`
 `gate.nodeSelector` |	Kubernetes node selector	| `{}`
 `gate.tolerations` |	Kubernetes node tolerations	| `[]`
 `gate.affinity` |	Kubernetes node affinity | `{}`
+`gate.extraEnvironmentVars` | is a list of extra enviroment variables to set in the gateway deployments. | `{}`
+`gate.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`
 `web.image.repository` | the docker image name to use | `console`
 `web.image.tag` | The image tag to use. | `5.0`
 `web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
 `web.service.type` | k8s service type | `LoadBalancer`
-`web.service.externalPort` | k8s service type | `8080`
-`web.service.nodePort` | k8s service type | `unset`
-`web.grpcservice.externalPort` | k8s service type | `443`
-`web.grpcservice.nodePort` | k8s service type | `unset`
+`web.service.ports` | array of ports settings | `array`
 `web.replicaCount` | replica count | `1`
 `web.resources` |	Resource requests and limits | `{}`
 `web.nodeSelector` |	Kubernetes node selector	| `{}`
@@ -141,6 +135,8 @@ Parameter | Description | Default
 `web.ingress.annotations` |	Ingress annotations	| `[]`
 `web.ingress.hosts` | Ingress hostnames |	`[]`
 `web.ingress.tls` |	Ingress TLS configuration (YAML) | `[]`
+`web.extraEnvironmentVars` | is a list of extra enviroment variables to set in the web deployments. | `{}`
+`web.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the web deployments, these variables take value from existing Secret objects. | `[]`
 
 ## Issues and feedback
 

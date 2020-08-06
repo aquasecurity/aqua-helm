@@ -34,6 +34,10 @@ cd aqua-helm/
 helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
 ```
 
+## Guide how to create enforcer group in Kubernetes
+
+[Link](https://docs.aquasec.com/docs/kubernetes#section-step-4-deploy-aqua-enforcers)
+
 ## Configurable Variables
 
 ### Enforcer
@@ -46,10 +50,12 @@ Parameter | Description | Default
 `imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/` | `registry.aquasec.com`
 `imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret`
 `imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`
+`enforcerToken` | enforcer token value | `""`
+`enforcerTokenSecretName` | enforcer token secret name if exists | `null`
+`enforcerTokenSecretKey` | enforcer token secret key if exists | `null`
+`enforcerLogicalName` | Specify the Logical Name the Aqua Enforcer will register under. if not specify the name will be `<Helm Release>-helm` | `unset`
 `privileged` | determines if any container in a pod can enable privileged mode. | `true`
 `hostRunPath` |	for changing host run path for example for pks need to change to /var/vcap/sys/run/docker	| `unset`
-`aquaNetworkControl` |	Specify false if you would like the Aqua Enforcer to be deployed without modifying the host's iptable. | `-`
-`runcInterception` | Specify the interception mode for the Enforcer: false for docker, true for runc | `-`
 `gate.host` | gateway host | `aqua-gateway-svc`
 `gate.port` | gateway port | `8443`
 `image.repository` | the docker image name to use | `enforcer`
@@ -59,6 +65,10 @@ Parameter | Description | Default
 `nodeSelector` |	Kubernetes node selector	| `{}`
 `tolerations` |	Kubernetes node tolerations	| `[]`
 `affinity` |	Kubernetes node affinity | `{}`
+`extraEnvironmentVars` | is a list of extra enviroment variables to set in the enforcer daemonset. | `{}`
+`extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the scanner daemonset, these variables take value from existing Secret objects. | `[]`
+
+> Note: that `imageCredentials.create` is false and if you need to create image pull secret please update to true. and set the username and password for the registry.
 
 ## Issues and feedback
 

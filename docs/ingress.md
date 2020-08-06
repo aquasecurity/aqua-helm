@@ -60,3 +60,9 @@ kubectl apply -f ingress-example.yaml
 **Alternative ingress configuration**
 
 Example: The services charts are set to create `ClusterIP' ingress types. You may tune these as appropriate for your environment.
+
+## Cloud provider ingress documentations
+
+* Google Cloud Platform (GCP) - [Link](https://cloud.google.com/kubernetes-engine/docs/concepts/ingress)
+* Amazon Web Services (AWS) - [Link](https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
+* Microsoft Azure - [Link](https://docs.microsoft.com/en-us/azure/aks/ingress-basic)

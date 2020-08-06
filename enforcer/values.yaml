@@ -15,8 +15,6 @@ enforcerLogicalName:
 privileged: true
 
 hostRunPath: # pks - /var/vcap/sys/run/docker
-runcInterception: true
-aquaNetworkControl: true
 
 gate:
   host: aqua-gateway-svc # example
@@ -39,3 +37,14 @@ resources: {}
   #   memory: 1.5G
 nodeSelector: {}
 tolerations: []
+
+# extraEnvironmentVars is a list of extra enviroment variables to set in the enforcer daemonset.
+extraEnvironmentVars: {}
+  # ENV_NAME: value
+
+# extraSecretEnvironmentVars is a list of extra enviroment variables to set in the enforcer daemonset.
+# These variables take value from existing Secret objects.
+extraSecretEnvironmentVars: []
+  # - envName: ENV_NAME
+  #   secretName: name
+  #   secretKey: key

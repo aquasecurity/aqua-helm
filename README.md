@@ -114,39 +114,52 @@ db:
     password: verysecret
 ```
 
+## Environment Variables
+
+In each charts and components we create an option to define more environment variables to each componenet with 2 ways:
+* `extraEnvironmentVars`: is a list of extra enviroment variables to set with name and value parameters.
+* `extraSecretEnvironmentVars`: is a list of extra enviroment variables to set, these variables take value from existing Secret objects.
+
+[Link to documentations](https://docs.aquasec.com/docs/environment-variables)
+
 ## Deploy the Helm charts
 
 First, clone the GitHub repository with the charts
 
 ```bash
-git clone https://github.com/aquasecurity/aqua-helm.git -b <BRANCH_NAME>
-cd aqua-helm/
+$ git clone https://github.com/aquasecurity/aqua-helm.git -b <BRANCH_NAME>
+$ cd aqua-helm/
 ```
 
 ***Optional:*** Update the Helm charts values.yaml files with your environment's custom values. This eliminates the need to pass the parameters to the helm command. Then run one of the commands below to install the relevant services.
 
+before start deploying helm charts, plese verify you create `aqua` namespace.
+```bash
+$ kubectl create namespace aqua
+```
+
 ### Server chart
 
 ```bash
-helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
+$ helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
 ```
 
 ### Enforcer chart
 
 ```bash
-helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,enforcerToken=<aquasec-token>
+$ helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>,enforcerToken=<aquasec-token>
 ```
 
 ### KubeEnforcer chart
 
 ```bash
-helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>,certsSecret.serverCertificate="$(cat server.crt)",certsSecret.serverKey="$(cat server.key)",validatingWebhook.caBundle="$(cat ca.crt)"
+$ helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>,certsSecret.serverCertificate="$(cat server.crt)",certsSecret.serverKey="$(cat server.key)",validatingWebhook.caBundle="$(cat ca.crt)"
 ```
 
 ### Scanner chart (optional)
 
 ```bash
-helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
+$ helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
 ```
 
 # Troubleshooting
@@ -155,17 +168,17 @@ helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials
 
 **(1) Error:** *UPGRADE/INSTALL FAILED*, configmaps is forbidden.
 
-  ```sh
-  Error: UPGRADE FAILED: configmaps is forbidden: User "system:serviceaccount:kube-system:default" cannot list configmaps in the namespace "kube-system"
-  ```
+```bash
+Error: UPGRADE FAILED: configmaps is forbidden: User "system:serviceaccount:kube-system:default" cannot list configmaps in the namespace "kube-system"
+```
 
 **Solution:** Create a service account for Tiller to utilize.
-  ```sh
-  kubectl create serviceaccount --namespace kube-system tiller
-  kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-  kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
-  helm init --service-account tiller --upgrade
-  ```
+```bash
+kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+helm init --service-account tiller --upgrade
+```
 
 **(2) Error:** No persistent volumes available for this claim and no storage class is set.
 
@@ -178,9 +191,9 @@ for more information go to storage docs, [Link](docs/storage.md)
 
 **Solution:** If you encounter this error, you need to create a persistent volume prior to chart installation with a generic or existing storage class, specifying `db.persistence.storageClass` in the values.yaml file. A sample file using `aqua-storage` is included in the repo.
 
-  ```sh
-  kubectl apply -f pv-example.yaml
-  ```
+```bash
+$ kubectl apply -f pv-example.yaml
+```
 
 ## Issues and feedback
 
