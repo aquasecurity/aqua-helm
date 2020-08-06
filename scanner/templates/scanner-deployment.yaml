@@ -23,10 +23,10 @@ spec:
         app: {{ .Release.Name }}-scanner
       name: {{ .Release.Name }}-scanner
     spec:
-      serviceAccount: {{ .Values.serviceAccount }}
+      serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: scanner
-        image: "{{ .Values.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         args:
         - "daemon"

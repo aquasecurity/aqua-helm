@@ -42,10 +42,14 @@ The following table lists the configurable parameters of the Console and Enforce
 
 Parameter | Description | Default
 --------- | ----------- | -------
-`repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com`
+`imageCredentials.create` | Set if to create new pull image secret | `false`
+`imageCredentials.name` | Your Docker pull image secret name | `aqua-registry-secret`
+`imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com`
+`imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/` | `registry.aquasec.com`
+`imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `unset`
+`imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`
 `docker.socket.path` | docker socket path | `/var/run/docker.sock`
 `docker` | Scanning mode direct or docker [link](https://docs.aquasec.com/docs/scanning-mode#default-scanning-mode) | `-`
-`serviceAccount` | k8s service account to use | `aqua-sa`
 `server.serviceName` | service name for server to connect | `aqua-console-svc`
 `server.port` | service port for server to connect | `8080`
 `image.repository` | the docker image name to use | `scanner`
