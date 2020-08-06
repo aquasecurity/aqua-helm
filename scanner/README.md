@@ -51,7 +51,7 @@ Parameter | Description | Default
 `image.repository` | the docker image name to use | `scanner`
 `image.tag` | The image tag to use. | `5.0`
 `image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
-`user` | scanner username | `unset`
+`user` | scanner user | `scanner`
 `password` | scanner password | `unset`
 `replicaCount` | replica count | `1`
 `resources` |	Resource requests and limits | `{}`
