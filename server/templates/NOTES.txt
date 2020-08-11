@@ -1,9 +1,13 @@
 
 Thank you for installing Aqua Security Server.
 
-Now that you have deployed Aqua Server, you should look over the docs on using: 
+Now that you have deployed Aqua Server, you should look over the docs on using:
 
 https://docs.aquasec.com/docs
 
 
 Your release is named {{ .Release.Name }}.
+
+You can access the Server with:
+
+  $ (echo -n "http://"; kubectl -n {{ . Release.Namespace }} get service {{ .Release.Name }}-console-svc -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'; echo ":{{ .Values.web.service.externalPort }}") | xargs open

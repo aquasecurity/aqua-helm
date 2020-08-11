@@ -11,6 +11,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Ingress](#ingress)
   - [PostgreSQL database](#postgresql-database)
 - [Installing the Chart](#installing-the-chart)
+  - [Accessing the Server](#accessing-the-server)
 - [Configurable Variables](#configurable-variables)
 - [Issues and feedback](#issues-and-feedback)
 
@@ -50,6 +51,16 @@ cd aqua-helm/
 ```bash
 helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>
 ```
+
+### Accessing the Server
+
+With the default values, you can use the following script to access the Server:
+
+```bash
+(echo -n "http://"; kubectl -n aqua get service aqua-console-svc -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'; echo ":8080") | xargs open
+```
+
+If you have not provided a license key or admin user/pass [as values](https://github.com/aquasecurity/aqua-helm/blob/d40a42a8a3682255b72e0a484d381f5a94962eb5/server/values.yaml#L19), then upon first access you will be required to enter your license key and create an admin user and password.
 
 ## Configurable Variables
 
