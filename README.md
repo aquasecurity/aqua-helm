@@ -159,7 +159,7 @@ $ helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set im
 ### Scanner chart (optional)
 
 ```bash
-$ helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>,imageCredentials.email=<>
+$ helm upgrade --install --namespace aqua scanner ./scanner --set user=<>,password=<>
 ```
 
 # Troubleshooting

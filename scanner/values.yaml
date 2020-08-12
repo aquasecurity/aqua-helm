@@ -14,6 +14,7 @@ image:
   tag: "5.0"
   pullPolicy: IfNotPresent
 
+# AquaCSP credentials to connect the scanner
 user:
 password:
 replicaCount: 1
