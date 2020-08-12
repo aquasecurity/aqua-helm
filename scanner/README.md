@@ -33,7 +33,7 @@ cd aqua-helm/
 before installing scanner chart the recommandation is to create user with scanning permissions, [Link to documentations](https://docs.aquasec.com/docs/add-scanners#section-add-a-scanner-user)
 
 ```bash
-helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>
+helm upgrade --install --namespace aqua scanner ./scanner --set user=<>,password=<>
 ```
 
 ## Configurable Variables
