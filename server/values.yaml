@@ -127,6 +127,7 @@ gate:
   affinity: {}
 
   # extraEnvironmentVars is a list of extra enviroment variables to set in the gateway deployments.
+  # https://docs.aquasec.com/docs/gateway-optional-variables
   extraEnvironmentVars: {}
     # ENV_NAME: value
 
@@ -181,6 +182,7 @@ web:
   affinity: {}
 
   # extraEnvironmentVars is a list of extra enviroment variables to set in the web deployments.
+  # https://docs.aquasec.com/docs/server-optional-variables
   extraEnvironmentVars: {}
     # ENV_NAME: value
 
