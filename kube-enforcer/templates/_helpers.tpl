@@ -44,5 +44,5 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{- define "caBundle" }}
-{{- printf "%s" (required "A valid .Values.validatingWebhook.caBundle entry required!" .Values.validatingWebhook.caBundle) | b64enc | replace "\n" "" }}
+{{- printf "%s" (required "A valid .Values.webhooks.caBundle entry required!" .Values.webhooks.caBundle) | b64enc | replace "\n" "" }}
 {{- end }}
