@@ -132,7 +132,7 @@ Parameter | Description | Default
 `web.tolerations` |	Kubernetes node tolerations	| `[]`
 `web.affinity` |	Kubernetes node affinity | `{}`
 `web.ingress.enabled` |	If true, Ingress will be created | `false`
-`web.ingress.annotations` |	Ingress annotations	| `[]`
+`web.ingress.annotations` |	Ingress annotations	| `{}`
 `web.ingress.hosts` | Ingress hostnames |	`[]`
 `web.ingress.tls` |	Ingress TLS configuration (YAML) | `[]`
 `web.extraEnvironmentVars` | is a list of extra enviroment variables to set in the web deployments. | `{}`
