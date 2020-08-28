@@ -146,6 +146,7 @@ web:
     pullPolicy: IfNotPresent
   service:
     type: LoadBalancer
+    externalPort: 8080
     ports:
       - name: aqua-web
         port: 8080

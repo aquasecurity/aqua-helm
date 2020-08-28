@@ -125,6 +125,7 @@ Parameter | Description | Default
 `web.image.tag` | The image tag to use. | `5.0`
 `web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
 `web.service.type` | k8s service type | `LoadBalancer`
+`web.service.externalPort` | k8s service type | `8080`
 `web.service.ports` | array of ports settings | `array`
 `web.replicaCount` | replica count | `1`
 `web.resources` |	Resource requests and limits | `{}`
