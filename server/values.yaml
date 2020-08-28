@@ -145,6 +145,7 @@ web:
     tag: "5.0"
     pullPolicy: IfNotPresent
   service:
+    annotations: {}
     type: LoadBalancer
     ports:
       - name: aqua-web
