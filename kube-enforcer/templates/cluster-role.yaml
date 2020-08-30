@@ -4,5 +4,5 @@ metadata:
   name: {{ .Values.clusterRole.name }}
 rules:
   - apiGroups: ["*"]
-    resources: ["pods", "secrets", "nodes", "namespaces", "deployments", "statefulsets", "jobs", "cronjobs", "daemonsets", "replicasets", "replicationcontrollers"]
+    resources: ["pods", "secrets", "nodes", "namespaces", "deployments", "statefulsets", "jobs", "cronjobs", "daemonsets", "replicasets", "replicationcontrollers", "clusterroles", "clusterrolebindings", "componentstatuses"]
     verbs: ["get", "list", "watch"]

@@ -31,7 +31,7 @@ Create TLS certificates which is signed by the local CA certificate. We will pas
 You can generate these certificates by executing the script:
 
 ```
-./gen-certs.sh
+./kube-enforcer/gen-certs.sh
 ```
 
 You can also use your own certificates without generating new ones for TLS authentication all we need is root CA certificate, certificate signed by CA and certificate key.
@@ -52,8 +52,7 @@ certsSecret:
   serverCertificate: "<server.crt>"
   serverKey: "<server.key>"
 
-validatingWebhook:
-  name: kube-enforcer-admission-hook-config
+webhooks:
   caBundle: "<ca.crt>"
 ```
 
@@ -71,7 +70,7 @@ git clone https://github.com/aquasecurity/kube-enforcer-helm.git
 ***Optional*** Update the Helm charts values.yaml file with your environment's custom values, registry secret, aqua console credentials & TLS certificates. This eliminates the need to pass the parameters to the helm command. Then run one of the commands below to install the relevant services.
 
 ```bash
-helm upgrade --install <RELEASE_NAME> --namespace aqua kube-enforcer --set imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>,certsSecret.serverCertificate="$(cat server.crt)",certsSecret.serverKey="$(cat server.key)",validatingWebhook.caBundle="$(cat ca.crt)"
+helm upgrade --install <RELEASE_NAME> --namespace aqua kube-enforcer --set imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>,certsSecret.serverCertificate="$(cat kube-enforcer/server.crt)",certsSecret.serverKey="$(cat kube-enforcer/server.key)",webhooks.caBundle="$(cat kube-enforcer/ca.crt)"
 ```
 
 Optional flags:
@@ -83,7 +82,13 @@ Optional flags:
 
 ## ClusterRole
 
-KubeEnforcer needs a dedicated clusterrole with **get, list, watch** permissions on **pods, secrets, nodes, namespaces, deployments, replicasets, replicationcontrollers, statefulsets, daemonsets, jobs, cronjobs, clusterroles, clusterrolebindings, componentstatuses** to perform discovery on the cluster.  
+KubeEnforcer needs a dedicated clusterrole with **get, list, watch** permissions on **pods, secrets, nodes, namespaces, deployments, replicasets, replicationcontrollers, statefulsets, daemonsets, jobs, cronjobs, clusterroles, clusterrolebindings, componentstatuses** to perform discovery on the cluster. 
+
+## Role
+
+KubeEnforcer needs a dedicated role in **aqua** namespace with **get, list, watch** permissions on **pods/log** and **create, delete** permissions on **jobs** to perform kube-bench scans in the cluster.
+
+
 
 ## Configurable Variables
 
@@ -98,7 +103,7 @@ KubeEnforcer needs a dedicated clusterrole with **get, list, watch** permissions
 | `aquaSecret.kubeEnforcerToken`                           | Aqua KubeEnforcer token    | `N/A`
 | `certsSecret.serverCertificate`                           | Certificate for TLS authentication with Kubernetes api-server    | `N/A`
 | `certsSecret.serverKey`                           | Certificate key for TLS authentication with Kubernetes api-server    | `N/A`
-| `validatingWebhook.caBundle`                           | Root Certificate for TLS authentication with Kubernetes api-server   | `N/A`                                                 |
+| `webhooks.caBundle`                           | Root Certificate for TLS authentication with Kubernetes api-server   | `N/A`                                                 |
 | `envs.gatewayAddress`                          | Gateway host Address    | `aqua-gateway-svc:8443`                                                     |
 
 

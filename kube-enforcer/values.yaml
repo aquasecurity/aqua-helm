@@ -17,7 +17,7 @@ aqua_cache_expiration_period: 60
 
 image:
   repository: kube-enforcer
-  tag: "5.0"
+  tag: "5.3"
   pullPolicy: Always
 
 nameOverride: "aqua-kube-enforcer"
@@ -35,7 +35,7 @@ aquaSecret:
   kubeEnforcerToken: ""
 
 envs:
-  gatewayAddress: aqua-gateway-svc:8443 
+  gatewayAddress: aqua-gateway-svc.aqua:8443 
 
 
 serviceAccount:
@@ -47,6 +47,15 @@ clusterRole:
 clusterRoleBinding:
   name: aqua-kube-enforcer  
 
-validatingWebhook:
-  name: kube-enforcer-admission-hook-config
+role:
+  name: aqua-kube-enforcer
+
+roleBinding:
+  name: aqua-kube-enforcer 
+
+webhooks:
   caBundle: ""
+  validatingWebhook:
+    name: kube-enforcer-admission-hook-config
+  mutatingWebhook:
+    name: kube-enforcer-me-injection-hook-config
