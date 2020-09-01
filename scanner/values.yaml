@@ -30,6 +30,10 @@ resources: {}
 nodeSelector: {}
 tolerations: []
 affinity: {}
+securityContext: {}
+#  runAsUser: 11431
+#  runAsGroup: 11433
+#  fsGroup: 11433
 
 # extraEnvironmentVars is a list of extra enviroment variables to set in the scanner deployments.
 # https://docs.aquasec.com/docs/scanner-optional-variables

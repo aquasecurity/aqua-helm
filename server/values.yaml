@@ -91,6 +91,18 @@ db:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+  securityContext: {}
+
+  # extraEnvironmentVars is a list of extra enviroment variables to set in the database deployments.
+  extraEnvironmentVars: {}
+    # ENV_NAME: value
+
+  # extraSecretEnvironmentVars is a list of extra enviroment variables to set in the database deployments.
+  # These variables take value from existing Secret objects.
+  extraSecretEnvironmentVars: []
+    # - envName: ENV_NAME
+    #   secretName: name
+    #   secretKey: key
 
 gate:
   replicaCount: 1
@@ -125,6 +137,10 @@ gate:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+  securityContext: {}
+  #  runAsUser: 11431
+  #  runAsGroup: 11433
+  #  fsGroup: 11433
 
   # extraEnvironmentVars is a list of extra enviroment variables to set in the gateway deployments.
   # https://docs.aquasec.com/docs/gateway-optional-variables
@@ -180,6 +196,10 @@ web:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+  securityContext: {}
+  #  runAsUser: 11431
+  #  runAsGroup: 11433
+  #  fsGroup: 11433
 
   # extraEnvironmentVars is a list of extra enviroment variables to set in the web deployments.
   # https://docs.aquasec.com/docs/server-optional-variables

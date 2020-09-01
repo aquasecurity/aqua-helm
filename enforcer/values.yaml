@@ -12,7 +12,24 @@ enforcerTokenSecretName: null
 enforcerTokenSecretKey: null
 enforcerLogicalName: 
 
-privileged: true
+securityContext:
+  privileged: true
+  # Note: enforcer deployment in non privileged mode https://docs.aquasec.com/docs/enforcer-deployment-in-non-privileged-mode#kubernetes-deployments
+  # privileged: false
+  # capabilities:
+  #   add:
+  #     - SYS_ADMIN
+  #     - NET_ADMIN
+  #     - NET_RAW
+  #     - SYS_PTRACE
+  #     - KILL
+  #     - MKNOD
+  #     - SETGID
+  #     - SETUID
+  #     - SYS_MODULE
+  #     - AUDIT_CONTROL
+  #     - SYSLOG
+  #     - SYS_CHROOT
 
 hostRunPath: # pks - /var/vcap/sys/run/docker
 

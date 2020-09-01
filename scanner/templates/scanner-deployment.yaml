@@ -26,6 +26,8 @@ spec:
       serviceAccount: {{ .Values.serviceAccount }}
       containers:
       - name: scanner
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
         image: "{{ .Values.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         args:

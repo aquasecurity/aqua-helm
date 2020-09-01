@@ -26,6 +26,8 @@ spec:
       serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: gate
+        securityContext:
+          {{- toYaml .Values.gate.securityContext | nindent 12 }}
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ .Values.gate.image.tag }}"
         imagePullPolicy: "{{ .Values.gate.image.pullPolicy }}"
         env:

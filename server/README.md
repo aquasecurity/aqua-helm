@@ -108,6 +108,9 @@ Parameter | Description | Default
 `db.nodeSelector` |	Kubernetes node selector	| `{}`
 `db.tolerations` |	Kubernetes node tolerations	| `[]`
 `db.affinity` |	Kubernetes node affinity | `{}`
+`db.securityContext` | Set of security context for the container | `nil`
+`db.extraEnvironmentVars` | is a list of extra enviroment variables to set in the database deployments. | `{}`
+`db.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the database deployments, these variables take value from existing Secret objects. | `[]`
 `gate.image.repository` | the docker image name to use | `gateway`
 `gate.image.tag` | The image tag to use. | `5.0`
 `gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
@@ -119,6 +122,7 @@ Parameter | Description | Default
 `gate.nodeSelector` |	Kubernetes node selector	| `{}`
 `gate.tolerations` |	Kubernetes node tolerations	| `[]`
 `gate.affinity` |	Kubernetes node affinity | `{}`
+`gate.securityContext` | Set of security context for the container | `nil`
 `gate.extraEnvironmentVars` | is a list of extra enviroment variables to set in the gateway deployments. | `{}`
 `gate.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`
 `web.image.repository` | the docker image name to use | `console`
@@ -135,6 +139,7 @@ Parameter | Description | Default
 `web.ingress.annotations` |	Ingress annotations	| `[]`
 `web.ingress.hosts` | Ingress hostnames |	`[]`
 `web.ingress.tls` |	Ingress TLS configuration (YAML) | `[]`
+`web.securityContext` | Set of security context for the container | `nil`
 `web.extraEnvironmentVars` | is a list of extra enviroment variables to set in the web deployments. | `{}`
 `web.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the web deployments, these variables take value from existing Secret objects. | `[]`
 

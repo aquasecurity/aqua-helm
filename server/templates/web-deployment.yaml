@@ -26,6 +26,8 @@ spec:
       serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: web
+        securityContext:
+          {{- toYaml .Values.web.securityContext | nindent 12 }}
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
         imagePullPolicy: "{{ .Values.web.image.pullPolicy }}"
         env:

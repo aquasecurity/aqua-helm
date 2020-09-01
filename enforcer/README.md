@@ -54,7 +54,8 @@ Parameter | Description | Default
 `enforcerTokenSecretName` | enforcer token secret name if exists | `null`
 `enforcerTokenSecretKey` | enforcer token secret key if exists | `null`
 `enforcerLogicalName` | Specify the Logical Name the Aqua Enforcer will register under. if not specify the name will be `<Helm Release>-helm` | `unset`
-`privileged` | determines if any container in a pod can enable privileged mode. | `true`
+`securityContext.privileged` | determines if any container in a pod can enable privileged mode. | `true`
+`securityContext.capabilities` | Linux capabilities provide a finer grained breakdown of the privileges traditionally associated with the superuser. | `unset`
 `hostRunPath` |	for changing host run path for example for pks need to change to /var/vcap/sys/run/docker	| `unset`
 `gate.host` | gateway host | `aqua-gateway-svc`
 `gate.port` | gateway port | `8443`

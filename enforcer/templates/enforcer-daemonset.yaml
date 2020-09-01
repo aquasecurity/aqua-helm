@@ -15,7 +15,7 @@ spec:
   template:
     metadata:
       annotations:
-      {{- if not .Values.privileged }}
+      {{- if not .Values.securityContext.privileged }}
         container.apparmor.security.beta.kubernetes.io/aqua-agent: unconfined
       {{- end }}
       {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
@@ -31,27 +31,8 @@ spec:
       - name: enforcer
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
-        {{- if .Values.privileged }}
         securityContext:
-          privileged: true
-        {{- else }}
-        securityContext:
-          privileged: false
-          capabilities:
-            add:
-              - SYS_ADMIN
-              - NET_ADMIN
-              - NET_RAW
-              - SYS_PTRACE
-              - KILL
-              - MKNOD
-              - SETGID
-              - SETUID
-              - SYS_MODULE
-              - AUDIT_CONTROL
-              - SYSLOG
-              - SYS_CHROOT
-        {{- end }}
+          {{- toYaml .Values.securityContext | nindent 12 }}
         env:
         {{- if .Values.enforcerTokenSecretName }}
         - name: AQUA_TOKEN
