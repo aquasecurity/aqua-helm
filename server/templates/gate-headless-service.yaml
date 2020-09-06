@@ -1,23 +1,21 @@
+{{- if .Values.envoy.enabled }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-console-svc
+  name: {{ .Release.Name }}-gateway-headless-svc
   labels:
-    app: {{ .Release.Name }}-console
+    app: {{ .Release.Name }}-gateway
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
-{{- if .Values.web.service.annotations }}
-  annotations:
-{{ toYaml .Values.web.service.annotations | indent 4 }}
-{{- end }}
 spec:
-  type: {{ .Values.web.service.type }}
+  clusterIP: None
+  type: ClusterIP
   selector:
-    app: {{ .Release.Name }}-console
+    app: {{ .Release.Name }}-gateway
   ports:
-  {{- range $port := .Values.web.service.ports }}
+  {{- range $port := .Values.gate.service.ports }}
     - name: {{ $port.name }}
       port: {{ $port.port }}
       targetPort: {{ $port.targetPort }}
@@ -28,3 +26,5 @@ spec:
       protocol: {{ $port.protocol }}
       {{- end }}
   {{- end }}
+
+{{- end }}

@@ -34,12 +34,12 @@ securityContext:
 hostRunPath: # pks - /var/vcap/sys/run/docker
 
 gate:
-  host: aqua-gateway-svc # example
+  host: aqua-gateway-svc # for envoy deployment use host for aqua-lb and port 443
   port: 8443
 
 image:
   repository: enforcer
-  tag: "5.0"
+  tag: "5.3"
   pullPolicy: IfNotPresent
 
 livenessProbe: {}
@@ -59,6 +59,10 @@ tolerations: []
 # https://docs.aquasec.com/docs/enforcer-optional-variables
 extraEnvironmentVars: {}
   # ENV_NAME: value
+  # AQUA_TLS_VERIFY: true
+  # AQUA_PUBLIC_KEY: "/etc/ssl/custom-certificates/agent.crt"
+  # AQUA_PRIVATE_KEY: "/etc/ssl/custom-certificates/agent.key"
+  # AQUA_ROOT_CA: "/etc/ssl/custom-certificates/aqua-ca.pem"
 
 # extraSecretEnvironmentVars is a list of extra enviroment variables to set in the enforcer daemonset.
 # These variables take value from existing Secret objects.
@@ -66,3 +70,7 @@ extraSecretEnvironmentVars: []
   # - envName: ENV_NAME
   #   secretName: name
   #   secretKey: key
+
+envoy:
+  enabled: false
+  configMap:

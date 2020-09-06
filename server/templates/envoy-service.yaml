@@ -1,23 +1,27 @@
----
+
+{{- if .Values.envoy.enabled }}
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-console-svc
+  finalizers:
+  - service.kubernetes.io/load-balancer-cleanup
+  name: aqua-lb
   labels:
-    app: {{ .Release.Name }}-console
+    app: {{ .Release.Name }}-envoy
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
-{{- if .Values.web.service.annotations }}
+{{- if .Values.envoy.service.annotations }}
   annotations:
-{{ toYaml .Values.web.service.annotations | indent 4 }}
+{{ toYaml .Values.envoy.service.annotations | indent 4 }}
 {{- end }}
 spec:
-  type: {{ .Values.web.service.type }}
+  type: {{ .Values.envoy.service.type }}
   selector:
-    app: {{ .Release.Name }}-console
+    app: {{ .Release.Name }}-envoy
   ports:
-  {{- range $port := .Values.web.service.ports }}
+  {{- range $port := .Values.envoy.service.ports }}
     - name: {{ $port.name }}
       port: {{ $port.port }}
       targetPort: {{ $port.targetPort }}
@@ -28,3 +32,5 @@ spec:
       protocol: {{ $port.protocol }}
       {{- end }}
   {{- end }}
+
+{{- end }}

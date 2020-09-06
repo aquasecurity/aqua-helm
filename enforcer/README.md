@@ -60,7 +60,7 @@ Parameter | Description | Default
 `gate.host` | gateway host | `aqua-gateway-svc`
 `gate.port` | gateway port | `8443`
 `image.repository` | the docker image name to use | `enforcer`
-`image.tag` | The image tag to use. | `5.0`
+`image.tag` | The image tag to use. | `5.3`
 `image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
 `resources` |	Resource requests and limits | `{}`
 `nodeSelector` |	Kubernetes node selector	| `{}`
@@ -68,6 +68,8 @@ Parameter | Description | Default
 `affinity` |	Kubernetes node affinity | `{}`
 `extraEnvironmentVars` | is a list of extra enviroment variables to set in the enforcer daemonset. | `{}`
 `extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the scanner daemonset, these variables take value from existing Secret objects. | `[]`
+`envoy.enabled` | enabled envoy deployment to support in envoy deployment. | `false`
+`envoy.configMap` | config map name with aqua certs for agent. | ``
 
 > Note: that `imageCredentials.create` is false and if you need to create image pull secret please update to true. and set the username and password for the registry.
 

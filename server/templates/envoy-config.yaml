@@ -1,0 +1,16 @@
+{{- if .Values.envoy.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-envoy-conf
+  labels:
+    app: {{ .Release.Name }}-envoy
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+data:
+{{- range $key, $value := .Values.envoy.files }}
+  {{ $key }}: |-
+{{ $value | default "" | indent 4 }}
+{{- end -}}
+{{- end }}

@@ -1,0 +1,82 @@
+{{- if .Values.envoy.enabled }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-envoy
+  labels:
+    app: {{ .Release.Name }}-envoy
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.envoy.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-envoy
+  template:
+    metadata:
+      annotations:
+      {{- if and (.Values.envoy.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.envoy.tolerations }}'
+      {{- end }}
+      labels:
+        app: {{ .Release.Name }}-envoy
+      name: {{ .Release.Name }}-envoy
+    spec:
+      securityContext:
+        {{ toYaml .Values.envoy.securityContext | nindent 8 }}
+      containers:
+      - image: "{{ .Values.envoy.image.repository }}:{{ .Values.envoy.image.tag }}"
+        imagePullPolicy: "{{ .Values.envoy.image.pullPolicy }}"
+        name: envoy
+        ports:
+        - containerPort: 8443
+          name: https
+          protocol: TCP
+        - containerPort: 8082
+          name: healthserver
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /etc/envoy
+          name: config
+        {{ if .Values.envoy.certsSecretName }}
+        - mountPath: /etc/ssl/envoy
+          name: certs
+        {{- end }}
+{{- with .Values.envoy.livenessProbe }}
+        livenessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- with .Values.envoy.readinessProbe }}
+        readinessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+        resources:
+{{ toYaml .Values.envoy.resources | indent 12 }}
+      {{- with .Values.envoy.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.envoy.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.envoy.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: {{ .Release.Name }}-envoy-conf
+        name: config
+      {{ if .Values.envoy.certsSecretName }}
+      - name: certs
+        secret:
+          defaultMode: 420
+          secretName: {{ .Values.envoy.certsSecretName }}
+      {{- end }}
+{{- end }}
