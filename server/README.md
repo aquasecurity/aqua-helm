@@ -136,7 +136,7 @@ Parameter | Description | Default
 `web.tolerations` |	Kubernetes node tolerations	| `[]`
 `web.affinity` |	Kubernetes node affinity | `{}`
 `web.ingress.enabled` |	If true, Ingress will be created | `false`
-`web.ingress.annotations` |	Ingress annotations	| `[]`
+`web.ingress.annotations` |	Ingress annotations	| `{}`
 `web.ingress.hosts` | Ingress hostnames |	`[]`
 `web.ingress.tls` |	Ingress TLS configuration (YAML) | `[]`
 `web.securityContext` | Set of security context for the container | `nil`
