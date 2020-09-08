@@ -115,6 +115,7 @@ Parameter | Description | Default
 `gate.image.tag` | The image tag to use. | `5.0`
 `gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
 `gate.service.type` | k8s service type | `ClusterIP`
+`gate.service.annotations` |	service annotations	| `{}`
 `gate.service.ports` | array of ports settings | `array`
 `gate.publicIP` | gateway public ip | `aqua-gateway`
 `gate.replicaCount` | replica count | `1`
@@ -128,8 +129,8 @@ Parameter | Description | Default
 `web.image.repository` | the docker image name to use | `console`
 `web.image.tag` | The image tag to use. | `5.0`
 `web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
-`web.service.annotations` |	service annotations	| `{}`
 `web.service.type` | k8s service type | `LoadBalancer`
+`web.service.annotations` |	service annotations	| `{}`
 `web.service.ports` | array of ports settings | `array`
 `web.replicaCount` | replica count | `1`
 `web.resources` |	Resource requests and limits | `{}`
