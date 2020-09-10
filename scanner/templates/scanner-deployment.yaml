@@ -32,7 +32,7 @@ spec:
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         args:
         - daemon
-        - direct-cc 
+        - --direct-cc 
         - --user
         - "{{ required "Please specify a username associated with the Scanner role!" .Values.user }}"
         - --password
