@@ -29,12 +29,13 @@ spec:
         image: "{{ .Values.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         args:
-        - "daemon"
-        - "--user"
+        - daemon
+        - --direct-cc 
+        - --user
         - "{{ required "Please specify a username associated with the Scanner role!" .Values.user }}"
-        - "--password"
+        - --password
         - "{{ required "Please specify a password for a user associated with the Scanner role!" .Values.password }}"
-        - "--host"
+        - --host
         - "http://{{ .Values.server.serviceName }}:{{ .Values.server.port }}"
         volumeMounts:
         - mountPath: /var/run/docker.sock
