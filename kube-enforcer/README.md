@@ -22,6 +22,13 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
 
 [Link](../docs/imagepullsecret.md)
 
+### Clone the GitHub repository with the charts
+
+```bash
+git clone https://github.com/aquasecurity/aqua-helm.git
+cd aqua-helm/
+```
+
 ### Configure TLS Authentication between KubeEnforcer & API Server
 
 You need to enable TLS authentication from the API Server to the Kube-Enforcer. Perform these steps:
@@ -60,12 +67,6 @@ webhooks:
 
 
 ## Installing the Chart
-
-Clone the GitHub repository with the charts
-
-```bash
-git clone https://github.com/aquasecurity/kube-enforcer-helm.git
-```
 
 ***Optional*** Update the Helm charts values.yaml file with your environment's custom values, registry secret, aqua console credentials & TLS certificates. This eliminates the need to pass the parameters to the helm command. Then run one of the commands below to install the relevant services.
 
