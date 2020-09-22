@@ -4,6 +4,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-database
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-database
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
@@ -22,6 +23,7 @@ spec:
       labels:
         app: {{ .Release.Name }}-database
       name: {{ .Release.Name }}-database
+      namespace: {{ .Release.Namespace }}
     spec:
       serviceAccount: {{ .Release.Name }}-sa
       containers:

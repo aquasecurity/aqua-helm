@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-console
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-console
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
@@ -22,6 +23,7 @@ spec:
       labels:
         app: {{ .Release.Name }}-console
       name: {{ .Release.Name }}-console
+      namespace: {{ .Release.Namespace }}
     spec:
       serviceAccount: {{ .Release.Name }}-sa
       containers:
