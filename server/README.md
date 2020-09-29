@@ -102,7 +102,7 @@ Parameter | Description | Default
 `db.persistence.storageClass` |	Persistent Volume Storage Class | `unset`
 `db.image.repository` | the docker image name to use | `database`
 `db.image.tag` | The image tag to use. | `5.0`
-`db.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
+`db.image.pullPolicy` | The kubernetes image pull policy. | `Always`
 `db.service.type` | k8s service type | `ClusterIP`
 `db.resources` |	Resource requests and limits | `{}`
 `db.nodeSelector` |	Kubernetes node selector	| `{}`
@@ -113,7 +113,7 @@ Parameter | Description | Default
 `db.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the database deployments, these variables take value from existing Secret objects. | `[]`
 `gate.image.repository` | the docker image name to use | `gateway`
 `gate.image.tag` | The image tag to use. | `5.0`
-`gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
+`gate.image.pullPolicy` | The kubernetes image pull policy. | `Always`
 `gate.service.type` | k8s service type | `ClusterIP`
 `gate.service.annotations` |	service annotations	| `{}`
 `gate.service.ports` | array of ports settings | `array`
@@ -128,7 +128,7 @@ Parameter | Description | Default
 `gate.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`
 `web.image.repository` | the docker image name to use | `console`
 `web.image.tag` | The image tag to use. | `5.0`
-`web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
+`web.image.pullPolicy` | The kubernetes image pull policy. | `Always`
 `web.service.type` | k8s service type | `LoadBalancer`
 `web.service.annotations` |	service annotations	| `{}`
 `web.service.ports` | array of ports settings | `array`

@@ -40,7 +40,7 @@ gate:
 image:
   repository: enforcer
   tag: "5.0"
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 livenessProbe: {}
 readinessProbe: {}
