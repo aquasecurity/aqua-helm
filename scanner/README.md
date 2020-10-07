@@ -23,7 +23,7 @@ cd aqua-helm/
 ```
 
 ```bash
-helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>
+helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>,user=<>,password=<>
 ```
 
 ## Configurable Variables
