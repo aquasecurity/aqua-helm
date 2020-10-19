@@ -83,11 +83,11 @@ db:
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
-    #   cpu: 0.1
-    #   memory: 0.2Gi
+    #   cpu: 3000
+    #   memory: 6Gi
     # limits:
-    #   cpu: 1
-    #   memory: 2Gi
+    #   cpu: 12000
+    #   memory: 20Gi
   nodeSelector: {}
   tolerations: []
   affinity: {}
@@ -135,11 +135,11 @@ gate:
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
-    #   cpu: 0.1
-    #   memory: 0.2Gi
+    #   cpu: 1500
+    #   memory: 7Gi
     # limits:
-    #   cpu: 1
-    #   memory: 2Gi
+    #   cpu: 6000
+    #   memory: 10Gi
   nodeSelector: {}
   tolerations: []
   affinity: {}
@@ -195,11 +195,11 @@ web:
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
-    #   cpu: 0.1
-    #   memory: 0.2Gi
+    #   cpu: 2000
+    #   memory: 3Gi
     # limits:
-    #   cpu: 1
-    #   memory: 2Gi
+    #   cpu: 6000
+    #   memory: 10Gi
   nodeSelector: {}
   tolerations: []
   affinity: {}
@@ -274,6 +274,13 @@ envoy:
     timeoutSeconds: 1
   
   resources: {}
+    # Note: For recommendations please check the official sizing guide.
+    # requests:
+    #   cpu: 2000
+    #   memory: 4Gi
+    # limits:
+    #   cpu: 4000
+    #   memory: 10Gi
   nodeSelector: {}
   tolerations: []
   affinity: {}

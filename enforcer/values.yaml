@@ -46,12 +46,12 @@ livenessProbe: {}
 readinessProbe: {}
 resources: {}
   # Note: For recommendations please check the official sizing guide.
-  # limits:
-  #   cpu: 800m
-  #   memory: 2G
   # requests:
-  #   cpu: 500m
-  #   memory: 1.5G
+  #   cpu: 350
+  #   memory: 0.512Gi
+  # limits:
+  #   cpu: 1500
+  #   memory: 1.5Gi
 nodeSelector: {}
 tolerations: []
 
