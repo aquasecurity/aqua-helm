@@ -101,7 +101,7 @@ Parameter | Description | Default
 `db.persistence.size` |	Persistent Volume size | `30Gi`
 `db.persistence.storageClass` |	Persistent Volume Storage Class | `unset`
 `db.image.repository` | the docker image name to use | `database`
-`db.image.tag` | The image tag to use. | `5.0`
+`db.image.tag` | The image tag to use. | `5.3`
 `db.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
 `db.service.type` | k8s service type | `ClusterIP`
 `db.resources` |	Resource requests and limits | `{}`
@@ -112,7 +112,7 @@ Parameter | Description | Default
 `db.extraEnvironmentVars` | is a list of extra enviroment variables to set in the database deployments. | `{}`
 `db.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the database deployments, these variables take value from existing Secret objects. | `[]`
 `gate.image.repository` | the docker image name to use | `gateway`
-`gate.image.tag` | The image tag to use. | `5.0`
+`gate.image.tag` | The image tag to use. | `5.3`
 `gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
 `gate.service.type` | k8s service type | `ClusterIP`
 `gate.service.annotations` |	service annotations	| `{}`
@@ -127,7 +127,7 @@ Parameter | Description | Default
 `gate.extraEnvironmentVars` | is a list of extra enviroment variables to set in the gateway deployments. | `{}`
 `gate.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`
 `web.image.repository` | the docker image name to use | `console`
-`web.image.tag` | The image tag to use. | `5.0`
+`web.image.tag` | The image tag to use. | `5.3`
 `web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
 `web.service.type` | k8s service type | `LoadBalancer`
 `web.service.annotations` |	service annotations	| `{}`
@@ -144,6 +144,23 @@ Parameter | Description | Default
 `web.securityContext` | Set of security context for the container | `nil`
 `web.extraEnvironmentVars` | is a list of extra enviroment variables to set in the web deployments. | `{}`
 `web.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the web deployments, these variables take value from existing Secret objects. | `[]`
+`envoy.enabled` | enabled envoy deployment. | `false`
+`envoy.replicaCount` | replica count | `1`
+`envoy.image.repository` | the docker image name to use | `envoyproxy/envoy-alpine`
+`envoy.image.tag` | The image tag to use. | `v1.14.1`
+`envoy.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
+`envoy.service.type` | k8s service type | `LoadBalancer`
+`envoy.service.ports` | array of ports settings | `array`
+`envoy.certsSecretName` | tls certificates for envoy, **notice: required for current configuration in files envoy.yaml** | `nil`
+`envoy.livenessProbe` | liveness probes configuration for envoy | `{}`
+`envoy.readinessProbe` | readiness probes configuration for envoy | `{}`
+`envoy.resources` |	Resource requests and limits | `{}`
+`envoy.nodeSelector` |	Kubernetes node selector	| `{}`
+`envoy.tolerations` |	Kubernetes node tolerations	| `[]`
+`envoy.affinity` |	Kubernetes node affinity | `{}`
+`envoy.securityContext` | Set of security context for the container | `nil`
+
+`envoy.files.envoy\.yaml` | content of a full envoy configuration file as documented in https://www.envoyproxy.io/docs/envoy/latest/configuration/configuration | See [values.yaml](values.yaml)
 
 ## Issues and feedback
 

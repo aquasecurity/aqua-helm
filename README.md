@@ -61,23 +61,23 @@ Example output:
 
 ```csv
 NAME                      CHART VERSION       APP VERSION         DESCRIPTION
-aqua-helm/enforcer        5.0.0               5.0                 A Helm chart for the Aqua Enforcer
-aqua-helm/scanner         5.0.0               5.0                 A Helm chart for the Aqua Scanner CLI component
-aqua-helm/server          5.0.0               5.0                 A Helm chart for the Aqua Console components
-aqua-helm/kube-enforcer   5.0.0               5.0                 A Helm chart for the Aqua KubeEnforcer
+aqua-helm/enforcer        5.3.0               5.3                 A Helm chart for the Aqua Enforcer
+aqua-helm/scanner         5.3.0               5.3                 A Helm chart for the Aqua Scanner CLI component
+aqua-helm/server          5.3.0               5.3                 A Helm chart for the Aqua Console components
+aqua-helm/kube-enforcer   5.3.0               5.3                 A Helm chart for the Aqua KubeEnforcer
 ```
 
 * Search for all components of a specific version in our Aqua Helm repository
 
-Example: for Version 5.0
+Example: for Version 5.3
 
 ```bash
-$ helm search aqua-helm -v 5.0
+$ helm search aqua-helm -v 5.3
 ```
 
 for helm 3.x
 ```bash
-$ helm search repo aqua-helm --version 5.0
+$ helm search repo aqua-helm --version 5.3
 ```
 
 * Search for all components:

@@ -51,7 +51,7 @@ Parameter | Description | Default
 `server.serviceName` | service name for server to connect | `aqua-console-svc`
 `server.port` | service port for server to connect | `8080`
 `image.repository` | the docker image name to use | `scanner`
-`image.tag` | The image tag to use. | `5.0`
+`image.tag` | The image tag to use. | `5.3`
 `image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
 `user` | scanner username | `unset`
 `password` | scanner password | `unset`
