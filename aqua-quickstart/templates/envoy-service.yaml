@@ -1,0 +1,36 @@
+
+{{- if .Values.envoy.enabled }}
+
+apiVersion: v1
+kind: Service
+metadata:
+  finalizers:
+  - service.kubernetes.io/load-balancer-cleanup
+  name: aqua-lb
+  labels:
+    app: {{ .Release.Name }}-envoy
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+{{- if .Values.envoy.service.annotations }}
+  annotations:
+{{ toYaml .Values.envoy.service.annotations | indent 4 }}
+{{- end }}
+spec:
+  type: {{ .Values.envoy.service.type }}
+  selector:
+    app: {{ .Release.Name }}-envoy
+  ports:
+  {{- range $port := .Values.envoy.service.ports }}
+    - name: {{ $port.name }}
+      port: {{ $port.port }}
+      targetPort: {{ $port.targetPort }}
+      {{- if $port.nodePort }}
+      nodePort: {{ $port.nodePort }}
+      {{- end }}
+      {{- if $port.protocol }}
+      protocol: {{ $port.protocol }}
+      {{- end }}
+  {{- end }}
+
+{{- end }}

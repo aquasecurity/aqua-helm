@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .Values.ke.role.name }}
+  namespace: {{ .Values.ke.namespace }}
+rules:
+  - apiGroups: ["*"]
+    resources: ["pods/log"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["*"]
+    resources: ["jobs"]
+    verbs: ["create", "delete"]

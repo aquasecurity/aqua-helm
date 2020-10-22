@@ -62,17 +62,35 @@ certsSecret:
 webhooks:
   caBundle: "<ca.crt>"
 ```
-
- or you can provide these certificates while installing the kube-enforcer by providing them in flags.
-
+or you can provide these certificates in base64 encoded format as flags.
+  a. certsSecret.serverCertificate="<base64_encoded_server.crt>"
+  b. certsSecret.serverKey="<base64_encoded_server.key>"
+  c. webhooks.caBundle="<base64_encoded_ca.crt>"
 
 ## Installing the Chart
 
-***Optional*** Update the Helm charts values.yaml file with your environment's custom values, registry secret, aqua console credentials & TLS certificates. This eliminates the need to pass the parameters to the helm command. Then run one of the commands below to install the relevant services.
+1. Clone the GitHub repository with the charts
 
 ```bash
-helm upgrade --install <RELEASE_NAME> --namespace aqua kube-enforcer --set imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>,certsSecret.serverCertificate="$(cat server.crt)",certsSecret.serverKey="$(cat server.key)",webhooks.caBundle="$(cat ca.crt)"
+git clone https://github.com/aquasecurity/kube-enforcer-helm.git
 ```
+
+***Optional*** Update the Helm charts values.yaml file with your environment's custom values, registry secret, aqua console credentials & TLS certificates. This eliminates the need to pass the parameters to the helm command. Then run one of the commands below to install the relevant services.
+
+2. If you are deploying KubeEnforcer to a new cluster (Multi-Cluster Scenario) then you need to create `aqua` namespace
+```bash
+$ kubectl create namespace aqua
+```
+3. Install KubeEnforcer
+    a. To the same cluster where Aqua Server is deployed
+  ```bash
+  helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer
+  ```
+
+  b. To a new cluster to support multi cluster deployment
+  ```bash
+  helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set evs.gatewayAddress="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
+  ```
 
 Optional flags:
 

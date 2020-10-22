@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.ke.aquaSecret.name }}
+  namespace: {{ .Values.ke.namespace }}
+type: Opaque
+data:
+  token:    {{ .Values.ke.aquaSecret.kubeEnforcerToken | b64enc | quote }}               # aqua kube enforcer token

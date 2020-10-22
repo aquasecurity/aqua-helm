@@ -20,10 +20,6 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
 
 [Link](../docs/imagepullsecret.md)
 
-### Ingress
-
-[Link](../docs/ingress.md)
-
 ### PostgreSQL database
 
 Aqua Security recommends implementing a highly-available PostgreSQL database. By default, the console chart will install a PostgreSQL database and attach it to persistent storage for POC usage and testing. For production use, one may override this default behavior and specify an existing PostgreSQL database by setting the following variables in values.yaml:
@@ -50,7 +46,32 @@ cd aqua-helm/
 ```bash
 helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>
 ```
+## Advanced Configuration
 
+1. Envoy
+
+   1. Generate TLS certificates signed by a public CA or Self-Signed CA
+
+   2. Create TLS cert secret
+
+      ```bash
+      $ kubectl create secret generic aqua-lb-tls -from-file tls.crt --from-file tls.key -n aqua
+      ```
+
+   3. Edit values.yaml file to include above secret name at `envoy.certsSecretName`
+
+   4. Also set `envoy.enabled` to `true` 
+
+   5. For more customizations please refer to [***Configurable Variables***](#configure-variables)
+   
+2. Database
+
+   1. If you want to use a different database for audit db then set following variables in the values.yaml file
+      1. db.external.auditName
+      2. db.external.auditHost
+      3. db.external.auditPort
+      4. db.external.auditUser
+      5. db.external.auditPassword
 ## Configurable Variables
 
 Parameter | Description | Default
