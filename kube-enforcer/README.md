@@ -71,7 +71,7 @@ webhooks:
 ***Optional*** Update the Helm charts values.yaml file with your environment's custom values, registry secret, aqua console credentials & TLS certificates. This eliminates the need to pass the parameters to the helm command. Then run one of the commands below to install the relevant services.
 
 ```bash
-helm upgrade --install <RELEASE_NAME> --namespace aqua kube-enforcer --set imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>,certsSecret.serverCertificate="$(cat kube-enforcer/server.crt)",certsSecret.serverKey="$(cat kube-enforcer/server.key)",webhooks.caBundle="$(cat kube-enforcer/ca.crt)"
+helm upgrade --install <RELEASE_NAME> --namespace aqua kube-enforcer --set imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>,certsSecret.serverCertificate="$(cat server.crt)",certsSecret.serverKey="$(cat server.key)",webhooks.caBundle="$(cat ca.crt)"
 ```
 
 Optional flags:
