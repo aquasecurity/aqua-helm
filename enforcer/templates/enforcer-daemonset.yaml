@@ -16,7 +16,7 @@ spec:
     metadata:
       annotations:
       {{- if not .Values.securityContext.privileged }}
-        container.apparmor.security.beta.kubernetes.io/aqua-agent: unconfined
+        container.apparmor.security.beta.kubernetes.io/enforcer: unconfined
       {{- end }}
       {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
