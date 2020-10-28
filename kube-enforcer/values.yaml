@@ -55,6 +55,7 @@ roleBinding:
 
 webhooks:
   caBundle: ""
+  failurePolicy: Ignore
   validatingWebhook:
     name: kube-enforcer-admission-hook-config
   mutatingWebhook:

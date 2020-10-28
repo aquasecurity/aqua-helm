@@ -5,6 +5,7 @@ metadata:
   namespace: {{ .Values.namespace }}
 webhooks:
   - name: imageassurance.aquasec.com
+    failurePolicy: {{ .Values.webhooks.failurePolicy }}  
     rules:
       - operations: ["CREATE", "UPDATE"]
         apiGroups: ["*"]
