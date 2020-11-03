@@ -1,0 +1,189 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-console
+  labels:
+    app: {{ .Release.Name }}-console
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.web.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-console
+  template:
+    metadata:
+      annotations:
+      {{- if and (.Values.web.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.web.tolerations }}'
+      {{- end }}
+      labels:
+        app: {{ .Release.Name }}-console
+      name: {{ .Release.Name }}-console
+    spec:
+      serviceAccount: {{ .Release.Name }}-sa
+      containers:
+      - name: web
+        securityContext:
+          {{- toYaml .Values.web.securityContext | nindent 12 }}
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
+        imagePullPolicy: "{{ .Values.web.image.pullPolicy }}"
+        env:
+        - name: SCALOCK_DBUSER
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
+        {{- if .Values.db.passwordSecret }}
+        - name: SCALOCK_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.db.dbPasswordName }}
+              key: {{ .Values.db.dbPasswordKey }}
+        {{- else }}
+        - name: SCALOCK_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-database-password
+              key: db-password
+        {{- end }}
+        - name: SCALOCK_DBNAME
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.name "scalock" }}
+        {{- if .Values.db.external.enabled }}
+        - name: SCALOCK_DBHOST
+          value: {{ .Values.db.external.host }}
+        {{- else }}
+        - name: SCALOCK_DBHOST
+          value: {{ .Release.Name }}-database-svc
+        {{- end }}
+        - name: SCALOCK_DBPORT
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
+        - name: SCALOCK_AUDIT_DBUSER
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditUser "postgres" }}
+          {{- if .Values.db.passwordSecret }}
+        - name: SCALOCK_AUDIT_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.db.dbAuditPasswordName }}
+              key: {{ .Values.db.dbAuditPasswordKey }}
+          {{- else }}
+        - name: SCALOCK_AUDIT_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-database-password
+              {{- if .Values.db.external.auditPassword }}
+              key: audit-password
+              {{- else }}
+              key: db-password
+              {{- end }}
+          {{- end }}
+        - name: SCALOCK_AUDIT_DBNAME
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
+        - name: SCALOCK_AUDIT_DBHOST
+          {{- if .Values.db.external.enabled }}
+          value: {{ .Values.db.external.auditHost }}
+          {{- else }}
+          value: {{ .Release.Name }}-database-svc
+          {{- end }}
+        - name: SCALOCK_AUDIT_DBPORT
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
+        {{- if .Values.activeactive }}
+        - name: AQUA_PUBSUB_DBUSER
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubUser "postgres" }}
+          {{- if .Values.db.passwordSecret }}
+        - name: AQUA_PUBSUB_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.db.dbPubsubPasswordName }}
+              key: {{ .Values.db.dbPubsubPasswordKey }}
+          {{- else }}
+        - name: AQUA_PUBSUB_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-database-password
+              {{- if .Values.db.external.pubsubPassword }}
+              key: pubsub-password
+              {{- else }}
+              key: db-password
+              {{- end }}
+          {{- end }}
+        - name: AQUA_PUBSUB_DBNAME
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubName "aqua_pubsub" }}
+        - name: AQUA_PUBSUB_DBHOST
+          {{- if .Values.db.external.enabled }}
+          value: {{ .Values.db.external.pubsubHost }}
+          {{- else }}
+          value: {{ .Release.Name }}-database-svc
+          {{- end }}
+        - name: AQUA_PUBSUB_DBPORT
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubPort "5432" | quote }}
+          {{- end }}
+          {{- if .Values.db.ssl }}
+        - name: SCALOCK_DBSSL
+          value: require
+          {{- end }}
+          {{- if .Values.db.auditssl }}
+        - name: SCALOCK_AUDIT_DBSSL
+          value: require
+          {{- end }}
+        {{- if .Values.clustermode }}
+        - name: CLUSTER_MODE
+          value: "enable"  
+        {{- end }}
+        {{- if .Values.activeactive }}
+        - name: AQUA_CLUSTER_MODE
+          value: "active-active"  
+        {{- end }}
+        {{- if .Values.admin.token }}
+        - name: LICENSE_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-console-secrets
+              key: license-token
+        {{- end }}
+        {{- if .Values.admin.password }}
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-console-secrets
+              key: admin-password
+        {{- end }}
+        {{- include "server.extraEnvironmentVars" .Values.web | nindent 8 }}
+        {{- include "server.extraSecretEnvironmentVars" .Values.web | nindent 8 }}
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
+{{- with .Values.web.livenessProbe }}
+        livenessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- with .Values.web.readinessProbe }}
+        readinessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+        {{- if .Values.dockerSock.mount }}
+        volumeMounts:
+        - mountPath: /var/run/docker.sock
+          name: docker-socket-mount
+        {{- end }}
+        resources:
+{{ toYaml .Values.web.resources | indent 12 }}
+      {{- with .Values.web.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.web.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- if and (.Values.web.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      tolerations:
+{{ toYaml .Values.web.tolerations | indent 6 }}
+      {{- end }}
+      {{- if .Values.dockerSock.mount }}
+      volumes:
+      - name: docker-socket-mount
+        hostPath:
+          path: {{ .Values.dockerSock.path }}
+      {{- end }}

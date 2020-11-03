@@ -1,0 +1,74 @@
+{{- if .Values.rbac.enabled -}}
+  {{- if not .Values.rbac.roleRef }}
+---
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+    name: {{ .Release.Name }}-psp
+    labels:
+      app: {{ .Release.Name }}
+      chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+      release: "{{ .Release.Name }}"
+      heritage: "{{ .Release.Service }}"
+spec:
+  privileged: {{ .Values.rbac.privileged }}
+  allowedCapabilities:
+  - '*'
+  fsGroup:
+    rule: RunAsAny
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  volumes:
+  - '*'
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Name }}-cluster-role
+  labels:
+    app: {{ .Release.Name }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+    rbac.example.com/aggregate-to-monitoring: "true"
+rules:
+- apiGroups: ["extensions"]
+  resourceNames: [{{ .Release.Name }}-psp]
+  resources: ["podsecuritypolicies"]
+  verbs: ["use"]
+- apiGroups: [""]
+  resources: ["nodes", "services", "endpoints", "pods", "deployments", "namespaces","componentstatuses"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["rbac.authorization.k8s.io"]
+  resources: ["*"]
+  verbs: ["get", "list", "watch"]
+{{- end }}
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Name }}-role-binding
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Release.Name }}-sa
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+  {{- if .Values.rbac.roleRef }}
+  name: {{ .Values.rbac.roleRef }}
+  {{- else }}
+  name: {{ .Release.Name }}-cluster-role
+  {{- end }}
+{{- end }}
