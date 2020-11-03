@@ -82,15 +82,19 @@ git clone https://github.com/aquasecurity/kube-enforcer-helm.git
 $ kubectl create namespace aqua
 ```
 3. Install KubeEnforcer
-    a. To the same cluster where Aqua Server is deployed
-  ```bash
-  helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer
-  ```
-
-  b. To a new cluster to support multi cluster deployment
-  ```bash
-  helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set evs.gatewayAddress="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
-  ```
+   
+    1. To the same cluster where Aqua Server is deployed
+    
+         1. ```shell
+              helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer
+              ```
+    
+    2. To a new cluster to support multi cluster deployment
+    
+         1. ```shell
+              helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set evs.gatewayAddress="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
+              ```
+    
 
 Optional flags:
 
@@ -113,17 +117,17 @@ KubeEnforcer needs a dedicated role in **aqua** namespace with **get, list, watc
 
 ### KubeEnforcer
 
-| Parameter                         | Description                          | Default                                                                      |
-| --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- |
-| `imageCredentials.create`               | Set if to create new pull image secret    | `true`                                                                 |
-| `imageCredentials.name`               | Your Docker pull image secret name    | `aqua-registry-secret`                                                                   |
-| `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   |
-| `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A`
-| `aquaSecret.kubeEnforcerToken`                           | Aqua KubeEnforcer token    | `N/A`
-| `certsSecret.serverCertificate`                           | Certificate for TLS authentication with Kubernetes api-server    | `N/A`
-| `certsSecret.serverKey`                           | Certificate key for TLS authentication with Kubernetes api-server    | `N/A`
-| `webhooks.caBundle`                           | Root Certificate for TLS authentication with Kubernetes api-server   | `N/A`                                                 |
-| `envs.gatewayAddress`                          | Gateway host Address    | `aqua-gateway-svc:8443`                                                     |
+| Parameter                         | Description                          | Default                                                                      | Mandatory                                                             |
+| --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `imageCredentials.create`               | Set if to create new pull image secret    | `true`                                                                 | `YES - New cluster`                                    |
+| `imageCredentials.name`               | Your Docker pull image secret name    | `aqua-registry-secret`                                                                   | `YES - New cluster`                                         |
+| `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   | `YES - New cluster`                                           |
+| `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A` | `YES - New cluster` |
+| `aquaSecret.kubeEnforcerToken`                           | Aqua KubeEnforcer token    | `N/A`| `YES` |
+| `certsSecret.serverCertificate`                           | Certificate for TLS authentication with Kubernetes api-server    | `N/A`| `YES` |
+| `certsSecret.serverKey`                           | Certificate key for TLS authentication with Kubernetes api-server    | `N/A`| `YES` |
+| `webhooks.caBundle`                           | Root Certificate for TLS authentication with Kubernetes api-server   | `N/A`  | `YES` |
+| `envs.gatewayAddress`                          | Gateway host Address    | `aqua-gateway-svc:8443`                                                     | `YES`                                                |
 
 
 ## Issues and feedback

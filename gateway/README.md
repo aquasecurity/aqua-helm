@@ -19,31 +19,41 @@ Helm chart for installation and maintenance of Aqua Container Security Platform 
 
 
 ## Installing the Chart
+Follow the steps in this section for production grade deployments. You can either clone aqua-helm git repo or you can add our helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com))
 
-1. Clone the GitHub repository with the charts
+* Clone the GitHub repository with the charts
 
 ```bash
 git clone https://github.com/aquasecurity/aqua-helm.git
 cd aqua-helm/
 ```
 
+* Add Aqua Helm Repository
+```bash
+$ helm repo add aqua-helm https://helm.aquasec.com
+```
 
+* Edit values.yaml file in gateway directory with following details as prerequisite
+```shell
+  1. db.external.name - External database name
+  2. db.external.host - External database public IP or endpoint URL
+  3. db.external.port - External database port
+  4. db.external.user - External database username
+  5. db.external.password - External database password
+  6. db.external.auditName - External audit database name
+  7. db.external.auditHost - External audit database public IP or endpoint URL
+  8. db.external.auditPort - External audit database port
+  9. db.external.auditUser - External audit database username
+  10. db.external.auditPassword - External audit database password
+  11. console.publicIP - Aqua CSP console public IP or endpoint URL
+  12. console.publicPort - Aqua CSP console public port
+```
 
-2. Edit values.yaml file in gateway directory with following details as prerequisite
-   1. db.external.name - External database name
-   2. db.external.host - External database public IP or endpoint URL
-   3. db.external.port - External database port
-   4. db.external.user - External database username
-   5. db.external.password - External database password
-   6. db.external.auditName - External audit database name
-   7. db.external.auditHost - External audit database public IP or endpoint URL
-   8. db.external.auditPort - External audit database port
-   9. db.external.auditUser - External audit database username
-   10. db.external.auditPassword - External audit database password
-   11. console.publicIP - Aqua CSP console public IP or endpoint URL
-   12. console.publicPort - Aqua CSP console public port
-3. Install gateway component
-
+* Create `aqua` namespace if gateway is being deployed to a new cluster.
+```bash
+$ kubectl create namespace aqua
+```
+* Install gateway component
 
 ```bash
 helm upgrade --install --namespace aqua gateway ./gateway --set imageCredentials.username=<>,imageCredentials.password=<>

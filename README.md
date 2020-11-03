@@ -87,18 +87,6 @@ aqua-helm/server          5.3.0               5.3                 A Helm chart f
 aqua-helm/kube-enforcer   5.3.0               5.3                 A Helm chart for the Aqua KubeEnforcer
 ```
 
-* Search for all components of a specific version in our Aqua Helm repository
-Example: for Version 5.3
-for helm 2.x
-```bash
-$ helm search aqua-helm -v 5.3
-```
-
-for helm 3.x
-```bash
-$ helm search repo aqua-helm --version 5.3
-```
-
 ## Deploy the Helm charts
 
 1. Create `aqua` namespace.
@@ -113,6 +101,8 @@ $ kubectl create namespace aqua
 4. Install [**KubeEnforcer**](kube-enforcer/) chart
 
 5. Install [**Scanner**](scanner/) chart (Optional)
+
+6. Install [**Gateway**](gateway/) chart (Multi Cluster use-case)
 
 # Troubleshooting
 
