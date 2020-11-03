@@ -1,0 +1,101 @@
+# Specifies the secret data for imagePullSecrets needed to fetch the private docker images
+imageCredentials:
+  create: true
+  name: aqua-registry-secret # example
+  repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
+  registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+  username: ""
+  password: ""
+
+rbac:
+  enabled: true
+  privileged: true
+  roleRef:
+
+console:
+  publicIP:
+  publicPort:
+
+db:
+  external:
+    enabled: true
+    name:
+    host:
+    port:
+    user:
+    password:
+    auditName:
+    auditHost:
+    auditPort:
+    auditUser:
+    auditPassword:
+    pubsubName:
+    pubsubHost:
+    pubsubPort:
+    pubsubUser:
+    pubsubPassword:
+  passwordSecret:
+  dbPasswordName:
+  dbPasswordKey:
+  dbAuditPasswordName:
+  dbAuditPasswordKey:
+  dbPubsubPasswordName:
+  dbPubsubPasswordKey:
+  ssl: false
+  auditssl: false
+
+gate:
+  replicaCount: 1
+  image:
+    repository: gateway
+    tag: "5.3"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    annotations: {}
+    ports:
+      - name: aqua-gate
+        port: 3622
+        targetPort: 3622
+        nodePort:
+        protocol: TCP
+      - name: aqua-gate-ssl
+        port: 8443
+        targetPort: 8443
+        nodePort:
+        protocol: TCP
+      - name: aqua-health
+        port: 8082
+        protocol: TCP
+        targetPort: 8082
+        nodePort:
+  publicIP:
+  livenessProbe: {}
+  readinessProbe: {}
+  resources: {}
+    # Note: For recommendations please check the official sizing guide.
+    # requests:
+    #   cpu: 0.1
+    #   memory: 0.2Gi
+    # limits:
+    #   cpu: 1
+    #   memory: 2Gi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  securityContext: {}
+  #  runAsUser: 11431
+  #  runAsGroup: 11433
+  #  fsGroup: 11433
+
+  # extraEnvironmentVars is a list of extra enviroment variables to set in the gateway deployments.
+  # https://docs.aquasec.com/docs/gateway-optional-variables
+  extraEnvironmentVars: {}
+    # ENV_NAME: value
+
+  # extraSecretEnvironmentVars is a list of extra enviroment variables to set in the gateway deployments.
+  # These variables take value from existing Secret objects.
+  extraSecretEnvironmentVars: []
+    # - envName: ENV_NAME
+    #   secretName: name
+    #   secretKey: key

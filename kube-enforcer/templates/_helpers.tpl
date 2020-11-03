@@ -36,13 +36,13 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{- define "serverCertificate" }}
-{{- printf "%s" (required "A valid .Values.certsSecret.serverCertificate entry required!" .Values.certsSecret.serverCertificate) | b64enc | replace "\n" "" }}
+{{- printf "%s" (required "A valid .Values.certsSecret.serverCertificate entry required!" .Values.certsSecret.serverCertificate) | replace "\n" "" }}
 {{- end }}
 
 {{- define "serverKey" }}
-{{- printf "%s" (required "A valid .Values.certsSecret.serverKey entry required!" .Values.certsSecret.serverKey) | b64enc | replace "\n" "" }}
+{{- printf "%s" (required "A valid .Values.certsSecret.serverKey entry required!" .Values.certsSecret.serverKey) | replace "\n" "" }}
 {{- end }}
 
 {{- define "caBundle" }}
-{{- printf "%s" (required "A valid .Values.webhooks.caBundle entry required!" .Values.webhooks.caBundle) | b64enc | replace "\n" "" }}
+{{- printf "%s" (required "A valid .Values.webhooks.caBundle entry required!" .Values.webhooks.caBundle) | replace "\n" "" }}
 {{- end }}

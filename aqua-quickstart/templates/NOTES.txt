@@ -1,0 +1,9 @@
+
+Thank you for installing Aqua Security Server.
+
+Now that you have deployed Aqua Server, you should look over the docs on using: 
+
+https://docs.aquasec.com/docs
+
+
+Your release is named {{ .Release.Name }}.

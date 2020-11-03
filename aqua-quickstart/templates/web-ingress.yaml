@@ -1,0 +1,43 @@
+{{- if .Values.web.ingress.enabled -}}
+{{- $fullname := .Release.Name -}}
+{{- $servicePort := .Values.web.service.externalPort -}}
+---
+{{- if (semverCompare ">= 1.14" .Capabilities.KubeVersion.GitVersion) }}
+apiVersion: networking.k8s.io/v1beta1
+{{- else }}
+apiVersion: extensions/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-console-ingress
+  labels:
+    app: {{ .Release.Name }}-console-ingress
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+{{- if .Values.web.ingress.annotations }}
+  annotations:
+{{ toYaml .Values.web.ingress.annotations | indent 4 }}
+{{- end }}
+spec:
+  {{ if .Values.web.ingress.hosts }}
+  rules:
+    {{- range $host := (required "A valid .Values.web.ingress.hosts entry required!" .Values.web.ingress.hosts) }}
+      - host: {{ $host }}
+        http:
+          paths:
+            - path: /
+              backend:
+                serviceName: {{ $fullname }}-console-svc
+                servicePort: {{ $servicePort }}
+    {{- end -}}
+  {{ else }}
+  backend:
+    serviceName: {{ $fullname }}-console-svc
+    servicePort: {{ $servicePort }}
+  {{ end }}
+  {{- if .Values.web.ingress.tls }}
+  tls:
+{{ toYaml .Values.web.ingress.tls | indent 4 }}
+  {{- end -}}
+{{- end -}}

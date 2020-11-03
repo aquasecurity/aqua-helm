@@ -1,0 +1,160 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-gateway
+  labels:
+    app: {{ .Release.Name }}-gateway
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.gate.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-gateway
+  template:
+    metadata:
+      annotations:
+      {{- if and (.Values.gate.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.gate.tolerations }}'
+      {{- end }}
+      labels:
+        app: {{ .Release.Name }}-gateway
+      name: {{ .Release.Name }}-gateway
+    spec:
+      serviceAccount: {{ .Release.Name }}-sa
+      containers:
+      - name: gate
+        securityContext:
+          {{- toYaml .Values.gate.securityContext | nindent 12 }}
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ .Values.gate.image.tag }}"
+        imagePullPolicy: "{{ .Values.gate.image.pullPolicy }}"
+        env:
+        - name: AQUA_CONSOLE_SECURE_ADDRESS
+          value: "{{ .Release.Name }}-console-svc:443"
+        - name: SCALOCK_GATEWAY_PUBLIC_IP
+          value: {{ .Values.gate.publicIP | default "aqua-gateway-svc" }}
+        - name: HEALTH_MONITOR
+          value: "0.0.0.0:8082"
+        - name: SCALOCK_DBUSER
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
+        {{- if .Values.db.passwordSecret }}
+        - name: SCALOCK_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.db.dbPasswordName }}
+              key: {{ .Values.db.dbPasswordKey }}
+          {{- else }}
+        - name: SCALOCK_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-database-password
+              key: db-password
+          {{- end }}
+        - name: SCALOCK_DBNAME
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.name "scalock" }}
+        - name: SCALOCK_DBHOST
+          {{- if .Values.db.external.enabled }}
+          value: {{ .Values.db.external.host }}
+          {{- else }}
+          value: {{ .Release.Name }}-database-svc
+          {{- end }}
+        - name: SCALOCK_DBPORT
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
+        - name: SCALOCK_AUDIT_DBUSER
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditUser "postgres" }}
+          {{- if .Values.db.passwordSecret }}
+        - name: SCALOCK_AUDIT_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.db.dbAuditPasswordName }}
+              key: {{ .Values.db.dbAuditPasswordKey }}
+          {{- else }}
+        - name: SCALOCK_AUDIT_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-database-password
+              {{- if .Values.db.external.auditPassword }}
+              key: audit-password
+              {{- else }}
+              key: db-password
+              {{- end }}
+          {{- end }}
+        - name: SCALOCK_AUDIT_DBNAME
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
+        - name: SCALOCK_AUDIT_DBHOST
+          {{- if .Values.db.external.enabled }}
+          value: {{ .Values.db.external.auditHost }}
+          {{- else }}
+          value: {{ .Release.Name }}-database-svc
+          {{- end }}
+        - name: SCALOCK_AUDIT_DBPORT
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
+        {{- if .Values.activeactive }}
+        - name: AQUA_PUBSUB_DBUSER
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubUser "postgres" }}
+          {{- if .Values.db.passwordSecret }}
+        - name: AQUA_PUBSUB_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.db.dbPubsubPasswordName }}
+              key: {{ .Values.db.dbPubsubPasswordKey }}
+          {{- else }}
+        - name: AQUA_PUBSUB_DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-database-password
+              {{- if .Values.db.external.pubsubPassword }}
+              key: pubsub-password
+              {{- else }}
+              key: db-password
+              {{- end }}
+          {{- end }}
+        - name: AQUA_PUBSUB_DBNAME
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubName "aqua_pubsub" }}
+        - name: AQUA_PUBSUB_DBHOST
+          {{- if .Values.db.external.enabled }}
+          value: {{ .Values.db.external.pubsubHost }}
+          {{- else }}
+          value: {{ .Release.Name }}-database-svc
+          {{- end }}
+        - name: AQUA_PUBSUB_DBPORT
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubPort "5432" | quote }}
+          {{- end }}
+          {{- if .Values.db.ssl }}
+        - name: SCALOCK_DBSSL
+          value: require
+          {{- end }}
+          {{- if .Values.db.auditssl }}
+        - name: SCALOCK_AUDIT_DBSSL
+          value: require
+          {{- end }}
+        {{- include "server.extraEnvironmentVars" .Values.gate | nindent 8 }}
+        {{- include "server.extraSecretEnvironmentVars" .Values.gate | nindent 8 }}
+        ports:
+        - containerPort: 3622
+          protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
+{{- with .Values.gate.livenessProbe }}
+        livenessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- with .Values.gate.readinessProbe }}
+        readinessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+        resources:
+{{ toYaml .Values.gate.resources | indent 12 }}
+      {{- with .Values.gate.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.gate.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- if and (.Values.gate.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      tolerations:
+{{ toYaml .Values.gate.tolerations | indent 6 }}
+      {{- end }}

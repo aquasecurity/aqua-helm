@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    role: {{ .Release.Name }}
+    app: {{ include "kube-enforcer.fullname" . }}
+  name: {{ include "kube-enforcer.fullname" . }}
+  namespace: {{ .Values.ke.namespace }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ include "kube-enforcer.fullname" . }}
+    spec:
+      serviceAccountName: {{ .Values.ke.serviceAccount.name }}
+      containers:
+        - name: kube-enforcer
+          image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.ke.image.repository }}:{{ .Values.ke.image.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8443
+          env:
+            - name: AQUA_TOKEN
+              valueFrom: 
+                secretKeyRef:
+                  name: {{ .Values.ke.aquaSecret.name }}
+                  key: token      
+            - name: AQUA_ENABLE_CACHE
+              value: "{{ .Values.ke.aqua_enable_cache }}"
+            - name: AQUA_CACHE_EXPIRATION_PERIOD
+              value: "{{ .Values.ke.aqua_cache_expiration_period }}"
+            - name: TLS_SERVER_CERT_FILEPATH
+              value: /certs/server.crt
+            - name: TLS_SERVER_KEY_FILEPATH
+              value: /certs/server.key
+            - name: AQUA_GATEWAY_SECURE_ADDRESS
+              value: {{ .Values.ke.envs.gatewayAddress }}
+            - name: AQUA_TLS_PORT
+              value: "8443"
+          volumeMounts:
+            - name: "certs"
+              mountPath: "/certs"
+      volumes:
+        - name: "certs"
+          secret:
+            secretName: {{ .Values.ke.certsSecret.name }}
+      imagePullSecrets:
+        - name: {{ .Values.imageCredentials.name }}
+  selector:
+    matchLabels:
+      app: {{ include "kube-enforcer.fullname" . }}                           

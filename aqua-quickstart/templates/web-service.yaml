@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-console-svc
+  labels:
+    app: {{ .Release.Name }}-console
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+{{- if .Values.web.service.annotations }}
+  annotations:
+{{ toYaml .Values.web.service.annotations | indent 4 }}
+{{- end }}
+spec:
+  type: {{ .Values.web.service.type }}
+  selector:
+    app: {{ .Release.Name }}-console
+  ports:
+  {{- range $port := .Values.web.service.ports }}
+    - name: {{ $port.name }}
+      port: {{ $port.port }}
+      targetPort: {{ $port.targetPort }}
+      {{- if $port.nodePort }}
+      nodePort: {{ $port.nodePort }}
+      {{- end }}
+      {{- if $port.protocol }}
+      protocol: {{ $port.protocol }}
+      {{- end }}
+  {{- end }}
