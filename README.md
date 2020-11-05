@@ -120,9 +120,8 @@ For more information see the [storage documentation](docs/storage.md).
 
 #### Error 3
 
-* Error message: When executing `kubectl get events -n aqua` you might encounter either of the following errors:
-  **No persistent volumes available for this claim and no storage class is set** 
-  **PersistentVolumeClaim is not bound**
+* Error message: When executing `kubectl get events -n aqua` you might encounter either **No persistent volumes available for this claim and no storage class is set** or 
+**PersistentVolumeClaim is not bound**.
 * Solution: If you encounter either of these errors, you need to create a persistent volume prior to chart deployment with a generic or existing storage class. Specify `db.persistence.storageClass` in the values.yaml file. A sample file using `aqua-storage` is included in the repo.
 
 ```bash
