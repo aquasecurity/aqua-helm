@@ -1,68 +1,60 @@
 <img src="https://avatars3.githubusercontent.com/u/12783832?s=200&v=4" height="100" width="100" /><img src="https://avatars3.githubusercontent.com/u/15859888?s=200&v=4" width="100" height="100"/>
 
-# Aqua Security Helm Charts
+# Overview
 
-This topic contains Helm charts and instructions for the deployment and maintenance of Aqua Cloud Native Security (CSP).
+This page contains instructions for deploying Aqua Enterprise in a Kubernetes cluster, using the [Helm package manager](https://helm.sh/).
 
-CSP deployments include the following components:
+Refer to the Aqua Enterprise product documentation for the broader context: [Kubernetes with Helm Charts](https://docs.aquasec.com/v5.3/docs/kubernetes-with-helm).
+
+## Contents
+
+- [Overview](#overview)
+  - [Contents](#contents)
+  - [Helm charts](#helm-charts)
+- [Deployment instructions](#deployment-instructions)
+    - [(Optional) Add the Aqua Helm repository](#optional-add-the-aqua-helm-repository)
+        - [For Helm 2.x](#for-helm-2x)
+        - [For Helm 3.x](#for-helm-3x)
+    - [Deploy the Helm charts](#deploy-the-helm-charts)
+    - [Troubleshooting](#troubleshooting)
+      - [Error 1](#error-1)
+      - [Error 2](#error-2)
+      - [Error 3](#error-3)
+- [Quick-start deployment (not for production purposes)](#quick-start-deployment-not-for-production-purposes)
+- [Issues and feedback](#issues-and-feedback)
+
+## Helm charts
+
+This repository includes the following charts; they can be deployed separately:
+
+| Chart | Description |
+|-|-|
+| [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys the Scanner and Envoy components |
+| [Enforcer](enforcer/) | Deploys the Aqua Enforcer daemonset |
+| [Scanner](scanner/)  | Deploys the Aqua Scanner deployment |
+| [KubeEnforcer](kube-enforcer/)| Deploys the Aqua KubeEnforcer |
+| [QuickStart](aqua-quickstart)| Not for production use (see below). Deploys the Console, Database, Gateway, and KubeEnforcer components |
+
+# Deployment instructions
+
+Aqua Enterprise deployments include the following components:
 - Server (Console, Database, and Gateway)
 - Enforcer
 - KubeEnforcer
 - Scanner
 
-## Contents
+Follow the steps in this section for production-grade deployments. You can either clone the aqua-helm git repo or you can add our Helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com)).
 
-- [Helm charts](#helm-charts)
-- [Quick Start](#quick-start)
-- [Deployment instructions](#deployment-instructions)
-  - [Add Aqua Helm repository](#add-aqua-helm-repository)
-  - [Deploy the Helm charts](#deploy-the-helm-charts)
-- [Troubleshooting](#troubleshooting)
-- [Issues and feedback](#issues-and-feedback)
+### (Optional) Add the Aqua Helm repository
 
-## Helm charts
-
-This repository includes following charts that may be deployed separately:
-
-* [**Server**](server/) - deploys the Console, Database, Gateway components; and (optionally) the Scanner, Envoy component
-* [**Enforcer**](enforcer/) - deploys the Enforcer daemonset
-* [**Scanner**](scanner/) - deploys the Scanner deployment
-* [**KubeEnforcer**](kube-enforcer/) - deploys the KubeEnforcer deployment
-* [**QuickStart**](aqua-quickstart) - deploys Console, Database, Gateway and KubeEnforcer components (Not for Production use)
-
-## Quisk Start
-
-Use [**aqua-quickstart**](aqua-quickstart) chart to quickly install Aqua CSP for testing/POC purpose. This chart doesn't support production grade deployments.
-
-  1. Clone the GitHub repository
-  ```bash
-  $ git clone https://github.com/aquasecurity/aqua-helm.git
-  $ cd aqua-helm/
-  ```
-
-  2. Create `aqua` namespace.
-  ```bash
-  $ kubectl create namespace aqua
-  ```
-
-  3. Deploy aqua-quickstart chart
-  ```bash
-  $ helm upgrade --install --namespace aqua aqua ./aqua-quickstart --set imageCredentials.username=<>,imageCredentials.password=<>
-  ```
-
-# Deployment instructions
-
-Follow the steps in this section for production grade deployments. You can either clone aqua-helm git repo or you can add our helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com))
-
-### Add Aqua Helm Repository (Optional)
-
-* Please add the Aqua Helm repository to your local Helm repos by executing the following command:
+1. Add the Aqua Helm repository to your local Helm repos by executing the following command:
 ```bash
 $ helm repo add aqua-helm https://helm.aquasec.com
 ```
 
-* Search for all components of the latest version in our Aqua Helm repository
-for helm 2.x
+2. Search for all components of the latest version in our Aqua Helm repository
+
+##### For Helm 2.x
 ```bash
 $ helm search aqua-helm
 # Examples
@@ -70,7 +62,7 @@ $ helm search aqua-helm --versions
 $ helm search aqua-helm --version 5.3.0
 ```
 
-for helm 3.x
+##### For Helm 3.x
 ```bash
 $ helm search repo aqua-helm
 # Examples
@@ -87,34 +79,32 @@ aqua-helm/server          5.3.0               5.3                 A Helm chart f
 aqua-helm/kube-enforcer   5.3.0               5.3                 A Helm chart for the Aqua KubeEnforcer
 ```
 
-## Deploy the Helm charts
+### Deploy the Helm charts
 
-1. Create `aqua` namespace.
+1. Create the `aqua` namespace.
 ```bash
 $ kubectl create namespace aqua
 ```
+2. Deploy the [**Server**](server/) chart.
+3. Deploy the [**Enforcer**](enforcer/) chart.
+4. Deploy the [**KubeEnforcer**](kube-enforcer/) chart.
+5. (Optional) Deploy the [**Scanner**](scanner/) chart.
+6. (For multi-cluster) Deploy the [**Gateway**](gateway/) chart.
 
-2. Install [**Server**](server/) chart
+### Troubleshooting
 
-3. Install [**Enforcer**](enforcer/) chart
+**This section not all-inclusive. It describes some common issues that we have encountered during deployments.**
 
-4. Install [**KubeEnforcer**](kube-enforcer/) chart
+#### Error 1
 
-5. Install [**Scanner**](scanner/) chart (Optional)
-
-6. Install [**Gateway**](gateway/) chart (Multi Cluster use-case)
-
-# Troubleshooting
-
-***This section not all-inclusive. It describes common issues that Aqua Security has encountered during deployments.***
-
-**(1) Error:** *UPGRADE/INSTALL FAILED*, configmaps is forbidden.
+* Error message: **UPGRADE/INSTALL FAILED, configmaps is forbidden.**
+* Example:
 
 ```bash
 Error: UPGRADE FAILED: configmaps is forbidden: User "system:serviceaccount:kube-system:default" cannot list configmaps in the namespace "kube-system"
 ```
 
-**Solution:** Create a service account for Tiller to utilize.
+* Solution: Create a service account for Tiller to utilize.
 ```bash
 kubectl create serviceaccount --namespace kube-system tiller
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
@@ -122,21 +112,46 @@ kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"templat
 helm init --service-account tiller --upgrade
 ```
 
-**(2) Error:** No persistent volumes available for this claim and no storage class is set.
+#### Error 2
 
-**Solution:** Most managed Kubernetes deployments do NOT include all possible storage provider variations at setup time. Refer to the [official Kubernetes guidance on storage classes](https://kubernetes.io/docs/concepts/storage/storage-classes/) for your platform. Three examples are shown below.
+* Error message: **No persistent volumes available for this claim and no storage class is set.**
+* Solution: Most managed Kubernetes deployments do NOT include all possible storage provider variations at setup time. Refer to the [official Kubernetes guidance on storage classes](https://kubernetes.io/docs/concepts/storage/storage-classes/) for your platform. 
+For more information see the [storage documentation](docs/storage.md).
 
-for more information go to storage docs, [Link](docs/storage.md)
+#### Error 3
 
-**(3) Error:** When executing `kubectl get events -n aqua` you might encounter one of the following errors:
-  *no persistent volumes available for this claim and no storage class is set* **or** *PersistentVolumeClaim is not bound*.
-
-**Solution:** If you encounter this error, you need to create a persistent volume prior to chart installation with a generic or existing storage class, specifying `db.persistence.storageClass` in the values.yaml file. A sample file using `aqua-storage` is included in the repo.
+* Error message: When executing `kubectl get events -n aqua` you might encounter either of the following errors:
+  **No persistent volumes available for this claim and no storage class is set** 
+  **PersistentVolumeClaim is not bound**
+* Solution: If you encounter either of these errors, you need to create a persistent volume prior to chart deployment with a generic or existing storage class. Specify `db.persistence.storageClass` in the values.yaml file. A sample file using `aqua-storage` is included in the repo.
 
 ```bash
 $ kubectl apply -f pv-example.yaml
 ```
 
-## Issues and feedback
+# Quick-start deployment (not for production purposes)
+
+Quick-start deployments are fast and easy. 
+They are intended for deploying Aqua Enterprise for non-production purposes, such as proofs-of-concept (POCs) and environments intended for instruction, development, and test.
+
+Use the [**aqua-quickstart**](aqua-quickstart) chart to 
+
+  1. Clone the GitHub repository
+  ```bash
+  $ git clone https://github.com/aquasecurity/aqua-helm.git
+  $ cd aqua-helm/
+  ```
+
+  2. Create the `aqua` namespace.
+  ```bash
+  $ kubectl create namespace aqua
+  ```
+
+  3. Deploy aqua-quickstart chart
+  ```bash
+  $ helm upgrade --install --namespace aqua aqua ./aqua-quickstart --set imageCredentials.username=<>,imageCredentials.password=<>
+  ```
+
+# Issues and feedback
 
 If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub.
