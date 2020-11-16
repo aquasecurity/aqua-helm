@@ -30,6 +30,8 @@ spec:
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ .Values.gate.image.tag }}"
         imagePullPolicy: "{{ .Values.gate.image.pullPolicy }}"
         env:
+        - name: SCALOCK_LOG_LEVEL
+          value: {{ .Values.gate.logLevel | default "INFO" }}
         - name: AQUA_CONSOLE_SECURE_ADDRESS
           value: "{{ .Values.console.publicIP }}:{{ .Values.console.publicPort }}"
         - name: SCALOCK_GATEWAY_PUBLIC_IP

@@ -31,6 +31,8 @@ spec:
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
         imagePullPolicy: "{{ .Values.web.image.pullPolicy }}"
         env:
+        - name: SCALOCK_LOG_LEVEL
+          value: {{ .Values.web.logLevel | default "INFO" }}
         - name: SCALOCK_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
         {{- if .Values.db.passwordSecret }}

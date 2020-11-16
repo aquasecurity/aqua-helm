@@ -12,6 +12,8 @@ enforcerTokenSecretName: null
 enforcerTokenSecretKey: null
 enforcerLogicalName: 
 
+logLevel:
+
 securityContext:
   privileged: true
   # Note: enforcer deployment in non privileged mode https://docs.aquasec.com/docs/enforcer-deployment-in-non-privileged-mode#kubernetes-deployments
