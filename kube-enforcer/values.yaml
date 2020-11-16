@@ -25,6 +25,8 @@ fullnameOverride: "aqua-kube-enforcer"
 
 namespace: "aqua"
 
+logLevel:
+
 certsSecret:
   name: aqua-kube-enforcer-certs
   serverCertificate: ""

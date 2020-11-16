@@ -38,6 +38,8 @@ spec:
               value: {{ .Values.envs.gatewayAddress }}
             - name: AQUA_TLS_PORT
               value: "8443"
+            - name: SCALOCK_LOG_LEVEL
+              value: {{ .Values.logLevel | default "INFO" }}
           volumeMounts:
             - name: "certs"
               mountPath: "/certs"

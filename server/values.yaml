@@ -106,6 +106,7 @@ db:
 
 gate:
   replicaCount: 1
+  logLevel:
   image:
     repository: gateway
     tag: "5.3"
@@ -162,6 +163,7 @@ gate:
 
 web:
   replicaCount: 1
+  logLevel:
   image:
     repository: console
     tag: "5.3"
