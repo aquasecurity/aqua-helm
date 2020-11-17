@@ -31,6 +31,8 @@ spec:
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
         imagePullPolicy: "{{ .Values.web.image.pullPolicy }}"
         env:
+        - name: SCALOCK_LOG_LEVEL
+          value: {{ .Values.web.logLevel | default "INFO" }}
         - name: SCALOCK_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
         {{- if .Values.db.passwordSecret }}
@@ -82,7 +84,7 @@ spec:
           {{- if .Values.db.external.enabled }}
           value: {{ .Values.db.external.auditHost }}
           {{- else }}
-          value: {{ .Release.Name }}-database-svc
+          value: {{ .Release.Name }}-audit-database-svc
           {{- end }}
         - name: SCALOCK_AUDIT_DBPORT
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
