@@ -15,4 +15,20 @@ spec:
     app: {{ .Release.Name }}-database
   ports:
     - port: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-audit-database-svc
+  labels:
+    app: {{ .Release.Name }}-audit-database
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  type: {{ .Values.db.service.type }}
+  selector:
+    app: {{ .Release.Name }}-audit-database
+  ports:
+    - port: 5432
 {{- end }}

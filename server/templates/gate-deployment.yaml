@@ -88,7 +88,7 @@ spec:
           {{- if .Values.db.external.enabled }}
           value: {{ .Values.db.external.auditHost }}
           {{- else }}
-          value: {{ .Release.Name }}-database-svc
+          value: {{ .Release.Name }}-audit-database-svc
           {{- end }}
         - name: SCALOCK_AUDIT_DBPORT
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
