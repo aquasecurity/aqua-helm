@@ -14,6 +14,7 @@ metadata:
 {{- end }}
 spec:
   type: {{ .Values.web.service.type }}
+  loadBalancerIP: {{ .Values.web.service.loadBalancerIP }}
   selector:
     app: {{ .Release.Name }}-console
   ports:

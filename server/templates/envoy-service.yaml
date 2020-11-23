@@ -18,6 +18,7 @@ metadata:
 {{- end }}
 spec:
   type: {{ .Values.envoy.service.type }}
+  loadBalancerIP: {{ .Values.envoy.service.loadBalancerIP }}
   selector:
     app: {{ .Release.Name }}-envoy
   ports:
