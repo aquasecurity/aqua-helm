@@ -113,6 +113,7 @@ gate:
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
+    loadBalancerIP:
     annotations: {}
     ports:
       - name: aqua-gate
@@ -170,6 +171,7 @@ web:
     pullPolicy: IfNotPresent
   service:
     type: LoadBalancer
+    loadBalancerIP:
     annotations: {}
     ports:
       - name: aqua-web
@@ -233,6 +235,7 @@ envoy:
   
   service:
     type: LoadBalancer
+    loadBalancerIP:
     annotations: {}
     ports:
     - name: healthserver
