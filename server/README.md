@@ -94,7 +94,7 @@ helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.use
       ```bash
       # Please be notified that tls.key and tls.crt in the below command are same
       # as mydomain.com.key and mydomain.com.crt in the above openssl commands
-      $ kubectl create secret generic aqua-lb-tls -from-file tls.crt --from-file tls.key -n aqua
+      $ kubectl create secret generic aqua-lb-tls --from-file tls.crt --from-file tls.key -n aqua
       ```
    
    3. Edit values.yaml file to include above secret name at `envoy.certsSecretName`
