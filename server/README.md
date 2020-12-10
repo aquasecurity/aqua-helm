@@ -11,6 +11,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Ingress](#ingress)
   - [PostgreSQL database](#postgresql-database)
 - [Installing the Chart](#installing-the-chart)
+- [Advanced Configuration](#advanced-configuration)
 - [Configurable Variables](#configurable-variables)
 - [Issues and feedback](#issues-and-feedback)
 
@@ -74,19 +75,19 @@ helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.use
       # Create a certificate
       #####################################################################################
       # Create the certificate key
-      openssl genrsa -out mydomain.com.key 2048
+      openssl genrsa -out tls.key 2048
       # Create the signing (csr)
-      openssl req -new -key mydomain.com.key -out mydomain.com.csr
+      openssl req -new -key tls.key -out tls.csr
       # Verify the csr content
-      openssl req -in mydomain.com.csr -noout -text
+      openssl req -in tls.csr -noout -text
       #####################################################################################
       # Generate the certificate using the mydomain csr and key along with the CA Root key
       #####################################################################################
-      openssl x509 -req -in mydomain.com.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out mydomain.com.crt -days 500 -sha256
+      openssl x509 -req -in tls.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out tls.crt -days 500 -sha256
       #####################################################################################
       
       # If you wish to use a Public CA like GoDaddy or LetsEncrypt please
-      # submit the mydomain csr to the respective CA to generate mydomain crt
+      # submit the tls csr to the respective CA to generate tls crt
       ```
    
    2. Create TLS cert secret
