@@ -1,24 +1,26 @@
 <img src="https://avatars3.githubusercontent.com/u/12783832?s=200&v=4" height="100" width="100" /><img src="https://avatars3.githubusercontent.com/u/15859888?s=200&v=4" width="100" height="100"/>
 
-# Aqua Security Kube Enforcer Helm Chart
+# Aqua Security KubeEnforcer Helm Charts
 
-These are Helm charts for installation and maintenance of Aqua Container Security Enforcer
+This page provides instructions for using HELM charts for configuring and deploying the Aqua Enterprise KubeEnforcer.
 
 ## Contents
 
-- [Aqua Security Kube Enforcer Helm Chart](#aqua-security-kube-enforcer-helm-chart)
+- [Aqua Security KubeEnforcer Helm Charts](#aqua-security-kubeenforcer-helm-charts)
   - [Contents](#contents)
   - [Prerequisites](#prerequisites)
-    - [Container Registry Credentials](#container-registry-credentials)
-    - [Configure TLS Authentication between KubeEnforcer & API Server](#configure-tls-authentication-between-kubeenforcer-&-api-server)
-  - [Installing the Chart](#installing-the-chart)
-  - [Configurable Variables](#configurable-variables)
-    - [KubeEnforcer](#kubeenforcer)
+    - [Container registry credentials](#container-registry-credentials)
+    - [Clone the GitHub repository with the charts](#clone-the-github-repository-with-the-charts)
+    - [Configure TLS authentication between the KubeEnforcer and the API Server](#configure-tls-authentication-between-the-kubeenforcer-and-the-api-server)
+  - [Deploying the HELM chart](#deploying-the-helm-chart)
+  - [Configuration for discovery](#configuration-for-discovery)
+  - [Configuration for performing kube-bench scans](#configuration-for-performing-kube-bench-scans)
+  - [Configurable parameters](#configurable-parameters)
   - [Issues and feedback](#issues-and-feedback)
 
 ## Prerequisites
 
-### Container Registry Credentials
+### Container registry credentials
 
 [Link](../docs/imagepullsecret.md)
 
@@ -29,11 +31,11 @@ git clone https://github.com/aquasecurity/aqua-helm.git
 cd aqua-helm/
 ```
 
-### Configure TLS Authentication between KubeEnforcer & API Server
+### Configure TLS authentication between the KubeEnforcer and the API Server
 
-You need to enable TLS authentication from the API Server to the Kube-Enforcer. Perform these steps:
+You need to enable TLS authentication from the API Server to the KubeEnforcer. Perform these steps:
 
-Create TLS certificates which is signed by the local CA certificate. We will pass these certificates with helm command to enbale TLS authentication between kube-enforcer & API-Server to receive events from validatingwebhookconfiguration for image assurance functionality.
+Create TLS certificates which are signed by the local CA certificate. We will pass these certificates with a HELM command to enbale TLS authentication between the KubeEnforcer and the API Server to receive events from the validatingwebhookconfiguration for Image Sssurance functionality.
 
 You can generate these certificates by executing the script:
 
@@ -41,17 +43,17 @@ You can generate these certificates by executing the script:
 ./kube-enforcer/gen-certs.sh
 ```
 
-You can also use your own certificates without generating new ones for TLS authentication all we need is root CA certificate, certificate signed by CA and certificate key.
+You can also use your own certificates without generating new ones for TLS authentication. All we need is a root CA certificate, a certificate signed by a CA, and a certificate key.
 
-Optionally you can configure the certificates generated from the above script in ```values.yaml``` file
+You can optionally configure the certificates generated from the script above in the ```values.yaml``` file.
 
-You need to encode the certificates into based64 for ```ca.crt```, ```server.crt``` and ```server.key``` using the below cmd
+You need to encode the certificates into base64 for ```ca.crt```, ```server.crt``` and ```server.key``` using this command:
 
 ```
 cat <file-name> | base64 | tr -d '\n'
 ```
 
-Provide the above obtained certificates in the below fields of ```values.yaml``` file.
+Provide the certificates previously obtained in the fields of the ```values.yaml``` file, as indicated here:
 
 ```
 certsSecret:
@@ -62,74 +64,72 @@ certsSecret:
 webhooks:
   caBundle: "<ca.crt>"
 ```
-or you can provide these certificates in base64 encoded format as flags.
+Optionally, you can provide these certificates in base64 encoded format as flags:
   a. certsSecret.serverCertificate="<base64_encoded_server.crt>"
   b. certsSecret.serverKey="<base64_encoded_server.key>"
   c. webhooks.caBundle="<base64_encoded_ca.crt>"
 
-## Installing the Chart
+## Deploying the HELM chart
 
-1. Clone the GitHub repository with the charts
+1. Clone the GitHub repository with the charts:
 
-```bash
-git clone https://github.com/aquasecurity/kube-enforcer-helm.git
-```
+   ```bash
+   git clone https://github.com/aquasecurity/kube-enforcer-helm.git
+   ```
 
-***Optional*** Update the Helm charts values.yaml file with your environment's custom values, registry secret, aqua console credentials & TLS certificates. This eliminates the need to pass the parameters to the helm command. Then run one of the commands below to install the relevant services.
+2. (Optional) Update the Helm charts `values.yaml` file with your environment's custom values, registry secret, Aqua Server (console) credentials, and TLS certificates. This eliminates the need to pass the parameters to the HELM command. Then run one of the following commands to deploy the relevant services.
 
-2. If you are deploying KubeEnforcer to a new cluster (Multi-Cluster Scenario) then you need to create `aqua` namespace
-```bash
-$ kubectl create namespace aqua
-```
-3. Install KubeEnforcer
+3. Choose **either** 3a **or** 3b:
+
+   3a. To deploy the KubeEnforcer on the same cluster as the Aqua Server (console), run this command on that cluster:
+     
+   ```shell
+   helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer
+   ```
+    
+   3b. Multi-cluster: To deploy the KubeEnforcer in a different cluster:
+
+   First, create a namespace on that cluster named `aqua`:
+   ```bash
+   kubectl create namespace aqua
+   ```
+   Next, run the following command:
    
-    1. To the same cluster where Aqua Server is deployed
-    
-         1. ```shell
-              helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer
-              ```
-    
-    2. To a new cluster to support multi cluster deployment
-    
-         1. ```shell
-              helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set evs.gatewayAddress="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
-              ```
-    
+   ```shell
+   helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set evs.gatewayAddress="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
+   ```
 
 Optional flags:
 
-```
---namespace                              default to aqua
---aquaSecret.kubeEnforcerToken           default to "" you can find the KubeEnforcer token from aqua csp under enforcers tab in default/custom KubeEnforcer group or you can manually approve KubeEnforcer authentication from aqua CSP under default/custom KubeEnforcer group in enforcers tab.
-```
+| Flag | Description |
+|-|-|
+| --namespace | defaults to `aqua` |
+| --aquaSecret.kubeEnforcerToken | defaults to ""; you can find the KubeEnforcer token from Aqua Enterprise under the Enforcers screen in the default/custom KubeEnforcer group, or you can manually approve KubeEnforcer authentication from Aqua Enterprise under the default/custom KubeEnforcer group in the Enforcers screen. |
 
-## ClusterRole
+## Configuration for discovery
 
-KubeEnforcer needs a dedicated clusterrole with **get, list, watch** permissions on **pods, secrets, nodes, namespaces, deployments, replicasets, replicationcontrollers, statefulsets, daemonsets, jobs, cronjobs, clusterroles, clusterrolebindings, componentstatuses** to perform discovery on the cluster. 
+To perform discovery on the cluster, the KubeEnforcer needs a dedicated ClusterRole with `get`, `list`, and `watch` permissions on pods, secrets, nodes, namespaces, deployments, ReplicaSets, ReplicationEontrollers, StatefulSets, DaemonSets, jobs, CronJobs, ClusterRoles, ClusterRoleBindings, and ComponentStatuses`. 
 
-## Role
+## Configuration for performing kube-bench scans
 
-KubeEnforcer needs a dedicated role in **aqua** namespace with **get, list, watch** permissions on **pods/log** and **create, delete** permissions on **jobs** to perform kube-bench scans in the cluster.
+To perform kube-bench scans in the cluster, the KubeEnforcer needs:
+- A dedicated role in the `aqua` namespace with `get`, `list`, and `watch` permissions on `pods/log`
+- `create` and `delete` permissions on jobs
 
+## Configurable parameters
 
-
-## Configurable Variables
-
-### KubeEnforcer
-
-| Parameter                         | Description                          | Default                                                                      | Mandatory                                                             |
-| --------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `imageCredentials.create`               | Set if to create new pull image secret    | `true`                                                                 | `YES - New cluster`                                    |
-| `imageCredentials.name`               | Your Docker pull image secret name    | `aqua-registry-secret`                                                                   | `YES - New cluster`                                         |
-| `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   | `YES - New cluster`                                           |
-| `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A` | `YES - New cluster` |
-| `aquaSecret.kubeEnforcerToken`                           | Aqua KubeEnforcer token    | `N/A`| `YES` |
-| `certsSecret.serverCertificate`                           | Certificate for TLS authentication with Kubernetes api-server    | `N/A`| `YES` |
-| `certsSecret.serverKey`                           | Certificate key for TLS authentication with Kubernetes api-server    | `N/A`| `YES` |
-| `webhooks.caBundle`                           | Root Certificate for TLS authentication with Kubernetes api-server   | `N/A`  | `YES` |
-| `envs.gatewayAddress`                          | Gateway host Address    | `aqua-gateway-svc:8443`                                                     | `YES`                                                |
-
+| Parameter                         | Description                                                                 | Default                 | Mandatory               |
+| --------------------------------- | --------------------------------------------------------------------------- | ----------------------- | ----------------------- |
+| `imageCredentials.create`         | Set to create new pull image secret                                         | `true`                  | `YES - New cluster`     |
+| `imageCredentials.name`           | Your Docker pull image secret name                                          | `aqua-registry-secret`  | `YES - New cluster`     |
+| `imageCredentials.username`       | Your Docker registry (DockerHub, etc.) username                             | `N/A`                   | `YES - New cluster`     |
+| `imageCredentials.password`       | Your Docker registry (DockerHub, etc.) password                             | `N/A`                   | `YES - New cluster`     |
+| `aquaSecret.kubeEnforcerToken`    | Aqua KubeEnforcer token                                                     | `N/A`                   | `YES`                   |
+| `certsSecret.serverCertificate`   | Certificate for TLS authentication with the Kubernetes api-server           | `N/A`                   | `YES`                   |
+| `certsSecret.serverKey`           | Certificate key for TLS authentication with the Kubernetes api-server       | `N/A`                   | `YES`                   |
+| `webhooks.caBundle`               | Root certificate for TLS authentication with the Kubernetes api-server      | `N/A`                   | `YES`                   |
+| `envs.gatewayAddress`             | Gateway host address                                                        | `aqua-gateway-svc:8443` | `YES`                   |
 
 ## Issues and feedback
 
-If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub.
+If you encounter any problems or would like to give us feedback on this deployment, we encourage you to raise issues here on GitHub.
