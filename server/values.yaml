@@ -13,7 +13,7 @@ rbac:
   roleRef:
 
 # enable only one of the modes
-clustermode: 
+clustermode:
 activeactive:
 
 admin:
@@ -230,7 +230,7 @@ envoy:
     repository: envoyproxy/envoy-alpine
     tag: v1.15.0
     pullPolicy: IfNotPresent
-  
+
   service:
     type: LoadBalancer
     annotations: {}
@@ -274,7 +274,7 @@ envoy:
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 1
-  
+
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
@@ -292,7 +292,7 @@ envoy:
     ## refs:
     ## - https://www.envoyproxy.io/docs/envoy/latest/start/start#quick-start-to-run-simple-example
     ## - https://raw.githubusercontent.com/envoyproxy/envoy/master/configs/google_com_proxy.v2.yaml
-    envoy.yaml: |
+    "envoy.yaml": |
       static_resources:
         listeners:
         - address:
