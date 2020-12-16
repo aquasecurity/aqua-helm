@@ -8,10 +8,14 @@ cat >server.conf <<EOF
 req_extensions = v3_req
 distinguished_name = req_distinguished_name
 [req_distinguished_name]
+[ alt_names ]
+DNS.1 = aqua-kube-enforcer.aqua.svc
+DNS.2 = aqua-kube-enforcer.aqua.svc.cluster.local
 [ v3_req ]
 basicConstraints = CA:FALSE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 extendedKeyUsage = clientAuth, serverAuth
+subjectAltName = @alt_names
 EOF
 
 openssl genrsa -out server.key 2048
