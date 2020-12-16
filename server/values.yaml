@@ -13,7 +13,7 @@ rbac:
   roleRef:
 
 # enable only one of the modes
-clustermode: 
+clustermode:
 activeactive:
 
 admin:
@@ -230,7 +230,7 @@ envoy:
     repository: envoyproxy/envoy-alpine
     tag: v1.15.0
     pullPolicy: IfNotPresent
-  
+
   service:
     type: LoadBalancer
     annotations: {}
@@ -274,7 +274,7 @@ envoy:
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 1
-  
+
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
@@ -368,7 +368,7 @@ envoy:
               - endpoint:
                   address:
                     socket_address:
-                      address: {{ .Release.Name }}-gateway-headless-svc.aqua.svc.cluster.local
+                      address: {{ .Release.Name }}-gateway-headless-svc.{{ .Release.Namespace }}.svc.cluster.local
                       port_value: 8443
           transport_socket:
               name: envoy.transport_sockets.tls
