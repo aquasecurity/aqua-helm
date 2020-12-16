@@ -20,6 +20,14 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8443
+{{- with .Values.livenessProbe }}
+          livenessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.readinessProbe }}
+          readinessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
           env:
             - name: AQUA_TOKEN
               valueFrom: 
