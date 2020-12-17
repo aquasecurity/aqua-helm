@@ -368,7 +368,7 @@ envoy:
               - endpoint:
                   address:
                     socket_address:
-                      address: {{ .Release.Name }}-gateway-headless-svc.aqua.svc.cluster.local
+                      address: {{ .Release.Name }}-gateway-headless-svc.{{ .Release.Namespace }}.svc.cluster.local
                       port_value: 8443
           transport_socket:
               name: envoy.transport_sockets.tls
