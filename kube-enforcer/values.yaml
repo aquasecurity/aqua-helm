@@ -2,7 +2,7 @@
 imageCredentials:
   # If aqua-registry already exists in the cluster. Make create to false. So it won't attempt to create a new registry secret. 
   create: true
-  name: aqua-registry-secret # example
+  name: aqua-ke-registry-secret # example
   repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
   registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
   username: ""
@@ -51,3 +51,15 @@ validatingWebhook:
   name: kube-enforcer-admission-hook-config
   caBundle: ""
   failurePolicy: Ignore
+
+livenessProbe:
+  tcpSocket:
+    port: 8080
+  initialDelaySeconds: 60
+  periodSeconds: 30
+
+readinessProbe:
+  tcpSocket:
+    port: 8080
+  initialDelaySeconds: 60
+  periodSeconds: 30
