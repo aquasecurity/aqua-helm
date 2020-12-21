@@ -22,6 +22,13 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
 
 [Link](../docs/imagepullsecret.md)
 
+Note: Make sure you disable the imageCredentials in ```values.yaml``` If you are installing Kube Enforcer on the same Aqua cluster.
+
+```
+imageCredentials:
+  create: false
+```
+
 ### Configure TLS Authentication between KubeEnforcer & API Server
 
 You need to enable TLS authentication from the API Server to the Kube-Enforcer. Perform these steps:
