@@ -53,7 +53,7 @@ db:
   auditssl: false
   image:
     repository: database
-    tag: "5.3"
+    tag: "6.0.preview7"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -109,7 +109,7 @@ gate:
   logLevel:
   image:
     repository: gateway
-    tag: "5.3"
+    tag: "6.0.preview7"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -166,7 +166,7 @@ web:
   logLevel:
   image:
     repository: console
-    tag: "5.3"
+    tag: "6.0.preview7"
     pullPolicy: IfNotPresent
   service:
     type: LoadBalancer
