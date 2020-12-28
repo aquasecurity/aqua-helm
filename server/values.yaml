@@ -192,8 +192,23 @@ web:
     #  - secretName: aquasec-tls
     #    hosts:
     #      - aquasec.domain.com
-  livenessProbe: {}
-  readinessProbe: {}
+
+  # Note: Please change the ports according to the requirement.
+  # default liveness and readiness probe
+  livenessProbe:
+    httpGet:
+      path: /
+      port: 8080
+    initialDelaySeconds: 60
+    periodSeconds: 30
+
+  readinessProbe:
+    httpGet:
+      path: /
+      port: 8080
+    initialDelaySeconds: 60
+    periodSeconds: 30
+
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
