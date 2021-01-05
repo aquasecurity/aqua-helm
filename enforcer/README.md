@@ -11,6 +11,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Prerequisites](#prerequisites)
     - [Container Registry Credentials](#container-registry-credentials)
   - [Installing the Chart](#installing-the-chart)
+  - [Guide how to create enforcer group in Kubernetes](#guide-how-to-create-enforcer-group-in-kubernetes)
   - [Configurable Variables](#configurable-variables)
     - [Enforcer](#enforcer)
   - [Issues and feedback](#issues-and-feedback)
@@ -74,6 +75,7 @@ Parameter | Description | Default| Mandatory
 `enforcerTokenSecretName` | enforcer token secret name if exists | `null`| `NO` 
 `enforcerTokenSecretKey` | enforcer token secret key if exists | `null`| `NO` 
 `enforcerLogicalName` | Specify the Logical Name the Aqua Enforcer will register under. if not specify the name will be `<Helm Release>-helm` | `unset`| `NO` 
+`priorityClassName` | Kubernetes pod priority class.| `unset`| `NO` 
 `securityContext.privileged` | determines if any container in a pod can enable privileged mode. | `true`| `NO` 
 `securityContext.capabilities` | Linux capabilities provide a finer grained breakdown of the privileges traditionally associated with the superuser. | `unset`| `NO` 
 `hostRunPath` |	for changing host run path for example for pks need to change to /var/vcap/sys/run/docker	| `unset`| `NO` 

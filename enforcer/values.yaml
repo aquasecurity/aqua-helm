@@ -14,6 +14,8 @@ enforcerLogicalName:
 
 logLevel:
 
+priorityClassName:
+
 securityContext:
   privileged: true
   # Note: enforcer deployment in non privileged mode https://docs.aquasec.com/docs/enforcer-deployment-in-non-privileged-mode#kubernetes-deployments

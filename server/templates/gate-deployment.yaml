@@ -22,6 +22,9 @@ spec:
         app: {{ .Release.Name }}-gateway
       name: {{ .Release.Name }}-gateway
     spec:
+    {{- if .Values.gate.priorityClassName }}
+      priorityClassName: {{ .Values.gate.priorityClassName }}
+    {{- end }}
       serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: gate

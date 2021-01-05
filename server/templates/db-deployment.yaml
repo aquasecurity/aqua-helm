@@ -23,6 +23,9 @@ spec:
         app: {{ .Release.Name }}-database
       name: {{ .Release.Name }}-database
     spec:
+    {{- if .Values.db.priorityClassName }}
+      priorityClassName: {{ .Values.db.priorityClassName }}
+    {{- end }}
       serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: db

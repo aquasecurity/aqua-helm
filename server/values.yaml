@@ -51,6 +51,7 @@ db:
   dbPubsubPasswordKey:
   ssl: false
   auditssl: false
+  priorityClassName:
   image:
     repository: database
     tag: "5.3"
@@ -107,6 +108,7 @@ db:
 gate:
   replicaCount: 1
   logLevel:
+  priorityClassName:
   image:
     repository: gateway
     tag: "5.3"
@@ -164,6 +166,7 @@ gate:
 web:
   replicaCount: 1
   logLevel:
+  priorityClassName:
   image:
     repository: console
     tag: "5.3"
@@ -225,6 +228,7 @@ web:
 envoy:
   enabled: false
   replicaCount: 1
+  priorityClassName:
 
   image:
     repository: envoyproxy/envoy-alpine

@@ -58,6 +58,7 @@ Parameter | Description | Default| Mandatory
 `serviceAccount` | k8s service account to use | `aqua-sa`| `YES` 
 `server.serviceName` | service name for server to connect | `aqua-console-svc`| `YES` 
 `server.port` | service port for server to connect | `8080`| `YES` 
+`priorityClassName` | Kubernetes pod priority class.| `unset`| `NO` 
 `image.repository` | the docker image name to use | `scanner`| `YES` 
 `image.tag` | The image tag to use. | `5.3`| `YES` 
 `image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 

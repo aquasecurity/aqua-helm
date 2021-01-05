@@ -23,6 +23,9 @@ spec:
         app: {{ .Release.Name }}-scanner
       name: {{ .Release.Name }}-scanner
     spec:
+    {{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName }}
+    {{- end }}
       serviceAccount: {{ .Values.serviceAccount }}
       containers:
       - name: scanner

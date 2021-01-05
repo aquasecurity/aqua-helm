@@ -10,8 +10,11 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Contents](#contents)
   - [Prerequisites](#prerequisites)
     - [Container Registry Credentials](#container-registry-credentials)
-    - [Configure TLS Authentication between KubeEnforcer & API Server](#configure-tls-authentication-between-kubeenforcer-&-api-server)
+    - [Clone the GitHub repository with the charts](#clone-the-github-repository-with-the-charts)
+    - [Configure TLS Authentication between KubeEnforcer & API Server](#configure-tls-authentication-between-kubeenforcer--api-server)
   - [Installing the Chart](#installing-the-chart)
+  - [ClusterRole](#clusterrole)
+  - [Role](#role)
   - [Configurable Variables](#configurable-variables)
     - [KubeEnforcer](#kubeenforcer)
   - [Issues and feedback](#issues-and-feedback)
@@ -124,6 +127,7 @@ KubeEnforcer needs a dedicated role in **aqua** namespace with **get, list, watc
 | `imageCredentials.username`               | Your Docker registry (DockerHub, etc.) username    | `N/A`                                                                   | `YES - New cluster`                                           |
 | `imageCredentials.password`               | Your Docker registry (DockerHub, etc.) password    | `N/A` | `YES - New cluster` |
 | `aquaSecret.kubeEnforcerToken`                           | Aqua KubeEnforcer token    | `N/A`| `YES` |
+| `priorityClassName`                           | Kubernetes pod priority class.    | `N/A`| `NO` |
 | `certsSecret.serverCertificate`                           | Certificate for TLS authentication with Kubernetes api-server    | `N/A`| `YES` |
 | `certsSecret.serverKey`                           | Certificate key for TLS authentication with Kubernetes api-server    | `N/A`| `YES` |
 | `webhooks.caBundle`                           | Root Certificate for TLS authentication with Kubernetes api-server   | `N/A`  | `YES` |

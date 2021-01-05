@@ -27,6 +27,8 @@ namespace: "aqua"
 
 logLevel:
 
+priorityClassName:
+
 certsSecret:
   name: aqua-kube-enforcer-certs
   serverCertificate: ""

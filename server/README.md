@@ -6,14 +6,15 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
 
 ## Contents
 
-- [Prerequisites](#prerequisites)
-  - [Container Registry Credentials](#container-registry-credentials)
-  - [Ingress](#ingress)
-  - [PostgreSQL database](#postgresql-database)
-- [Installing the Chart](#installing-the-chart)
-- [Advanced Configuration](#advanced-configuration)
-- [Configurable Variables](#configurable-variables)
-- [Issues and feedback](#issues-and-feedback)
+- [Aqua Security Server Helm Chart](#aqua-security-server-helm-chart)
+  - [Contents](#contents)
+  - [Prerequisites](#prerequisites)
+    - [Container Registry Credentials](#container-registry-credentials)
+    - [PostgreSQL database](#postgresql-database)
+  - [Installing the Chart](#installing-the-chart)
+  - [Advanced Configuration](#advanced-configuration)
+  - [Configurable Variables](#configurable-variables)
+  - [Issues and feedback](#issues-and-feedback)
 
 ## Prerequisites
 
@@ -190,6 +191,7 @@ Parameter | Description | Default| Mandatory
 `db.dbPubsubPasswordKey` | Pubsub password secret key | `null`| `NO` 
 `db.ssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`true`| `NO` 
 `db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`true`| `NO` 
+`db.priorityClassName` | Kubernetes pod priority class. |	`unset`| `NO` 
 `db.persistence.enabled` | If true, Persistent Volume Claim will be created |	`true`| `NO` 
 `db.persistence.accessModes` |	Persistent Volume access mode |	`ReadWriteOnce`| `NO` 
 `db.persistence.size` |	Persistent Volume size | `30Gi`| `NO` 
@@ -205,6 +207,7 @@ Parameter | Description | Default| Mandatory
 `db.securityContext` | Set of security context for the container | `nil`| `NO` 
 `db.extraEnvironmentVars` | is a list of extra enviroment variables to set in the database deployments. | `{}`| `NO` 
 `db.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the database deployments, these variables take value from existing Secret objects. | `[]`| `NO` 
+`gate.priorityClassName` | Kubernetes pod priority class. |	`unset`| `NO` 
 `gate.image.repository` | the docker image name to use | `gateway`| `NO` 
 `gate.image.tag` | The image tag to use. | `5.3`| `NO` 
 `gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
@@ -220,6 +223,7 @@ Parameter | Description | Default| Mandatory
 `gate.securityContext` | Set of security context for the container | `nil`| `NO` 
 `gate.extraEnvironmentVars` | is a list of extra enviroment variables to set in the gateway deployments. | `{}`| `NO` 
 `gate.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`| `NO` 
+`web.priorityClassName` | Kubernetes pod priority class. |	`unset`| `NO` 
 `web.image.repository` | the docker image name to use | `console`| `NO` 
 `web.image.tag` | The image tag to use. | `5.3`| `NO` 
 `web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 

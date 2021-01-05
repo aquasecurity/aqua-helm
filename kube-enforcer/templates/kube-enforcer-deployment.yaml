@@ -13,6 +13,9 @@ spec:
       labels:
         app: {{ include "kube-enforcer.fullname" . }}
     spec:
+    {{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName }}
+    {{- end }}
       serviceAccountName: {{ .Values.serviceAccount.name }}
       containers:
         - name: kube-enforcer
