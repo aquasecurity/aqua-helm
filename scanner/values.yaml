@@ -16,6 +16,8 @@ image:
 
 logLevel:
 
+priorityClassName:
+
 user:
 password:
 replicaCount: 1

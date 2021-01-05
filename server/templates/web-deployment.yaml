@@ -23,6 +23,9 @@ spec:
         app: {{ .Release.Name }}-console
       name: {{ .Release.Name }}-console
     spec:
+    {{- if .Values.web.priorityClassName }}
+      priorityClassName: {{ .Values.web.priorityClassName }}
+    {{- end }}
       serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: web

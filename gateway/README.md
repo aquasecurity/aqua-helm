@@ -6,10 +6,12 @@ Helm chart for installation and maintenance of Aqua Container Security Platform 
 
 ## Contents
 
-- [Prerequisites](#prerequisites)
-  - [Container Registry Credentials](#container-registry-credentials)
-- [Installing the Chart](#installing-the-chart)
-- [Configurable Variables](#configurable-variables)
+- [Aqua Security Gateway Helm Chart](#aqua-security-gateway-helm-chart)
+  - [Contents](#contents)
+  - [Prerequisites](#prerequisites)
+    - [Container Registry Credentials](#container-registry-credentials)
+  - [Installing the Chart](#installing-the-chart)
+  - [Configurable Variables](#configurable-variables)
 
 ## Prerequisites
 
@@ -97,6 +99,7 @@ Parameter | Description | Default
 `db.dbPubsubPasswordKey` | Pubsub password secret key | `null`
 `db.ssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`true`
 `db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`true`
+`gate.priorityClassName` | Kubernetes pod priority class. |	`unset`
 `gate.image.repository` | the docker image name to use | `gateway`
 `gate.image.tag` | The image tag to use. | `5.3`
 `gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`

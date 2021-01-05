@@ -24,6 +24,9 @@ spec:
         app: {{ .Release.Name }}-envoy
       name: {{ .Release.Name }}-envoy
     spec:
+    {{- if .Values.envoy.priorityClassName }}
+      priorityClassName: {{ .Values.envoy.priorityClassName }}
+    {{- end }}
       securityContext:
         {{ toYaml .Values.envoy.securityContext | nindent 8 }}
       containers:

@@ -47,6 +47,7 @@ db:
 gate:
   replicaCount: 1
   logLevel:
+  priorityClassName:
   image:
     repository: gateway
     tag: "5.3"
