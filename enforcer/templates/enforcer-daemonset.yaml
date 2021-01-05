@@ -28,8 +28,9 @@ spec:
       serviceAccount: {{ .Release.Name }}-sa
       hostPID: true
     {{- if .Values.priorityClassName }}
-      priorityClassName: {{ .Values.priorityClassName }}
+      priorityClassName: {{ include "Values.priorityClassName" . }}
     {{- end }}
+      containers:
       - name: enforcer
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
