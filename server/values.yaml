@@ -53,7 +53,7 @@ db:
   auditssl: false
   image:
     repository: database
-    tag: "6.0.preview7"
+    tag: "6.0.preview9"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
