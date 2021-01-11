@@ -316,6 +316,13 @@ envoy:
     timeoutSeconds: 1
   
   resources: {}
+    # Note: For recommendations please check the official sizing guide.
+    # requests:
+    #   cpu: 100m
+    #   memory: 0.2Gi
+    # limits:
+    #   cpu: 1000m
+    #   memory: 2Gi
   nodeSelector: {}
   tolerations: []
   affinity: {}
