@@ -121,10 +121,10 @@ db:
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
-    #   cpu: 0.1
+    #   cpu: 100n
     #   memory: 0.2Gi
     # limits:
-    #   cpu: 1
+    #   cpu: 1000m
     #   memory: 2Gi
   nodeSelector: {}
   tolerations: []
@@ -173,10 +173,10 @@ gate:
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
-    #   cpu: 0.1
+    #   cpu: 100m
     #   memory: 0.2Gi
     # limits:
-    #   cpu: 1
+    #   cpu: 1000m
     #   memory: 2Gi
   nodeSelector: {}
   tolerations: []
@@ -233,10 +233,10 @@ web:
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
-    #   cpu: 0.1
+    #   cpu: 100m
     #   memory: 0.2Gi
     # limits:
-    #   cpu: 1
+    #   cpu: 1000m
     #   memory: 2Gi
   nodeSelector: {}
   tolerations: []
