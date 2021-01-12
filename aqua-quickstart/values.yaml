@@ -31,7 +31,7 @@ ke:
   aqua_cache_expiration_period: 60
   image:
     repository: kube-enforcer
-    tag: "5.3"
+    tag: "6.0.preview9"
     pullPolicy: Always
   nameOverride: "aqua-kube-enforcer"
   fullnameOverride: "aqua-kube-enforcer"
@@ -121,10 +121,10 @@ db:
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
-    #   cpu: 0.1
+    #   cpu: 100n
     #   memory: 0.2Gi
     # limits:
-    #   cpu: 1
+    #   cpu: 1000m
     #   memory: 2Gi
   nodeSelector: {}
   tolerations: []
@@ -173,10 +173,10 @@ gate:
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
-    #   cpu: 0.1
+    #   cpu: 100m
     #   memory: 0.2Gi
     # limits:
-    #   cpu: 1
+    #   cpu: 1000m
     #   memory: 2Gi
   nodeSelector: {}
   tolerations: []
@@ -233,10 +233,10 @@ web:
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
-    #   cpu: 0.1
+    #   cpu: 100m
     #   memory: 0.2Gi
     # limits:
-    #   cpu: 1
+    #   cpu: 1000m
     #   memory: 2Gi
   nodeSelector: {}
   tolerations: []
@@ -316,6 +316,13 @@ envoy:
     timeoutSeconds: 1
   
   resources: {}
+    # Note: For recommendations please check the official sizing guide.
+    # requests:
+    #   cpu: 100m
+    #   memory: 0.2Gi
+    # limits:
+    #   cpu: 1000m
+    #   memory: 2Gi
   nodeSelector: {}
   tolerations: []
   affinity: {}

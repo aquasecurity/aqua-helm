@@ -11,7 +11,7 @@ server:
 
 image:
   repository: scanner
-  tag: "6.0.preview7"
+  tag: "6.0.preview9"
   pullPolicy: IfNotPresent
 
 logLevel:
@@ -24,10 +24,10 @@ readinessProbe: {}
 resources: {}
   # Note: For recommendations please check the official sizing guide.
   # requests:
-  #   cpu: 500
+  #   cpu: 500m
   #   memory: 1Gi
   # limits:
-  #   cpu: 3000
+  #   cpu: 3000m
   #   memory: 5Gi
 nodeSelector: {}
 tolerations: []

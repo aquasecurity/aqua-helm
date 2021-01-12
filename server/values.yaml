@@ -53,7 +53,7 @@ db:
   auditssl: false
   image:
     repository: database
-    tag: "6.0.preview7"
+    tag: "6.0.preview9"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -83,10 +83,10 @@ db:
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
-    #   cpu: 3000
+    #   cpu: 3000m
     #   memory: 6Gi
     # limits:
-    #   cpu: 12000
+    #   cpu: 12000m
     #   memory: 20Gi
   nodeSelector: {}
   tolerations: []
@@ -136,10 +136,10 @@ gate:
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
-    #   cpu: 1500
+    #   cpu: 1500m
     #   memory: 7Gi
     # limits:
-    #   cpu: 6000
+    #   cpu: 6000m
     #   memory: 10Gi
   nodeSelector: {}
   tolerations: []
@@ -212,10 +212,10 @@ web:
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
-    #   cpu: 2000
+    #   cpu: 2000m
     #   memory: 3Gi
     # limits:
-    #   cpu: 6000
+    #   cpu: 6000m
     #   memory: 10Gi
   nodeSelector: {}
   tolerations: []
@@ -293,10 +293,10 @@ envoy:
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
-    #   cpu: 2000
+    #   cpu: 2000m
     #   memory: 4Gi
     # limits:
-    #   cpu: 4000
+    #   cpu: 4000m
     #   memory: 10Gi
   nodeSelector: {}
   tolerations: []
