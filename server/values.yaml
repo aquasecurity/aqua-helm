@@ -131,8 +131,15 @@ gate:
         targetPort: 8082
         nodePort:
   publicIP:
-  livenessProbe: {}
-  readinessProbe: {}
+  livenessProbe:
+    httpGet:
+      path: /
+      port: 8000
+    initialDelaySeconds: 60
+    periodSeconds: 30
+  readinessProbe:
+    tcpSocket:
+      port: 8443
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
