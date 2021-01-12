@@ -140,6 +140,8 @@ gate:
   readinessProbe:
     tcpSocket:
       port: 8443
+    initialDelaySeconds: 60
+    periodSeconds: 30
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
