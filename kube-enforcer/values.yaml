@@ -20,7 +20,7 @@ image:
   tag: "5.3"
   pullPolicy: Always
 
-nameOverride: "aqua-kube-enforcer"
+nameOverride: "aqua-kube-enforcer" 
 fullnameOverride: "aqua-kube-enforcer"
 
 namespace: "aqua"
@@ -74,3 +74,12 @@ readinessProbe:
     port: 8080
   initialDelaySeconds: 60
   periodSeconds: 30
+
+resources: {}
+  # Note: For recommendations please check the official sizing guide.
+  # requests:
+  #   cpu: 250m
+  #   memory: 0.2Gi
+  # limits:
+  #   cpu: 500m
+  #   memory: 1.5Gi

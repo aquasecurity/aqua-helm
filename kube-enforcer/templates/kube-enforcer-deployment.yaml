@@ -28,6 +28,10 @@ spec:
           readinessProbe:
 {{ toYaml . | indent 12 }}
 {{- end }}
+{{- with .Values.resources }}
+          resources:
+{{ toYaml . | indent 12 }}
+{{- end }}
           env:
             - name: AQUA_TOKEN
               valueFrom: 
