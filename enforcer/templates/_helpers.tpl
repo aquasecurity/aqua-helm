@@ -45,3 +45,16 @@ Inject extra environment populated by secrets, if populated
 {{- end -}}
 {{- end -}}
 {{- end -}}
+{{/*
+{{- define "agentKey" }}
+{{- printf "%s" (required "A valid .Values.certsSecret.agentKey entry required!" .Values.envoy.certsSecret.agentKey) | replace "\n" "" }}
+{{- end }}
+
+{{- define "agentCrt" }}
+{{- printf "%s" (required "A valid .Values.certsSecret.serverKey entry required!" .Values.envoy.certsSecret.agentCrt) | replace "\n" "" }}
+{{- end }}
+
+{{- define "aquaCA" }}
+{{- printf "%s" (required "A valid .Values.webhooks.caBundle entry required!" .Values.envoy.certsSecret.aquaCA) | replace "\n" "" }}
+{{- end }}
+*/}}
