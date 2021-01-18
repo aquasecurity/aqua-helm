@@ -110,6 +110,8 @@ helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.use
    service.beta.kubernetes.io/aws-load-balancer-internal: "false"
    service.beta.kubernetes.io/aws-load-balancer-type: nlb
    ```
+
+   7. If deploying envoy in Giant Swarm cluster change the aqua gateway socket_address endpoint of envoy config in values.yaml
    
 2. Database
 
