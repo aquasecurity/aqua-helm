@@ -59,7 +59,7 @@ tolerations: []
 
 # extraEnvironmentVars is a list of extra enviroment variables to set in the enforcer daemonset.
 # https://docs.aquasec.com/docs/enforcer-optional-variables
-#extraEnvironmentVars:
+extraEnvironmentVars: {}
 #  ENV_NAME: value
 #  AQUA_TLS_VERIFY: true
 #  AQUA_PUBLIC_KEY: "/etc/ssl/custom-certificates/agent.crt"
