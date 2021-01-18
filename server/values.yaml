@@ -392,6 +392,9 @@ envoy:
               - endpoint:
                   address:
                     socket_address:
+                      #Uncomment the below socket_address for Giant Swarm cluster and comment the default address
+                      #address: {{ .Release.Name }}-gateway-headless-svc.{{ .Release.Namespace }}
+                      #default address
                       address: {{ .Release.Name }}-gateway-headless-svc.{{ .Release.Namespace }}.svc.cluster.local
                       port_value: 8443
           transport_socket:
