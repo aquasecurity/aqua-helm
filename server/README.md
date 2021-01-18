@@ -111,6 +111,8 @@ helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.use
    service.beta.kubernetes.io/aws-load-balancer-type: nlb
    ```
    
+   7. Edit values.yaml if deploying envoy in Giant Swarm cluster by changing the aqua gateway socket_address endpoint in envoy config
+   
 2. Database
 
    1. By default aqua helm chart will deploy a database container. If you wish to use an external database please set `db.external.enabled` to true and the following with appropriate values.
