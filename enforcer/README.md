@@ -42,6 +42,51 @@ $ helm repo add aqua-helm https://helm.aquasec.com
 helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
 ```
 
+## Advanced Configuration
+
+In order to support L7 / gRPC communication between enforcer and envoy it is recommended to follow the detailed steps to enable and deploy a enforcer.
+
+   1. The Enforcer should connect to the Envoy service (aqua-lb:443) and verify its certificate. If Envoy’s certificate is signed by a public provider (e.g., Let’s Encrypt), the Enforcer will be able to verify the certificate without being given a root certificate. Otherwise, Envoy’s root certificate should be accessible to the Enforcer from a ConfigMap that is mounted at /etc/ssl/custom-certificates
+
+      ```yaml
+      # Self-Signed Root CA (Optional)
+      #####################################################################################
+      # Create Root Key
+      # If you want a non password protected key just remove the -des3 option
+      openssl genrsa -des3 -out rootCA.key 4096
+      # Create and self sign the Root Certificate
+      openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt
+      #####################################################################################
+      # Create a certificate
+      #####################################################################################
+      # Create the certificate key
+      openssl genrsa -out mydomain.com.key 2048
+      # Create the signing (csr)
+      openssl req -new -key mydomain.com.key -out mydomain.com.csr
+      # Verify the csr content
+      openssl req -in mydomain.com.csr -noout -text
+      #####################################################################################
+      # Generate the certificate using the mydomain csr and key along with the CA Root key
+      #####################################################################################
+      openssl x509 -req -in mydomain.com.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out mydomain.com.crt -days 500 -sha256
+      #####################################################################################
+
+      # If you wish to use a Public CA like GoDaddy or LetsEncrypt please
+      # submit the mydomain csr to the respective CA to generate mydomain crt
+      ```
+
+   2. Create enforcer agent cert secret
+
+      ```bash
+      # Please be notified that agent.key and agent.crt in the below command are same
+      # as mydomain.com.key and mydomain.com.crt in the above openssl commands
+      $ kubectl create secret generic aqua-enforcer-agent --from-file agent.crt --from-file agent.key --from-file rootCA.crt -n aqua
+      ```
+
+   3. Edit values.yaml file to include above secret name at `certsSecretName` and uncomment the extra variables 
+
+   4. Also set envoyCerts.enabled to `true`
+
 
 ## Guide how to create enforcer group in Kubernetes
 
