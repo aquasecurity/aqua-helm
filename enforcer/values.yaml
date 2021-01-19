@@ -75,6 +75,6 @@ extraSecretEnvironmentVars: []
 
 
 envoyCerts:
-  enabled: false        #change to true advance deployment enabling
+  enabled: false        #change to true for advance deployment
 
 certsSecretName:        #name of the certs secret name to establish the tls connection between enforcer and envoy
