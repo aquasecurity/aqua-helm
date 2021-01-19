@@ -60,11 +60,11 @@ tolerations: []
 # extraEnvironmentVars is a list of extra enviroment variables to set in the enforcer daemonset.
 # https://docs.aquasec.com/docs/enforcer-optional-variables
 extraEnvironmentVars: {}
-  # ENV_NAME: value
-  # AQUA_TLS_VERIFY: true
-  # AQUA_PUBLIC_KEY: "/etc/ssl/custom-certificates/agent.crt"
-  # AQUA_PRIVATE_KEY: "/etc/ssl/custom-certificates/agent.key"
-  # AQUA_ROOT_CA: "/etc/ssl/custom-certificates/aqua-ca.pem"
+#  ENV_NAME: value
+#  AQUA_TLS_VERIFY: true
+#  AQUA_PUBLIC_KEY: "/etc/ssl/custom-certificates/agent.crt"
+#  AQUA_PRIVATE_KEY: "/etc/ssl/custom-certificates/agent.key"
+#  AQUA_ROOT_CA: "/etc/ssl/custom-certificates/rootCA.crt"
 
 # extraSecretEnvironmentVars is a list of extra enviroment variables to set in the enforcer daemonset.
 # These variables take value from existing Secret objects.
@@ -73,6 +73,8 @@ extraSecretEnvironmentVars: []
   #   secretName: name
   #   secretKey: key
 
-envoy:
-  enabled: false
-  configMap:
+
+envoyCerts:
+  enabled: false        #change to true for advance deployment
+
+certsSecretName:        #name of the certs secret name to establish the tls connection between enforcer and envoy
