@@ -257,7 +257,10 @@ envoy:
 
   service:
     type: LoadBalancer
-    annotations: {}
+    annotations: 
+      service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+      service.beta.kubernetes.io/aws-load-balancer-internal: "false"
+      service.beta.kubernetes.io/aws-load-balancer-type: nlb
     ports:
     - name: healthserver
       port: 8082
