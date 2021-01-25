@@ -391,9 +391,7 @@ envoy:
             - lb_endpoints:
               - endpoint:
                   address:
-                    socket_address:
-                      #Please use the below socket_address if you're deploying envoy in Giant Swarm cluster and comment the default address
-                      #address: {{ .Release.Name }}-gateway-headless-svc.{{ .Release.Namespace }}
+                    socket_address:                 
                       address: {{ .Release.Name }}-gateway-headless-svc.{{ .Release.Namespace }}.svc.cluster.local
                       port_value: 8443
           transport_socket:

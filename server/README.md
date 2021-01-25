@@ -94,7 +94,7 @@ helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.use
       ```bash
       # Please be notified that tls.key and tls.crt in the below command are same
       # as mydomain.com.key and mydomain.com.crt in the above openssl commands
-      $ kubectl create secret generic aqua-lb-tls --from-file tls.crt --from-file tls.key -n aqua
+      $ kubectl create secret tls aqua-lb-tls --key tls.key --cert tls.crt -n aqua
       ```
    
    3. Edit values.yaml file to include above secret name at `envoy.certsSecretName`
@@ -102,16 +102,6 @@ helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.use
    4. Also set `envoy.enabled` to `true` 
    
    5. For more customizations please refer to [***Configurable Variables***](#configure-variables)
-
-   6. When deploying with NLB, the following annotations should be added to the service YAML file:
-
-   ```yaml
-   service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
-   service.beta.kubernetes.io/aws-load-balancer-internal: "false"
-   service.beta.kubernetes.io/aws-load-balancer-type: nlb
-   ```
-
-   7. If deploying envoy in Giant Swarm cluster change the aqua gateway socket_address endpoint of envoy config in values.yaml
    
 2. Database
 
