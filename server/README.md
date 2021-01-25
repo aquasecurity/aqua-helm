@@ -102,14 +102,6 @@ helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.use
    4. Also set `envoy.enabled` to `true` 
    
    5. For more customizations please refer to [***Configurable Variables***](#configure-variables)
-
-   6. When deploying with NLB, the following annotations should be added to the service YAML file:
-
-   ```yaml
-   service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
-   service.beta.kubernetes.io/aws-load-balancer-internal: "false"
-   service.beta.kubernetes.io/aws-load-balancer-type: nlb
-   ```
    
 2. Database
 
