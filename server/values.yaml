@@ -259,11 +259,6 @@ envoy:
     type: LoadBalancer
     annotations: {}
     ports:
-    - name: healthserver
-      port: 8082
-      targetPort: 8082
-      nodePort:
-      protocol: TCP
     - name: https
       port: 443
       targetPort: 8443
