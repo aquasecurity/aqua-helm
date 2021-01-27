@@ -70,7 +70,7 @@ roleRef:
   {{- else }}
   name: {{ .Release.Name }}-cluster-role
   {{- end }}
-
+{{- if .Values.platform }}
   {{- if eq .Values.platform "openshift" }}
 ---
 kind: ClusterRoleBinding
@@ -140,4 +140,5 @@ volumes:
 - secret
 - hostPath
   {{- end }}
+{{- end }}
 {{- end }}
