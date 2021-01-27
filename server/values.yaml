@@ -12,6 +12,9 @@ rbac:
   privileged: true
   roleRef:
 
+platform:
+  openshift: false     #enable to true for openshift platform to apply scc for aqua service account
+
 # enable only one of the modes
 clustermode:
 activeactive:
