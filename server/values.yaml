@@ -53,6 +53,12 @@ db:
   dbPubsubPasswordKey:
   ssl: false
   auditssl: false
+  securityContext:
+    runAsUser: 70
+    runAsGroup: 70
+    fsGroup: 11433
+  container_securityContext:
+    privileged: false
   image:
     repository: database
     tag: "5.3"
@@ -93,7 +99,6 @@ db:
   nodeSelector: {}
   tolerations: []
   affinity: {}
-  securityContext: {}
 
   # extraEnvironmentVars is a list of extra enviroment variables to set in the database deployments.
   extraEnvironmentVars: {}
@@ -155,10 +160,11 @@ gate:
   nodeSelector: {}
   tolerations: []
   affinity: {}
-  securityContext: {}
-  #  runAsUser: 11431
-  #  runAsGroup: 11433
-  #  fsGroup: 11433
+  securityContext:
+    runAsUser: 11431
+    runAsGroup: 11433
+    fsGroup: 11433
+  container_securityContext: {}
 
   # extraEnvironmentVars is a list of extra enviroment variables to set in the gateway deployments.
   # https://docs.aquasec.com/docs/gateway-optional-variables
@@ -231,10 +237,12 @@ web:
   nodeSelector: {}
   tolerations: []
   affinity: {}
-  securityContext: {}
-  #  runAsUser: 11431
-  #  runAsGroup: 11433
-  #  fsGroup: 11433
+  securityContext:
+    runAsUser: 11431
+    runAsGroup: 11433
+    fsGroup: 11433
+  container_securityContext: {}
+
 
   # extraEnvironmentVars is a list of extra enviroment variables to set in the web deployments.
   # https://docs.aquasec.com/docs/server-optional-variables
