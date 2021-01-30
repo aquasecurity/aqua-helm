@@ -30,7 +30,7 @@ spec:
       serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: web
-        {{- with .Values.db.container_securityContext }}
+        {{- with .Values.web.container_securityContext }}
         securityContext:
 {{ toYaml . | indent 10 }}
         {{- end }}

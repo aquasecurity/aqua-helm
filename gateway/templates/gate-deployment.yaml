@@ -29,7 +29,7 @@ spec:
       serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: gate
-        {{- with .Values.db.container_securityContext }}
+        {{- with .Values.gate.container_securityContext }}
         securityContext:
 {{ toYaml . | indent 10 }}
         {{- end }}
