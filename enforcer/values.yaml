@@ -41,7 +41,7 @@ gate:
 
 image:
   repository: enforcer
-  tag: "6.0.preview10"
+  tag: "6.0.RC1"
   pullPolicy: IfNotPresent
 
 livenessProbe: {}
