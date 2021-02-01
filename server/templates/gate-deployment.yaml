@@ -22,11 +22,17 @@ spec:
         app: {{ .Release.Name }}-gateway
       name: {{ .Release.Name }}-gateway
     spec:
+      {{- with .Values.gate.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+      {{- end }}
       serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: gate
+        {{- with .Values.gate.container_securityContext }}
         securityContext:
-          {{- toYaml .Values.gate.securityContext | nindent 12 }}
+{{ toYaml . | indent 10 }}
+        {{- end }}
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ .Values.gate.image.tag }}"
         imagePullPolicy: "{{ .Values.gate.image.pullPolicy }}"
         env:

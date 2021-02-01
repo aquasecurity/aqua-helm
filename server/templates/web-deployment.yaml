@@ -23,11 +23,17 @@ spec:
         app: {{ .Release.Name }}-console
       name: {{ .Release.Name }}-console
     spec:
+      {{- with .Values.web.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+      {{- end }}
       serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: web
+        {{- with .Values.web.container_securityContext }}
         securityContext:
-          {{- toYaml .Values.web.securityContext | nindent 12 }}
+{{ toYaml . | indent 10 }}
+        {{- end }}
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
         imagePullPolicy: "{{ .Values.web.image.pullPolicy }}"
         env:
