@@ -23,11 +23,17 @@ spec:
         app: {{ .Release.Name }}-scanner
       name: {{ .Release.Name }}-scanner
     spec:
+      {{- with .Values.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+      {{- end }}
       serviceAccount: {{ .Values.serviceAccount }}
       containers:
       - name: scanner
+        {{- with .Values.container_securityContext }}
         securityContext:
-          {{- toYaml .Values.securityContext | nindent 12 }}
+{{ toYaml . | indent 10 }}
+        {{- end }}
         image: "{{ .Values.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         args:
