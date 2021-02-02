@@ -12,6 +12,9 @@ rbac:
   privileged: true
   roleRef:
 
+  platform:         #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift
+
+
 console:
   publicIP:
   publicPort:
@@ -49,7 +52,7 @@ gate:
   logLevel:
   image:
     repository: gateway
-    tag: "6.0.preview10"
+    tag: "6.0.RC1"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -93,10 +96,11 @@ gate:
   nodeSelector: {}
   tolerations: []
   affinity: {}
-  securityContext: {}
-  #  runAsUser: 11431
-  #  runAsGroup: 11433
-  #  fsGroup: 11433
+  securityContext:
+    runAsUser: 11431
+    runAsGroup: 11433
+    fsGroup: 11433
+  container_securityContext: {}
 
   # extraEnvironmentVars is a list of extra enviroment variables to set in the gateway deployments.
   # https://docs.aquasec.com/docs/gateway-optional-variables
