@@ -50,7 +50,11 @@ spec:
               key: token
         {{- end }}
         - name: AQUA_SERVER
+        {{- if .Values.multiple_gateway.enabled }}
+          value: {{ join "," .Values.multi_gates }}
+        {{- else }}
           value: {{ .Values.gate.host | default "aqua-gateway-svc" }}:{{ .Values.gate.port | default "8443" }}
+        {{- end }}
         - name: AQUA_INSTALL_PATH
           value: /var/lib/aquasec
           {{- if .Values.enforcerLogicalName }}
