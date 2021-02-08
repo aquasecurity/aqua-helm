@@ -35,9 +35,17 @@ securityContext:
 
 hostRunPath: # pks - /var/vcap/sys/run/docker
 
+multiple_gateway: # enable this to connect enforcer with multiple gateways
+  enabled: false
+
 gate:
   host: aqua-gateway-svc # for envoy deployment use host for aqua-lb and port 443
   port: 8443
+
+multi_gates:  # use the below hosts to add multiple gateways as required to enforcer. Formate is <hostname>:<port_number>
+#- aqua-gateway1-svc:8443 #example gateway 1
+#- aqua-gateway2-svc:8443 #example gateway 2
+
 
 image:
   repository: enforcer
