@@ -23,6 +23,10 @@ spec:
         app: {{ .Release.Name }}-database
       name: {{ .Release.Name }}-database
     spec:
+      {{- with .Values.db.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+      {{- end }}
       serviceAccount: {{ .Release.Name }}-sa
       initContainers:
       - name: {{ .Release.Name }}-db-init
@@ -49,8 +53,10 @@ spec:
           name: postgres-database
       containers:
       - name: db
+        {{- with .Values.db.container_securityContext }}
         securityContext:
-          {{- toYaml .Values.db.securityContext | nindent 12 }}
+{{ toYaml . | indent 10 }}
+        {{- end }}
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
         imagePullPolicy: "{{ .Values.db.image.pullPolicy }}"
         env:
@@ -129,6 +135,10 @@ spec:
         app: {{ .Release.Name }}-audit-database
       name: {{ .Release.Name }}-audit-database
     spec:
+      {{- with .Values.db.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+      {{- end }}
       serviceAccount: {{ .Release.Name }}-sa
       initContainers:
       - name: {{ .Release.Name }}-db-init
@@ -155,8 +165,10 @@ spec:
           name: postgres-audit-database
       containers:
       - name: auditdb
+        {{- with .Values.db.container_securityContext }}
         securityContext:
-          {{- toYaml .Values.db.securityContext | nindent 12 }}
+{{ toYaml . | indent 10 }}
+        {{- end }}
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
         imagePullPolicy: "{{ .Values.db.image.pullPolicy }}"
         env:
