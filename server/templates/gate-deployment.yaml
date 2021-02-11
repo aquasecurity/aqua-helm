@@ -26,7 +26,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Release.Name }}-sa
+      serviceAccount: {{ .Release.Namespace }}-sa
       containers:
       - name: gate
         {{- with .Values.gate.container_securityContext }}
@@ -152,6 +152,11 @@ spec:
         readinessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
+        {{- if .Values.gate.TLS.enabled }}
+        volumeMounts:
+        - name: certs
+          mountPath: /opt/aquasec/ssl/
+        {{- end }}
         resources:
 {{ toYaml .Values.gate.resources | indent 12 }}
       {{- with .Values.gate.nodeSelector }}
@@ -165,4 +170,11 @@ spec:
       {{- if and (.Values.gate.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
       tolerations:
 {{ toYaml .Values.gate.tolerations | indent 6 }}
+      {{- end }}
+      {{- if .Values.gate.TLS.enabled }}
+      volumes:
+      - name: certs
+        secret:
+          defaultMode: 420
+          secretName: {{ .Values.gate.TLS.secretName }}
       {{- end }}

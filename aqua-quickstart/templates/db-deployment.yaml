@@ -23,7 +23,7 @@ spec:
         app: {{ .Release.Name }}-database
       name: {{ .Release.Name }}-database
     spec:
-      serviceAccount: {{ .Release.Name }}-sa
+      serviceAccount: {{ .Release.Namespace }}-sa
       containers:
       - name: db
         securityContext:
@@ -106,7 +106,7 @@ spec:
         app: {{ .Release.Name }}-audit-database
       name: {{ .Release.Name }}-audit-database
     spec:
-      serviceAccount: {{ .Release.Name }}-sa
+      serviceAccount: {{ .Release.Namespace }}-sa
       containers:
       - name: auditdb
         securityContext:

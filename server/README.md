@@ -52,7 +52,7 @@ $ helm repo add aqua-helm https://helm.aquasec.com
 * Install Aqua
 
 ```bash
-helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>
+helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
 ```
 ## Advanced Configuration
 
@@ -154,6 +154,8 @@ Parameter | Description | Default| Mandatory
 `imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/` | `registry.aquasec.com`| `YES` 
 `imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret`| `YES` 
 `imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`| `YES` 
+`platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift) | `unset` | `YES`
+`openshift_route.enabled` | to create openshift routes for web and gateway | `false` | `NO`
 `rbac.enabled` | if to create rbac configuration for aqua | `true`| `YES` 
 `rbac.privileged` | determines if any container in a pod can enable privileged mode. | `true`| `NO` 
 `rbac.roleRef` | name of rbac role to set in not create by helm | `unset`| `NO` 
@@ -217,6 +219,8 @@ Parameter | Description | Default| Mandatory
 `gate.tolerations` |	Kubernetes node tolerations	| `[]`| `NO` 
 `gate.affinity` |	Kubernetes node affinity | `{}`| `NO` 
 `gate.securityContext` | Set of security context for the container | `nil`| `NO` 
+`gate.TLS.enabled` | If require secure channel communication | `false` | `NO`
+`gate.TLS.secretName` | certificates secret name | `nil` | `NO`
 `gate.extraEnvironmentVars` | is a list of extra enviroment variables to set in the gateway deployments. | `{}`| `NO` 
 `gate.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`| `NO` 
 `web.image.repository` | the docker image name to use | `console`| `NO` 
@@ -235,6 +239,8 @@ Parameter | Description | Default| Mandatory
 `web.ingress.hosts` | Ingress hostnames |	`[]`| `NO` 
 `web.ingress.tls` |	Ingress TLS configuration (YAML) | `[]`| `NO` 
 `web.securityContext` | Set of security context for the container | `nil`| `NO` 
+`web.TLS.enabled` | If require secure channel communication | `false` | `NO`
+`web.TLS.secretName` | certificates secret name | `nil` | `NO`
 `web.extraEnvironmentVars` | is a list of extra enviroment variables to set in the web deployments. | `{}`| `NO` 
 `web.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the web deployments, these variables take value from existing Secret objects. | `[]`| `NO` 
 `envoy.enabled` | enabled envoy deployment. | `false`| `NO` 
