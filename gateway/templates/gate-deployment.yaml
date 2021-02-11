@@ -26,7 +26,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Release.Name }}-sa
+      serviceAccount: {{ .Release.Namespace }}-sa
       containers:
       - name: gate
         {{- with .Values.gate.container_securityContext }}

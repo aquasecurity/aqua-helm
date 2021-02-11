@@ -27,7 +27,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Release.Name }}-sa
+      serviceAccount: {{ .Release.Namespace }}-sa
       initContainers:
       - name: {{ .Release.Name }}-db-init
         env:
@@ -139,7 +139,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Release.Name }}-sa
+      serviceAccount: {{ .Release.Namespace }}-sa
       initContainers:
       - name: {{ .Release.Name }}-db-init
         env:
