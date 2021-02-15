@@ -35,9 +35,17 @@ securityContext:
 
 hostRunPath: # pks - /var/vcap/sys/run/docker
 
+multiple_gateway: # enable this to connect enforcer with multiple gateways
+  enabled: false
+
 gate:
   host: aqua-gateway-svc # for envoy deployment use host for aqua-lb and port 443
   port: 8443
+
+multi_gates:  # use the below hosts to add multiple gateways as required to enforcer. Formate is <hostname>:<port_number>
+#- aqua-gateway1-svc:8443 #example gateway 1
+#- aqua-gateway2-svc:8443 #example gateway 2
+
 
 image:
   repository: enforcer
@@ -49,10 +57,10 @@ readinessProbe: {}
 resources: {}
   # Note: For recommendations please check the official sizing guide.
   # requests:
-  #   cpu: 350
+  #   cpu: 350m
   #   memory: 0.512Gi
   # limits:
-  #   cpu: 1500
+  #   cpu: 1500m
   #   memory: 1.5Gi
 nodeSelector: {}
 tolerations: []
@@ -60,11 +68,11 @@ tolerations: []
 # extraEnvironmentVars is a list of extra enviroment variables to set in the enforcer daemonset.
 # https://docs.aquasec.com/docs/enforcer-optional-variables
 extraEnvironmentVars: {}
-  # ENV_NAME: value
-  # AQUA_TLS_VERIFY: true
-  # AQUA_PUBLIC_KEY: "/etc/ssl/custom-certificates/agent.crt"
-  # AQUA_PRIVATE_KEY: "/etc/ssl/custom-certificates/agent.key"
-  # AQUA_ROOT_CA: "/etc/ssl/custom-certificates/aqua-ca.pem"
+#  ENV_NAME: value
+#  AQUA_TLS_VERIFY: true
+#  AQUA_PUBLIC_KEY: "/etc/ssl/custom-certificates/agent.crt"
+#  AQUA_PRIVATE_KEY: "/etc/ssl/custom-certificates/agent.key"
+#  AQUA_ROOT_CA: "/etc/ssl/custom-certificates/rootCA.crt"
 
 # extraSecretEnvironmentVars is a list of extra enviroment variables to set in the enforcer daemonset.
 # These variables take value from existing Secret objects.
@@ -73,6 +81,8 @@ extraSecretEnvironmentVars: []
   #   secretName: name
   #   secretKey: key
 
-envoy:
-  enabled: false
-  configMap:
+
+envoyCerts:
+  enabled: false        #change to true advance deployment enabling 
+
+certsSecretName:        #name of the certs secret name to establish the tls connection between enforcer and envoy
