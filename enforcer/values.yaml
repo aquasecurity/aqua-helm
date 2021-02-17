@@ -1,3 +1,5 @@
+multi_cluster: false # change to true if deploying enforcer on different cluster apart from the cluster where server deployed
+
 imageCredentials:
   create: false
   name: aqua-registry-secret # When create is false please specify
@@ -6,7 +8,8 @@ imageCredentials:
   username: ""
   password: ""
 
-enforcerToken: ""
+# Enter the enforcer token in "clear-text" formate without quotes generated from the Console UI
+enforcerToken: 
 
 enforcerTokenSecretName: null
 enforcerTokenSecretKey: null
@@ -16,7 +19,8 @@ logLevel:
 
 securityContext:
   privileged: true
-  # Note: enforcer deployment in non privileged mode https://docs.aquasec.com/docs/enforcer-deployment-in-non-privileged-mode#kubernetes-deployments
+  # Note: enforcer deployment in non privileged mode https://docs.aquasec.com/docs/enforcer-deployment-in-non-privileged-mode# kubernetes-deployments
+  # Note: Openshift deployment will be in non-privileged mode
   # privileged: false
   # capabilities:
   #   add:
@@ -70,9 +74,9 @@ tolerations: []
 extraEnvironmentVars: {}
 #  ENV_NAME: value
 #  AQUA_TLS_VERIFY: true
-#  AQUA_PUBLIC_KEY: "/etc/ssl/custom-certificates/agent.crt"
-#  AQUA_PRIVATE_KEY: "/etc/ssl/custom-certificates/agent.key"
-#  AQUA_ROOT_CA: "/etc/ssl/custom-certificates/rootCA.crt"
+#  AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/agent.crt"
+#  AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/agent.key"
+#  AQUA_ROOT_CA: "/opt/aquasec/ssl/rootCA.crt"
 
 # extraSecretEnvironmentVars is a list of extra enviroment variables to set in the enforcer daemonset.
 # These variables take value from existing Secret objects.

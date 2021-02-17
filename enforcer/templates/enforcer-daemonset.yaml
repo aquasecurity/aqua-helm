@@ -25,7 +25,7 @@ spec:
         app: {{ .Release.Name }}-ds
       name: {{ .Release.Name }}-ds
     spec:
-      serviceAccount: {{ .Release.Name }}-sa
+      serviceAccount: {{ .Release.Namespace }}-sa
       hostPID: true
       containers:
       - name: enforcer
@@ -73,7 +73,7 @@ spec:
         volumeMounts:
         {{ if .Values.envoyCerts.enabled }}
         - name: certs
-          mountPath: /etc/ssl/custom-certificates/
+          mountPath: /opt/aquasec/ssl/
         {{- end }}
         - mountPath: /var/run
           name: var-run

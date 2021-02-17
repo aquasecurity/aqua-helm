@@ -22,7 +22,7 @@ spec:
         app: {{ .Release.Name }}-gateway
       name: {{ .Release.Name }}-gateway
     spec:
-      serviceAccount: {{ .Release.Name }}-sa
+      serviceAccount: {{ .Release.Namespace }}-sa
       containers:
       - name: gate
         securityContext:

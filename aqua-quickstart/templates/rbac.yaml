@@ -61,7 +61,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
 subjects:
   - kind: ServiceAccount
-    name: {{ .Release.Name }}-sa
+    name: {{ .Release.Namespace }}-sa
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
