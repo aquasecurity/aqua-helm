@@ -23,7 +23,7 @@ spec:
         app: {{ .Release.Name }}-console
       name: {{ .Release.Name }}-console
     spec:
-      serviceAccount: {{ .Release.Name }}-sa
+      serviceAccount: {{ .Release.Namespace }}-sa
       containers:
       - name: web
         securityContext:
