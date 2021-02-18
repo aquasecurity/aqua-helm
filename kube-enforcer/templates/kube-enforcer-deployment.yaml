@@ -19,7 +19,13 @@ spec:
           image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: Always
           ports:
+{{- if not .Values.kubeEnforcerAdvance.enable }}
             - containerPort: 8443
+{{- else }}
+            - containerPort: 8449
+            - containerPort: 8442
+{{- end }}
+{{- if not .Values.kubeEnforcerAdvance.enable }}
 {{- with .Values.livenessProbe }}
           livenessProbe:
 {{ toYaml . | indent 12 }}
@@ -27,6 +33,7 @@ spec:
 {{- with .Values.readinessProbe }}
           readinessProbe:
 {{ toYaml . | indent 12 }}
+{{- end }}
 {{- end }}
 {{- with .Values.resources }}
           resources:
@@ -37,7 +44,9 @@ spec:
               valueFrom: 
                 secretKeyRef:
                   name: {{ .Values.aquaSecret.name }}
-                  key: token      
+                  key: token
+            # Specify whether to enable/disable the cache by using "yes", "true", "no", "false" values.
+            # Default value is "yes".
             - name: AQUA_ENABLE_CACHE
               value: "{{ .Values.aqua_enable_cache }}"
             - name: AQUA_CACHE_EXPIRATION_PERIOD
@@ -48,19 +57,79 @@ spec:
               value: /certs/server.key
             - name: AQUA_GATEWAY_SECURE_ADDRESS
               value: {{ .Values.envs.gatewayAddress }}
+{{- if .Values.kubeEnforcerAdvance.enable }}
+            - name: AQUA_TLS_PORT
+              value: "8449"
+            - name: AQUA_KE_SERVER_PORT
+              value: "8442"
+{{- else }}
             - name: AQUA_TLS_PORT
               value: "8443"
+{{- end }}
+            - name: CLUSTER_NAME
+              value: "aqua-secure"   # Cluster display name in aqua enterprise.
             - name: SCALOCK_LOG_LEVEL
               value: {{ .Values.logLevel | default "INFO" }}
+{{- if .Values.kubeEnforcerAdvance.enable }}
+            - name: AQUA_ENVOY_MODE
+              value: "true"
+{{- end }}
           volumeMounts:
-            - name: "certs"
+            - name: "ke-certs"
               mountPath: "/certs"
+{{- if .Values.kubeEnforcerAdvance.enable }}
+            - name: "envoy-shared"
+              mountPath: "/etc/aquasec/envoy"
+{{- end }}
+{{- if .Values.kubeEnforcerAdvance.enable }}
+        - name: envoy
+          image: "{{ .Values.kubeEnforcerAdvance.envoy.image.repository }}:{{ .Values.kubeEnforcerAdvance.envoy.image.tag }}"
+          imagePullPolicy: "{{ .Values.kubeEnforcerAdvance.envoy.image.pullPolicy }}"
+          command: ["/bin/sh", "-c", "cp /etc/envoy/cds.yaml /etc/aquasec/envoy/cds.yaml && touch /etc/aquasec/envoy/ca-certificates.crt && envoy -c /etc/envoy/envoy.yaml"]
+          ports:
+          - containerPort: 8443
+            protocol: TCP
+          volumeMounts:
+          - mountPath: /etc/envoy
+            name: envoy-config
+          - name: "envoy-shared"
+            mountPath: "/etc/aquasec/envoy"
+          {{ if .Values.kubeEnforcerAdvance.envoy.certsSecret.name }}
+          - mountPath: /etc/ssl/envoy
+            name: envoy-certs
+          {{- end }}
+{{- with .Values.kubeEnforcerAdvance.envoy.livenessProbe }}
+          livenessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.kubeEnforcerAdvance.envoy.readinessProbe }}
+          readinessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- end }}
       volumes:
-        - name: "certs"
+        - name: "ke-certs"
           secret:
+{{- if .Values.existing_secret.enable }}
+            secretName: {{ .Values.existing_secret.secretName }}
+{{- else }}
             secretName: {{ .Values.certsSecret.name }}
+{{- end }}
+{{- if .Values.kubeEnforcerAdvance.enable }}
+        - name: "envoy-config"
+          configMap:
+            name: "{{ .Release.Name }}-envoy-conf"
+        - name: "envoy-shared"
+          emptyDir: {}
+        {{ if .Values.kubeEnforcerAdvance.envoy.certsSecret.name }}
+        - name: envoy-certs
+          secret:
+            defaultMode: 420
+            secretName: {{ .Values.kubeEnforcerAdvance.envoy.certsSecret.name }}
+        {{- end }}
+{{- end }}
       imagePullSecrets:
         - name: {{ .Values.imageCredentials.name }}
   selector:
     matchLabels:
-      app: {{ include "kube-enforcer.fullname" . }}                           
+      app: {{ include "kube-enforcer.fullname" . }}

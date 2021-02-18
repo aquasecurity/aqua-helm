@@ -12,10 +12,11 @@ rbac:
   privileged: true
   roleRef:
 
-platform:           #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift
+#Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift
+platform:
 
 openshift_route:
-  enabled: false    #Enable if required openshift route for web and gateway
+  create: false    #Enable if required openshift route for web and gateway
 
 # enable only one of the modes
 clustermode: 
