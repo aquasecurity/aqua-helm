@@ -22,7 +22,7 @@ metadata:
 spec:
   {{ if .Values.web.ingress.hosts }}
   rules:
-    {{- range $host := (required "A valid .Values.web.ingress.hosts entry required!" .Values.web.ingress.hosts) }}
+    {{- range $host := (required "A valid .Values.web.ingress.hosts entry required" .Values.web.ingress.hosts) }}
       - host: {{ $host }}
         http:
           paths:

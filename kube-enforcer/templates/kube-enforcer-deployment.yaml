@@ -58,9 +58,13 @@ spec:
       volumes:
         - name: "certs"
           secret:
+{{- if .Values.existing_secret.enable }}
+            secretName: {{ .Values.existing_secret.secretName }}
+{{- else }}
             secretName: {{ .Values.certsSecret.name }}
+{{- end }}
       imagePullSecrets:
         - name: {{ .Values.imageCredentials.name }}
   selector:
     matchLabels:
-      app: {{ include "kube-enforcer.fullname" . }}                           
+      app: {{ include "kube-enforcer.fullname" . }}

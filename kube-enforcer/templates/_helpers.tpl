@@ -32,17 +32,21 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{- define "imagePullSecret" }}
-{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (required "A valid .Values.imageCredentials.registry entry required!" .Values.imageCredentials.registry) (printf "%s:%s" (required "A valid .Values.imageCredentials.username entry required!" .Values.imageCredentials.username) (required "A valid .Values.imageCredentials.password entry required!" .Values.imageCredentials.password) | b64enc) | b64enc }}
+{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (required "A valid .Values.imageCredentials.registry entry required" .Values.imageCredentials.registry) (printf "%s:%s" (required "A valid .Values.imageCredentials.username entry required" .Values.imageCredentials.username) (required "A valid .Values.imageCredentials.password entry required" .Values.imageCredentials.password) | b64enc) | b64enc }}
 {{- end }}
 
 {{- define "serverCertificate" }}
-{{- printf "%s" (required "A valid .Values.certsSecret.serverCertificate entry required!" .Values.certsSecret.serverCertificate) | replace "\n" "" }}
+{{- printf "%s" (required "A valid .Values.certsSecret.serverCertificate entry required" .Values.certsSecret.serverCertificate) | replace "\n" "" }}
 {{- end }}
 
 {{- define "serverKey" }}
-{{- printf "%s" (required "A valid .Values.certsSecret.serverKey entry required!" .Values.certsSecret.serverKey) | replace "\n" "" }}
+{{- printf "%s" (required "A valid .Values.certsSecret.serverKey entry required" .Values.certsSecret.serverKey) | replace "\n" "" }}
 {{- end }}
 
 {{- define "caBundle" }}
-{{- printf "%s" (required "A valid .Values.webhooks.caBundle entry required!" .Values.webhooks.caBundle) | replace "\n" "" }}
+{{- printf "%s" (required "A valid .Values.webhooks.caBundle entry required" .Values.webhooks.caBundle) | replace "\n" "" }}
+{{- end }}
+
+{{- define "existing_secret" }}
+{{- printf "%s" (required "A valid .Values.existing_secret.secretName required" .Values.existing_secret.secretName ) }}
 {{- end }}

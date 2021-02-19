@@ -5,4 +5,4 @@ metadata:
   namespace: {{ .Values.namespace }}
 type: Opaque
 data:
-  token:    {{ .Values.aquaSecret.kubeEnforcerToken | b64enc | quote }}               # aqua kube enforcer token
+  token: {{ .Values.aquaSecret.kubeEnforcerToken | b64enc }}               # aqua kube enforcer token
