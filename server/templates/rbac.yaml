@@ -70,8 +70,10 @@ roleRef:
   {{- else }}
   name: {{ .Release.Name }}-cluster-role
   {{- end }}
-{{- if .Values.platform }}
-  {{- if eq .Values.platform "openshift" }}
+
+{{- if not .Values.platform -}}
+{{ template "platform" .}}
+{{- else if eq .Values.platform "openshift" }}
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -138,6 +140,6 @@ volumes:
 - projected
 - secret
 - hostPath
-  {{- end }}
-{{- end }}
+{{- end -}}
+
 {{- end }}

@@ -155,7 +155,7 @@ Parameter | Description | Default| Mandatory
 `imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret`| `YES` 
 `imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`| `YES` 
 `platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift) | `unset` | `YES`
-`openshift_route.enabled` | to create openshift routes for web and gateway | `false` | `NO`
+`openshift_route.create` | to create openshift routes for web and gateway | `false` | `NO`
 `rbac.enabled` | if to create rbac configuration for aqua | `true`| `YES` 
 `rbac.privileged` | determines if any container in a pod can enable privileged mode. | `true`| `NO` 
 `rbac.roleRef` | name of rbac role to set in not create by helm | `unset`| `NO` 
