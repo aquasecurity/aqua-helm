@@ -75,7 +75,7 @@ spec:
               value: "true"
 {{- end }}
           volumeMounts:
-            - name: "ke-certs"
+            - name: "certs"
               mountPath: "/certs"
 {{- if .Values.kubeEnforcerAdvance.enable }}
             - name: "envoy-shared"
@@ -94,10 +94,8 @@ spec:
             name: envoy-config
           - name: "envoy-shared"
             mountPath: "/etc/aquasec/envoy"
-          {{ if .Values.kubeEnforcerAdvance.envoy.certsSecret.name }}
           - mountPath: /etc/ssl/envoy
-            name: envoy-certs
-          {{- end }}
+            name: certs
 {{- with .Values.kubeEnforcerAdvance.envoy.livenessProbe }}
           livenessProbe:
 {{ toYaml . | indent 12 }}
@@ -108,7 +106,7 @@ spec:
 {{- end }}
 {{- end }}
       volumes:
-        - name: "ke-certs"
+        - name: "certs"
           secret:
 {{- if .Values.existing_secret.enable }}
             secretName: {{ .Values.existing_secret.secretName }}
@@ -121,12 +119,6 @@ spec:
             name: "{{ .Release.Name }}-envoy-conf"
         - name: "envoy-shared"
           emptyDir: {}
-        {{ if .Values.kubeEnforcerAdvance.envoy.certsSecret.name }}
-        - name: envoy-certs
-          secret:
-            defaultMode: 420
-            secretName: {{ .Values.kubeEnforcerAdvance.envoy.certsSecret.name }}
-        {{- end }}
 {{- end }}
       imagePullSecrets:
         - name: {{ .Values.imageCredentials.name }}
