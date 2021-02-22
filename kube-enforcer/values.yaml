@@ -94,16 +94,14 @@ resources: {}
 ##Kube Enforcer advance deployment options
 kubeEnforcerAdvance:
   enable: false
+  clusterName:
+  clusterID:
 
   envoy:
     image:
       repository: envoyproxy/envoy-alpine
       tag: v1.15.1
       pullPolicy: IfNotPresent
-
-    certsSecret:
-      name:
-##Accepted file names for certificates are tls.crt , tls.key
 
     readinessProbe:
       exec:
@@ -119,8 +117,8 @@ kubeEnforcerAdvance:
     files:
       envoy.yaml: |-
         node:
-          cluster: k8s
-          id: <INSERT NODE ID>
+          cluster: {{ .Values.kubeEnforcerAdvance.clusterName | default "k8s" }}
+          id: {{ .Values.kubeEnforcerAdvance.clusterID }}
 
         dynamic_resources:
           cds_config:
@@ -195,9 +193,9 @@ kubeEnforcerAdvance:
                       alpn_protocols: "h2,http/1.1"
                       tls_certificates:
                         - certificate_chain:
-                            filename: "/etc/ssl/envoy/tls.crt"
+                            filename: "/etc/ssl/envoy/server.crt"
                           private_key:
-                            filename: "/etc/ssl/envoy/tls.key"
+                            filename: "/etc/ssl/envoy/server.key"
       cds.yaml: |-
         resources:
         - "@type": type.googleapis.com/envoy.config.cluster.v3.Cluster
