@@ -1,5 +1,6 @@
-{{- if eq .Values.platform "openshift" }}
-{{- if .Values.openshift_route.enabled }}
+{{- if not .Values.platform -}}
+{{ template "platform" . }}
+{{- else if and ( .Values.openshift_route.create ) (eq .Values.platform "openshift" ) }}
 ---
 ##webroute
 apiVersion: route.openshift.io/v1
@@ -40,5 +41,4 @@ spec:
     termination: passthrough
     insecureEdgeTerminationPolicy: None
   wildcardPolicy: None
-{{- end }}
 {{- end }}
