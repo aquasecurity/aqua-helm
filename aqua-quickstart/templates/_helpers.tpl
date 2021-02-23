@@ -16,7 +16,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{- define "imagePullSecret" }}
-{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (required "A valid .Values.imageCredentials.registry entry required!" .Values.imageCredentials.registry) (printf "%s:%s" (required "A valid .Values.imageCredentials.username entry required!" .Values.imageCredentials.username) (required "A valid .Values.imageCredentials.password entry required!" .Values.imageCredentials.password) | b64enc) | b64enc }}
+{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (required "A valid .Values.imageCredentials.registry entry required" .Values.imageCredentials.registry) (printf "%s:%s" (required "A valid .Values.imageCredentials.username entry required" .Values.imageCredentials.username) (required "A valid .Values.imageCredentials.password entry required" .Values.imageCredentials.password) | b64enc) | b64enc }}
 {{- end }}
 
 {{/*
@@ -39,9 +39,9 @@ Inject extra environment populated by secrets, if populated
 {{- range .extraSecretEnvironmentVars }}
 - name: {{ .envName }}
   valueFrom:
-   secretKeyRef:
-     name: {{ .secretName }}
-     key: {{ .secretKey }}
+    secretKeyRef:
+      name: {{ .secretName }}
+      key: {{ .secretKey }}
 {{- end -}}
 {{- end -}}
 {{- end -}}
@@ -76,13 +76,13 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{- define "serverCertificate" }}
-{{- printf "%s" (required "A valid .Values.ke.certsSecret.serverCertificate entry required!" .Values.ke.certsSecret.serverCertificate) | replace "\n" "" }}
+{{- printf "%s" (required "A valid .Values.ke.certsSecret.serverCertificate entry required" .Values.ke.certsSecret.serverCertificate) | replace "\n" "" }}
 {{- end }}
 
 {{- define "serverKey" }}
-{{- printf "%s" (required "A valid .Values.ke.certsSecret.serverKey entry required!" .Values.ke.certsSecret.serverKey) | replace "\n" "" }}
+{{- printf "%s" (required "A valid .Values.ke.certsSecret.serverKey entry required" .Values.ke.certsSecret.serverKey) | replace "\n" "" }}
 {{- end }}
 
 {{- define "caBundle" }}
-{{- printf "%s" (required "A valid .Values.ke.webhooks.caBundle entry required!" .Values.ke.webhooks.caBundle) | replace "\n" "" }}
+{{- printf "%s" (required "A valid .Values.ke.webhooks.caBundle entry required" .Values.ke.webhooks.caBundle) | replace "\n" "" }}
 {{- end }}

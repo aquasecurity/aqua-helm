@@ -40,9 +40,9 @@ spec:
         - daemon
         - --direct-cc 
         - --user
-        - "{{ required "Please specify a username associated with the Scanner role!" .Values.user }}"
+        - "{{ required "Please specify a username associated with the Scanner role" .Values.user }}"
         - --password
-        - "{{ required "Please specify a password for a user associated with the Scanner role!" .Values.password }}"
+        - "{{ required "Please specify a password for a user associated with the Scanner role" .Values.password }}"
         - --host
         - "http://{{ .Values.server.serviceName }}:{{ .Values.server.port }}"
         env:
