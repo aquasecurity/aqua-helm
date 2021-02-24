@@ -25,7 +25,9 @@ spec:
         app: {{ .Release.Name }}-ds
       name: {{ .Release.Name }}-ds
     spec:
+    {{- if .Values.multi_cluster }}
       serviceAccount: {{ .Release.Namespace }}-sa
+    {{- end }}
       hostPID: true
       containers:
       - name: enforcer
