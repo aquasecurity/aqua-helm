@@ -12,7 +12,7 @@ rbac:
   privileged: true
   roleRef:
 
-#Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift
+##Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi
 platform:
 
 openshift_route:
