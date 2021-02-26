@@ -42,19 +42,21 @@ db:
     auditHost:
     auditPort:
     auditUser:
-    auditPassword: true
+    auditPassword:
     pubsubName:
     pubsubHost:
     pubsubPort:
     pubsubUser:
     pubsubPassword:
-  passwordSecret:
-  dbPasswordName:
-  dbPasswordKey:
-  dbAuditPasswordName:
-  dbAuditPasswordKey:
-  dbPubsubPasswordName:
-  dbPubsubPasswordKey:
+
+  passwordFromSecret:
+    enabled: false          #Enable if loading passwords for db and audit-db from secret
+    dbPasswordName:
+    dbPasswordKey:
+    dbAuditPasswordName:
+    dbAuditPasswordKey:
+    dbPubsubPasswordName:
+    dbPubsubPasswordKey:
   ssl: false
   auditssl: false
   securityContext:
@@ -213,6 +215,7 @@ web:
         protocol: TCP
   ingress:
     enabled: false
+    externalPort:
     annotations: {}
     #  kubernetes.io/ingress.class: nginx
     hosts: #REQUIRED

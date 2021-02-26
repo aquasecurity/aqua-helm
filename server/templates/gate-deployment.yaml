@@ -46,12 +46,12 @@ spec:
           value: "0.0.0.0:8082"
         - name: SCALOCK_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
-        {{- if .Values.db.passwordSecret }}
+        {{- if .Values.db.passwordFromSecret.enabled }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.dbPasswordName }}
-              key: {{ .Values.db.dbPasswordKey }}
+              name: {{ .Values.db.passwordFromSecret.dbPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbPasswordKey }}
           {{- else }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
@@ -71,14 +71,13 @@ spec:
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
         - name: SCALOCK_AUDIT_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditUser "postgres" }}
-          {{- if .Values.db.passwordSecret }}
         - name: SCALOCK_AUDIT_DBPASSWORD
+          {{- if .Values.db.passwordFromSecret.enabled }}
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.dbAuditPasswordName }}
-              key: {{ .Values.db.dbAuditPasswordKey }}
-          {{- else }}
-        - name: SCALOCK_AUDIT_DBPASSWORD
+              name: {{ .Values.db.passwordFromSecret.dbAuditPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbAuditPasswordKey }}
+          {{- else if and ( not .Values.db.passwordFromSecret.enabled ) ( .Values.db.external.enabled ) }}
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
@@ -87,6 +86,11 @@ spec:
               {{- else }}
               key: db-password
               {{- end }}
+          {{- else }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-database-password
+              key: audit-password
           {{- end }}
         - name: SCALOCK_AUDIT_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
@@ -101,12 +105,12 @@ spec:
         {{- if .Values.activeactive }}
         - name: AQUA_PUBSUB_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubUser "postgres" }}
-          {{- if .Values.db.passwordSecret }}
+        {{- if .Values.db.passwordFromSecret.enabled }}
         - name: AQUA_PUBSUB_DBPASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.dbPubsubPasswordName }}
-              key: {{ .Values.db.dbPubsubPasswordKey }}
+              name: {{ .Values.db.passwordFromSecret.dbPubsubPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbPubsubPasswordKey }}
           {{- else }}
         - name: AQUA_PUBSUB_DBPASSWORD
           valueFrom:
@@ -117,7 +121,7 @@ spec:
               {{- else }}
               key: db-password
               {{- end }}
-          {{- end }}
+        {{- end }}
         - name: AQUA_PUBSUB_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubName "aqua_pubsub" }}
         - name: AQUA_PUBSUB_DBHOST
