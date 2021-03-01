@@ -50,13 +50,13 @@ db:
     pubsubPassword:
 
   passwordFromSecret:
-    enabled: false          #Enable if loading passwords for db and audit-db from secret
-    dbPasswordName:
-    dbPasswordKey:
-    dbAuditPasswordName:
-    dbAuditPasswordKey:
-    dbPubsubPasswordName:
-    dbPubsubPasswordKey:
+    enabled: false              #Enable if loading passwords for db and audit-db from secret
+    dbPasswordName:             #Specify the Password Secret name used for db password
+    dbPasswordKey:              #Specify the db password key name stored in the #dbPasswordName secret
+    dbAuditPasswordName:           #Specify the Password Secret name used for audit db password
+    dbAuditPasswordKey:             #Specify the audit db password key name stored in the #dbAuditPasswordName secret
+    dbPubsubPasswordName:            #Specify the Password Secret name used for pubsub db password
+    dbPubsubPasswordKey:            #Specify the pubsub db password key name stored in the #PubsubPasswordName secret
   ssl: false
   auditssl: false
   securityContext:
