@@ -31,12 +31,12 @@ spec:
       initContainers:
       - name: {{ .Release.Name }}-db-init
         env:
-        {{- if .Values.db.passwordSecret }}
+        {{- if .Values.db.passwordFromSecret.enabled }}
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.dbPasswordName }}
-              key: {{ .Values.db.dbPasswordKey }}
+              name: {{ .Values.db.passwordFromSecret.dbPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
@@ -60,12 +60,12 @@ spec:
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
         imagePullPolicy: "{{ .Values.db.image.pullPolicy }}"
         env:
-        {{- if .Values.db.passwordSecret }}
+        {{- if .Values.db.passwordFromSecret.enabled }}
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.dbPasswordName }}
-              key: {{ .Values.db.dbPasswordKey }}
+              name: {{ .Values.db.passwordFromSecret.dbPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
@@ -141,20 +141,20 @@ spec:
       {{- end }}
       serviceAccount: {{ .Release.Namespace }}-sa
       initContainers:
-      - name: {{ .Release.Name }}-db-init
+      - name: {{ .Release.Name }}-auditdb-init
         env:
-        {{- if .Values.db.passwordSecret }}
+        {{- if .Values.db.passwordFromSecret.enabled }}
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.dbPasswordName }}
-              key: {{ .Values.db.dbPasswordKey }}
+              name: {{ .Values.db.passwordFromSecret.dbAuditPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbAuditPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
-              key: db-password
+              key: audit-password
         {{- end }}
         - name: PGDATA
           value: "/var/lib/postgresql/data/db-files"
@@ -172,12 +172,12 @@ spec:
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
         imagePullPolicy: "{{ .Values.db.image.pullPolicy }}"
         env:
-        {{- if .Values.db.passwordSecret }}
+        {{- if .Values.db.passwordFromSecret.enabled }}
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.dbPasswordName }}
-              key: {{ .Values.db.dbPasswordKey }}
+              name: {{ .Values.db.passwordFromSecret.dbAuditPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbAuditPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
