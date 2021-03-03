@@ -106,7 +106,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Values.db.passwordFromSecret.dbPubsubPasswordName }}
-              key: {{ .Values.db.passwordFromSecret.dbPubsubPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbPubsubPasswordKey }}
           {{- else }}
         - name: AQUA_PUBSUB_DBPASSWORD
           valueFrom:
