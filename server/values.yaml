@@ -10,21 +10,21 @@ imageCredentials:
 rbac:
   enabled: true
   privileged: true
-  roleRef:
+  roleRef: ""
 
 ##Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi
-platform:
+platform: ""
 
 openshift_route:
   create: false    #Enable if required openshift route for web and gateway
 
 # enable only one of the modes
-clustermode: 
-activeactive:
+clustermode: ""
+activeactive: ""
 
 admin:
-  token:
-  password:
+  token: ""
+  password: ""
 
 dockerSock:
   mount: # put true for mount docker socket.
@@ -33,28 +33,29 @@ dockerSock:
 db:
   external:
     enabled: false
-    name:
-    host:
-    port:
-    user:
-    password:
-    auditName:
-    auditHost:
-    auditPort:
-    auditUser:
-    auditPassword: true
-    pubsubName:
-    pubsubHost:
-    pubsubPort:
-    pubsubUser:
-    pubsubPassword:
-  passwordSecret:
-  dbPasswordName:
-  dbPasswordKey:
-  dbAuditPasswordName:
-  dbAuditPasswordKey:
-  dbPubsubPasswordName:
-  dbPubsubPasswordKey:
+    name: ""
+    host: ""
+    port: ""
+    user: ""
+    password: ""
+    auditName: ""
+    auditHost: ""
+    auditPort: ""
+    auditUser: ""
+    auditPassword: ""
+    pubsubName: ""
+    pubsubHost: ""
+    pubsubPort: ""
+    pubsubUser: ""
+    pubsubPassword: ""
+  passwordFromSecret:
+    enabled: false              #Enable if loading passwords for db and audit-db from secret
+    dbPasswordName: ""            #Specify the Password Secret name used for db password
+    dbPasswordKey: ""             #Specify the db password key name stored in the #dbPasswordName secret
+    dbAuditPasswordName: ""          #Specify the Password Secret name used for audit db password
+    dbAuditPasswordKey: ""            #Specify the audit db password key name stored in the #dbAuditPasswordName secret
+    dbPubsubPasswordName: ""            #Specify the Password Secret name used for pubsub db password
+    dbPubsubPasswordKey: ""           #Specify the pubsub db password key name stored in the #PubsubPasswordName secret
   ssl: false
   auditssl: false
   securityContext:
@@ -172,7 +173,7 @@ gate:
 
   TLS:
     enabled: false      # change to true for enabling secure communication
-    secretName:         #created certs secret name for gate
+    secretName: ""        #created certs secret name for gate
     #Follow Advance configuration for mTLS communication establishment and place your certs in /opt/aquasec/ssl/ path
 
   # extraEnvironmentVars is a list of extra enviroment variables to set in the gateway deployments.
@@ -213,6 +214,7 @@ web:
         protocol: TCP
   ingress:
     enabled: false
+    externalPort:
     annotations: {}
     #  kubernetes.io/ingress.class: nginx
     hosts: #REQUIRED
@@ -257,7 +259,7 @@ web:
 
   TLS:
     enabled: false      # change to true for enabling secure communication
-    secretName:         #created certs secret name for web
+    secretName: ""        #created certs secret name for web
     #Follow Advance configuration for mTLS communication establishment and place your certs in /opt/aquasec/ssl/
 
   # extraEnvironmentVars is a list of extra enviroment variables to set in the web deployments.
@@ -294,7 +296,7 @@ envoy:
       nodePort:
       protocol: TCP
 
-  certsSecretName:
+  certsSecretName: ""
 
   livenessProbe:
     failureThreshold: 3
