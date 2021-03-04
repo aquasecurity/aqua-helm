@@ -30,7 +30,7 @@ logLevel:
 #enable to true if you want to use existing secret for the cluster
 existing_secret:
   enable: false
-  secretName:
+  secretName: ""
 
 certsSecret:
   name: aqua-kube-enforcer-certs
@@ -68,6 +68,12 @@ webhooks:
     name: kube-enforcer-admission-hook-config
   mutatingWebhook:
     name: kube-enforcer-me-injection-hook-config
+
+securityContext:
+  runAsUser: 11431
+  runAsGroup: 11433
+  fsGroup: 11433
+container_securityContext: {}
 
 livenessProbe:
   tcpSocket:
