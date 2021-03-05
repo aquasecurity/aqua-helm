@@ -27,14 +27,18 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
+      {{- if .Values.aquaCluster}}
       serviceAccount: {{ .Values.serviceAccount }}
+      {{- else }}
+      serviceAccount: {{ .Release.Namespace }}-sa
+      {{- end }}
       containers:
       - name: scanner
         {{- with .Values.container_securityContext }}
         securityContext:
 {{ toYaml . | indent 10 }}
         {{- end }}
-        image: "{{ .Values.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         args:
         - daemon
@@ -89,4 +93,8 @@ spec:
       - name: docker-socket-mount
         hostPath:
           path: {{ .Values.dockerSock.path }}
+      {{- end }}
+      {{- if not .Values.aquaCluster }}
+      imagePullSecrets:
+        - name: {{ .Values.imageCredentials.name }}
       {{- end }}

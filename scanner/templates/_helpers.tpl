@@ -51,9 +51,13 @@ Inject extra environment populated by secrets, if populated
 {{- range .extraSecretEnvironmentVars }}
 - name: {{ .envName }}
   valueFrom:
-   secretKeyRef:
-     name: {{ .secretName }}
-     key: {{ .secretKey }}
+    secretKeyRef:
+      name: {{ .secretName }}
+      key: {{ .secretKey }}
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
+{{- define "imagePullSecret" }}
+{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (required "A valid .Values.imageCredentials.registry entry required" .Values.imageCredentials.registry) (printf "%s:%s" (required "A valid .Values.imageCredentials.username entry required" .Values.imageCredentials.username) (required "A valid .Values.imageCredentials.password entry required" .Values.imageCredentials.password) | b64enc) | b64enc }}
+{{- end }}
