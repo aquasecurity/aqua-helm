@@ -74,11 +74,11 @@ spec:
             - name: AQUA_TLS_PORT
               value: "8443"
 {{- end }}
-            - name: CLUSTER_NAME
-              value: "aqua-secure"   # Cluster display name in aqua enterprise.
             - name: SCALOCK_LOG_LEVEL
               value: {{ .Values.logLevel | default "INFO" }}
 {{- if .Values.kubeEnforcerAdvance.enable }}
+            - name: CLUSTER_NAME
+              value: {{ .Values.kubeEnforcerAdvance.clusterName | default "aqua-secure" }}   # Cluster display name in aqua enterprise.
             - name: AQUA_ENVOY_MODE
               value: "true"
 {{- end }}
