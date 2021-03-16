@@ -48,12 +48,12 @@ securityContext:
   fsGroup: 11433
 container_securityContext: {}
 
-# extraEnvironmentVars is a list of extra enviroment variables to set in the scanner deployments.
+# extraEnvironmentVars is a list of extra environment variables to set in the scanner deployments.
 # https://docs.aquasec.com/docs/scanner-optional-variables
 extraEnvironmentVars: {}
   # ENV_NAME: value
 
-# extraSecretEnvironmentVars is a list of extra enviroment variables to set in the scanner deployments.
+# extraSecretEnvironmentVars is a list of extra environment variables to set in the scanner deployments.
 # These variables take value from existing Secret objects.
 extraSecretEnvironmentVars: []
   # - envName: ENV_NAME
