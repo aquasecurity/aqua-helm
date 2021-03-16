@@ -20,7 +20,7 @@ server:
 
 image:
   repository: scanner
-  tag: "6.0.21040"
+  tag: "6.0"
   pullPolicy: IfNotPresent
 
 logLevel:
