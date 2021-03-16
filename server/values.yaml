@@ -12,7 +12,13 @@ rbac:
   privileged: true
   roleRef: ""
 
-##Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi
+#Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
+# aks = Azure Kubernetes Service
+# gke = Google kubernetes Engine
+# openshift = RedHat Openshift/OCP
+# tkg = VMware Tanzu kubernetes Grid
+# tkgi = VMware Tanzu kubernetes Grid Integrated Edition
+# k8s = Plain/on-prem Vanilla Kubernetes
 platform: ""
 
 openshift_route:
