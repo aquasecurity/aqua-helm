@@ -154,7 +154,7 @@ Parameter | Description | Default| Mandatory
 `imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/` | `registry.aquasec.com`| `YES` 
 `imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret`| `YES` 
 `imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`| `YES` 
-`platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift) | `unset` | `YES`
+`platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s) | `unset` | `YES`
 `openshift_route.create` | to create openshift routes for web and gateway | `false` | `NO`
 `rbac.enabled` | if to create rbac configuration for aqua | `true`| `YES` 
 `rbac.privileged` | determines if any container in a pod can enable privileged mode. | `true`| `NO` 
@@ -182,13 +182,13 @@ Parameter | Description | Default| Mandatory
 `db.external.pubsubPort` | PostgreSQL DB pubsub port | `unset`| `NO` 
 `db.external.pubsubUser` | PostgreSQL DB pubsub username | `unset`| `NO` 
 `db.external.pubsubPassword` | PostgreSQL DB pubsub password | `unset`| `NO` 
-`db.passwordSecret` | password secret name | `null`| `NO` 
-`db.dbPasswordName` | password secret name | `null`| `NO` 
-`db.dbPasswordKey` | password secret key | `null`| `NO` 
-`db.dbAuditPasswordName` | Audit password secret name | `null`| `NO` 
-`db.dbAuditPasswordKey` | Audit password secret key | `null`| `NO` 
-`db.dbPubsubPasswordName` | Pubsub password secret name | `null`| `NO` 
-`db.dbPubsubPasswordKey` | Pubsub password secret key | `null`| `NO` 
+`db.passwordFromSecret.enabled` | Enable to load DB passwords from Secrets | `false` | `YES`
+`db.passwordFromSecret.dbPasswordName` | password secret name | `null`| `NO`
+`db.passwordFromSecret.dbPasswordKey` | password secret key | `null`| `NO`
+`db.passwordFromSecret.dbAuditPasswordName` | Audit password secret name | `null`| `NO`
+`db.passwordFromSecret.dbAuditPasswordKey` | Audit password secret key | `null`| `NO`
+`db.passwordFromSecret.dbPubsubPasswordName` | Pubsub password secret name | `null`| `NO`
+`db.passwordFromSecret.dbPubsubPasswordKey` | Pubsub password secret key | `null`| `NO`
 `db.ssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`true`| `NO` 
 `db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`true`| `NO` 
 `db.persistence.enabled` | If true, Persistent Volume Claim will be created |	`true`| `NO` 
