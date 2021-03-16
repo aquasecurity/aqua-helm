@@ -131,8 +131,8 @@ Parameter | Description | Default| Mandatory
 `nodeSelector` |	Kubernetes node selector	| `{}`| `NO` 
 `tolerations` |	Kubernetes node tolerations	| `[]`| `NO` 
 `affinity` |	Kubernetes node affinity | `{}`| `NO` 
-`extraEnvironmentVars` | is a list of extra enviroment variables to set in the enforcer daemonset. | `{}`| `NO` 
-`extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the scanner daemonset, these variables take value from existing Secret objects. | `[]`| `NO` 
+`extraEnvironmentVars` | is a list of extra environment variables to set in the enforcer daemonset. | `{}`| `NO` 
+`extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner daemonset, these variables take value from existing Secret objects. | `[]`| `NO` 
 `envoy.enabled` | enabled envoy deployment to support in envoy deployment. | `false`| `NO` 
 `envoy.configMap` | config map name with aqua certs for agent. | ``| `NO` 
 

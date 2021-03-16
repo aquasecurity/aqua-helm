@@ -204,8 +204,8 @@ Parameter | Description | Default| Mandatory
 `db.tolerations` |	Kubernetes node tolerations	| `[]`| `NO` 
 `db.affinity` |	Kubernetes node affinity | `{}`| `NO` 
 `db.securityContext` | Set of security context for the container | `nil`| `NO` 
-`db.extraEnvironmentVars` | is a list of extra enviroment variables to set in the database deployments. | `{}`| `NO` 
-`db.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the database deployments, these variables take value from existing Secret objects. | `[]`| `NO` 
+`db.extraEnvironmentVars` | is a list of extra environment variables to set in the database deployments. | `{}`| `NO` 
+`db.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the database deployments, these variables take value from existing Secret objects. | `[]`| `NO` 
 `gate.image.repository` | the docker image name to use | `gateway`| `NO` 
 `gate.image.tag` | The image tag to use. | `5.3`| `NO` 
 `gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
@@ -221,8 +221,8 @@ Parameter | Description | Default| Mandatory
 `gate.securityContext` | Set of security context for the container | `nil`| `NO` 
 `gate.TLS.enabled` | If require secure channel communication | `false` | `NO`
 `gate.TLS.secretName` | certificates secret name | `nil` | `NO`
-`gate.extraEnvironmentVars` | is a list of extra enviroment variables to set in the gateway deployments. | `{}`| `NO` 
-`gate.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`| `NO` 
+`gate.extraEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments. | `{}`| `NO` 
+`gate.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`| `NO` 
 `web.image.repository` | the docker image name to use | `console`| `NO` 
 `web.image.tag` | The image tag to use. | `5.3`| `NO` 
 `web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
@@ -241,8 +241,8 @@ Parameter | Description | Default| Mandatory
 `web.securityContext` | Set of security context for the container | `nil`| `NO` 
 `web.TLS.enabled` | If require secure channel communication | `false` | `NO`
 `web.TLS.secretName` | certificates secret name | `nil` | `NO`
-`web.extraEnvironmentVars` | is a list of extra enviroment variables to set in the web deployments. | `{}`| `NO` 
-`web.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the web deployments, these variables take value from existing Secret objects. | `[]`| `NO` 
+`web.extraEnvironmentVars` | is a list of extra environment variables to set in the web deployments. | `{}`| `NO` 
+`web.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the web deployments, these variables take value from existing Secret objects. | `[]`| `NO` 
 `envoy.enabled` | enabled envoy deployment. | `false`| `NO` 
 `envoy.replicaCount` | replica count | `1`| `NO` 
 `envoy.image.repository` | the docker image name to use | `envoyproxy/envoy-alpine`| `NO` 

@@ -66,7 +66,7 @@ resources: {}
 nodeSelector: {}
 tolerations: []
 
-# extraEnvironmentVars is a list of extra enviroment variables to set in the enforcer daemonset.
+# extraEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
 # https://docs.aquasec.com/docs/enforcer-optional-variables
 extraEnvironmentVars: {}
 #  ENV_NAME: value
@@ -75,7 +75,7 @@ extraEnvironmentVars: {}
 #  AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/agent.key"
 #  AQUA_ROOT_CA: "/opt/aquasec/ssl/rootCA.crt"
 
-# extraSecretEnvironmentVars is a list of extra enviroment variables to set in the enforcer daemonset.
+# extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
 # These variables take value from existing Secret objects.
 extraSecretEnvironmentVars: []
   # - envName: ENV_NAME
