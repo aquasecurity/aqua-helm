@@ -109,5 +109,5 @@ Parameter | Description | Default
 `gate.tolerations` |	Kubernetes node tolerations	| `[]`
 `gate.affinity` |	Kubernetes node affinity | `{}`
 `gate.securityContext` | Set of security context for the container | `nil`
-`gate.extraEnvironmentVars` | is a list of extra enviroment variables to set in the gateway deployments. | `{}`
-`gate.extraSecretEnvironmentVars` | is a list of extra enviroment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]` 
+`gate.extraEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments. | `{}`
+`gate.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`
