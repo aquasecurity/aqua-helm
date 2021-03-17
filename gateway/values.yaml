@@ -102,12 +102,12 @@ gate:
     fsGroup: 11433
   container_securityContext: {}
 
-  # extraEnvironmentVars is a list of extra enviroment variables to set in the gateway deployments.
+  # extraEnvironmentVars is a list of extra environment variables to set in the gateway deployments.
   # https://docs.aquasec.com/docs/gateway-optional-variables
   extraEnvironmentVars: {}
     # ENV_NAME: value
 
-  # extraSecretEnvironmentVars is a list of extra enviroment variables to set in the gateway deployments.
+  # extraSecretEnvironmentVars is a list of extra environment variables to set in the gateway deployments.
   # These variables take value from existing Secret objects.
   extraSecretEnvironmentVars: []
     # - envName: ENV_NAME

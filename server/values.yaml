@@ -111,11 +111,11 @@ db:
   tolerations: []
   affinity: {}
 
-  # extraEnvironmentVars is a list of extra enviroment variables to set in the database deployments.
+  # extraEnvironmentVars is a list of extra environment variables to set in the database deployments.
   extraEnvironmentVars: {}
     # ENV_NAME: value
 
-  # extraSecretEnvironmentVars is a list of extra enviroment variables to set in the database deployments.
+  # extraSecretEnvironmentVars is a list of extra environment variables to set in the database deployments.
   # These variables take value from existing Secret objects.
   extraSecretEnvironmentVars: []
     # - envName: ENV_NAME
@@ -182,7 +182,7 @@ gate:
     secretName: ""        #created certs secret name for gate
     #Follow Advance configuration for mTLS communication establishment and place your certs in /opt/aquasec/ssl/ path
 
-  # extraEnvironmentVars is a list of extra enviroment variables to set in the gateway deployments.
+  # extraEnvironmentVars is a list of extra environment variables to set in the gateway deployments.
   # https://docs.aquasec.com/docs/gateway-optional-variables
   extraEnvironmentVars: {}
     # ENV_NAME: value
@@ -190,7 +190,7 @@ gate:
     #AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/<file_name>"
     #AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/<file_name>"
 
-  # extraSecretEnvironmentVars is a list of extra enviroment variables to set in the gateway deployments.
+  # extraSecretEnvironmentVars is a list of extra environment variables to set in the gateway deployments.
   # These variables take value from existing Secret objects.
   extraSecretEnvironmentVars: []
     # - envName: ENV_NAME
@@ -268,7 +268,7 @@ web:
     secretName: ""        #created certs secret name for web
     #Follow Advance configuration for mTLS communication establishment and place your certs in /opt/aquasec/ssl/
 
-  # extraEnvironmentVars is a list of extra enviroment variables to set in the web deployments.
+  # extraEnvironmentVars is a list of extra environment variables to set in the web deployments.
   # https://docs.aquasec.com/docs/server-optional-variables
   extraEnvironmentVars: {}
     # ENV_NAME: value
@@ -276,7 +276,7 @@ web:
     #AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/<file_name>"
     #AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/<file_name>"
 
-  # extraSecretEnvironmentVars is a list of extra enviroment variables to set in the web deployments.
+  # extraSecretEnvironmentVars is a list of extra environment variables to set in the web deployments.
   # These variables take value from existing Secret objects.
   extraSecretEnvironmentVars: []
     # - envName: ENV_NAME
