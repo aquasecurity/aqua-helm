@@ -1,0 +1,160 @@
+{{- if .Values.rbac.enabled -}}
+  {{- if not .Values.rbac.roleRef }}
+---
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+    name: {{ .Release.Name }}-psp
+    labels:
+      app: {{ .Release.Name }}
+      chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+      release: "{{ .Release.Name }}"
+      heritage: "{{ .Release.Service }}"
+spec:
+  privileged: {{ .Values.rbac.privileged }}
+  allowedCapabilities:
+  - '*'
+  fsGroup:
+    rule: RunAsAny
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  volumes:
+  - '*'
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Name }}-cluster-role
+  labels:
+    app: {{ .Release.Name }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+    rbac.example.com/aggregate-to-monitoring: "true"
+rules:
+- apiGroups: ["extensions"]
+  resourceNames: [{{ .Release.Name }}-psp]
+  resources: ["podsecuritypolicies"]
+  verbs: ["use"]
+- apiGroups: [""]
+  resources: ["nodes", "services", "endpoints", "pods", "deployments", "namespaces","componentstatuses"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["rbac.authorization.k8s.io"]
+  resources: ["*"]
+  verbs: ["get", "list", "watch"]
+{{- end }}
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Name }}-role-binding
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Release.Name }}-sa
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+  {{- if .Values.rbac.roleRef }}
+  name: {{ .Values.rbac.roleRef }}
+  {{- else }}
+  name: {{ .Release.Name }}-cluster-role
+  {{- end }}
+
+{{- if not .Values.platform -}}
+{{ template "platform" .}}
+{{- else if eq .Values.platform "openshift" }}
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: cluster-reader
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Release.Name }}-sa
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-reader
+---
+allowHostDirVolumePlugin: true
+allowHostIPC: false
+allowHostNetwork: false
+allowHostPID: true
+allowHostPorts: false
+allowPrivilegeEscalation: false
+allowPrivilegedContainer: false
+allowedCapabilities:
+- SYS_ADMIN
+- NET_ADMIN
+- NET_RAW
+- SYS_PTRACE
+- KILL
+- MKNOD
+- SETGID
+- SETUID
+- SYS_MODULE
+- AUDIT_CONTROL
+- SYSLOG
+- SYS_CHROOT
+apiVersion: security.openshift.io/v1
+defaultAddCapabilities: null
+fsGroup:
+  type: RunAsAny
+groups: []
+kind: SecurityContextConstraints
+metadata:
+  annotations:
+    kubernetes.io/description: aqua scc provides all features of the restricted SCC
+      but allows users to run with any non-root UID and access hostPath. The user must
+      specify the UID or it must be specified on the by the manifest of the container runtime.
+    release.openshift.io/create-only: "true"
+  name: aqua-scc
+priority: null
+readOnlyRootFilesystem: false
+requiredDropCapabilities: null
+runAsUser:
+  type: RunAsAny
+seLinuxContext:
+  type: MustRunAs
+supplementalGroups:
+  type: RunAsAny
+users:
+- system:serviceaccount:aqua:aqua-sa
+volumes:
+- configMap
+- downwardAPI
+- emptyDir
+- persistentVolumeClaim
+- projected
+- secret
+- hostPath
+
+{{- else if eq .Values.platform "tkg" }}
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: rolebinding-default-privileged-sa-ns_default
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: psp:vmware-system-privileged
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: Group
+  apiGroup: rbac.authorization.k8s.io
+  name: system:serviceaccounts
+{{- end -}}
+{{- end }}

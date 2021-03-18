@@ -1,0 +1,153 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-tenantmanager
+  labels:
+    app: {{ .Release.Name }}-tenantmanager
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.tenantmanager.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-tenantmanager
+  template:
+    metadata:
+      annotations:
+      {{- if and (.Values.tenantmanager.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tenantmanager.tolerations }}'
+      {{- end }}
+      labels:
+        app: {{ .Release.Name }}-tenantmanager
+      name: {{ .Release.Name }}-tenantmanager
+    spec:
+      {{- with .Values.tenantmanager.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      serviceAccount: {{ .Release.Namespace }}-sa
+      containers:
+      - name: tenantmanager
+        {{- with .Values.tenantmanager.container_securityContext }}
+        securityContext:
+{{ toYaml . | indent 10 }}
+        {{- end }}
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.tenantmanager.image.repository }}:{{ .Values.tenantmanager.image.tag }}"
+        imagePullPolicy: "{{ .Values.tenantmanager.image.pullPolicy }}"
+        env:
+        - name: SCALOCK_LOG_LEVEL
+          value: {{ .Values.tenantmanager.logLevel | default "INFO" }}
+        - name: AQUA_TM_DBUSER
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
+        - name: AQUA_TM_DBPASSWORD
+        {{- if .Values.db.passwordFromSecret.enabled }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.db.passwordFromSecret.dbPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbPasswordKey }}
+        {{- else }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-tm-db-password
+              key: db-password
+        {{- end }}
+        - name: AQUA_TM_DBNAME
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.name "tenantmanager" }}
+        - name: AQUA_TM_DBHOST
+        {{- if .Values.db.external.enabled }}
+          value: {{ .Values.db.external.host }}
+        {{- else }}
+          value: {{ .Release.Name }}-tm-db-svc
+        {{- end }}
+        - name: AQUA_TM_DBPORT
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
+        - name: AQUA_TM_AUDIT_DBUSER
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditUser "postgres" }}
+        - name: AQUA_TM_AUDIT_DBPASSWORD
+          {{- if .Values.db.passwordFromSecret.enabled }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.db.passwordFromSecret.dbAuditPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbAuditPasswordKey }}
+          {{- else if and ( not .Values.db.passwordFromSecret.enabled ) ( .Values.db.external.enabled ) }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-tm-db-password
+              {{- if .Values.db.external.auditPassword }}
+              key: audit-password
+              {{- else }}
+              key: db-password
+              {{- end }}
+          {{- else }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-tm-db-password
+              key: db-password
+          {{- end }}
+        - name: AQUA_TM_AUDIT_DBNAME
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "tm_audit" }}
+        - name: AQUA_TM_AUDIT_DBHOST
+          {{- if .Values.db.external.enabled }}
+          value: {{ .Values.db.external.auditHost }}
+          {{- else }}
+          value: {{ .Release.Name }}-tm-db-svc
+          {{- end }}
+        - name: AQUA_TM_AUDIT_DBPORT
+          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
+        {{- if .Values.admin.token }}
+        - name: LICENSE_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-tenantmanager-secrets
+              key: license-token
+        {{- end }}
+        {{- if .Values.admin.password }}
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-tenantmanager-secrets
+              key: admin-password
+        {{- end }}
+        {{- include "tenantmanager.extraEnvironmentVars" .Values.tenantmanager | nindent 8 }}
+        {{- include "tenantmanager.extraSecretEnvironmentVars" .Values.tenantmanager | nindent 8 }}
+        ports:
+        - containerPort: 8081
+          protocol: TCP
+        - containerPort: 8444
+          protocol: TCP
+{{- with .Values.tenantmanager.livenessProbe }}
+        livenessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- with .Values.tenantmanager.readinessProbe }}
+        readinessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+        {{- if .Values.tenantmanager.TLS.enabled }}
+        volumeMounts:
+        - name: certs
+          mountPath: /opt/aquasec/ssl/
+        {{- end }}
+        resources:
+{{ toYaml .Values.tenantmanager.resources | indent 12 }}
+      {{- with .Values.tenantmanager.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.tenantmanager.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- if and (.Values.tenantmanager.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      tolerations:
+{{ toYaml .Values.tenantmanager.tolerations | indent 6 }}
+      {{- end }}
+      {{- if .Values.tenantmanager.TLS.enabled }}
+      volumes:
+      - name: certs
+        secret:
+          defaultMode: 420
+          secretName: {{ .Values.tenantmanager.TLS.secretName }}
+      {{- end }}
