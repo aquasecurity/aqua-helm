@@ -35,7 +35,7 @@ cd aqua-helm/
 
 You need to enable TLS authentication from the API Server to the KubeEnforcer. Perform these steps:
 
-Create TLS certificates which are signed by the local CA certificate. We will pass these certificates with a HELM command to enbale TLS authentication between the KubeEnforcer and the API Server to receive events from the validatingwebhookconfiguration for Image Sssurance functionality.
+Create TLS certificates which are signed by the local CA certificate. We will pass these certificates with a HELM command to enable TLS authentication between the KubeEnforcer and the API Server to receive events from the validatingwebhookconfiguration for Image Assurance functionality.
 
 You can generate these certificates by executing the script:
 
