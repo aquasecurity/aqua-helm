@@ -8,7 +8,7 @@ imageCredentials:
   username: ""
   password: ""
 
-# Enter the enforcer token in "clear-text" formate without quotes generated from the Console UI
+# Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
 enforcerToken: 
 
 enforcerTokenSecretName: null
@@ -46,7 +46,7 @@ gate:
   host: aqua-gateway-svc # for envoy deployment use host for aqua-lb and port 443
   port: 8443
 
-multi_gates:  # use the below hosts to add multiple gateways as required to enforcer. Formate is <hostname>:<port_number>
+multi_gates:  # use the below hosts to add multiple gateways as required to enforcer. Format is <hostname>:<port_number>
 #- aqua-gateway1-svc:8443 #example gateway 1
 #- aqua-gateway2-svc:8443 #example gateway 2
 
@@ -69,7 +69,7 @@ resources: {}
 nodeSelector: {}
 tolerations: []
 
-# extraEnvironmentVars is a list of extra enviroment variables to set in the enforcer daemonset.
+# extraEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
 # https://docs.aquasec.com/docs/enforcer-optional-variables
 extraEnvironmentVars: {}
 #  ENV_NAME: value
@@ -78,7 +78,7 @@ extraEnvironmentVars: {}
 #  AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/agent.key"
 #  AQUA_ROOT_CA: "/opt/aquasec/ssl/rootCA.crt"
 
-# extraSecretEnvironmentVars is a list of extra enviroment variables to set in the enforcer daemonset.
+# extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
 # These variables take value from existing Secret objects.
 extraSecretEnvironmentVars: []
   # - envName: ENV_NAME
