@@ -30,12 +30,12 @@ spec:
       - image: "{{ .Values.envoy.image.repository }}:{{ .Values.envoy.image.tag }}"
         imagePullPolicy: "{{ .Values.envoy.image.pullPolicy }}"
         name: envoy
+        env:
+        - name: ENVOY_UID
+          value: "0"
         ports:
         - containerPort: 8443
           name: https
-          protocol: TCP
-        - containerPort: 8082
-          name: healthserver
           protocol: TCP
         volumeMounts:
         - mountPath: /etc/envoy

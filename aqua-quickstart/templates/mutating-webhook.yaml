@@ -5,6 +5,7 @@ metadata:
   namespace: {{ .Values.ke.namespace }}
 webhooks:
   - name: microenforcer.aquasec.com
+    failurePolicy: {{ .Values.ke.webhooks.failurePolicy }}
     rules:
       - operations: ["CREATE", "UPDATE"]
         apiGroups: ["*"]

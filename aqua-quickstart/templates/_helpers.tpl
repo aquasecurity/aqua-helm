@@ -19,6 +19,10 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (required "A valid .Values.imageCredentials.registry entry required" .Values.imageCredentials.registry) (printf "%s:%s" (required "A valid .Values.imageCredentials.username entry required" .Values.imageCredentials.username) (required "A valid .Values.imageCredentials.password entry required" .Values.imageCredentials.password) | b64enc) | b64enc }}
 {{- end }}
 
+{{- define "platform" }}
+{{- printf "%s" (required "A valid .Values.platform entry required" .Values.platform ) | replace "\n" "" }}
+{{- end }}
+
 {{/*
 Inject extra environment vars in the format key:value, if populated
 */}}

@@ -11,6 +11,7 @@ metadata:
 data:
 {{- range $key, $value := .Values.envoy.files }}
   {{ $key }}: |-
-{{ $value | default "" | indent 4 }}
+{{ $valueWithDefault := default "" $value -}}
+{{ tpl $valueWithDefault $ | indent 4 }}
 {{- end -}}
 {{- end }}

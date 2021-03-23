@@ -22,11 +22,17 @@ spec:
         app: {{ .Release.Name }}-gateway
       name: {{ .Release.Name }}-gateway
     spec:
+      {{- with .Values.gate.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+      {{- end }}
       serviceAccount: {{ .Release.Namespace }}-sa
       containers:
       - name: gate
+        {{- with .Values.gate.container_securityContext }}
         securityContext:
-          {{- toYaml .Values.gate.securityContext | nindent 12 }}
+{{ toYaml . | indent 10 }}
+        {{- end }}
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ .Values.gate.image.tag }}"
         imagePullPolicy: "{{ .Values.gate.image.pullPolicy }}"
         env:
@@ -40,12 +46,12 @@ spec:
           value: "0.0.0.0:8082"
         - name: SCALOCK_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
-        {{- if .Values.db.passwordSecret }}
+        {{- if .Values.db.passwordFromSecret.enabled }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.dbPasswordName }}
-              key: {{ .Values.db.dbPasswordKey }}
+              name: {{ .Values.db.passwordFromSecret.dbPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbPasswordKey }}
           {{- else }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
@@ -65,14 +71,13 @@ spec:
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
         - name: SCALOCK_AUDIT_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditUser "postgres" }}
-          {{- if .Values.db.passwordSecret }}
         - name: SCALOCK_AUDIT_DBPASSWORD
+          {{- if .Values.db.passwordFromSecret.enabled }}
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.dbAuditPasswordName }}
-              key: {{ .Values.db.dbAuditPasswordKey }}
-          {{- else }}
-        - name: SCALOCK_AUDIT_DBPASSWORD
+              name: {{ .Values.db.passwordFromSecret.dbAuditPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbAuditPasswordKey }}
+          {{- else if and ( not .Values.db.passwordFromSecret.enabled ) ( .Values.db.external.enabled ) }}
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
@@ -81,6 +86,11 @@ spec:
               {{- else }}
               key: db-password
               {{- end }}
+          {{- else }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-database-password
+              key: audit-password
           {{- end }}
         - name: SCALOCK_AUDIT_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
@@ -95,12 +105,12 @@ spec:
         {{- if .Values.activeactive }}
         - name: AQUA_PUBSUB_DBUSER
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubUser "postgres" }}
-          {{- if .Values.db.passwordSecret }}
+        {{- if .Values.db.passwordFromSecret.enabled }}
         - name: AQUA_PUBSUB_DBPASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.dbPubsubPasswordName }}
-              key: {{ .Values.db.dbPubsubPasswordKey }}
+              name: {{ .Values.db.passwordFromSecret.dbPubsubPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbPubsubPasswordKey }}
           {{- else }}
         - name: AQUA_PUBSUB_DBPASSWORD
           valueFrom:
@@ -111,7 +121,7 @@ spec:
               {{- else }}
               key: db-password
               {{- end }}
-          {{- end }}
+        {{- end }}
         - name: AQUA_PUBSUB_DBNAME
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubName "aqua_pubsub" }}
         - name: AQUA_PUBSUB_DBHOST
@@ -146,6 +156,11 @@ spec:
         readinessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
+        {{- if .Values.gate.TLS.enabled }}
+        volumeMounts:
+        - name: certs
+          mountPath: /opt/aquasec/ssl/
+        {{- end }}
         resources:
 {{ toYaml .Values.gate.resources | indent 12 }}
       {{- with .Values.gate.nodeSelector }}
@@ -159,4 +174,11 @@ spec:
       {{- if and (.Values.gate.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
       tolerations:
 {{ toYaml .Values.gate.tolerations | indent 6 }}
+      {{- end }}
+      {{- if .Values.gate.TLS.enabled }}
+      volumes:
+      - name: certs
+        secret:
+          defaultMode: 420
+          secretName: {{ .Values.gate.TLS.secretName }}
       {{- end }}

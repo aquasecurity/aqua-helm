@@ -6,7 +6,7 @@ metadata:
 webhooks:
   - name: imageassurance.aquasec.com
     rules:
-      - operations: ["CREATE", "UPDATE"]
+      - operations: ["CREATE"]
         apiGroups: ["*"]
         apiVersions: ["*"]
         resources: ["pods", "deployments", "replicasets", "replicationcontrollers", "statefulsets", "daemonsets", "jobs", "cronjobs"]

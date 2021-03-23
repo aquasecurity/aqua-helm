@@ -12,8 +12,20 @@ rbac:
   privileged: true
   roleRef:
 
+#Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
+# aks = Azure Kubernetes Service
+# gke = Google kubernetes Engine
+# openshift = RedHat Openshift/OCP
+# tkg = VMware Tanzu kubernetes Grid
+# tkgi = VMware Tanzu kubernetes Grid Integrated Edition
+# k8s = Plain/on-prem Vanilla Kubernetes
+platform:
+
+openshift_route:
+  create: false    #Enable if required openshift route for web and gateway
+
 # enable only one of the modes
-clustermode: 
+clustermode:
 activeactive:
 
 admin:
@@ -57,10 +69,27 @@ ke:
     name: aqua-kube-enforcer 
   webhooks:
     caBundle: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURFVENDQWZtZ0F3SUJBZ0lVTkljWmkzL2xqbEtObFZ0WXBwVyttN2xWZnNVd0RRWUpLb1pJaHZjTkFRRUwKQlFBd0Z6RVZNQk1HQTFVRUF3d01ZV1J0YVhOemFXOXVYMk5oTUNBWERUSXdNRGd5TnpBNU5EZ3dNMW9ZRHpJeQpPVFF3TmpFeU1EazBPREF6V2pBWE1SVXdFd1lEVlFRRERBeGhaRzFwYzNOcGIyNWZZMkV3Z2dFaU1BMEdDU3FHClNJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUURZSlovRmRjVUtDdmdqSHlVVnhxWitRTTBRLzNGYzQyTzkKUGlXTllGS2l3L1FJTUIxTHZpQklXSFQyVEZLRkVYYUtZcmdzTHE0MElFZWMyN2Jvd2RTbXJVZEV3bEdtNkQrMQpIaGROQWI4WEllWTNteEpUUlR2cVhzYitrUnptYjJCL2xRVVlLNFJxaW8vN2RyZjFEYjBwWEFYVmxzRFNvQUhoCkxUWUxXbmhldGNLTUEvT3FCQXBoaWM4VzZZN1VJY2FtWnVZZUMxOVBlMlZKSHFxZ3o5MDNybjFGTnNMWnA4Q00Kb0dXeENEU0RFSWRuTmMxVis1WUg4VmxLRk9wb2IxYWtIZFFPeVlROFVPR2hnMHh3YXNGMnRRc2RCQ3BTUFBNYwo3K01kWnF0c2dtVGJQaUN6bWRra25uWWZ4cmxsWVVmOGFCelBrMzhyQ2ZiMnF5ZHJLTGZSQWdNQkFBR2pVekJSCk1CMEdBMVVkRGdRV0JCVDlDWlVURzRtQThrYzBISEJsamhRZUxKWjZoekFmQmdOVkhTTUVHREFXZ0JUOUNaVVQKRzRtQThrYzBISEJsamhRZUxKWjZoekFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQTBHQ1NxR1NJYjNEUUVCQ3dVQQpBNElCQVFDUE5Ick5rcTBpN2tpMnNGcUtWa3l0RGpRWTFzaVNRcjNsbXVweDlVL1FuaytBQ2huYUhjNDVqSFVTCi9JdmNWMnljQVZ1aUQ3eFJXWkdYVzRuRE14QjdBZ0RKWmhJd3hGTVl1bVpGZEtCUlBLKy9WY3ZFTFFoZ3Z6T0QKNWhvNHZ0RzlHTzBDUzhqNUtGZ3pWaDgxcmsyU2c1RDN6TGVISjVVNDVRK2xlRGtldXJmMzFqQWJsMU1vai9JWgpndVUyd1Y5RkJJaFZONTMwd1Y4b01oWnVZRWZvUmZhOEpIbXhTMmNNbHUxQWZ5YmZkcFB2cCtpUHZKc0t2UTgzCmdueEd4K1k5NldzL0pmWDlXSFpBT1kyQXVVYS9hUjZLSnVraG9KVTk2Z3p5VXd0eFV5aWExdDg5M0hZNmQ3bG0KU1BmaVEzWm40dXdxaEczMUhGSmZMMG5iSmlxZQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg=="
+    failurePolicy: Ignore
     validatingWebhook:
       name: kube-enforcer-admission-hook-config
     mutatingWebhook:
       name: kube-enforcer-me-injection-hook-config
+  securityContext:
+    runAsUser: 11431
+    runAsGroup: 11433
+    fsGroup: 11433
+  container_securityContext: {}
+  livenessProbe:
+    tcpSocket:
+      port: 8080
+    initialDelaySeconds: 60
+    periodSeconds: 30
+
+  readinessProbe:
+    tcpSocket:
+      port: 8080
+    initialDelaySeconds: 60
+    periodSeconds: 30
 
 db:
   external:
@@ -74,21 +103,29 @@ db:
     auditHost:
     auditPort:
     auditUser:
-    auditPassword: true
+    auditPassword:
     pubsubName:
     pubsubHost:
     pubsubPort:
     pubsubUser:
     pubsubPassword:
-  passwordSecret:
-  dbPasswordName:
-  dbPasswordKey:
-  dbAuditPasswordName:
-  dbAuditPasswordKey:
-  dbPubsubPasswordName:
-  dbPubsubPasswordKey:
+
+  passwordFromSecret:
+    enabled: false              #Enable if loading passwords for db and audit-db from secret
+    dbPasswordName:             #Specify the Password Secret name used for db password
+    dbPasswordKey:              #Specify the db password key name stored in the #dbPasswordName secret
+    dbAuditPasswordName:           #Specify the Password Secret name used for audit db password
+    dbAuditPasswordKey:             #Specify the audit db password key name stored in the #dbAuditPasswordName secret
+    dbPubsubPasswordName:            #Specify the Password Secret name used for pubsub db password
+    dbPubsubPasswordKey:            #Specify the pubsub db password key name stored in the #PubsubPasswordName secret
   ssl: false
   auditssl: false
+  securityContext:
+    runAsUser: 70
+    runAsGroup: 70
+    fsGroup: 11433
+  container_securityContext:
+    privileged: false
   image:
     repository: database
     tag: "5.3"
@@ -129,7 +166,6 @@ db:
   nodeSelector: {}
   tolerations: []
   affinity: {}
-  securityContext: {}
 
   # extraEnvironmentVars is a list of extra environment variables to set in the database deployments.
   extraEnvironmentVars: {}
@@ -144,6 +180,7 @@ db:
 
 gate:
   replicaCount: 1
+  logLevel:
   image:
     repository: gateway
     tag: "5.3"
@@ -178,7 +215,7 @@ gate:
     tcpSocket:
       port: 8443
     initialDelaySeconds: 60
-    periodSeconds: 30
+    periodSeconds: 60
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
@@ -190,15 +227,24 @@ gate:
   nodeSelector: {}
   tolerations: []
   affinity: {}
-  securityContext: {}
-  #  runAsUser: 11431
-  #  runAsGroup: 11433
-  #  fsGroup: 11433
+  securityContext:
+    runAsUser: 11431
+    runAsGroup: 11433
+    fsGroup: 11433
+  container_securityContext: {}
+
+  TLS:
+    enabled: false      # change to true for enabling secure communication
+    secretName:         #created certs secret name for gate
+    #Follow Advance configuration for mTLS communication establishment and place your certs in /opt/aquasec/ssl/ path
 
   # extraEnvironmentVars is a list of extra environment variables to set in the gateway deployments.
   # https://docs.aquasec.com/docs/gateway-optional-variables
   extraEnvironmentVars: {}
     # ENV_NAME: value
+    #Example for mTLS env variables:
+    #AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/<file_name>"
+    #AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/<file_name>"
 
   # extraSecretEnvironmentVars is a list of extra environment variables to set in the gateway deployments.
   # These variables take value from existing Secret objects.
@@ -209,6 +255,7 @@ gate:
 
 web:
   replicaCount: 1
+  logLevel:
   image:
     repository: console
     tag: "5.3"
@@ -229,6 +276,7 @@ web:
         protocol: TCP
   ingress:
     enabled: false
+    externalPort:
     annotations: {}
     #  kubernetes.io/ingress.class: nginx
     hosts: #REQUIRED
@@ -237,6 +285,7 @@ web:
     #  - secretName: aquasec-tls
     #    hosts:
     #      - aquasec.domain.com
+
   # Note: Please change the ports according to the requirement.
   # default liveness and readiness probe
   livenessProbe:
@@ -252,6 +301,7 @@ web:
       port: 8080
     initialDelaySeconds: 60
     periodSeconds: 30
+
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
@@ -263,10 +313,17 @@ web:
   nodeSelector: {}
   tolerations: []
   affinity: {}
-  securityContext: {}
-  #  runAsUser: 11431
-  #  runAsGroup: 11433
-  #  fsGroup: 11433
+  securityContext:
+    runAsUser: 11431
+    runAsGroup: 11433
+    fsGroup: 11433
+  container_securityContext: {}
+
+
+  TLS:
+    enabled: false      # change to true for enabling secure communication
+    secretName:         #created certs secret name for web
+    #Follow Advance configuration for mTLS communication establishment and place your certs in /opt/aquasec/ssl/
 
   # extraEnvironmentVars is a list of extra environment variables to set in the web deployments.
   # https://docs.aquasec.com/docs/server-optional-variables
@@ -276,6 +333,9 @@ web:
     BATCH_INSTALL_GATEWAY: "aqua-gateway"
   }
     # ENV_NAME: value
+    #Example for mTLS env variables:
+    #AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/<file_name>"
+    #AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/<file_name>"
 
   # extraSecretEnvironmentVars is a list of extra environment variables to set in the web deployments.
   # These variables take value from existing Secret objects.
@@ -292,16 +352,11 @@ envoy:
     repository: envoyproxy/envoy-alpine
     tag: v1.15.0
     pullPolicy: IfNotPresent
-  
+
   service:
     type: LoadBalancer
     annotations: {}
     ports:
-    - name: healthserver
-      port: 8082
-      targetPort: 8082
-      nodePort:
-      protocol: TCP
     - name: https
       port: 443
       targetPort: 8443
@@ -336,7 +391,7 @@ envoy:
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 1
-  
+
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
