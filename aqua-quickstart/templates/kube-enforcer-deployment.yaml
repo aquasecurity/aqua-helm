@@ -13,13 +13,33 @@ spec:
       labels:
         app: {{ include "kube-enforcer.fullname" . }}
     spec:
+      {{- with .Values.ke.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+      {{- end }}
       serviceAccountName: {{ .Values.ke.serviceAccount.name }}
       containers:
         - name: kube-enforcer
+          {{- with .Values.ke.container_securityContext }}
+          securityContext:
+{{ toYaml . | indent 12 }}
+          {{- end }}
           image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.ke.image.repository }}:{{ .Values.ke.image.tag }}"
           imagePullPolicy: Always
           ports:
             - containerPort: 8443
+{{- with .Values.livenessProbe }}
+          livenessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.readinessProbe }}
+          readinessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.resources }}
+          resources:
+{{ toYaml . | indent 12 }}
+{{- end }}
           env:
             - name: AQUA_TOKEN
               valueFrom: 
@@ -38,6 +58,8 @@ spec:
               value: {{ .Values.ke.envs.gatewayAddress }}
             - name: AQUA_TLS_PORT
               value: "8443"
+            - name: SCALOCK_LOG_LEVEL
+              value: {{ .Values.logLevel | default "INFO" }}
           volumeMounts:
             - name: "certs"
               mountPath: "/certs"
@@ -49,4 +71,4 @@ spec:
         - name: {{ .Values.imageCredentials.name }}
   selector:
     matchLabels:
-      app: {{ include "kube-enforcer.fullname" . }}                           
+      app: {{ include "kube-enforcer.fullname" . }}

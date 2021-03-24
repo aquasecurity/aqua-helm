@@ -148,7 +148,7 @@ Use the [**aqua-quickstart**](aqua-quickstart) chart to
 
   3. Deploy aqua-quickstart chart
   ```bash
-  $ helm upgrade --install --namespace aqua aqua ./aqua-quickstart --set imageCredentials.username=<>,imageCredentials.password=<>
+  $ helm upgrade --install --namespace aqua aqua ./aqua-quickstart --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
   ```
 
 # Issues and feedback
