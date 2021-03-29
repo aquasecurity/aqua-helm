@@ -16,6 +16,7 @@ dockerSock:
 serviceAccount: "aqua-sa"
 
 server:
+  scheme: ""  #specify the schema for the server host URL, default it is http; Change it to https for connecting
   serviceName: "aqua-console-svc" # example
   port: 8080
 
