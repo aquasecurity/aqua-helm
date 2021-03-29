@@ -27,7 +27,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Release.Namespace }}-sa
+      serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: tenantmanager
         {{- with .Values.tenantmanager.container_securityContext }}
@@ -151,3 +151,5 @@ spec:
           defaultMode: 420
           secretName: {{ .Values.tenantmanager.TLS.secretName }}
       {{- end }}
+      imagePullSecrets:
+        - name: {{ .Values.imageCredentials.name }}
