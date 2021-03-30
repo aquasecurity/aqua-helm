@@ -48,7 +48,7 @@ spec:
         - --password
         - "{{ required "Please specify a password for a user associated with the Scanner role!" .Values.password }}"
         - --host
-        - "http://{{ .Values.server.serviceName }}:{{ .Values.server.port }}"
+        - "{{ .Values.server.scheme | default "http" }}://{{ .Values.server.serviceName }}:{{ .Values.server.port }}"
         env:
         - name: SCALOCK_LOG_LEVEL
           value: {{ .Values.logLevel | default "INFO" }}
@@ -94,7 +94,7 @@ spec:
         hostPath:
           path: {{ .Values.dockerSock.path }}
       {{- end }}
-      {{- if not .Values.aquaCluster }}
+      {{- if .Values.imageCredentials.create }}
       imagePullSecrets:
         - name: {{ .Values.imageCredentials.name }}
       {{- end }}
