@@ -1,0 +1,187 @@
+# Specifies the secret data for imagePullSecrets needed to fetch the private docker images
+imageCredentials:
+  create: true
+  name: aqua-registry-secret # example
+  repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
+  registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+  username: ""
+  password: ""
+
+rbac:
+  enabled: true
+  privileged: false
+  roleRef: ""
+
+#Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
+# aks = Azure Kubernetes Service
+# gke = Google kubernetes Engine
+# openshift = RedHat Openshift/OCP
+# tkg = VMware Tanzu kubernetes Grid
+# tkgi = VMware Tanzu kubernetes Grid Integrated Edition
+# k8s = Plain/on-prem Vanilla Kubernetes
+platform: ""
+
+admin:
+  token: ""
+  password: ""
+
+
+db:
+  external:
+    enabled: false
+    name: ""
+    host: ""
+    port: ""
+    user: ""
+    password: ""
+    auditName: ""
+    auditHost: ""
+    auditPort: ""
+    auditUser: ""
+    auditPassword: ""
+  passwordFromSecret:
+    enabled: false              #Enable if loading passwords for db and audit-db from secret
+    dbPasswordName: ""            #Specify the Password Secret name used for db password
+    dbPasswordKey: ""             #Specify the db password key name stored in the #dbPasswordName secret
+    dbAuditPasswordName: ""          #Specify the Password Secret name used for audit db password
+    dbAuditPasswordKey: ""            #Specify the audit db password key name stored in the #dbAuditPasswordName secret
+
+  securityContext:
+    runAsUser: 70
+    runAsGroup: 70
+    fsGroup: 11433
+  container_securityContext:
+    privileged: false
+
+  image:
+    repository: database
+    tag: "6.0"
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+
+  persistence:
+    enabled: true
+    storageClass:
+    size: 30Gi
+    accessMode: ReadWriteOnce
+
+  livenessProbe:
+    initialDelaySeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    periodSeconds: 10
+    successThreshold: 1
+    tcpSocket:
+      port: 5432
+  readinessProbe:
+    initialDelaySeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    periodSeconds: 10
+    successThreshold: 1
+    tcpSocket:
+      port: 5432
+
+  resources: {}
+    # Note: For recommendations please check the official sizing guide.
+    # requests:
+    #   cpu: 3000m
+    #   memory: 6Gi
+    # limits:
+    #   cpu: 12000m
+    #   memory: 20Gi
+
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+  # extraEnvironmentVars is a list of extra environment variables to set in the database deployments.
+  extraEnvironmentVars: {}
+    # ENV_NAME: value
+
+  # extraSecretEnvironmentVars is a list of extra environment variables to set in the database deployments.
+  # These variables take value from existing Secret objects.
+  extraSecretEnvironmentVars: []
+    # - envName: ENV_NAME
+    #   secretName: name
+    #   secretKey: key
+
+tenantmanager:
+  replicaCount: 1
+  logLevel:
+
+  image:
+    repository: tenantmanager
+    tag: "6.0"
+    pullPolicy: IfNotPresent
+
+  service:
+    type: LoadBalancer
+    annotations: {}
+    # Note: Please change the ports according to the requirement.
+    ports:
+      - name: aqua-tenantmanager
+        port: 8081
+        targetPort: 8081
+        nodePort:
+        protocol: TCP
+      - name: aqua-tenantmanager-ssl
+        port: 443
+        targetPort: 8444
+        nodePort:
+        protocol: TCP
+
+  # default liveness and readiness probe
+  livenessProbe:
+    httpGet:
+      path: /
+      port: 8081
+    initialDelaySeconds: 60
+    periodSeconds: 30
+
+  readinessProbe:
+    httpGet:
+      path: /
+      port: 8081
+    initialDelaySeconds: 60
+    periodSeconds: 30
+
+  resources: {}
+    # Note: For recommendations please check the official sizing guide.
+    # requests:
+    #   cpu: 2000m
+    #   memory: 3Gi
+    # limits:
+    #   cpu: 6000m
+    #   memory: 10Gi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+  securityContext:
+    runAsUser: 11431
+    runAsGroup: 11433
+    fsGroup: 11433
+  container_securityContext: {}
+
+  TLS:
+    enabled: false      # change to true for enabling secure communication
+    secretName: ""        #created certs secret name for web
+    #Follow Advance configuration for mTLS communication establishment and place your certs in /opt/aquasec/ssl/
+
+  # extraEnvironmentVars is a list of extra environment variables to set in the tenantmanager deployments.
+  # https://docs.aquasec.com/docs/server-optional-variables
+  extraEnvironmentVars: {}
+    # ENV_NAME: value
+    #Example for mTLS env variables:
+    #AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/<file_name>"
+    #AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/<file_name>"
+
+  # extraSecretEnvironmentVars is a list of extra environment variables to set in the tenantmanager deployments.
+  # These variables take value from existing Secret objects.
+  extraSecretEnvironmentVars: []
+    # - envName: ENV_NAME
+    #   secretName: name
+    #   secretKey: key
