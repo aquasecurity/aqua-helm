@@ -27,7 +27,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Release.Namespace }}-sa
+      serviceAccount: {{ .Release.Name }}-sa
       initContainers:
       - name: {{ .Release.Name }}-db-init
         env:
@@ -104,3 +104,5 @@ spec:
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-tm-db-pvc
 {{- end }}
+      imagePullSecrets:
+        - name: {{ .Values.imageCredentials.name }}
