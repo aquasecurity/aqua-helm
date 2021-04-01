@@ -1,4 +1,7 @@
-{{- if not .Values.existing_secret.enable }}
+{{- if not .Values.certsSecret.name}}
+{{ template "certsSecret_name" . }}
+{{- end }}
+{{- if .Values.certsSecret.create }}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -7,6 +10,4 @@ metadata:
 data:
   server.crt: {{ template "serverCertificate" . }}  # place server cert
   server.key: {{ template "serverKey" . }}  # place server key
-{{- else if not .Values.existing_secret.secretName }}
-{{ template "existing_secret" . }}
 {{- end }}
