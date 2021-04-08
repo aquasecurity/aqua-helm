@@ -1,3 +1,5 @@
+multi_cluster: false # change to true if deploying enforcer on different cluster apart from the cluster where server deployed
+
 imageCredentials:
   create: false
   name: aqua-registry-secret # When create is false please specify
