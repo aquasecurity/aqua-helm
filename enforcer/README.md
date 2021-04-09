@@ -109,6 +109,7 @@ For more details please visit [Link](https://docs.aquasec.com/docs/kubernetes#se
 
 Parameter | Description | Default| Mandatory 
 --------- | ----------- | ------- | ------- 
+multi_cluster` | Set if to create new service account | `false` | `YES - New cluster`
 `imageCredentials.create` | Set if to create new pull image secret | `false`| `YES - New cluster` 
 `imageCredentials.name` | Your Docker pull image secret name | `aqua-registry-secret`| `YES - New cluster` 
 `imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com`| `YES - New cluster` 
