@@ -270,6 +270,10 @@ web:
 
   # extraEnvironmentVars is a list of extra environment variables to set in the web deployments.
   # https://docs.aquasec.com/docs/server-optional-variables
+
+  maintenance_db:
+    name: ""         #specify the AQUA_MAINTENANCE_DB name if enabled
+
   extraEnvironmentVars: {}
     # ENV_NAME: value
     #Example for mTLS env variables:

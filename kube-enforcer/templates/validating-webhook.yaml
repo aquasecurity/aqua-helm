@@ -16,3 +16,4 @@ webhooks:
       service:
         namespace: {{ .Values.namespace }}
         name: {{ include "kube-enforcer.fullname" . }}
+    timeoutSeconds: 5
