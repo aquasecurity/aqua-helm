@@ -17,3 +17,4 @@ webhooks:
         namespace: {{ .Values.ke.namespace }}
         name: {{ include "kube-enforcer.fullname" . }}
         path: "/mutate"
+    timeoutSeconds: 5
