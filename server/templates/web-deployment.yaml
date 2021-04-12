@@ -159,6 +159,10 @@ spec:
               name: {{ .Release.Name }}-console-secrets
               key: admin-password
         {{- end }}
+        {{- if .Values.web.maintenance_db.name }}
+        - name: AQUA_MAINTENANCE_DBNAME
+          value: {{ .Values.web.maintenance_db.name }}
+        {{- end }}
         {{- include "server.extraEnvironmentVars" .Values.web | nindent 8 }}
         {{- include "server.extraSecretEnvironmentVars" .Values.web | nindent 8 }}
         ports:
