@@ -4,7 +4,7 @@
 
 This page contains instructions for deploying Aqua Enterprise in a Kubernetes cluster, using the [Helm package manager](https://helm.sh/).
 
-Refer to the Aqua Enterprise product documentation for the broader context: [Kubernetes with Helm Charts](https://docs.aquasec.com/v5.3/docs/kubernetes-with-helm).
+Refer to the Aqua Enterprise product documentation for the broader context: [Kubernetes with Helm Charts](https://docs.aquasec.com/docs/kubernetes-with-helm).
 
 ## Contents
 
@@ -59,7 +59,7 @@ $ helm repo add aqua-helm https://helm.aquasec.com
 $ helm search aqua-helm
 # Examples
 $ helm search aqua-helm --versions
-$ helm search aqua-helm --version 5.3.0
+$ helm search aqua-helm --version 6.0.0
 ```
 
 ##### For Helm 3.x
@@ -67,16 +67,16 @@ $ helm search aqua-helm --version 5.3.0
 $ helm search repo aqua-helm
 # Examples
 $ helm search repo aqua-helm --versions
-$ helm search repo aqua-helm --version 5.3.0
+$ helm search repo aqua-helm --version 6.0.0
 ```
 
 Example output:
 ```csv
 NAME                      CHART VERSION       APP VERSION         DESCRIPTION
-aqua-helm/enforcer        5.3.0               5.3                 A Helm chart for the Aqua Enforcer
-aqua-helm/scanner         5.3.0               5.3                 A Helm chart for the Aqua Scanner CLI component
-aqua-helm/server          5.3.0               5.3                 A Helm chart for the Aqua Console components
-aqua-helm/kube-enforcer   5.3.0               5.3                 A Helm chart for the Aqua KubeEnforcer
+aqua-helm/enforcer        6.0.0               6.0                 A Helm chart for the Aqua Enforcer
+aqua-helm/scanner         6.0.0               6.0                 A Helm chart for the Aqua Scanner CLI component
+aqua-helm/server          6.0.0               6.0                 A Helm chart for the Aqua Console components
+aqua-helm/kube-enforcer   6.0.0               6.0                 A Helm chart for the Aqua KubeEnforcer
 ```
 
 ### Deploy the Helm charts
