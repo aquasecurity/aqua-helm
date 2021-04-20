@@ -73,7 +73,7 @@ db:
     privileged: false
   image:
     repository: database
-    tag: "6.0"
+    tag: "6.2.preview5"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -128,7 +128,7 @@ gate:
   logLevel:
   image:
     repository: gateway
-    tag: "6.0"
+    tag: "6.2.preview5"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -203,7 +203,7 @@ web:
   logLevel:
   image:
     repository: console
-    tag: "6.0"
+    tag: "6.2.preview5"
     pullPolicy: IfNotPresent
   service:
     type: LoadBalancer
