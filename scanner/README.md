@@ -56,6 +56,7 @@ Parameter | Description | Default| Mandatory
 `dockerSocket.mount` | boolean parameter if to mount docker socket | `unset`| `NO` 
 `dockerSocket.path` | docker socket path | `/var/run/docker.sock`| `NO` 
 `serviceAccount` | k8s service account to use | `aqua-sa`| `YES` 
+`server.scheme` | scheme for server to connect | `http`| `NO`
 `server.serviceName` | service name for server to connect | `aqua-console-svc`| `YES` 
 `server.port` | service port for server to connect | `8080`| `YES` 
 `image.repository` | the docker image name to use | `scanner`| `YES` 
