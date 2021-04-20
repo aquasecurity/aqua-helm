@@ -19,6 +19,7 @@ rbac:
 # tkg = VMware Tanzu kubernetes Grid
 # tkgi = VMware Tanzu kubernetes Grid Integrated Edition
 # k8s = Plain/on-prem Vanilla Kubernetes
+# rancher = Rancher Kubernetes Platform
 platform: ""
 
 openshift_route:
