@@ -241,6 +241,7 @@ Parameter | Description | Default| Mandatory
 `web.securityContext` | Set of security context for the container | `nil`| `NO` 
 `web.TLS.enabled` | If require secure channel communication | `false` | `NO`
 `web.TLS.secretName` | certificates secret name | `nil` | `NO`
+`web.maintenance_db.name` | If Configured to use custom maintanance DB specify the DB name | `nil` | `NO` 
 `web.extraEnvironmentVars` | is a list of extra environment variables to set in the web deployments. | `{}`| `NO`
 `web.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the web deployments, these variables take value from existing Secret objects. | `[]`| `NO`
 `envoy.enabled` | enabled envoy deployment. | `false`| `NO` 
