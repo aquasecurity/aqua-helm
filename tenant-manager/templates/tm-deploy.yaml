@@ -96,6 +96,10 @@ spec:
           {{- end }}
         - name: AQUA_TM_AUDIT_DBPORT
           value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
+        {{- if .Values.tenantmanager.maintenance_db.name }}
+        - name: AQUA_TM_MAINTENANCE_DBNAME
+          value: {{ .Values.tenantmanager.maintenance_db.name }}
+        {{- end }}
         {{- if .Values.admin.token }}
         - name: LICENSE_TOKEN
           valueFrom:
