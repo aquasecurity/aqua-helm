@@ -160,7 +160,7 @@ Parameter | Description | Default| Mandatory
 `tenantmanager.securityContext` | Set of security context for the container | `nil`| `NO` 
 `tenantmanager.TLS.enabled` | Whether to require secure channel communication | `false` | `NO`
 `tenantmanager.TLS.secretName` | Certificates secret name | `nil` | `NO`
-`tenantmanager.maintenance_db.name` | If Conifgured to use custom maintanance DB specify the DB name | `nil` | `NO` 
+`tenantmanager.maintenance_db.name` | If Conifgured to use custom maintanance DB specify the DB name | `unset` | `NO` 
 `tenantmanager.extraEnvironmentVars` | List of extra environment variables to set in the Tenant Manager deployments | `{}`| `NO`
 `tenantmanager.extraSecretEnvironmentVars` | List of extra environment variables to set in the Tenant Manager deployments; these variables take values from existing Secret objects. | `[]`| `NO`
 
