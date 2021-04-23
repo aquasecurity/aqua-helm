@@ -171,6 +171,9 @@ tenantmanager:
     secretName: ""        #created certs secret name for web
     #Follow Advance configuration for mTLS communication establishment and place your certs in /opt/aquasec/ssl/
 
+  maintenance_db:
+    name: ""         #specify the AQUA_MAINTENANCE_DB name if enabled
+
   # extraEnvironmentVars is a list of extra environment variables to set in the tenantmanager deployments.
   # https://docs.aquasec.com/docs/server-optional-variables
   extraEnvironmentVars: {}
