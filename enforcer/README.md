@@ -24,12 +24,22 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
 ## Installing the Chart
 Follow the steps in this section for production grade deployments. You can either clone aqua-helm git repo or you can add our helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com))
 
+### Installing Aqua Enforcer from Github Repo
+
 * Clone the GitHub repository with the charts
 
 ```bash
-git clone https://github.com/aquasecurity/aqua-helm.git
+git clone -b 6.2 https://github.com/aquasecurity/aqua-helm.git
 cd aqua-helm/
 ```
+
+* Install Aqua Enforcer
+
+```bash
+helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
+```
+
+### Installing Aqua Enforcer from Helm Private Repository
 
 * Add Aqua Helm Repository
 ```bash
@@ -39,8 +49,8 @@ $ helm repo add aqua-helm https://helm.aquasec.com
 * Install Aqua Enforcer
 
 ```bash
-helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
-```
+helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token> --version <>
+
 
 ## Advanced Configuration
 
@@ -78,8 +88,9 @@ In order to support L7 / gRPC communication between enforcer and envoy it is rec
    2. Create enforcer agent cert secret
 
       ```bash
-      # Please be notified that agent.key and agent.crt in the below command are same
-      # as mydomain.com.key and mydomain.com.crt in the above openssl commands
+      # Please be notified that tls.key and tls.crt in the below command are default filenames
+      # and same as mydomain.com.key and mydomain.com.crt in the above openssl commands
+      # If tls.crt and tls.key filenames are changed then it should be changed in values.yaml envoy config
       $ kubectl create secret generic aqua-enforcer-agent --from-file agent.crt --from-file agent.key --from-file rootCA.crt -n aqua
       ```
 

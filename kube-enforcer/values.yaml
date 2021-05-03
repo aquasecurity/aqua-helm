@@ -27,13 +27,10 @@ namespace: "aqua"
 
 logLevel: ""
 
-#enable to true if you want to use existing secret for the cluster
-existing_secret:
-  enable: false
-  secretName: ""
-
+# Set create to false if you want to use an existing secret for the kube-enforcer certs
 certsSecret:
-  name: aqua-kube-enforcer-certs
+  create: true
+  name: aqua-kube-enforcer-certs # If you're using existing certs change the name to existing secret name
   serverCertificate: ""
   serverKey: ""
 
