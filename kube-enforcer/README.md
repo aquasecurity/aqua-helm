@@ -71,7 +71,7 @@ Optionally, you can provide these certificates in base64 encoded format as flags
 
 ## Deploying the HELM chart
 
-### Installing Aqua from Github Repo
+### Installing Aqua Kube-Enforcer from Github Repo
 
 1. Clone the GitHub repository with the charts:
 
@@ -101,7 +101,7 @@ Optionally, you can provide these certificates in base64 encoded format as flags
    helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set envs.gatewayAddress="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
    ```
 
-### Installing Aqua from Helm Private Repository
+### Installing Aqua Kube-Enforcer from Helm Private Repository
 
 1. Add Aqua Helm Repository
 
