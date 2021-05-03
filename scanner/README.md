@@ -37,7 +37,7 @@ cd aqua-helm/
 * Install Aqua
 
 ```bash
-helm upgrade --install --namespace aqua aqua ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>
+helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>
 ```
 
 ### Installing Aqua Scanner from Helm Private Repository
@@ -50,7 +50,7 @@ $ helm repo add aqua-helm https://helm.aquasec.com
 * Install Aqua
 
 ```bash
-helm upgrade --install --namespace aqua aqua-helm/scanner --set imageCredentials.username=<>,imageCredentials.password=<> --version <>
+helm upgrade --install --namespace aqua scanner aqua-helm/scanner --set imageCredentials.username=<>,imageCredentials.password=<> --version <>
 ```
 
 

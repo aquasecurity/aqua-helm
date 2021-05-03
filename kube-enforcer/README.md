@@ -76,7 +76,7 @@ Optionally, you can provide these certificates in base64 encoded format as flags
 1. Clone the GitHub repository with the charts:
 
    ```bash
-   git clone https://github.com/aquasecurity/kube-enforcer-helm.git
+   git clone -b 6.2 https://github.com/aquasecurity/kube-enforcer-helm.git
    ```
 
 2. (Optional) Update the Helm charts `values.yaml` file with your environment's custom values, registry secret, Aqua Server (console) credentials, and TLS certificates. This eliminates the need to pass the parameters to the HELM command. Then run one of the following commands to deploy the relevant services.
