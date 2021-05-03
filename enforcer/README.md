@@ -50,6 +50,7 @@ $ helm repo add aqua-helm https://helm.aquasec.com
 
 ```bash
 helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token> --version <>
+```
 
 
 ## Advanced Configuration

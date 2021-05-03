@@ -65,6 +65,7 @@ $ helm repo add aqua-helm https://helm.aquasec.com
 
 ```bash
     helm upgrade --install --namespace aqua <release_name> aqua-helm/tenant-manager --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<> --version <>
+```
 
 ## Database
 

@@ -125,15 +125,10 @@ Optionally, you can provide these certificates in base64 encoded format as flags
    ```bash
    kubectl create namespace aqua
    ```
-   Next, run the following command:
+   Next, copy the values.yaml content from  [Values.yaml](./values.yaml) and make the respective changes then run the following command:
    
    ```shell
-   helm upgrade --install --namespace aqua kube-enforcer aqua-helm/kube-enforcer --set \
-      evs.gatewayAddress="<Aqua_Remote_Gateway_IP/URL>", \
-      imageCredentials.username=<registry-username>, \
-      imageCredentials.password=<registry-password>, \
-      
-      --version <>
+   helm upgrade --install --namespace aqua kube-enforcer aqua-helm/kube-enforcer --values values.yaml --version <>
    ```
 
 Optional flags:
