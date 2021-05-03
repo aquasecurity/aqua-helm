@@ -131,7 +131,7 @@ gate:
     tag: "6.0"
     pullPolicy: IfNotPresent
   service:
-    type: ClusterIP
+    type: ClusterIP     #for OCP/OSD environments Can enable gateway to external by changing type to "LoadBalancer"
     annotations: {}
     ports:
       - name: aqua-gate

@@ -36,34 +36,33 @@ db:
     user: aquasec-db-username
     password: verysecret
 ```
-## Installing the Chart
-Follow the steps in this section for production-grade deployments. You can either clone the aqua-helm GitHub repo or you can add our private Helm repository ([https://helm.aquasec.com](https://helm.aquasec.com)).
+### Installing Aqua Tenant Manager from Github Repo
 
-* Using the GitHub repo
+* Clone the GitHub repository with the charts:
 
-    a. Clone the GitHub repository with the charts:
+```bash
+git clone -b 6.0 https://github.com/aquasecurity/aqua-helm.git
+cd aqua-helm/
+```
 
-    ```bash
-    git clone https://github.com/aquasecurity/aqua-helm.git
-    cd aqua-helm/
-    ```
-    b. Deploy the Aqua Tenant Manager
+* Deploy the Aqua Tenant Manager
 
-    ```bash
-    helm upgrade --install --namespace aqua aqua ./tenant-manger --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
-    ```
+```bash
+helm upgrade --install --namespace aqua tenant-manager ./tenant-manger --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
+```
 
-* Using the Helm Repo
+### Installing Aqua Tenant Manager from Helm Private Repository
   
-    a. Add the Aqua Helm repository
+* Add the Aqua Helm repository
 
-    ```bash
-    $ helm repo add aqua-helm https://helm.aquasec.com
-    ```
-    b. Deploy the Aqua Tenant Manager
+```bash
+$ helm repo add aqua-helm https://helm.aquasec.com
+```
+* Deploy the Aqua Tenant Manager
 
-    ```bash
-    helm upgrade --install --namespace aqua <release_name> aqua-helm/tenant-manager --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
+```bash
+    helm upgrade --install --namespace aqua tenant-manager aqua-helm/tenant-manager --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<> --version <>
+```
 
 ## Database
 

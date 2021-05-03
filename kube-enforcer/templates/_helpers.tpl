@@ -47,6 +47,6 @@ Create chart name and version as used by the chart label.
 {{- printf "%s" (required "A valid .Values.webhooks.caBundle entry required" .Values.webhooks.caBundle) | replace "\n" "" }}
 {{- end }}
 
-{{- define "existing_secret" }}
-{{- printf "%s" (required "A valid .Values.existing_secret.secretName required" .Values.existing_secret.secretName ) }}
+{{- define "certsSecret_name" }}
+{{- printf "%s" (required "A valid .Values.certsSecret.name required" .Values.certsSecret.name ) }}
 {{- end }}
