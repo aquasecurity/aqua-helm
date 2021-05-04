@@ -9,4 +9,4 @@ Improvements:
 * Updated Readme
 
 Bugs:
-* Service Account naming error #241
+* Service Account naming error #[241](https://github.com/aquasecurity/aqua-helm/pull/241)

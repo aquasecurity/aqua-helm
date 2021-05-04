@@ -7,5 +7,5 @@ Improvements:
 
 Improvements:
 * Updated Readme
-* Added Maintenance DB support #245
-* added annotations support foe SA creation #248
+* Added Maintenance DB support #[245](https://github.com/aquasecurity/aqua-helm/pull/245)
+* added annotations support foe SA creation #[248](https://github.com/aquasecurity/aqua-helm/pull/248)

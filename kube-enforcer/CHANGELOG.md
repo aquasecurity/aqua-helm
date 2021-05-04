@@ -7,4 +7,4 @@ Improvements:
 
 Improvements:
 * Updated Readme
-* Added timeouts for KE webhooks #245
+* Added timeouts for KE webhooks #[245](https://github.com/aquasecurity/aqua-helm/pull/245)

@@ -7,4 +7,4 @@ Improvements:
 
 Improvements:
 * Updated Readme
-* Added Maintenance DB support #252
+* Added Maintenance DB support #[252](https://github.com/aquasecurity/aqua-helm/pull/252)
