@@ -24,23 +24,35 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
 ## Installing the Chart
 Follow the steps in this section for production grade deployments. You can either clone aqua-helm git repo or you can add our helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com))
 
+### Installing Aqua Scanner from Github Repo
+
 * Clone the GitHub repository with the charts
 
 ```bash
-git clone https://github.com/aquasecurity/aqua-helm.git
+git clone -b 6.0 https://github.com/aquasecurity/aqua-helm.git
 cd aqua-helm/
 ```
+
+
+* Install Aqua
+
+```bash
+helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>
+```
+
+### Installing Aqua Scanner from Helm Private Repository
 
 * Add Aqua Helm Repository
 ```bash
 $ helm repo add aqua-helm https://helm.aquasec.com
 ```
 
-* Install Aqua Scanner
+* Install Aqua
 
 ```bash
-helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>,user=<>,password=<>
+helm upgrade --install --namespace aqua scanner aqua-helm/scanner --set imageCredentials.username=<>,imageCredentials.password=<> --version <>
 ```
+
 
 Before installing scanner chart the recommendation is to create user with scanning permissions, [Link to documentations](https://docs.aquasec.com/docs/add-scanners#section-add-a-scanner-user)
 
