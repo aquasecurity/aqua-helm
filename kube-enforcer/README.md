@@ -96,7 +96,7 @@ Optionally, you can provide these certificates in base64 encoded format as flags
    Next, run the following command:
    
    ```shell
-   helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set evs.gatewayAddress="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
+   helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set envs.gatewayAddress="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
    ```
 
 Optional flags:
@@ -118,19 +118,19 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 
 ## Configurable parameters
 
-| Parameter                         | Description                                                                 | Default                 | Mandatory               |
-| --------------------------------- | --------------------------------------------------------------------------- | ----------------------- | ----------------------- |
-| `imageCredentials.create`         | Set to create new pull image secret                                         | `true`                  | `YES - New cluster`     |
-| `imageCredentials.name`           | Your Docker pull image secret name                                          | `aqua-registry-secret`  | `YES - New cluster`     |
-| `imageCredentials.username`       | Your Docker registry (DockerHub, etc.) username                             | `N/A`                   | `YES - New cluster`     |
-| `imageCredentials.password`       | Your Docker registry (DockerHub, etc.) password                             | `N/A`                   | `YES - New cluster`     |
-| `aquaSecret.kubeEnforcerToken`    | Aqua KubeEnforcer token                                                     | `N/A`                   | `YES`                   |
-| `certsSecret.serverCertificate`   | Certificate for TLS authentication with the Kubernetes api-server           | `N/A`                   | `YES`                   |
-| `certsSecret.serverKey`           | Certificate key for TLS authentication with the Kubernetes api-server       | `N/A`                   | `YES`                   |
-| `webhooks.caBundle`               | Root certificate for TLS authentication with the Kubernetes api-server      | `N/A`                   | `YES`                   |
-| `envs.gatewayAddress`             | Gateway host address                                                        | `aqua-gateway-svc:8443` | `YES`                   |
-| `existing_secret.enable`          | To use existing secret for KE certs                                         | `false`                 | `NO`                    |
-| `existing_secret.secretName`      | existing secret name for KE certs                                           | `N/A`                   | `NO`                    |
+| Parameter                         | Description                                                                 | Default                   | Mandatory               |
+| --------------------------------- | --------------------------------------------------------------------------- | ------------------------- | ----------------------- |
+| `imageCredentials.create`         | Set to create new pull image secret                                         | `true`                    | `YES - New cluster`     |
+| `imageCredentials.name`           | Your Docker pull image secret name                                          | `aqua-registry-secret`    | `YES - New cluster`     |
+| `imageCredentials.username`       | Your Docker registry (DockerHub, etc.) username                             | `N/A`                     | `YES - New cluster`     |
+| `imageCredentials.password`       | Your Docker registry (DockerHub, etc.) password                             | `N/A`                     | `YES - New cluster`     |
+| `aquaSecret.kubeEnforcerToken`    | Aqua KubeEnforcer token                                                     | `N/A`                     | `YES`                   |
+| `certsSecret.create`              | Set to create new secret for KE certs                                       | `true`                    | `YES`                   |
+| `certsSecret.name`                | Secret name for KE certs                                                    | `aqua-kube-enforcer-certs`| `YES`                    |
+| `certsSecret.serverCertificate`   | Certificate for TLS authentication with the Kubernetes api-server           | `N/A`                     | `YES`                   |
+| `certsSecret.serverKey`           | Certificate key for TLS authentication with the Kubernetes api-server       | `N/A`                     | `YES`                   |
+| `webhooks.caBundle`               | Root certificate for TLS authentication with the Kubernetes api-server      | `N/A`                     | `YES`                   |
+| `envs.gatewayAddress`             | Gateway host address                                                        | `aqua-gateway-svc:8443`   | `YES`                   |
 
 ## Issues and feedback
 
