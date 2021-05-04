@@ -71,10 +71,12 @@ Optionally, you can provide these certificates in base64 encoded format as flags
 
 ## Deploying the HELM chart
 
+### Installing Aqua Kube-Enforcer from Github Repo
+
 1. Clone the GitHub repository with the charts:
 
    ```bash
-   git clone https://github.com/aquasecurity/kube-enforcer-helm.git
+   git clone -b 5.3 https://github.com/aquasecurity/kube-enforcer-helm.git
    ```
 
 2. (Optional) Update the Helm charts `values.yaml` file with your environment's custom values, registry secret, Aqua Server (console) credentials, and TLS certificates. This eliminates the need to pass the parameters to the HELM command. Then run one of the following commands to deploy the relevant services.
@@ -97,6 +99,36 @@ Optionally, you can provide these certificates in base64 encoded format as flags
    
    ```shell
    helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set envs.gatewayAddress="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
+   ```
+
+### Installing Aqua Kube-Enforcer from Helm Private Repository
+
+1. Add Aqua Helm Repository
+
+   ```bash
+   $ helm repo add aqua-helm https://helm.aquasec.com
+   ```
+
+2. (Optional) Update the Helm charts `values.yaml` file with your environment's custom values, registry secret, Aqua Server (console) credentials, and TLS certificates. This eliminates the need to pass the parameters to the HELM command. Then run one of the following commands to deploy the relevant services.
+
+3. Choose **either** 3a **or** 3b:
+
+   3a. To deploy the KubeEnforcer on the same cluster as the Aqua Server (console), run this command on that cluster:
+     
+   ```shell
+   helm upgrade --install --namespace aqua kube-enforcer aqua-helm/kube-enforcer
+   ```
+    
+   3b. Multi-cluster: To deploy the KubeEnforcer in a different cluster:
+
+   First, create a namespace on that cluster named `aqua`:
+   ```bash
+   kubectl create namespace aqua
+   ```
+   Next, copy the values.yaml content from  [Values.yaml](./values.yaml) and make the respective changes then run the following command:
+   
+   ```shell
+   helm upgrade --install --namespace aqua kube-enforcer aqua-helm/kube-enforcer --values values.yaml --version <>
    ```
 
 Optional flags:
