@@ -34,7 +34,6 @@ cd aqua-helm/
 ```
 
 * Install Aqua Enforcer
-
 ```bash
 helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
 ```
@@ -46,10 +45,14 @@ helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCred
 $ helm repo add aqua-helm https://helm.aquasec.com
 ```
 
-* Install Aqua Enforcer
-
+* Check for the available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
 ```bash
-helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token> --version <>
+$ helm search repo aqua-helm/enforcer --versions
+```
+
+* Install Aqua Enforcer
+```bash
+$ helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token> --version <>
 ```
 
 

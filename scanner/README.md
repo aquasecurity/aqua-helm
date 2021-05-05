@@ -29,15 +29,15 @@ Follow the steps in this section for production grade deployments. You can eithe
 * Clone the GitHub repository with the charts
 
 ```bash
-git clone -b 5.3 https://github.com/aquasecurity/aqua-helm.git
-cd aqua-helm/
+$ git clone -b 5.3 https://github.com/aquasecurity/aqua-helm.git
+$ cd aqua-helm/
 ```
 
 
 * Install Aqua
 
 ```bash
-helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>
+$ helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>
 ```
 
 ### Installing Aqua Scanner from Helm Private Repository
@@ -47,10 +47,15 @@ helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials
 $ helm repo add aqua-helm https://helm.aquasec.com
 ```
 
+* Check for the available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
+```bash
+$ helm search repo aqua-helm/scanner --versions
+```
+
 * Install Aqua
 
 ```bash
-helm upgrade --install --namespace aqua scanner aqua-helm/scanner --set imageCredentials.username=<>,imageCredentials.password=<> --version <>
+$ helm upgrade --install --namespace aqua scanner aqua-helm/scanner --set imageCredentials.username=<>,imageCredentials.password=<> --version <>
 ```
 
 
