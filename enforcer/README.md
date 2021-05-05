@@ -29,14 +29,14 @@ Follow the steps in this section for production grade deployments. You can eithe
 * Clone the GitHub repository with the charts
 
 ```bash
-git clone -b 6.2 https://github.com/aquasecurity/aqua-helm.git
-cd aqua-helm/
+$ git clone -b 6.2 https://github.com/aquasecurity/aqua-helm.git
+$ cd aqua-helm/
 ```
 
 * Install Aqua Enforcer
 
 ```bash
-helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
+$ helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
 ```
 
 ### Installing Aqua Enforcer from Helm Private Repository
@@ -46,10 +46,15 @@ helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCred
 $ helm repo add aqua-helm https://helm.aquasec.com
 ```
 
+* Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
+```bash
+$ helm search repo aqua-helm/enforcer --versions
+```
+
 * Install Aqua Enforcer
 
 ```bash
-helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token> --version <>
+$ helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token> --version <>
 ```
 
 
