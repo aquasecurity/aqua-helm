@@ -42,15 +42,15 @@ Follow the steps in this section for production grade deployments. You can eithe
 * Clone the GitHub repository with the charts
 
 ```bash
-git clone -b 6.2 https://github.com/aquasecurity/aqua-helm.git
-cd aqua-helm/
+$ git clone -b 6.2 https://github.com/aquasecurity/aqua-helm.git
+$ cd aqua-helm/
 ```
 
 
 * Install Aqua
 
 ```bash
-helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
+$ helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
 ```
 
 ### Installing Aqua Web from Helm Private Repository
@@ -60,10 +60,15 @@ helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.use
 $ helm repo add aqua-helm https://helm.aquasec.com
 ```
 
+* Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
+```bash
+$ helm search repo aqua-helm/server --versions
+```
+
 * Install Aqua
 
 ```bash
-helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<> --version <>
+$ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<> --version <>
 ```
 
 ## Advanced Configuration
