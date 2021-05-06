@@ -2,3 +2,8 @@
 
 Improvements:
 * Adding Changelog
+
+# 5.3.2 (May 4th 2021)
+
+Improvements:
+* Updated Readme
