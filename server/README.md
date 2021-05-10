@@ -214,7 +214,7 @@ Parameter | Description | Default| Mandatory
 `db.persistence.size` |	Persistent Volume size | `30Gi`| `NO` 
 `db.persistence.storageClass` |	Persistent Volume Storage Class | `unset`| `NO` 
 `db.image.repository` | the docker image name to use | `database`| `NO` 
-`db.image.tag` | The image tag to use. | `6.2.preview5`| `NO` 
+`db.image.tag` | The image tag to use. | `6.2.preview6`| `NO` 
 `db.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
 `db.service.type` | k8s service type | `ClusterIP`| `NO` 
 `db.resources` |	Resource requests and limits | `{}`| `NO` 
@@ -225,7 +225,7 @@ Parameter | Description | Default| Mandatory
 `db.extraEnvironmentVars` | is a list of extra environment variables to set in the database deployments. | `{}`| `NO`
 `db.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the database deployments, these variables take value from existing Secret objects. | `[]`| `NO`
 `gate.image.repository` | the docker image name to use | `gateway`| `NO` 
-`gate.image.tag` | The image tag to use. | `6.2.preview5`| `NO` 
+`gate.image.tag` | The image tag to use. | `6.2.preview6`| `NO` 
 `gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
 `gate.service.type` | k8s service type | `ClusterIP`| `NO` 
 `gate.service.annotations` |	service annotations	| `{}` | `NO`
@@ -242,7 +242,7 @@ Parameter | Description | Default| Mandatory
 `gate.extraEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments. | `{}`| `NO`
 `gate.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`| `NO`
 `web.image.repository` | the docker image name to use | `console`| `NO` 
-`web.image.tag` | The image tag to use. | `6.2.preview5`| `NO` 
+`web.image.tag` | The image tag to use. | `6.2.preview6`| `NO` 
 `web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
 `web.service.type` | k8s service type | `LoadBalancer`| `NO` 
 `web.service.annotations` |	service annotations	| `{}`| `NO`

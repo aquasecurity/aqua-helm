@@ -7,13 +7,13 @@ imageCredentials:
   username: ""
   password: ""
 
-aquaCluster: true   #Change it to false if deploying scanner on a different cluster(Not in Aqua deployed cluster)
-
 dockerSock:
   mount: # put true for mount docker socket.
   path: /var/run/docker.sock # pks - /var/vcap/data/sys/run/docker/docker.sock
 
-serviceAccount: "aqua-sa"
+serviceAccount:
+  create: false     #Change it to false if the cluster doesn't consists aqua service account
+  name: "aqua-sa"   #Mention the Service Account name, Default "aqua-sa"
 
 server:
   scheme: "http" #specify the schema for the server host URL, default it is http
@@ -22,13 +22,14 @@ server:
 
 image:
   repository: scanner
-  tag: "6.2.preview5"
+  tag: "6.2.preview6"
   pullPolicy: IfNotPresent
 
 logLevel:
 
 user: ""
 password: ""
+
 replicaCount: 1
 livenessProbe: {}
 readinessProbe: {}
