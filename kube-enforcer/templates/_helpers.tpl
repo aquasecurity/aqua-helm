@@ -50,3 +50,7 @@ Create chart name and version as used by the chart label.
 {{- define "certsSecret_name" }}
 {{- printf "%s" (required "A valid .Values.certsSecret.name required" .Values.certsSecret.name) }}
 {{- end }}
+
+{{- define "imageCredentials_name" }}
+{{- printf "%s" (required "A valid .Values.imageCredentials.name required" .Values.imageCredentials.name ) }}
+{{- end }}

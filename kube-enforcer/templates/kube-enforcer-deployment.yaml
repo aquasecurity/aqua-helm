@@ -67,8 +67,6 @@ spec:
         - name: "certs"
           secret:
             secretName: {{ .Values.certsSecret.name }}
-      imagePullSecrets:
-        - name: {{ .Values.imageCredentials.name }}
   selector:
     matchLabels:
       app: {{ include "kube-enforcer.fullname" . }}

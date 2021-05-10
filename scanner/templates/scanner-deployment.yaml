@@ -27,11 +27,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- if .Values.aquaCluster}}
-      serviceAccount: {{ .Values.serviceAccount }}
-      {{- else }}
-      serviceAccount: {{ .Release.Namespace }}-sa
-      {{- end }}
+      serviceAccount: {{ .Values.serviceAccount.name }}
       containers:
       - name: scanner
         {{- with .Values.container_securityContext }}
@@ -93,8 +89,4 @@ spec:
       - name: docker-socket-mount
         hostPath:
           path: {{ .Values.dockerSock.path }}
-      {{- end }}
-      {{- if .Values.imageCredentials.create }}
-      imagePullSecrets:
-        - name: {{ .Values.imageCredentials.name }}
       {{- end }}
