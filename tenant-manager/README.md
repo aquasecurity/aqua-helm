@@ -48,7 +48,7 @@ $ cd aqua-helm/
 * Deploy the Aqua Tenant Manager
 
 ```bash
-$ helm upgrade --install --namespace aqua tenant-manager ./tenant-manger --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
+$ helm upgrade --install --namespace aqua tenant-manager ./tenant-manager --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
 ```
 
 ### Installing Aqua Tenant Manager from Helm Private Repository
