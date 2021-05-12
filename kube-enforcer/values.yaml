@@ -17,7 +17,7 @@ aqua_cache_expiration_period: 60
 
 image:
   repository: kube-enforcer
-  tag: "6.2.preview6"
+  tag: "6.2.RC1"
   pullPolicy: Always
 
 nameOverride: "aqua-kube-enforcer"

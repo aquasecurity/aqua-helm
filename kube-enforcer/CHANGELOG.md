@@ -3,4 +3,12 @@
 Improvements:
 * Adding Changelog
 * Updating Readme
-* Added 6.2.preview5 tag
+* Updating Image -> 6.2.preview5
+
+## 6.2.3 (May 12th, 2021)
+
+Bug Fixes:
+* Fixed KE image pull secrets #[263](https://github.com/aquasecurity/aqua-helm/pull/263)
+
+Improvements:
+* Updating Image -> 6.2.RC1
