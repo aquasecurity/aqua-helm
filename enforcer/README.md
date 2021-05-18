@@ -11,6 +11,10 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Prerequisites](#prerequisites)
     - [Container Registry Credentials](#container-registry-credentials)
   - [Installing the Chart](#installing-the-chart)
+    - [Installing Aqua Enforcer from Github Repo](#installing-aqua-enforcer-from-github-repo)
+    - [Installing Aqua Enforcer from Helm Private Repository](#installing-aqua-enforcer-from-helm-private-repository)
+  - [Configuring mTLS/TLS](#configuring-mtlstls)
+  - [Guide how to create enforcer group in Kubernetes](#guide-how-to-create-enforcer-group-in-kubernetes)
   - [Configurable Variables](#configurable-variables)
     - [Enforcer](#enforcer)
   - [Issues and feedback](#issues-and-feedback)
@@ -28,41 +32,43 @@ Follow the steps in this section for production grade deployments. You can eithe
 
 * Clone the GitHub repository with the charts
 
-```bash
-git clone -b 5.3 https://github.com/aquasecurity/aqua-helm.git
-cd aqua-helm/
+```shell
+$ git clone -b 5.3 https://github.com/aquasecurity/aqua-helm.git
+$ cd aqua-helm/
 ```
 
 * Install Aqua Enforcer
-```bash
-helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
+
+```shell
+$ helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
 ```
 
 ### Installing Aqua Enforcer from Helm Private Repository
 
 * Add Aqua Helm Repository
-```bash
+```shell
 $ helm repo add aqua-helm https://helm.aquasec.com
 ```
 
-* Check for the available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
-```bash
+* Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
+```shell
 $ helm search repo aqua-helm/enforcer --versions
 ```
 
 * Install Aqua Enforcer
-```bash
+
+```shell
 $ helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token> --version <>
 ```
 
 
-## Advanced Configuration
+## Configuring mTLS/TLS
 
-In order to support L7 / gRPC communication between enforcer and envoy it is recommended to follow the detailed steps to enable and deploy a enforcer.
+In order to support L7 / gRPC communication between enforcer and envoy or enforcer and gateway it is recommended to follow the detailed steps to enable and deploy a enforcer.
 
-   1. The Enforcer should connect to the Envoy service (aqua-lb:443) and verify its certificate. If Envoy’s certificate is signed by a public provider (e.g., Let’s Encrypt), the Enforcer will be able to verify the certificate without being given a root certificate. Otherwise, Envoy’s root certificate should be accessible to the Enforcer from a ConfigMap that is mounted at /etc/ssl/custom-certificates
+   1. The Enforcer should connect to the Envoy/Gateway service and verify its certificate. If Envoy/Gateway certificate is signed by a public provider (e.g., Let’s Encrypt), the Enforcer will be able to verify the certificate without being given a root certificate. Otherwise, Envoy/Gateway root certificate should be accessible to the Enforcer from a ConfigMap that is mounted at /opt/aquasec/ssl/
 
-      ```yaml
+      ```shell
       # Self-Signed Root CA (Optional)
       #####################################################################################
       # Create Root Key
@@ -74,32 +80,33 @@ In order to support L7 / gRPC communication between enforcer and envoy it is rec
       # Create a certificate
       #####################################################################################
       # Create the certificate key
-      openssl genrsa -out mydomain.com.key 2048
+      openssl genrsa -out aqua_enforcer_mydomain.com.key 2048
       # Create the signing (csr)
-      openssl req -new -key mydomain.com.key -out mydomain.com.csr
+      openssl req -new -key aqua_enforcer_mydomain.com.key -out aqua_enforcer_mydomain.com.csr
       # Verify the csr content
-      openssl req -in mydomain.com.csr -noout -text
+      openssl req -in aqua_enforcer_mydomain.com.csr -noout -text
       #####################################################################################
-      # Generate the certificate using the mydomain csr and key along with the CA Root key
+      # Generate the certificate using the aqua_enforcer_mydomain csr and key along with the CA Root key
       #####################################################################################
-      openssl x509 -req -in mydomain.com.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out mydomain.com.crt -days 500 -sha256
+      openssl x509 -req -in aqua_enforcer_mydomain.com.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out aqua_enforcer_mydomain.com.crt -days 500 -sha256
       #####################################################################################
-      
-      # If you wish to use a Public CA like GoDaddy or LetsEncrypt please
-      # submit the mydomain csr to the respective CA to generate mydomain crt
-      ```
-   
-   2. Create enforcer agent cert secret
-   
-      ```bash
-      # Please be notified that agent.key and agent.crt in the below command are same
-      # as mydomain.com.key and mydomain.com.crt in the above openssl commands
-      $ kubectl create secret generic aqua-enforcer-agent --from-file agent.crt --from-file agent.key --from-file rootCA.crt -n aqua
-      ```
-   
-   3. Edit values.yaml file to include above secret name at `certsSecretName` and uncomment the extra variables 
 
-   4. Also set envoyCerts.enabled to `true`
+      # If you wish to use a Public CA like GoDaddy or LetsEncrypt please
+      # submit the aqua_enforcer_mydomain csr to the respective CA to generate aqua_enforcer_mydomain crt
+      ```
+
+   2. Create enforcer agent cert secret
+
+      ```shell
+      ## Example: 
+      ## Change < certificate filenames > respectively
+      $ kubectl create secret generic aqua-enforcer-certs --from-file <aqua_enforcer_private.key> --from-file <aqua_enforcer_public.crt> --from-file <rootCA.crt> -n aqua
+      ```
+
+   3. Enable `TLS.enable`  to `true` in values.yaml
+   4. Add the certificates secret name `TLS.secretName` in values.yaml
+   5. Add respective certificate file names to `TLS.publicKey_fileName`, `TLS.privateKey_fileName` and `TLS.rootCA_fileName`(Add rootCA if certs are self-signed) in values.yaml
+   6. For enabling mTLS/TLS connection with self-signed or CA certificates between gateway and enforcer please setup mTLS/TLS config for gateway in server chart as well [server chart](../server)
 
 
 ## Guide how to create enforcer group in Kubernetes
@@ -123,35 +130,40 @@ For more details please visit [Link](https://docs.aquasec.com/docs/kubernetes#se
 
 Parameter | Description | Default| Mandatory 
 --------- | ----------- | ------- | ------- 
-`multi_cluster` | Set if to create new service account | `false` | `YES - New cluster`
-`imageCredentials.create` | Set if to create new pull image secret | `false`| `YES - New cluster` 
-`imageCredentials.name` | Your Docker pull image secret name | `aqua-registry-secret`| `YES - New cluster` 
-`imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com`| `YES - New cluster` 
-`imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/` | `registry.aquasec.com`| `YES - New cluster` 
-`imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret`| `YES - New cluster` 
-`imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`| `YES - New cluster` 
-`enforcerToken` | enforcer token value | `""`| `YES` 
-`enforcerTokenSecretName` | enforcer token secret name if exists | `null`| `NO` 
-`enforcerTokenSecretKey` | enforcer token secret key if exists | `null`| `NO` 
-`enforcerLogicalName` | Specify the Logical Name the Aqua Enforcer will register under. if not specify the name will be `<Helm Release>-helm` | `unset`| `NO` 
-`securityContext.privileged` | determines if any container in a pod can enable privileged mode. | `true`| `NO` 
-`securityContext.capabilities` | Linux capabilities provide a finer grained breakdown of the privileges traditionally associated with the superuser. | `unset`| `NO` 
-`hostRunPath` |	for changing host run path for example for pks need to change to /var/vcap/sys/run/docker	| `unset`| `NO` 
-`gate.host` | gateway host | `aqua-gateway-svc`| `YES` 
-`gate.port` | gateway port | `8443`| `YES` 
-`image.repository` | the docker image name to use | `enforcer`| `YES` 
-`image.tag` | The image tag to use. | `5.3`| `YES` 
-`image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
-`resources` |	Resource requests and limits | `{}`| `NO` 
-`nodeSelector` |	Kubernetes node selector	| `{}`| `NO` 
-`tolerations` |	Kubernetes node tolerations	| `[]`| `NO` 
-`affinity` |	Kubernetes node affinity | `{}`| `NO` 
-`extraEnvironmentVars` | is a list of extra environment variables to set in the enforcer daemonset. | `{}`| `NO` 
-`extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner daemonset, these variables take value from existing Secret objects. | `[]`| `NO` 
-`envoy.enabled` | enabled envoy deployment to support in envoy deployment. | `false`| `NO` 
-`envoy.configMap` | config map name with aqua certs for agent. | ``| `NO` 
+`imageCredentials.create` | Set if to create new pull image secret | `false`| `YES - New cluster`
+`imageCredentials.name` | Your Docker pull image secret name | `aqua-registry-secret`| `YES - New cluster`
+`imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com`| `YES - New cluster`
+`imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/` | `registry.aquasec.com`| `YES - New cluster`
+`imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret`| `YES - New cluster`
+`imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`| `YES - New cluster`
+`serviceAccount.create` | enable to create aqua-sa serviceaccount if it is missing in the environment | `false` | `YES - New cluster`
+`enforcerToken` | enforcer token value | `""`| `YES`
+`enforcerTokenSecretName` | enforcer token secret name if exists | `null`| `NO`
+`enforcerTokenSecretKey` | enforcer token secret key if exists | `null`| `NO`
+`enforcerLogicalName` | Specify the Logical Name the Aqua Enforcer will register under. if not specify the name will be `<Helm Release>-helm` | `unset`| `NO`
+`securityContext.privileged` | determines if any container in a pod can enable privileged mode. | `true`| `NO`
+`securityContext.capabilities` | Linux capabilities provide a finer grained breakdown of the privileges traditionally associated with the superuser. | `unset`| `NO`
+`hostRunPath` |	for changing host run path for example for pks need to change to /var/vcap/sys/run/docker	| `unset`| `NO`
+`gate.host` | gateway host | `aqua-gateway-svc`| `YES`
+`gate.port` | gateway port | `8443`| `YES`
+`image.repository` | the docker image name to use | `enforcer`| `YES`
+`image.tag` | The image tag to use. | `5.3`| `YES`
+`image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
+`resources` |	Resource requests and limits | `{}`| `NO`
+`nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
+`tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
+`affinity` |	Kubernetes node affinity | `{}`| `NO`
+`TLS.enabled` | If require secure channel communication | `false` | `NO`
+`TLS.secretName` | certificates secret name | `nil` | `YES` <br /> `if TLS.enabled is set to true`
+`TLS.publicKey_fileName` | filename of the public key eg: aqua_enforcer.crt | `nil`  |  `YES` <br /> `if TLS.enabled is set to true`
+`TLS.privateKey_fileName`   | filename of the private key eg: aqua_enforcer.key | `nil`  |  `YES` <br /> `if TLS.enabled is set to true`
+`TLS.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `YES` <br /> `if TLS.enabled is set to true`
+`TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and ay/envoy | `0`  |  `YES` <br /> `if TLS.enabled is set to true`
+`extraEnvironmentVars` | is a list of extra environment variables to set in the enforcer daemonset. | `{}`| `NO`
+`extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner daemonset, these variables take value from existing Secret objects. | `[]`| `NO`
 
-> Note: that `imageCredentials.create` is false and if you need to create image pull secret please update to true. and set the username and password for the registry.
+
+> Note: that `imageCredentials.create` is false and if you need to create image pull secret please update to true, set the username and password for the registry and `serviceAccount.create` is false and if you're environment is new or not having aqua-sa serviceaccount please update it to true.
 
 ## Issues and feedback
 
