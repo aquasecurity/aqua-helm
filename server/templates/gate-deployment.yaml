@@ -141,6 +141,16 @@ spec:
         - name: SCALOCK_AUDIT_DBSSL
           value: require
           {{- end }}
+        {{- if .Values.gate.TLS.enabled }}
+        - name: "AQUA_PRIVATE_KEY"
+          value: "/opt/aquasec/ssl/key.pem"
+        - name: "AQUA_PUBLIC_KEY"
+          value: "/opt/aquasec/ssl/cert.pem"
+        - name: "AQUA_ROOT_CA"
+          value: "/opt/aquasec/ssl/ca.pem"
+        - name: "AQUA_VERIFY_ENFORCER"
+          value: {{ .Values.gate.TLS.aqua_verify_enforcer | quote }}
+        {{- end }}
         {{- include "server.extraEnvironmentVars" .Values.gate | nindent 8 }}
         {{- include "server.extraSecretEnvironmentVars" .Values.gate | nindent 8 }}
         ports:
@@ -160,6 +170,7 @@ spec:
         volumeMounts:
         - name: certs
           mountPath: /opt/aquasec/ssl/
+          readOnly: true
         {{- end }}
         resources:
 {{ toYaml .Values.gate.resources | indent 12 }}
@@ -181,4 +192,13 @@ spec:
         secret:
           defaultMode: 420
           secretName: {{ .Values.gate.TLS.secretName }}
+          items:
+          - key: {{ .Values.gate.TLS.publicKey_fileName }}
+            path: cert.pem
+          - key: {{ .Values.gate.TLS.privateKey_fileName }}
+            path: key.pem
+          {{- if .Values.gate.TLS.rootCA_fileName }}
+          - key: {{ .Values.gate.TLS.rootCA_fileName }}
+            path: ca.pem
+          {{- end }}
       {{- end }}
