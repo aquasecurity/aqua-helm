@@ -82,7 +82,6 @@ spec:
         {{- include "enforcer.extraSecretEnvironmentVars" .Values | nindent 8 }}
         volumeMounts:
         {{- if .Values.TLS.enabled }}
-        volumeMounts:
         - name: certs
           mountPath: /opt/aquasec/ssl/
           readOnly: true

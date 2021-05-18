@@ -286,27 +286,27 @@ Parameter | Description | Default| Mandatory
 `db.passwordFromSecret.dbAuditPasswordKey` | Audit password secret key | `null`| `NO`
 `db.passwordFromSecret.dbPubsubPasswordName` | Pubsub password secret name | `null`| `NO`
 `db.passwordFromSecret.dbPubsubPasswordKey` | Pubsub password secret key | `null`| `NO`
-`db.ssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`true`| `NO` 
-`db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`true`| `NO` 
-`db.persistence.enabled` | If true, Persistent Volume Claim will be created |	`true`| `NO` 
-`db.persistence.accessModes` |	Persistent Volume access mode |	`ReadWriteOnce`| `NO` 
-`db.persistence.size` |	Persistent Volume size | `30Gi`| `NO` 
-`db.persistence.storageClass` |	Persistent Volume Storage Class | `unset`| `NO` 
-`db.image.repository` | the docker image name to use | `database`| `NO` 
-`db.image.tag` | The image tag to use. | `6.2.RC1`| `NO` 
-`db.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
-`db.service.type` | k8s service type | `ClusterIP`| `NO` 
-`db.resources` |	Resource requests and limits | `{}`| `NO` 
-`db.nodeSelector` |	Kubernetes node selector	| `{}`| `NO` 
-`db.tolerations` |	Kubernetes node tolerations	| `[]`| `NO` 
-`db.affinity` |	Kubernetes node affinity | `{}`| `NO` 
-`db.securityContext` | Set of security context for the container | `nil`| `NO` 
+`db.ssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`true`| `NO`
+`db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`true`| `NO`
+`db.persistence.enabled` | If true, Persistent Volume Claim will be created |	`true`| `NO`
+`db.persistence.accessModes` |	Persistent Volume access mode |	`ReadWriteOnce`| `NO`
+`db.persistence.size` |	Persistent Volume size | `30Gi`| `NO`
+`db.persistence.storageClass` |	Persistent Volume Storage Class | `unset`| `NO`
+`db.image.repository` | the docker image name to use | `database`| `NO`
+`db.image.tag` | The image tag to use. | `6.2.RC1`| `NO`
+`db.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
+`db.service.type` | k8s service type | `ClusterIP`| `NO`
+`db.resources` |	Resource requests and limits | `{}`| `NO`
+`db.nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
+`db.tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
+`db.affinity` |	Kubernetes node affinity | `{}`| `NO`
+`db.securityContext` | Set of security context for the container | `nil`| `NO`
 `db.extraEnvironmentVars` | is a list of extra environment variables to set in the database deployments. | `{}`| `NO`
 `db.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the database deployments, these variables take value from existing Secret objects. | `[]`| `NO`
-`gate.image.repository` | the docker image name to use | `gateway`| `NO` 
-`gate.image.tag` | The image tag to use. | `6.2.RC1`| `NO` 
-`gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
-`gate.service.type` | k8s service type | `ClusterIP`| `NO` 
+`gate.image.repository` | the docker image name to use | `gateway`| `NO`
+`gate.image.tag` | The image tag to use. | `6.2.RC1`| `NO`
+`gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
+`gate.service.type` | k8s service type | `ClusterIP`| `NO`
 `gate.service.annotations` |	service annotations	| `{}` | `NO`
 `gate.service.ports` | array of ports settings | `array`| `NO`
 `gate.publicIP` | gateway public ip | `aqua-gateway`| `NO`
@@ -324,10 +324,10 @@ Parameter | Description | Default| Mandatory
 `gate.TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and gateway/envoy | `0`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
 `gate.extraEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments. | `{}`| `NO`
 `gate.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`| `NO`
-`web.image.repository` | the docker image name to use | `console`| `NO` 
-`web.image.tag` | The image tag to use. | `6.2.RC1`| `NO` 
-`web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
-`web.service.type` | k8s service type | `LoadBalancer`| `NO` 
+`web.image.repository` | the docker image name to use | `console`| `NO`
+`web.image.tag` | The image tag to use. | `6.2.RC1`| `NO`
+`web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
+`web.service.type` | k8s service type | `LoadBalancer`| `NO`
 `web.service.annotations` |	service annotations	| `{}`| `NO`
 `web.service.ports` | array of ports settings | `array`| `NO`
 `web.replicaCount` | replica count | `1`| `NO`

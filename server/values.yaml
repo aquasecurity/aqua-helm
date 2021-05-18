@@ -191,7 +191,6 @@ gate:
   # https://docs.aquasec.com/docs/gateway-optional-variables
   extraEnvironmentVars: {}
     # ENV_NAME: value
-    #Example for mTLS env variables:
 
   # extraSecretEnvironmentVars is a list of extra environment variables to set in the gateway deployments.
   # These variables take value from existing Secret objects.
@@ -274,15 +273,13 @@ web:
     privateKey_fileName: ""     #provide filename of the private key eg: aqua_web.key
     rootCA_fileName: ""         #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
 
-  # extraEnvironmentVars is a list of extra environment variables to set in the web deployments.
-  # https://docs.aquasec.com/docs/server-optional-variables
-
   maintenance_db:
     name: ""         #specify the AQUA_MAINTENANCE_DB name if enabled
 
+  # extraEnvironmentVars is a list of extra environment variables to set in the web deployments.
+  # https://docs.aquasec.com/docs/server-optional-variables
   extraEnvironmentVars: {}
     # ENV_NAME: value
-    #Example for mTLS env variables:
 
   # extraSecretEnvironmentVars is a list of extra environment variables to set in the web deployments.
   # These variables take value from existing Secret objects.
