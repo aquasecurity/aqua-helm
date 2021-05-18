@@ -130,6 +130,7 @@ For more details please visit [Link](https://docs.aquasec.com/docs/kubernetes#se
 
 Parameter | Description | Default| Mandatory 
 --------- | ----------- | ------- | ------- 
+<<<<<<< HEAD
 `imageCredentials.create` | Set if to create new pull image secret | `false`| `YES - New cluster`
 `imageCredentials.name` | Your Docker pull image secret name | `aqua-registry-secret`| `YES - New cluster`
 `imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com`| `YES - New cluster`
@@ -159,6 +160,31 @@ Parameter | Description | Default| Mandatory
 `TLS.privateKey_fileName`   | filename of the private key eg: aqua_enforcer.key | `nil`  |  `YES` <br /> `if TLS.enabled is set to true`
 `TLS.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `YES` <br /> `if TLS.enabled is set to true`
 `TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and ay/envoy | `0`  |  `YES` <br /> `if TLS.enabled is set to true`
+=======
+multi_cluster` | Set if to create new service account | `false` | `YES - New cluster`
+`imageCredentials.create` | Set if to create new pull image secret | `false`| `YES - New cluster` 
+`imageCredentials.name` | Your Docker pull image secret name | `aqua-registry-secret`| `YES - New cluster` 
+`imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com`| `YES - New cluster` 
+`imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/` | `registry.aquasec.com`| `YES - New cluster` 
+`imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret`| `YES - New cluster` 
+`imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`| `YES - New cluster` 
+`enforcerToken` | enforcer token value | `""`| `YES` 
+`enforcerTokenSecretName` | enforcer token secret name if exists | `null`| `NO` 
+`enforcerTokenSecretKey` | enforcer token secret key if exists | `null`| `NO` 
+`enforcerLogicalName` | Specify the Logical Name the Aqua Enforcer will register under. if not specify the name will be `<Helm Release>-helm` | `unset`| `NO` 
+`securityContext.privileged` | determines if any container in a pod can enable privileged mode. | `true`| `NO` 
+`securityContext.capabilities` | Linux capabilities provide a finer grained breakdown of the privileges traditionally associated with the superuser. | `unset`| `NO` 
+`hostRunPath` |	for changing host run path for example for pks need to change to /var/vcap/sys/run/docker	| `unset`| `NO` 
+`gate.host` | gateway host | `aqua-gateway-svc`| `YES` 
+`gate.port` | gateway port | `8443`| `YES` 
+`image.repository` | the docker image name to use | `enforcer`| `YES` 
+`image.tag` | The image tag to use. | `6.2.RC1`| `YES` 
+`image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
+`resources` |	Resource requests and limits | `{}`| `NO` 
+`nodeSelector` |	Kubernetes node selector	| `{}`| `NO` 
+`tolerations` |	Kubernetes node tolerations	| `[]`| `NO` 
+`affinity` |	Kubernetes node affinity | `{}`| `NO` 
+>>>>>>> 0ca860a210484787173c568d0f2523296156cc99
 `extraEnvironmentVars` | is a list of extra environment variables to set in the enforcer daemonset. | `{}`| `NO`
 `extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner daemonset, these variables take value from existing Secret objects. | `[]`| `NO`
 
