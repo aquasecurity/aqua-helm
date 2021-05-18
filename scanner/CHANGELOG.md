@@ -7,3 +7,9 @@ Improvements:
 
 Improvements:
 * Updated Readme
+
+## 6.0.3 (May 12th, 2021)
+
+Bug Fixes:
+* Fixed Service Account creation bug #[264](https://github.com/aquasecurity/aqua-helm/pull/264)
+
