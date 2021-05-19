@@ -307,6 +307,7 @@ Parameter | Description | Default| Mandatory
 `gate.image.tag` | The image tag to use. | `6.0`| `NO` 
 `gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
 `gate.service.type` | k8s service type | `ClusterIP`| `NO` 
+`gate.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
 `gate.service.annotations` |	service annotations	| `{}` | `NO`
 `gate.service.ports` | array of ports settings | `array`| `NO`
 `gate.publicIP` | gateway public ip | `aqua-gateway`| `NO`
@@ -327,7 +328,8 @@ Parameter | Description | Default| Mandatory
 `web.image.repository` | the docker image name to use | `console`| `NO` 
 `web.image.tag` | The image tag to use. | `6.0`| `NO` 
 `web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
-`web.service.type` | k8s service type | `LoadBalancer`| `NO` 
+`web.service.type` | k8s service type | `LoadBalancer`| `NO`
+`web.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
 `web.service.annotations` |	service annotations	| `{}`| `NO`
 `web.service.ports` | array of ports settings | `array`| `NO`
 `web.replicaCount` | replica count | `1`| `NO`
@@ -354,6 +356,7 @@ Parameter | Description | Default| Mandatory
 `envoy.image.tag` | The image tag to use. | `v1.14.1`| `NO`
 `envoy.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
 `envoy.service.type` | k8s service type | `LoadBalancer`| `NO`
+`envoy.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
 `envoy.service.ports` | array of ports settings | `array`| `NO`
 `envoy.certsSecretName` | tls certificates for envoy, **notice: required for current configuration in files envoy.yaml** | `nil`| `NO`
 `envoy.livenessProbe` | liveness probes configuration for envoy | `{}`| `NO`

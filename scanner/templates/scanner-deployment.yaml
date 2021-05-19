@@ -42,7 +42,11 @@ spec:
         - --user
         - "{{ required "Please specify a username associated with the Scanner role!" .Values.user }}"
         - --password
+        {{- if .Values.passwordSecret.enable }}
+        - "$(SCANNER_PASSWORD)"
+        {{- else }}
         - "{{ required "Please specify a password for a user associated with the Scanner role!" .Values.password }}"
+        {{- end }}
         - --host
         - "{{ .Values.server.scheme | default "http" }}://{{ .Values.server.serviceName }}:{{ .Values.server.port }}"
         env:
@@ -52,6 +56,17 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        {{- if .Values.passwordSecret.enable }}
+          {{- if and  (not .Values.passwordSecret.secretName) (not .Values.passwordSecret.secretKey) }}
+          {{- template "scannerSecret" . }}
+          {{- else }}
+        - name: SCANNER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.passwordSecret.secretName }}
+              key: {{ .Values.passwordSecret.secretKey }}
+          {{- end }}
+        {{- end }}
         {{- include "scanner.extraEnvironmentVars" .Values | nindent 8 }}
         {{- include "scanner.extraSecretEnvironmentVars" .Values | nindent 8 }}
         {{- if .Values.dockerSock.mount }}
