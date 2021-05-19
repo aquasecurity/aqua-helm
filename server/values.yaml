@@ -182,18 +182,19 @@ gate:
     fsGroup: 11433
   container_securityContext: {}
 
+  # TLS is for enabling mTLS/TLS establishment between gateway <-> server and gateway <-> enforcers
   TLS:
-    enabled: false      # change to true for enabling secure communication
-    secretName: ""        #created certs secret name for gate
-    #Follow Advance configuration for mTLS communication establishment and place your certs in /opt/aquasec/ssl/ path
+    enabled: false              # enable to true for secure communication (mTLS/TLS)
+    secretName: ""               # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
+    publicKey_fileName: ""       #provide filename of the public key eg: aqua_gateway.crt
+    privateKey_fileName: ""      #provide filename of the private key eg: aqua_gateway.key
+    rootCA_fileName: ""          #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
+    aqua_verify_enforcer: "0"    # change it to "1" for enabling mTLS between enforcer and gateway/envoy
 
   # extraEnvironmentVars is a list of extra environment variables to set in the gateway deployments.
   # https://docs.aquasec.com/docs/gateway-optional-variables
   extraEnvironmentVars: {}
     # ENV_NAME: value
-    #Example for mTLS env variables:
-    #AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/<file_name>"
-    #AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/<file_name>"
 
   # extraSecretEnvironmentVars is a list of extra environment variables to set in the gateway deployments.
   # These variables take value from existing Secret objects.
@@ -268,22 +269,21 @@ web:
     fsGroup: 11433
   container_securityContext: {}
 
+  # TLS is for enabling mTLS/TLS establishment between server <-> gateway and https for aqua console
   TLS:
-    enabled: false      # change to true for enabling secure communication
-    secretName: ""        #created certs secret name for web
-    #Follow Advance configuration for mTLS communication establishment and place your certs in /opt/aquasec/ssl/
-
-  # extraEnvironmentVars is a list of extra environment variables to set in the web deployments.
-  # https://docs.aquasec.com/docs/server-optional-variables
+    enabled: false              # enable to true for secure communication
+    secretName: ""              # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
+    publicKey_fileName: ""      #provide filename of the public key eg: aqua_web.crt
+    privateKey_fileName: ""     #provide filename of the private key eg: aqua_web.key
+    rootCA_fileName: ""         #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
 
   maintenance_db:
     name: ""         #specify the AQUA_MAINTENANCE_DB name if enabled
 
+  # extraEnvironmentVars is a list of extra environment variables to set in the web deployments.
+  # https://docs.aquasec.com/docs/server-optional-variables
   extraEnvironmentVars: {}
     # ENV_NAME: value
-    #Example for mTLS env variables:
-    #AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/<file_name>"
-    #AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/<file_name>"
 
   # extraSecretEnvironmentVars is a list of extra environment variables to set in the web deployments.
   # These variables take value from existing Secret objects.
