@@ -19,7 +19,7 @@ metadata:
 spec:
   type: {{ .Values.envoy.service.type }}
   {{- if eq .Values.platform "aks" }}
-  loadBalancerIP: {{ .Values.web.service.loadbalancerIP }}
+  loadBalancerIP: {{ .Values.envoy.service.loadbalancerIP }}
   {{- end }}
   selector:
     app: {{ .Release.Name }}-envoy
