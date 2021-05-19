@@ -163,6 +163,14 @@ spec:
         - name: AQUA_MAINTENANCE_DBNAME
           value: {{ .Values.web.maintenance_db.name }}
         {{- end }}
+        {{- if .Values.web.TLS.enabled }}
+        - name: "AQUA_PRIVATE_KEY"
+          value: "/opt/aquasec/ssl/key.pem"
+        - name: "AQUA_PUBLIC_KEY"
+          value: "/opt/aquasec/ssl/cert.pem"
+        - name: "AQUA_ROOT_CA"
+          value: "/opt/aquasec/ssl/ca.pem"
+        {{- end }}
         {{- include "server.extraEnvironmentVars" .Values.web | nindent 8 }}
         {{- include "server.extraSecretEnvironmentVars" .Values.web | nindent 8 }}
         ports:
@@ -187,6 +195,7 @@ spec:
         volumeMounts:
         - name: certs
           mountPath: /opt/aquasec/ssl/
+          readOnly: true
         {{- end }}
         resources:
 {{ toYaml .Values.web.resources | indent 12 }}
@@ -214,4 +223,13 @@ spec:
         secret:
           defaultMode: 420
           secretName: {{ .Values.web.TLS.secretName }}
+          items:
+          - key: {{ .Values.web.TLS.publicKey_fileName }}
+            path: cert.pem
+          - key: {{ .Values.web.TLS.privateKey_fileName }}
+            path: key.pem
+          {{- if .Values.web.TLS.rootCA_fileName }}
+          - key: {{ .Values.web.TLS.rootCA_fileName }}
+            path: ca.pem
+          {{- end }}
       {{- end }}
