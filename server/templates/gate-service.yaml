@@ -15,6 +15,9 @@ metadata:
 {{- end }}
 spec:
   type: {{ .Values.gate.service.type }}
+  {{- if eq .Values.platform "aks" }}
+  loadBalancerIP: {{ .Values.web.service.loadbalancerIP }}
+  {{- end }}
   selector:
     app: {{ .Release.Name }}-gateway
   ports:

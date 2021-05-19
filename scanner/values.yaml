@@ -27,8 +27,13 @@ image:
 
 logLevel:
 
-user: ""
-password: ""
+user: ""          # user name for the scanner created in the console
+password: ""      # password for the scanner user you can also use "passwordSecret" below for loading password from secrets
+# Loading scanner password from secret
+passwordSecret:
+  enable: false   # change it to true for loading password from secrets
+  secretName: ""  # secret name for the scanner password secret
+  secretKey: ""   # secret key of the scanner password
 
 replicaCount: 1
 livenessProbe: {}
