@@ -135,7 +135,8 @@ gate:
     tag: "6.0"
     pullPolicy: IfNotPresent
   service:
-    type: ClusterIP     #for OCP/OSD environments Can enable gateway to external by changing type to "LoadBalancer"
+    type: ClusterIP     # you can enable gateway to external by changing type to "LoadBalancer"
+    loadbalancerIP: "" # Specify loadBalancerIP address for aqua-web in AKS platform
     annotations: {}
     ports:
       - name: aqua-gate
@@ -212,6 +213,7 @@ web:
     pullPolicy: IfNotPresent
   service:
     type: LoadBalancer
+    loadbalancerIP: "" # Specify loadBalancerIP address for aqua-gateway in AKS platform
     annotations: {}
     ports:
       - name: aqua-web
@@ -303,6 +305,7 @@ envoy:
   
   service:
     type: LoadBalancer
+    loadbalancerIP: "" # Specify loadBalancerIP address for envoy in AKS platform
     annotations: {}
     ports:
     - name: https

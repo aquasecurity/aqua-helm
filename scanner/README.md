@@ -10,7 +10,10 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Contents](#contents)
   - [Prerequisites](#prerequisites)
     - [Container Registry Credentials](#container-registry-credentials)
+    - [Scanner User Credentials](#scanner-user-credentials)
   - [Installing the Chart](#installing-the-chart)
+    - [Installing Aqua Scanner from Github Repo](#installing-aqua-scanner-from-github-repo)
+    - [Installing Aqua Scanner from Helm Private Repository](#installing-aqua-scanner-from-helm-private-repository)
   - [Configurable Variables](#configurable-variables)
     - [Scanner](#scanner)
   - [Issues and feedback](#issues-and-feedback)
@@ -20,6 +23,10 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
 ### Container Registry Credentials
 
 [Link](../docs/imagepullsecret.md)
+
+### Scanner User Credentials
+
+Before installing scanner chart the recommendation is to create user with scanning permissions, [Link to documentations](https://docs.aquasec.com/docs/add-scanners#section-add-a-scanner-user)
 
 ## Installing the Chart
 Follow the steps in this section for production grade deployments. You can either clone aqua-helm git repo or you can add our helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com))
@@ -47,7 +54,7 @@ $ helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentia
 $ helm repo add aqua-helm https://helm.aquasec.com
 ```
 
-* Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
+* Check for the available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
 ```bash
 $ helm search repo aqua-helm/scanner --versions
 ```
@@ -82,13 +89,16 @@ Parameter | Description | Default| Mandatory
 `image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
 `user` | scanner username | `unset`| `YES` 
 `password` | scanner password | `unset`| `YES` 
+`passwordSecret.enable` | change it to true for loading scanner password from secret | `false` | `YES` <br /> `If password is not declared`
+`passwordSecret.secretName` | secret name for the scanner password secret | `null` | `YES` <br /> `If password is not declared`
+`passwordSecret.secretKey` | secret key of the scanner password | `null` | `YES` <br /> `If password is not declared`
 `replicaCount` | replica count | `1`| `NO` 
 `resources` |	Resource requests and limits | `{}`| `NO` 
 `nodeSelector` |	Kubernetes node selector	| `{}`| `NO` 
 `tolerations` |	Kubernetes node tolerations	| `[]`| `NO` 
 `affinity` |	Kubernetes node affinity | `{}`| `NO` 
-`extraEnvironmentVars` | is a list of extra environment variables to set in the scanner deployments. | `{}`| `NO`
-`extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner deployments, these variables take value from existing Secret objects. | `[]`| `NO`
+`extraEnvironmentVars` | is a list of extra environment variables to set in the scanner deployments. | `{}`| `NO` 
+`extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner deployments, these variables take value from existing Secret objects. | `[]`| `NO` 
 ## Issues and feedback
 
 If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub.
