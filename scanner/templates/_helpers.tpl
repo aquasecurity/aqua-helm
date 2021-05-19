@@ -69,3 +69,8 @@ Inject extra environment populated by secrets, if populated
 {{- define "serviceAccount" }}
 {{- printf "%s" (required "A valid .Values.serviceAccount.name required" .Values.serviceAccount.name ) }}
 {{- end }}
+
+{{- define "scannerSecret" }}
+{{- printf "%s" (required "A valid .Values.passwordSecret.secretName required" .Values.passwordSecret.secretName ) }}
+{{- printf "%s" (required "A valid .Values.passwordSecret.secretKey required" .Values.passwordSecret.secretKey ) }}
+{{- end }}
