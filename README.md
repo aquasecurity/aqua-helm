@@ -27,13 +27,15 @@ Refer to the Aqua Enterprise product documentation for the broader context: [Kub
 
 This repository includes the following charts; they can be deployed separately:
 
-| Chart | Description |
-|-|-|
-| [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys the Scanner and Envoy components |
-| [Enforcer](enforcer/) | Deploys the Aqua Enforcer daemonset |
-| [Scanner](scanner/)  | Deploys the Aqua Scanner deployment |
-| [KubeEnforcer](kube-enforcer/)| Deploys the Aqua KubeEnforcer |
-| [QuickStart](aqua-quickstart)| Not for production use (see below). Deploys the Console, Database, Gateway, and KubeEnforcer components |
+| Chart | Description | Latest Chart Version |
+|-|-|-|
+| [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component | 6.0.3 |
+| [Enforcer](enforcer/) | Deploys the Aqua Enforcer daemonset | 6.0.3 |
+| [Scanner](scanner/)  | Deploys the Aqua Scanner deployment | 6.0.4 |
+| [KubeEnforcer](kube-enforcer/)| Deploys the Aqua KubeEnforcer | 6.0.3 |
+| [Gateway](gateway)| Deploys the Aqua Standalone Gateway | 6.0.1 |
+| [Tenant-Manager](tenant-manager/)| Deploys the Aqua Tenant Manager | 6.0.2 |
+| [QuickStart](aqua-quickstart/ )| Not for production use (see [below](#quick-start-deployment-not-for-production-purposes)). Deploys the Console, Database, Gateway and KubeEnforcer components | 6.0.1 |
 
 # Deployment instructions
 
@@ -82,14 +84,22 @@ aqua-helm/kube-enforcer   6.0.0               6.0                 A Helm chart f
 ### Deploy the Helm charts
 
 1. Create the `aqua` namespace.
-```bash
-$ kubectl create namespace aqua
-```
+    ```bash
+    $ kubectl create namespace aqua
+    ```
 2. Deploy the [**Server**](server/) chart.
 3. Deploy the [**Enforcer**](enforcer/) chart.
 4. Deploy the [**KubeEnforcer**](kube-enforcer/) chart.
 5. (Optional) Deploy the [**Scanner**](scanner/) chart.
 6. (For multi-cluster) Deploy the [**Gateway**](gateway/) chart.
+7. (Optional) Deploy the [**TenantManager**](tenant-manager/) chart.
+8. Access the Aqua UI in browser with {{ .Release.Name }}-console-svc service and port, to check the service details:
+      ```bash
+      $ kubectl get svc -n aqua
+      ```
+     * Example:
+       * http://< Console IP/DNS >:8080* (default access without SSL) or
+       * https://< Console IP/DNS >:443* (If SSL configured to console component in server chart)
 
 ### Troubleshooting
 
