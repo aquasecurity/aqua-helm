@@ -13,7 +13,6 @@ Improvements:
 ## 6.2.3 (May 24th, 2021)
 
 Bug Fixes:
-* Fixed Service Account creation bug - [#263](https://github.com/aquasecurity/aqua-helm/pull/263)
 * Fixed LoadBalancerIP issue [#142](https://github.com/aquasecurity/aqua-helm/issues/142) for server chart in aks environment - [#271](https://github.com/aquasecurity/aqua-helm/pull/271)
 
 Improvements:
