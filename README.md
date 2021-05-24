@@ -98,7 +98,7 @@ aqua-helm/kube-enforcer   6.2.0               6.2                 A Helm chart f
       ```bash
       $ kubectl get svc -n aqua
       ```
-     * Example: 
+     * Example:
        * http://< Console IP/DNS >:8080* (default access without SSL) or
        * https://< Console IP/DNS >:443* (If SSL configured to console component in server chart)
 ### Troubleshooting
