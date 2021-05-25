@@ -118,15 +118,31 @@ $ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCrede
    2. Create TLS cert secret
    
       ```shell
-      # Please be notified that tls.key and tls.crt in the below command are default filenames
-      # and same as mydomain.com.key and mydomain.com.crt in the above openssl commands
-      # If tls.crt and tls.key filenames are changed then it should be changed in values.yaml envoy config
-      $ kubectl create secret tls aqua-lb-tls --key tls.key --cert tls.crt -n aqua
+      $ kubectl create secret generic aqua-lb-tls --from-file=mydomain.com.crt --from-file=mydomain.com.key --from-file=rootCA.crt -n aqua
       ```
    
-   3. Edit values.yaml file to include above secret name at `envoy.certsSecretName`
+   3. Edit the values.yaml file to include above secret 
+   ```
+       TLS:
+         listener:
+            enabled: true                    # enable to true for secure communication between Aqua Enforcers and Envoy
+            secretName: "aqua-lb-tls"         # provide certificates secret name created containing the certificates
+            publicKey_fileName: "mydomain.com.crt"            # provide filename of the public key eg: aqua-lb.fqdn.crt
+            privateKey_fileName: "mydomain.com.key"           # provide filename of the private key eg: aqua-lb.fqdn.key
+            rootCA_fileName: "rootCA.crt"               # optional: use this field if using a custom CA or chain
+   ```
    
-   4. Also set `envoy.enabled` to `true`
+   4. If Gateway requires client certificate authentication edit the values.yaml to include those secrets as well:
+   ```
+       TLS:
+         ...
+         cluster:
+            enabled: true                    # enable to true for secure communication between Aqua Envoy and Gateways
+            secretName: "aqua-lb-tls-custer"  # provide certificates secret name created containing the certificates
+            publicKey_fileName: "envoy.crt"            # provide filename of the public key eg: aqua-lb.crt
+            privateKey_fileName: "envoy.key"           # provide filename of the private key eg: aqua-lb.key
+            rootCA_fileName: "rootCA.crt"               # optional: use this field if using a custom CA or chain
+   ```
    
    5. For more customizations please refer to [***Configurable Variables***](#configure-variables)
    
@@ -358,7 +374,16 @@ Parameter | Description | Default| Mandatory
 `envoy.service.type` | k8s service type | `LoadBalancer`| `NO`
 `envoy.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
 `envoy.service.ports` | array of ports settings | `array`| `NO`
-`envoy.certsSecretName` | tls certificates for envoy, **notice: required for current configuration in files envoy.yaml** | `nil`| `NO`
+`envoy.TLS.listener.enabled` | If require secure channel communication between Enforcers and Envoy | `false` | `NO`
+`envoy.TLS.listener.secretName` | certificates secret name | `nil` | `NO`
+`envoy.TLS.listener.publicKey_fileName` | filename of the public key eg: aqua-lb.fqdn.crt | `nil`  |  `YES` <br /> `if envoy.TLS.listener.enabled is set to true`
+`envoy.TLS.listener.privateKey_fileName`   | filename of the private key eg: aqua-lb.fqdn.key | `nil`  |  `YES` <br /> `if envoy.TLS.listener.enabled is set to true`
+`envoy.TLS.listener.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO`
+`envoy.TLS.cluster.enabled` | If require secure channel communication between Envoy and Gateway | `false` | `NO`
+`envoy.TLS.cluster.secretName` | certificates secret name | `nil` | `NO`
+`envoy.TLS.cluster.publicKey_fileName` | filename of the public key eg: aqua-lb.crt | `nil`  |  `YES` <br /> `if envoy.TLS.cluster.enabled is set to true`
+`envoy.TLS.cluster.privateKey_fileName`   | filename of the private key eg: aqua-lb.key | `nil`  |  `YES` <br /> `if envoy.TLS.cluster.enabled is set to true`
+`envoy.TLS.cluster.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO`
 `envoy.livenessProbe` | liveness probes configuration for envoy | `{}`| `NO`
 `envoy.readinessProbe` | readiness probes configuration for envoy | `{}`| `NO`
 `envoy.resources` |	Resource requests and limits | `{}`| `NO`
