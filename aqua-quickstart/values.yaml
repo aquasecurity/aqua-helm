@@ -31,7 +31,7 @@ ke:
   aqua_cache_expiration_period: 60
   image:
     repository: kube-enforcer
-    tag: "6.2.RC1"
+    tag: "6.2.RC2"
     pullPolicy: Always
   nameOverride: "aqua-kube-enforcer"
   fullnameOverride: "aqua-kube-enforcer"
@@ -91,7 +91,7 @@ db:
   auditssl: false
   image:
     repository: database
-    tag: "6.2.RC1"
+    tag: "6.2.RC2"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -146,7 +146,7 @@ gate:
   replicaCount: 1
   image:
     repository: gateway
-    tag: "6.2.RC1"
+    tag: "6.2.RC2"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -211,7 +211,7 @@ web:
   replicaCount: 1
   image:
     repository: console
-    tag: "6.2.RC1"
+    tag: "6.2.RC2"
     pullPolicy: IfNotPresent
   service:
     type: LoadBalancer

@@ -53,7 +53,7 @@ multi_gates:  # use the below hosts to add multiple gateways as required to enfo
 
 image:
   repository: enforcer
-  tag: "6.2.RC1"
+  tag: "6.2.RC2"
   pullPolicy: IfNotPresent
 
 livenessProbe: {}
