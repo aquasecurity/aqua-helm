@@ -52,7 +52,7 @@ gate:
   logLevel:
   image:
     repository: gateway
-    tag: "6.2.RC1"
+    tag: "6.2.RC2"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
