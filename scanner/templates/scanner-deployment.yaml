@@ -23,7 +23,11 @@ spec:
         app: {{ .Release.Name }}-scanner
       name: {{ .Release.Name }}-scanner
     spec:
+      {{- if not .Values.serviceAccount}}
+      serviceAccount: {{ .Release.Name }}-sa
+      {{- else }}
       serviceAccount: {{ .Values.serviceAccount }}
+      {{- end }}
       containers:
       - name: scanner
         securityContext:
