@@ -42,7 +42,6 @@ static_resources:
                 exact_match: "healthz"
           - name: envoy.filters.http.router
             typed_config: {}
-      {{- if .Values.envoy.TLS.listener.enabled }}
       transport_socket:
         name: envoy.transport_sockets.tls
         typed_config:
@@ -59,7 +58,6 @@ static_resources:
                 filename: "/etc/ssl/envoy/listener/{{ .Values.envoy.TLS.listener.publicKey_fileName }}"
               private_key:
                 filename: "/etc/ssl/envoy/listener/{{ .Values.envoy.TLS.listener.privateKey_fileName }}"
-            {{- end }}
   clusters:
   - name: aqua-gateway-svc
     connect_timeout: 180s
@@ -87,7 +85,7 @@ static_resources:
         name: envoy.transport_sockets.tls
         typed_config:
             "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
-            sni: aqua-gateway-svc
+            sni: {{ .Release.Name }}-gateway-svc
             common_tls_context:
               {{- if .Values.envoy.TLS.cluster.rootCA_fileName }}
               validation_context:
@@ -100,7 +98,7 @@ static_resources:
                   filename: "/etc/ssl/envoy/cluster/{{ .Values.envoy.TLS.cluster.publicKey_fileName }}"
                 private_key:
                   filename: "/etc/ssl/envoy/cluster/{{ .Values.envoy.TLS.cluster.privateKey_fileName }}"
-              {{- end }}
+    {{- end }}
 admin:
   access_log_path: "/dev/stdout"
   address:

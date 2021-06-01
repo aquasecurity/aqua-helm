@@ -314,18 +314,19 @@ envoy:
       nodePort:
       protocol: TCP
 
+  # Enabling Envoy requires the use of TLS certificates for the listener section, while the cluster TLS section is optional and to be enabled if TLS is in use for gate and web.
+  # Find the instructions in the readme for help with generating the required certificates.
   TLS:
     listener:
-      enabled: false                    # enable to true for secure communication between Aqua Enforcers and Envoy
-      secretName: "aqua-lb-tls"         # provide certificates secret name created containing the certificates
-      publicKey_fileName: ""            # provide filename of the public key eg: aqua-lb.fqdn.crt
-      privateKey_fileName: ""           # provide filename of the private key eg: aqua-lb.fqdn.key
+      secretName: "aqua-lb-tls"         # provide secret name containing the certificates
+      publicKey_fileName: ""            # provide filename of the public key in the secret eg: aqua-lb.fqdn.crt
+      privateKey_fileName: ""           # provide filename of the private key in the secret eg: aqua-lb.fqdn.key
       rootCA_fileName: ""               # optional: use this field if using a custom CA or chain
     cluster:
-      enabled: false                    # enable to true for secure communication between Aqua Envoy and Gateways
-      secretName: "aqua-lb-tls-custer"  # provide certificates secret name created containing the certificates
-      publicKey_fileName: ""            # provide filename of the public key eg: aqua-lb.crt
-      privateKey_fileName: ""           # provide filename of the private key eg: aqua-lb.key
+      enabled: false                    # true to enable secure communication between Aqua Envoy and Gateways
+      secretName: "aqua-lb-tls-custer"  # provide secret name containing the certificates
+      publicKey_fileName: ""            # provide filename of the public key in the secret eg: aqua-lb.crt
+      privateKey_fileName: ""           # provide filename of the private key in the secret eg: aqua-lb.key
       rootCA_fileName: ""               # optional: use this field if using a custom CA or chain
 
   livenessProbe:
