@@ -9,9 +9,14 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 data:
-{{- range $key, $value := .Values.envoy.files }}
+{{- if gt (len .Values.envoy.custom_envoy_files ) 0 }}
+{{- range $key, $value := .Values.envoy.custom_envoy_files }}
   {{ $key }}: |-
 {{ $valueWithDefault := default "" $value -}}
 {{ tpl $valueWithDefault $ | indent 4 }}
 {{- end -}}
+{{- else }}
+  envoy.yaml: |
+{{ tpl (.Files.Get "conf/envoy.yaml.tpl") . | indent 4}}
+{{- end }}
 {{- end }}
