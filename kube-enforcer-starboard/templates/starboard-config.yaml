@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: starboard
+  namespace: {{ .Values.namespace }}
+data:
+  configAuditReports.scanner: Conftest
+  conftest.imageRef: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
