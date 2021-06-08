@@ -32,7 +32,8 @@ This repository includes the following charts; they can be deployed separately:
 | [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component | 6.2.3 |
 | [Enforcer](enforcer/) | Deploys the Aqua Enforcer daemonset | 6.2.3 |
 | [Scanner](scanner/)  | Deploys the Aqua Scanner deployment | 6.2.3 |
-| [KubeEnforcer](kube-enforcer/)| Deploys the Aqua KubeEnforcer | 6.2.2 |
+| [KubeEnforcer](kube-enforcer/)| Deploys Aqua KubeEnforcer | 6.2.2 |
+| [KubeEnforcer-Starboard](kube-enforcer-starboard/)| Deploys Aqua KubeEnforcer with Starboard | 6.2.0 |
 | [Gateway](gateway)| Deploys the Aqua Standalone Gateway | 6.2.2 |
 | [Tenant-Manager](tenant-manager/)| Deploys the Aqua Tenant Manager | 6.2.2 |
 | [QuickStart](aqua-quickstart/ )| Not for production use (see [below](#quick-start-deployment-not-for-production-purposes)). Deploys the Console, Database, Gateway and KubeEnforcer components | 6.2.2 |
