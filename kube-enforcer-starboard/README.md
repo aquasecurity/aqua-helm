@@ -25,7 +25,7 @@ This page provides instructions for using HELM charts for configuring and deploy
 
 Starboard integrates security tools into the Kubernetes environment, so that users can find and view the risks that relate to different resources in a Kubernetes-native way. Starboard provides custom resources definitions and a Go module to work with a range of existing security scanners, as well as a kubectl-compatible command, the Octant plugin, and the Lens extension that make security reports available through familiar Kubernetes tools.
 
-For more information: [Aqua Security Starboard](#https://aquasecurity.github.io/starboard/)
+For more information: [Aqua Security Starboard](https://aquasecurity.github.io/starboard/)
 
 ## Prerequisites
 
