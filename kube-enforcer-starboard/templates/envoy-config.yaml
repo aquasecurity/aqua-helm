@@ -1,0 +1,17 @@
+{{- if .Values.kubeEnforcerAdvance.enable -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-envoy-conf
+  labels:
+    app: {{ .Release.Name }}-envoy
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+data:
+{{- range $key, $value := .Values.kubeEnforcerAdvance.envoy.files }}
+  {{ $key }}: |-
+{{ $valueWithDefault := default "" $value -}}
+{{ tpl $valueWithDefault $ | indent 4 }}
+{{- end -}}
+{{- end -}}
