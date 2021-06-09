@@ -91,26 +91,32 @@ $ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCrede
       ```shell
       # Self-Signed Root CA (Optional)
       #####################################################################################
+      
       # Create Root Key
       # If you want a non password protected key just remove the -des3 option
       openssl genrsa -des3 -out rootCA.key 4096
+      
       # Create and self sign the Root Certificate
       openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt
+      
       #####################################################################################
       # Create a certificate
       #####################################################################################
+      
       # Create the certificate key
       openssl genrsa -out mydomain.com.key 2048
       # Create the signing (csr)
       openssl req -new -key mydomain.com.key -out mydomain.com.csr
       # Verify the csr content
       openssl req -in mydomain.com.csr -noout -text
+      
       #####################################################################################
       # Generate the certificate using the mydomain csr and key along with the CA Root key
       #####################################################################################
+
       openssl x509 -req -in mydomain.com.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out mydomain.com.crt -days 500 -sha256
-      #####################################################################################
       
+      #####################################################################################
       # If you wish to use a Public CA like GoDaddy or LetsEncrypt please
       # submit the mydomain csr to the respective CA to generate mydomain crt
       ```
@@ -118,15 +124,30 @@ $ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCrede
    2. Create TLS cert secret
    
       ```shell
-      # Please be notified that tls.key and tls.crt in the below command are default filenames
-      # and same as mydomain.com.key and mydomain.com.crt in the above openssl commands
-      # If tls.crt and tls.key filenames are changed then it should be changed in values.yaml envoy config
-      $ kubectl create secret tls aqua-lb-tls --key tls.key --cert tls.crt -n aqua
+      $ kubectl create secret generic aqua-lb-tls --from-file=mydomain.com.crt --from-file=mydomain.com.key --from-file=rootCA.crt -n aqua
       ```
    
-   3. Edit values.yaml file to include above secret name at `envoy.certsSecretName`
+   3. Edit the values.yaml file to include above secret 
+   ```
+       TLS:
+         listener:
+            secretName: "aqua-lb-tls"
+            publicKey_fileName: "mydomain.com.crt"
+            privateKey_fileName: "mydomain.com.key"
+            rootCA_fileName: "rootCA.crt"
+   ```
    
-   4. Also set `envoy.enabled` to `true`
+   4. [Optional] If Gateway requires client certificate authentication edit the values.yaml to include those secrets as well:
+   ```
+       TLS:
+         ...
+         cluster:
+            enabled: true
+            secretName: "aqua-lb-tls-custer"
+            publicKey_fileName: "envoy.crt"
+            privateKey_fileName: "envoy.key"
+            rootCA_fileName: "rootCA.crt"
+   ```
    
    5. For more customizations please refer to [***Configurable Variables***](#configure-variables)
    
@@ -182,14 +203,17 @@ $ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCrede
       ```shell
       # Self-Signed Root CA (Optional)
       #####################################################################################
+      
       # Create Root Key
       # If you want a non password protected key just remove the -des3 option
       openssl genrsa -des3 -out rootCA.key 4096
       # Create and self sign the Root Certificate
       openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt
+      
       #####################################################################################
       # Create a aqua server and gateway certificate
       #####################################################################################
+      
       # Create the server certificate key
       openssl genrsa -out aqua_web_mydomain.com.key 2048
       # Create the gateway certificate key
@@ -201,12 +225,15 @@ $ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCrede
       # Verify the csr content
       openssl req -in aqua_web_mydomain.com.csr -noout -text
       openssl req -in aqua_gateway_mydomain.com.csr -noout -text
+      
       #####################################################################################
       # Generate the certificate using the mydomain csr and key along with the CA Root key
       # for server and gateway
       #####################################################################################
+      
       openssl x509 -req -in aqua_web_mydomain.com.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out aqua_web_mydomain.com.crt -days 500 -sha256
       openssl x509 -req -in aqua_gateway_mydomain.com.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out aqua_gateway_mydomain.com.crt -days 500 -sha256
+      
       #####################################################################################
 
       # If you wish to use a Public CA like GoDaddy or LetsEncrypt please
@@ -216,8 +243,8 @@ $ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCrede
   2.  Create Kubernetes secrets for server and gateway components using the generated SSL certificates.
 
          ```shell
-         ## Example:
-         ## Change < certificate filenames > respectively
+         # Example:
+         # Change < certificate filenames > respectively
          $ kubectl create secret generic aqua-web-certs --from-file <aqua_web_private.key> --from-file <aqua_web_public.crt> --from-file <rootCA.crt> -n aqua
 
          $ kubectl create secret generic aqua-gateway-certs --from-file <aqua_gateway_private.key> --from-file <aqua_gateway_public.crt> --from-file <rootCA.crt> -n aqua
@@ -358,7 +385,15 @@ Parameter | Description | Default| Mandatory
 `envoy.service.type` | k8s service type | `LoadBalancer`| `NO`
 `envoy.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
 `envoy.service.ports` | array of ports settings | `array`| `NO`
-`envoy.certsSecretName` | tls certificates for envoy, **notice: required for current configuration in files envoy.yaml** | `nil`| `NO`
+`envoy.TLS.listener.secretName` | certificates secret name | `nil` | `YES` <br /> `if envoy.enabled is set to true`
+`envoy.TLS.listener.publicKey_fileName` | filename of the public key eg: aqua-lb.fqdn.crt | `nil`  |  `YES` <br /> `if envoy.enabled is set to true`
+`envoy.TLS.listener.privateKey_fileName`   | filename of the private key eg: aqua-lb.fqdn.key | `nil`  |  `YES` <br /> `if envoy.enabled is set to true`
+`envoy.TLS.listener.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO`
+`envoy.TLS.cluster.enabled` | If require secure channel communication between Envoy and Gateway | `false` | `NO`
+`envoy.TLS.cluster.secretName` | certificates secret name | `nil` | `NO`
+`envoy.TLS.cluster.publicKey_fileName` | filename of the public key eg: aqua-lb.crt | `nil`  |  `NO`
+`envoy.TLS.cluster.privateKey_fileName`   | filename of the private key eg: aqua-lb.key | `nil`  |  `NO`
+`envoy.TLS.cluster.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO`
 `envoy.livenessProbe` | liveness probes configuration for envoy | `{}`| `NO`
 `envoy.readinessProbe` | readiness probes configuration for envoy | `{}`| `NO`
 `envoy.resources` |	Resource requests and limits | `{}`| `NO`
