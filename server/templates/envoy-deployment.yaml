@@ -43,9 +43,11 @@ spec:
         volumeMounts:
         - mountPath: /etc/envoy
           name: config
-        {{ if .Values.envoy.certsSecretName }}
-        - mountPath: /etc/ssl/envoy
-          name: certs
+        - mountPath: /etc/ssl/envoy/listener
+          name: listener-certs
+        {{ if .Values.envoy.TLS.cluster.enabled }}
+        - mountPath: /etc/ssl/envoy/cluster
+          name: cluster-certs
         {{- end }}
 {{- with .Values.envoy.livenessProbe }}
         livenessProbe:
@@ -76,10 +78,14 @@ spec:
           defaultMode: 420
           name: {{ .Release.Name }}-envoy-conf
         name: config
-      {{ if .Values.envoy.certsSecretName }}
-      - name: certs
+      - name: listener-certs
         secret:
           defaultMode: 420
-          secretName: {{ .Values.envoy.certsSecretName }}
+          secretName: {{ .Values.envoy.TLS.listener.secretName }}
+      {{ if .Values.envoy.TLS.cluster.enabled }}
+      - name: cluster-certs
+        secret:
+          defaultMode: 420
+          secretName: {{ .Values.envoy.TLS.cluster.secretName }}
       {{- end }}
 {{- end }}
