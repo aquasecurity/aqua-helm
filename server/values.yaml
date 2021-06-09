@@ -299,7 +299,7 @@ envoy:
 
   image:
     repository: envoyproxy/envoy-alpine
-    tag: v1.15-latest
+    tag: v1.15.0
     pullPolicy: IfNotPresent
 
   service:
