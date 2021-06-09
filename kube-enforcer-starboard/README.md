@@ -14,8 +14,8 @@ This page provides instructions for using HELM charts for configuring and deploy
     - [Clone the GitHub repository with the charts](#clone-the-github-repository-with-the-charts)
     - [Configure TLS authentication between the KubeEnforcer and the API Server](#configure-tls-authentication-between-the-kubeenforcer-and-the-api-server)
   - [Deploying the HELM chart](#deploying-the-helm-chart)
-    - [Installing Aqua Kube-Enforcer from Github Repo](#installing-aqua-kube-enforcer-from-github-repo)
-    - [Installing Aqua Kube-Enforcer from Helm Private Repository](#installing-aqua-kube-enforcer-from-helm-private-repository)
+    - [Installing Aqua Kube-Enforcer-Starboard from Github Repo](#installing-aqua-kube-enforcer-starboard-from-github-repo)
+    - [Installing Aqua Kube-Enforcer-Starboard from Helm Private Repository](#installing-aqua-kube-enforcer-starboard-from-helm-private-repository)
   - [Configuration for discovery](#configuration-for-discovery)
   - [Configuration for performing kube-bench scans](#configuration-for-performing-kube-bench-scans)
   - [Configurable parameters](#configurable-parameters)
@@ -49,7 +49,7 @@ Create TLS certificates which are signed by the local CA certificate. We will pa
 You can generate these certificates by executing the script:
 
 ```
-./kube-enforcer/gen-certs.sh
+./kube-enforcer-starboard/gen-certs.sh
 ```
 
 You can also use your own certificates without generating new ones for TLS authentication. All we need is a root CA certificate, a certificate signed by a CA, and a certificate key.
@@ -80,12 +80,12 @@ Optionally, you can provide these certificates in base64 encoded format as flags
 
 ## Deploying the HELM chart
 
-### Installing Aqua Kube-Enforcer from Github Repo
+### Installing Aqua Kube-Enforcer-Starboard from Github Repo
 
 1. Clone the GitHub repository with the charts:
 
    ```bash
-   $ git clone -b 6.2 https://github.com/aquasecurity/kube-enforcer-helm.git
+   $ git clone -b 6.2 https://github.com/aquasecurity/kube-enforcer-starboard-helm.git
    ```
 
 2. (Optional) Update the Helm charts `values.yaml` file with your environment's custom values, registry secret, Aqua Server (console) credentials, and TLS certificates. This eliminates the need to pass the parameters to the HELM command. Then run one of the following commands to deploy the relevant services.
@@ -95,7 +95,7 @@ Optionally, you can provide these certificates in base64 encoded format as flags
    3a. To deploy the KubeEnforcer on the same cluster as the Aqua Server (console), run this command on that cluster:
      
    ```shell
-   $ helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer
+   $ helm upgrade --install --namespace aqua kube-enforcer-starboard ./kube-enforcer-starboard
    ```
     
    3b. Multi-cluster: To deploy the KubeEnforcer in a different cluster:
@@ -107,10 +107,10 @@ Optionally, you can provide these certificates in base64 encoded format as flags
    Next, run the following command:
    
    ```shell
-   $ helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set envs.gatewayAddress="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
+   $ helm upgrade --install --namespace aqua kube-enforcer-starboard ./kube-enforcer-starboard --set envs.gatewayAddress="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
    ```
 
-### Installing Aqua Kube-Enforcer from Helm Private Repository
+### Installing Aqua Kube-Enforcer-Starboard from Helm Private Repository
 
 1. Add Aqua Helm Repository
 
@@ -122,7 +122,7 @@ Optionally, you can provide these certificates in base64 encoded format as flags
 
 3. Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
 ```bash
-$ helm search repo aqua-helm/kube-enforcer --versions
+$ helm search repo aqua-helm/kube-enforcer-starboard --versions
 ```
 
 4. Choose **either** 4a **or** 4b:
@@ -130,7 +130,7 @@ $ helm search repo aqua-helm/kube-enforcer --versions
    4a. To deploy the KubeEnforcer on the same cluster as the Aqua Server (console), run this command on that cluster:
      
    ```shell
-   $ helm upgrade --install --namespace aqua kube-enforcer aqua-helm/kube-enforcer
+   $ helm upgrade --install --namespace aqua kube-enforcer-starboard aqua-helm/kube-enforcer-starboard
    ```
     
    4b. Multi-cluster: To deploy the KubeEnforcer in a different cluster:
@@ -142,7 +142,7 @@ $ helm search repo aqua-helm/kube-enforcer --versions
    Next, copy the values.yaml content from  [Values.yaml](./values.yaml) and make the respective changes then run the following command:
    
    ```shell
-   $ helm upgrade --install --namespace aqua kube-enforcer aqua-helm/kube-enforcer --values values.yaml --version <>
+   $ helm upgrade --install --namespace aqua kube-enforcer-starboard aqua-helm/kube-enforcer-starboard --values values.yaml --version <>
    ```
 
 Optional flags:
