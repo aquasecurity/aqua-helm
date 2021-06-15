@@ -312,8 +312,9 @@ Parameter | Description | Default| Mandatory
 `db.passwordFromSecret.dbAuditPasswordKey` | Audit password secret key | `null`| `NO`
 `db.passwordFromSecret.dbPubsubPasswordName` | Pubsub password secret name | `null`| `NO`
 `db.passwordFromSecret.dbPubsubPasswordKey` | Pubsub password secret key | `null`| `NO`
-`db.ssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`true`| `NO` 
-`db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`true`| `NO` 
+`db.ssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`false`| `NO`
+`db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration audit database. |	`false`| `NO`
+`db.pubsubssl` | If require an SSL-encrypted connection to the Postgres configuration pubsub database. |	`false`| `NO`
 `db.persistence.enabled` | If true, Persistent Volume Claim will be created |	`true`| `NO` 
 `db.persistence.accessModes` |	Persistent Volume access mode |	`ReadWriteOnce`| `NO` 
 `db.persistence.size` |	Persistent Volume size | `30Gi`| `NO` 
