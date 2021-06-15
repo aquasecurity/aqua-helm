@@ -141,6 +141,10 @@ spec:
         - name: SCALOCK_AUDIT_DBSSL
           value: require
           {{- end }}
+          {{- if .Values.db.pubsubssl }}
+        - name: AQUA_PUBSUB_DBSSL
+          value: require
+          {{- end }}
         {{- if .Values.gate.TLS.enabled }}
         - name: "AQUA_PRIVATE_KEY"
           value: "/opt/aquasec/ssl/key.pem"
