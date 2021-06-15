@@ -18,3 +18,12 @@ Bug Fixes:
 Improvements:
 * added simple way to add certificates to enable mTLS/SSL for server gateway components and updated relevant Readme - [#268](https://github.com/aquasecurity/aqua-helm/pull/268)
 * Updated Readme - [#274](https://github.com/aquasecurity/aqua-helm/pull/272)
+
+## 5.3.4 (June 15th, 2021)
+
+Fixes:
+* Fixed disabling DB persistence doesn't working issue [#289](https://github.com/aquasecurity/aqua-helm/pull/289)
+* Fixed issue [#290](https://github.com/aquasecurity/aqua-helm/issues/290) - [#292](https://github.com/aquasecurity/aqua-helm/pull/292)
+
+Improvements:
+* Envoy config templated and TLS certs for listener and cluster [#284](https://github.com/aquasecurity/aqua-helm/pull/284)

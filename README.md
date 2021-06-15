@@ -29,7 +29,7 @@ This repository includes the following charts; they can be deployed separately:
 
 | Chart | Description | Latest Chart Version |
 |-|-|-|
-| [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component | 5.3.3 |
+| [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component | 5.3.4 |
 | [Enforcer](enforcer/) | Deploys the Aqua Enforcer daemonset | 5.3.3 |
 | [Scanner](scanner/)  | Deploys the Aqua Scanner deployment | 5.3.4 |
 | [KubeEnforcer](kube-enforcer/)| Deploys the Aqua KubeEnforcer | 5.3.3 |
@@ -75,10 +75,10 @@ $ helm search repo aqua-helm --version 5.3.0
 Example output:
 ```csv
 NAME                      CHART VERSION       APP VERSION         DESCRIPTION
-aqua-helm/enforcer        5.3.0               5.3                 A Helm chart for the Aqua Enforcer
-aqua-helm/scanner         5.3.0               5.3                 A Helm chart for the Aqua Scanner CLI component
-aqua-helm/server          5.3.0               5.3                 A Helm chart for the Aqua Console components
-aqua-helm/kube-enforcer   5.3.0               5.3                 A Helm chart for the Aqua KubeEnforcer
+aqua-helm/enforcer        5.3.3               5.3                 A Helm chart for the Aqua Enforcer
+aqua-helm/scanner         5.3.4               5.3                 A Helm chart for the Aqua Scanner CLI component
+aqua-helm/server          5.3.4               5.3                 A Helm chart for the Aqua Console components
+aqua-helm/kube-enforcer   5.3.3               5.3                 A Helm chart for the Aqua KubeEnforcer
 ```
 
 ### Deploy the Helm charts
