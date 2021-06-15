@@ -68,6 +68,7 @@ db:
     dbPubsubPasswordKey:            #Specify the pubsub db password key name stored in the #PubsubPasswordName secret
   ssl: false
   auditssl: false
+  pubsubssl: false
   securityContext:
     runAsUser: 70
     runAsGroup: 70
