@@ -98,7 +98,7 @@ Parameter | Description | Default
 `db.ssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`true`
 `db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`true`
 `gate.image.repository` | the docker image name to use | `gateway`
-`gate.image.tag` | The image tag to use. | `6.2.RC2`
+`gate.image.tag` | The image tag to use. | `6.2.21166`
 `gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`
 `gate.service.type` | k8s service type | `ClusterIP`
 `gate.service.ports` | array of ports settings | `array`
