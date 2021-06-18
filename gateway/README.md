@@ -11,9 +11,9 @@ Helm chart for installation and maintenance of Aqua Container Security Platform 
   - [Prerequisites](#prerequisites)
     - [Container Registry Credentials](#container-registry-credentials)
   - [Installing the Chart](#installing-the-chart)
-    - [Installing Aqua Web from Github Repo](#installing-aqua-web-from-github-repo)
+    - [Installing Aqua Gateway from Github Repo](#installing-aqua-gateway-from-github-repo)
         - [Edit values.yaml file in gateway directory with following details as prerequisite](#edit-valuesyaml-file-in-gateway-directory-with-following-details-as-prerequisite)
-    - [Installing Aqua Web from Helm Private Repository](#installing-aqua-web-from-helm-private-repository)
+    - [Installing Aqua Gateway from Helm Private Repository](#installing-aqua-gateway-from-helm-private-repository)
   - [Configurable Variables](#configurable-variables)
 
 ## Prerequisites
@@ -26,7 +26,7 @@ Helm chart for installation and maintenance of Aqua Container Security Platform 
 ## Installing the Chart
 Follow the steps in this section for production grade deployments. You can either clone aqua-helm git repo or you can add our helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com))
 
-### Installing Aqua Web from Github Repo
+### Installing Aqua Gateway from Github Repo
 
 1. Clone the GitHub repository with the charts
     ```shell
@@ -65,7 +65,7 @@ Follow the steps in this section for production grade deployments. You can eithe
     $ helm upgrade --install --namespace aqua gateway ./gateway --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
     ```
 
-### Installing Aqua Web from Helm Private Repository
+### Installing Aqua Gateway from Helm Private Repository
 
 1. Add Aqua Helm Repository
     ```shell
@@ -134,7 +134,7 @@ Parameter | Description | Default | Mandatory |
 `gate.image.tag` | The image tag to use. | `6.0`| `NO` 
 `gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
 `gate.service.type` | k8s service type | `ClusterIP`| `NO` 
-`gate.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
+`gate.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-gateway in AKS platform | `null` | `NO`
 `gate.service.annotations` |	service annotations	| `{}` | `NO`
 `gate.service.ports` | array of ports settings | `array`| `NO`
 `gate.publicIP` | gateway public ip | `aqua-gateway`| `NO`
