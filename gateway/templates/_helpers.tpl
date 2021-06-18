@@ -39,9 +39,13 @@ Inject extra environment populated by secrets, if populated
 {{- range .extraSecretEnvironmentVars }}
 - name: {{ .envName }}
   valueFrom:
-   secretKeyRef:
-     name: {{ .secretName }}
-     key: {{ .secretKey }}
+    secretKeyRef:
+      name: {{ .secretName }}
+      key: {{ .secretKey }}
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
+{{- define "imageCredentials_name" }}
+{{- printf "%s" (required "A valid .Values.imageCredentials.name required" .Values.imageCredentials.name ) }}
+{{- end }}
