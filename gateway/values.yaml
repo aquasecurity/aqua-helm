@@ -12,40 +12,45 @@ rbac:
   privileged: true
   roleRef:
 
-  platform:         #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift
+platform: ""         #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift
 
 
 console:
-  publicIP:
-  publicPort:
+  publicIP: ""
+  publicPort: ""
+
+serviceAccount:
+  name: "aqua-sa"
 
 db:
   external:
     enabled: true
-    name:
-    host:
-    port:
-    user:
+    name: ""
+    host: ""
+    port: ""
+    user: ""
     password:
-    auditName:
-    auditHost:
-    auditPort:
-    auditUser:
+    auditName: ""
+    auditHost: ""
+    auditPort: ""
+    auditUser: ""
     auditPassword:
-    pubsubName:
-    pubsubHost:
-    pubsubPort:
-    pubsubUser:
-    pubsubPassword:
-  passwordSecret:
-  dbPasswordName:
-  dbPasswordKey:
-  dbAuditPasswordName:
-  dbAuditPasswordKey:
-  dbPubsubPasswordName:
-  dbPubsubPasswordKey:
+    pubsubName: ""
+    pubsubHost: ""
+    pubsubPort: ""
+    pubsubUser: ""
+    pubsubPassword: ""
+  passwordFromSecret:
+    enabled: false              #Enable if loading passwords for db and audit-db from secret
+    dbPasswordName: ""            #Specify the Password Secret name used for db password
+    dbPasswordKey: ""             #Specify the db password key name stored in the #dbPasswordName secret
+    dbAuditPasswordName: ""          #Specify the Password Secret name used for audit db password
+    dbAuditPasswordKey: ""            #Specify the audit db password key name stored in the #dbAuditPasswordName secret
+    dbPubsubPasswordName: ""            #Specify the Password Secret name used for pubsub db password
+    dbPubsubPasswordKey: ""           #Specify the pubsub db password key name stored in the #PubsubPasswordName secret
   ssl: false
   auditssl: false
+  pubsubssl: false
 
 gate:
   replicaCount: 1
@@ -55,7 +60,8 @@ gate:
     tag: "6.0"
     pullPolicy: IfNotPresent
   service:
-    type: ClusterIP
+    type: ClusterIP     # you can enable gateway to external by changing type to "LoadBalancer"
+    loadbalancerIP: "" # Specify loadBalancerIP address for aqua-web in AKS platform
     annotations: {}
     ports:
       - name: aqua-gate
@@ -84,7 +90,7 @@ gate:
     tcpSocket:
       port: 8443
     initialDelaySeconds: 60
-    periodSeconds: 30
+    periodSeconds: 60
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
@@ -101,6 +107,15 @@ gate:
     runAsGroup: 11433
     fsGroup: 11433
   container_securityContext: {}
+
+  # TLS is for enabling mTLS/TLS establishment between gateway <-> server and gateway <-> enforcers
+  TLS:
+    enabled: false              # enable to true for secure communication (mTLS/TLS)
+    secretName: ""               # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
+    publicKey_fileName: ""       #provide filename of the public key eg: aqua_gateway.crt
+    privateKey_fileName: ""      #provide filename of the private key eg: aqua_gateway.key
+    rootCA_fileName: ""          #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
+    aqua_verify_enforcer: "0"    # change it to "1" for enabling mTLS between enforcer and gateway/envoy
 
   # extraEnvironmentVars is a list of extra environment variables to set in the gateway deployments.
   # https://docs.aquasec.com/docs/gateway-optional-variables
