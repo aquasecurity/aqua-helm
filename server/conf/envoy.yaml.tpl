@@ -78,14 +78,18 @@ static_resources:
         - endpoint:
             address:
               socket_address:
+                {{- if eq .Values.platform "gs" }}
+                address: {{ .Release.Name }}-gateway-headless-svc.{{ .Release.Namespace }}
+                {{- else }}
                 address: {{ .Release.Name }}-gateway-headless-svc.{{ .Release.Namespace }}.svc.cluster.local
+                {{- end }}
                 port_value: 8443
-    {{- if .Values.envoy.TLS.cluster.enabled }}
     transport_socket:
         name: envoy.transport_sockets.tls
         typed_config:
             "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
             sni: {{ .Release.Name }}-gateway-svc
+            {{- if .Values.envoy.TLS.cluster.enabled }}
             common_tls_context:
               {{- if .Values.envoy.TLS.cluster.rootCA_fileName }}
               validation_context:

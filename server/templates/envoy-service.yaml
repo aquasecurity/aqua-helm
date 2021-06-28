@@ -24,6 +24,19 @@ spec:
   selector:
     app: {{ .Release.Name }}-envoy
   ports:
+  {{- if eq .Values.platform "k3s"}}
+  {{- range $port := .Values.envoy.service.k3sPorts }}
+    - name: {{ $port.name }}
+      port: {{ $port.port }}
+      targetPort: {{ $port.targetPort }}
+      {{- if $port.nodePort }}
+      nodePort: {{ $port.nodePort }}
+      {{- end }}
+      {{- if $port.protocol }}
+      protocol: {{ $port.protocol }}
+      {{- end }}
+  {{- end }}
+  {{- else }}
   {{- range $port := .Values.envoy.service.ports }}
     - name: {{ $port.name }}
       port: {{ $port.port }}
@@ -36,4 +49,5 @@ spec:
       {{- end }}
   {{- end }}
 
+{{- end }}
 {{- end }}
