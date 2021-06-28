@@ -94,7 +94,7 @@ resources: {}
   #   memory: 1.5Gi
 
 TLS:
-  enabled: true
+  enabled: false
   secretName: ""              # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
   publicKey_fileName: ""      #provide filename of the public key eg: aqua_enforcer.crt
   privateKey_fileName: ""     #provide filename of the private key eg: aqua_enforcer.key

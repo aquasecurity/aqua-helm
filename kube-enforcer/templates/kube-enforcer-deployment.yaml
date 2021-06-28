@@ -76,7 +76,7 @@ spec:
             - name: "certs"
               mountPath: "/certs"
             {{- if .Values.TLS.enabled }}
-            - name: certs
+            - name: "tls-certs"
               mountPath: /opt/aquasec/ssl/
               readOnly: true
             {{- end }}
@@ -85,7 +85,7 @@ spec:
           secret:
             secretName: {{ .Values.certsSecret.name }}
         {{- if .Values.TLS.enabled }}
-        - name: certs
+        - name: "tls-certs"
           secret:
             defaultMode: 420
             secretName: {{ .Values.TLS.secretName }}
