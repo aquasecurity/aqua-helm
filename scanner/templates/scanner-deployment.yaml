@@ -54,7 +54,13 @@ spec:
         - "$(SCANNER_PASSWORD)"
         {{- else }}
         - "{{ required "Please specify a password for a user associated with the Scanner role" .Values.password }}"
-	@@ -56,15 +64,20 @@ spec:
+        {{- end }}
+        - --host
+        - "{{ .Values.server.scheme | default "http" }}://{{ .Values.server.serviceName }}:{{ .Values.server.port }}"
+        env:
+        - name: SCALOCK_LOG_LEVEL
+          value: {{ .Values.logLevel | default "INFO" }}
+        - name: AQUA_SCANNER_LOGICAL_NAME
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
