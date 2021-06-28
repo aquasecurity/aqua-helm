@@ -89,9 +89,10 @@ Parameter | Description | Default| Mandatory
 `image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
 `user` | scanner username | `unset`| `YES` 
 `password` | scanner password | `unset`| `YES` 
-`passwordSecret.enable` | change it to true for loading scanner password from secret | `false` | `YES` <br /> `If password is not declared`
-`passwordSecret.secretName` | secret name for the scanner password secret | `null` | `YES` <br /> `If password is not declared`
-`passwordSecret.secretKey` | secret key of the scanner password | `null` | `YES` <br /> `If password is not declared`
+`scannerUserSecret.enable` | change it to true for loading scanner user, scanner password from secret | `false` | `YES` <br /> `If password is not declared`
+`scannerUserSecret.secretName` | secret name for the scanner user, scanner password secret | `null` | `YES` <br /> `If password is not declared`
+`scannerUserSecret.userKey` | secret key of the scanner user | `null` | `YES` <br /> `If password is not declared`
+`scannerUserSecret.passwordKey` | secret key of the scanner password | `null` | `YES` <br /> `If password is not declared`
 `replicaCount` | replica count | `1`| `NO` 
 `resources` |	Resource requests and limits | `{}`| `NO` 
 `nodeSelector` |	Kubernetes node selector	| `{}`| `NO` 

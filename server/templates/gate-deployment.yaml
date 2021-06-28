@@ -39,7 +39,11 @@ spec:
         - name: SCALOCK_LOG_LEVEL
           value: {{ .Values.gate.logLevel | default "INFO" }}
         - name: AQUA_CONSOLE_SECURE_ADDRESS
+        {{- if eq .Values.platform "k3s" }}
+          value: "{{ .Release.Name }}-console-svc:444"
+        {{- else }}
           value: "{{ .Release.Name }}-console-svc:443"
+        {{- end }}
         - name: SCALOCK_GATEWAY_PUBLIC_IP
           value: {{ .Values.gate.publicIP | default "aqua-gateway-svc" }}
         - name: HEALTH_MONITOR
