@@ -78,7 +78,11 @@ static_resources:
         - endpoint:
             address:
               socket_address:
+                {{- if eq .Values.platform "gs" }}
+                address: {{ .Release.Name }}-gateway-headless-svc.{{ .Release.Namespace }}
+                {{- else }}
                 address: {{ .Release.Name }}-gateway-headless-svc.{{ .Release.Namespace }}.svc.cluster.local
+                {{- end }}
                 port_value: 8443
     {{- if .Values.envoy.TLS.cluster.enabled }}
     transport_socket:

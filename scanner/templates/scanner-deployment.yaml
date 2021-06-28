@@ -27,7 +27,11 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
+      {{- if not .Values.serviceAccount}}
+      serviceAccount: {{ .Release.Name }}-sa
+      {{- else }}
       serviceAccount: {{ .Values.serviceAccount.name }}
+      {{- end }}
       containers:
       - name: scanner
         {{- with .Values.container_securityContext }}
@@ -38,33 +42,36 @@ spec:
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         args:
         - daemon
-        - --direct-cc 
+        - --direct-cc
         - --user
+        {{- if .Values.scannerUserSecret.enable }}
+        - "$(SCANNER_USER)"
+        {{- else }}
         - "{{ required "Please specify a username associated with the Scanner role" .Values.user }}"
+        {{- end }}
         - --password
-        {{- if .Values.passwordSecret.enable }}
+        {{- if .Values.scannerUserSecret.enable }}
         - "$(SCANNER_PASSWORD)"
         {{- else }}
         - "{{ required "Please specify a password for a user associated with the Scanner role" .Values.password }}"
-        {{- end }}
-        - --host
-        - "{{ .Values.server.scheme | default "http" }}://{{ .Values.server.serviceName }}:{{ .Values.server.port }}"
-        env:
-        - name: SCALOCK_LOG_LEVEL
-          value: {{ .Values.logLevel | default "INFO" }}
-        - name: AQUA_SCANNER_LOGICAL_NAME
+	@@ -56,15 +64,20 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        {{- if .Values.passwordSecret.enable }}
-          {{- if and  (not .Values.passwordSecret.secretName) (not .Values.passwordSecret.secretKey) }}
+        {{- if .Values.scannerUserSecret.enable }}
+          {{- if or  (not .Values.scannerUserSecret.secretName) (not .Values.scannerUserSecret.passwordKey) (not .Values.scannerUserSecret.userKey) }}
           {{- template "scannerSecret" . }}
           {{- else }}
         - name: SCANNER_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.passwordSecret.secretName }}
-              key: {{ .Values.passwordSecret.secretKey }}
+              name: {{ .Values.scannerUserSecret.secretName }}
+              key: {{ .Values.scannerUserSecret.passwordKey }}
+        - name: SCANNER_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.scannerUserSecret.secretName }}
+              key: {{ .Values.scannerUserSecret.userKey }}
           {{- end }}
         {{- end }}
         {{- include "scanner.extraEnvironmentVars" .Values | nindent 8 }}

@@ -71,6 +71,7 @@ Inject extra environment populated by secrets, if populated
 {{- end }}
 
 {{- define "scannerSecret" }}
-{{- printf "%s" (required "A valid .Values.passwordSecret.secretName required" .Values.passwordSecret.secretName ) }}
-{{- printf "%s" (required "A valid .Values.passwordSecret.secretKey required" .Values.passwordSecret.secretKey ) }}
+{{- printf "%s" (required "A valid .Values.scannerUserSecret.secretName required" .Values.scannerUserSecret.secretName ) }}
+{{- printf "%s" (required "A valid .Values.scannerUserSecret.userKey required" .Values.scannerUserSecret.userKey ) }}
+{{- printf "%s" (required "A valid .Values.scannerUserSecret.passwordKey required" .Values.scannerUserSecret.passwordKey ) }}
 {{- end }}

@@ -20,6 +20,8 @@ rbac:
 # tkgi = VMware Tanzu kubernetes Grid Integrated Edition
 # k8s = Plain/on-prem Vanilla Kubernetes
 # rancher = Rancher Kubernetes Platform
+# gs = GaintSwarm platform
+# k3s = k3s kubernetes platform
 platform: ""
 
 openshift_route:
@@ -223,6 +225,18 @@ web:
         targetPort: 8443
         nodePort:
         protocol: TCP
+    #As 443, 8443 already occupied in k3s kubernetes by traefik ingress. below are the console ports
+    k3sPorts:
+      - name: aqua-web
+        port: 8080
+        targetPort: 8080
+        nodePort:
+        protocol: TCP
+      - name: aqua-web-ssl
+        port: 444
+        targetPort: 8443
+        nodePort:
+        protocol: TCP
   ingress:
     enabled: false
     externalPort:
@@ -304,9 +318,19 @@ envoy:
     type: LoadBalancer
     loadbalancerIP: "" # Specify loadBalancerIP address for envoy in AKS platform
     annotations: {}
+      # service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+      # service.beta.kubernetes.io/aws-load-balancer-internal: "false"
+      # service.beta.kubernetes.io/aws-load-balancer-type: nlb
     ports:
     - name: https
       port: 443
+      targetPort: 8443
+      nodePort:
+      protocol: TCP
+  #As 443, 8443 already occupied in k3s kubernetes by traefik ingress. below are the envoy service ports
+    k3sPorts:
+    - name: https
+      port: 445
       targetPort: 8443
       nodePort:
       protocol: TCP
