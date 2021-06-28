@@ -20,6 +20,7 @@ rbac:
 # tkgi = VMware Tanzu kubernetes Grid Integrated Edition
 # k8s = Plain/on-prem Vanilla Kubernetes
 # rancher = Rancher Kubernetes Platform
+# gs = GaintSwarm platform
 # k3s = k3s kubernetes platform
 platform: ""
 
@@ -217,6 +218,9 @@ web:
     type: LoadBalancer
     loadbalancerIP: "" # Specify loadBalancerIP address for aqua-gateway in AKS platform
     annotations: {}
+      # service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+      # service.beta.kubernetes.io/aws-load-balancer-internal: "false"
+      # service.beta.kubernetes.io/aws-load-balancer-type: nlb
     ports:
       - name: aqua-web
         port: 8080
@@ -329,11 +333,11 @@ envoy:
       protocol: TCP
     #As 443, 8443 already occupied in k3s kubernetes by traefik ingress. below are the envoy service ports
     k3sPorts:
-      - name: https
-        port: 445
-        targetPort: 8443
-        nodePort:
-        protocol: TCP
+    - name: https
+      port: 445
+      targetPort: 8443
+      nodePort:
+      protocol: TCP
 
   # Enabling Envoy requires the use of TLS certificates for the listener section, while the cluster TLS section is optional and to be enabled if TLS is in use for gate and web.
   # Find the instructions in the readme for help with generating the required certificates.
