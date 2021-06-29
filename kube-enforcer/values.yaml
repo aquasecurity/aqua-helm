@@ -92,3 +92,23 @@ resources: {}
   # limits:
   #   cpu: 500m
   #   memory: 1.5Gi
+
+TLS:
+  enabled: false
+  secretName: ""              # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
+  publicKey_fileName: ""      #provide filename of the public key eg: aqua_enforcer.crt
+  privateKey_fileName: ""     #provide filename of the private key eg: aqua_enforcer.key
+  rootCA_fileName: ""         #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
+  tls_verify: false           # change it to true for enabling mTLS between enforcer and gateway/envoy
+
+# extraEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
+# https://docs.aquasec.com/docs/enforcer-optional-variables
+extraEnvironmentVars: {}
+#  ENV_NAME: value
+
+# extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
+# These variables take value from existing Secret objects.
+extraSecretEnvironmentVars: []
+  # - envName: ENV_NAME
+  #   secretName: name
+  #   secretKey: key

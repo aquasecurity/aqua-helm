@@ -60,13 +60,45 @@ spec:
               value: "8443"
             - name: SCALOCK_LOG_LEVEL
               value: {{ .Values.logLevel | default "INFO" }}
+              {{- if .Values.TLS.enabled }}
+            - name: "AQUA_PRIVATE_KEY"
+              value: "/opt/aquasec/ssl/key.pem"
+            - name: "AQUA_PUBLIC_KEY"
+              value: "/opt/aquasec/ssl/cert.pem"
+            - name: "AQUA_ROOT_CA"
+              value: "/opt/aquasec/ssl/ca.pem"
+            - name: "AQUA_TLS_VERIFY"
+              value: {{ .Values.TLS.tls_verify | quote }}
+              {{- end }}
+            {{- include "kube-enforcer.extraEnvironmentVars" .Values | nindent 12 }}
+            {{- include "kube-enforcer.extraSecretEnvironmentVars" .Values | nindent 12 }}
           volumeMounts:
             - name: "certs"
               mountPath: "/certs"
+            {{- if .Values.TLS.enabled }}
+            - name: "tls-certs"
+              mountPath: /opt/aquasec/ssl/
+              readOnly: true
+            {{- end }}
       volumes:
         - name: "certs"
           secret:
             secretName: {{ .Values.certsSecret.name }}
+        {{- if .Values.TLS.enabled }}
+        - name: "tls-certs"
+          secret:
+            defaultMode: 420
+            secretName: {{ .Values.TLS.secretName }}
+            items:
+            - key: {{ .Values.TLS.publicKey_fileName }}
+              path: cert.pem
+            - key: {{ .Values.TLS.privateKey_fileName }}
+              path: key.pem
+            {{- if .Values.TLS.rootCA_fileName }}
+            - key: {{ .Values.TLS.rootCA_fileName }}
+              path: ca.pem
+            {{- end }}
+        {{- end }}
   selector:
     matchLabels:
       app: {{ include "kube-enforcer.fullname" . }}
