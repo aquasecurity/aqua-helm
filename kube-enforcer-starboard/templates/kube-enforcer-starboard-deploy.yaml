@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.starboard.appName }}
-  namespace: aqua
+  namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.starboard.appName }}
 spec:
