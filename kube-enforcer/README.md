@@ -13,6 +13,8 @@ This page provides instructions for using HELM charts for configuring and deploy
     - [Clone the GitHub repository with the charts](#clone-the-github-repository-with-the-charts)
     - [Configure TLS authentication between the KubeEnforcer and the API Server](#configure-tls-authentication-between-the-kubeenforcer-and-the-api-server)
   - [Deploying the HELM chart](#deploying-the-helm-chart)
+    - [Installing Aqua Kube-Enforcer from Github Repo](#installing-aqua-kube-enforcer-from-github-repo)
+    - [Installing Aqua Kube-Enforcer from Helm Private Repository](#installing-aqua-kube-enforcer-from-helm-private-repository)
   - [Configuration for discovery](#configuration-for-discovery)
   - [Configuration for performing kube-bench scans](#configuration-for-performing-kube-bench-scans)
   - [Configurable parameters](#configurable-parameters)
@@ -161,6 +163,7 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `imageCredentials.name`           | Your Docker pull image secret name                                          | `aqua-registry-secret`    | `YES - New cluster`     |
 | `imageCredentials.username`       | Your Docker registry (DockerHub, etc.) username                             | `N/A`                     | `YES - New cluster`     |
 | `imageCredentials.password`       | Your Docker registry (DockerHub, etc.) password                             | `N/A`                     | `YES - New cluster`     |
+| `aquaSecret.create`               | Set to create the Aqua KubeEnforcer token secret                            | `true`                    | `YES`                   |
 | `aquaSecret.kubeEnforcerToken`    | Aqua KubeEnforcer token                                                     | `N/A`                     | `YES`                   |
 | `certsSecret.create`              | Set to create new secret for KE certs                                       | `true`                    | `YES`                   |
 | `certsSecret.name`                | Secret name for KE certs                                                    | `aqua-kube-enforcer-certs`| `YES`                   |
