@@ -156,6 +156,10 @@ spec:
         - name: "envoy-shared"
           emptyDir: {}
 {{- end }}
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
   selector:
     matchLabels:
       app: {{ include "kube-enforcer.fullname" . }}
