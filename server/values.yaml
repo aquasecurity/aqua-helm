@@ -243,7 +243,8 @@ web:
     annotations: {}
     #  kubernetes.io/ingress.class: nginx
     hosts: #REQUIRED
-    #- aquasec-test.example.com
+    - aquasec-test.example.com
+    path: /
     tls: []
     #  - secretName: aquasec-tls
     #    hosts:
