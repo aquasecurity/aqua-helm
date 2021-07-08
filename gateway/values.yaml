@@ -29,7 +29,7 @@ db:
     host: ""
     port: ""
     user: ""
-    password:
+    password: ""
     auditName: ""
     auditHost: ""
     auditPort: ""
