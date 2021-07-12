@@ -327,6 +327,7 @@ Parameter | Description | Default| Mandatory
 `db.nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
 `db.tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
 `db.affinity` |	Kubernetes node affinity | `{}`| `NO`
+`db.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `db.securityContext` | Set of security context for the container | `nil`| `NO`
 `db.extraEnvironmentVars` | is a list of extra environment variables to set in the database deployments. | `{}`| `NO`
 `db.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the database deployments, these variables take value from existing Secret objects. | `[]`| `NO`
@@ -343,6 +344,7 @@ Parameter | Description | Default| Mandatory
 `gate.nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
 `gate.tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
 `gate.affinity` |	Kubernetes node affinity | `{}`| `NO`
+`gate.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `gate.securityContext` | Set of security context for the container | `nil`| `NO`
 `gate.TLS.enabled` | If require secure channel communication | `false` | `NO`
 `gate.TLS.secretName` | certificates secret name | `nil` | `YES` <br /> `if gate.TLS.enabled is set to true`
@@ -364,6 +366,7 @@ Parameter | Description | Default| Mandatory
 `web.nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
 `web.tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
 `web.affinity` |	Kubernetes node affinity | `{}`| `NO`
+`web.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `web.ingress.enabled` |	If true, Ingress will be created | `false`| `NO`
 `web.ingress.annotations` |	Ingress annotations	| `[]`| `NO`
 `web.ingress.hosts` | Ingress hostnames |	`[]`| `NO`
@@ -399,6 +402,7 @@ Parameter | Description | Default| Mandatory
 `envoy.resources` |	Resource requests and limits | `{}`| `NO`
 `envoy.nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
 `envoy.tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
+`envoy.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `envoy.affinity` |	Kubernetes node affinity | `{}`| `NO`
 `envoy.securityContext` | Set of security context for the container | `nil`| `NO`
 `envoy.files.envoy.yaml` | content of a full envoy configuration file as documented in https://www.envoyproxy.io/docs/envoy/latest/configuration/configuration | check [values.yaml](values.yaml) 

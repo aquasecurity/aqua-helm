@@ -143,6 +143,7 @@ Parameter | Description | Default | Mandatory |
 `gate.nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
 `gate.tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
 `gate.affinity` |	Kubernetes node affinity | `{}`| `NO`
+`gate.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `gate.securityContext` | Set of security context for the container | `nil`| `NO`
 `gate.TLS.enabled` | If require secure channel communication | `false` | `NO`
 `gate.TLS.secretName` | certificates secret name | `nil` | `YES` <br /> `if gate.TLS.enabled is set to true`
