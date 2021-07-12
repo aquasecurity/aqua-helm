@@ -151,6 +151,7 @@ Parameter | Description | Default| Mandatory
 `resources` |	Resource requests and limits | `{}`| `NO`
 `nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
 `tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
+`podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `affinity` |	Kubernetes node affinity | `{}`| `NO`
 `TLS.enabled` | If require secure channel communication | `false` | `NO`
 `TLS.secretName` | certificates secret name | `nil` | `YES` <br /> `if TLS.enabled is set to true`
