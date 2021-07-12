@@ -96,6 +96,8 @@ db:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+  podAnnotations: {}
+  #  my-annotation-key: my value; more value
 
   # extraEnvironmentVars is a list of extra environment variables to set in the database deployments.
   extraEnvironmentVars: {}
@@ -159,6 +161,8 @@ tenantmanager:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+  podAnnotations: {}
+  #  my-annotation-key: my value; more value
 
   securityContext:
     runAsUser: 11431
