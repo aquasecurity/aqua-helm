@@ -95,9 +95,10 @@ Parameter | Description | Default| Mandatory
 `scannerUserSecret.passwordKey` | secret key of the scanner password | `null` | `YES` <br /> `If password is not declared`
 `replicaCount` | replica count | `1`| `NO` 
 `resources` |	Resource requests and limits | `{}`| `NO` 
-`nodeSelector` |	Kubernetes node selector	| `{}`| `NO` 
-`tolerations` |	Kubernetes node tolerations	| `[]`| `NO` 
-`affinity` |	Kubernetes node affinity | `{}`| `NO` 
+`nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
+`tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
+`affinity` |	Kubernetes node affinity | `{}`| `NO`
+`podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `extraEnvironmentVars` | is a list of extra environment variables to set in the scanner deployments. | `{}`| `NO`
 `extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner deployments, these variables take value from existing Secret objects. | `[]`| `NO`
 ## Issues and feedback
