@@ -12,6 +12,12 @@ spec:
     metadata:
       labels:
         app: {{ include "kube-enforcer.fullname" . }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+      {{- range $key,$value := . }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
     spec:
       {{- with .Values.securityContext }}
       securityContext:

@@ -68,6 +68,8 @@ resources: {}
   #   memory: 1.5Gi
 nodeSelector: {}
 tolerations: []
+podAnnotations: {}
+#  my-annotation-key: my value; more value
 
 TLS:
   enabled: false

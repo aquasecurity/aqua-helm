@@ -20,6 +20,11 @@ spec:
       {{- if and (.Values.envoy.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.envoy.tolerations }}'
       {{- end }}
+      {{- with .Values.envoy.podAnnotations }}
+      {{- range $key,$value := . }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
       labels:
         app: {{ .Release.Name }}-envoy
       name: {{ .Release.Name }}-envoy
