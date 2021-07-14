@@ -118,6 +118,8 @@ db:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+  podAnnotations: {}
+  #  my-annotation-key: my value; more value
 
   # extraEnvironmentVars is a list of extra environment variables to set in the database deployments.
   extraEnvironmentVars: {}
@@ -180,6 +182,9 @@ gate:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+  podAnnotations: {}
+  #  my-annotation-key: my value; more value
+
   securityContext:
     runAsUser: 11431
     runAsGroup: 11433
@@ -283,6 +288,9 @@ web:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+  podAnnotations: {}
+  #  my-annotation-key: my value; more value
+ 
   securityContext:
     runAsUser: 11431
     runAsGroup: 11433
@@ -392,6 +400,9 @@ envoy:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+  podAnnotations: {}
+  #  my-annotation-key: my value; more value
+
   securityContext: {}
 
   ## Enabling this will replace any templated envoy configuration with the list of files passed below

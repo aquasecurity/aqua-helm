@@ -18,6 +18,11 @@ spec:
       {{- if and (.Values.gate.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.gate.tolerations }}'
       {{- end }}
+      {{- with .Values.gate.podAnnotations }}
+      {{- range $key,$value := . }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
       labels:
         app: {{ .Release.Name }}-gateway
       name: {{ .Release.Name }}-gateway
