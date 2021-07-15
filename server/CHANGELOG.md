@@ -34,6 +34,6 @@ Fixes:
 * Fixed envoy config template issue - [#303](https://github.com/aquasecurity/aqua-helm/pull/303)
 
 Improvements:
-* Added Gaitswarm platform support - [#303](https://github.com/aquasecurity/aqua-helm/pull/303)
+* Added Giant Swarm platform support - [#303](https://github.com/aquasecurity/aqua-helm/pull/303)
 * Added K3s platform support - [#303](https://github.com/aquasecurity/aqua-helm/pull/303)
 * Added pod annotations support to templates - [#317](https://github.com/aquasecurity/aqua-helm/pull/317)
