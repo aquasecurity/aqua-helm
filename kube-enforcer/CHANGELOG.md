@@ -13,3 +13,9 @@ Improvements:
 
 Bug Fixes:
 * Fixed KE image pull secrets #[264](https://github.com/aquasecurity/aqua-helm/pull/264)
+
+## 6.0.4 (July 15th, 2021)
+
+Improvements:
+* Added TLS/mTLS support by loading certs from secrets - [#306](https://github.com/aquasecurity/aqua-helm/pull/306)
+* Added pod annotations support to templates - [#317](https://github.com/aquasecurity/aqua-helm/pull/317)

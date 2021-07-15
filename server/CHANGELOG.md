@@ -27,3 +27,13 @@ Fixes:
 
 Improvements:
 * Envoy config templated and TLS certs for listener and cluster [#283](https://github.com/aquasecurity/aqua-helm/pull/283)
+
+## 6.0.5 (July 15th, 2021)
+
+Fixes:
+* Fixed envoy config template issue - [#303](https://github.com/aquasecurity/aqua-helm/pull/303)
+
+Improvements:
+* Added Gaitswarm platform support - [#303](https://github.com/aquasecurity/aqua-helm/pull/303)
+* Added K3s platform support - [#303](https://github.com/aquasecurity/aqua-helm/pull/303)
+* Added pod annotations support to templates - [#317](https://github.com/aquasecurity/aqua-helm/pull/317)
