@@ -8,3 +8,8 @@ Improvements:
 
 Improvements:
 * Updating Image -> 6.2.RC1
+
+## 6.2.3 (July 15th, 2021)
+
+Improvements:
+* Updating Image tag -> 6.2
