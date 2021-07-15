@@ -15,3 +15,8 @@ Bugs:
 
 Improvements:
 * added simple way to add certificates for enforcer to connect gateway/envoy with TLS/mTLS and updated relevant Readme - [#267](https://github.com/aquasecurity/aqua-helm/pull/267)
+
+## 6.0.4 (July 15th, 2021)
+
+Improvements:
+* Added pod annotations support to templates - [#317](https://github.com/aquasecurity/aqua-helm/pull/317)

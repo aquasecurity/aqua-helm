@@ -20,3 +20,11 @@ Bug Fixes:
 
 Improvements:
 * Updated Readme - [#270](https://github.com/aquasecurity/aqua-helm/pull/271)
+
+## 6.0.5 (July 15th, 2021)
+
+Fixes:
+* Added support to load scanner user and password from secrets - [#303](https://github.com/aquasecurity/aqua-helm/pull/303)
+
+Improvements:
+* Added pod annotations support to templates - [#317](https://github.com/aquasecurity/aqua-helm/pull/317)
