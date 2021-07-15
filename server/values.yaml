@@ -313,8 +313,8 @@ envoy:
   replicaCount: 1
 
   image:
-    repository: envoyproxy/envoy-alpine
-    tag: v1.15.0
+    repository: registry.aquasec.com/envoy
+    tag: 5.3
     pullPolicy: IfNotPresent
 
   service:
