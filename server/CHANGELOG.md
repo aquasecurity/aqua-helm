@@ -35,6 +35,6 @@ Fixes:
 
 Improvements:
 * Updating Image tag -> 6.2
-* Added Gaitswarm platform support - [#304](https://github.com/aquasecurity/aqua-helm/pull/304)
+* Added Giant Swarm platform support - [#304](https://github.com/aquasecurity/aqua-helm/pull/304)
 * Added K3s platform support - [#304](https://github.com/aquasecurity/aqua-helm/pull/304)
 * Added pod annotations support to templates - [#316](https://github.com/aquasecurity/aqua-helm/pull/316)
