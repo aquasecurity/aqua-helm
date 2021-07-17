@@ -2,7 +2,7 @@
 
 # Aqua Security KubeEnforcer Helm Charts
 
-This page provides instructions for using HELM charts for configure and deploy the Aqua KubeEnforcer.
+This page provides instructions for using HELM charts to configure and deploy the Aqua KubeEnforcer.
 
 ## Contents
 
