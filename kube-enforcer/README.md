@@ -2,7 +2,7 @@
 
 # Aqua Security KubeEnforcer Helm Charts
 
-This page provides instructions for using HELM charts for configuring and deploying the Aqua Enterprise KubeEnforcer.
+This page provides instructions for using HELM charts for configuring and deploying the Aqua KubeEnforcer.
 
 ## Contents
 
@@ -13,6 +13,8 @@ This page provides instructions for using HELM charts for configuring and deploy
     - [Clone the GitHub repository with the charts](#clone-the-github-repository-with-the-charts)
     - [Configure TLS authentication between the KubeEnforcer and the API Server](#configure-tls-authentication-between-the-kubeenforcer-and-the-api-server)
   - [Deploying the HELM chart](#deploying-the-helm-chart)
+    - [Installing Aqua Kube-Enforcer from Github Repo](#installing-aqua-kube-enforcer-from-github-repo)
+    - [Installing Aqua Kube-Enforcer from Helm Private Repository](#installing-aqua-kube-enforcer-from-helm-private-repository)
   - [Configuration for discovery](#configuration-for-discovery)
   - [Configuration for performing kube-bench scans](#configuration-for-performing-kube-bench-scans)
   - [Configurable parameters](#configurable-parameters)
