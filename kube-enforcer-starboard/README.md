@@ -2,7 +2,7 @@
 
 # Aqua Security KubeEnforcer Helm Charts
 
-This page provides instructions for using HELM charts for configuring and deploying the Aqua Enterprise KubeEnforcer.
+This page provides instructions for using HELM charts to configure and deploy the Aqua KubeEnforcer.
 
 ## Contents
 
@@ -13,9 +13,9 @@ This page provides instructions for using HELM charts for configuring and deploy
     - [Container registry credentials](#container-registry-credentials)
     - [Clone the GitHub repository with the charts](#clone-the-github-repository-with-the-charts)
     - [Configure TLS authentication between the KubeEnforcer and the API Server](#configure-tls-authentication-between-the-kubeenforcer-and-the-api-server)
-  - [Deploying the HELM chart](#deploying-the-helm-chart)
-    - [Installing Aqua Kube-Enforcer-Starboard from Github Repo](#installing-aqua-kube-enforcer-starboard-from-github-repo)
-    - [Installing Aqua Kube-Enforcer-Starboard from Helm Private Repository](#installing-aqua-kube-enforcer-starboard-from-helm-private-repository)
+  - [Deploy the HELM chart](#deploy-the-helm-chart)
+    - [Deploy the KubeEnforcer with Starboard from the GitHub repository](#deploy-the-kubeenforcer-with-starboard-from-the-github-repository)
+    - [Deploy the KubeEnforcer with Starboard from a Helm private repository](#deploy-the-kubeenforcer-with-starboard-from-a-helm-private-repository)
   - [Configuration for discovery](#configuration-for-discovery)
   - [Configuration for performing kube-bench scans](#configuration-for-performing-kube-bench-scans)
   - [Configurable parameters](#configurable-parameters)
@@ -23,9 +23,15 @@ This page provides instructions for using HELM charts for configuring and deploy
 
 ## Starboard
 
-Starboard integrates security tools into the Kubernetes environment, so that users can find and view the risks that relate to different resources in a Kubernetes-native way. Starboard provides custom resources definitions and a Go module to work with a range of existing security scanners, as well as a kubectl-compatible command, the Octant plugin, and the Lens extension that make security reports available through familiar Kubernetes tools.
+Starboard is an Aqua Security open-source tool that increases the effectiveness of Kubernetes security. For this reason, Starboard is deployed by default when you deploy KubeEnforcers.
 
-For more information: [Aqua Security Starboard](https://aquasecurity.github.io/starboard/)
+An important part of Kubernetes security is the evaluation of workload compliance results with respect to Kubernetes Assurance Policies, and preventing the deployment of non-compliant workloads; see Admission control for Kubernetes containers.
+
+When Starboard **is** deployed, it assesses workload compliance throughout the lifecycle of the workloads. This enables the KubeEnforcer to:
+* Re-evaluate workload compliance during workload runtime, taking any workload and policy changes into account
+* Reflect the results of compliance evaluation in the Aqua UI at all times, not only when workloads are created
+
+When Starboard is **not** deployed, the KubeEnforcer will check workloads for compliance only when the workloads are started.
 
 ## Prerequisites
 
@@ -78,9 +84,9 @@ Optionally, you can provide these certificates in base64 encoded format as flags
   b. certsSecret.serverKey="<base64_encoded_server.key>"
   c. webhooks.caBundle="<base64_encoded_ca.crt>"
 
-## Deploying the HELM chart
+## Deploy the HELM chart
 
-### Installing Aqua Kube-Enforcer-Starboard from Github Repo
+### Deploy the KubeEnforcer with Starboard from the GitHub repository
 
 1. Clone the GitHub repository with the charts:
 
@@ -110,7 +116,7 @@ Optionally, you can provide these certificates in base64 encoded format as flags
    $ helm upgrade --install --namespace aqua kube-enforcer-starboard ./kube-enforcer-starboard --set envs.gatewayAddress="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
    ```
 
-### Installing Aqua Kube-Enforcer-Starboard from Helm Private Repository
+### Deploy the KubeEnforcer with Starboard from a Helm private repository
 
 1. Add Aqua Helm Repository
 
@@ -200,8 +206,6 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `kubeEnforcerAdvance.enable`      | Advance Kube Enforcer Deployment          | `false`  | `NO`   |
 | `kubeEnforcerAdvance.clusterName` | Cluster name of the advance KE deployment | `k8s`    | `NO`   |
 | `kubeEnforcerAdvance.clusterID`   | Cluster name of the advance KE deployment | `N/A`    | `NO`   |
-
-
 
 ## Issues and feedback
 
