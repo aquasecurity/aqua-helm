@@ -27,6 +27,9 @@ platform: ""
 openshift_route:
   create: false    #Enable if required openshift route for web and gateway
 
+serviceaccount:
+  annotations: {}
+
 # enable only one of the modes
 clustermode: ""
 activeactive: ""
