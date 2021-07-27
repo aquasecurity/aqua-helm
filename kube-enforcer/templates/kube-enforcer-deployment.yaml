@@ -65,8 +65,10 @@ spec:
               value: "/opt/aquasec/ssl/key.pem"
             - name: "AQUA_PUBLIC_KEY"
               value: "/opt/aquasec/ssl/cert.pem"
+            {{- if .Values.TLS.rootCA_fileName }}
             - name: "AQUA_ROOT_CA"
               value: "/opt/aquasec/ssl/ca.pem"
+            {{- end }}
             - name: "AQUA_TLS_VERIFY"
               value: {{ .Values.TLS.tls_verify | quote }}
               {{- end }}

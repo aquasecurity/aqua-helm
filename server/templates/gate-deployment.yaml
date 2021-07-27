@@ -154,8 +154,10 @@ spec:
           value: "/opt/aquasec/ssl/key.pem"
         - name: "AQUA_PUBLIC_KEY"
           value: "/opt/aquasec/ssl/cert.pem"
+        {{- if .Values.gate.TLS.rootCA_fileName }}
         - name: "AQUA_ROOT_CA"
           value: "/opt/aquasec/ssl/ca.pem"
+        {{- end }}
         - name: "AQUA_VERIFY_ENFORCER"
           value: {{ .Values.gate.TLS.aqua_verify_enforcer | quote}}
         {{- end }}
