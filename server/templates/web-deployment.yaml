@@ -172,8 +172,10 @@ spec:
           value: "/opt/aquasec/ssl/key.pem"
         - name: "AQUA_PUBLIC_KEY"
           value: "/opt/aquasec/ssl/cert.pem"
+        {{- if .Values.web.TLS.rootCA_fileName }}
         - name: "AQUA_ROOT_CA"
           value: "/opt/aquasec/ssl/ca.pem"
+        {{- end }}
         {{- end }}
         {{- include "server.extraEnvironmentVars" .Values.web | nindent 8 }}
         {{- include "server.extraSecretEnvironmentVars" .Values.web | nindent 8 }}
