@@ -384,11 +384,12 @@ Parameter | Description | Default| Mandatory
 `envoy.replicaCount` | replica count | `1`| `NO`
 `envoy.image.repository` | the docker image name to use | `envoyproxy/envoy-alpine`| `NO`
 `envoy.image.tag` | The image tag to use. | `v1.14.1`| `NO`
-`envoy.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
+`envoy.image.pullPolicy` | The kubernetes image pull policy. | `Always`| `NO`
 `envoy.service.type` | k8s service type | `LoadBalancer`| `NO`
 `envoy.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
 `envoy.service.ports` | array of ports settings | `array`| `NO`
-`envoy.TLS.listener.secretName` | certificates secret name | `nil` | `YES` <br /> `if envoy.enabled is set to true`
+`envoy.TLS.listener.enabled` | enable to load custom self-signed or CA certs | `false` | `NO` <br /> `if envoy.enabled is set to true`
+`envoy.TLS.listener.secretName` | certificates secret name | `nil` | `NO` <br /> `if envoy.enabled is set to true`
 `envoy.TLS.listener.publicKey_fileName` | filename of the public key eg: aqua-lb.fqdn.crt | `nil`  |  `YES` <br /> `if envoy.enabled is set to true`
 `envoy.TLS.listener.privateKey_fileName`   | filename of the private key eg: aqua-lb.fqdn.key | `nil`  |  `YES` <br /> `if envoy.enabled is set to true`
 `envoy.TLS.listener.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO`
