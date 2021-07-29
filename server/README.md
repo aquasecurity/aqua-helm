@@ -382,7 +382,7 @@ Parameter | Description | Default| Mandatory
 `envoy.replicaCount` | replica count | `1`| `NO`
 `envoy.image.repository` | the docker image name to use | `envoyproxy/envoy-alpine`| `NO`
 `envoy.image.tag` | The image tag to use. | `v1.14.1`| `NO`
-`envoy.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
+`envoy.image.pullPolicy` | The kubernetes image pull policy. | `Always`| `NO`
 `envoy.service.type` | k8s service type | `LoadBalancer`| `NO`
 `envoy.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
 `envoy.service.ports` | array of ports settings | `array`| `NO`

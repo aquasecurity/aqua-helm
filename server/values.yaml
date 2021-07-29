@@ -313,8 +313,8 @@ envoy:
   replicaCount: 1
 
   image:
-    repository: registry.aquasec.com/envoy
-    tag: 5.3
+    repository: envoy
+    tag: "5.3"
     pullPolicy: Always
 
   service:
