@@ -26,6 +26,7 @@ spec:
     spec:
       securityContext:
         {{ toYaml .Values.envoy.securityContext | nindent 8 }}
+      serviceAccount: {{ .Release.Namespace }}-sa
       containers:
       - image: "{{ .Values.envoy.image.repository }}:{{ .Values.envoy.image.tag }}"
         imagePullPolicy: "{{ .Values.envoy.image.pullPolicy }}"
@@ -40,8 +41,10 @@ spec:
         volumeMounts:
         - mountPath: /etc/envoy
           name: config
+        {{- if .Values.envoy.TLS.listener.enabled }}
         - mountPath: /etc/ssl/envoy/listener
           name: listener-certs
+        {{- end}}
         {{ if .Values.envoy.TLS.cluster.enabled }}
         - mountPath: /etc/ssl/envoy/cluster
           name: cluster-certs
@@ -75,10 +78,12 @@ spec:
           defaultMode: 420
           name: {{ .Release.Name }}-envoy-conf
         name: config
+      {{- if .Values.envoy.TLS.listener.enabled }}
       - name: listener-certs
         secret:
           defaultMode: 420
           secretName: {{ .Values.envoy.TLS.listener.secretName }}
+      {{- end }}
       {{ if .Values.envoy.TLS.cluster.enabled }}
       - name: cluster-certs
         secret:
