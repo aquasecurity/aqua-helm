@@ -290,7 +290,7 @@ web:
   affinity: {}
   podAnnotations: {}
   #  my-annotation-key: my value; more value
- 
+
   securityContext:
     runAsUser: 11431
     runAsGroup: 11433
@@ -325,8 +325,8 @@ envoy:
   replicaCount: 1
 
   image:
-    repository: envoyproxy/envoy-alpine
-    tag: v1.15.0
+    repository: envoy
+    tag: "6.0"
     pullPolicy: Always
   
   service:
