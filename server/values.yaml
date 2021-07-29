@@ -315,7 +315,7 @@ envoy:
   image:
     repository: envoy
     tag: "5.3"
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
 
   service:
     type: LoadBalancer
