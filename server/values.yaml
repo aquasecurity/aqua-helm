@@ -290,7 +290,7 @@ web:
   affinity: {}
   podAnnotations: {}
   #  my-annotation-key: my value; more value
- 
+
   securityContext:
     runAsUser: 11431
     runAsGroup: 11433
@@ -325,8 +325,8 @@ envoy:
   replicaCount: 1
 
   image:
-    repository: envoyproxy/envoy-alpine
-    tag: v1.15.0
+    repository: envoy
+    tag: "6.0"
     pullPolicy: IfNotPresent
   
   service:
@@ -351,6 +351,7 @@ envoy:
   # Find the instructions in the readme for help with generating the required certificates.
   TLS:
     listener:
+      enabled: false                    # true to enable loading custom self-signed or CA certs, by default envoy uses packaged self-signed certs.
       secretName: "aqua-lb-tls"         # provide secret name containing the certificates
       publicKey_fileName: ""            # provide filename of the public key in the secret eg: aqua-lb.fqdn.crt
       privateKey_fileName: ""           # provide filename of the private key in the secret eg: aqua-lb.fqdn.key

@@ -47,7 +47,7 @@ static_resources:
         typed_config:
           "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
           common_tls_context:
-            {{- if .Values.envoy.TLS.listener.rootCA_fileName }}
+            {{- if and (.Values.envoy.TLS.listener.rootCA_fileName) (.Values.envoy.TLS.listener.enabled) }}
             validation_context:
               trusted_ca:
                 filename: "/etc/ssl/envoy/listener/{{ .Values.envoy.TLS.listener.rootCA_fileName }}"
@@ -55,9 +55,17 @@ static_resources:
             alpn_protocols: "h2,http/1.1"
             tls_certificates:
             - certificate_chain:
+                {{- if .Values.envoy.TLS.listener.enabled }}
                 filename: "/etc/ssl/envoy/listener/{{ .Values.envoy.TLS.listener.publicKey_fileName }}"
+                {{- else }}
+                filename: "/etc/ssl/envoy/tls.crt"
+                {{- end }}
               private_key:
+                {{- if .Values.envoy.TLS.listener.enabled }}
                 filename: "/etc/ssl/envoy/listener/{{ .Values.envoy.TLS.listener.privateKey_fileName }}"
+                {{- else }}
+                filename: "/etc/ssl/envoy/tls.key"
+                {{- end }}
   clusters:
   - name: aqua-gateway-svc
     connect_timeout: 180s
