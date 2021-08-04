@@ -35,6 +35,7 @@ certsSecret:
   serverKey: ""
 
 aquaSecret:
+  create: true
   name: aqua-kube-enforcer-token
 # Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
   kubeEnforcerToken: 
