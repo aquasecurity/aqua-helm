@@ -174,6 +174,7 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `kubeEnforcerAdvance.enable`      | Advance Kube Enforcer Deployment                                            | `false`                   | `NO`                    |
 | `kubeEnforcerAdvance.clusterName` | Cluster name of the advance KE deployment                                   | `k8s`                     | `NO`                    |
 | `kubeEnforcerAdvance.clusterID`   | Cluster name of the advance KE deployment                                   | `N/A`                     | `NO`                    |
+| `nodeSelector`                    | Kubernetes node selector                                                    | `{}`                      | `NO`                    |
 
 
 
