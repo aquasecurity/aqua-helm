@@ -1,6 +1,7 @@
 {{- if .Values.web.ingress.enabled -}}
 {{- $fullname := .Release.Name -}}
 {{- $servicePort := .Values.web.ingress.externalPort -}}
+{{- $ingressPath := .Values.web.ingress.path -}}
 ---
 {{- if (semverCompare ">= 1.14" .Capabilities.KubeVersion.GitVersion) }}
 apiVersion: networking.k8s.io/v1beta1
@@ -26,7 +27,7 @@ spec:
       - host: {{ $host }}
         http:
           paths:
-            - path: /
+            - path: {{ $ingressPath }}
               backend:
                 serviceName: {{ $fullname }}-console-svc
                 servicePort: {{ $servicePort }}
