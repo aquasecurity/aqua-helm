@@ -163,6 +163,7 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `imageCredentials.name`           | Your Docker pull image secret name                                          | `aqua-registry-secret`    | `YES - New cluster`     |
 | `imageCredentials.username`       | Your Docker registry (DockerHub, etc.) username                             | `N/A`                     | `YES - New cluster`     |
 | `imageCredentials.password`       | Your Docker registry (DockerHub, etc.) password                             | `N/A`                     | `YES - New cluster`     |
+| `aquaSecret.create`               | Set to create the Aqua KubeEnforcer token secret                            | `true`                    |`YES`                   |
 | `aquaSecret.kubeEnforcerToken`    | Aqua KubeEnforcer token                                                     | `N/A`                     | `YES`                   |
 | `certsSecret.create`              | Set to create new secret for KE certs                                       | `true`                    | `YES`                   |
 | `certsSecret.name`                | Secret name for KE certs                                                    | `aqua-kube-enforcer-certs`| `YES`                   |
@@ -173,6 +174,7 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `kubeEnforcerAdvance.enable`      | Advance Kube Enforcer Deployment                                            | `false`                   | `NO`                    |
 | `kubeEnforcerAdvance.clusterName` | Cluster name of the advance KE deployment                                   | `k8s`                     | `NO`                    |
 | `kubeEnforcerAdvance.clusterID`   | Cluster name of the advance KE deployment                                   | `N/A`                     | `NO`                    |
+| `nodeSelector`                    | Kubernetes node selector                                                    | `{}`                      |       `NO`                    |
 
 
 ## Issues and feedback
