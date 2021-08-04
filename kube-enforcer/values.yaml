@@ -38,7 +38,7 @@ aquaSecret:
   create: true
   name: aqua-kube-enforcer-token
 # Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
-  kubeEnforcerToken:
+  kubeEnforcerToken: 
 
 envs:
   gatewayAddress: aqua-gateway-svc.aqua:8443 
@@ -66,6 +66,9 @@ webhooks:
     name: kube-enforcer-admission-hook-config
   mutatingWebhook:
     name: kube-enforcer-me-injection-hook-config
+
+podAnnotations: {}
+#  my-annotation-key: my value; more value
 
 securityContext:
   runAsUser: 11431
@@ -115,6 +118,11 @@ extraSecretEnvironmentVars: []
   #   secretKey: key
 
 ##Kube Enforcer advance deployment options
+### Advanced Deployment (for Pod Enforcer injection)
+### When using KubeEnforcers for Pod Enforcer injection, it is recommended that you deploy the KubeEnforcers in a special Advanced configuration.
+### This will cause Pod Enforcer traffic to be routed to the KubeEnforcers via a local envoy, which then forwards the traffic to an Aqua Gateway.
+### This configuration improves performance and reduces remote network connections between pods and Gateways.
+
 kubeEnforcerAdvance:
   enable: false
   clusterName: ""

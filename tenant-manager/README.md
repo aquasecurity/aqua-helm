@@ -147,6 +147,7 @@ Parameter | Description | Default| Mandatory
 `db.nodeSelector` |	Kubernetes node selector	| `{}`| `NO` 
 `db.tolerations` |	Kubernetes node tolerations	| `[]`| `NO` 
 `db.affinity` |	Kubernetes node affinity | `{}`| `NO` 
+`db.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `db.securityContext` | Set of security context for the container | `nil`| `NO` 
 `db.extraEnvironmentVars` | List of extra environment variables to set in the database deployments | `{}`| `NO`
 `db.extraSecretEnvironmentVars` | List of extra environment variables to set in the database deployments; these variables take values from existing Secret objects | `[]`| `NO`
@@ -161,6 +162,7 @@ Parameter | Description | Default| Mandatory
 `tenantmanager.nodeSelector` |	Kubernetes node selector	| `{}`| `NO` 
 `tenantmanager.tolerations` |	Kubernetes node tolerations	| `[]`| `NO` 
 `tenantmanager.affinity` |	Kubernetes node affinity | `{}`| `NO` 
+`tenantmanager.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `tenantmanager.ingress.enabled` |	If true, Ingress will be created | `false`| `NO` 
 `tenantmanager.ingress.annotations` |	Ingress annotations	| `[]`| `NO` 
 `tenantmanager.ingress.hosts` | Ingress hostnames |	`[]`| `NO` 

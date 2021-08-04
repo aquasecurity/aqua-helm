@@ -2,7 +2,7 @@
 
 # Aqua Security KubeEnforcer Helm Charts
 
-This page provides instructions for using HELM charts for configuring and deploying the Aqua Enterprise KubeEnforcer.
+This page provides instructions for using HELM charts to configure and deploy the Aqua KubeEnforcer.
 
 ## Contents
 
@@ -12,9 +12,9 @@ This page provides instructions for using HELM charts for configuring and deploy
     - [Container registry credentials](#container-registry-credentials)
     - [Clone the GitHub repository with the charts](#clone-the-github-repository-with-the-charts)
     - [Configure TLS authentication between the KubeEnforcer and the API Server](#configure-tls-authentication-between-the-kubeenforcer-and-the-api-server)
-  - [Deploying the HELM chart](#deploying-the-helm-chart)
-    - [Installing Aqua Kube-Enforcer from Github Repo](#installing-aqua-kube-enforcer-from-github-repo)
-    - [Installing Aqua Kube-Enforcer from Helm Private Repository](#installing-aqua-kube-enforcer-from-helm-private-repository)
+  - [Deploy the HELM chart](#deploy-the-helm-chart)
+    - [Deploy Aqua Kube-Enforcer from Github repository](#deploy-aqua-kube-enforcer-from-github-repository)
+    - [Deploy Aqua Kube-Enforcer from Helm private repository](#deploy-aqua-kube-enforcer-from-helm-private-repository)
   - [Configuration for discovery](#configuration-for-discovery)
   - [Configuration for performing kube-bench scans](#configuration-for-performing-kube-bench-scans)
   - [Configurable parameters](#configurable-parameters)
@@ -71,9 +71,9 @@ Optionally, you can provide these certificates in base64 encoded format as flags
   b. certsSecret.serverKey="<base64_encoded_server.key>"
   c. webhooks.caBundle="<base64_encoded_ca.crt>"
 
-## Deploying the HELM chart
+## Deploy the HELM chart
 
-### Installing Aqua Kube-Enforcer from Github Repo
+### Deploy Aqua Kube-Enforcer from Github repository
 
 1. Clone the GitHub repository with the charts:
 
@@ -103,7 +103,7 @@ Optionally, you can provide these certificates in base64 encoded format as flags
    $ helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set envs.gatewayAddress="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
    ```
 
-### Installing Aqua Kube-Enforcer from Helm Private Repository
+### Deploy Aqua Kube-Enforcer from Helm private repository
 
 1. Add Aqua Helm Repository
 

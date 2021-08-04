@@ -327,6 +327,7 @@ Parameter | Description | Default| Mandatory
 `db.nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
 `db.tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
 `db.affinity` |	Kubernetes node affinity | `{}`| `NO`
+`db.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `db.securityContext` | Set of security context for the container | `nil`| `NO`
 `db.extraEnvironmentVars` | is a list of extra environment variables to set in the database deployments. | `{}`| `NO`
 `db.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the database deployments, these variables take value from existing Secret objects. | `[]`| `NO`
@@ -343,12 +344,13 @@ Parameter | Description | Default| Mandatory
 `gate.nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
 `gate.tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
 `gate.affinity` |	Kubernetes node affinity | `{}`| `NO`
+`gate.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `gate.securityContext` | Set of security context for the container | `nil`| `NO`
 `gate.TLS.enabled` | If require secure channel communication | `false` | `NO`
 `gate.TLS.secretName` | certificates secret name | `nil` | `YES` <br /> `if gate.TLS.enabled is set to true`
 `gate.TLS.publicKey_fileName` | filename of the public key eg: aqua_gateway.crt | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
 `gate.TLS.privateKey_fileName`   | filename of the private key eg: aqua_gateway.key | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
-`gate.TLS.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
+`gate.TLS.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO` <br /> `if gate.TLS.enabled is set to true and using self-signed certificates for TLS/mTLS`
 `gate.TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and gateway/envoy | `0`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
 `gate.extraEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments. | `{}`| `NO`
 `gate.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`| `NO`
@@ -364,6 +366,7 @@ Parameter | Description | Default| Mandatory
 `web.nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
 `web.tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
 `web.affinity` |	Kubernetes node affinity | `{}`| `NO`
+`web.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `web.ingress.enabled` |	If true, Ingress will be created | `false`| `NO`
 `web.ingress.annotations` |	Ingress annotations	| `[]`| `NO`
 `web.ingress.hosts` | Ingress hostnames |	`[]`| `NO`
@@ -373,7 +376,7 @@ Parameter | Description | Default| Mandatory
 `web.TLS.secretName` | certificates secret name | `nil` | `NO`
 `web.TLS.publicKey_fileName` | filename of the public key eg: aqua_web.crt | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
 `web.TLS.privateKey_fileName`   | filename of the private key eg: aqua_web.key | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
-`web.TLS.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
+`web.TLS.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO` <br /> `if gate.TLS.enabled is set to true and using self-signed certificates for TLS/mTLS`
 `web.maintenance_db.name` | If Configured to use custom maintenance DB specify the DB name | `unset` | `NO`
 `web.extraEnvironmentVars` | is a list of extra environment variables to set in the web deployments. | `{}`| `NO`
 `web.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the web deployments, these variables take value from existing Secret objects. | `[]`| `NO`
@@ -385,7 +388,8 @@ Parameter | Description | Default| Mandatory
 `envoy.service.type` | k8s service type | `LoadBalancer`| `NO`
 `envoy.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
 `envoy.service.ports` | array of ports settings | `array`| `NO`
-`envoy.TLS.listener.secretName` | certificates secret name | `nil` | `YES` <br /> `if envoy.enabled is set to true`
+`envoy.TLS.listener.enabled` | enable to load custom self-signed or CA certs | `false` | `NO` <br /> `if envoy.enabled is set to true`
+`envoy.TLS.listener.secretName` | certificates secret name | `nil` | `NO` <br /> `if envoy.enabled is set to true`
 `envoy.TLS.listener.publicKey_fileName` | filename of the public key eg: aqua-lb.fqdn.crt | `nil`  |  `YES` <br /> `if envoy.enabled is set to true`
 `envoy.TLS.listener.privateKey_fileName`   | filename of the private key eg: aqua-lb.fqdn.key | `nil`  |  `YES` <br /> `if envoy.enabled is set to true`
 `envoy.TLS.listener.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO`
@@ -399,6 +403,7 @@ Parameter | Description | Default| Mandatory
 `envoy.resources` |	Resource requests and limits | `{}`| `NO`
 `envoy.nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
 `envoy.tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
+`envoy.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `envoy.affinity` |	Kubernetes node affinity | `{}`| `NO`
 `envoy.securityContext` | Set of security context for the container | `nil`| `NO`
 `envoy.files.envoy.yaml` | content of a full envoy configuration file as documented in https://www.envoyproxy.io/docs/envoy/latest/configuration/configuration | check [values.yaml](values.yaml) 
