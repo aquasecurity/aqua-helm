@@ -20,3 +20,9 @@ Improvements:
 Improvements:
 * Updating Image tag -> 6.2
 * Added pod annotations support to templates - [#316](https://github.com/aquasecurity/aqua-helm/pull/316)
+
+## 6.2.5 (August 4th, 2021)
+
+Fixes:
+* Fixing rootca file not found issue when using CA certificates - [#329](https://github.com/aquasecurity/aqua-helm/pull/329)
+* Fixing enforcer token conversion to base64 - [#325](https://github.com/aquasecurity/aqua-helm/pull/325)
