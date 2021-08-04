@@ -152,12 +152,13 @@ Parameter | Description | Default| Mandatory
 `resources` |	Resource requests and limits | `{}`| `NO`
 `nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
 `tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
+`podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `affinity` |	Kubernetes node affinity | `{}`| `NO`
 `TLS.enabled` | If require secure channel communication | `false` | `NO`
 `TLS.secretName` | certificates secret name | `nil` | `YES` <br /> `if TLS.enabled is set to true`
 `TLS.publicKey_fileName` | filename of the public key eg: aqua_enforcer.crt | `nil`  |  `YES` <br /> `if TLS.enabled is set to true`
 `TLS.privateKey_fileName`   | filename of the private key eg: aqua_enforcer.key | `nil`  |  `YES` <br /> `if TLS.enabled is set to true`
-`TLS.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `YES` <br /> `if TLS.enabled is set to true`
+`TLS.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO` <br /> `if TLS.enabled is set to true and using self-signed certificates for TLS/mTLS`
 `TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and ay/envoy | `0`  |  `YES` <br /> `if TLS.enabled is set to true`
 `extraEnvironmentVars` | is a list of extra environment variables to set in the enforcer daemonset. | `{}`| `NO`
 `extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner daemonset, these variables take value from existing Secret objects. | `[]`| `NO`

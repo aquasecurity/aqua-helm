@@ -20,14 +20,20 @@ spec:
       {{- if and (.Values.envoy.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.envoy.tolerations }}'
       {{- end }}
+      {{- with .Values.envoy.podAnnotations }}
+      {{- range $key,$value := . }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
       labels:
         app: {{ .Release.Name }}-envoy
       name: {{ .Release.Name }}-envoy
     spec:
       securityContext:
         {{ toYaml .Values.envoy.securityContext | nindent 8 }}
+      serviceAccount: {{ .Release.Namespace }}-sa
       containers:
-      - image: "{{ .Values.envoy.image.repository }}:{{ .Values.envoy.image.tag }}"
+      - image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.envoy.image.repository }}:{{ .Values.envoy.image.tag }}"
         imagePullPolicy: "{{ .Values.envoy.image.pullPolicy }}"
         name: envoy
         env:
@@ -43,8 +49,10 @@ spec:
         volumeMounts:
         - mountPath: /etc/envoy
           name: config
+        {{- if .Values.envoy.TLS.listener.enabled }}
         - mountPath: /etc/ssl/envoy/listener
           name: listener-certs
+        {{- end }}
         {{ if .Values.envoy.TLS.cluster.enabled }}
         - mountPath: /etc/ssl/envoy/cluster
           name: cluster-certs
@@ -78,10 +86,12 @@ spec:
           defaultMode: 420
           name: {{ .Release.Name }}-envoy-conf
         name: config
+      {{- if .Values.envoy.TLS.listener.enabled }}
       - name: listener-certs
         secret:
           defaultMode: 420
           secretName: {{ .Values.envoy.TLS.listener.secretName }}
+      {{- end }}
       {{ if .Values.envoy.TLS.cluster.enabled }}
       - name: cluster-certs
         secret:

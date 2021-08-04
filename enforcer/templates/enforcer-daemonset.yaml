@@ -21,6 +21,11 @@ spec:
       {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
       {{- end }}
+      {{- with .Values.podAnnotations }}
+      {{- range $key,$value := . }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
       labels:
         app: {{ .Release.Name }}-ds
       name: {{ .Release.Name }}-ds
@@ -73,8 +78,10 @@ spec:
           value: "/opt/aquasec/ssl/key.pem"
         - name: "AQUA_PUBLIC_KEY"
           value: "/opt/aquasec/ssl/cert.pem"
+        {{- if .Values.TLS.rootCA_fileName }}
         - name: "AQUA_ROOT_CA"
           value: "/opt/aquasec/ssl/ca.pem"
+        {{- end }}
         - name: "AQUA_TLS_VERIFY"
           value: {{ .Values.TLS.tls_verify | quote }}
           {{- end }}

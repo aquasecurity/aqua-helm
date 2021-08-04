@@ -10,7 +10,7 @@ serviceAccount:
   create: false # change to true if deploying enforcer on new cluster or aqua-sa serviceaccount not exists.
 
 # Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
-enforcerToken:
+enforcerToken: 
 
 enforcerTokenSecretName: null
 enforcerTokenSecretKey: null
@@ -68,6 +68,8 @@ resources: {}
   #   memory: 1.5Gi
 nodeSelector: {}
 tolerations: []
+podAnnotations: {}
+#  my-annotation-key: my value; more value
 
 TLS:
   enabled: false

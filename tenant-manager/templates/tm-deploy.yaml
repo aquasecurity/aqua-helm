@@ -19,6 +19,11 @@ spec:
       {{- if and (.Values.tenantmanager.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tenantmanager.tolerations }}'
       {{- end }}
+      {{- with .Values.tenantmanager.podAnnotations }}
+      {{- range $key,$value := . }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
       labels:
         app: {{ .Release.Name }}-tenantmanager
       name: {{ .Release.Name }}-tenantmanager

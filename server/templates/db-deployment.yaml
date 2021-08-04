@@ -19,6 +19,11 @@ spec:
       {{- if and (.Values.db.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.db.tolerations }}'
       {{- end }}
+      {{- with .Values.db.podAnnotations }}
+      {{- range $key,$value := . }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
       labels:
         app: {{ .Release.Name }}-database
       name: {{ .Release.Name }}-database
