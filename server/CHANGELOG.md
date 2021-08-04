@@ -38,3 +38,14 @@ Improvements:
 * Added Giant Swarm platform support - [#304](https://github.com/aquasecurity/aqua-helm/pull/304)
 * Added K3s platform support - [#304](https://github.com/aquasecurity/aqua-helm/pull/304)
 * Added pod annotations support to templates - [#316](https://github.com/aquasecurity/aqua-helm/pull/316)
+
+## 6.2.6 (August 4th, 2021)
+
+Fixes:
+* Fixed Serviceaccount imagepull secret name - [#323](https://github.com/aquasecurity/aqua-helm/pull/323)
+* Fixing rootca file not found issue when using CA certificates - [#329](https://github.com/aquasecurity/aqua-helm/pull/329)
+* Fixing Serviceaccount name in RBAC clusterrolebinding - [#334](https://github.com/aquasecurity/aqua-helm/pull/334)
+
+Improvements:
+* Allowing web ingress path to be configured - [#313](https://github.com/aquasecurity/aqua-helm/pull/313)
+* Adding aquasec envoy image and making certs mount for envoy optional - [#333](https://github.com/aquasecurity/aqua-helm/pull/333)

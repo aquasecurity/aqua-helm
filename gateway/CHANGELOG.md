@@ -19,3 +19,8 @@ Improvements:
 * Added TLS/mTLS support by loading certs from secrets - [#300](https://github.com/aquasecurity/aqua-helm/pull/300)
 * Added support to load password for external DB from secrets - [#300](https://github.com/aquasecurity/aqua-helm/pull/300)
 * Added pod annotations support to templates - [#316](https://github.com/aquasecurity/aqua-helm/pull/316)
+
+## 6.2.4 (August 4th, 2021)
+
+Fixes:
+* Fixing rootca file not found issue when using CA certificates - [#329](https://github.com/aquasecurity/aqua-helm/pull/329)
