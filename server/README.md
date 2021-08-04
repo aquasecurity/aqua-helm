@@ -370,6 +370,7 @@ Parameter | Description | Default| Mandatory
 `web.ingress.enabled` |	If true, Ingress will be created | `false`| `NO`
 `web.ingress.annotations` |	Ingress annotations	| `[]`| `NO`
 `web.ingress.hosts` | Ingress hostnames |	`[]`| `NO`
+`web.ingress.path` |	Ingress Path | `/`| `NO`
 `web.ingress.tls` |	Ingress TLS configuration (YAML) | `[]`| `NO`
 `web.securityContext` | Set of security context for the container | `nil`| `NO`
 `web.TLS.enabled` | If require secure channel communication | `false` | `NO`
