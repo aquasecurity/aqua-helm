@@ -12,12 +12,6 @@ spec:
     metadata:
       labels:
         app: {{ include "kube-enforcer.fullname" . }}
-      {{- with .Values.podAnnotations }}
-      annotations:
-      {{- range $key,$value := . }}
-        {{ $key }}: {{ $value | quote }}
-      {{- end }}
-      {{- end }}
     spec:
       {{- with .Values.securityContext }}
       securityContext:
@@ -64,13 +58,21 @@ spec:
             - name: AQUA_ENABLE_CACHE
               value: "{{ .Values.aqua_enable_cache }}"
             - name: AQUA_CACHE_EXPIRATION_PERIOD
-              value: "{{ .Values.aqua_cache_expiration_period }}"
+              value: "{{ .Values.aqua_cache_expiration_period | default "60"}}"
+            - name: AQUA_LOGICAL_NAME
+              value: "{{ .Values.logicalName }}"
+            - name: CLUSTER_NAME
+              value: {{ .Values.clusterName | default "aqua-secure" }}  
             - name: TLS_SERVER_CERT_FILEPATH
               value: /certs/server.crt
             - name: TLS_SERVER_KEY_FILEPATH
               value: /certs/server.key
             - name: AQUA_GATEWAY_SECURE_ADDRESS
               value: {{ .Values.envs.gatewayAddress }}
+            - name: AQUA_KAP_ADD_ALL_CONTROL
+              value: "true"
+            - name: AQUA_WATCH_CONFIG_AUDIT_REPORT
+              value: "true"
 {{- if .Values.kubeEnforcerAdvance.enable }}
             - name: AQUA_TLS_PORT
               value: "8449"
@@ -82,23 +84,7 @@ spec:
 {{- end }}
             - name: SCALOCK_LOG_LEVEL
               value: {{ .Values.logLevel | default "INFO" }}
-            {{- if .Values.TLS.enabled }}
-            - name: "AQUA_PRIVATE_KEY"
-              value: "/opt/aquasec/ssl/key.pem"
-            - name: "AQUA_PUBLIC_KEY"
-              value: "/opt/aquasec/ssl/cert.pem"
-            {{- if .Values.TLS.rootCA_fileName }}
-            - name: "AQUA_ROOT_CA"
-              value: "/opt/aquasec/ssl/ca.pem"
-            {{- end }}
-            - name: "AQUA_TLS_VERIFY"
-              value: {{ .Values.TLS.tls_verify | quote }}
-              {{- end }}
-            {{- include "kube-enforcer.extraEnvironmentVars" .Values | nindent 12 }}
-            {{- include "kube-enforcer.extraSecretEnvironmentVars" .Values | nindent 12 }}
 {{- if .Values.kubeEnforcerAdvance.enable }}
-            - name: CLUSTER_NAME
-              value: {{ .Values.kubeEnforcerAdvance.clusterName | default "aqua-secure" }}   # Cluster display name in aqua enterprise.
             - name: AQUA_ENVOY_MODE
               value: "true"
 {{- end }}
@@ -108,11 +94,6 @@ spec:
 {{- if .Values.kubeEnforcerAdvance.enable }}
             - name: "envoy-shared"
               mountPath: "/etc/aquasec/envoy"
-{{- end }}
-{{- if .Values.TLS.enabled }}
-            - name: "tls-certs"
-              mountPath: /opt/aquasec/ssl/
-              readOnly: true
 {{- end }}
 {{- if .Values.kubeEnforcerAdvance.enable }}
         - name: envoy
@@ -142,31 +123,12 @@ spec:
         - name: "certs"
           secret:
             secretName: {{ .Values.certsSecret.name }}
-{{- if .Values.TLS.enabled }}
-        - name: "tls-certs"
-          secret:
-            defaultMode: 420
-            secretName: {{ .Values.TLS.secretName }}
-            items:
-            - key: {{ .Values.TLS.publicKey_fileName }}
-              path: cert.pem
-            - key: {{ .Values.TLS.privateKey_fileName }}
-              path: key.pem
-            {{- if .Values.TLS.rootCA_fileName }}
-            - key: {{ .Values.TLS.rootCA_fileName }}
-              path: ca.pem
-            {{- end }}
-{{- end }}
 {{- if .Values.kubeEnforcerAdvance.enable }}
         - name: "envoy-config"
           configMap:
             name: "{{ .Release.Name }}-envoy-conf"
         - name: "envoy-shared"
           emptyDir: {}
-{{- end }}
-{{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
 {{- end }}
   selector:
     matchLabels:
