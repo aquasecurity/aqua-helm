@@ -9,11 +9,8 @@ imageCredentials:
   password: ""
   email: "example@gmail.com"
 
-managed: false
-environment: aws # aws, acs, onprem
-
 aqua_enable_cache: yes
-aqua_cache_expiration_period: 60
+aqua_cache_expiration_period: "60"  # default value is 60 
 
 image:
   repository: kube-enforcer
@@ -24,6 +21,7 @@ nameOverride: "aqua-kube-enforcer"
 fullnameOverride: "aqua-kube-enforcer"
 
 namespace: "aqua"
+logicalName: ""
 
 logLevel: ""
 
@@ -35,7 +33,6 @@ certsSecret:
   serverKey: ""
 
 aquaSecret:
-  create: true
   name: aqua-kube-enforcer-token
 # Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
   kubeEnforcerToken: 
@@ -67,9 +64,6 @@ webhooks:
   mutatingWebhook:
     name: kube-enforcer-me-injection-hook-config
 
-podAnnotations: {}
-#  my-annotation-key: my value; more value
-
 securityContext:
   runAsUser: 11431
   runAsGroup: 11433
@@ -79,7 +73,7 @@ container_securityContext: {}
 livenessProbe:
   tcpSocket:
     port: 8080
-  initialDelaySeconds: 60
+  initialDelaySeconds: 60 
   periodSeconds: 30
 
 readinessProbe:
@@ -97,27 +91,70 @@ resources: {}
   #   cpu: 500m
   #   memory: 1.5Gi
 
-nodeSelector: {}
+starboard:
 
-TLS:
-  enabled: false
-  secretName: ""              # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
-  publicKey_fileName: ""      #provide filename of the public key eg: aqua_enforcer.crt
-  privateKey_fileName: ""     #provide filename of the private key eg: aqua_enforcer.key
-  rootCA_fileName: ""         #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
-  tls_verify: false           # change it to true for enabling mTLS between enforcer and gateway/envoy
+  appName: "starboard-operator"
 
-# extraEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
-# https://docs.aquasec.com/docs/enforcer-optional-variables
-extraEnvironmentVars: {}
-#  ENV_NAME: value
+  serviceAccount:
+    name: "starboard-operator"
 
-# extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
-# These variables take value from existing Secret objects.
-extraSecretEnvironmentVars: []
-  # - envName: ENV_NAME
-  #   secretName: name
-  #   secretKey: key
+  clusterRoleBinding:
+    name: "starboard-operator"
+  
+  clusterRole:
+    name: "starboard-operator"
+
+  automountServiceAccountToken: "true"
+
+  securityContext: {}
+
+  image:
+    repositoryUriPrefix: "docker.io/aquasec"
+    repository: "starboard-operator"
+    tag: "0.10.1"
+    pullPolicy: IfNotPresent
+
+  container_securityContext:
+    privileged: false
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+
+  OPERATOR_NAMESPACE: ""
+  OPERATOR_TARGET_NAMESPACES: ""
+  OPERATOR_LOG_DEV_MODE: "false"
+  OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT: "10"
+  OPERATOR_SCAN_JOB_RETRY_AFTER: "30s"
+  OPERATOR_METRICS_BIND_ADDRESS: ":8080"
+  OPERATOR_HEALTH_PROBE_BIND_ADDRESS: ":9090"
+  OPERATOR_CIS_KUBERNETES_BENCHMARK_ENABLED: "false"
+  OPERATOR_VULNERABILITY_SCANNER_ENABLED: "false"
+  OPERATOR_BATCH_DELETE_LIMIT: "10"
+  OPERATOR_BATCH_DELETE_DELAY: "10s"
+
+  ports:
+    metricContainerPort: 8080
+    probeCntainerPort: 9090
+
+  readinessProbe:
+    httpGet:
+      path: /readyz/
+      port: probes
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 3
+
+  livenessProbe:
+    httpGet:
+      path: /healthz/
+      port: probes
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 10
 
 ##Kube Enforcer advance deployment options
 ### Advanced Deployment (for Pod Enforcer injection)

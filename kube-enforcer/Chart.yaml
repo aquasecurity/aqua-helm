@@ -1,10 +1,11 @@
 apiVersion: v1
-appVersion: "6.2"
-description: A Helm chart for the Aqua KubeEnforcer
+appVersion: "6.5"
+description: A Helm chart for the Aqua KubeEnforcer Starboard
 name: kube-enforcer
-version: 6.2.4
+version: 6.5.1
 icon: https://avatars3.githubusercontent.com/u/12783832?s=200&v=4
 keywords:
+- starboard
 - scanning
 - security
 - runtime-security
@@ -13,5 +14,3 @@ home: https://www.aquasec.com/
 maintainers:
 - name: Aqua Security, Inc.
   email: support@aquasec.com
-- name: Nissim Bitan
-  email: nissim.bitan@aquasec.com
