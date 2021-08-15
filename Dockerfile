@@ -9,4 +9,4 @@ RUN apk add --update --no-cache curl git openssl && \
 
 WORKDIR /aqua
 
-ENTRYPOINT [ "/bin/sh" ]
+CMD [ "/bin/sh" ]
