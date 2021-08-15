@@ -5,6 +5,7 @@ pipeline {
         dockerfile {
             label 'automation_slaves'
     }
+    }
     //options {
     //    ansiColor('xterm')
     //    timestamps()
