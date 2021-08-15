@@ -1,4 +1,4 @@
-@Library('aqua-pipeline-lib@master')_
+//@Library('aqua-pipeline-lib@master')_
 
 pipeline {
     //agent {
@@ -51,7 +51,7 @@ pipeline {
                     cd aqua-helm
                     git checkout 6.2_jenkins
                     helm lint server/
-                    
+
                     """
                 }
             }
