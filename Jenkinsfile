@@ -6,13 +6,13 @@ pipeline {
     //        label 'automation_slaves'
     //}
     agent { dockerfile true }
-    options {
-        ansiColor('xterm')
-        timestamps()
-        skipStagesAfterUnstable()
-        skipDefaultCheckout()
-        buildDiscarder(logRotator(daysToKeepStr: '7'))
-    }
+    //options {
+    //    ansiColor('xterm')
+    //    timestamps()
+    //    skipStagesAfterUnstable()
+    //    skipDefaultCheckout()
+    //    buildDiscarder(logRotator(daysToKeepStr: '7'))
+    //}
     stages {
         //stage('Checkout') {
         //    steps {
@@ -60,7 +60,7 @@ pipeline {
     post {
         always {
             script {
-                cleanWs()
+//                cleanWs()
 //                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
             }
         }
