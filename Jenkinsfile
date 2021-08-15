@@ -1,11 +1,10 @@
 //@Library('aqua-pipeline-lib@master')_
 
 pipeline {
-    //agent {
-    //    dockerfile {
-    //        label 'automation_slaves'
-    //}
-    agent { dockerfile true }
+    agent {
+        dockerfile {
+            label 'automation_slaves'
+    }
     //options {
     //    ansiColor('xterm')
     //    timestamps()
@@ -57,12 +56,12 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            script {
+//    post {
+//        always {
+//            script {
 //                cleanWs()
 //                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
-            }
-        }
-    }
+//            }
+//        }
+//    }
 }
