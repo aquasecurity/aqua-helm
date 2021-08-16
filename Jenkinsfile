@@ -33,7 +33,7 @@ pipeline {
         //    }
         //}
 
-        stage("Create Runs") {
+        stage("Helm Lint Git") {
             steps {
                 script {
                     //def deploymentImage = docker.build("deployment-image")
@@ -50,8 +50,29 @@ pipeline {
                     git clone https://github.com/KoppulaRajender/aqua-helm.git
                     cd aqua-helm
                     git checkout 6.2_jenkins
-                    helm lint server/
-
+                    helm lint server/ && \
+                    helm lint tenant-manager/ && \
+                    helm lint enforcer/ && \
+                    helm lint gateway/ && \
+                    helm lint aqua-quickstart/ && \
+                    helm lint kube-enforcer/  --set "aquaSecret.kubeEnforcerToken=Test123" && \
+                    helm lint kube-enforcer-starboard/ --set "aquaSecret.kubeEnforcerToken=Test123"
+                    """
+                }
+            }
+        }
+        stage("Helm Lint HelmRepo") {
+            steps {
+                script {
+                    sh """
+                    helm repo add aqua-helm https://helm.aquasec.com
+                    helm lint aqua-helm/server && \
+                    helm lint aqua-helm/tenant-manager/ && \
+                    helm lint aqua-helm/enforcer/ && \
+                    helm lint aqua-helm/gateway/ && \
+                    #helm lint aqua-helm/aqua-quickstart/ && \
+                    helm lint aqua-helm/kube-enforcer/  --set "aquaSecret.kubeEnforcerToken=Test123" && \
+                    #helm lint aqua-helm/kube-enforcer-starboard/ --set "aquaSecret.kubeEnforcerToken=Test123"
                     """
                 }
             }
