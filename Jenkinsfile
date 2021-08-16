@@ -47,6 +47,7 @@ pipeline {
                     //    cloudformation.run  publish: false
                     //}
                     sh """
+                    rm -r aqua-helm
                     git clone https://github.com/KoppulaRajender/aqua-helm.git
                     cd aqua-helm
                     git checkout 6.2_jenkins
