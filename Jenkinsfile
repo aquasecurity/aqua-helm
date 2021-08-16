@@ -61,12 +61,10 @@ pipeline {
                     """
                 }
             }
-        }
-        stage("Helm Lint HelmRepo") {
             steps {
                 script {
                     sh """
-                    helm repo update
+                    helm repo add aqua-helm https://helm.aquasec.com && \
                     helm lint aqua-helm/server && \
                     helm lint aqua-helm/tenant-manager/ && \
                     helm lint aqua-helm/enforcer/ && \
@@ -77,6 +75,9 @@ pipeline {
                     """
                 }
             }
+        }
+        stage("Helm Lint HelmRepo") {
+            
         }
     }
 //    post {
