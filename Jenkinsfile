@@ -76,9 +76,9 @@ pipeline {
                 }
             }
         }
-        stage("Helm Lint HelmRepo") {
-            
-        }
+        //stage("Helm Lint HelmRepo") {
+        //    
+        //}
     }
 //    post {
 //        always {
