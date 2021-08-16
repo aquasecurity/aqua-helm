@@ -66,7 +66,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                    helm repo add aqua-helm https://helm.aquasec.com
+                    helm repo update
                     helm lint aqua-helm/server && \
                     helm lint aqua-helm/tenant-manager/ && \
                     helm lint aqua-helm/enforcer/ && \
