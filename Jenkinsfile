@@ -61,6 +61,8 @@ pipeline {
                     """
                 }
             }
+        }
+        stage("Helm Lint HelmRepo") {
             steps {
                 script {
                     sh """
@@ -76,9 +78,6 @@ pipeline {
                 }
             }
         }
-        //stage("Helm Lint HelmRepo") {
-        //    
-        //}
     }
 //    post {
 //        always {
