@@ -1,4 +1,5 @@
-@Library('aqua-pipeline-lib@master')
+
+@Library('aqua-pipeline-lib@master')_
 
 pipeline {
     agent {
@@ -14,6 +15,16 @@ pipeline {
         buildDiscarder(logRotator(daysToKeepStr: '7'))
     }
     stages {
+        stage('Checkout') {
+            steps {
+                checkout([
+                        $class: 'GitSCM',
+                        branches: scm.branches,
+                        doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+                        userRemoteConfigs: scm.userRemoteConfigs
+                ])
+            }
+        }
         stage("Helm Lint Git") {
             steps {
                 script {
