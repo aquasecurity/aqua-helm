@@ -24,6 +24,13 @@ pipeline {
                         extensions: scm.extensions + [[$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: 'aqua-helm/']]]],
                         userRemoteConfigs: scm.userRemoteConfigs
                 ])
+                script {
+                    sh """
+                    pwd && \
+                    ls -ltr
+                    """
+                }
+                
             }
         }
         stage("Helm Lint Git") {
