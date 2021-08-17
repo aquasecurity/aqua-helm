@@ -24,7 +24,7 @@ serviceAccount:
 
 db:
   external:
-    enabled: true
+    enabled: false
     name: ""
     host: ""
     port: ""
