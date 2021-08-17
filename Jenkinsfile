@@ -17,7 +17,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                
+                checkout([
+                        $class: 'GitSCM',
+                        branches: scm.branches,
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [],
+                        submoduleCfg: [],
+                        userRemoteConfigs: scm.userRemoteConfigs
+                ])
                 script {
                     sh """
                     pwd && \
