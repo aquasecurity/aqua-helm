@@ -108,6 +108,7 @@ gate:
     fsGroup: 11433
   container_securityContext: {}
 
+
   # TLS is for enabling mTLS/TLS establishment between gateway <-> server and gateway <-> enforcers
   TLS:
     enabled: false              # enable to true for secure communication (mTLS/TLS)
