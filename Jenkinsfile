@@ -21,6 +21,7 @@ pipeline {
                         $class: 'GitSCM',
                         branches: scm.branches,
                         doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+                        extensions: scm.extensions + [[$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: 'aqua-helm/']]]],
                         userRemoteConfigs: scm.userRemoteConfigs
                 ])
             }
