@@ -3,9 +3,7 @@
 
 pipeline {
     agent {
-        //dockerfile {
             label 'automation_slaves'
-        //}
     }
     options {
         ansiColor('xterm')
@@ -35,6 +33,11 @@ pipeline {
             }
         }
         stage("Helm Lint Git") {
+            agent { 
+                dockerfile {
+                filename 'Dockerfile'
+                } 
+            }
             steps {
                 script {
                     sh """
