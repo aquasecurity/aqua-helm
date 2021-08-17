@@ -52,6 +52,7 @@ db:
   auditssl: false
   pubsubssl: false
 
+
 gate:
   replicaCount: 1
   logLevel:
