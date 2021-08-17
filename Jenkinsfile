@@ -3,9 +3,9 @@
 
 pipeline {
     agent {
-        dockerfile {
+        //dockerfile {
             label 'automation_slaves'
-        }
+        //}
     }
     options {
         ansiColor('xterm')
