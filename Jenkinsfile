@@ -22,14 +22,7 @@ pipeline {
                         extensions: [],
                         submoduleCfg: [],
                         userRemoteConfigs: scm.userRemoteConfigs
-                ])
-                script {
-                    sh """
-                    pwd && \
-                    ls -ltr
-                    """
-                }
-                
+                ])              
             }
         }
         stage("Helm Lint Git") {
@@ -42,10 +35,6 @@ pipeline {
             steps {
                 script {
                     sh """
-                    rm -r aqua-helm
-                    git clone https://github.com/aquasecurity/aqua-helm.git
-                    cd aqua-helm
-                    git checkout 5.3
                     helm lint server/ && \
                     helm lint tenant-manager/ && \
                     helm lint enforcer/ && \
