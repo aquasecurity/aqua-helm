@@ -22,7 +22,6 @@ console:
 serviceAccount:
   name: "aqua-sa"
 
-
 db:
   external:
     enabled: false
@@ -52,7 +51,6 @@ db:
   ssl: false
   auditssl: false
   pubsubssl: false
-
 
 gate:
   replicaCount: 1
@@ -110,7 +108,6 @@ gate:
     fsGroup: 11433
   container_securityContext: {}
 
-
   # TLS is for enabling mTLS/TLS establishment between gateway <-> server and gateway <-> enforcers
   TLS:
     enabled: false              # enable to true for secure communication (mTLS/TLS)
@@ -119,7 +116,6 @@ gate:
     privateKey_fileName: ""      #provide filename of the private key eg: aqua_gateway.key
     rootCA_fileName: ""          #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
     aqua_verify_enforcer: "0"    # change it to "1" for enabling mTLS between enforcer and gateway/envoy
-
 
   # extraEnvironmentVars is a list of extra environment variables to set in the gateway deployments.
   # https://docs.aquasec.com/docs/gateway-optional-variables
