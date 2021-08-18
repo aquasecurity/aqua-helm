@@ -39,7 +39,8 @@ pipeline {
                     helm lint enforcer/ && \
                     helm lint gateway/ --set "db.external.password=Test123" && \
                     helm lint aqua-quickstart/ && \
-                    helm lint kube-enforcer/  --set "aquaSecret.kubeEnforcerToken=Test123"
+                    helm lint kube-enforcer/  --set "aquaSecret.kubeEnforcerToken=Test123" && \
+                    helm lint kube-enforcer-starboard/ --set "aquaSecret.kubeEnforcerToken=Test123"
                     """
                 }
             }
