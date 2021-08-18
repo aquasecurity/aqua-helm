@@ -40,8 +40,7 @@ pipeline {
                     helm lint enforcer/ && \
                     helm lint gateway/ && \
                     helm lint aqua-quickstart/ && \
-                    helm lint kube-enforcer/  --set "aquaSecret.kubeEnforcerToken=Test123" && \
-                    helm lint kube-enforcer-starboard/ --set "aquaSecret.kubeEnforcerToken=Test123"
+                    helm lint kube-enforcer/  --set "aquaSecret.kubeEnforcerToken=Test123"
                     """
                 }
             }
@@ -52,7 +51,7 @@ pipeline {
     //    always {
     //        script {
     //            cleanWs()
-//                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
+    //            notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
     //        }
     //    }
     //}
