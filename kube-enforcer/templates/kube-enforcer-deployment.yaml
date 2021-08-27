@@ -59,8 +59,6 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.aquaSecret.name }}
                   key: token
-            # Specify whether to enable/disable the cache by using "yes", "true", "no", "false" values.
-            # Default value is "yes".
             - name: AQUA_ENABLE_CACHE
               value: "{{ .Values.aqua_enable_cache }}"
             - name: AQUA_CACHE_EXPIRATION_PERIOD

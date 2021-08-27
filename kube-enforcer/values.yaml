@@ -12,7 +12,7 @@ imageCredentials:
 managed: false
 environment: aws # aws, acs, onprem
 
-aqua_enable_cache: yes
+aqua_enable_cache: yes # Specify whether to enable/disable the cache by using "yes", "true", "no", "false" values.
 aqua_cache_expiration_period: 60
 
 image:
