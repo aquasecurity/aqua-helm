@@ -24,6 +24,7 @@ nameOverride: "aqua-kube-enforcer"
 fullnameOverride: "aqua-kube-enforcer"
 
 namespace: "aqua"
+logicalName: ""
 
 logLevel: ""
 

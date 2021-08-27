@@ -63,6 +63,8 @@ spec:
               value: "{{ .Values.aqua_enable_cache }}"
             - name: AQUA_CACHE_EXPIRATION_PERIOD
               value: "{{ .Values.aqua_cache_expiration_period }}"
+            - name: AQUA_LOGICAL_NAME
+              value: "{{ .Values.logicalName }}"
             - name: TLS_SERVER_CERT_FILEPATH
               value: /certs/server.crt
             - name: TLS_SERVER_KEY_FILEPATH
