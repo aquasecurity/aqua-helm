@@ -12,7 +12,9 @@ webhooks:
         apiVersions: ["*"]
         resources: ["pods"]
     clientConfig:
+      {{- if not .Values.webhooks.certManager }}
       caBundle: {{ template "caBundle" . }}
+      {{- end }}
       service:
         namespace: {{ .Values.namespace }}
         name: {{ include "kube-enforcer.fullname" . }}
