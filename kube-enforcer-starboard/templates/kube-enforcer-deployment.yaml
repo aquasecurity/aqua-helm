@@ -118,6 +118,10 @@ spec:
           readinessProbe:
 {{ toYaml . | indent 12 }}
 {{- end }}
+{{- with .Values.kubeEnforcerAdvance.envoy.resources }}
+          resources:
+{{ toYaml . | indent 12 }}
+{{- end }}
 {{- end }}
       volumes:
         - name: "certs"
