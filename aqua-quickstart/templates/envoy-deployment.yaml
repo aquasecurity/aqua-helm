@@ -4,6 +4,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-envoy
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-envoy
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"

@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-tm-db-svc
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-tm-db
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
