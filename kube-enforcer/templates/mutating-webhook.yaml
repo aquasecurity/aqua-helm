@@ -2,7 +2,7 @@ apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
   name: {{ .Values.webhooks.mutatingWebhook.name }}
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace }}
 webhooks:
   - name: microenforcer.aquasec.com
     sideEffects: "None"
@@ -18,7 +18,7 @@ webhooks:
       caBundle: {{ template "caBundle" . }}
       {{- end }}
       service:
-        namespace: {{ .Values.namespace }}
+        namespace: {{ .Release.Namespace }}
         name: {{ include "kube-enforcer.fullname" . }}
         path: "/mutate"
     timeoutSeconds: 5

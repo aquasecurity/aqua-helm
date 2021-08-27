@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-scanner
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-scanner
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"

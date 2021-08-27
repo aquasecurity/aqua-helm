@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.starboard.appName }}
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Values.starboard.appName }}
 spec:
@@ -37,7 +37,7 @@ spec:
             {{- if .Values.starboard.OPERATOR_NAMESPACE }}
               value: {{ .Values.starboard.OPERATOR_NAMESPACE }}
             {{- else }}
-              value: {{ .Values.namespace }}
+              value: {{ .Release.Namespace }}
             {{- end }}
             - name: OPERATOR_TARGET_NAMESPACES
               value: "{{ .Values.starboard.OPERATOR_TARGET_NAMESPACES }}"

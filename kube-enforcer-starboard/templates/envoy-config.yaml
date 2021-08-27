@@ -3,6 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-envoy-conf
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-envoy
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"

@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: {{ .Release.Name }}-ds
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-ds
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
