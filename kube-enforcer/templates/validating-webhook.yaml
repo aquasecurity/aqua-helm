@@ -1,18 +1,22 @@
-apiVersion: admissionregistration.k8s.io/v1beta1
+apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
   name: {{ .Values.webhooks.validatingWebhook.name }}
   namespace: {{ .Values.namespace }}
 webhooks:
   - name: imageassurance.aquasec.com
-    failurePolicy: {{ .Values.webhooks.failurePolicy }}  
+    failurePolicy: {{ .Values.webhooks.failurePolicy }}
+    sideEffects: "None"
+    admissionReviewVersions: ["v1", "v1beta1"]
     rules:
       - operations: ["CREATE"]
         apiGroups: ["*"]
         apiVersions: ["*"]
         resources: ["pods", "deployments", "replicasets", "replicationcontrollers", "statefulsets", "daemonsets", "jobs", "cronjobs"]
     clientConfig:
+      {{- if not .Values.webhooks.certManager }}
       caBundle: {{ template "caBundle" . }}
+      {{- end }}
       service:
         namespace: {{ .Values.namespace }}
         name: {{ include "kube-enforcer.fullname" . }}

@@ -45,3 +45,7 @@ Inject extra environment populated by secrets, if populated
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
+{{- define "platform" }}
+{{- printf "%s" (required "A valid .Values.platform entry required" .Values.platform ) | replace "\n" "" }}
+{{- end }}

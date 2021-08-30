@@ -57,7 +57,8 @@ roleBinding:
   name: aqua-kube-enforcer 
 
 webhooks:
-  caBundle: ""
+  caBundle: "" # this field is required unless you're using Kubernetes cert-manager (set the flag below to true)
+  certManager: false # set this field true if you're using cert-manager and don't need to pass a caBundle
   failurePolicy: Ignore
   validatingWebhook:
     name: kube-enforcer-admission-hook-config
