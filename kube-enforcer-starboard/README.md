@@ -205,8 +205,8 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `starboard.readinessProbe`  |
 | `starboard.livenessProbe`  |
 | `kubeEnforcerAdvance.enable`      | Advanced KubeEnforcer deployment          | `false`  | `NO`   |
-| `kubeEnforcerAdvance.clusterName` | Cluster name of the Advanced KE deployment | `k8s`    | `NO`   |
-| `kubeEnforcerAdvance.clusterID`   | Cluster name of the Advanced KE deployment | `N/A`    | `NO`   |
+| `kubeEnforcerAdvance.clusterName` | Cluster name of the advance KE deployment | `k8s` | `YES - if kubeEnforcerAdvance.enable` |
+| `kubeEnforcerAdvance.nodeID`      | Envoy Node ID of the advance KE deployment    | `envoy` | `YES - if kubeEnforcerAdvance.enable` |
 
 ## Issues and feedback
 

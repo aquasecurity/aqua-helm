@@ -70,7 +70,7 @@ spec:
             - name: TLS_SERVER_KEY_FILEPATH
               value: /certs/server.key
             - name: AQUA_GATEWAY_SECURE_ADDRESS
-              value: {{ .Values.envs.gatewayAddress }}
+              value: {{ .Values.gateway.address }}:{{ .Values.gateway.port }}
 {{- if .Values.kubeEnforcerAdvance.enable }}
             - name: AQUA_TLS_PORT
               value: "8449"
