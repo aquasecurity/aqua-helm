@@ -7,7 +7,6 @@ imageCredentials:
   registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
   username: ""
   password: ""
-  email: "example@gmail.com"
 
 aqua_enable_cache: yes
 aqua_cache_expiration_period: "60"  # default value is 60 
