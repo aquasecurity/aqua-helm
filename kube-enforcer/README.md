@@ -172,8 +172,8 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `webhooks.caBundle`               | Root certificate for TLS authentication with the Kubernetes api-server      | `N/A`                     | `YES`                   |
 | `envs.gatewayAddress`             | Gateway host address                                                        | `aqua-gateway-svc:8443`   | `YES`                   |
 | `kubeEnforcerAdvance.enable`      | Advance Kube Enforcer Deployment                                            | `false`                   | `NO`                    |
-| `kubeEnforcerAdvance.clusterName` | Cluster name of the advance KE deployment                                   | `k8s`                     | `NO`                    |
-| `kubeEnforcerAdvance.clusterID`   | Cluster name of the advance KE deployment                                   | `N/A`                     | `NO`                    |
+| `kubeEnforcerAdvance.clusterName` | Cluster name of the advance KE deployment                                   | `k8s`                     | `YES - if kubeEnforcerAdvance.enable` |
+| `kubeEnforcerAdvance.nodeID`      | Envoy Node ID of the advance KE deployment                                  | `envoy`                   | `YES - if kubeEnforcerAdvance.enable` |
 | `nodeSelector`                    | Kubernetes node selector                                                    | `{}`                      | `NO`                    |
 
 

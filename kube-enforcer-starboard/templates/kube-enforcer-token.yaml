@@ -1,8 +1,10 @@
+{{ if  .Values.aquaSecret.create }}
 apiVersion: v1
 kind: Secret
 metadata:
   name: {{ .Values.aquaSecret.name }}
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace }}
 type: Opaque
 data:
   token: {{ .Values.aquaSecret.kubeEnforcerToken | b64enc }}             # aqua kube enforcer token
+{{ end }}

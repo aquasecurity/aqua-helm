@@ -2,7 +2,7 @@ apiVersion: admissionregistration.k8s.io/v1beta1
 kind: ValidatingWebhookConfiguration
 metadata:
   name: {{ .Values.ke.webhooks.validatingWebhook.name }}
-  namespace: {{ .Values.ke.namespace }}
+  namespace: {{ .Release.Namespace }}
 webhooks:
   - name: imageassurance.aquasec.com
     rules:
@@ -13,6 +13,6 @@ webhooks:
     clientConfig:
       caBundle: {{ template "caBundle" . }}
       service:
-        namespace: {{ .Values.ke.namespace }}
+        namespace: {{ .Release.Namespace }}
         name: {{ include "kube-enforcer.fullname" . }}
     timeoutSeconds: 5
