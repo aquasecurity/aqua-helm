@@ -48,7 +48,9 @@ spec:
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         args:
         - daemon
+        {{- if .Values.directCC.enabled }}
         - --direct-cc
+        {{- end }}
         - --user
         {{- if .Values.scannerUserSecret.enable }}
         - "$(SCANNER_USER)"
