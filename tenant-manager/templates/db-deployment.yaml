@@ -4,6 +4,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-tm-db
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-tm-db
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"

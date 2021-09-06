@@ -11,6 +11,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ .Release.Name }}-console-ingress
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-console-ingress
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
