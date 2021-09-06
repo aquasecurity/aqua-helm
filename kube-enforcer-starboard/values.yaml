@@ -19,8 +19,8 @@ image:
 nameOverride: "aqua-kube-enforcer"
 fullnameOverride: "aqua-kube-enforcer"
 
+clusterName: ""   # Display a custom cluster name in the infrastructure tab of Aqua Enterprise
 logicalName: ""
-
 logLevel: ""
 
 # Set create to false if you want to use an existing secret for the kube-enforcer certs
@@ -165,7 +165,6 @@ starboard:
 
 kubeEnforcerAdvance:
   enable: false
-  clusterName: "k8s"
   nodeID: "envoy"
 
   envoy:
