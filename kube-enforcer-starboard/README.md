@@ -178,6 +178,7 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `imageCredentials.username`       | Your Docker registry (Docker Hub, etc.) username            | `N/A`    | `YES - New cluster`     |
 | `imageCredentials.password`       | Your Docker registry (Docker Hub, etc.) password            | `N/A`    | `YES - New cluster`     |
 | `aquaSecret.kubeEnforcerToken`    | Aqua KubeEnforcer (KE) token  | `N/A`    | `YES`  |
+| `clusterName`                     | Cluster name registered with Aqua in Infrastructure tab | `N/A` | `NO` |
 | `certsSecret.create`              | Set to create a new secret for KE certs     | `true`   | `YES`  |
 | `certsSecret.name`                | Secret name for KE certs | `aqua-kube-enforcer-certs`| `YES`  |
 | `certsSecret.serverCertificate`   | Certificate for TLS authentication with the Kubernetes api-server           | `N/A`    | `YES`  |
@@ -205,7 +206,6 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `starboard.readinessProbe`  |
 | `starboard.livenessProbe`  |
 | `kubeEnforcerAdvance.enable`      | Advanced KubeEnforcer deployment          | `false`  | `NO`   |
-| `kubeEnforcerAdvance.clusterName` | Cluster name of the advance KE deployment | `k8s` | `YES - if kubeEnforcerAdvance.enable` |
 | `kubeEnforcerAdvance.nodeID`      | Envoy Node ID of the advance KE deployment    | `envoy` | `YES - if kubeEnforcerAdvance.enable` |
 
 ## Issues and feedback

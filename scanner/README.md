@@ -79,6 +79,7 @@ Parameter | Description | Default| Mandatory
 `repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com`| `YES` 
 `dockerSocket.mount` | boolean parameter if to mount docker socket | `unset`| `NO` 
 `dockerSocket.path` | docker socket path | `/var/run/docker.sock`| `NO` 
+`directCC.enabled` | scanner talk to the cybercenter directly | `yes`| `NO` 
 `serviceAccount.create` | Enable to create serviceaccount if not exist in the k8s | `false`| `NO`
 `serviceAccount.name` | K8 service-account name either existing one or new name if create is enabled | `aqua-sa`  | `YES`
 `server.scheme` | scheme for server to connect | `http`| `NO`
