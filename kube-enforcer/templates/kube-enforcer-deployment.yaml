@@ -65,6 +65,8 @@ spec:
               value: "{{ .Values.aqua_cache_expiration_period }}"
             - name: AQUA_LOGICAL_NAME
               value: "{{ .Values.logicalName }}"
+            - name: CLUSTER_NAME
+              value: {{ .Values.clusterName }}
             - name: TLS_SERVER_CERT_FILEPATH
               value: /certs/server.crt
             - name: TLS_SERVER_KEY_FILEPATH
@@ -97,8 +99,6 @@ spec:
             {{- include "kube-enforcer.extraEnvironmentVars" .Values | nindent 12 }}
             {{- include "kube-enforcer.extraSecretEnvironmentVars" .Values | nindent 12 }}
 {{- if .Values.kubeEnforcerAdvance.enable }}
-            - name: CLUSTER_NAME
-              value: {{ .Values.kubeEnforcerAdvance.clusterName | default "aqua-secure" }}   # Cluster display name in aqua enterprise.
             - name: AQUA_ENVOY_MODE
               value: "true"
 {{- end }}

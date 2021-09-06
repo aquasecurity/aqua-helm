@@ -1,5 +1,5 @@
 node:
-  cluster: {{ .Values.kubeEnforcerAdvance.clusterName | default "k8s" }}
+  cluster: {{ .Values.clusterName | default "k8s" }}
   id: {{ .Values.kubeEnforcerAdvance.nodeID | default "envoy" }}
 
 dynamic_resources:

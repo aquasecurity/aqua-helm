@@ -11,6 +11,9 @@ dockerSock:
   mount: # put true for mount docker socket.
   path: /var/run/docker.sock # pks - /var/vcap/data/sys/run/docker/docker.sock
 
+directCC:
+  enabled: true     # Change it to false if the scanners don't connect directly to CyberCenter but only console does
+
 serviceAccount:
   create: false     #Change it to false if the cluster doesn't consists aqua service account
   name: "aqua-sa"   #Mention the Service Account name, Default "aqua-sa"
