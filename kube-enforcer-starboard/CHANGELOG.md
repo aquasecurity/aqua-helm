@@ -5,6 +5,7 @@ Fixes:
 
 Improvements:
 * Added namespace default to all components - [#354](https://github.com/aquasecurity/aqua-helm/pull/354)
+* Added an option to use CLUSTER_NAME - [#359](https://github.com/aquasecurity/aqua-helm/pull/359)
 
 
 ## 6.2.1 (July 15th, 2021)

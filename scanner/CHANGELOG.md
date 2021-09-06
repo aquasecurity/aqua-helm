@@ -2,6 +2,7 @@
 
 Improvements:
 * Added namespace default to all components - [#354](https://github.com/aquasecurity/aqua-helm/pull/354)
+* Made direct-cc option available in the values - [#359](https://github.com/aquasecurity/aqua-helm/pull/359)
 
 ## 6.2.4 (July 15th, 2021)
 
