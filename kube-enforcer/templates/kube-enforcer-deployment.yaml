@@ -5,7 +5,7 @@ metadata:
     role: {{ .Release.Name }}
     app: {{ include "kube-enforcer.fullname" . }}
   name: {{ include "kube-enforcer.fullname" . }}
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   template:
@@ -62,13 +62,13 @@ spec:
             - name: AQUA_LOGICAL_NAME
               value: "{{ .Values.logicalName }}"
             - name: CLUSTER_NAME
-              value: {{ .Values.clusterName | default "aqua-secure" }}  
+              value: {{ .Values.clusterName }}
             - name: TLS_SERVER_CERT_FILEPATH
               value: /certs/server.crt
             - name: TLS_SERVER_KEY_FILEPATH
               value: /certs/server.key
             - name: AQUA_GATEWAY_SECURE_ADDRESS
-              value: {{ .Values.envs.gatewayAddress }}
+              value: {{ .Values.gateway.address }}:{{ .Values.gateway.port }}
             - name: AQUA_KAP_ADD_ALL_CONTROL
               value: "true"
             - name: AQUA_WATCH_CONFIG_AUDIT_REPORT
@@ -116,6 +116,10 @@ spec:
 {{- end }}
 {{- with .Values.kubeEnforcerAdvance.envoy.readinessProbe }}
           readinessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.kubeEnforcerAdvance.envoy.resources }}
+          resources:
 {{ toYaml . | indent 12 }}
 {{- end }}
 {{- end }}
