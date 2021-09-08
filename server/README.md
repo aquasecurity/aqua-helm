@@ -388,6 +388,7 @@ Parameter | Description | Default| Mandatory
 `envoy.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
 `envoy.service.type` | k8s service type | `LoadBalancer`| `NO`
 `envoy.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
+`envoy.service.annotations` | use this field to pass additional annotations for the service, useful to drive Cloud providers behaviour in creating the LB resource. E.g. `service.beta.kubernetes.io/aws-load-balancer-type: nlb`  | `{}` | `NO`
 `envoy.service.ports` | array of ports settings | `array`| `NO`
 `envoy.TLS.listener.enabled` | enable to load custom self-signed or CA certs | `false` | `NO` <br /> `if envoy.enabled is set to true`
 `envoy.TLS.listener.secretName` | certificates secret name | `nil` | `NO` <br /> `if envoy.enabled is set to true`
