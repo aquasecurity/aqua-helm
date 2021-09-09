@@ -134,8 +134,8 @@ kubeEnforcerAdvance:
 
   envoy:
     image:
-      repository: envoyproxy/envoy-alpine
-      tag: v1.15.1
+      repository: envoy
+      tag: "6.2"
       pullPolicy: IfNotPresent
 
     readinessProbe:
