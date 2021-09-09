@@ -45,9 +45,9 @@ resources:
                           timeout: 0s
 
               http_filters:
-                - name: envoy.filters.http.health_check
+                - name: envoy.extensions.filters.http.health_check
                   typed_config:
-                    "@type": type.googleapis.com/envoy.config.filter.http.health_check.v2.HealthCheck
+                    "@type": type.googleapis.com/envoy.extensions.filters.http.health_check.v3.HealthCheck
                     pass_through_mode: false
                     headers:
                       - name: ":path"
