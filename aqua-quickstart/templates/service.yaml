@@ -4,7 +4,7 @@ metadata:
   labels:
     role: {{ include "kube-enforcer.fullname" . }}
   name: {{ include "kube-enforcer.fullname" . }}
-  namespace: {{ .Values.ke.namespace }}
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - port: 443

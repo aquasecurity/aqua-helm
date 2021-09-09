@@ -163,6 +163,7 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `imageCredentials.name`           | Your Docker pull image secret name                                          | `aqua-registry-secret`    | `YES - New cluster`     |
 | `imageCredentials.username`       | Your Docker registry (DockerHub, etc.) username                             | `N/A`                     | `YES - New cluster`     |
 | `imageCredentials.password`       | Your Docker registry (DockerHub, etc.) password                             | `N/A`                     | `YES - New cluster`     |
+| `clusterName`                     | Cluster name registered with Aqua in Infrastructure tab                     | `N/A`                        | `NO`                    |
 | `aquaSecret.create`               | Set to create the Aqua KubeEnforcer token secret                            | `true`                    | `YES`                   |
 | `aquaSecret.kubeEnforcerToken`    | Aqua KubeEnforcer token                                                     | `N/A`                     | `YES`                   |
 | `certsSecret.create`              | Set to create new secret for KE certs                                       | `true`                    | `YES`                   |
@@ -172,8 +173,7 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `webhooks.caBundle`               | Root certificate for TLS authentication with the Kubernetes api-server      | `N/A`                     | `YES`                   |
 | `envs.gatewayAddress`             | Gateway host address                                                        | `aqua-gateway-svc:8443`   | `YES`                   |
 | `kubeEnforcerAdvance.enable`      | Advance Kube Enforcer Deployment                                            | `false`                   | `NO`                    |
-| `kubeEnforcerAdvance.clusterName` | Cluster name of the advance KE deployment                                   | `k8s`                     | `NO`                    |
-| `kubeEnforcerAdvance.clusterID`   | Cluster name of the advance KE deployment                                   | `N/A`                     | `NO`                    |
+| `kubeEnforcerAdvance.nodeID`      | Envoy Node ID of the advance KE deployment                                  | `envoy`                   | `YES - if kubeEnforcerAdvance.enable` |
 | `nodeSelector`                    | Kubernetes node selector                                                    | `{}`                      | `NO`                    |
 
 
