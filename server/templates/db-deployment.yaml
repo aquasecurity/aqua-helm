@@ -4,6 +4,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-database
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-database
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
@@ -127,6 +128,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-audit-database
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-audit-database
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
@@ -141,6 +143,11 @@ spec:
       annotations:
       {{- if and (.Values.db.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.db.tolerations }}'
+      {{- end }}
+      {{- with .Values.db.podAnnotations }}
+      {{- range $key,$value := . }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
       {{- end }}
       labels:
         app: {{ .Release.Name }}-audit-database
