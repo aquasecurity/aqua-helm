@@ -28,6 +28,7 @@ spec:
         http:
           paths:
             - path: /
+              pathType: Prefix
               backend:
                 serviceName: {{ $fullname }}-console-svc
                 servicePort: {{ $servicePort }}
