@@ -32,8 +32,8 @@ This repository includes the following charts; they can be deployed separately:
 | [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component | 6.2.7 |
 | [Enforcer](enforcer/) | Deploys the Aqua Enforcer daemonset | 6.2.6 |
 | [Scanner](scanner/)  | Deploys the Aqua Scanner deployment | 6.2.5 |
-| [KubeEnforcer](kube-enforcer/)| Deploys Aqua KubeEnforcer | 6.2.5 |
-| [KubeEnforcer-Starboard](kube-enforcer-starboard/)| Deploys Aqua KubeEnforcer with Starboard | 6.2.2 |
+| [KubeEnforcer](kube-enforcer/)| Deploys Aqua KubeEnforcer | 6.2.6 |
+| [KubeEnforcer-Starboard](kube-enforcer-starboard/)| Deploys Aqua KubeEnforcer with Starboard | 6.2.3 |
 | [Gateway](gateway)| Deploys the Aqua Standalone Gateway | 6.2.5 |
 | [Tenant-Manager](tenant-manager/)| Deploys the Aqua Tenant Manager | 6.2.4 |
 | [QuickStart](aqua-quickstart/ )| Not for production use (see [below](#quick-start-deployment-not-for-production-purposes)). Deploys the Console, Database, Gateway and KubeEnforcer components | 6.2.3 |
@@ -80,8 +80,8 @@ NAME                            CHART VERSION       APP VERSION         DESCRIPT
 aqua-helm/enforcer                  6.2.6               6.2                 A Helm chart for the Aqua Enforcer
 aqua-helm/scanner                   6.2.5               6.2                 A Helm chart for the Aqua Scanner CLI component
 aqua-helm/server                    6.2.5               6.2                 A Helm chart for the Aqua Console components
-aqua-helm/kube-enforcer             6.2.5               6.2                 A Helm chart for the Aqua KubeEnforcer
-aqua-helm/kube-enforcer-starboard   6.2.2               6.2                 A Helm chart for the Aqua KubeEnforcer Starboard
+aqua-helm/kube-enforcer             6.2.6               6.2                 A Helm chart for the Aqua KubeEnforcer
+aqua-helm/kube-enforcer-starboard   6.2.3               6.2                 A Helm chart for the Aqua KubeEnforcer Starboard
 aqua-helm/gateway                   6.2.5               6.2                 A Helm chart for the Aqua Gateway
 aqua-helm/tenant-manager            6.2.4               6.2                 A Helm chart for the Aqua Tenant Manager
 ```

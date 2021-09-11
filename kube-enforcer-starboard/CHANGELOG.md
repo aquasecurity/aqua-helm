@@ -1,3 +1,9 @@
+## 6.2.3 (September 11th, 2021)
+Fixes:
+* Added validating webhook missing UPDATE capability - [#363](https://github.com/aquasecurity/aqua-helm/pull/363)
+
+Improvements:
+* Adding Aqua registry image for Envoy
 ## 6.2.2 (September 6th, 2021)
 Fixes:
 *  Fixed envoy resources block ignored by deployment template - [#352](https://github.com/aquasecurity/aqua-helm/pull/352)
