@@ -44,7 +44,7 @@ Follow the steps in this section for production-grade deployments. You can eithe
 * Clone the GitHub repository with the charts:
 
 ```bash
-$ git clone -b 6.2 https://github.com/aquasecurity/aqua-helm.git
+$ git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
 $ cd aqua-helm/
 ```
 
@@ -140,7 +140,7 @@ Parameter | Description | Default| Mandatory
 `db.persistence.size` |	Persistent volume size | `30Gi`| `NO` 
 `db.persistence.storageClass` |	Persistent volume storage class | `unset`| `NO` 
 `db.image.repository` | Docker image name to use | `database`| `NO` 
-`db.image.tag` | Image tag to use | `6.2`| `NO` 
+`db.image.tag` | Image tag to use | `6.5.preview7`| `NO` 
 `db.image.pullPolicy` | Kubernetes image pull policy | `IfNotPresent`| `NO` 
 `db.service.type` | Kubernetes service type | `ClusterIP`| `NO` 
 `db.resources` |	Resource requests and limits | `{}`| `NO` 
@@ -152,7 +152,7 @@ Parameter | Description | Default| Mandatory
 `db.extraEnvironmentVars` | List of extra environment variables to set in the database deployments | `{}`| `NO`
 `db.extraSecretEnvironmentVars` | List of extra environment variables to set in the database deployments; these variables take values from existing Secret objects | `[]`| `NO`
 `tenantmanager.image.repository` | Docker image name to use | `tenantmanager`| `NO` 
-`tenantmanager.image.tag` | Image tag to use | `6.2`| `NO` 
+`tenantmanager.image.tag` | Image tag to use | `6.5.preview7`| `NO` 
 `tenantmanager.image.pullPolicy` | Kubernetes image pull policy | `IfNotPresent`| `NO` 
 `tenantmanager.service.type` | Kubernetes service type | `LoadBalancer`| `NO` 
 `tenantmanager.service.annotations` |	Service annotations	| `{}`| `NO`

@@ -33,7 +33,7 @@ Follow the steps in this section for production grade deployments. You can eithe
 * Clone the GitHub repository with the charts
 
 ```shell
-$ git clone -b 6.2 https://github.com/aquasecurity/aqua-helm.git
+$ git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
 $ cd aqua-helm/
 ```
 
@@ -147,7 +147,7 @@ Parameter | Description | Default| Mandatory
 `gate.host` | gateway host | `aqua-gateway-svc`| `YES`
 `gate.port` | gateway port | `8443`| `YES`
 `image.repository` | the docker image name to use | `enforcer`| `YES`
-`image.tag` | The image tag to use. | `6.2`| `YES`
+`image.tag` | The image tag to use. | `6.5.preview7`| `YES`
 `image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
 `resources` |	Resource requests and limits | `{}`| `NO`
 `nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
