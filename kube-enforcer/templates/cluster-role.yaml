@@ -4,17 +4,36 @@ metadata:
   name: {{ .Values.clusterRole.name }}
 rules:
   - apiGroups: ["*"]
-    resources: ["pods", "nodes", "namespaces", "deployments", "statefulsets", "jobs", "cronjobs", "daemonsets", "replicasets", "replicationcontrollers", "clusterroles", "clusterrolebindings", "componentstatuses"]
+    resources: ["pods", "nodes", "namespaces", "deployments", "jobs", "cronjobs", "daemonsets", "replicasets", "replicationcontrollers", "statefulsets", "clusterroles", "clusterrolebindings", "componentstatuses", "services" ]
     verbs: ["get", "list", "watch"]
   - apiGroups: [ "*" ]
     resources: [ "secrets" ]
     verbs: [ "get", "list", "watch", "update", "create" ]
   - apiGroups: ["aquasecurity.github.io"]
-    resources: ["configauditreports"]
+    resources: ["configauditreports", "clusterconfigauditreports"]
     verbs: ["get", "list", "watch"]
   - apiGroups: ["*"]
     resources: ["configmaps"]
     verbs: ["get", "list", "watch", "update", "create"]
+  - apiGroups:
+      - "*"
+    resources:
+      - roles
+      - rolebindings
+      - clusterroles
+      - clusterrolebindings
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - "*"
+    resources:
+      - customresourcedefinitions
+    verbs:
+      - get
+      - list
+      - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -28,6 +47,7 @@ rules:
       - pods
       - pods/log
       - replicationcontrollers
+      - services
     verbs:
       - get
       - list
@@ -35,7 +55,7 @@ rules:
   - apiGroups:
       - ""
     resources:
-      - "nodes"
+      - nodes
     verbs:
       - get
       - list
@@ -77,7 +97,27 @@ rules:
   - apiGroups:
       - batch
     resources:
+      - jobs
       - cronjobs
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - roles
+      - rolebindings
+      - clusterroles
+      - clusterrolebindings
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
     verbs:
       - get
       - list
@@ -87,9 +127,6 @@ rules:
     resources:
       - jobs
     verbs:
-      - get
-      - list
-      - watch
       - create
       - delete
   - apiGroups:
@@ -97,6 +134,7 @@ rules:
     resources:
       - vulnerabilityreports
       - configauditreports
+      - clusterconfigauditreports
       - ciskubebenchreports
     verbs:
       - get

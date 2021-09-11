@@ -12,7 +12,22 @@ webhooks:
       - operations: ["CREATE", "UPDATE"]
         apiGroups: ["*"]
         apiVersions: ["*"]
-        resources: ["pods", "deployments", "replicasets", "replicationcontrollers", "statefulsets", "daemonsets", "jobs", "cronjobs"]
+        resources:
+          - pods
+          - deployments
+          - replicasets
+          - replicationcontrollers
+          - statefulsets
+          - daemonsets
+          - jobs
+          - cronjobs
+          - configmaps
+          - services
+          - roles
+          - rolebindings
+          - clusterroles
+          - clusterrolebindings
+          - customresourcedefinitions
     clientConfig:
       {{- if not .Values.webhooks.certManager }}
       caBundle: {{ template "caBundle" . }}
@@ -21,3 +36,6 @@ webhooks:
         namespace: {{ .Release.Namespace }}
         name: {{ include "kube-enforcer.fullname" . }}
     timeoutSeconds: 5
+    failurePolicy: Ignore
+    admissionReviewVersions: ["v1beta1"]
+    sideEffects: "None"

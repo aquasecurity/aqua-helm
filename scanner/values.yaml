@@ -25,7 +25,7 @@ server:
 
 image:
   repository: scanner
-  tag: "6.2"
+  tag: "6.5.preview7"
   pullPolicy: IfNotPresent
 
 logLevel:
