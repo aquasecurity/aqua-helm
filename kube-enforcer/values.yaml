@@ -56,6 +56,9 @@ role:
 roleBinding:
   name: aqua-kube-enforcer 
 
+psp:
+  create: false # change to true if deploying KubeEnforcer on new cluster or rbac for aqua-sa doesn't exist.
+
 webhooks:
   caBundle: "" # this field is required unless you're using Kubernetes cert-manager (set the flag below to true)
   certManager: false # set this field true if you're using cert-manager and don't need to pass a caBundle
