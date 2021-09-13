@@ -1,11 +1,11 @@
-
 {{- if .Values.envoy.enabled }}
-
 apiVersion: v1
 kind: Service
 metadata:
+  {{- if eq .Values.envoy.service.type "LoadBalancer" }}
   finalizers:
-  - service.kubernetes.io/load-balancer-cleanup
+    - service.kubernetes.io/load-balancer-cleanup
+  {{- end }}
   name: aqua-lb
   namespace: {{ .Release.Namespace }}
   labels:
