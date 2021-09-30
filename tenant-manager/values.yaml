@@ -55,7 +55,7 @@ db:
 
   image:
     repository: database
-    tag: "6.5.preview7"
+    tag: "6.5.preview9"
     pullPolicy: IfNotPresent
 
   service:
@@ -116,7 +116,7 @@ tenantmanager:
 
   image:
     repository: tenantmanager
-    tag: "6.5.preview7"
+    tag: "6.5.preview9"
     pullPolicy: IfNotPresent
 
   service:

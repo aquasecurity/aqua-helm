@@ -57,7 +57,7 @@ gate:
   logLevel:
   image:
     repository: gateway
-    tag: "6.5.preview7"
+    tag: "6.5.preview9"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP     # you can enable gateway to external by changing type to "LoadBalancer"
