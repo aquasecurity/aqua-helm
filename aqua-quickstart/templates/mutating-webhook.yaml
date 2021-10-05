@@ -1,10 +1,13 @@
-apiVersion: admissionregistration.k8s.io/v1beta1
+apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
   name: {{ .Values.ke.webhooks.mutatingWebhook.name }}
-  namespace: {{ .Values.ke.namespace }}
+  namespace: {{ .Release.Namespace }}
 webhooks:
   - name: microenforcer.aquasec.com
+    sideEffects: "None"
+    admissionReviewVersions: ["v1", "v1beta1"]
+    failurePolicy: {{ .Values.ke.webhooks.failurePolicy }}
     rules:
       - operations: ["CREATE", "UPDATE"]
         apiGroups: ["*"]
@@ -13,7 +16,10 @@ webhooks:
     clientConfig:
       caBundle: {{ template "caBundle" . }}
       service:
-        namespace: {{ .Values.ke.namespace }}
+        namespace: {{ .Release.Namespace }}
         name: {{ include "kube-enforcer.fullname" . }}
         path: "/mutate"
     timeoutSeconds: 5
+    failurePolicy: Ignore
+    admissionReviewVersions: ["v1beta1"]
+    sideEffects: "None"

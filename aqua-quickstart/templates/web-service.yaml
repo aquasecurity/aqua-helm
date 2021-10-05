@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-console-svc
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-console
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
@@ -14,9 +15,25 @@ metadata:
 {{- end }}
 spec:
   type: {{ .Values.web.service.type }}
+  {{- if eq .Values.platform "aks" }}
+  loadBalancerIP: {{ .Values.web.service.loadbalancerIP }}
+  {{- end }}
   selector:
     app: {{ .Release.Name }}-console
   ports:
+  {{- if eq .Values.platform "k3s"}}
+  {{- range $port := .Values.web.service.k3sPorts }}
+    - name: {{ $port.name }}
+      port: {{ $port.port }}
+      targetPort: {{ $port.targetPort }}
+      {{- if $port.nodePort }}
+      nodePort: {{ $port.nodePort }}
+      {{- end }}
+      {{- if $port.protocol }}
+      protocol: {{ $port.protocol }}
+      {{- end }}
+  {{- end }}
+  {{- else }}
   {{- range $port := .Values.web.service.ports }}
     - name: {{ $port.name }}
       port: {{ $port.port }}
@@ -27,4 +44,5 @@ spec:
       {{- if $port.protocol }}
       protocol: {{ $port.protocol }}
       {{- end }}
+  {{- end }}
   {{- end }}

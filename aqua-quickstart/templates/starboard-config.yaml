@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: starboard
+  namespace: {{ .Release.Namespace }}
+data:
+  configAuditReports.scanner: Conftest
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: starboard-conftest-config
+  namespace: aqua
+data:
+  conftest.imageRef: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.ke.image.repository }}:{{ .Values.ke.image.tag }}"
+  conftest.resources.requests.cpu: 50m
+  conftest.resources.requests.memory: 50M
+  conftest.resources.limits.cpu: 300m
+  conftest.resources.limits.memory: 300M
