@@ -33,7 +33,6 @@ This repository includes the following charts; they can be deployed separately:
 | [Enforcer](enforcer/) | Deploys the Aqua Enforcer daemonset | 6.5.0 |
 | [Scanner](scanner/)  | Deploys the Aqua Scanner deployment | 6.5.0 |
 | [KubeEnforcer](kube-enforcer/)| Deploys Aqua KubeEnforcer | 6.5.0 |
-| [KubeEnforcer-Starboard](kube-enforcer-starboard/)| Deploys Aqua KubeEnforcer with Starboard | 6.5.0 |
 | [Gateway](gateway)| Deploys the Aqua Standalone Gateway | 6.5.0 |
 | [Tenant-Manager](tenant-manager/)| Deploys the Aqua Tenant Manager | 6.5.0 |
 | [QuickStart](aqua-quickstart/ )| Not for production use (see [below](#quick-start-deployment-not-for-production-purposes)). Deploys the Console, Database, Gateway and KubeEnforcer components | 6.5.0 |
@@ -81,7 +80,6 @@ aqua-helm/enforcer                  6.5.0               6.5                 A He
 aqua-helm/scanner                   6.5.0               6.5                 A Helm chart for the Aqua Scanner CLI component
 aqua-helm/server                    6.5.0               6.5                 A Helm chart for the Aqua Console components
 aqua-helm/kube-enforcer             6.5.0               6.5                 A Helm chart for the Aqua KubeEnforcer
-aqua-helm/kube-enforcer-starboard   6.5.0               6.5                 A Helm chart for the Aqua KubeEnforcer Starboard
 aqua-helm/gateway                   6.5.0               6.5                 A Helm chart for the Aqua Gateway
 aqua-helm/tenant-manager            6.5.0               6.5                 A Helm chart for the Aqua Tenant Manager
 ```
