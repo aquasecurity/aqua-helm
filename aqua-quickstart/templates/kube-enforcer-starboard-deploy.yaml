@@ -1,0 +1,75 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.starboard.appName }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.starboard.appName }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: {{ .Values.starboard.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.starboard.appName }}
+    spec:
+      serviceAccountName: {{ .Values.starboard.serviceAccount.name }}
+      automountServiceAccountToken: {{ .Values.starboard.automountServiceAccountToken }}
+      {{- with .Values.starboard.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      containers:
+        - name: operator
+          image: "{{ .Values.starboard.image.repositoryUriPrefix }}/{{ .Values.starboard.image.repository }}:{{ .Values.starboard.image.tag }}"
+          imagePullPolicy: {{ .Values.starboard.image.pullPolicy }}
+          {{- with .Values.starboard.container_securityContext }}
+          securityContext:
+{{ toYaml . | indent 12 }}
+          {{- end }}
+          env:
+            - name: OPERATOR_NAMESPACE
+            {{- if .Values.starboard.OPERATOR_NAMESPACE }}
+              value: {{ .Values.starboard.OPERATOR_NAMESPACE }}
+            {{- else }}
+              value: {{ .Release.Namespace }}
+            {{- end }}
+            - name: OPERATOR_TARGET_NAMESPACES
+              value: "{{ .Values.starboard.OPERATOR_TARGET_NAMESPACES }}"
+            - name: OPERATOR_LOG_DEV_MODE
+              value: "{{ .Values.starboard.OPERATOR_LOG_DEV_MODE }}"
+            - name: OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT
+              value: "{{ .Values.starboard.OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT }}"
+            - name: OPERATOR_SCAN_JOB_RETRY_AFTER
+              value: {{ .Values.starboard.OPERATOR_SCAN_JOB_RETRY_AFTER }}
+            - name: OPERATOR_METRICS_BIND_ADDRESS
+              value: {{ .Values.starboard.OPERATOR_METRICS_BIND_ADDRESS }}
+            - name: OPERATOR_HEALTH_PROBE_BIND_ADDRESS
+              value: {{ .Values.starboard.OPERATOR_HEALTH_PROBE_BIND_ADDRESS }}
+            - name: OPERATOR_CIS_KUBERNETES_BENCHMARK_ENABLED
+              value: "{{ .Values.starboard.OPERATOR_CIS_KUBERNETES_BENCHMARK_ENABLED }}"
+            - name: OPERATOR_VULNERABILITY_SCANNER_ENABLED
+              value: "{{ .Values.starboard.OPERATOR_VULNERABILITY_SCANNER_ENABLED }}"
+            - name: OPERATOR_BATCH_DELETE_LIMIT
+              value: "{{ .Values.starboard.OPERATOR_BATCH_DELETE_LIMIT }}"
+            - name: OPERATOR_BATCH_DELETE_DELAY
+              value: "{{ .Values.starboard.OPERATOR_BATCH_DELETE_DELAY }}"
+          ports:
+            - name: metrics
+              containerPort: {{ .Values.starboard.ports.metricContainerPort }}
+            - name: probes
+              containerPort: {{ .Values.starboard.ports.probeCntainerPort }}
+{{- with .Values.starboard.readinessProbe }}
+          readinessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.starboard.livenessProbe }}
+          livenessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+

@@ -47,7 +47,6 @@ rules:
   resources: ["*"]
   verbs: ["get", "list", "watch"]
 {{- end }}
-
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -61,7 +60,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
 subjects:
   - kind: ServiceAccount
-    name: {{ .Release.Name }}-sa
+    name: {{ .Release.Namespace }}-sa
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
@@ -71,4 +70,91 @@ roleRef:
   {{- else }}
   name: {{ .Release.Name }}-cluster-role
   {{- end }}
+
+{{- if not .Values.platform -}}
+{{ template "platform" .}}
+{{- else if eq .Values.platform "openshift" }}
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: cluster-reader
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Release.Namespace }}-sa
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-reader
+---
+allowHostDirVolumePlugin: true
+allowHostIPC: false
+allowHostNetwork: false
+allowHostPID: true
+allowHostPorts: false
+allowPrivilegeEscalation: false
+allowPrivilegedContainer: false
+allowedCapabilities:
+- SYS_ADMIN
+- NET_ADMIN
+- NET_RAW
+- SYS_PTRACE
+- KILL
+- MKNOD
+- SETGID
+- SETUID
+- SYS_MODULE
+- AUDIT_CONTROL
+- SYSLOG
+- SYS_CHROOT
+apiVersion: security.openshift.io/v1
+defaultAddCapabilities: null
+fsGroup:
+  type: RunAsAny
+groups: []
+kind: SecurityContextConstraints
+metadata:
+  annotations:
+    kubernetes.io/description: aqua scc provides all features of the restricted SCC
+      but allows users to run with any non-root UID and access hostPath. The user must
+      specify the UID or it must be specified on the by the manifest of the container runtime.
+    release.openshift.io/create-only: "true"
+  name: aqua-scc
+priority: null
+readOnlyRootFilesystem: false
+requiredDropCapabilities: null
+runAsUser:
+  type: RunAsAny
+seLinuxContext:
+  type: MustRunAs
+supplementalGroups:
+  type: RunAsAny
+users:
+- system:serviceaccount:aqua:aqua-sa
+volumes:
+- configMap
+- downwardAPI
+- emptyDir
+- persistentVolumeClaim
+- projected
+- secret
+- hostPath
+
+{{- else if eq .Values.platform "tkg" }}
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: rolebinding-default-privileged-sa-ns_default
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: psp:vmware-system-privileged
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: Group
+  apiGroup: rbac.authorization.k8s.io
+  name: system:serviceaccounts
+{{- end -}}
 {{- end }}

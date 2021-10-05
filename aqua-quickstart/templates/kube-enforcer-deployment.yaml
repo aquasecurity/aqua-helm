@@ -5,7 +5,7 @@ metadata:
     role: {{ .Release.Name }}
     app: {{ include "kube-enforcer.fullname" . }}
   name: {{ include "kube-enforcer.fullname" . }}
-  namespace: {{ .Values.ke.namespace }}
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   template:
@@ -13,31 +13,52 @@ spec:
       labels:
         app: {{ include "kube-enforcer.fullname" . }}
     spec:
+      {{- with .Values.ke.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+      {{- end }}
       serviceAccountName: {{ .Values.ke.serviceAccount.name }}
       containers:
         - name: kube-enforcer
+          {{- with .Values.ke.container_securityContext }}
+          securityContext:
+{{ toYaml . | indent 12 }}
+          {{- end }}
           image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.ke.image.repository }}:{{ .Values.ke.image.tag }}"
           imagePullPolicy: Always
           ports:
-            - containerPort: 8443
+            - containerPort: 8449
+            - containerPort: 8442
           env:
             - name: AQUA_TOKEN
               valueFrom: 
                 secretKeyRef:
                   name: {{ .Values.ke.aquaSecret.name }}
-                  key: token      
+                  key: token
+            # Specify whether to enable/disable the cache by using "yes", "true", "no", "false" values.
+            # Default value is "yes".
             - name: AQUA_ENABLE_CACHE
-              value: "{{ .Values.ke.aqua_enable_cache }}"
+              value: "{{ .Values.ke.aqua_enable_cache | default "yes"}}"
             - name: AQUA_CACHE_EXPIRATION_PERIOD
-              value: "{{ .Values.ke.aqua_cache_expiration_period }}"
+              value: "{{ .Values.ke.aqua_cache_expiration_period | default "60"}}"
+            - name: AQUA_LOGICAL_NAME
+              value: "{{ .Values.ke.logicalName }}"
+            - name: CLUSTER_NAME
+              value: {{ .Values.ke.clusterName }}
             - name: TLS_SERVER_CERT_FILEPATH
               value: /certs/server.crt
             - name: TLS_SERVER_KEY_FILEPATH
               value: /certs/server.key
             - name: AQUA_GATEWAY_SECURE_ADDRESS
               value: {{ .Values.ke.envs.gatewayAddress }}
+            - name: AQUA_KAP_ADD_ALL_CONTROL
+              value: "true"
+            - name: AQUA_WATCH_CONFIG_AUDIT_REPORT
+              value: "true"
             - name: AQUA_TLS_PORT
               value: "8443"
+            - name: SCALOCK_LOG_LEVEL
+              value: {{ .Values.ke.logLevel | default "INFO" }}
           volumeMounts:
             - name: "certs"
               mountPath: "/certs"
@@ -49,4 +70,4 @@ spec:
         - name: {{ .Values.imageCredentials.name }}
   selector:
     matchLabels:
-      app: {{ include "kube-enforcer.fullname" . }}                           
+      app: {{ include "kube-enforcer.fullname" . }}
