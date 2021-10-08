@@ -135,6 +135,11 @@ starboard:
   OPERATOR_BATCH_DELETE_LIMIT: "10"
   OPERATOR_BATCH_DELETE_DELAY: "10s"
 
+  conftest_resources_requests_cpu: "1m"
+  conftest_resources_requests_memory: "10M"
+  conftest_resources_limits_cpu: "15m"
+  conftest_resources_limits_memory: "40M"
+
   ports:
     metricContainerPort: 8080
     probeCntainerPort: 9090
