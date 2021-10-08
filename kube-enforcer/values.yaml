@@ -13,7 +13,7 @@ aqua_cache_expiration_period: 60 # default value is 60
 
 image:
   repository: kube-enforcer
-  tag: "6.5.preview9"
+  tag: "6.5.RC1"
   pullPolicy: Always
 
 nameOverride: "aqua-kube-enforcer"
@@ -170,7 +170,7 @@ kubeEnforcerAdvance:
   envoy:
     image:
       repository: envoy
-      tag: "6.5.preview9"
+      tag: "6.5.RC1"
       pullPolicy: IfNotPresent
 
     readinessProbe:
