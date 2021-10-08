@@ -97,7 +97,6 @@ spec:
     plural: clusterconfigauditreports
     kind: ClusterConfigAuditReport
     listKind: ClusterConfigAuditReportList
-    categories:
-      - all
+    categories: []
     shortNames:
       - clusterconfigaudit
