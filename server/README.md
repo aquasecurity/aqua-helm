@@ -51,33 +51,33 @@ Follow the steps in this section for production grade deployments. You can eithe
 * Clone the GitHub repository with the charts
 
 ```shell
-$ git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
-$ cd aqua-helm/
+git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
+cd aqua-helm/
 ```
 
 
 * Install Aqua
 
 ```shell
-$ helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
+helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
 ```
 
 ### Installing Aqua Web from Helm Private Repository
 
 * Add Aqua Helm Repository
 ```shell
-$ helm repo add aqua-helm https://helm.aquasec.com
+helm repo add aqua-helm https://helm.aquasec.com
 ```
 
 * Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
 ```shell
-$ helm search repo aqua-helm/server --versions
+helm search repo aqua-helm/server --versions
 ```
 
 * Install Aqua
 
 ```shell
-$ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<> --version <>
+helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<> --version <>
 ```
 
 ## Advanced Configuration
@@ -124,7 +124,7 @@ $ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCrede
    2. Create TLS cert secret
    
       ```shell
-      $ kubectl create secret generic aqua-lb-tls --from-file=mydomain.com.crt --from-file=mydomain.com.key --from-file=rootCA.crt -n aqua
+      kubectl create secret generic aqua-lb-tls --from-file=mydomain.com.crt --from-file=mydomain.com.key --from-file=rootCA.crt -n aqua
       ```
    
    3. Edit the values.yaml file to include above secret 
@@ -182,7 +182,7 @@ $ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCrede
    2. LoadBalancer(Default):
       1. Create Kubernetes secrets for server component using the respective SSL certificates.
          ```shell
-         $ kubectl create secret generic aqua-web-certs --from-file aqua_web.key --from-file aqua_web.crt --from-file rootCA.crt -n aqua
+         kubectl create secret generic aqua-web-certs --from-file aqua_web.key --from-file aqua_web.crt --from-file rootCA.crt -n aqua
 
          here: aqua_web.key    = privateKey
                aqua_web.crt    = publicKey
@@ -244,9 +244,9 @@ $ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCrede
          ```shell
          # Example:
          # Change < certificate filenames > respectively
-         $ kubectl create secret generic aqua-web-certs --from-file <aqua_web_private.key> --from-file <aqua_web_public.crt> --from-file <rootCA.crt> -n aqua
+         kubectl create secret generic aqua-web-certs --from-file <aqua_web_private.key> --from-file <aqua_web_public.crt> --from-file <rootCA.crt> -n aqua
 
-         $ kubectl create secret generic aqua-gateway-certs --from-file <aqua_gateway_private.key> --from-file <aqua_gateway_public.crt> --from-file <rootCA.crt> -n aqua
+         kubectl create secret generic aqua-gateway-certs --from-file <aqua_gateway_private.key> --from-file <aqua_gateway_public.crt> --from-file <rootCA.crt> -n aqua
          ```
 
    3. Enable `web.TLS.enable` and `gate.TLS.enable` to `true` in values.yaml
