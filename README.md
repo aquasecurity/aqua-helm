@@ -51,26 +51,26 @@ Follow the steps in this section for production-grade deployments. You can eithe
 ### (Optional) Add the Aqua Helm repository
 
 1. Add the Aqua Helm repository to your local Helm repos by executing the following command:
-```bash
-$ helm repo add aqua-helm https://helm.aquasec.com
+```shell
+helm repo add aqua-helm https://helm.aquasec.com
 ```
 
 2. Search for all components of the latest version in our Aqua Helm repository
 
 ##### For Helm 2.x
-```bash
-$ helm search aqua-helm
+```shell
+helm search aqua-helm
 # Examples
-$ helm search aqua-helm --versions
-$ helm search aqua-helm --version 6.5.0
+helm search aqua-helm --versions
+helm search aqua-helm --version 6.5.0
 ```
 
 ##### For Helm 3.x
-```bash
-$ helm search repo aqua-helm
+```shell
+helm search repo aqua-helm
 # Examples
-$ helm search repo aqua-helm --versions
-$ helm search repo aqua-helm --version 6.5.0
+helm search repo aqua-helm --versions
+helm search repo aqua-helm --version 6.5.0
 ```
 
 Example output:
@@ -87,8 +87,8 @@ aqua-helm/tenant-manager            6.5.0               6.5                 A He
 ### Deploy the Helm charts
 
 1. Create the `aqua` namespace.
-    ```bash
-    $ kubectl create namespace aqua
+    ```shell
+    kubectl create namespace aqua
     ```
 2. Deploy the [**Server**](server/) chart.
 3. Deploy the [**Enforcer**](enforcer/) chart.
@@ -97,8 +97,8 @@ aqua-helm/tenant-manager            6.5.0               6.5                 A He
 6. (For multi-cluster) Deploy the [**Gateway**](gateway/) chart.
 7. (Optional) Deploy the [**TenantManager**](tenant-manager/) chart.
 8. Access the Aqua UI in browser with {{ .Release.Name }}-console-svc service and port, to check the service details:
-      ```bash
-      $ kubectl get svc -n aqua
+      ```shell
+      kubectl get svc -n aqua
       ```
      * Example:
        * http://< Console IP/DNS >:8080* (default access without SSL) or
@@ -112,12 +112,12 @@ aqua-helm/tenant-manager            6.5.0               6.5                 A He
 * Error message: **UPGRADE/INSTALL FAILED, configmaps is forbidden.**
 * Example:
 
-```bash
+```shell
 Error: UPGRADE FAILED: configmaps is forbidden: User "system:serviceaccount:kube-system:default" cannot list configmaps in the namespace "kube-system"
 ```
 
 * Solution: Create a service account for Tiller to utilize.
-```bash
+```shell
 kubectl create serviceaccount --namespace kube-system tiller
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
@@ -136,8 +136,8 @@ For more information see the [storage documentation](docs/storage.md).
 **PersistentVolumeClaim is not bound**.
 * Solution: If you encounter either of these errors, you need to create a persistent volume prior to chart deployment with a generic or existing storage class. Specify `db.persistence.storageClass` in the values.yaml file. A sample file using `aqua-storage` is included in the repo.
 
-```bash
-$ kubectl apply -f pv-example.yaml
+```shell
+kubectl apply -f pv-example.yaml
 ```
 
 # Quick-start deployment (not for production purposes)
@@ -148,19 +148,19 @@ They are intended for deploying Aqua Enterprise for non-production purposes, suc
 Use the [**aqua-quickstart**](aqua-quickstart) chart to 
 
   1. Clone the GitHub repository
-  ```bash
-  $ git clone https://github.com/aquasecurity/aqua-helm.git
-  $ cd aqua-helm/
+  ```shell
+  git clone https://github.com/aquasecurity/aqua-helm.git
+  cd aqua-helm/
   ```
 
   2. Create the `aqua` namespace.
-  ```bash
-  $ kubectl create namespace aqua
+  ```shell
+  kubectl create namespace aqua
   ```
 
   3. Deploy aqua-quickstart chart
-  ```bash
-  $ helm upgrade --install --namespace aqua aqua ./aqua-quickstart --set imageCredentials.username=<>,imageCredentials.password=<>
+  ```shell
+  helm upgrade --install --namespace aqua aqua ./aqua-quickstart --set imageCredentials.username=<>,imageCredentials.password=<>
   ```
 
 # Issues and feedback
