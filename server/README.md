@@ -84,7 +84,7 @@ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredent
 
 ### 1. Envoy
 
-   In order to support L7 / gRPC communication between gateway and enforcers Aqua recommends that customers use the latest alpine-based Envoy load balancer. Following are the detailed steps to enable and deploy a secure envoy based load balancer.
+   In order to support L7 / gRPC communication between gateway and enforcers Aqua recommends that customers use the Envoy load balancer. Following are the detailed steps to enable and deploy a secure envoy based load balancer.
 
    1. Generate TLS certificates signed by a public CA or Self-Signed CA
 

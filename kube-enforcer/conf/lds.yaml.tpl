@@ -61,6 +61,11 @@ resources:
           typed_config:
             "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
             common_tls_context:
+              {{- if and (.Values.kubeEnforcerAdvance.envoy.TLS.listener.rootCA_fileName) (.Values.kubeEnforcerAdvance.envoy.TLS.listener.enabled) }}
+              validation_context:
+                trusted_ca:
+                  filename: "/etc/ssl/envoy/rootCA.crt"
+              {{- end }}
               alpn_protocols: "h2,http/1.1"
               tls_certificates:
                 - certificate_chain:

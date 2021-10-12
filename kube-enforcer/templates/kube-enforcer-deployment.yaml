@@ -67,6 +67,19 @@ spec:
               value: /certs/server.crt
             - name: TLS_SERVER_KEY_FILEPATH
               value: /certs/server.key
+            # mTLS env config
+            {{- if .Values.TLS.enabled }}
+            - name: "AQUA_PRIVATE_KEY"
+              value: "/opt/aquasec/ssl/key.pem"
+            - name: "AQUA_PUBLIC_KEY"
+              value: "/opt/aquasec/ssl/cert.pem"
+            - name: "AQUA_TLS_VERIFY"
+              value: {{ .Values.TLS.tls_verify | quote }}
+            {{- if .Values.TLS.rootCA_fileName }}
+            - name: "AQUA_ROOT_CA"
+              value: "/opt/aquasec/ssl/ca.pem"
+            {{- end }}
+            {{- end }}
             - name: AQUA_GATEWAY_SECURE_ADDRESS
               value: {{ .Values.gateway.address }}:{{ .Values.gateway.port }}
             - name: AQUA_KAP_ADD_ALL_CONTROL
@@ -95,6 +108,11 @@ spec:
             - name: "envoy-shared"
               mountPath: "/etc/aquasec/envoy"
 {{- end }}
+{{- if .Values.TLS.enabled }}
+            - name: "ke-mtls-certs"
+              mountPath: "/opt/aquasec/ssl/"
+              readOnly: true
+{{- end }}
 {{- if .Values.kubeEnforcerAdvance.enable }}
         - name: envoy
           image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.kubeEnforcerAdvance.envoy.image.repository }}:{{ .Values.kubeEnforcerAdvance.envoy.image.tag }}"
@@ -108,8 +126,13 @@ spec:
             name: envoy-config
           - name: "envoy-shared"
             mountPath: "/etc/aquasec/envoy"
-          - mountPath: /etc/ssl/envoy
-            name: certs
+          - mountPath: "/etc/ssl/envoy"
+            readOnly: true
+{{- if .Values.kubeEnforcerAdvance.envoy.TLS.listener.enabled }}
+            name: "envoy-mtls-certs"
+{{- else }}
+            name: "certs"
+{{- end }}
 {{- with .Values.kubeEnforcerAdvance.envoy.livenessProbe }}
           livenessProbe:
 {{ toYaml . | indent 12 }}
@@ -134,6 +157,36 @@ spec:
         - name: "envoy-shared"
           emptyDir: {}
 {{- end }}
+        {{- if .Values.TLS.enabled }}
+        - name: "ke-mtls-certs"
+          secret:
+            defaultMode: 420
+            secretName: {{ .Values.TLS.secretName }}
+            items:
+            - key: {{ .Values.TLS.publicKey_fileName }}
+              path: cert.pem
+            - key: {{ .Values.TLS.privateKey_fileName }}
+              path: key.pem
+            {{- if .Values.TLS.rootCA_fileName }}
+            - key: {{ .Values.TLS.rootCA_fileName }}
+              path: ca.pem
+            {{- end }}
+        {{- end }}
+        {{- if .Values.kubeEnforcerAdvance.envoy.TLS.listener.enabled }}
+        - name: "envoy-mtls-certs"
+          secret:
+            defaultMode: 420
+            secretName: {{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.secretName }}
+            items:
+            - key: {{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.publicKey_fileName }}
+              path: server.crt
+            - key: {{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.privateKey_fileName }}
+              path: server.key
+            {{- if .Values.kubeEnforcerAdvance.envoy.TLS.listener.rootCA_fileName }}
+            - key: {{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.rootCA_fileName }}
+              path: rootCA.crt
+            {{- end }}
+        {{- end }}
   selector:
     matchLabels:
       app: {{ include "kube-enforcer.fullname" . }}

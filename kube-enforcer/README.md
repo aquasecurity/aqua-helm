@@ -18,6 +18,8 @@ This page provides instructions for using Helm charts to configure and deploy th
     - [Deploy the KubeEnforcer with Starboard from a Helm private repository](#deploy-the-kubeenforcer-with-starboard-from-a-helm-private-repository)
   - [Configuration for discovery](#configuration-for-discovery)
   - [Configuration for performing kube-bench scans](#configuration-for-performing-kube-bench-scans)
+  - [Configuring KubeEnforcer mTLS with Gateway/Envoy](#configuring-kubeenforcer-mtls-with-gatewayenvoy)
+  - [Configuration for KubeEnforcer Advance deployment](#configuration-for-kubeenforcer-advance-deployment)
   - [Configurable parameters](#configurable-parameters)
   - [Issues and feedback](#issues-and-feedback)
 
@@ -170,6 +172,101 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 - A dedicated role in the `aqua` namespace with `get`, `list`, and `watch` permissions on `pods/log`
 - `create` and `delete` permissions on jobs
 
+## Configuring KubeEnforcer mTLS with Gateway/Envoy
+
+In order to support L7 / gRPC communication between gateway and enforcers Aqua recommends that customers use the Envoy load balancer. Following are the detailed steps to enable and deploy a secure envoy based load balancer.
+
+   1. Generate TLS certificates signed by a public CA or Self-Signed CA
+
+      ```shell
+      # Self-Signed Root CA (Optional)
+      #####################################################################################
+
+      # Create Root Key
+      # If you want a non password protected key just remove the -des3 option
+      openssl genrsa -des3 -out rootCA.key 4096
+      # Create and self sign the Root Certificate
+      openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt
+      #####################################################################################
+      # Create a certificate
+      #####################################################################################
+
+      # Create the certificate key
+      openssl genrsa -out mydomain.com.key 2048
+      # Create the signing (csr)
+      openssl req -new -key mydomain.com.key -out mydomain.com.csr
+      # Verify the csr content
+      openssl req -in mydomain.com.csr -noout -text
+
+      #####################################################################################
+      # Generate the certificate using the mydomain csr and key along with the CA Root key
+      #####################################################################################
+
+      openssl x509 -req -in mydomain.com.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out mydomain.com.crt -days 500 -sha256
+
+      #####################################################################################
+      # If you wish to use a Public CA like GoDaddy or LetsEncrypt please
+      # submit the mydomain csr to the respective CA to generate mydomain crt
+      ```
+
+   2. Create TLS cert secret
+   ```shell
+   $ kubectl create secret generic ke-mtls-certs --from-file=mydomain.com.crt --from-file=mydomain.com.ke --from-file=rootCA.crt -n aqua
+   ```
+
+   3. Edit the values.yaml file to include above secret 
+   ```
+       TLS:
+         listener:
+            secretName: "envoy-mtls-certs"
+            publicKey_fileName: "mydomain.com.crt"
+            privateKey_fileName: "mydomain.com.key"
+            rootCA_fileName: "rootCA.crt"
+   ```
+   4. For more customizations please refer to [***Configurable Variables***](#configure-variables)
+## Configuration for KubeEnforcer Advance deployment
+
+   1. Change kubeEnforcerAdvance.enable to `true` in `values.yaml`
+   2. (optional) Generate TLS certificates signed by a public CA or Self-Signed CA 
+    ```shell
+      #####################################################################################
+      # Create a certificate
+      #####################################################################################
+
+      # Create the certificate key
+      openssl genrsa -out mydomain.com.key 2048
+      # Create the signing (csr)
+      openssl req -new -key mydomain.com.key -out mydomain.com.csr
+      # Verify the csr content
+      openssl req -in mydomain.com.csr -noout -text
+
+      #####################################################################################
+      # Generate the certificate using the mydomain csr and key along with the CA Root key
+      #####################################################################################
+
+      openssl x509 -req -in mydomain.com.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out mydomain.com.crt -days 500 -sha256
+
+      #####################################################################################
+      # If you wish to use a Public CA like GoDaddy or LetsEncrypt please
+      # submit the mydomain csr to the respective CA to generate mydomain crt
+      ```
+
+   3. (optional) Create TLS cert secret
+      ```shell
+      $ kubectl create secret generic envoy-mtls-certs --from-file=mydomain.com.crt --from-file=mydomain.com.key --from-file=rootCA.crt -n aqua
+      ```
+
+   4. (optional) Edit the values.yaml file to include above secret 
+   ```
+       TLS:
+         listener:
+            secretName: "envoy-mtls-certs"
+            publicKey_fileName: "mydomain.com.crt"
+            privateKey_fileName: "mydomain.com.key"
+            rootCA_fileName: "rootCA.crt"
+   ```
+   
+   5. For more customizations please refer to [***Configurable Variables***](#configure-variables)
 ## Configurable parameters
 
 | Parameter | Description  | Default  | Mandatory |
@@ -186,6 +283,11 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `certsSecret.serverKey`           | Certificate key for TLS authentication with the Kubernetes api-server       | `N/A`    | `YES`  |
 | `webhooks.caBundle`               | Root certificate for TLS authentication with the Kubernetes api-server      | `N/A`    | `YES`  |
 | `envs.gatewayAddress`             | Gateway host address     | `aqua-gateway-svc:8443`   | `YES`  |
+`TLS.enabled` | If require secure channel communication | `false` | `NO`
+`TLS.secretName` | certificates secret name | `nil` | `NO`
+`TLS.publicKey_fileName` | filename of the public key eg: aqua_ke.crt | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
+`TLS.privateKey_fileName`   | filename of the private key eg: aqua_ke.key | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
+`TLS.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO` <br /> `if gate.TLS.enabled is set to true and using self-signed certificates for TLS/mTLS`
 | `starboard.serviceAccount.name`   | Starboard service account | `starboard-operator` | `YES` |
 | `starboard.clusterRoleBinding.name`   | Starboard cluster binding name | `starboard-operator` | `YES` |
 | `starboard.clusterRole.name`   | Starboard cluster role name | `starboard-operator` | `YES` |
@@ -208,6 +310,11 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `starboard.livenessProbe`  |
 | `kubeEnforcerAdvance.enable`      | Advanced KubeEnforcer deployment          | `false`  | `NO`   |
 | `kubeEnforcerAdvance.nodeID`      | Envoy Node ID of the advance KE deployment    | `envoy` | `YES - if kubeEnforcerAdvance.enable` |
+`kubeEnforcerAdvance.envoy.TLS.listener.TLS.enabled` | If require secure channel communication | `false` | `NO`
+`kubeEnforcerAdvance.envoy.TLS.listener.TLS.secretName` | certificates secret name | `nil` | `NO`
+`kubeEnforcerAdvance.envoy.TLS.listener.TLS.publicKey_fileName` | filename of the public key eg: aqua_envoy.crt | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
+`kubeEnforcerAdvance.envoy.TLS.listener.TLS.privateKey_fileName`   | filename of the private key eg: aqua_envoy.key | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
+`kubeEnforcerAdvance.envoy.TLS.listener.TLS.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO` <br /> `if gate.TLS.enabled is set to true and using self-signed certificates for TLS/mTLS`
 
 ## Issues and feedback
 
