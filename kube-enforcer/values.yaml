@@ -19,7 +19,7 @@ image:
 nameOverride: "aqua-kube-enforcer"
 fullnameOverride: "aqua-kube-enforcer"
 
-clusterName: ""   # Display a custom cluster name in the infrastructure tab of Aqua Enterprise
+clusterName: "aqua-secure"   # Display a custom cluster name in the infrastructure tab of Aqua Enterprise
 logicalName: ""
 logLevel: ""
 
@@ -37,7 +37,7 @@ aquaSecret:
   kubeEnforcerToken: 
 
 gateway:
-  address: aqua-gateway-svc.aqua
+  address: aqua-gateway-svc.aqua  # change address to gateway endpoint
   port: 8443
 
 
@@ -92,19 +92,22 @@ resources: {}
   #   cpu: 500m
   #   memory: 1.5Gi
 
+TLS:
+  enabled: false              # enable to true for secure communication
+  secretName: "ke-mtls-certs"             # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
+  publicKey_fileName: ""       # provide filename of the public key eg: aqua_web.crt
+  privateKey_fileName: ""      # provide filename of the private key eg: aqua_web.key
+  rootCA_fileName: ""           #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
+  tls_verify: false             # change it to true for enabling mTLS between enforcer and gateway/envoy
+
 starboard:
-
   appName: "starboard-operator"
-
   serviceAccount:
     name: "starboard-operator"
-
   clusterRoleBinding:
     name: "starboard-operator"
-  
   clusterRole:
     name: "starboard-operator"
-
   automountServiceAccountToken: "true"
 
   securityContext: {}
@@ -123,7 +126,7 @@ starboard:
       drop:
         - ALL
 
-  OPERATOR_NAMESPACE: ""
+  OPERATOR_NAMESPACE: "aqua"
   OPERATOR_TARGET_NAMESPACES: ""
   OPERATOR_LOG_DEV_MODE: "false"
   OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT: "10"
@@ -178,6 +181,16 @@ kubeEnforcerAdvance:
       tag: "6.5.RC1"
       pullPolicy: IfNotPresent
 
+    # Enabling Envoy requires the use of TLS certificates for the cluster section, while the cluster TLS section is optional and to be enabled if TLS is in use for kube-enforcer and gateway.
+    # Find the instructions in the readme for help with generating the required certificates.
+    TLS:
+      listener:
+        enabled: false                     # true to enable secure communication between Aqua Envoy and Gateways
+        secretName: "envoy-mtls-certs"                    # provide secret name containing the certificates
+        publicKey_fileName: ""            # provide filename of the public key in the secret eg: aqua-lb.crt
+        privateKey_fileName: ""           # provide filename of the private key in the secret eg: aqua-lb.key
+        rootCA_fileName: ""               # optional: use this field if using a custom CA or chain
+
     readinessProbe:
       exec:
         command:
@@ -187,6 +200,7 @@ kubeEnforcerAdvance:
       periodSeconds: 10
 
     livenessProbe: {}
+
     resources: {}
 
     ## Enabling this will replace any templated envoy configuration with the list of files passed below
