@@ -79,7 +79,7 @@ db:
     privileged: false
   image:
     repository: database
-    tag: "6.5.RC1"
+    tag: "6.5"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -136,7 +136,7 @@ gate:
   logLevel:
   image:
     repository: gateway
-    tag: "6.5.RC1"
+    tag: "6.5"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP     # you can enable gateway to external by changing type to "LoadBalancer"
@@ -216,7 +216,7 @@ web:
   logLevel:
   image:
     repository: console
-    tag: "6.5.RC1"
+    tag: "6.5"
     pullPolicy: IfNotPresent
   service:
     type: LoadBalancer
@@ -323,7 +323,7 @@ envoy:
 
   image:
     repository: envoy
-    tag: "6.5.RC1"
+    tag: "6.5"
     pullPolicy: IfNotPresent
   
   service:

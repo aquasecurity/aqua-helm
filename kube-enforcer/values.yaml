@@ -13,7 +13,7 @@ aqua_cache_expiration_period: 60 # default value is 60
 
 image:
   repository: kube-enforcer
-  tag: "6.5.RC1"
+  tag: "6.5"
   pullPolicy: Always
 
 nameOverride: "aqua-kube-enforcer"
@@ -178,7 +178,7 @@ kubeEnforcerAdvance:
   envoy:
     image:
       repository: envoy
-      tag: "6.5.RC1"
+      tag: "6.5"
       pullPolicy: IfNotPresent
 
     # Enabling Envoy requires the use of TLS certificates for the cluster section, while the cluster TLS section is optional and to be enabled if TLS is in use for kube-enforcer and gateway.
