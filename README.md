@@ -36,7 +36,7 @@ This repository includes the following charts; they can be deployed separately:
 | [Gateway](gateway)| Deploys the Aqua Standalone Gateway | 6.5.0 |
 | [Tenant-Manager](tenant-manager/)| Deploys the Aqua Tenant Manager | 6.5.0 |
 | [QuickStart](aqua-quickstart/ )| Not for production use (see [below](#quick-start-deployment-not-for-production-purposes)). Deploys the Console, Database, Gateway and KubeEnforcer components | 6.5.0 |
-| [Cloud Connector](cloud_connector/) | Deploys the Aqua Cloud Connector | 6.5.0 |
+| [Cloud Connector](cloud-connector/) | Deploys the Aqua Cloud Connector | 6.5.0 |
 
 # Deployment instructions
 
