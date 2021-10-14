@@ -16,7 +16,7 @@
 
   3. Deploy Cloud Connector helm chart
   ```bash
-  $ helm upgrade --install aqua ./cloud_connector -n aqua --set imageCredentials.username=<>,imageCredentials.password=<>
+  $ helm upgrade --install aqua ./cloud-connector -n aqua --set imageCredentials.username=<>,imageCredentials.password=<>
   ```
 
 # Issues and feedback
