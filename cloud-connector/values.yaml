@@ -1,0 +1,74 @@
+# Specifies the secret data for imagePullSecrets needed to fetch the private docker images
+imageCredentials:
+  create: true
+  name: aqua-registry # example
+  repositoryUriPrefix: registry.aquasec.com # for dockerhub - "docker.io"
+  registry: registry.aquasec.com #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+  username: abc@aquasec.com
+  password: xxxxxxx
+
+rbac:
+  enabled: true
+  privileged: true
+  roleRef:
+
+#Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
+# aks = Azure Kubernetes Service
+# gke = Google kubernetes Engine
+# openshift = RedHat Openshift/OCP
+# tkg = VMware Tanzu kubernetes Grid
+# tkgi = VMware Tanzu kubernetes Grid Integrated Edition
+# k8s = Plain/on-prem Vanilla Kubernetes
+# rancher = Rancher Kubernetes Platform
+# gs = GaintSwarm platform
+# k3s = k3s kubernetes platform
+platform: "k8s"
+
+# enable only one of the modes
+clustermode: 
+activeactive:
+
+serviceaccount:
+  annotations: {}
+
+admin:
+  username: YWRtaW5pc3RyYXRvcgo=       #base64 value 
+  password: UGFzc3dvcmRAMQo=       #base64 value 
+
+dockerSock:
+  mount: # put true for mount docker socket.
+  path: /var/run/docker.sock # pks - /var/vcap/data/sys/run/docker/docker.sock
+
+db:
+  gateway:
+    url: 20.101.2.203
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 10
+  securityContext:
+    runAsUser: 11431
+    runAsGroup: 11433
+    fsGroup: 11433
+  container_securityContext:
+    privileged: false
+  image:
+    repository: aqua-cloud-connector
+    tag: "6.5.RC1"
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+  persistence:
+    enabled: true
+    storageClass:
+    size: 30Gi
+    accessMode: ReadWriteOnce
+
+
+
+
+
