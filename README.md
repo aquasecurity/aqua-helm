@@ -36,7 +36,7 @@ This repository includes the following charts; they can be deployed separately:
 | [Gateway](gateway)| Deploys the Aqua Standalone Gateway | 6.5.0 |
 | [Tenant-Manager](tenant-manager/)| Deploys the Aqua Tenant Manager | 6.5.0 |
 | [QuickStart](aqua-quickstart/ )| Not for production use (see [below](#quick-start-deployment-not-for-production-purposes)). Deploys the Console, Database, Gateway and KubeEnforcer components | 6.5.0 |
-
+| [Cloud Connector](cloud_connector/) | Deploys the Aqua Cloud Connector | 6.5.0 |
 
 # Deployment instructions
 
@@ -45,6 +45,7 @@ Aqua Enterprise deployments include the following components:
 - Enforcer
 - KubeEnforcer
 - Scanner
+- Cloud Connector
 
 Follow the steps in this section for production-grade deployments. You can either clone the aqua-helm git repo or you can add our Helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com)).
 

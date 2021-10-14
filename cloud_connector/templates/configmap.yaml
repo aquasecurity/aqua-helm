@@ -1,0 +1,27 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata: 
+  name: {{ .Release.Namespace }}-cloud-connector-conf 
+  namespace: {{ .Release.Namespace }} 
+  labels:
+    app: {{ .Release.Namespace }}-cloud-connector
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"  
+data: 
+  aqua-cloud-connector-config: | 
+    tunnels: 
+      # Azure Container Registry 
+      #- host: <account>.azurecr.io  
+      # Google Container Registry 
+      #- host: gke.gcr.io 
+      # JFrog Container Registry 
+      #- host: <account>.jfrog.io 
+      # On-premises private registry with static IP address 
+      #- host: 20.101.1.253:443 
+      # Amazon Container Registry 
+      # This is a special case which creates four different URIs for ECR 
+      # You should only provide the region 
+      #- service: 
+      #   type: ecr 
+      #     region: eu-west-2
