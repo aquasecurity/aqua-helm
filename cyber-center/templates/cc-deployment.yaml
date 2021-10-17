@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Namespace }}-cc
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Namespace }}-cc
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Namespace }}-cc
+  template:
+    metadata:
+      annotations:
+      {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
+      {{- end }}
+      {{- with .Values.podAnnotations }}
+      {{- range $key,$value := . }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
+      labels:
+        app: {{ .Release.Namespace }}-cc
+      name: {{ .Release.Namespace }}-cc
+    spec:
+      {{- with .Values.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      serviceAccount: {{ .Release.Namespace }}-sa
+      containers:
+      - name: aqua-cc
+        {{- with .Values.container_securityContext }}
+        securityContext:
+{{ toYaml . | indent 10 }}
+        {{- end }}
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        args:
+        {{- range $port := .Values.service.ports }}
+        - --address=:{{ $port.targetPort }}
+        {{- end }}
+        - --offline-key=pleaseopen
+        ports:
+        {{- range $port := .Values.service.ports }}
+        - containerPort: {{ $port.targetPort }}
+        {{- end }}
+        env:
+        {{- if .Values.TLS.rootCA_fileName }}
+        - name: "AQUA_ROOT_CA"
+          value: "/opt/aquasec/ssl/ca.pem"
+        {{- end }}
+        {{- if .Values.TLS.enabled }}
+        - name: "AQUA_PRIVATE_KEY"
+          value: "/opt/aquasec/ssl/key.pem"
+        - name: "AQUA_PUBLIC_KEY"
+          value: "/opt/aquasec/ssl/cert.pem"
+        volumeMounts:
+        - name: certs
+          mountPath: /opt/aquasec/ssl/
+          readOnly: true
+      volumes:
+      - name: certs
+        secret:
+          defaultMode: 420
+          secretName: {{ .Values.TLS.secretName }}
+          items:
+          - key: {{ .Values.TLS.publicKey_fileName }}
+            path: cert.pem
+          - key: {{ .Values.TLS.privateKey_fileName }}
+            path: key.pem
+          {{- if .Values.TLS.rootCA_fileName }}
+          - key: {{ .Values.TLS.rootCA_fileName }}
+            path: ca.pem
+          {{- end }}
+      {{- end }}

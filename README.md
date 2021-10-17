@@ -35,8 +35,9 @@ This repository includes the following charts; they can be deployed separately:
 | [KubeEnforcer](kube-enforcer/)| Deploys Aqua KubeEnforcer | 6.5.0 |
 | [Gateway](gateway)| Deploys the Aqua Standalone Gateway | 6.5.0 |
 | [Tenant-Manager](tenant-manager/)| Deploys the Aqua Tenant Manager | 6.5.0 |
-| [QuickStart](aqua-quickstart/ )| Not for production use (see [below](#quick-start-deployment-not-for-production-purposes)). Deploys the Console, Database, Gateway and KubeEnforcer components | 6.5.0 |
+| [Cyber Center](cyber-center/)| Deploys Aqua CyberCenter offline for air-gap environment| 6.5.0 |
 | [Cloud Connector](cloud-connector/) | Deploys the Aqua Cloud Connector | 6.5.0 |
+| [QuickStart](aqua-quickstart/ )| Not for production use (see [below](#quick-start-deployment-not-for-production-purposes)). Deploys the Console, Database, Gateway and KubeEnforcer components | 6.5.0 |
 
 # Deployment instructions
 
@@ -44,8 +45,7 @@ Aqua Enterprise deployments include the following components:
 - Server (Console, Database, and Gateway)
 - Enforcer
 - KubeEnforcer
-- Scanner
-- Cloud Connector
+- Scanner (Optional)
 
 Follow the steps in this section for production-grade deployments. You can either clone the aqua-helm git repo or you can add our Helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com)).
 
@@ -83,6 +83,8 @@ aqua-helm/server                    6.5.0               6.5                 A He
 aqua-helm/kube-enforcer             6.5.0               6.5                 A Helm chart for the Aqua KubeEnforcer
 aqua-helm/gateway                   6.5.0               6.5                 A Helm chart for the Aqua Gateway
 aqua-helm/tenant-manager            6.5.0               6.5                 A Helm chart for the Aqua Tenant Manager
+aqua-helm/cyber-center              6.5.0               6.5                 A Helm chart for Aqua CyberCenter
+aqua-helm/cloud-connector           6.5.0               6.5                 A Helm chart for Aqua Cloud-Connector
 ```
 
 ### Deploy the Helm charts
@@ -97,7 +99,9 @@ aqua-helm/tenant-manager            6.5.0               6.5                 A He
 5. (Optional) Deploy the [**Scanner**](scanner/) chart.
 6. (For multi-cluster) Deploy the [**Gateway**](gateway/) chart.
 7. (Optional) Deploy the [**TenantManager**](tenant-manager/) chart.
-8. Access the Aqua UI in browser with {{ .Release.Name }}-console-svc service and port, to check the service details:
+8. (Optional) Deploy the [**Cyber-Center**](cyber-center/) chart.
+9. (Optional) Deploy the [**Cloud-Connector**](cloud-connector) chart.
+10. Access the Aqua UI in browser with {{ .Release.Name }}-console-svc service and port, to check the service details:
       ```shell
       kubectl get svc -n aqua
       ```

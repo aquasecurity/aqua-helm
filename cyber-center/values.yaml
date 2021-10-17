@@ -1,0 +1,42 @@
+# Specifies the secret data for imagePullSecrets needed to fetch the private docker images
+imageCredentials:
+  create: false
+  name: aqua-registry-secret # When create is false please specify
+  repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
+  registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+  username: ""
+  password: ""
+
+serviceaccount:
+  create: false      # make it to true to create service-account
+  annotations: {}
+
+replicaCount: 1
+
+image:
+  repository: "cc-standard"   # for CC premium change repository to "cc-premium"
+  tag: "latest"
+  pullPolicy: Always
+
+service:
+  type: ClusterIP   # change to respective service type
+  annotations: {}
+  ports:
+    - name: https
+      port: 443
+      targetPort: 5000
+      nodePort:
+      protocol: TCP
+
+tolerations: []
+securityContext: {}
+container_securityContext: {}
+podAnnotations: {}
+  #  my-annotation-key: my value; more value
+
+TLS:
+  enabled: false              # enable to true for secure communication
+  secretName: "aqua-cc-certs" # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
+  publicKey_fileName: ""      #provide filename of the public key eg: aqua_web.crt
+  privateKey_fileName: ""     #provide filename of the private key eg: aqua_web.key
+  rootCA_fileName: ""         #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
