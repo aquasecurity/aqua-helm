@@ -64,7 +64,7 @@ helm upgrade --install --namespace aqua aqua-cyber-center aqua-helm/cyber-center
 
 ## Configuring mTLS/TLS
 
-In order to support L7 / gRPC communication between cyber-center and envoy or cyber-center and gateway it is recommended to follow the detailed steps to enable and deploy a cyber-center.
+In order to support L7 / gRPC communication between cyber-center and server or cyber-center and scanner it is recommended to follow the detailed steps to enable and deploy a cyber-center.
 
    1. The Cyber-Center should connect to the Envoy/Gateway service and verify its certificate. If Envoy/Gateway certificate is signed by a public provider (e.g., Let’s Encrypt), the Cyber-Center will be able to verify the certificate without being given a root certificate. Otherwise, Envoy/Gateway root certificate should be accessible to the Cyber-Center from a environment variable path that is mounted at /opt/aquasec/ssl/
 
@@ -112,7 +112,7 @@ In order to support L7 / gRPC communication between cyber-center and envoy or cy
 
 Please login into Aqua Web UI then go to `Aqua CyberCenters` section under `Settings` tab to connect to a new offline cyber-center. 
 
-1. Change the Address to offline cybercenter address `eg: http://aqua-c:443`
+1. Change the Address to offline cybercenter address `eg: http://aqua-cc:443`
 2. Test the connection once it is success save the changes.
 3. Disable `Fast Scanning` under `Scanning` section in `Setting` tab.
 
