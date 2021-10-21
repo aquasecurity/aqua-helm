@@ -1,4 +1,4 @@
-apiVersion: v2
+apiVersion: v1
 name: cloud-connector
 description: A Helm chart for Aqua Cloud-Connector
 appVersion: "6.5"
