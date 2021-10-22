@@ -22,7 +22,7 @@ rbac:
 # rancher = Rancher Kubernetes Platform
 # gs = GaintSwarm platform
 # k3s = k3s kubernetes platform
-platform: "k8s"
+platform: ""
 
 openshift_route:
   create: false    #Enable if required openshift route for web and gateway
