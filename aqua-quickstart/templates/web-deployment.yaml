@@ -256,3 +256,21 @@ spec:
             path: ca.pem
           {{- end }}
       {{- end }}
+---
+{{- if gt .Values.web.replicaCount 1.0 -}}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Release.Namespace }}-console-pdb
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Namespace }}-console
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Namespace }}-console
+{{- end -}}       

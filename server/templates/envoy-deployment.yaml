@@ -100,3 +100,20 @@ spec:
           secretName: {{ .Values.envoy.TLS.cluster.secretName }}
       {{- end }}
 {{- end }}
+---
+{{- if gt .Values.envoy.replicaCount 1.0 -}}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Release.Namespace }}-envoy
+  labels:
+    app: {{ .Release.Namespace }}-envoy
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"  
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: {{ .Release.Namespace }}-envoy
+{{- end }} 

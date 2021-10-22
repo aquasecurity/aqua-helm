@@ -218,3 +218,21 @@ spec:
             path: ca.pem
           {{- end }}
       {{- end }}
+---
+{{- if gt .Values.gate.replicaCount 1.0 -}}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Release.Namespace }}-gateway-pdb
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Namespace }}-gateway
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Namespace }}-gateway
+{{- end -}}         
