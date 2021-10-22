@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Namespace }}-cloud-connector
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Namespace }}-cloud-connector
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Namespace }}-cloud-connector
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Namespace }}-cloud-connector
+      name: {{ .Release.Namespace }}-cloud-connector
+      namespace: {{ .Release.Namespace }}
+    spec:
+      {{- with .Values.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      serviceAccount: {{ .Release.Namespace }}-sa
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      containers:
+      - name: {{ .Release.Namespace }}-cloud-connector
+        {{- with .Values.container_securityContext }}
+        securityContext:
+{{ toYaml . | indent 10 }}
+        {{- end }}
+        image: {{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: AQUA_SERVER
+          value: "{{ .Values.gateway.host }}:{{ .Values.gateway.port | default "443" }}"
+        - name: AQUA_CLOUD_CONNECTOR_CONFIG_FILE_PATH
+          value: /etc/config/connector.yaml
+        - name: AQUA_CLOUD_CONNECTOR_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: user-secret
+        - name: AQUA_CLOUD_CONNECTOR_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: user-secret
+        - name: AQUA_TLS_VERIFY
+          value: {{ .Values.tls_verify.value }}
+        - name: AQUA_CLOUD_CONNECTOR_HEALTH_PORT
+          value: "{{ .Values.healthPort.port | default "8080" }}"
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        ports:
+        - containerPort: 5432
+          protocol: TCP
+        volumeMounts:
+          - name: config
+            mountPath: /etc/config
+{{- with .Values.livenessProbe }}
+        livenessProbe:
+{{ toYaml . | indent 10 }}
+{{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ .Release.Namespace }}-cloud-connector-conf
+            items:
+              - path: connector.yaml
+                key: {{ .Release.Namespace }}-cloud-connector-config

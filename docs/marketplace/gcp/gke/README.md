@@ -86,7 +86,7 @@ Sometimes a cluster has to be deleted, migrated, redeployed in a different regio
 
 To redeploy Aqua CSP and reattach the previously utilized PVC, one may choose the same cluster, namespace and app name. Doing so will cause the marketplace launcher to reattach the matching PVC. This does present a challenge however due to the *kubectl apply* that the launcher is running. The *apply* means existing secrets of the same name will be regenerated and overwritten, causing the database connection from the Aqua server and database containers to fail. To alleviate, this particular issue, stage the following commands in the cloud console run them 15-30 seconds after starting a redeploy. Doing so will overwrite the secrets with the proper values, and allow the server and gateway pods to reconnect to the database. You may notice this procedure relies on the Kubernetes pod initialization restart timer, and you would be correct! We're merely taking advantage of the Kubernetes toolkit vs editing the database with Postgres commands.
 
-```bash
+```shell
 kubectl delete -f aquaSecrets.json
 kubectl create -f aquaSecrets.json
 ```

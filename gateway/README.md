@@ -30,8 +30,8 @@ Follow the steps in this section for production grade deployments. You can eithe
 
 1. Clone the GitHub repository with the charts
     ```shell
-    $ git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
-    $ cd aqua-helm/
+    git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
+    cd aqua-helm/
     ```
 
 ##### Edit values.yaml file in gateway directory with following details as prerequisite
@@ -57,34 +57,34 @@ Follow the steps in this section for production grade deployments. You can eithe
 
 2. Create `aqua` namespace if gateway is being deployed to a new cluster.
     ```shell
-    $ kubectl create namespace aqua
+    kubectl create namespace aqua
     ```
 
 3. Install Aqua
     ```shell
-    $ helm upgrade --install --namespace aqua gateway ./gateway --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
+    helm upgrade --install --namespace aqua gateway ./gateway --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
     ```
 
 ### Installing Aqua Gateway from Helm Private Repository
 
 1. Add Aqua Helm Repository
     ```shell
-    $ helm repo add aqua-helm https://helm.aquasec.com
+    helm repo add aqua-helm https://helm.aquasec.com
     ```
 
 2. Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
     ```shell
-    $ helm search repo aqua-helm/gateway --versions
+    helm search repo aqua-helm/gateway --versions
     ```
 
 3. Create `aqua` namespace if gateway is being deployed to a new cluster.
     ```shell
-    $ kubectl create namespace aqua
+    kubectl create namespace aqua
     ```
 
 4. copy the values.yaml content from  [Values.yaml](./values.yaml) to a file and make the respective changes [values](#edit-valuesyaml-file-in-gateway-directory-with-following-details-as-prerequisite) then run the following command:
     ```shell
-    $ helm upgrade --install --namespace aqua gateway aqua-helm/gateway --values values.yaml --version <>
+    helm upgrade --install --namespace aqua gateway aqua-helm/gateway --values values.yaml --version <>
     ```
 
 
@@ -131,7 +131,7 @@ Parameter | Description | Default | Mandatory |
 `db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration audit database. |	`false`| `NO`
 `db.pubsubssl` | If require an SSL-encrypted connection to the Postgres configuration pubsub database. |	`false`| `NO`
 `gate.image.repository` | the docker image name to use | `gateway`| `NO` 
-`gate.image.tag` | The image tag to use. | `6.5.preview9`| `NO`
+`gate.image.tag` | The image tag to use. | `6.5`| `NO`
 `gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
 `gate.service.type` | k8s service type | `ClusterIP`| `NO` 
 `gate.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-gateway in AKS platform | `null` | `NO`

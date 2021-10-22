@@ -14,7 +14,7 @@ metadata:
   namespace: aqua
 data:
   conftest.imageRef: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.ke.image.repository }}:{{ .Values.ke.image.tag }}"
-  conftest.resources.requests.cpu: 50m
-  conftest.resources.requests.memory: 50M
-  conftest.resources.limits.cpu: 300m
-  conftest.resources.limits.memory: 300M
+  conftest.resources.requests.cpu: "{{ .Values.starboard.conftest_resources_requests_cpu }}"
+  conftest.resources.requests.memory: "{{ .Values.starboard.conftest_resources_requests_memory }}"
+  conftest.resources.limits.cpu: "{{ .Values.starboard.conftest_resources_limits_cpu }}"
+  conftest.resources.limits.memory: "{{ .Values.starboard.conftest_resources_limits_memory }}"
