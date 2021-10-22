@@ -51,40 +51,40 @@ Follow the steps in this section for production grade deployments. You can eithe
 * Clone the GitHub repository with the charts
 
 ```shell
-$ git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
-$ cd aqua-helm/
+git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
+cd aqua-helm/
 ```
 
 
 * Install Aqua
 
 ```shell
-$ helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
+helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
 ```
 
 ### Installing Aqua Web from Helm Private Repository
 
 * Add Aqua Helm Repository
 ```shell
-$ helm repo add aqua-helm https://helm.aquasec.com
+helm repo add aqua-helm https://helm.aquasec.com
 ```
 
 * Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
 ```shell
-$ helm search repo aqua-helm/server --versions
+helm search repo aqua-helm/server --versions
 ```
 
 * Install Aqua
 
 ```shell
-$ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<> --version <>
+helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<> --version <>
 ```
 
 ## Advanced Configuration
 
 ### 1. Envoy
 
-   In order to support L7 / gRPC communication between gateway and enforcers Aqua recommends that customers use the latest alpine-based Envoy load balancer. Following are the detailed steps to enable and deploy a secure envoy based load balancer.
+   In order to support L7 / gRPC communication between gateway and enforcers Aqua recommends that customers use the Envoy load balancer. Following are the detailed steps to enable and deploy a secure envoy based load balancer.
 
    1. Generate TLS certificates signed by a public CA or Self-Signed CA
 
@@ -124,7 +124,7 @@ $ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCrede
    2. Create TLS cert secret
    
       ```shell
-      $ kubectl create secret generic aqua-lb-tls --from-file=mydomain.com.crt --from-file=mydomain.com.key --from-file=rootCA.crt -n aqua
+      kubectl create secret generic aqua-lb-tls --from-file=mydomain.com.crt --from-file=mydomain.com.key --from-file=rootCA.crt -n aqua
       ```
    
    3. Edit the values.yaml file to include above secret 
@@ -182,7 +182,7 @@ $ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCrede
    2. LoadBalancer(Default):
       1. Create Kubernetes secrets for server component using the respective SSL certificates.
          ```shell
-         $ kubectl create secret generic aqua-web-certs --from-file aqua_web.key --from-file aqua_web.crt --from-file rootCA.crt -n aqua
+         kubectl create secret generic aqua-web-certs --from-file aqua_web.key --from-file aqua_web.crt --from-file rootCA.crt -n aqua
 
          here: aqua_web.key    = privateKey
                aqua_web.crt    = publicKey
@@ -244,9 +244,9 @@ $ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCrede
          ```shell
          # Example:
          # Change < certificate filenames > respectively
-         $ kubectl create secret generic aqua-web-certs --from-file <aqua_web_private.key> --from-file <aqua_web_public.crt> --from-file <rootCA.crt> -n aqua
+         kubectl create secret generic aqua-web-certs --from-file <aqua_web_private.key> --from-file <aqua_web_public.crt> --from-file <rootCA.crt> -n aqua
 
-         $ kubectl create secret generic aqua-gateway-certs --from-file <aqua_gateway_private.key> --from-file <aqua_gateway_public.crt> --from-file <rootCA.crt> -n aqua
+         kubectl create secret generic aqua-gateway-certs --from-file <aqua_gateway_private.key> --from-file <aqua_gateway_public.crt> --from-file <rootCA.crt> -n aqua
          ```
 
    3. Enable `web.TLS.enable` and `gate.TLS.enable` to `true` in values.yaml
@@ -320,7 +320,7 @@ Parameter | Description | Default| Mandatory
 `db.persistence.size` |	Persistent Volume size | `30Gi`| `NO`
 `db.persistence.storageClass` |	Persistent Volume Storage Class | `unset`| `NO`
 `db.image.repository` | the docker image name to use | `database`| `NO`
-`db.image.tag` | The image tag to use. | `6.5.preview9`| `NO`
+`db.image.tag` | The image tag to use. | `6.5`| `NO`
 `db.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
 `db.service.type` | k8s service type | `ClusterIP`| `NO`
 `db.resources` |	Resource requests and limits | `{}`| `NO`
@@ -332,7 +332,7 @@ Parameter | Description | Default| Mandatory
 `db.extraEnvironmentVars` | is a list of extra environment variables to set in the database deployments. | `{}`| `NO`
 `db.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the database deployments, these variables take value from existing Secret objects. | `[]`| `NO`
 `gate.image.repository` | the docker image name to use | `gateway`| `NO`
-`gate.image.tag` | The image tag to use. | `6.5.preview9`| `NO`
+`gate.image.tag` | The image tag to use. | `6.5`| `NO`
 `gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
 `gate.service.type` | k8s service type | `ClusterIP`| `NO`
 `gate.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
@@ -355,7 +355,7 @@ Parameter | Description | Default| Mandatory
 `gate.extraEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments. | `{}`| `NO`
 `gate.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`| `NO`
 `web.image.repository` | the docker image name to use | `console`| `NO`
-`web.image.tag` | The image tag to use. | `6.5.preview9`| `NO`
+`web.image.tag` | The image tag to use. | `6.5`| `NO`
 `web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
 `web.service.type` | k8s service type | `LoadBalancer`| `NO`
 `web.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
@@ -388,6 +388,7 @@ Parameter | Description | Default| Mandatory
 `envoy.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
 `envoy.service.type` | k8s service type | `LoadBalancer`| `NO`
 `envoy.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
+`envoy.service.annotations` | use this field to pass additional annotations for the service, useful to drive Cloud providers behaviour in creating the LB resource. E.g. `service.beta.kubernetes.io/aws-load-balancer-type: nlb`  | `{}` | `NO`
 `envoy.service.ports` | array of ports settings | `array`| `NO`
 `envoy.TLS.listener.enabled` | enable to load custom self-signed or CA certs | `false` | `NO` <br /> `if envoy.enabled is set to true`
 `envoy.TLS.listener.secretName` | certificates secret name | `nil` | `NO` <br /> `if envoy.enabled is set to true`

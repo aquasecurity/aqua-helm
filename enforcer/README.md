@@ -33,32 +33,32 @@ Follow the steps in this section for production grade deployments. You can eithe
 * Clone the GitHub repository with the charts
 
 ```shell
-$ git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
-$ cd aqua-helm/
+git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
+cd aqua-helm/
 ```
 
 * Install Aqua Enforcer
 
 ```shell
-$ helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
+helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
 ```
 
 ### Installing Aqua Enforcer from Helm Private Repository
 
 * Add Aqua Helm Repository
 ```shell
-$ helm repo add aqua-helm https://helm.aquasec.com
+helm repo add aqua-helm https://helm.aquasec.com
 ```
 
 * Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
 ```shell
-$ helm search repo aqua-helm/enforcer --versions
+helm search repo aqua-helm/enforcer --versions
 ```
 
 * Install Aqua Enforcer
 
 ```shell
-$ helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token> --version <>
+helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token> --version <>
 ```
 
 
@@ -100,7 +100,7 @@ In order to support L7 / gRPC communication between enforcer and envoy or enforc
       ```shell
       ## Example: 
       ## Change < certificate filenames > respectively
-      $ kubectl create secret generic aqua-enforcer-certs --from-file <aqua_enforcer_private.key> --from-file <aqua_enforcer_public.crt> --from-file <rootCA.crt> -n aqua
+      kubectl create secret generic aqua-enforcer-certs --from-file <aqua_enforcer_private.key> --from-file <aqua_enforcer_public.crt> --from-file <rootCA.crt> -n aqua
       ```
 
    3. Enable `TLS.enable`  to `true` in values.yaml
@@ -147,7 +147,7 @@ Parameter | Description | Default| Mandatory
 `gate.host` | gateway host | `aqua-gateway-svc`| `YES`
 `gate.port` | gateway port | `8443`| `YES`
 `image.repository` | the docker image name to use | `enforcer`| `YES`
-`image.tag` | The image tag to use. | `6.5.preview9`| `YES`
+`image.tag` | The image tag to use. | `6.5`| `YES`
 `image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
 `resources` |	Resource requests and limits | `{}`| `NO`
 `nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
