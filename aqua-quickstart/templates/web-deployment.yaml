@@ -255,4 +255,4 @@ spec:
           - key: {{ .Values.web.TLS.rootCA_fileName }}
             path: ca.pem
           {{- end }}
-      {{- end }}       
+      {{- end }}

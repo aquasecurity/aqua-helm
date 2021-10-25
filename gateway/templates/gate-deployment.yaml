@@ -213,4 +213,4 @@ spec:
           - key: {{ .Values.gate.TLS.rootCA_fileName }}
             path: ca.pem
           {{- end }}
-      {{- end }}  
+      {{- end }}
