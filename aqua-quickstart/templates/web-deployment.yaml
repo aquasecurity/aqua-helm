@@ -255,22 +255,4 @@ spec:
           - key: {{ .Values.web.TLS.rootCA_fileName }}
             path: ca.pem
           {{- end }}
-      {{- end }}
----
-{{- if gt .Values.web.replicaCount 1.0 -}}
-apiVersion: policy/v1beta1
-kind: PodDisruptionBudget
-metadata:
-  name: {{ .Release.Name }}-console-pdb
-  namespace: {{ .Release.Namespace }}
-  labels:
-    app: {{ .Release.Name }}-console
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
-spec:
-  minAvailable: 1
-  selector:
-    matchLabels:
-      app: {{ .Release.Name }}-console
-{{- end -}}       
+      {{- end }}       
