@@ -33,6 +33,8 @@ securityContext: {}
 container_securityContext: {}
 podAnnotations: {}
   #  my-annotation-key: my value; more value
+nodeSelector: {}
+affinity: {}
 
 TLS:
   enabled: false              # enable to true for secure communication

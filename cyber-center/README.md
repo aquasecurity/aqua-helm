@@ -139,6 +139,9 @@ Parameter | Description | Default| Mandatory
 `service.ports` | array of ports settings | `array`| `NO`
 `tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
 `podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
+`resources` |	Resource requests and limits | `{}`| `NO`
+`nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
+`affinity` |	Kubernetes node affinity | `{}`| `NO`
 `TLS.enabled` | If require secure channel communication | `false` | `NO`
 `TLS.secretName` | certificates secret name | `nil` | `YES` <br /> `if TLS.enabled is set to true`
 `TLS.publicKey_fileName` | filename of the public key eg: aqua_cyber-center.crt | `nil`  |  `YES` <br /> `if TLS.enabled is set to true`

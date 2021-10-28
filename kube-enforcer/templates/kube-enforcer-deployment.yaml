@@ -10,6 +10,15 @@ spec:
   replicas: 1
   template:
     metadata:
+    annotations:
+      {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
+      {{- end }}
+      {{- with .Values.podAnnotations }}
+      {{- range $key,$value := . }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
       labels:
         app: {{ include "kube-enforcer.fullname" . }}
     spec:
@@ -187,6 +196,14 @@ spec:
               path: rootCA.crt
             {{- end }}
         {{- end }}
+      {{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+      {{- end }}
   selector:
     matchLabels:
       app: {{ include "kube-enforcer.fullname" . }}
