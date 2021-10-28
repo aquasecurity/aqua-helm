@@ -196,7 +196,7 @@ spec:
               path: rootCA.crt
             {{- end }}
         {{- end }}
-      {{- if .Values.nodeSelector }}
+{{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
       {{- end }}
