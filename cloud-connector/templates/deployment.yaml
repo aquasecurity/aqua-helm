@@ -22,66 +22,58 @@ spec:
       name: {{ .Release.Namespace }}-cloud-connector
       namespace: {{ .Release.Namespace }}
     spec:
-      {{- with .Values.db.securityContext }}
+      {{- with .Values.securityContext }}
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
       serviceAccount: {{ .Release.Namespace }}-sa
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
       containers:
       - name: {{ .Release.Namespace }}-cloud-connector
-        {{- with .Values.db.container_securityContext }}
+        {{- with .Values.container_securityContext }}
         securityContext:
 {{ toYaml . | indent 10 }}
         {{- end }}
-        image: {{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}
-        imagePullPolicy: {{ .Values.db.image.pullPolicy }}
+        image: {{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
         - name: AQUA_SERVER
-          value: "{{ .Values.db.gateway.url }}:443"
-        - name: AQUA_CLOUD_CONNECTOR_CONFIG_FILE_PATH 
-          value: /etc/config/connector.yaml 
-        - name: AQUA_CLOUD_CONNECTOR_USERNAME 
-          valueFrom: 
-            secretKeyRef: 
-              key: username 
-              name: user-secret 
-        - name: AQUA_CLOUD_CONNECTOR_PASSWORD 
-          valueFrom: 
-            secretKeyRef: 
-              key: password 
-              name: user-secret  
-        - name: AQUA_CLOUD_CONNECTOR_HEALTH_PORT # Default port is 8080 
-          value: ""
+          value: "{{ .Values.gateway.host }}:{{ .Values.gateway.port | default "443" }}"
+        - name: AQUA_CLOUD_CONNECTOR_CONFIG_FILE_PATH
+          value: /etc/config/connector.yaml
+        - name: AQUA_CLOUD_CONNECTOR_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: user-secret
+        - name: AQUA_CLOUD_CONNECTOR_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: user-secret
         - name: AQUA_TLS_VERIFY
-          value: "1"                                 
-        volumeMounts:
-          - name: config 
-            mountPath: /etc/config  
+          value: {{ .Values.tls_verify.value }}
+        - name: AQUA_CLOUD_CONNECTOR_HEALTH_PORT
+          value: "{{ .Values.healthPort.port | default "8080" }}"
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
         ports:
         - containerPort: 5432
           protocol: TCP
-{{- with .Values.db.livenessProbe }}
-        terminationMessagePath: /dev/termination-log 
-        terminationMessagePolicy: File 
+        volumeMounts:
+          - name: config
+            mountPath: /etc/config
+{{- with .Values.livenessProbe }}
         livenessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
       volumes:
-        - name: config 
-          configMap: 
-            name: {{ .Release.Namespace }}-cloud-connector-conf 
-            items: 
-              - path: connector.yaml 
-                key: {{ .Release.Namespace }}-cloud-connector-config    
-      dnsPolicy: ClusterFirst 
-      imagePullSecrets:
-      {{- if .Values.imageCredentials.create }}
-      - name: {{ .Release.Namespace }}-registry
-      {{- else }}
-      - name: {{ .Values.imageCredentials.name }}
-      {{- end }}
-      restartPolicy: Always 
-      schedulerName: default-scheduler 
-      serviceAccountName: {{ .Release.Namespace }}-sa 
-      terminationGracePeriodSeconds: 30    
-
+        - name: config
+          configMap:
+            name: {{ .Release.Namespace }}-cloud-connector-conf
+            items:
+              - path: connector.yaml
+                key: {{ .Release.Namespace }}-cloud-connector-config
