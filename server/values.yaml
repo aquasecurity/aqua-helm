@@ -339,11 +339,21 @@ envoy:
       targetPort: 8443
       nodePort:
       protocol: TCP
+    - name: healthserver
+      port: 8082
+      targetPort: 8082
+      nodePort:
+      protocol: TCP
   #As 443, 8443 already occupied in k3s kubernetes by traefik ingress. below are the envoy service ports
     k3sPorts:
     - name: https
       port: 445
       targetPort: 8443
+      nodePort:
+      protocol: TCP
+    - name: healthserver
+      port: 8082
+      targetPort: 8082
       nodePort:
       protocol: TCP
 

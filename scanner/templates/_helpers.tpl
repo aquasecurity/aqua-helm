@@ -75,3 +75,7 @@ Inject extra environment populated by secrets, if populated
 {{- printf "%s" (required "A valid .Values.scannerUserSecret.userKey required" .Values.scannerUserSecret.userKey ) }}
 {{- printf "%s" (required "A valid .Values.scannerUserSecret.passwordKey required" .Values.scannerUserSecret.passwordKey ) }}
 {{- end }}
+
+{{- define "serverCertificate" }}
+{{- printf "%s" (required "A valid .Values.serverSSL.serverSSLCert entry required" .Values.serverSSL.serverSSLCert ) | replace "\n" "" }}
+{{- end }}
