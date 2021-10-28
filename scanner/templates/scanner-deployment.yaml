@@ -65,6 +65,10 @@ spec:
         {{- end }}
         - --host
         - "{{ .Values.server.scheme | default "http" }}://{{ .Values.server.serviceName }}:{{ .Values.server.port }}"
+        {{- if or ( .Values.serverSSL.enabled ) ( .Values.cyberCenter.mtls.enabled  ) }}
+        {{- else }}
+        - --no-verify
+        {{- end }}
         env:
         - name: SCALOCK_LOG_LEVEL
           value: {{ .Values.logLevel | default "INFO" }}
@@ -88,12 +92,33 @@ spec:
               key: {{ .Values.scannerUserSecret.userKey }}
           {{- end }}
         {{- end }}
+        {{- if .Values.cyberCenter.mtls.enabled }}
+        - name: "OFFLINE_CC_MTLS_ENABLE"
+          value: "1"
+        - name: "AQUA_PRIVATE_KEY"
+          value: "/opt/aquasec/ssl/key.pem"
+        - name: "AQUA_PUBLIC_KEY"
+          value: "/opt/aquasec/ssl/cert.pem"
+        {{- if .Values.cyberCenter.mtls.rootCA_fileName }}
+        - name: "AQUA_ROOT_CA"
+          value: "/opt/aquasec/ssl/ca.pem"
+        {{- end }}
         {{- include "scanner.extraEnvironmentVars" .Values | nindent 8 }}
         {{- include "scanner.extraSecretEnvironmentVars" .Values | nindent 8 }}
-        {{- if .Values.dockerSock.mount }}
         volumeMounts:
+        {{- if .Values.dockerSock.mount }}
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
+        {{- end }}
+        {{- if .Values.serverSSL.enabled }}
+        - mountPath: /etc/ssl/certs
+          name: ssl-certs
+          readOnly: true
+        {{- end }}
+        {{- if .Values.cyberCenter.mtls.enabled }}
+        - name: cc-mtls-certs
+          mountPath: /opt/aquasec/ssl/
+          readOnly: true
         {{- end }}
         ports:
         - containerPort: 8080
@@ -120,9 +145,29 @@ spec:
       tolerations:
 {{ toYaml .Values.tolerations | indent 6 }}
       {{- end }}
-      {{- if .Values.dockerSock.mount }}
       volumes:
+      {{- if .Values.dockerSock.mount }}
       - name: docker-socket-mount
         hostPath:
           path: {{ .Values.dockerSock.path }}
+      {{- end }}
+      {{- if .Values.serverSSL.enabled }}
+      - name: ssl-certs
+        secret:
+          secretName: {{ .Values.serverSSL.secretName }}
+      {{- end }}
+      {{- if .Values.cyberCenter.mtls.enabled }}
+      - name: cc-mtls-certs
+        secret:
+          defaultMode: 420
+          secretName: {{ .Values.cyberCenter.mtls.secretName}}
+          items:
+          - key: {{ .Values.cyberCenter.mtls.publicKey_fileName }}
+            path: cert.pem
+          - key: {{ .Values.cyberCenter.mtls.privateKey_fileName }}
+            path: key.pem
+          {{- if .Values.cyberCenter.mtls.rootCA_fileName }}
+          - key: {{ .Values.cyberCenter.mtls.rootCA_fileName }}
+            path: ca.pem
+          {{- end }}
       {{- end }}
