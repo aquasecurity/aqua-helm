@@ -7,7 +7,6 @@ webhooks:
   - name: imageassurance.aquasec.com
     failurePolicy: {{ .Values.webhooks.failurePolicy }}
     sideEffects: "None"
-    admissionReviewVersions: ["v1", "v1beta1"]
     rules:
       - operations: ["CREATE", "UPDATE"]
         apiGroups: ["*"]
