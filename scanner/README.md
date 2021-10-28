@@ -14,6 +14,8 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Installing the Chart](#installing-the-chart)
     - [Installing Aqua Scanner from Github Repo](#installing-aqua-scanner-from-github-repo)
     - [Installing Aqua Scanner from Helm Private Repository](#installing-aqua-scanner-from-helm-private-repository)
+    - [(Optional) Configure SSL communication with Aqua Server](#optional-configure-ssl-communication-with-aqua-server)
+    - [(Optional) Configure mTLS communication with offline Aqua CyberCenter in air-gap environment](#optional-configure-mtls-communication-with-offline-aqua-cybercenter-in-air-gap-environment)
   - [Configurable Variables](#configurable-variables)
     - [Scanner](#scanner)
   - [Issues and feedback](#issues-and-feedback)
@@ -64,7 +66,27 @@ helm search repo aqua-helm/scanner --versions
 ```shell
 helm upgrade --install --namespace aqua scanner aqua-helm/scanner --set imageCredentials.username=<>,imageCredentials.password=<> --version <>
 ```
+### (Optional) Configure SSL communication with Aqua Server
+To enable SSL communication from the Scanner to the Aqua Server. Perform these steps:
+1. enable `serverSSL.enabled` to true in values.yaml or use `--set 'serverSSL.enabled=true'` for inline argument
+2. You need to encode the certificate into base64 for ```server.crt```  using this command:
 
+    ```bash
+    cat <file-name> | base64 | tr -d '\n'
+    ```
+3. Provide the certificates previously obtained in the fields of the `serverSSL.serverSSLCert` in values.yaml or use `--set serverSSL.serverSSLCert=<cert base64 value>`
+
+### (Optional) Configure mTLS communication with offline Aqua CyberCenter in air-gap environment
+1. To establish mTLS with offline cybercenter, create secret using the below command
+```SHELL
+kubectl create secret generic aqua-grpc-scanner --from-file=<rootCA.crt> --from-file=<aqua_scanner.crt> --from-file=<aqua_scanner.key> -n aqua
+```
+
+2. Enable `cyberCenter.mtls.enabled` to true in `values.yaml`
+3. Add previously created secret name `cyberCenter.mtls.secretName` in `values.yaml`
+4. Add respective certificate file names to `cyberCenter.mtls.publicKey_fileName`, `cyberCenter.mtls.privateKey_fileName`, `cyberCenter.mtls.rootCA_fileName`(Add rootCA if certs are self-signed)
+
+`AQUA_PRIVATE_KEY`, `AQUA_PUBLIC_KEY`, `AQUA_ROOT_CA`(if using self-signed certs), `OFFLINE_CC_MTLS_ENABLE` in [003_scanner_configmap.yaml](./003_scanner_configmap.yaml) and uncomment aqua-grpc-scanner certs vloumemount and volumes block from [004_scanner_deploy.yaml](./004_scanner_deploy.yaml) file before applying the kubectl commands.
 
 Before installing scanner chart the recommendation is to create user with scanning permissions, [Link to documentations](https://docs.aquasec.com/docs/add-scanners#section-add-a-scanner-user)
 
@@ -84,7 +106,15 @@ Parameter | Description | Default| Mandatory
 `serviceAccount.name` | K8 service-account name either existing one or new name if create is enabled | `aqua-sa`  | `YES`
 `server.scheme` | scheme for server to connect | `http`| `NO`
 `server.serviceName` | service name for server to connect | `aqua-console-svc`| `YES` 
-`server.port` | service port for server to connect | `8080`| `YES` 
+`server.port` | service port for server to connect | `8080`| `YES`
+`serverSSl.enabled` | To establish SSL communication with Aqua Server | `false` | `NO`
+`serverSSL.secretName` | secret name for the SSL cert | `scanner-web-cert` | `NO`
+`serverSSL.serverSSLCert` | base64 value of the aqua server public certificate | `Nill` | `YES` <br /> `if serverSSl.enabled is set to true `
+`cyberCenter.mtls.enabled` | If require secure channel communication | `false` | `NO`
+`cyberCenter.mtls.secretName` | certificates secret name | `nil` | `NO`
+`cyberCenter.mtls.publicKey_fileName` | filename of the public key eg: aqua_scanner.crt | `nil`  |  `YES` <br /> `if cyberCenter.mtls.enabled is set to true`
+`cyberCenter.mtls.privateKey_fileName`   | filename of the private key eg: aqua_scanner.key | `nil`  |  `YES` <br /> `if cyberCenter.mtls.enabled is set to true`
+`cyberCenter.mtls.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO` <br /> `if using self-signed certificates for mTLS`
 `image.repository` | the docker image name to use | `scanner`| `YES` 
 `image.tag` | The image tag to use. | `6.5`| `YES`
 `image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
