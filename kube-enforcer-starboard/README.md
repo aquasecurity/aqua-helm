@@ -207,7 +207,10 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `starboard.livenessProbe`  |
 | `kubeEnforcerAdvance.enable`      | Advanced KubeEnforcer deployment          | `false`  | `NO`   |
 | `kubeEnforcerAdvance.nodeID`      | Envoy Node ID of the advance KE deployment    | `envoy` | `YES - if kubeEnforcerAdvance.enable` |
-
+`nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
+`tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
+`podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
+`affinity` |	Kubernetes node affinity | `{}`| `NO`
 ## Issues and feedback
 
 If you encounter any problems or would like to give us feedback on this deployment, we encourage you to raise issues here on GitHub.

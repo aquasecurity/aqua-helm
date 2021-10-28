@@ -65,6 +65,12 @@ webhooks:
   mutatingWebhook:
     name: kube-enforcer-me-injection-hook-config
 
+podAnnotations: {}
+#  my-annotation-key: my value; more value
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
 securityContext:
   runAsUser: 11431
   runAsGroup: 11433

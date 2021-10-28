@@ -174,8 +174,10 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `envs.gatewayAddress`             | Gateway host address                                                        | `aqua-gateway-svc:8443`   | `YES`                   |
 | `kubeEnforcerAdvance.enable`      | Advance Kube Enforcer Deployment                                            | `false`                   | `NO`                    |
 | `kubeEnforcerAdvance.nodeID`      | Envoy Node ID of the advance KE deployment                                  | `envoy`                   | `YES - if kubeEnforcerAdvance.enable` |
-| `nodeSelector`                    | Kubernetes node selector                                                    | `{}`                      | `NO`                    |
-
+`nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
+`tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
+`podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
+`affinity` |	Kubernetes node affinity | `{}`| `NO`
 
 
 ## Issues and feedback

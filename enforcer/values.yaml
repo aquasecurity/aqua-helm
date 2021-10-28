@@ -84,6 +84,7 @@ resources: {}
 nodeSelector: {}
 tolerations: []
 podAnnotations: {}
+affinity: {}
 #  my-annotation-key: my value; more value
 
 TLS:

@@ -12,6 +12,12 @@ spec:
     metadata:
       labels:
         app: {{ include "kube-enforcer.fullname" . }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+      {{- range $key,$value := . }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
     spec:
       {{- with .Values.securityContext }}
       securityContext:
@@ -134,6 +140,18 @@ spec:
         - name: "envoy-shared"
           emptyDir: {}
 {{- end }}
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- if and (.Values.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 6 }}
+      {{- end }}
   selector:
     matchLabels:
       app: {{ include "kube-enforcer.fullname" . }}

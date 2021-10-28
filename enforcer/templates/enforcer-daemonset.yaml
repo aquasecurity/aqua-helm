@@ -183,3 +183,7 @@ spec:
       tolerations:
 {{ toYaml .Values.tolerations | indent 6 }}
       {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+      {{- end }}
