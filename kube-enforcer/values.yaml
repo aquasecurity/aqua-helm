@@ -92,6 +92,11 @@ resources: {}
   #   cpu: 500m
   #   memory: 1.5Gi
 
+nodeSelector: {}
+tolerations: []
+podAnnotations: {}
+affinity: {}
+
 TLS:
   enabled: false              # enable to true for secure communication
   secretName: "ke-mtls-certs"             # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
