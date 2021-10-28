@@ -53,7 +53,7 @@ spec:
               key: password
               name: user-secret
         - name: AQUA_TLS_VERIFY
-          value: {{ .Values.tls_verify.value }}
+          value: "{{ .Values.tls_verify.value }}"
         - name: AQUA_CLOUD_CONNECTOR_HEALTH_PORT
           value: "{{ .Values.healthPort.port | default "8080" }}"
         terminationMessagePath: /dev/termination-log

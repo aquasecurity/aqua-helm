@@ -8,7 +8,7 @@ imageCredentials:
   password: ""
 
 serviceaccount:
-  create: false
+  create: true
 
 image:
   repository: aqua-cloud-connector
