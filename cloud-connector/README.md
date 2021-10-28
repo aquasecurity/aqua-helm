@@ -94,6 +94,11 @@ Parameter | Description | Default| Mandatory
 `gateway.port` | gateway port | `8443`| `YES`
 `TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and ay/envoy | `0`  |  `YES` <br /> `if TLS.enabled is set to true`
 `container_securityContext.privileged` | Container security context | `false`| `NO`
+`resources` |	Resource requests and limits | `{}`| `NO`
+`nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
+`tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
+`podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
+`affinity` |	Kubernetes node affinity | `{}`| `NO`
 
 
 > Note: that `imageCredentials.create` is false and if you need to create image pull secret please update to true, set the username and password for the registry and `serviceAccount.create` is false and if you're environment is new or not having aqua-sa serviceaccount please update it to true.

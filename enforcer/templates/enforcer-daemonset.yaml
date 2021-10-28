@@ -175,11 +175,11 @@ spec:
             path: ca.pem
           {{- end }}
       {{- end }}
-      {{- if .Values.nodeSelector }}
+{{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
       {{- end }}
-      {{- if and (.Values.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
-      tolerations:
-{{ toYaml .Values.tolerations | indent 6 }}
+      {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
       {{- end }}

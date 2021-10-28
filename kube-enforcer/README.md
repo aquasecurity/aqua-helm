@@ -282,6 +282,11 @@ In order to support L7 / gRPC communication between gateway and enforcers Aqua r
 | `certsSecret.serverCertificate`   | Certificate for TLS authentication with the Kubernetes api-server           | `N/A`    | `YES`  |
 | `certsSecret.serverKey`           | Certificate key for TLS authentication with the Kubernetes api-server       | `N/A`    | `YES`  |
 | `webhooks.caBundle`               | Root certificate for TLS authentication with the Kubernetes api-server      | `N/A`    | `YES`  |
+`resources` |	Resource requests and limits | `{}`| `NO`
+`nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
+`tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
+`podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
+`affinity` |	Kubernetes node affinity | `{}`| `NO`
 | `envs.gatewayAddress`             | Gateway host address     | `aqua-gateway-svc:8443`   | `YES`  |
 `TLS.enabled` | If require secure channel communication | `false` | `NO`
 `TLS.secretName` | certificates secret name | `nil` | `NO`
