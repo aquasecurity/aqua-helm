@@ -1,3 +1,7 @@
+## 6.2.7 (November 1st, 2021)
+* Updating admissionReviewVersions in webhooks to "v1beta1" from "v1", "v1beta1" - [#392](https://github.com/aquasecurity/aqua-helm/pull/392)
+* Added Affinity, nodeSelector, Tolerations, Annotations support - [#394](https://github.com/aquasecurity/aqua-helm/pull/394)
+
 ## 6.2.6 (September 11th, 2021)
 Fixes:
 * Added validating webhook missing UPDATE capability - [#363](https://github.com/aquasecurity/aqua-helm/pull/363)
