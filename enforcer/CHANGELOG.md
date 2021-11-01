@@ -1,3 +1,6 @@
+## 6.2.7 (November 1st, 2021)
+* Added Affinity support to daemonset deployment - [#394](https://github.com/aquasecurity/aqua-helm/pull/394)
+
 ## 6.2.6 (September 6th, 2021)
 Fixes:
 * Fixed missing PSP if enforcer is deployed in a different cluster than Server - [#352](https://github.com/aquasecurity/aqua-helm/pull/352)

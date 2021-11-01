@@ -6,7 +6,7 @@ metadata:
 webhooks:
   - name: microenforcer.aquasec.com
     sideEffects: "None"
-    admissionReviewVersions: ["v1", "v1beta1"]
+    admissionReviewVersions: ["v1beta1"]
     failurePolicy: {{ .Values.webhooks.failurePolicy }}
     rules:
       - operations: ["CREATE", "UPDATE"]
