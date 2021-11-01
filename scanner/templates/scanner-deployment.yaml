@@ -99,9 +99,10 @@ spec:
           value: "/opt/aquasec/ssl/key.pem"
         - name: "AQUA_PUBLIC_KEY"
           value: "/opt/aquasec/ssl/cert.pem"
-        {{- if .Values.cyberCenter.mtls.rootCA_fileName }}
+          {{- if .Values.cyberCenter.mtls.rootCA_fileName }}
         - name: "AQUA_ROOT_CA"
           value: "/opt/aquasec/ssl/ca.pem"
+          {{- end }}
         {{- end }}
         {{- include "scanner.extraEnvironmentVars" .Values | nindent 8 }}
         {{- include "scanner.extraSecretEnvironmentVars" .Values | nindent 8 }}
