@@ -18,6 +18,7 @@ spec:
   template:
     metadata:
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/envoy-config.yaml") . | sha256sum }}      
       {{- if and (.Values.envoy.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.envoy.tolerations }}'
       {{- end }}
