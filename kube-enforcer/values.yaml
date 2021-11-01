@@ -67,6 +67,9 @@ webhooks:
 
 podAnnotations: {}
 #  my-annotation-key: my value; more value
+nodeSelector: {}
+tolerations: []
+affinity: {}
 
 securityContext:
   runAsUser: 11431
@@ -94,8 +97,6 @@ resources: {}
   # limits:
   #   cpu: 500m
   #   memory: 1.5Gi
-
-nodeSelector: {}
 
 TLS:
   enabled: false
