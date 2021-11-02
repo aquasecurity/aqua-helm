@@ -1,0 +1,17 @@
+{{- if gt .Values.envoy.replicaCount 1.0 -}}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Release.Name }}-envoy
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-envoy
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"  
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-envoy
+{{- end }}
