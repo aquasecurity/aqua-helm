@@ -17,6 +17,7 @@ spec:
   template:
     metadata:
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/db-configmap.yaml") . | sha256sum }}
       {{- if and (.Values.db.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.db.tolerations }}'
       {{- end }}
@@ -36,6 +37,9 @@ spec:
       serviceAccount: {{ .Release.Namespace }}-sa
       initContainers:
       - name: {{ .Release.Name }}-db-init
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-initdb-config
         env:
         {{- if .Values.db.passwordFromSecret.enabled }}
         - name: POSTGRES_PASSWORD
@@ -50,8 +54,6 @@ spec:
               name: {{ .Release.Name }}-database-password
               key: db-password
         {{- end }}
-        - name: PGDATA
-          value: "/var/lib/postgresql/data/db-files"
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
         command: [ "sh", "-c", "[ -f $PGDATA/server.key ] && chmod 600 $PGDATA/server.key || echo 'OK' " ]
         volumeMounts:
@@ -67,6 +69,9 @@ spec:
         {{- end }}
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
         imagePullPolicy: "{{ .Values.db.image.pullPolicy }}"
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-db-config
         env:
         {{- if .Values.db.passwordFromSecret.enabled }}
         - name: POSTGRES_PASSWORD
@@ -81,10 +86,10 @@ spec:
               name: {{ .Release.Name }}-database-password
               key: db-password
         {{- end }}
-        - name: PGDATA
-          value: "/var/lib/postgresql/data/db-files"
         - name: POD_IP
-          valueFrom: { fieldRef: { fieldPath: status.podIP } }
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
         {{- include "server.extraEnvironmentVars" .Values.db | nindent 8 }}
         {{- include "server.extraSecretEnvironmentVars" .Values.db | nindent 8 }}
         volumeMounts:
@@ -141,6 +146,7 @@ spec:
   template:
     metadata:
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/db-configmap.yaml") . | sha256sum }}
       {{- if and (.Values.db.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.db.tolerations }}'
       {{- end }}
@@ -160,6 +166,9 @@ spec:
       serviceAccount: {{ .Release.Namespace }}-sa
       initContainers:
       - name: {{ .Release.Name }}-auditdb-init
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-initdb-config
         env:
         {{- if .Values.db.passwordFromSecret.enabled }}
         - name: POSTGRES_PASSWORD
@@ -174,8 +183,6 @@ spec:
               name: {{ .Release.Name }}-database-password
               key: audit-password
         {{- end }}
-        - name: PGDATA
-          value: "/var/lib/postgresql/data/db-files"
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
         command: [ "sh", "-c", "[ -f $PGDATA/server.key ] && chmod 600 $PGDATA/server.key || echo 'OK' " ]
         volumeMounts:
@@ -191,6 +198,9 @@ spec:
         {{- end }}
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
         imagePullPolicy: "{{ .Values.db.image.pullPolicy }}"
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-db-config
         env:
         {{- if .Values.db.passwordFromSecret.enabled }}
         - name: POSTGRES_PASSWORD
@@ -205,10 +215,10 @@ spec:
               name: {{ .Release.Name }}-database-password
               key: audit-password
         {{- end }}
-        - name: PGDATA
-          value: "/var/lib/postgresql/data/db-files"
         - name: POD_IP
-          valueFrom: { fieldRef: { fieldPath: status.podIP } }
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
         {{- include "server.extraEnvironmentVars" .Values.db | nindent 8 }}
         {{- include "server.extraSecretEnvironmentVars" .Values.db | nindent 8 }}
         volumeMounts:

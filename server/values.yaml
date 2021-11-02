@@ -77,6 +77,7 @@ db:
     fsGroup: 11433
   container_securityContext:
     privileged: false
+  env_size: "S"   # Possible values: “S” (default), “M”, “L”
   image:
     repository: database
     tag: "6.5"

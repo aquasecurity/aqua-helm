@@ -16,6 +16,7 @@ spec:
   template:
     metadata:
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/gate-configmap.yaml") . | sha256sum }}
       {{- if and (.Values.gate.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.gate.tolerations }}'
       {{- end }}
@@ -41,21 +42,10 @@ spec:
         {{- end }}
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ .Values.gate.image.tag }}"
         imagePullPolicy: "{{ .Values.gate.image.pullPolicy }}"
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-gateway-config
         env:
-        - name: SCALOCK_LOG_LEVEL
-          value: {{ .Values.gate.logLevel | default "INFO" }}
-        - name: AQUA_CONSOLE_SECURE_ADDRESS
-        {{- if eq .Values.platform "k3s" }}
-          value: "{{ .Release.Name }}-console-svc:444"
-        {{- else }}
-          value: "{{ .Release.Name }}-console-svc:443"
-        {{- end }}
-        - name: SCALOCK_GATEWAY_PUBLIC_IP
-          value: {{ .Values.gate.publicIP | default "aqua-gateway-svc" }}
-        - name: HEALTH_MONITOR
-          value: "0.0.0.0:8082"
-        - name: SCALOCK_DBUSER
-          value: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
         {{- if .Values.db.passwordFromSecret.enabled }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
@@ -69,18 +59,6 @@ spec:
               name: {{ .Release.Name }}-database-password
               key: db-password
           {{- end }}
-        - name: SCALOCK_DBNAME
-          value: {{ .Values.db.external.enabled | ternary .Values.db.external.name "scalock" }}
-        - name: SCALOCK_DBHOST
-          {{- if .Values.db.external.enabled }}
-          value: {{ .Values.db.external.host }}
-          {{- else }}
-          value: {{ .Release.Name }}-database-svc
-          {{- end }}
-        - name: SCALOCK_DBPORT
-          value: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
-        - name: SCALOCK_AUDIT_DBUSER
-          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditUser "postgres" }}
         - name: SCALOCK_AUDIT_DBPASSWORD
           {{- if .Values.db.passwordFromSecret.enabled }}
           valueFrom:
@@ -102,19 +80,7 @@ spec:
               name: {{ .Release.Name }}-database-password
               key: audit-password
           {{- end }}
-        - name: SCALOCK_AUDIT_DBNAME
-          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
-        - name: SCALOCK_AUDIT_DBHOST
-          {{- if .Values.db.external.enabled }}
-          value: {{ .Values.db.external.auditHost }}
-          {{- else }}
-          value: {{ .Release.Name }}-audit-database-svc
-          {{- end }}
-        - name: SCALOCK_AUDIT_DBPORT
-          value: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
         {{- if .Values.activeactive }}
-        - name: AQUA_PUBSUB_DBUSER
-          value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubUser "postgres" }}
         {{- if .Values.db.passwordFromSecret.enabled }}
         - name: AQUA_PUBSUB_DBPASSWORD
           valueFrom:
@@ -132,40 +98,6 @@ spec:
               key: db-password
               {{- end }}
         {{- end }}
-        - name: AQUA_PUBSUB_DBNAME
-          value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubName "aqua_pubsub" }}
-        - name: AQUA_PUBSUB_DBHOST
-          {{- if .Values.db.external.enabled }}
-          value: {{ .Values.db.external.pubsubHost }}
-          {{- else }}
-          value: {{ .Release.Name }}-database-svc
-          {{- end }}
-        - name: AQUA_PUBSUB_DBPORT
-          value: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubPort "5432" | quote }}
-          {{- end }}
-          {{- if .Values.db.ssl }}
-        - name: SCALOCK_DBSSL
-          value: require
-          {{- end }}
-          {{- if .Values.db.auditssl }}
-        - name: SCALOCK_AUDIT_DBSSL
-          value: require
-          {{- end }}
-          {{- if .Values.db.pubsubssl }}
-        - name: AQUA_PUBSUB_DBSSL
-          value: require
-          {{- end }}
-        {{- if .Values.gate.TLS.enabled }}
-        - name: "AQUA_PRIVATE_KEY"
-          value: "/opt/aquasec/ssl/key.pem"
-        - name: "AQUA_PUBLIC_KEY"
-          value: "/opt/aquasec/ssl/cert.pem"
-        {{- if .Values.gate.TLS.rootCA_fileName }}
-        - name: "AQUA_ROOT_CA"
-          value: "/opt/aquasec/ssl/ca.pem"
-        {{- end }}
-        - name: "AQUA_VERIFY_ENFORCER"
-          value: {{ .Values.gate.TLS.aqua_verify_enforcer | quote}}
         {{- end }}
         {{- include "server.extraEnvironmentVars" .Values.gate | nindent 8 }}
         {{- include "server.extraSecretEnvironmentVars" .Values.gate | nindent 8 }}
