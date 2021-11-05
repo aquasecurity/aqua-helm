@@ -191,6 +191,9 @@ gate:
     fsGroup: 11433
   container_securityContext: {}
 
+  pdb:
+    minAvailable: "1"
+
   # TLS is for enabling mTLS/TLS establishment between gateway <-> server and gateway <-> enforcers
   TLS:
     enabled: false              # enable to true for secure communication (mTLS/TLS)
@@ -294,6 +297,9 @@ web:
     runAsGroup: 11433
     fsGroup: 11433
   container_securityContext: {}
+
+  pdb:
+    minAvailable: "1"
 
   # TLS is for enabling mTLS/TLS establishment between server <-> gateway and https for aqua console
   TLS:
@@ -400,7 +406,7 @@ envoy:
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 1
-  
+
   resources: {}
     # Note: For recommendations please check the official sizing guide.
     # requests:
@@ -414,6 +420,9 @@ envoy:
   affinity: {}
   podAnnotations: {}
   #  my-annotation-key: my value; more value
+
+  pdb:
+    minAvailable: "1"
 
   securityContext: {}
 

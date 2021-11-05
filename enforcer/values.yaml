@@ -8,6 +8,7 @@ imageCredentials:
 
 serviceAccount:
   create: false # change to true if deploying enforcer on new cluster or aqua-sa serviceaccount doesn't exist.
+  name: "aqua-sa"
 
 rbac:
   create: false # change to true if deploying enforcer on new cluster or rbac for aqua-sa doesn't exist.
@@ -25,7 +26,7 @@ rbac:
 platform: ""
 
 # Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
-enforcerToken: 
+enforcerToken: enforcer-token
 
 enforcerTokenSecretName: null
 enforcerTokenSecretKey: null

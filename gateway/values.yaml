@@ -1,6 +1,6 @@
 # Specifies the secret data for imagePullSecrets needed to fetch the private docker images
 imageCredentials:
-  create: true
+  create: false
   name: aqua-registry-secret # example
   repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
   registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
@@ -12,14 +12,24 @@ rbac:
   privileged: true
   roleRef:
 
-platform: ""         #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift
-
+#Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
+# aks = Azure Kubernetes Service
+# gke = Google kubernetes Engine
+# openshift = RedHat Openshift/OCP
+# tkg = VMware Tanzu kubernetes Grid
+# tkgi = VMware Tanzu kubernetes Grid Integrated Edition
+# k8s = Plain/on-prem Vanilla Kubernetes
+# rancher = Rancher Kubernetes Platform
+# gs = GaintSwarm platform
+# k3s = k3s kubernetes platform
+platform: ""
 
 console:
-  publicIP: ""
-  publicPort: ""
+  publicIP: "aqua-console-svc"
+  publicPort: "443"
 
 serviceAccount:
+  create: false
   name: "aqua-sa"
 
 db:
@@ -60,7 +70,7 @@ gate:
     tag: "6.5"
     pullPolicy: IfNotPresent
   service:
-    type: ClusterIP     # you can enable gateway to external by changing type to "LoadBalancer"
+    type: LoadBalancer     # you can enable gateway to internal by changing type to "clusterIP"
     loadbalancerIP: "" # Specify loadBalancerIP address for aqua-web in AKS platform
     annotations: {}
     ports:
@@ -110,6 +120,9 @@ gate:
     runAsGroup: 11433
     fsGroup: 11433
   container_securityContext: {}
+
+  pdb:
+    minAvailable: "1"
 
   # TLS is for enabling mTLS/TLS establishment between gateway <-> server and gateway <-> enforcers
   TLS:
