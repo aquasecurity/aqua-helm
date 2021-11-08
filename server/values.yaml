@@ -133,6 +133,7 @@ db:
 
 gate:
   replicaCount: 1
+  minavailable: 1
   logLevel:
   image:
     repository: gateway
@@ -213,6 +214,7 @@ gate:
 
 web:
   replicaCount: 1
+  minavailable: 1
   logLevel:
   image:
     repository: console
@@ -320,6 +322,7 @@ web:
 envoy:
   enabled: false
   replicaCount: 1
+  minavailable: 1
 
   image:
     repository: envoy

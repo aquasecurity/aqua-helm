@@ -10,7 +10,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  minAvailable: 1
+  minAvailable: {{ .Values.gate.minavailable }}
   selector:
     matchLabels:
       app: {{ .Release.Name }}-gateway

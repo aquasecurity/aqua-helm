@@ -54,6 +54,7 @@ db:
 
 gate:
   replicaCount: 1
+  minavailable: 1
   logLevel:
   image:
     repository: gateway
