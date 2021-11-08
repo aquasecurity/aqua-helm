@@ -101,8 +101,8 @@ Parameter | Description | Default | Mandatory |
 `rbac.enabled` | if to create rbac configuration for aqua | `true` | `YES`
 `rbac.privileged` | determines if any container in a pod can enable privileged mode. | `true` | `YES`
 `rbac.roleRef` | name of rbac role to set in not create by helm | `unset` | `NO`
-`console.publicIP` | Address of the server | `unset` | `YES`
-`console.publicPort` | Server endpoint Port value  | `unset` | `YES`
+`console.publicIP` | Address of the server | `aqua-console-svc` | `YES`
+`console.publicPort` | Server endpoint Port value  | `443` | `YES`
 `serviceAccount.name` | nams of the ServiceAccount | `aqua-sa` | `YES`
 `db.external.enabled` | Avoid installing a Postgres container and use an external database instead | `false`| `YES`
 `db.external.name` | PostgreSQL DB name | `unset`| `YES`<br />`if db.external.enabled is set to true`
@@ -145,6 +145,7 @@ Parameter | Description | Default | Mandatory |
 `gate.affinity` |	Kubernetes node affinity | `{}`| `NO`
 `gate.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `gate.securityContext` | Set of security context for the container | `nil`| `NO`
+`gate.pdb.minAvailable` | Set minimum available value for gate pod PDB | `1` | `NO`
 `gate.TLS.enabled` | If require secure channel communication | `false` | `NO`
 `gate.TLS.secretName` | certificates secret name | `nil` | `YES` <br /> `if gate.TLS.enabled is set to true`
 `gate.TLS.publicKey_fileName` | filename of the public key eg: aqua_gateway.crt | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`

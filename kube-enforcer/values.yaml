@@ -16,6 +16,8 @@ image:
   tag: "6.5"
   pullPolicy: Always
 
+ke_ReplicaCount: "1"
+
 nameOverride: "aqua-kube-enforcer"
 fullnameOverride: "aqua-kube-enforcer"
 
@@ -34,7 +36,7 @@ aquaSecret:
   create: true
   name: aqua-kube-enforcer-token
 # Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
-  kubeEnforcerToken: 
+  kubeEnforcerToken: ke-token
 
 gateway:
   address: aqua-gateway-svc.aqua  # change address to gateway endpoint
@@ -106,6 +108,7 @@ TLS:
   tls_verify: false             # change it to true for enabling mTLS between enforcer and gateway/envoy
 
 starboard:
+  replicaCount: "1"
   appName: "starboard-operator"
   serviceAccount:
     name: "starboard-operator"

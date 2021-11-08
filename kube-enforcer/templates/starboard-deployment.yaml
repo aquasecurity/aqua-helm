@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.starboard.appName }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.starboard.appName }}
+spec:
+  replicas: {{ .Values.starboard.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: {{ .Values.starboard.appName }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/starboard-configmap.yaml") . | sha256sum }}
+      labels:
+        app: {{ .Values.starboard.appName }}
+    spec:
+      serviceAccountName: {{ .Values.starboard.serviceAccount.name }}
+      automountServiceAccountToken: {{ .Values.starboard.automountServiceAccountToken }}
+      {{- with .Values.starboard.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      containers:
+        - name: operator
+          image: "{{ .Values.starboard.image.repositoryUriPrefix }}/{{ .Values.starboard.image.repository }}:{{ .Values.starboard.image.tag }}"
+          imagePullPolicy: {{ .Values.starboard.image.pullPolicy }}
+          {{- with .Values.starboard.container_securityContext }}
+          securityContext:
+{{ toYaml . | indent 12 }}
+          {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-starboard-config
+          ports:
+            - name: metrics
+              containerPort: {{ .Values.starboard.ports.metricContainerPort }}
+            - name: probes
+              containerPort: {{ .Values.starboard.ports.probeCntainerPort }}
+{{- with .Values.starboard.readinessProbe }}
+          readinessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.starboard.livenessProbe }}
+          livenessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+

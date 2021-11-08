@@ -137,7 +137,7 @@ Parameter | Description | Default| Mandatory
 `imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret`| `YES - New cluster`
 `imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`| `YES - New cluster`
 `serviceAccount.create` | enable to create aqua-sa serviceaccount if it is missing in the environment | `false` | `YES - New cluster`
-`enforcerToken` | enforcer token value | `""`| `YES`
+`enforcerToken` | enforcer token value | `enforcer-token`| `YES`
 `enforcerTokenSecretName` | enforcer token secret name if exists | `null`| `NO`
 `enforcerTokenSecretKey` | enforcer token secret key if exists | `null`| `NO`
 `enforcerLogicalName` | Specify the Logical Name the Aqua Enforcer will register under. if not specify the name will be `<Helm Release>-helm` | `unset`| `NO`

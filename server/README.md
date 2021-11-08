@@ -319,6 +319,7 @@ Parameter | Description | Default| Mandatory
 `db.persistence.accessModes` |	Persistent Volume access mode |	`ReadWriteOnce`| `NO`
 `db.persistence.size` |	Persistent Volume size | `30Gi`| `NO`
 `db.persistence.storageClass` |	Persistent Volume Storage Class | `unset`| `NO`
+`db.env_size` | Set this to tune DB parameters | `S` | `YES`</br >`Possible values: “S” (default), “M”, “L”`
 `db.image.repository` | the docker image name to use | `database`| `NO`
 `db.image.tag` | The image tag to use. | `6.5`| `NO`
 `db.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
@@ -346,6 +347,7 @@ Parameter | Description | Default| Mandatory
 `gate.affinity` |	Kubernetes node affinity | `{}`| `NO`
 `gate.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `gate.securityContext` | Set of security context for the container | `nil`| `NO`
+`gate.pdb.minAvailable` | Set minimum available value for gate pod PDB | `1` | `NO`
 `gate.TLS.enabled` | If require secure channel communication | `false` | `NO`
 `gate.TLS.secretName` | certificates secret name | `nil` | `YES` <br /> `if gate.TLS.enabled is set to true`
 `gate.TLS.publicKey_fileName` | filename of the public key eg: aqua_gateway.crt | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
@@ -373,6 +375,7 @@ Parameter | Description | Default| Mandatory
 `web.ingress.path` |	Ingress Path | `/`| `NO`
 `web.ingress.tls` |	Ingress TLS configuration (YAML) | `[]`| `NO`
 `web.securityContext` | Set of security context for the container | `nil`| `NO`
+`web.pdb.minAvailable` | Set minimum available value for web pod PDB | `1` | `NO`
 `web.TLS.enabled` | If require secure channel communication | `false` | `NO`
 `web.TLS.secretName` | certificates secret name | `nil` | `NO`
 `web.TLS.publicKey_fileName` | filename of the public key eg: aqua_web.crt | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
@@ -390,6 +393,7 @@ Parameter | Description | Default| Mandatory
 `envoy.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
 `envoy.service.annotations` | use this field to pass additional annotations for the service, useful to drive Cloud providers behaviour in creating the LB resource. E.g. `service.beta.kubernetes.io/aws-load-balancer-type: nlb`  | `{}` | `NO`
 `envoy.service.ports` | array of ports settings | `array`| `NO`
+`envoy.pdb.minAvailable` | Set minimum available value for envoy pod PDB | `1` | `NO`
 `envoy.TLS.listener.enabled` | enable to load custom self-signed or CA certs | `false` | `NO` <br /> `if envoy.enabled is set to true`
 `envoy.TLS.listener.secretName` | certificates secret name | `nil` | `NO` <br /> `if envoy.enabled is set to true`
 `envoy.TLS.listener.publicKey_fileName` | filename of the public key eg: aqua-lb.fqdn.crt | `nil`  |  `YES` <br /> `if envoy.enabled is set to true`

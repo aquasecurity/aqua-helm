@@ -16,6 +16,7 @@ spec:
   template:
     metadata:
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/enforcer-configmap.yaml") . | sha256sum }}
       {{- if not .Values.securityContext.privileged }}
         container.apparmor.security.beta.kubernetes.io/enforcer: unconfined
       {{- end }}
@@ -31,7 +32,7 @@ spec:
         app: {{ .Release.Name }}-ds
       name: {{ .Release.Name }}-ds
     spec:
-      serviceAccount: {{ .Release.Namespace }}-sa
+      serviceAccount: {{ .Values.serviceAccount.name }}
       hostPID: true
       containers:
       - name: enforcer
@@ -39,9 +40,10 @@ spec:
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         securityContext:
           {{- toYaml .Values.securityContext | nindent 12 }}
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-enforcer-config
         env:
-        - name: SCALOCK_LOG_LEVEL
-          value: {{ .Values.logLevel | default "INFO" }}
         {{- if .Values.enforcerTokenSecretName }}
         - name: AQUA_TOKEN
           valueFrom:
@@ -55,37 +57,6 @@ spec:
               name: {{ .Release.Name }}-token
               key: token
         {{- end }}
-        - name: AQUA_SERVER
-        {{- if .Values.multiple_gateway.enabled }}
-          value: {{ join "," .Values.multi_gates }}
-        {{- else }}
-          value: {{ .Values.gate.host | default "aqua-gateway-svc" }}:{{ .Values.gate.port | default "8443" }}
-        {{- end }}
-        - name: AQUA_INSTALL_PATH
-          value: /var/lib/aquasec
-          {{- if .Values.enforcerLogicalName }}
-        - name: AQUA_LOGICAL_NAME
-          value: {{ .Values.enforcerLogicalName }}
-          {{- else }}
-        - name: AQUA_LOGICAL_NAME
-          value: {{ .Release.Name }}-helm
-          {{- end }}
-          {{- if .Values.hostRunPath }}
-        - name: AQUA_HOST_RUN_PATH
-          value: {{ .Values.hostRunPath }}
-          {{- end }}
-          {{- if .Values.TLS.enabled }}
-        - name: "AQUA_PRIVATE_KEY"
-          value: "/opt/aquasec/ssl/key.pem"
-        - name: "AQUA_PUBLIC_KEY"
-          value: "/opt/aquasec/ssl/cert.pem"
-        {{- if .Values.TLS.rootCA_fileName }}
-        - name: "AQUA_ROOT_CA"
-          value: "/opt/aquasec/ssl/ca.pem"
-        {{- end }}
-        - name: "AQUA_TLS_VERIFY"
-          value: {{ .Values.TLS.tls_verify | quote }}
-          {{- end }}
         {{- include "enforcer.extraEnvironmentVars" .Values | nindent 8 }}
         {{- include "enforcer.extraSecretEnvironmentVars" .Values | nindent 8 }}
         volumeMounts:

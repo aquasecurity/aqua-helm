@@ -103,7 +103,7 @@ Optionally, you can provide these certificates in base64-encoded format as flags
 3. Choose **either** 3a **or** 3b:
 
    3a. To deploy the KubeEnforcer on the same cluster as the Aqua Server (console), run this command on that cluster:
-     
+
    ```shell
     helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer
    ```
@@ -138,7 +138,7 @@ helm search repo aqua-helm/kube-enforcer --versions
 4. Choose **either** 4a **or** 4b:
 
    4a. To deploy the KubeEnforcer on the same cluster as the Aqua Server (console), run this command on that cluster:
-     
+
    ```shell
    helm upgrade --install --namespace aqua kube-enforcer aqua-helm/kube-enforcer --version <>
    ```
@@ -271,23 +271,25 @@ In order to support L7 / gRPC communication between gateway and enforcers Aqua r
 
 | Parameter | Description  | Default  | Mandatory |
 | ----------| ------------ | -------- | --------- |
-| `imageCredentials.create`         | Set to create new pull image secret       | `true`   | `YES - New cluster`     |
-| `imageCredentials.name`           | Your Docker pull image secret name        | `aqua-registry-secret`    | `YES - New cluster`     |
-| `imageCredentials.username`       | Your Docker registry (Docker Hub, etc.) username            | `N/A`    | `YES - New cluster`     |
-| `imageCredentials.password`       | Your Docker registry (Docker Hub, etc.) password            | `N/A`    | `YES - New cluster`     |
+| `imageCredentials.create`| Set to create new pull image secret| `true`   | `YES - New cluster`|
+| `imageCredentials.name`  | Your Docker pull image secret name | `aqua-registry-secret`    | `YES - New cluster`|
+| `imageCredentials.username`| Your Docker registry (Docker Hub, etc.) username   | `N/A`    | `YES - New cluster`|
+| `imageCredentials.password`| Your Docker registry (Docker Hub, etc.) password   | `N/A`    | `YES - New cluster`|
+| `aquaSecret.create`    | Aqua KubeEnforcer (KE) token secret creation | `true`    | `YES`  |
+| `aquaSecret.name`    | Aqua KubeEnforcer (KE) token secret name  | `aqua-kube-enforcer-token` | `YES`  |
 | `aquaSecret.kubeEnforcerToken`    | Aqua KubeEnforcer (KE) token  | `N/A`    | `YES`  |
-| `clusterName`                     | Cluster name registered with Aqua in Infrastructure tab | `N/A` | `NO` |
-| `certsSecret.create`              | Set to create a new secret for KE certs     | `true`   | `YES`  |
-| `certsSecret.name`                | Secret name for KE certs | `aqua-kube-enforcer-certs`| `YES`  |
-| `certsSecret.serverCertificate`   | Certificate for TLS authentication with the Kubernetes api-server           | `N/A`    | `YES`  |
-| `certsSecret.serverKey`           | Certificate key for TLS authentication with the Kubernetes api-server       | `N/A`    | `YES`  |
-| `webhooks.caBundle`               | Root certificate for TLS authentication with the Kubernetes api-server      | `N/A`    | `YES`  |
+| `clusterName`   | Cluster name registered with Aqua in Infrastructure tab | `N/A` | `NO` |
+| `certsSecret.create`| Set to create a new secret for KE certs| `true`   | `YES`  |
+| `certsSecret.name`| Secret name for KE certs | `aqua-kube-enforcer-certs`| `YES`  |
+| `certsSecret.serverCertificate`   | Certificate for TLS authentication with the Kubernetes api-server  | `N/A`    | `YES`  |
+| `certsSecret.serverKey`  | Certificate key for TLS authentication with the Kubernetes api-server| `N/A`    | `YES`  |
+| `webhooks.caBundle` | Root certificate for TLS authentication with the Kubernetes api-server | `N/A`    | `YES`  |
 `resources` |	Resource requests and limits | `{}`| `NO`
 `nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
 `tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
 `podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
 `affinity` |	Kubernetes node affinity | `{}`| `NO`
-| `envs.gatewayAddress`             | Gateway host address     | `aqua-gateway-svc:8443`   | `YES`  |
+| `envs.gatewayAddress`    | Gateway host address| `aqua-gateway-svc:8443`   | `YES`  |
 `TLS.enabled` | If require secure channel communication | `false` | `NO`
 `TLS.secretName` | certificates secret name | `nil` | `NO`
 `TLS.publicKey_fileName` | filename of the public key eg: aqua_ke.crt | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
@@ -313,8 +315,8 @@ In order to support L7 / gRPC communication between gateway and enforcers Aqua r
 | `starboard.ports.probeCntainerPort`  |
 | `starboard.readinessProbe`  |
 | `starboard.livenessProbe`  |
-| `kubeEnforcerAdvance.enable`      | Advanced KubeEnforcer deployment          | `false`  | `NO`   |
-| `kubeEnforcerAdvance.nodeID`      | Envoy Node ID of the advance KE deployment    | `envoy` | `YES - if kubeEnforcerAdvance.enable` |
+| `kubeEnforcerAdvance.enable` | Advanced KubeEnforcer deployment | `false`  | `NO`   |
+| `kubeEnforcerAdvance.nodeID` | Envoy Node ID of the advance KE deployment    | `envoy` | `YES - if kubeEnforcerAdvance.enable` |
 `kubeEnforcerAdvance.envoy.TLS.listener.TLS.enabled` | If require secure channel communication | `false` | `NO`
 `kubeEnforcerAdvance.envoy.TLS.listener.TLS.secretName` | certificates secret name | `nil` | `NO`
 `kubeEnforcerAdvance.envoy.TLS.listener.TLS.publicKey_fileName` | filename of the public key eg: aqua_envoy.crt | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
