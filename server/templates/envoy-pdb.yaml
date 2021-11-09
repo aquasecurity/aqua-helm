@@ -10,7 +10,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"  
 spec:
-  minAvailable: {{ .Values.envoy.minavailable }}
+  minAvailable: {{ .Values.envoy.pdb.minAvailable }}
   selector:
     matchLabels:
       app: {{ .Release.Name }}-envoy
