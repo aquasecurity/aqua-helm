@@ -143,7 +143,8 @@ db:
 
 gate:
   replicaCount: 1
-  minavailable: 1
+  pdb:
+    minAvailable: 1
   image:
     repository: gateway
     tag: "6.2"
@@ -209,7 +210,8 @@ gate:
 
 web:
   replicaCount: 1
-  minavailable: 1
+  pdb:
+    minAvailable: 1
   image:
     repository: console
     tag: "6.2"
@@ -288,7 +290,8 @@ web:
 envoy:
   enabled: false
   replicaCount: 1
-  minavailable: 1
+  pdb:
+    minAvailable: 1
 
   image:
     repository: envoyproxy/envoy-alpine
