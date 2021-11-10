@@ -13,7 +13,7 @@ serviceaccount:
 
 image:
   repository: "aqua-cloud-connector"
-  tag: "6.2"
+  tag: "6.5"
   pullPolicy: "Always"
 
 replicaCount: 1
@@ -27,8 +27,8 @@ container_securityContext:
   privileged: false
 
 admin:
-  username:
-  password:
+  username: ""
+  password: ""
 
 
 healthPort:
