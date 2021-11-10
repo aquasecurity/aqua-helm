@@ -1,0 +1,45 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata: 
+  name: {{ .Release.Namespace }}-tunnels-cloud-connector-conf
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Namespace }}-cloud-connector
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+data:
+  aqua-tunnels-cloud-connector-config: |
+    tunnels:
+      # Azure Container Registry
+      {{- if .Values.tunnels.azure.registryHost }}
+      - host: {{ .Values.tunnels.azure.registryHost }}
+      - port: {{ .Values.tunnels.azure.registryPort }}
+      {{- end }}
+
+      # ECR - Amazon Elastic Container Registry
+      {{- if .Values.tunnels.aws.registryHost }}
+      - host: {{ .Values.tunnels.aws.registryHost }}
+      - port: {{ .Values.tunnels.aws.registryPort }}
+      - service:
+        type: {{ .Values.tunnels.aws.type | default "ecr" }}
+        region: {{ .Values.tunnels.aws.region }}
+      {{- end }}
+
+      # GCR - Google Container Registry
+      {{- if .Values.tunnels.gcp.registryHost }}
+      - host: {{ .Values.tunnels.gcp.registryHost }}
+      - port: {{ .Values.tunnels.gcp.registryPort }}
+      {{- end }}
+
+      # JFrog Container Registry
+      {{- if .Values.tunnels.jfrog.registryHost }}
+      - host: {{ .Values.tunnels.jfrog.registryHost }}
+      - port: {{ .Values.tunnels.jfrog.registryPort }}
+      {{- end }}
+
+      # Onprem Container Registry
+      {{- if .Values.tunnels.onprem.registryHost }}
+      - host: {{ .Values.tunnels.onprem.registryHost }}
+      - port: {{ .Values.tunnels.onprem.registryPort }}
+      {{- end }}
