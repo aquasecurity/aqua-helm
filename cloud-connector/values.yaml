@@ -27,8 +27,9 @@ container_securityContext:
   privileged: false
 
 admin:
-  username: ""
-  password: ""
+  username:
+  password:
+
 
 healthPort:
   port: "8080"     # default is 8080
