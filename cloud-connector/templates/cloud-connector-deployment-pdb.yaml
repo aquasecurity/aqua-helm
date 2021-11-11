@@ -1,17 +1,17 @@
-{{- if gt .Values.web.replicaCount 1.0 -}}
+{{- if gt .Values.replicaCount 1.0 -}}
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
-  name: {{ .Release.Name }}-console-pdb
+  name: {{ .Release.Namespace }}-cloud-connector-pdb
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ .Release.Name }}-console
+    app: {{ .Release.Namespace }}-cloud-connector
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  minAvailable: {{ .Values.web.pdb.minAvailable }}
+  minAvailable: {{ .Values.pdb.minAvailable }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-console
+      app: {{ .Release.Namespace }}-cloud-connector
 {{- end -}}

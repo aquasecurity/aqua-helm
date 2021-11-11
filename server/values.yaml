@@ -61,7 +61,7 @@ db:
     pubsubUser: ""
     pubsubPassword: ""
   passwordFromSecret:
-    enabled: false              #Enable if loading passwords for db and audit-db from secret
+    enabled: false                #Enable if loading passwords for db and audit-db from secret
     dbPasswordName: ""            #Specify the Password Secret name used for db password
     dbPasswordKey: ""             #Specify the db password key name stored in the #dbPasswordName secret
     dbAuditPasswordName: ""          #Specify the Password Secret name used for audit db password
@@ -133,7 +133,8 @@ db:
 
 gate:
   replicaCount: 1
-  minavailable: 1
+  pdb:
+    minAvailable: 1
   logLevel:
   image:
     repository: gateway
@@ -214,7 +215,8 @@ gate:
 
 web:
   replicaCount: 1
-  minavailable: 1
+  pdb:
+    minAvailable: 1  
   logLevel:
   image:
     repository: console
@@ -322,8 +324,8 @@ web:
 envoy:
   enabled: false
   replicaCount: 1
-  minavailable: 1
-
+  pdb:
+    minAvailable: 1  
   image:
     repository: envoy
     tag: "6.2"
