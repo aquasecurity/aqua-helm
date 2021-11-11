@@ -1,2 +1,2 @@
-## 6.5.0 ( Oct 14th, 2021)
+## 6.0.0 ( Nov 11th, 2021)
 * starting Cloud-Connector chart
