@@ -2,18 +2,19 @@
 imageCredentials:
   create: true
   name: aqua-registry-secret # When create is false please specify
-  repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
-  registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+  repositoryUriPrefix: registry.aquasec.com # for dockerhub - "docker.io"
+  registry: registry.aquasec.com #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
   username: ""
   password: ""
 
 serviceaccount:
   create: true
+  name: aqua-sa
 
 image:
-  repository: aqua-cloud-connector
+  repository: "aqua-cloud-connector"
   tag: "6.0"
-  pullPolicy: Always
+  pullPolicy: "Always"
 
 replicaCount: 1
 
@@ -32,7 +33,7 @@ admin:
   password: Lion@1212
 
 healthPort:
-  port: 8080     # default is 8080
+  port: "8080"     # default is 8080
 
 tunnels:
   # ACR - Azure Container Registry
@@ -41,26 +42,26 @@ tunnels:
     registryPort:
   # ECR - Amazon Elastic Container Registry
   aws:
-    registryHost:
-    registryPort:
-    type:
-    region:
+    registryHost: ""
+    registryPort: ""
+    type: ""
+    region: ""
   # GCR - Google Container Registry
   gcp:
-    registryHost:
-    registryPort:
+    registryHost: ""
+    registryPort: ""
   # JFrog Container Registry
   jfrog:
-    registryHost:
-    registryPort:
+    registryHost: ""
+    registryPort: ""
   # Onprem Container Registry
   onprem:
-    registryHost:
-    registryPort:
+    registryHost: ""
+    registryPort: ""
 
 gateway:
-  host: aqua-gateway-svc.aqua   # Gateway Host Address
-  port: 8443               # Gateway Port
+  host: "aqua-gateway-svc.aqua"   # Gateway Host Address
+  port: "8443"               # Gateway Port
 
 tls_verify:
   value: "0"    # change it to "1" to enable tls_verify b/w Gateway and Cloud-Connector
