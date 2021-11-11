@@ -1,0 +1,15 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata: 
+  name: {{ .Release.Namespace }}-cloud-connector-configmap
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Namespace }}-cloud-connector
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+data:
+  AQUA_SERVER: "{{ .Values.gateway.host }}:{{ .Values.gateway.port | default "443" }}"
+  AQUA_CLOUD_CONNECTOR_CONFIG_FILE_PATH: "/etc/config/connector.yaml"
+  AQUA_TLS_VERIFY: "{{ .Values.tls_verify.value }}"
+  AQUA_CLOUD_CONNECTOR_HEALTH_PORT: "{{ .Values.healthPort.port | default "8080" }}"
