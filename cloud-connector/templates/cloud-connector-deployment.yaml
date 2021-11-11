@@ -34,7 +34,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Release.Namespace }}-sa
+      serviceAccount: {{ .Values.serviceaccount.name }}
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30
@@ -47,11 +47,10 @@ spec:
         {{- end }}
         image: {{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Namespace }}-cloud-connector-configmap        
         env:
-        - name: AQUA_SERVER
-          value: "{{ .Values.gateway.host }}:{{ .Values.gateway.port | default "443" }}"
-        - name: AQUA_CLOUD_CONNECTOR_CONFIG_FILE_PATH
-          value: /etc/config/connector.yaml
         - name: AQUA_CLOUD_CONNECTOR_USERNAME
           valueFrom:
             secretKeyRef:
@@ -62,10 +61,6 @@ spec:
             secretKeyRef:
               key: password
               name: user-secret
-        - name: AQUA_TLS_VERIFY
-          value: "{{ .Values.tls_verify.value }}"
-        - name: AQUA_CLOUD_CONNECTOR_HEALTH_PORT
-          value: "{{ .Values.healthPort.port | default "8080" }}"
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         ports:
@@ -81,10 +76,10 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: {{ .Release.Namespace }}-cloud-connector-conf
+            name: {{ .Release.Namespace }}-tunnels-cloud-connector-conf
             items:
               - path: connector.yaml
-                key: {{ .Release.Namespace }}-cloud-connector-config
+                key: aqua-tunnels-cloud-connector-config
 {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
