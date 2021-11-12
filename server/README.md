@@ -55,11 +55,16 @@ git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
 cd aqua-helm/
 ```
 
+* Helm Dependency update for gateway 
+
+```shell
+helm dependency update server
+```
 
 * Install Aqua
 
 ```shell
-helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
+helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>,envoy.enabled=true,gateway.enabled=true,gateway.imageCredentials.create=false,gateway.db.external.enabled=false --version 6.5.0
 ```
 
 ### Installing Aqua Web from Helm Private Repository
