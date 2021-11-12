@@ -2,3 +2,4 @@ dependencies:
 - name: gateway
   version: "6.5.1"
   repository: "https://helm.aquasec.com"
+  
