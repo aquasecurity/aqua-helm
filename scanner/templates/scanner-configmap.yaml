@@ -5,20 +5,10 @@ metadata:
   name: {{ .Release.Name }}-scanner-config
   namespace: {{ .Release.Namespace }}
 data:  
-  # Aqua Scanner IP/Domain/Servicename followed by HTTPS port.
-  #AQUA_SERVER: {{ .Values.serverURL }}
-
-  # Scanner's private key for HTTPS and Mutual Auth with offline CyberCenter
   {{- if .Values.cyberCenter.mtls.enabled }}
   AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/key.pem"
-
-  # Scanner's public key for HTTPS and Mutual Auth with offline CyberCenter
   AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/cert.pem"
-
-  # Scanner's root CA cert for HTTPS and Mutual Auth. The root CA certificate file should be mutual for both CyberCenter and Scanner certificates
   AQUA_ROOT_CA: "/opt/aquasec/ssl/ca.pem"
-
-  # Set this to 1 to establish mTLS connection with CyberCenter
   {{- if .Values.cyberCenter.mtls.rootCA_fileName }}
   OFFLINE_CC_MTLS_ENABLE: "1"
   {{- end }}
