@@ -4,7 +4,8 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-scanner-config
   namespace: {{ .Release.Namespace }}
-data:  
+data:
+  SCALOCK_LOG_LEVEL: {{ .Values.logLevel | default "INFO" }}  
   {{- if .Values.cyberCenter.mtls.enabled }}
   AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/key.pem"
   AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/cert.pem"
