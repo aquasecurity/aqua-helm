@@ -36,16 +36,16 @@ Follow the steps in this section for production grade deployments. You can eithe
 
 ##### Edit values.yaml file in gateway directory with following details as prerequisite
 ```json
-  1. db.external.name - External database name
-  2. db.external.host - External database public IP or endpoint URL
-  3. db.external.port - External database port
-  4. db.external.user - External database username
-  5. db.external.password - External database password
-  6. db.external.auditName - External audit database name
-  7. db.external.auditHost - External audit database public IP or endpoint URL
-  8. db.external.auditPort - External audit database port
-  9. db.external.auditUser - External audit database username
-  10. db.external.auditPassword - External audit database password
+  1. global.db.external.name - External database name
+  2. global.db.external.host - External database public IP or endpoint URL
+  3. global.db.external.port - External database port
+  4. global.db.external.user - External database username
+  5. global.db.external.password - External database password
+  6. global.db.external.auditName - External audit database name
+  7. global.db.external.auditHost - External audit database public IP or endpoint URL
+  8. global.db.external.auditPort - External audit database port
+  9. global.db.external.auditUser - External audit database username
+  10. global.db.external.auditPassword - External audit database password
   11. console.publicIP - Aqua CSP console public IP or endpoint URL
   12. console.publicPort - Aqua CSP console public port
   // To load DB passswords from secrets:
@@ -104,32 +104,32 @@ Parameter | Description | Default | Mandatory |
 `console.publicIP` | Address of the server | `aqua-console-svc` | `YES`
 `console.publicPort` | Server endpoint Port value  | `443` | `YES`
 `serviceAccount.name` | nams of the ServiceAccount | `aqua-sa` | `YES`
-`db.external.enabled` | Avoid installing a Postgres container and use an external database instead | `false`| `YES`
-`db.external.name` | PostgreSQL DB name | `unset`| `YES`<br />`if db.external.enabled is set to true`
-`db.external.host` | PostgreSQL DB hostname | `unset`| `YES`<br />`if db.external.enabled is set to true`
-`db.external.port` | PostgreSQL DB port | `unset`| `YES`<br />`if db.external.enabled is set to true`
-`db.external.user` | PostgreSQL DB username | `unset`| `YES`<br />`if db.external.enabled is set to true`
-`db.external.password` | PostgreSQL DB password | `unset`| `YES`<br />`if db.external.enabled is set to true`
-`db.external.auditName` | PostgreSQL DB audit name | `unset`| `NO`
-`db.external.auditHost` | PostgreSQL DB audit hostname | `unset`| `NO`
-`db.external.auditPort` | PostgreSQL DB audit port | `unset`| `NO`
-`db.external.auditUser` | PostgreSQL DB audit username | `unset`| `NO`
-`db.external.auditPassword` | PostgreSQL DB audit password | `unset`| `NO`
-`db.external.pubsubName` | PostgreSQL DB pubsub name | `unset`| `NO`
-`db.external.pubsubHost` | PostgreSQL DB pubsub hostname | `unset`| `NO`
-`db.external.pubsubPort` | PostgreSQL DB pubsub port | `unset`| `NO`
-`db.external.pubsubUser` | PostgreSQL DB pubsub username | `unset`| `NO`
-`db.external.pubsubPassword` | PostgreSQL DB pubsub password | `unset`| `NO`
-`db.passwordFromSecret.enabled` | Enable to load DB passwords from Secrets | `false` | `YES`
-`db.passwordFromSecret.dbPasswordName` | password secret name | `null`| `NO`
-`db.passwordFromSecret.dbPasswordKey` | password secret key | `null`| `NO`
-`db.passwordFromSecret.dbAuditPasswordName` | Audit password secret name | `null`| `NO`
-`db.passwordFromSecret.dbAuditPasswordKey` | Audit password secret key | `null`| `NO`
-`db.passwordFromSecret.dbPubsubPasswordName` | Pubsub password secret name | `null`| `NO`
-`db.passwordFromSecret.dbPubsubPasswordKey` | Pubsub password secret key | `null`| `NO`
-`db.ssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`false`| `NO`
-`db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration audit database. |	`false`| `NO`
-`db.pubsubssl` | If require an SSL-encrypted connection to the Postgres configuration pubsub database. |	`false`| `NO`
+`global.db.external.enabled` | Avoid installing a Postgres container and use an external database instead | `false`| `YES`
+`global.db.external.name` | PostgreSQL DB name | `unset`| `YES`<br />`if global.db.external.enabled is set to true`
+`global.db.external.host` | PostgreSQL DB hostname | `unset`| `YES`<br />`if global.db.external.enabled is set to true`
+`global.db.external.port` | PostgreSQL DB port | `unset`| `YES`<br />`if global.db.external.enabled is set to true`
+`global.db.external.user` | PostgreSQL DB username | `unset`| `YES`<br />`if global.db.external.enabled is set to true`
+`global.db.external.password` | PostgreSQL DB password | `unset`| `YES`<br />`if global.db.external.enabled is set to true`
+`global.db.external.auditName` | PostgreSQL DB audit name | `unset`| `NO`
+`global.db.external.auditHost` | PostgreSQL DB audit hostname | `unset`| `NO`
+`global.db.external.auditPort` | PostgreSQL DB audit port | `unset`| `NO`
+`global.db.external.auditUser` | PostgreSQL DB audit username | `unset`| `NO`
+`global.db.external.auditPassword` | PostgreSQL DB audit password | `unset`| `NO`
+`global.db.external.pubsubName` | PostgreSQL DB pubsub name | `unset`| `NO`
+`global.db.external.pubsubHost` | PostgreSQL DB pubsub hostname | `unset`| `NO`
+`global.db.external.pubsubPort` | PostgreSQL DB pubsub port | `unset`| `NO`
+`global.db.external.pubsubUser` | PostgreSQL DB pubsub username | `unset`| `NO`
+`global.db.external.pubsubPassword` | PostgreSQL DB pubsub password | `unset`| `NO`
+`global.db.passwordFromSecret.enabled` | Enable to load DB passwords from Secrets | `false` | `YES`
+`global.db.passwordFromSecret.dbPasswordName` | password secret name | `null`| `NO`
+`global.db.passwordFromSecret.dbPasswordKey` | password secret key | `null`| `NO`
+`global.db.passwordFromSecret.dbAuditPasswordName` | Audit password secret name | `null`| `NO`
+`global.db.passwordFromSecret.dbAuditPasswordKey` | Audit password secret key | `null`| `NO`
+`global.db.passwordFromSecret.dbPubsubPasswordName` | Pubsub password secret name | `null`| `NO`
+`global.db.passwordFromSecret.dbPubsubPasswordKey` | Pubsub password secret key | `null`| `NO`
+`global.db.ssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`false`| `NO`
+`global.db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration audit database. |	`false`| `NO`
+`global.db.pubsubssl` | If require an SSL-encrypted connection to the Postgres configuration pubsub database. |	`false`| `NO`
 `gate.image.repository` | the docker image name to use | `gateway`| `NO` 
 `gate.image.tag` | The image tag to use. | `6.5`| `NO`
 `gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
@@ -138,7 +138,7 @@ Parameter | Description | Default | Mandatory |
 `gate.service.annotations` |	service annotations	| `{}` | `NO`
 `gate.service.ports` | array of ports settings | `array`| `NO`
 `gate.publicIP` | gateway public ip | `aqua-gateway`| `NO`
-`gate.replicaCount` | replica count | `1`| `NO`
+`replicaCount` | replica count | `1`| `NO`
 `gate.resources` |	Resource requests and limits | `{}`| `NO`
 `gate.nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
 `gate.tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
