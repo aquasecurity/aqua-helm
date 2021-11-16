@@ -72,6 +72,9 @@ image:
   tag: "6.5"
   pullPolicy: IfNotPresent
 
+healthMonitor:
+  enabled: "true"
+
 livenessProbe:
   httpGet:
     path: /healthz

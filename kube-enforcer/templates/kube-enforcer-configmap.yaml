@@ -5,18 +5,18 @@ metadata:
   name: {{ .Release.Name }}-kube-enforcer-config
   namespace: {{ .Release.Namespace }}
 data:
-  SCALOCK_LOG_LEVEL: "{{ .Values.logLevel | default "DEBUG" }}"
-  AQUA_ENABLE_CACHE: "{{ .Values.aqua_enable_cache }}"
-  AQUA_CACHE_EXPIRATION_PERIOD: "{{ .Values.aqua_cache_expiration_period | default "60"}}"
-  AQUA_LOGICAL_NAME: "{{ .Values.logicalName }}"
-  CLUSTER_NAME: "{{ .Values.clusterName }}"
+  SCALOCK_LOG_LEVEL: {{ .Values.logLevel | default "INFO" | quote }}
+  AQUA_ENABLE_CACHE: {{ .Values.aqua_enable_cache | quote }}
+  AQUA_CACHE_EXPIRATION_PERIOD: {{ .Values.aqua_cache_expiration_period | default "60" | quote }}
+  AQUA_LOGICAL_NAME: {{ .Values.logicalName | quote }}
+  CLUSTER_NAME: {{ .Values.clusterName | quote }}
   TLS_SERVER_CERT_FILEPATH: "/certs/server.crt"
   TLS_SERVER_KEY_FILEPATH: "/certs/server.key"
 # mTLS env config
 {{- if .Values.TLS.enabled }}
   AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/key.pem"
   AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/cert.pem"
-  AQUA_TLS_VERIFY: "{{ .Values.TLS.tls_verify | quote }}"
+  AQUA_TLS_VERIFY: {{ .Values.TLS.tls_verify | quote }}
 {{- if .Values.TLS.rootCA_fileName }}
   AQUA_ROOT_CA: "/opt/aquasec/ssl/ca.pem"
 {{- end }}

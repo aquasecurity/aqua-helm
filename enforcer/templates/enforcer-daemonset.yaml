@@ -87,6 +87,7 @@ spec:
           name: aquasec-audit
         - mountPath: /data
           name: aquasec-data
+{{- if .Values.healthMonitor.enabled }}
 {{- with .Values.livenessProbe }}
         livenessProbe:
 {{ toYaml . | indent 10 }}
@@ -94,6 +95,7 @@ spec:
 {{- with .Values.readinessProbe }}
         readinessProbe:
 {{ toYaml . | indent 10 }}
+{{- end }}
 {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}

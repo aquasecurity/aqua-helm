@@ -11,14 +11,14 @@ data:
   {{- else }}
   AQUA_SERVER: {{ .Values.gate.host | default "aqua-gateway-svc" }}:{{ .Values.gate.port | default "8443" }}
   {{- end }}
-  AQUA_INSTALL_PATH: /var/lib/aquasec
+  AQUA_INSTALL_PATH: "/var/lib/aquasec"
   {{- if .Values.enforcerLogicalName }}
   AQUA_LOGICAL_NAME: {{ .Values.enforcerLogicalName }}
   {{- else }}
   AQUA_LOGICAL_NAME: {{ .Release.Name }}-helm
   {{- end }}
   {{- if .Values.hostRunPath }}
-  AQUA_HOST_RUN_PATH: {{ .Values.hostRunPath }}
+  AQUA_HOST_RUN_PATH: {{ .Values.hostRunPath | quote }}
   {{- end }}
   {{- if .Values.TLS.enabled }}
   AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/key.pem"
@@ -28,3 +28,4 @@ data:
   {{- end }}
   AQUA_TLS_VERIFY: {{ .Values.TLS.tls_verify | quote }}
   {{- end }}
+  AQUA_HEALTH_MONITOR_ENABLED: {{ .Values.healthMonitor.enabled | quote }}
