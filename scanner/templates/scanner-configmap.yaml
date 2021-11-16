@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-scanner-config
+  namespace: {{ .Release.Namespace }}
+data:  
+  {{- if .Values.cyberCenter.mtls.enabled }}
+  AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/key.pem"
+  AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/cert.pem"
+  AQUA_ROOT_CA: "/opt/aquasec/ssl/ca.pem"
+  {{- if .Values.cyberCenter.mtls.rootCA_fileName }}
+  OFFLINE_CC_MTLS_ENABLE: "1"
+  {{- end }}
+  {{- end }}
