@@ -64,7 +64,7 @@ helm dependency update server
 * Install Aqua
 
 ```shell
-helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>,envoy.enabled=true,gateway.enabled=true,gateway.imageCredentials.create=false,gateway.db.external.enabled=false --version 6.5.0
+helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>,gateway.imageCredentials.create=false,gateway.db.external.enabled=false --version 6.5.0
 ```
 
 ### Installing Aqua Web from Helm Private Repository
