@@ -24,6 +24,9 @@ rbac:
 # k3s = k3s kubernetes platform
 platform: ""
 
+gateway:
+  enabled: false
+
 openshift_route:
   create: false    #Enable if required openshift route for web and gateway
 
