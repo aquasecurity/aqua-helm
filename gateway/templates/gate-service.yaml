@@ -9,19 +9,19 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
-{{- if .Values.gate.service.annotations }}
+{{- if .Values.service.annotations }}
   annotations:
-{{ toYaml .Values.gate.service.annotations | indent 4 }}
+{{ toYaml .Values.service.annotations | indent 4 }}
 {{- end }}
 spec:
-  type: {{ .Values.gate.service.type }}
+  type: {{ .Values.service.type }}
   {{- if eq .Values.platform "aks" }}
-  loadBalancerIP: {{ .Values.gate.service.loadbalancerIP }}
+  loadBalancerIP: {{ .Values.service.loadbalancerIP }}
   {{- end }}
   selector:
     app: {{ .Release.Name }}-gateway
   ports:
-  {{- range $port := .Values.gate.service.ports }}
+  {{- range $port := .Values.service.ports }}
     - name: {{ $port.name }}
       port: {{ $port.port }}
       targetPort: {{ $port.targetPort }}

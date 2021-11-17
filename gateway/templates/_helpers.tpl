@@ -49,3 +49,11 @@ Inject extra environment populated by secrets, if populated
 {{- define "imageCredentials_name" }}
 {{- printf "%s" (required "A valid .Values.imageCredentials.name required" .Values.imageCredentials.name ) }}
 {{- end }}
+
+{{- define "aquaConsoleSecureAddress" -}}
+{{- if and .Values.console.publicIP .Values.console.publicPort -}}
+{{- printf "%s:%s" .Values.console.publicIP .Values.console.publicPort -}}
+{{- else -}}
+{{- printf "%s-console-svc:443" .Release.Name -}}
+{{- end -}}
+{{- end -}}
