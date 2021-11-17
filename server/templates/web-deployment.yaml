@@ -47,12 +47,12 @@ spec:
         - configMapRef:
             name: {{ .Release.Name }}-web-config
         env:
-        {{- if .Values.db.passwordFromSecret.enabled }}
+        {{- if .Values.global.db.passwordFromSecret.enabled }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.passwordFromSecret.dbPasswordName }}
-              key: {{ .Values.db.passwordFromSecret.dbPasswordKey }}
+              name: {{ .Values.global.db.passwordFromSecret.global.dbPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.global.dbPasswordKey }}
         {{- else }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
@@ -61,16 +61,16 @@ spec:
               key: db-password
         {{- end }}
         - name: SCALOCK_AUDIT_DBPASSWORD
-          {{- if .Values.db.passwordFromSecret.enabled }}
+          {{- if .Values.global.db.passwordFromSecret.enabled }}
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.passwordFromSecret.dbAuditPasswordName }}
-              key: {{ .Values.db.passwordFromSecret.dbAuditPasswordKey }}
-          {{- else if and ( not .Values.db.passwordFromSecret.enabled ) ( .Values.db.external.enabled ) }}
+              name: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordKey }}
+          {{- else if and ( not .Values.global.db.passwordFromSecret.enabled ) ( .Values.global.db.external.enabled ) }}
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
-              {{- if .Values.db.external.auditPassword }}
+              {{- if .Values.global.db.external.auditPassword }}
               key: audit-password
               {{- else }}
               key: db-password
@@ -82,18 +82,18 @@ spec:
               key: audit-password
           {{- end }}
           {{- if .Values.activeactive }}
-          {{- if .Values.db.passwordFromSecret.enabled }}
+          {{- if .Values.global.db.passwordFromSecret.enabled }}
         - name: AQUA_PUBSUB_DBPASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.passwordFromSecret.dbPubsubPasswordName }}
-              key: {{ .Values.db.passwordFromSecret.dbPubsubPasswordKey }}
+              name: {{ .Values.global.db.passwordFromSecret.global.dbPubsubPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.global.dbPubsubPasswordKey }}
           {{- else }}
         - name: AQUA_PUBSUB_DBPASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
-              {{- if .Values.db.external.pubsubPassword }}
+              {{- if .Values.global.db.external.pubsubPassword }}
               key: pubsub-password
               {{- else }}
               key: db-password
