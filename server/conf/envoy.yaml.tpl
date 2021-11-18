@@ -28,7 +28,7 @@ static_resources:
               - match:
                   prefix: "/"
                 route:
-                  cluster: aqua-gateway-svc
+                  cluster: {{ .Release.Name }}-gateway-svc
                   timeout: 0s
           http_filters:
           - name: envoy.extensions.filters.http.health_check
@@ -67,7 +67,7 @@ static_resources:
                 filename: "/etc/ssl/envoy/tls.key"
                 {{- end }}
   clusters:
-  - name: aqua-gateway-svc
+  - name: {{ .Release.Name }}-gateway-svc
     connect_timeout: 180s
     type: STRICT_DNS
     dns_lookup_family: V4_ONLY
@@ -80,7 +80,7 @@ static_resources:
             max_pending_requests: 2147483647
             max_requests: 2147483647
     load_assignment:
-      cluster_name: aqua-gateway-svc
+      cluster_name: {{ .Release.Name }}-gateway-svc
       endpoints:
       - lb_endpoints:
         - endpoint:

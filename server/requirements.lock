@@ -1,0 +1,6 @@
+dependencies:
+- name: gateway
+  repository: file://./subcharts/gateway
+  version: 6.5.1
+digest: sha256:55717cca603b367043225aafb1219df7d32cdb635d73ccfbbcdaf23592049466
+generated: "2021-11-16T15:31:19.404785+02:00"
