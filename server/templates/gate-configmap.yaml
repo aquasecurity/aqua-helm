@@ -2,9 +2,17 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-web-config
+  name: {{ .Release.Name }}-gateway-config
   namespace: {{ .Release.Namespace }}
 data:
+  SCALOCK_LOG_LEVEL: {{ .Values.gate.logLevel | default "INFO" }}
+  {{- if eq .Values.platform "k3s" }}
+  AQUA_CONSOLE_SECURE_ADDRESS: "{{ .Release.Name }}-console-svc:444"
+  {{- else }}
+  AQUA_CONSOLE_SECURE_ADDRESS: "{{ .Release.Name }}-console-svc:443"
+  {{- end }}
+  SCALOCK_GATEWAY_PUBLIC_IP: {{ .Values.gate.publicIP | default "aqua-gateway-svc" }}
+  HEALTH_MONITOR: "0.0.0.0:8082"
   SCALOCK_DBUSER: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
   SCALOCK_DBNAME: {{ .Values.db.external.enabled | ternary .Values.db.external.name "scalock" }}
   {{- if .Values.db.external.enabled }}
@@ -40,32 +48,11 @@ data:
   {{- if .Values.db.pubsubssl }}
   AQUA_PUBSUB_DBSSL: require
   {{- end }}
-  # DNS name or IP address of an Aqua Gateway that the Aqua Enforcer will first connect to.
-  BATCH_INSTALL_GATEWAY: "aqua-gateway"
-  # Orchestrator type to be configured on enforcers.
-  BATCH_INSTALL_ORCHESTRATOR: "Kubernetes"
-  # Name of the Batch Install object used to connect Aqua Enforcers to the environment.
-  BATCH_INSTALL_NAME: "helm-default-enforcer-group"
-  # Batch installation to token to authenticate enforcer with server
-  BATCH_INSTALL_TOKEN: "enforcer-token"
-  # Batch installation group name for KubeEnforcer
-  AQUA_KE_GROUP_NAME: "helm-default-ke-group"
-  AQUA_KE_GROUP_TOKEN: "ke-token"
-  SCALOCK_LOG_LEVEL: {{ .Values.web.logLevel | default "INFO" }}
-  {{- if .Values.clustermode }}
-  CLUSTER_MODE: "enable"  
-  {{- end }}
-  {{- if .Values.activeactive }}
-  AQUA_CLUSTER_MODE: "active-active"  
-  {{- end }}
-  {{- if .Values.web.maintenance_db.name }}
-  AQUA_MAINTENANCE_DBNAME: {{ .Values.web.maintenance_db.name }}
-  {{- end }}
-  {{- if .Values.web.TLS.enabled }}
+  {{- if .Values.gate.TLS.enabled }}
   AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/key.pem"
   AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/cert.pem"
-  {{- if .Values.web.TLS.rootCA_fileName }}
+  {{- if .Values.gate.TLS.rootCA_fileName }}
   AQUA_ROOT_CA: "/opt/aquasec/ssl/ca.pem"
   {{- end }}
+  AQUA_VERIFY_ENFORCER: {{ .Values.gate.TLS.aqua_verify_enforcer | quote}}
   {{- end }}
-

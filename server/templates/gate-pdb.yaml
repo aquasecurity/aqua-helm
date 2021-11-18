@@ -1,0 +1,17 @@
+{{- if gt .Values.gate.replicaCount 1.0 -}}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Release.Name }}-gateway-pdb
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-gateway
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  minAvailable: {{ .Values.gate.pdb.minAvailable }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-gateway
+{{- end -}}

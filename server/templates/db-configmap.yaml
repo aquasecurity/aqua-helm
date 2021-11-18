@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   PGDATA: "/var/lib/postgresql/data/db-files"
-  AQUA_ENV_SIZE: {{ .Values.global.db.env_size }}
+  AQUA_ENV_SIZE: {{ .Values.db.env_size }}
 ---
 apiVersion: v1
 kind: ConfigMap

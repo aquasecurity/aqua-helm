@@ -1,4 +1,4 @@
-{{- if not .Values.global.db.external.enabled }}
+{{- if not .Values.db.external.enabled }}
 ---
 apiVersion: v1
 kind: Service
@@ -11,7 +11,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  type: {{ .Values.global.db.service.type }}
+  type: {{ .Values.db.service.type }}
   selector:
     app: {{ .Release.Name }}-database
   ports:
@@ -28,7 +28,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  type: {{ .Values.global.db.service.type }}
+  type: {{ .Values.db.service.type }}
   selector:
     app: {{ .Release.Name }}-audit-database
   ports:

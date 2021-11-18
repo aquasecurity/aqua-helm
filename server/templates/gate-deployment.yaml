@@ -1,51 +1,50 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-console
+  name: {{ .Release.Name }}-gateway
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ .Release.Name }}-console
+    app: {{ .Release.Name }}-gateway
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  replicas: {{ .Values.web.replicaCount }}
+  replicas: {{ .Values.gate.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-console
+      app: {{ .Release.Name }}-gateway
   template:
     metadata:
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/web-configmap.yaml") . | sha256sum }}
-      {{- if and (.Values.web.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
-        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.web.tolerations }}'
+        checksum/config: {{ include (print $.Template.BasePath "/gate-configmap.yaml") . | sha256sum }}
+      {{- if and (.Values.gate.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.gate.tolerations }}'
       {{- end }}
-      {{- with .Values.web.podAnnotations }}
+      {{- with .Values.gate.podAnnotations }}
       {{- range $key,$value := . }}
         {{ $key }}: {{ $value | quote }}
       {{- end }}
       {{- end }}
       labels:
-        app: {{ .Release.Name }}-console
-      name: {{ .Release.Name }}-console
+        app: {{ .Release.Name }}-gateway
+      name: {{ .Release.Name }}-gateway
     spec:
-      {{- with .Values.web.securityContext }}
+      {{- with .Values.gate.securityContext }}
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
       serviceAccount: {{ .Release.Namespace }}-sa
       containers:
-      - name: web
-        {{- with .Values.web.container_securityContext }}
+      - name: gate
+        {{- with .Values.gate.container_securityContext }}
         securityContext:
 {{ toYaml . | indent 10 }}
         {{- end }}
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
-        imagePullPolicy: "{{ .Values.web.image.pullPolicy }}"
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ .Values.gate.image.tag }}"
+        imagePullPolicy: "{{ .Values.gate.image.pullPolicy }}"
         envFrom:
         - configMapRef:
-            name: {{ .Release.Name }}-web-config
+            name: {{ .Release.Name }}-gateway-config
         env:
         {{- if .Values.db.passwordFromSecret.enabled }}
         - name: SCALOCK_DBPASSWORD
@@ -53,13 +52,13 @@ spec:
             secretKeyRef:
               name: {{ .Values.db.passwordFromSecret.dbPasswordName }}
               key: {{ .Values.db.passwordFromSecret.dbPasswordKey }}
-        {{- else }}
+          {{- else }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
               key: db-password
-        {{- end }}
+          {{- end }}
         - name: SCALOCK_AUDIT_DBPASSWORD
           {{- if .Values.db.passwordFromSecret.enabled }}
           valueFrom:
@@ -81,8 +80,8 @@ spec:
               name: {{ .Release.Name }}-database-password
               key: audit-password
           {{- end }}
-          {{- if .Values.activeactive }}
-          {{- if .Values.db.passwordFromSecret.enabled }}
+        {{- if .Values.activeactive }}
+        {{- if .Values.db.passwordFromSecret.enabled }}
         - name: AQUA_PUBSUB_DBPASSWORD
           valueFrom:
             secretKeyRef:
@@ -98,84 +97,56 @@ spec:
               {{- else }}
               key: db-password
               {{- end }}
-          {{- end }}
         {{- end }}
-        {{- if .Values.admin.token }}
-        - name: LICENSE_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Release.Name }}-console-secrets
-              key: license-token
         {{- end }}
-        {{- if .Values.admin.password }}
-        - name: ADMIN_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Release.Name }}-console-secrets
-              key: admin-password
-        {{- end }}
-        {{- include "server.extraEnvironmentVars" .Values.web | nindent 8 }}
-        {{- include "server.extraSecretEnvironmentVars" .Values.web | nindent 8 }}
+        {{- include "server.extraEnvironmentVars" .Values.gate | nindent 8 }}
+        {{- include "server.extraSecretEnvironmentVars" .Values.gate | nindent 8 }}
         ports:
-        - containerPort: 8080
+        - containerPort: 3622
           protocol: TCP
         - containerPort: 8443
-        {{- if eq .Values.platform "k3s" }}
-          hostPort: 8444
-        {{- end }}
           protocol: TCP
-{{- with .Values.web.livenessProbe }}
+{{- with .Values.gate.livenessProbe }}
         livenessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
-{{- with .Values.web.readinessProbe }}
+{{- with .Values.gate.readinessProbe }}
         readinessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
-        {{- if .Values.dockerSock.mount }}
-        volumeMounts:
-        - mountPath: /var/run/docker.sock
-          name: docker-socket-mount
-        {{- end }}
-        {{- if .Values.web.TLS.enabled }}
+        {{- if .Values.gate.TLS.enabled }}
         volumeMounts:
         - name: certs
           mountPath: /opt/aquasec/ssl/
           readOnly: true
         {{- end }}
         resources:
-{{ toYaml .Values.web.resources | indent 12 }}
-      {{- with .Values.web.nodeSelector }}
+{{ toYaml .Values.gate.resources | indent 12 }}
+      {{- with .Values.gate.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- with .Values.web.affinity }}
+      {{- with .Values.gate.affinity }}
       affinity:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- if and (.Values.web.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      {{- if and (.Values.gate.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
       tolerations:
-{{ toYaml .Values.web.tolerations | indent 6 }}
+{{ toYaml .Values.gate.tolerations | indent 6 }}
       {{- end }}
-      {{- if .Values.dockerSock.mount }}
-      volumes:
-      - name: docker-socket-mount
-        hostPath:
-          path: {{ .Values.dockerSock.path }}
-      {{- end }}
-      {{- if .Values.web.TLS.enabled }}
+      {{- if .Values.gate.TLS.enabled }}
       volumes:
       - name: certs
         secret:
           defaultMode: 420
-          secretName: {{ .Values.web.TLS.secretName }}
+          secretName: {{ .Values.gate.TLS.secretName }}
           items:
-          - key: {{ .Values.web.TLS.publicKey_fileName }}
+          - key: {{ .Values.gate.TLS.publicKey_fileName }}
             path: cert.pem
-          - key: {{ .Values.web.TLS.privateKey_fileName }}
+          - key: {{ .Values.gate.TLS.privateKey_fileName }}
             path: key.pem
-          {{- if .Values.web.TLS.rootCA_fileName }}
-          - key: {{ .Values.web.TLS.rootCA_fileName }}
+          {{- if .Values.gate.TLS.rootCA_fileName }}
+          - key: {{ .Values.gate.TLS.rootCA_fileName }}
             path: ca.pem
           {{- end }}
       {{- end }}

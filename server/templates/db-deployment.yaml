@@ -1,4 +1,4 @@
-{{- if not .Values.global.db.external.enabled }}
+{{- if not .Values.db.external.enabled }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -18,10 +18,10 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/db-configmap.yaml") . | sha256sum }}
-      {{- if and (.Values.global.db.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
-        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.global.db.tolerations }}'
+      {{- if and (.Values.db.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.db.tolerations }}'
       {{- end }}
-      {{- with .Values.global.db.podAnnotations }}
+      {{- with .Values.db.podAnnotations }}
       {{- range $key,$value := . }}
         {{ $key }}: {{ $value | quote }}
       {{- end }}
@@ -30,7 +30,7 @@ spec:
         app: {{ .Release.Name }}-database
       name: {{ .Release.Name }}-database
     spec:
-      {{- with .Values.global.db.securityContext }}
+      {{- with .Values.db.securityContext }}
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
@@ -41,12 +41,12 @@ spec:
         - configMapRef:
             name: {{ .Release.Name }}-initdb-config
         env:
-        {{- if .Values.global.db.passwordFromSecret.enabled }}
+        {{- if .Values.db.passwordFromSecret.enabled }}
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.global.db.passwordFromSecret.global.dbPasswordName }}
-              key: {{ .Values.global.db.passwordFromSecret.global.dbPasswordKey }}
+              name: {{ .Values.db.passwordFromSecret.dbPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
@@ -54,31 +54,31 @@ spec:
               name: {{ .Release.Name }}-database-password
               key: db-password
         {{- end }}
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
         command: [ "sh", "-c", "[ -f $PGDATA/server.key ] && chmod 600 $PGDATA/server.key || echo 'OK' " ]
         volumeMounts:
-        {{- if .Values.global.db.persistence.enabled }}
+        {{- if .Values.db.persistence.enabled }}
         - mountPath: /var/lib/postgresql/data
           name: postgres-database
         {{- end }}
       containers:
       - name: db
-        {{- with .Values.global.db.container_securityContext }}
+        {{- with .Values.db.container_securityContext }}
         securityContext:
 {{ toYaml . | indent 10 }}
         {{- end }}
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
-        imagePullPolicy: "{{ .Values.global.db.image.pullPolicy }}"
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
+        imagePullPolicy: "{{ .Values.db.image.pullPolicy }}"
         envFrom:
         - configMapRef:
             name: {{ .Release.Name }}-db-config
         env:
-        {{- if .Values.global.db.passwordFromSecret.enabled }}
+        {{- if .Values.db.passwordFromSecret.enabled }}
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.global.db.passwordFromSecret.global.dbPasswordName }}
-              key: {{ .Values.global.db.passwordFromSecret.global.dbPasswordKey }}
+              name: {{ .Values.db.passwordFromSecret.dbPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
@@ -90,40 +90,40 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        {{- include "server.extraEnvironmentVars" .Values.global.db | nindent 8 }}
-        {{- include "server.extraSecretEnvironmentVars" .Values.global.db | nindent 8 }}
+        {{- include "server.extraEnvironmentVars" .Values.db | nindent 8 }}
+        {{- include "server.extraSecretEnvironmentVars" .Values.db | nindent 8 }}
         volumeMounts:
-        {{- if .Values.global.db.persistence.enabled }}
+        {{- if .Values.db.persistence.enabled }}
         - mountPath: /var/lib/postgresql/data
           name: postgres-database
         {{- end }}
         ports:
         - containerPort: 5432
           protocol: TCP
-{{- with .Values.global.db.livenessProbe }}
+{{- with .Values.db.livenessProbe }}
         livenessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
-{{- with .Values.global.db.readinessProbe }}
+{{- with .Values.db.readinessProbe }}
         readinessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
         resources:
-{{ toYaml .Values.global.db.resources | indent 10 }}
-      {{- with .Values.global.db.nodeSelector }}
+{{ toYaml .Values.db.resources | indent 10 }}
+      {{- with .Values.db.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- with .Values.global.db.affinity }}
+      {{- with .Values.db.affinity }}
       affinity:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- if and (.Values.global.db.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      {{- if and (.Values.db.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
       tolerations:
-{{ toYaml .Values.global.db.tolerations | indent 6 }}
+{{ toYaml .Values.db.tolerations | indent 6 }}
       {{- end }}
       volumes:
-      {{- if .Values.global.db.persistence.enabled }}
+      {{- if .Values.db.persistence.enabled }}
       - name: postgres-database
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-database-pvc
@@ -147,10 +147,10 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/db-configmap.yaml") . | sha256sum }}
-      {{- if and (.Values.global.db.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
-        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.global.db.tolerations }}'
+      {{- if and (.Values.db.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.db.tolerations }}'
       {{- end }}
-      {{- with .Values.global.db.podAnnotations }}
+      {{- with .Values.db.podAnnotations }}
       {{- range $key,$value := . }}
         {{ $key }}: {{ $value | quote }}
       {{- end }}
@@ -159,7 +159,7 @@ spec:
         app: {{ .Release.Name }}-audit-database
       name: {{ .Release.Name }}-audit-database
     spec:
-      {{- with .Values.global.db.securityContext }}
+      {{- with .Values.db.securityContext }}
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
@@ -170,12 +170,12 @@ spec:
         - configMapRef:
             name: {{ .Release.Name }}-initdb-config
         env:
-        {{- if .Values.global.db.passwordFromSecret.enabled }}
+        {{- if .Values.db.passwordFromSecret.enabled }}
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordName }}
-              key: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordKey }}
+              name: {{ .Values.db.passwordFromSecret.dbAuditPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbAuditPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
@@ -183,31 +183,31 @@ spec:
               name: {{ .Release.Name }}-database-password
               key: audit-password
         {{- end }}
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
         command: [ "sh", "-c", "[ -f $PGDATA/server.key ] && chmod 600 $PGDATA/server.key || echo 'OK' " ]
         volumeMounts:
-        {{- if .Values.global.db.persistence.enabled }}
+        {{- if .Values.db.persistence.enabled }}
         - mountPath: /var/lib/postgresql/data
           name: postgres-audit-database
         {{- end }}
       containers:
       - name: auditdb
-        {{- with .Values.global.db.container_securityContext }}
+        {{- with .Values.db.container_securityContext }}
         securityContext:
 {{ toYaml . | indent 10 }}
         {{- end }}
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
-        imagePullPolicy: "{{ .Values.global.db.image.pullPolicy }}"
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
+        imagePullPolicy: "{{ .Values.db.image.pullPolicy }}"
         envFrom:
         - configMapRef:
             name: {{ .Release.Name }}-db-config
         env:
-        {{- if .Values.global.db.passwordFromSecret.enabled }}
+        {{- if .Values.db.passwordFromSecret.enabled }}
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordName }}
-              key: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordKey }}
+              name: {{ .Values.db.passwordFromSecret.dbAuditPasswordName }}
+              key: {{ .Values.db.passwordFromSecret.dbAuditPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
@@ -219,40 +219,40 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        {{- include "server.extraEnvironmentVars" .Values.global.db | nindent 8 }}
-        {{- include "server.extraSecretEnvironmentVars" .Values.global.db | nindent 8 }}
+        {{- include "server.extraEnvironmentVars" .Values.db | nindent 8 }}
+        {{- include "server.extraSecretEnvironmentVars" .Values.db | nindent 8 }}
         volumeMounts:
-        {{- if .Values.global.db.persistence.enabled }}
+        {{- if .Values.db.persistence.enabled }}
         - mountPath: /var/lib/postgresql/data
           name: postgres-audit-database
         {{- end }}
         ports:
         - containerPort: 5432
           protocol: TCP
-{{- with .Values.global.db.livenessProbe }}
+{{- with .Values.db.livenessProbe }}
         livenessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
-{{- with .Values.global.db.readinessProbe }}
+{{- with .Values.db.readinessProbe }}
         readinessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
         resources:
-{{ toYaml .Values.global.db.resources | indent 10 }}
-      {{- with .Values.global.db.nodeSelector }}
+{{ toYaml .Values.db.resources | indent 10 }}
+      {{- with .Values.db.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- with .Values.global.db.affinity }}
+      {{- with .Values.db.affinity }}
       affinity:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- if and (.Values.global.db.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      {{- if and (.Values.db.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
       tolerations:
-{{ toYaml .Values.global.db.tolerations | indent 6 }}
+{{ toYaml .Values.db.tolerations | indent 6 }}
       {{- end }}
       volumes:
-      {{- if .Values.global.db.persistence.enabled }}
+      {{- if .Values.db.persistence.enabled }}
       - name: postgres-audit-database
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-audit-database-pvc
