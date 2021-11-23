@@ -132,7 +132,7 @@ kubeEnforcerAdvance:
     image:
       repository: envoy
       tag: "6.2"
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
 
     readinessProbe:
       exec:

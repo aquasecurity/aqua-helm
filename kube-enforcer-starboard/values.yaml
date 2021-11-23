@@ -119,7 +119,7 @@ starboard:
     repositoryUriPrefix: "docker.io/aquasec"
     repository: "starboard-operator"
     tag: "0.10.1"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
 
   container_securityContext:
     privileged: false
@@ -177,7 +177,7 @@ kubeEnforcerAdvance:
     image:
       repository: envoy
       tag: "6.2"
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
 
     readinessProbe:
       exec:
