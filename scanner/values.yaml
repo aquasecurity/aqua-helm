@@ -39,7 +39,7 @@ cyberCenter:
 image:
   repository: scanner
   tag: "6.5"
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 logLevel:
 
