@@ -34,14 +34,15 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
 Aqua Security recommends implementing a highly-available PostgreSQL database. By default, the console chart will install a PostgreSQL database and attach it to persistent storage for POC usage and testing. For production use, one may override this default behavior and specify an existing PostgreSQL database by setting the following variables in values.yaml:
 
 ```yaml
-db:
-  external:
-    enabled: true
-    name: example-aquasec
-    host: aquasec-db
-    port: 5432
-    user: aquasec-db-username
-    password: verysecret
+global:
+  db:
+    external:
+      enabled: true
+      name: example-aquasec
+      host: aquasec-db
+      port: 5432
+      user: aquasec-db-username
+      password: verysecret
 ```
 ## Installing the Chart
 Follow the steps in this section for production grade deployments. You can either clone aqua-helm git repo or you can add our helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com))
@@ -155,19 +156,19 @@ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredent
 
    1. By default aqua helm chart will deploy a database container. If you wish to use an external database please set `db.external.enabled` to true and the following with appropriate values.
       ```shell
-      1. db.external.name
-      2. db.external.host
-      3. db.external.port
-      4. db.external.user
-      5. db.external.password
+      1. global.db.external.name
+      2. global.db.external.host
+      3. global.db.external.port
+      4. global.db.external.user
+      5. global.db.external.password
       ```
    2. By default same database (Packaged DB Container | Managed DB like AWS RDS) will be used to host both main DB and Audit DB. If you want to use a different database for audit db then set following variables in the values.yaml file
       ```shell
-      1. db.external.auditName
-      2. db.external.auditHost
-      3. db.external.auditPort
-      4. db.external.auditUser
-      5. db.external.auditPassword      
+      1. globl.db.external.auditName
+      2. globl.db.external.auditHost
+      3. globl.db.external.auditPort
+      4. globl.db.external.auditUser
+      5. globl.db.external.auditPassword      
       ```
    3. If you are using packaged DB container then
       1. AQUA_ENV_SIZE variable can be used to define the sizing of your DB container in terms of number of connections and optimized configuration but not the PV size. Please choose appropriate PV size as per your requirements.
@@ -260,11 +261,11 @@ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredent
    1. Set `activeactive` to true in values.yaml
    2. Also set following configurable variables
       ```shell
-      1. db.external.pubsubName
-      2. db.external.pubsubHost
-      3. db.external.pubsubPort
-      4. db.external.pubsubUser
-      5. db.external.pubsubPassword      
+      1. global.db.external.pubsubName
+      2. global.db.external.pubsubHost
+      3. global.db.external.pubsubPort
+      4. global.db.external.pubsubUser
+      5. global.db.external.pubsubPassword      
       ```
 
 ## Configurable Variables
@@ -289,73 +290,74 @@ Parameter | Description | Default| Mandatory
 `dockerSocket.mount` | boolean parameter if to mount docker socket | `unset`| `NO`
 `dockerSocket.path` | docker socket path | `/var/run/docker.sock`| `NO`
 `docker` | Scanning mode direct or docker [link](https://docs.aquasec.com/docs/scanning-mode#default-scanning-mode) | `-`| `NO`
-`db.external.enabled` | Avoid installing a Postgres container and use an external database instead | `false`| `YES`
-`db.external.name` | PostgreSQL DB name | `unset`| `YES`<br />`if db.external.enabled is set to true`
-`db.external.host` | PostgreSQL DB hostname | `unset`| `YES`<br />`if db.external.enabled is set to true`
-`db.external.port` | PostgreSQL DB port | `unset`| `YES`<br />`if db.external.enabled is set to true`
-`db.external.user` | PostgreSQL DB username | `unset`| `YES`<br />`if db.external.enabled is set to true`
-`db.external.password` | PostgreSQL DB password | `unset`| `YES`<br />`if db.external.enabled is set to true`
-`db.external.auditName` | PostgreSQL DB audit name | `unset`| `NO`
-`db.external.auditHost` | PostgreSQL DB audit hostname | `unset`| `NO`
-`db.external.auditPort` | PostgreSQL DB audit port | `unset`| `NO`
-`db.external.auditUser` | PostgreSQL DB audit username | `unset`| `NO`
-`db.external.auditPassword` | PostgreSQL DB audit password | `unset`| `NO`
-`db.external.pubsubName` | PostgreSQL DB pubsub name | `unset`| `NO`
-`db.external.pubsubHost` | PostgreSQL DB pubsub hostname | `unset`| `NO`
-`db.external.pubsubPort` | PostgreSQL DB pubsub port | `unset`| `NO`
-`db.external.pubsubUser` | PostgreSQL DB pubsub username | `unset`| `NO`
-`db.external.pubsubPassword` | PostgreSQL DB pubsub password | `unset`| `NO`
-`db.passwordFromSecret.enabled` | Enable to load DB passwords from Secrets | `false` | `YES`
-`db.passwordFromSecret.dbPasswordName` | password secret name | `null`| `NO`
-`db.passwordFromSecret.dbPasswordKey` | password secret key | `null`| `NO`
-`db.passwordFromSecret.dbAuditPasswordName` | Audit password secret name | `null`| `NO`
-`db.passwordFromSecret.dbAuditPasswordKey` | Audit password secret key | `null`| `NO`
-`db.passwordFromSecret.dbPubsubPasswordName` | Pubsub password secret name | `null`| `NO`
-`db.passwordFromSecret.dbPubsubPasswordKey` | Pubsub password secret key | `null`| `NO`
-`db.ssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`false`| `NO`
-`db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration audit database. |	`false`| `NO`
-`db.pubsubssl` | If require an SSL-encrypted connection to the Postgres configuration pubsub database. |	`false`| `NO`
-`db.persistence.enabled` | If true, Persistent Volume Claim will be created |	`true`| `NO`
-`db.persistence.accessModes` |	Persistent Volume access mode |	`ReadWriteOnce`| `NO`
-`db.persistence.size` |	Persistent Volume size | `30Gi`| `NO`
-`db.persistence.storageClass` |	Persistent Volume Storage Class | `unset`| `NO`
-`db.env_size` | Set this to tune DB parameters | `S` | `YES`</br >`Possible values: “S” (default), “M”, “L”`
-`db.image.repository` | the docker image name to use | `database`| `NO`
-`db.image.tag` | The image tag to use. | `6.5`| `NO`
-`db.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
-`db.service.type` | k8s service type | `ClusterIP`| `NO`
-`db.resources` |	Resource requests and limits | `{}`| `NO`
-`db.nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
-`db.tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
-`db.affinity` |	Kubernetes node affinity | `{}`| `NO`
-`db.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
-`db.securityContext` | Set of security context for the container | `nil`| `NO`
-`db.extraEnvironmentVars` | is a list of extra environment variables to set in the database deployments. | `{}`| `NO`
-`db.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the database deployments, these variables take value from existing Secret objects. | `[]`| `NO`
-`gate.image.repository` | the docker image name to use | `gateway`| `NO`
-`gate.image.tag` | The image tag to use. | `6.5`| `NO`
-`gate.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
-`gate.service.type` | k8s service type | `ClusterIP`| `NO`
-`gate.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
-`gate.service.annotations` |	service annotations	| `{}` | `NO`
-`gate.service.ports` | array of ports settings | `array`| `NO`
-`gate.publicIP` | gateway public ip | `aqua-gateway`| `NO`
-`gate.replicaCount` | replica count | `1`| `NO`
-`gate.resources` |	Resource requests and limits | `{}`| `NO`
-`gate.nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
-`gate.tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
-`gate.affinity` |	Kubernetes node affinity | `{}`| `NO`
-`gate.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
-`gate.securityContext` | Set of security context for the container | `nil`| `NO`
-`gate.pdb.minAvailable` | Set minimum available value for gate pod PDB | `1` | `NO`
-`gate.TLS.enabled` | If require secure channel communication | `false` | `NO`
-`gate.TLS.secretName` | certificates secret name | `nil` | `YES` <br /> `if gate.TLS.enabled is set to true`
-`gate.TLS.publicKey_fileName` | filename of the public key eg: aqua_gateway.crt | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
-`gate.TLS.privateKey_fileName`   | filename of the private key eg: aqua_gateway.key | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
-`gate.TLS.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO` <br /> `if gate.TLS.enabled is set to true and using self-signed certificates for TLS/mTLS`
-`gate.TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and gateway/envoy | `0`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
-`gate.extraEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments. | `{}`| `NO`
-`gate.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`| `NO`
+`global.db.external.enabled` | Avoid installing a Postgres container and use an external database instead | `false`| `YES`
+`global.db.external.name` | PostgreSQL DB name | `unset`| `YES`<br />`if db.external.enabled is set to true`
+`global.db.external.host` | PostgreSQL DB hostname | `unset`| `YES`<br />`if db.external.enabled is set to true`
+`global.db.external.port` | PostgreSQL DB port | `unset`| `YES`<br />`if db.external.enabled is set to true`
+`global.db.external.user` | PostgreSQL DB username | `unset`| `YES`<br />`if db.external.enabled is set to true`
+`global.db.external.password` | PostgreSQL DB password | `unset`| `YES`<br />`if db.external.enabled is set to true`
+`global.db.external.auditName` | PostgreSQL DB audit name | `unset`| `NO`
+`global.db.external.auditHost` | PostgreSQL DB audit hostname | `unset`| `NO`
+`global.db.external.auditPort` | PostgreSQL DB audit port | `unset`| `NO`
+`global.db.external.auditUser` | PostgreSQL DB audit username | `unset`| `NO`
+`global.db.external.auditPassword` | PostgreSQL DB audit password | `unset`| `NO`
+`global.db.external.pubsubName` | PostgreSQL DB pubsub name | `unset`| `NO`
+`global.db.external.pubsubHost` | PostgreSQL DB pubsub hostname | `unset`| `NO`
+`global.db.external.pubsubPort` | PostgreSQL DB pubsub port | `unset`| `NO`
+`global.db.external.pubsubUser` | PostgreSQL DB pubsub username | `unset`| `NO`
+`global.db.external.pubsubPassword` | PostgreSQL DB pubsub password | `unset`| `NO`
+`global.db.passwordFromSecret.enabled` | Enable to load DB passwords from Secrets | `false` | `YES`
+`global.db.passwordFromSecret.dbPasswordName` | password secret name | `null`| `NO`
+`global.db.passwordFromSecret.dbPasswordKey` | password secret key | `null`| `NO`
+`global.db.passwordFromSecret.dbAuditPasswordName` | Audit password secret name | `null`| `NO`
+`global.db.passwordFromSecret.dbAuditPasswordKey` | Audit password secret key | `null`| `NO`
+`global.db.passwordFromSecret.dbPubsubPasswordName` | Pubsub password secret name | `null`| `NO`
+`global.db.passwordFromSecret.dbPubsubPasswordKey` | Pubsub password secret key | `null`| `NO`
+`global.db.ssl` | If require an SSL-encrypted connection to the Postgres configuration database. |	`false`| `NO`
+`global.db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration audit database. |	`false`| `NO`
+`global.db.pubsubssl` | If require an SSL-encrypted connection to the Postgres configuration pubsub database. |	`false`| `NO`
+`global.db.persistence.enabled` | If true, Persistent Volume Claim will be created |	`true`| `NO`
+`global.db.persistence.accessModes` |	Persistent Volume access mode |	`ReadWriteOnce`| `NO`
+`global.db.persistence.size` |	Persistent Volume size | `30Gi`| `NO`
+`global.db.persistence.storageClass` |	Persistent Volume Storage Class | `unset`| `NO`
+`global.db.env_size` | Set this to tune DB parameters | `S` | `YES`</br >`Possible values: “S” (default), “M”, “L”`
+`global.db.image.repository` | the docker image name to use | `database`| `NO`
+`global.db.image.tag` | The image tag to use. | `6.5`| `NO`
+`global.db.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
+`global.db.service.type` | k8s service type | `ClusterIP`| `NO`
+`global.db.resources` |	Resource requests and limits | `{}`| `NO`
+`global.db.nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
+`global.db.tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
+`global.db.affinity` |	Kubernetes node affinity | `{}`| `NO`
+`global.db.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
+`global.db.securityContext` | Set of security context for the container | `nil`| `NO`
+`global.db.extraEnvironmentVars` | is a list of extra environment variables to set in the database deployments. | `{}`| `NO`
+`global.db.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the database deployments, these variables take value from existing Secret objects. | `[]`| `NO`
+`global.gate.image.repository` | the docker image name to use | `gateway`| `NO`
+`gateway.enabled` | Deploy gateway chart with server chart | `True`| `NO`
+`gateway.image.tag` | The image tag to use. | `6.5`| `NO`
+`gateway.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
+`gateway.service.type` | k8s service type | `ClusterIP`| `NO`
+`gateway.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
+`gateway.service.annotations` |	service annotations	| `{}` | `NO`
+`gateway.service.ports` | array of ports settings | `array`| `NO`
+`gateway.publicIP` | gateway public ip | `aqua-gateway`| `NO`
+`gateway.replicaCount` | replica count | `1`| `NO`
+`gateway.resources` |	Resource requests and limits | `{}`| `NO`
+`gateway.nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
+`gateway.tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
+`gateway.affinity` |	Kubernetes node affinity | `{}`| `NO`
+`gateway.podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
+`gateway.securityContext` | Set of security context for the container | `nil`| `NO`
+`gateway.pdb.minAvailable` | Set minimum available value for gate pod PDB | `1` | `NO`
+`gateway.TLS.enabled` | If require secure channel communication | `false` | `NO`
+`gateway.TLS.secretName` | certificates secret name | `nil` | `YES` <br /> `if gate.TLS.enabled is set to true`
+`gateway.TLS.publicKey_fileName` | filename of the public key eg: aqua_gateway.crt | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
+`gateway.TLS.privateKey_fileName`   | filename of the private key eg: aqua_gateway.key | `nil`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
+`gateway.TLS.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO` <br /> `if gate.TLS.enabled is set to true and using self-signed certificates for TLS/mTLS`
+`gateway.TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and gateway/envoy | `0`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
+`gateway.extraEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments. | `{}`| `NO`
+`gateway.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`| `NO`
 `web.image.repository` | the docker image name to use | `console`| `NO`
 `web.image.tag` | The image tag to use. | `6.5`| `NO`
 `web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
