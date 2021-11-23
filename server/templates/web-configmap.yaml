@@ -5,39 +5,39 @@ metadata:
   name: {{ .Release.Name }}-web-config
   namespace: {{ .Release.Namespace }}
 data:
-  SCALOCK_DBUSER: {{ .Values.db.external.enabled | ternary .Values.db.external.user "postgres" }}
-  SCALOCK_DBNAME: {{ .Values.db.external.enabled | ternary .Values.db.external.name "scalock" }}
-  {{- if .Values.db.external.enabled }}
-  SCALOCK_DBHOST: {{ .Values.db.external.host }}
+  SCALOCK_DBUSER: {{ .Values.global.db.external.enabled | ternary .Values.global.db.external.user "postgres" }}
+  SCALOCK_DBNAME: {{ .Values.global.db.external.enabled | ternary .Values.global.db.external.name "scalock" }}
+  {{- if .Values.global.db.external.enabled }}
+  SCALOCK_DBHOST: {{ .Values.global.db.external.host }}
   {{- else }}
   SCALOCK_DBHOST: {{ .Release.Name }}-database-svc
   {{- end }}
-  SCALOCK_DBPORT: {{ .Values.db.external.enabled | ternary .Values.db.external.port "5432" | quote }}
-  SCALOCK_AUDIT_DBUSER: {{ .Values.db.external.enabled | ternary .Values.db.external.auditUser "postgres" }}
-  SCALOCK_AUDIT_DBNAME: {{ .Values.db.external.enabled | ternary .Values.db.external.auditName "slk_audit" }}
-  {{- if .Values.db.external.enabled }}
-  SCALOCK_AUDIT_DBHOST: {{ .Values.db.external.auditHost }}
+  SCALOCK_DBPORT: {{ .Values.global.db.external.enabled | ternary .Values.global.db.external.port "5432" | quote }}
+  SCALOCK_AUDIT_DBUSER: {{ .Values.global.db.external.enabled | ternary .Values.global.db.external.auditUser "postgres" }}
+  SCALOCK_AUDIT_DBNAME: {{ .Values.global.db.external.enabled | ternary .Values.global.db.external.auditName "slk_audit" }}
+  {{- if .Values.global.db.external.enabled }}
+  SCALOCK_AUDIT_DBHOST: {{ .Values.global.db.external.auditHost }}
   {{- else }}
   SCALOCK_AUDIT_DBHOST: {{ .Release.Name }}-audit-database-svc
   {{- end }}
-  SCALOCK_AUDIT_DBPORT: {{ .Values.db.external.enabled | ternary .Values.db.external.auditPort "5432" | quote }}
+  SCALOCK_AUDIT_DBPORT: {{ .Values.global.db.external.enabled | ternary .Values.global.db.external.auditPort "5432" | quote }}
   {{- if .Values.activeactive }}
-  AQUA_PUBSUB_DBUSER: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubUser "postgres" }}
-  AQUA_PUBSUB_DBNAME: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubName "aqua_pubsub" }}
-  {{- if .Values.db.external.enabled }}
-  AQUA_PUBSUB_DBHOST: {{ .Values.db.external.pubsubHost }}
+  AQUA_PUBSUB_DBUSER: {{ .Values.global.db.external.enabled | ternary .Values.global.db.external.pubsubUser "postgres" }}
+  AQUA_PUBSUB_DBNAME: {{ .Values.global.db.external.enabled | ternary .Values.global.db.external.pubsubName "aqua_pubsub" }}
+  {{- if .Values.global.db.external.enabled }}
+  AQUA_PUBSUB_DBHOST: {{ .Values.global.db.external.pubsubHost }}
   {{- else }}
   AQUA_PUBSUB_DBHOST: {{ .Release.Name }}-database-svc
   {{- end }}
-  AQUA_PUBSUB_DBPORT: {{ .Values.db.external.enabled | ternary .Values.db.external.pubsubPort "5432" | quote }}
+  AQUA_PUBSUB_DBPORT: {{ .Values.global.db.external.enabled | ternary .Values.global.db.external.pubsubPort "5432" | quote }}
   {{- end }}
-  {{- if .Values.db.ssl }}
+  {{- if .Values.global.db.ssl }}
   SCALOCK_DBSSL: require
   {{- end }}
-  {{- if .Values.db.auditssl }}
+  {{- if .Values.global.db.auditssl }}
   SCALOCK_AUDIT_DBSSL: require
   {{- end }}
-  {{- if .Values.db.pubsubssl }}
+  {{- if .Values.global.db.pubsubssl }}
   AQUA_PUBSUB_DBSSL: require
   {{- end }}
   # DNS name or IP address of an Aqua Gateway that the Aqua Enforcer will first connect to.

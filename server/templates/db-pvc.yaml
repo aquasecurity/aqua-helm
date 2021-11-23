@@ -1,4 +1,4 @@
-{{- if and (not .Values.db.external.enabled) (.Values.db.persistence.enabled) }}
+{{- if and (not .Values.global.db.external.enabled) (.Values.global.db.persistence.enabled) }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -11,12 +11,12 @@ metadata:
     heritage: "{{ .Release.Service }}"
 spec:
   accessModes:
-    - {{ .Values.db.persistence.accessMode | quote }}
+    - {{ .Values.global.db.persistence.accessMode | quote }}
   resources:
     requests:
-      storage: {{ .Values.db.persistence.size | quote }}
-{{- if .Values.db.persistence.storageClass }}
-  storageClassName: "{{ .Values.db.persistence.storageClass }}"
+      storage: {{ .Values.global.db.persistence.size | quote }}
+{{- if .Values.global.db.persistence.storageClass }}
+  storageClassName: "{{ .Values.global.db.persistence.storageClass }}"
 {{- end }}
 ---
 kind: PersistentVolumeClaim
@@ -31,11 +31,11 @@ metadata:
     heritage: "{{ .Release.Service }}"
 spec:
   accessModes:
-    - {{ .Values.db.persistence.accessMode | quote }}
+    - {{ .Values.global.db.persistence.accessMode | quote }}
   resources:
     requests:
-      storage: {{ .Values.db.persistence.size | quote }}
-{{- if .Values.db.persistence.storageClass }}
-  storageClassName: "{{ .Values.db.persistence.storageClass }}"
+      storage: {{ .Values.global.db.persistence.size | quote }}
+{{- if .Values.global.db.persistence.storageClass }}
+  storageClassName: "{{ .Values.global.db.persistence.storageClass }}"
 {{- end }}
 {{- end }}
