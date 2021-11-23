@@ -333,7 +333,7 @@ Parameter | Description | Default| Mandatory
 `global.db.securityContext` | Set of security context for the container | `nil`| `NO`
 `global.db.extraEnvironmentVars` | is a list of extra environment variables to set in the database deployments. | `{}`| `NO`
 `global.db.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the database deployments, these variables take value from existing Secret objects. | `[]`| `NO`
-`global.gate.image.repository` | the docker image name to use | `gateway`| `NO`
+`gateway.image.repository` | the docker image name to use | `gateway`| `NO`
 `gateway.enabled` | Deploy gateway chart with server chart | `True`| `NO`
 `gateway.image.tag` | The image tag to use. | `6.5`| `NO`
 `gateway.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`

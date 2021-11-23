@@ -142,7 +142,7 @@ gateway:
     username: ""
     password: ""
   rbac:
-    enabled: true
+    enabled: false
     privileged: true
     roleRef:
   platform:
