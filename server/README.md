@@ -164,11 +164,11 @@ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredent
       ```
    2. By default same database (Packaged DB Container | Managed DB like AWS RDS) will be used to host both main DB and Audit DB. If you want to use a different database for audit db then set following variables in the values.yaml file
       ```shell
-      1. globl.db.external.auditName
-      2. globl.db.external.auditHost
-      3. globl.db.external.auditPort
-      4. globl.db.external.auditUser
-      5. globl.db.external.auditPassword      
+      1. global.db.external.auditName
+      2. global.db.external.auditHost
+      3. global.db.external.auditPort
+      4. global.db.external.auditUser
+      5. global.db.external.auditPassword      
       ```
    3. If you are using packaged DB container then
       1. AQUA_ENV_SIZE variable can be used to define the sizing of your DB container in terms of number of connections and optimized configuration but not the PV size. Please choose appropriate PV size as per your requirements.
