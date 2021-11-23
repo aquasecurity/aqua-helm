@@ -17,7 +17,7 @@ spec:
       containers:
         - name: kube-enforcer
           image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.ke.image.repository }}:{{ .Values.ke.image.tag }}"
-          imagePullPolicy: Always
+          imagePullPolicy: {{ .Values.ke.pullPolicy }}
           ports:
             - containerPort: 8443
           env:

@@ -91,7 +91,7 @@ db:
   image:
     repository: database
     tag: "6.2"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     type: ClusterIP
   persistence:
@@ -148,7 +148,7 @@ gate:
   image:
     repository: gateway
     tag: "6.2"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     type: ClusterIP
     annotations: {}
@@ -215,7 +215,7 @@ web:
   image:
     repository: console
     tag: "6.2"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     type: LoadBalancer
     annotations: {}
@@ -296,7 +296,7 @@ envoy:
   image:
     repository: envoyproxy/envoy-alpine
     tag: v1.15.0
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   
   service:
     type: LoadBalancer

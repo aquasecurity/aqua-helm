@@ -60,7 +60,7 @@ gate:
   image:
     repository: gateway
     tag: "6.2"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     type: ClusterIP     # you can enable gateway to external by changing type to "LoadBalancer"
     loadbalancerIP: "" # Specify loadBalancerIP address for aqua-web in AKS platform
