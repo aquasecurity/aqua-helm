@@ -1,5 +1,0 @@
-dependencies:
-- name: gateway
-  version: "6.5.1"
-  repository: "file://./subcharts/gateway"
-  condition: gateway.enabled
