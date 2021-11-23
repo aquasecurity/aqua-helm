@@ -17,6 +17,7 @@ spec:
   template:
     metadata:
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/scanner-configmap.yaml") . | sha256sum }}      
       {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
       {{- end }}
@@ -69,9 +70,10 @@ spec:
         {{- else }}
         - --no-verify
         {{- end }}
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-scanner-config        
         env:
-        - name: SCALOCK_LOG_LEVEL
-          value: {{ .Values.logLevel | default "INFO" }}
         - name: AQUA_SCANNER_LOGICAL_NAME
           valueFrom:
             fieldRef:
@@ -90,18 +92,6 @@ spec:
             secretKeyRef:
               name: {{ .Values.scannerUserSecret.secretName }}
               key: {{ .Values.scannerUserSecret.userKey }}
-          {{- end }}
-        {{- end }}
-        {{- if .Values.cyberCenter.mtls.enabled }}
-        - name: "OFFLINE_CC_MTLS_ENABLE"
-          value: "1"
-        - name: "AQUA_PRIVATE_KEY"
-          value: "/opt/aquasec/ssl/key.pem"
-        - name: "AQUA_PUBLIC_KEY"
-          value: "/opt/aquasec/ssl/cert.pem"
-          {{- if .Values.cyberCenter.mtls.rootCA_fileName }}
-        - name: "AQUA_ROOT_CA"
-          value: "/opt/aquasec/ssl/ca.pem"
           {{- end }}
         {{- end }}
         {{- include "scanner.extraEnvironmentVars" .Values | nindent 8 }}
