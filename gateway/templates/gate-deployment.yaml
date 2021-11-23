@@ -9,7 +9,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  replicas: {{ .Values.gate.replicaCount }}
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: {{ .Release.Name }}-gateway
@@ -17,10 +17,10 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/gate-configmap.yaml") . | sha256sum }}
-      {{- if and (.Values.gate.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
-        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.gate.tolerations }}'
+      {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
       {{- end }}
-      {{- with .Values.gate.podAnnotations }}
+      {{- with .Values.podAnnotations }}
       {{- range $key,$value := . }}
         {{ $key }}: {{ $value | quote }}
       {{- end }}
@@ -29,29 +29,29 @@ spec:
         app: {{ .Release.Name }}-gateway
       name: {{ .Release.Name }}-gateway
     spec:
-      {{- with .Values.gate.securityContext }}
+      {{- with .Values.securityContext }}
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
       serviceAccount: {{ .Values.serviceAccount.name }}
       containers:
       - name: gate
-        {{- with .Values.gate.container_securityContext }}
+        {{- with .Values.container_securityContext }}
         securityContext:
 {{ toYaml . | indent 10 }}
         {{- end }}
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.gate.image.repository }}:{{ .Values.gate.image.tag }}"
-        imagePullPolicy: "{{ .Values.gate.image.pullPolicy }}"
+        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         envFrom:
         - configMapRef:
             name: {{ .Release.Name }}-gateway-config
         env:
-        {{- if .Values.db.passwordFromSecret.enabled }}
+        {{- if .Values.global.db.passwordFromSecret.enabled }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.passwordFromSecret.dbPasswordName }}
-              key: {{ .Values.db.passwordFromSecret.dbPasswordKey }}
+              name: {{ .Values.global.db.passwordFromSecret.global.dbPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.global.dbPasswordKey }}
           {{- else }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
@@ -60,16 +60,16 @@ spec:
               key: db-password
           {{- end }}
         - name: SCALOCK_AUDIT_DBPASSWORD
-          {{- if .Values.db.passwordFromSecret.enabled }}
+          {{- if .Values.global.db.passwordFromSecret.enabled }}
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.passwordFromSecret.dbAuditPasswordName }}
-              key: {{ .Values.db.passwordFromSecret.dbAuditPasswordKey }}
-          {{- else if and ( not .Values.db.passwordFromSecret.enabled ) ( .Values.db.external.enabled ) }}
+              name: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordKey }}
+          {{- else if and ( not .Values.global.db.passwordFromSecret.enabled ) ( .Values.global.db.external.enabled ) }}
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
-              {{- if .Values.db.external.auditPassword }}
+              {{- if .Values.global.db.external.auditPassword }}
               key: audit-password
               {{- else }}
               key: db-password
@@ -81,72 +81,72 @@ spec:
               key: audit-password
           {{- end }}
         {{- if .Values.activeactive }}
-        {{- if .Values.db.passwordFromSecret.enabled }}
+        {{- if .Values.global.db.passwordFromSecret.enabled }}
         - name: AQUA_PUBSUB_DBPASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.passwordFromSecret.dbPubsubPasswordName }}
-              key: {{ .Values.db.passwordFromSecret.dbPubsubPasswordKey }}
+              name: {{ .Values.global.db.passwordFromSecret.global.dbPubsubPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.global.dbPubsubPasswordKey }}
           {{- else }}
         - name: AQUA_PUBSUB_DBPASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-database-password
-              {{- if .Values.db.external.pubsubPassword }}
+              {{- if .Values.global.db.external.pubsubPassword }}
               key: pubsub-password
               {{- else }}
               key: db-password
               {{- end }}
         {{- end }}
         {{- end }}
-        {{- include "server.extraEnvironmentVars" .Values.gate | nindent 8 }}
-        {{- include "server.extraSecretEnvironmentVars" .Values.gate | nindent 8 }}
+        {{- include "server.extraEnvironmentVars" .Values | nindent 8 }}
+        {{- include "server.extraSecretEnvironmentVars" .Values | nindent 8 }}
         ports:
         - containerPort: 3622
           protocol: TCP
         - containerPort: 8443
           protocol: TCP
-{{- with .Values.gate.livenessProbe }}
+{{- with .Values.livenessProbe }}
         livenessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
-{{- with .Values.gate.readinessProbe }}
+{{- with .Values.readinessProbe }}
         readinessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
-        {{- if .Values.gate.TLS.enabled }}
+        {{- if .Values.TLS.enabled }}
         volumeMounts:
         - name: certs
           mountPath: /opt/aquasec/ssl/
           readOnly: true
         {{- end }}
         resources:
-{{ toYaml .Values.gate.resources | indent 12 }}
-      {{- with .Values.gate.nodeSelector }}
+{{ toYaml .Values.resources | indent 12 }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- with .Values.gate.affinity }}
+      {{- with .Values.affinity }}
       affinity:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- if and (.Values.gate.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      {{- if and (.Values.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
       tolerations:
-{{ toYaml .Values.gate.tolerations | indent 6 }}
+{{ toYaml .Values.tolerations | indent 6 }}
       {{- end }}
-      {{- if .Values.gate.TLS.enabled }}
+      {{- if .Values.TLS.enabled }}
       volumes:
       - name: certs
         secret:
           defaultMode: 420
-          secretName: {{ .Values.gate.TLS.secretName }}
+          secretName: {{ .Values.TLS.secretName }}
           items:
-          - key: {{ .Values.gate.TLS.publicKey_fileName }}
+          - key: {{ .Values.TLS.publicKey_fileName }}
             path: cert.pem
-          - key: {{ .Values.gate.TLS.privateKey_fileName }}
+          - key: {{ .Values.TLS.privateKey_fileName }}
             path: key.pem
-          {{- if .Values.gate.TLS.rootCA_fileName }}
-          - key: {{ .Values.gate.TLS.rootCA_fileName }}
+          {{- if .Values.TLS.rootCA_fileName }}
+          - key: {{ .Values.TLS.rootCA_fileName }}
             path: ca.pem
           {{- end }}
       {{- end }}
