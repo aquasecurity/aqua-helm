@@ -1,4 +1,4 @@
-## 6.5.1 ( November 24th, 2021 )
+## 6.5.2 ( November 24th, 2021 )
 * Added separate config maps for cloud-connector chart and updated templates with annotations for configmap checksum - [401](https://github.com/aquasecurity/aqua-helm/pull/401)
 * Fixed User/Password parsing error - [406](https://github.com/aquasecurity/aqua-helm/pull/406)
 
