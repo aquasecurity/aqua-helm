@@ -32,72 +32,23 @@ serviceAccount:
   create: false
   name: "aqua-sa"
 
-db:
-  external:
-    enabled: true
-    name: ""
-    host: ""
-    port: ""
-    user: ""
-    password: ""
-    auditName: ""
-    auditHost: ""
-    auditPort: ""
-    auditUser: ""
-    auditPassword:
-    pubsubName: ""
-    pubsubHost: ""
-    pubsubPort: ""
-    pubsubUser: ""
-    pubsubPassword: ""
-  passwordFromSecret:
-    enabled: false              #Enable if loading passwords for db and audit-db from secret
-    dbPasswordName: ""            #Specify the Password Secret name used for db password
-    dbPasswordKey: ""             #Specify the db password key name stored in the #dbPasswordName secret
-    dbAuditPasswordName: ""          #Specify the Password Secret name used for audit db password
-    dbAuditPasswordKey: ""            #Specify the audit db password key name stored in the #dbAuditPasswordName secret
-    dbPubsubPasswordName: ""            #Specify the Password Secret name used for pubsub db password
-    dbPubsubPasswordKey: ""           #Specify the pubsub db password key name stored in the #PubsubPasswordName secret
-  ssl: false
-  auditssl: false
-  pubsubssl: false
-
-gate:
-  replicaCount: 1
-  logLevel:
-  image:
-    repository: gateway
-    tag: "6.5"
-    pullPolicy: Always
-  service:
-    type: LoadBalancer     # you can enable gateway to internal by changing type to "clusterIP"
-    loadbalancerIP: "" # Specify loadBalancerIP address for aqua-web in AKS platform
-    annotations: {}
-    ports:
-      - name: aqua-gate
-        port: 3622
-        targetPort: 3622
-        nodePort:
-        protocol: TCP
-      - name: aqua-gate-ssl
-        port: 8443
-        targetPort: 8443
-        nodePort:
-        protocol: TCP
-      - name: aqua-health
-        port: 8082
-        protocol: TCP
-        targetPort: 8082
-        nodePort:
-  publicIP:
-  livenessProbe:
-    httpGet:
-      path: /
-      port: 8082
-    initialDelaySeconds: 60
-    periodSeconds: 30
-  readinessProbe:
-    tcpSocket:
+replicaCount: 1
+logLevel:
+image:
+  repository: gateway
+  tag: "6.5"
+  pullPolicy: IfNotPresent
+service:
+  type: LoadBalancer     # you can enable gateway to internal by changing type to "clusterIP"
+  loadbalancerIP: "" # Specify loadBalancerIP address for aqua-web in AKS platform
+  annotations: {}
+  ports:
+    - name: aqua-gate
+      port: 3622
+      targetPort: 3622
+      nodePort:
+      protocol: TCP
+    - name: aqua-gate-ssl
       port: 8443
       targetPort: 8443
       nodePort:
