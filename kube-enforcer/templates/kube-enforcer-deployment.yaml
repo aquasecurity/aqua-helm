@@ -35,7 +35,7 @@ spec:
 {{ toYaml . | indent 12 }}
           {{- end }}
           image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: Always
           envFrom:
             - configMapRef:
                 name: {{ .Release.Name }}-kube-enforcer-config
