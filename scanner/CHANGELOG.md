@@ -1,3 +1,6 @@
+## 6.5.2 ( November 24th, 2021 )
+* Added separate config map for scanner chart and updated template with annotations for configmap checksum - [409](https://github.com/aquasecurity/aqua-helm/pull/409)
+* Updated image pullpolicy to Always
 ## 6.5.1 ( November 1st, 2021)
 * Added mTLS connection support to connect with offline-CyberCenter and SSL connection support to connect with Aqua Server - [#389](https://github.com/aquasecurity/aqua-helm/pull/389)
 * Fixed scanner chart EOF error, reported issue - [#397](https://github.com/aquasecurity/aqua-helm/issues/397)

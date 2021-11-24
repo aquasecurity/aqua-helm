@@ -82,7 +82,7 @@ global:
     image:
       repository: database
       tag: "6.5"
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
     service:
       type: ClusterIP
     persistence:
@@ -157,7 +157,7 @@ gateway:
   image:
     repository: gateway
     tag: "6.5"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     type: ClusterIP     # you can enable gateway to external by changing type to "LoadBalancer"
     loadbalancerIP: "" # Specify loadBalancerIP address for aqua-web in AKS platform
@@ -238,7 +238,7 @@ web:
   image:
     repository: console
     tag: "6.5"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     type: LoadBalancer
     loadbalancerIP: "" # Specify loadBalancerIP address for aqua-gateway in AKS platform
@@ -348,7 +348,7 @@ envoy:
   image:
     repository: envoy
     tag: "6.5"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   
   service:
     type: LoadBalancer
