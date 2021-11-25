@@ -355,6 +355,7 @@ web:
     hosts: #REQUIRED
     # - aquasec-test.example.com
     path: /
+    pathType: Prefix
     tls: []
     #  - secretName: aquasec-tls
     #    hosts:
