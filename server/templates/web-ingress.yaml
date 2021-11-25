@@ -29,6 +29,7 @@ spec:
         http:
           paths:
             - path: {{ $ingressPath }}
+              pathType: {{ .Values.web.ingress.pathType }}
               backend:
                 serviceName: {{ $fullname }}-console-svc
                 servicePort: {{ $servicePort }}
