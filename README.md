@@ -29,15 +29,15 @@ This repository includes the following charts; they can be deployed separately:
 
 | Chart | Description | Latest Chart Version |
 |-|-|-|
-| [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component | 6.5.1 |
-| [Enforcer](enforcer/) | Deploys the Aqua Enforcer daemonset | 6.5.1 |
-| [Scanner](scanner/)  | Deploys the Aqua Scanner deployment | 6.5.1 |
-| [KubeEnforcer](kube-enforcer/)| Deploys Aqua KubeEnforcer | 6.5.1 |
-| [Gateway](gateway)| Deploys the Aqua Standalone Gateway | 6.5.1 |
+| [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component | 6.5.2 |
+| [Enforcer](enforcer/) | Deploys the Aqua Enforcer daemonset | 6.5.2 |
+| [Scanner](scanner/)  | Deploys the Aqua Scanner deployment | 6.5.2 |
+| [KubeEnforcer](kube-enforcer/)| Deploys Aqua KubeEnforcer | 6.5.2 |
+| [Gateway](gateway)| Deploys the Aqua Standalone Gateway | 6.5.2 |
 | [Tenant-Manager](tenant-manager/)| Deploys the Aqua Tenant Manager | 6.5.0 |
 | [Cyber Center](cyber-center/)| Deploys Aqua CyberCenter offline for air-gap environment| 6.5.0 |
-| [Cloud Connector](cloud-connector/) | Deploys the Aqua Cloud Connector | 6.5.1 |
-| [QuickStart](aqua-quickstart/ )| Not for production use (see [below](#quick-start-deployment-not-for-production-purposes)). Deploys the Console, Database, Gateway and KubeEnforcer components | 6.5.1 |
+| [Cloud Connector](cloud-connector/) | Deploys the Aqua Cloud Connector | 6.5.2 |
+| [QuickStart](aqua-quickstart/ )| Not for production use (see [below](#quick-start-deployment-not-for-production-purposes)). Deploys the Console, Database, Gateway and KubeEnforcer components | 6.5.2 |
 
 # Deployment instructions
 
@@ -77,14 +77,14 @@ helm search repo aqua-helm --version 6.5.0
 Example output:
 ```csv
 NAME                            CHART VERSION       APP VERSION         DESCRIPTION
-aqua-helm/enforcer                  6.5.1               6.5                 A Helm chart for the Aqua Enforcer
-aqua-helm/scanner                   6.5.1               6.5                 A Helm chart for the Aqua Scanner CLI component
-aqua-helm/server                    6.5.1               6.5                 A Helm chart for the Aqua Console components
-aqua-helm/kube-enforcer             6.5.1               6.5                 A Helm chart for the Aqua KubeEnforcer
-aqua-helm/gateway                   6.5.1               6.5                 A Helm chart for the Aqua Gateway
+aqua-helm/server                    6.5.2               6.5                 A Helm chart for the Aqua Console components
+aqua-helm/enforcer                  6.5.2               6.5                 A Helm chart for the Aqua Enforcer
+aqua-helm/kube-enforcer             6.5.2               6.5                 A Helm chart for the Aqua KubeEnforcer
+aqua-helm/scanner                   6.5.2               6.5                 A Helm chart for the Aqua Scanner CLI component
+aqua-helm/gateway                   6.5.2               6.5                 A Helm chart for the Aqua Gateway
 aqua-helm/tenant-manager            6.5.0               6.5                 A Helm chart for the Aqua Tenant Manager
 aqua-helm/cyber-center              6.5.0               6.5                 A Helm chart for Aqua CyberCenter
-aqua-helm/cloud-connector           6.5.1               6.5                 A Helm chart for Aqua Cloud-Connector
+aqua-helm/cloud-connector           6.5.2               6.5                 A Helm chart for Aqua Cloud-Connector
 ```
 
 ### Deploy the Helm charts
