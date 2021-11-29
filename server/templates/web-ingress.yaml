@@ -2,8 +2,9 @@
 {{- $fullname := .Release.Name -}}
 {{- $servicePort := (index .Values.web.service.ports 0).port -}}
 {{- $ingressPath := .Values.web.ingress.path -}}
+{{- $pathType := .Values.web.ingress.pathType -}}
 ---
-{{- if (semverCompare ">= 1.14" .Capabilities.KubeVersion.GitVersion) }}
+{{- if (semverCompare ">= 1.14, <=1.21" .Capabilities.KubeVersion.GitVersion) }}
 apiVersion: networking.k8s.io/v1beta1
 {{- else }}
 apiVersion: extensions/v1beta1
@@ -29,7 +30,7 @@ spec:
         http:
           paths:
             - path: {{ $ingressPath }}
-              pathType: {{ .Values.web.ingress.pathType }}
+              pathType: {{ $pathType }}
               backend:
                 serviceName: {{ $fullname }}-console-svc
                 servicePort: {{ $servicePort }}
