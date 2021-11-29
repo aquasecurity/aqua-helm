@@ -1,0 +1,5 @@
+dependencies:
+  - name: gateway
+    version: "6.5.2"
+    repository: "https://helm.aquasec.com"
+    condition: gateway.enabled
