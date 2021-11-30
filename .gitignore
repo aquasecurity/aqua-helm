@@ -2,3 +2,4 @@
 .vscode/
 server/charts
 server/subcharts
+server/requirements.lock

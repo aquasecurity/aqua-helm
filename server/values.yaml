@@ -139,8 +139,6 @@ gateway:
     name: aqua-registry-secret # example
     repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
     registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
-    username: ""
-    password: ""
   rbac:
     enabled: false
     privileged: true
@@ -151,7 +149,7 @@ gateway:
     publicPort:
   serviceAccount:
     create: false
-    name: "aqua-sa"
+    name: "{{ .Release.Namespace }}-sa"
   replicaCount: 1
   logLevel:
   image:

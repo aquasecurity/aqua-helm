@@ -1,3 +1,5 @@
+## 6.5.4 ( November 30th, 2021 )
+* Fixing Server chart deployment from helm repo
 ## 6.5.3 ( November 29th, 2021 )
 * Fix Web Ingress pathType - [423](https://github.com/aquasecurity/aqua-helm/pull/423)
 ## 6.5.2 ( November 24th, 2021 )
