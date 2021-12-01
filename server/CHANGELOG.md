@@ -1,5 +1,7 @@
+## 6.5.5 ( December 1st, 2021 )
+* Ingress definition updated for kubernetes versions up to 1.22
 ## 6.5.4 ( November 30th, 2021 )
-* Fixing Server chart deployment from helm repo
+* Fixing Server chart deployment from helm repo - [432](https://github.com/aquasecurity/aqua-helm/pull/432)
 ## 6.5.3 ( November 29th, 2021 )
 * Fix Web Ingress pathType - [423](https://github.com/aquasecurity/aqua-helm/pull/423)
 ## 6.5.2 ( November 24th, 2021 )
