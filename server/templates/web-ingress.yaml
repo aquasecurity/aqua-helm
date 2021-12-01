@@ -4,7 +4,50 @@
 {{- $ingressPath := .Values.web.ingress.path -}}
 {{- $pathType := .Values.web.ingress.pathType -}}
 ---
-{{- if (semverCompare ">= 1.14, <=1.21" .Capabilities.KubeVersion.GitVersion) }}
+{{- if semverCompare ">= 22" .Capabilities.KubeVersion.Minor }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-console-ingress
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-console-ingress
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+{{- if .Values.web.ingress.annotations }}
+  annotations:
+{{ toYaml .Values.web.ingress.annotations | indent 4 }}
+{{- end }}
+spec:
+  {{ if .Values.web.ingress.hosts }}
+  rules:
+    {{- range $host := (required "A valid .Values.web.ingress.hosts entry required!" .Values.web.ingress.hosts) }}
+      - host: {{ $host }}
+        http:
+          paths:
+            - path: {{ $ingressPath }}
+              pathType: {{ $pathType }}
+              backend:
+                service:
+                  name: {{ $fullname }}-console-svc
+                  port:
+                    number: {{ $servicePort }}
+    {{- end -}}
+  {{ else }}
+  defaultBackend:
+    service:
+      name: {{ $fullname }}-console-svc
+      port:
+        number: {{ $servicePort }}
+  {{ end }}
+  {{- if .Values.web.ingress.tls }}
+  tls:
+{{ toYaml .Values.web.ingress.tls | indent 4 }}
+  {{- end -}}
+
+{{- else if semverCompare "< 22" .Capabilities.KubeVersion.Minor }}
+{{- if (semverCompare ">= 14, <= 21" .Capabilities.KubeVersion.Minor) }}
 apiVersion: networking.k8s.io/v1beta1
 {{- else }}
 apiVersion: extensions/v1beta1
@@ -44,4 +87,5 @@ spec:
   tls:
 {{ toYaml .Values.web.ingress.tls | indent 4 }}
   {{- end -}}
+{{- end -}}
 {{- end -}}
