@@ -1,4 +1,4 @@
-## 6.5.2 ( December 2, 2021 )
+## 6.5.3 ( December 2, 2021 )
 * Add gateway headless service - [436](https://github.com/aquasecurity/aqua-helm/pull/436)
 ## 6.5.2 ( November 24th, 2021 )
 * Updated gateway chart to support deployment as a dependency chart - [412](https://github.com/aquasecurity/aqua-helm/pull/412)
