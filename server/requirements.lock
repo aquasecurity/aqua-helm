@@ -1,6 +1,0 @@
-dependencies:
-- name: gateway
-  repository: https://helm.aquasec.com
-  version: 6.5.2
-digest: sha256:5a4e75c6b3598c4907d277d3716a7ed7ae7bd3085c1b1bcef3e600ea1fbf5ceb
-generated: "2021-11-23T10:12:44.200243+02:00"
