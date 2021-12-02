@@ -387,7 +387,7 @@ Parameter | Description | Default| Mandatory
 `web.maintenance_db.name` | If Configured to use custom maintenance DB specify the DB name | `unset` | `NO`
 `web.extraEnvironmentVars` | is a list of extra environment variables to set in the web deployments. | `{}`| `NO`
 `web.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the web deployments, these variables take value from existing Secret objects. | `[]`| `NO`
-`envoy.enabled` | enabled envoy deployment. | `false`| `NO`
+`global.envoy.enabled` | enabled envoy deployment. | `false`| `NO`
 `envoy.replicaCount` | replica count | `1`| `NO`
 `envoy.image.repository` | the docker image name to use | `envoyproxy/envoy-alpine`| `NO`
 `envoy.image.tag` | The image tag to use. | `v1.14.1`| `NO`
