@@ -32,7 +32,7 @@ spec:
         app: {{ .Release.Name }}-ds
       name: {{ .Release.Name }}-ds
     spec:
-      serviceAccount: {{ .Values.serviceAccount.name }}
+      serviceAccount: {{ .Release.Namespace }}-sa
       hostPID: true
       containers:
       - name: enforcer
