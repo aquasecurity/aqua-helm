@@ -1,3 +1,5 @@
+## 6.5.6 ( December 2, 2021 )
+* Add support for gateway headless service - [437](https://github.com/aquasecurity/aqua-helm/pull/437)
 ## 6.5.5 ( December 1st, 2021 )
 * Ingress definition updated for kubernetes versions up to 1.22 - [432](https://github.com/aquasecurity/aqua-helm/pull/432)
 ## 6.5.4 ( November 30th, 2021 )
