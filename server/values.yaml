@@ -43,8 +43,6 @@ dockerSock:
   path: /var/run/docker.sock # pks - /var/vcap/data/sys/run/docker/docker.sock
 
 global:
-  envoy:
-    enabled: false
   db:
     external:
       enabled: false
@@ -177,6 +175,7 @@ gateway:
         protocol: TCP
         targetPort: 8082
         nodePort:
+  headlessService: true
   publicIP:
   livenessProbe:
     httpGet:
@@ -342,6 +341,7 @@ web:
     #   secretKey: key
 
 envoy:
+  enabled: false
   replicaCount: 1
 
   image:

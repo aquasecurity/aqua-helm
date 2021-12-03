@@ -359,6 +359,7 @@ Parameter | Description | Default| Mandatory
 `gateway.TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and gateway/envoy | `0`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
 `gateway.extraEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments. | `{}`| `NO`
 `gateway.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`| `NO`
+`gateway.headlessService` | create headless service for envoy | `true`| `NO`
 `web.image.repository` | the docker image name to use | `console`| `NO`
 `web.image.tag` | The image tag to use. | `6.5`| `NO`
 `web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
@@ -387,7 +388,7 @@ Parameter | Description | Default| Mandatory
 `web.maintenance_db.name` | If Configured to use custom maintenance DB specify the DB name | `unset` | `NO`
 `web.extraEnvironmentVars` | is a list of extra environment variables to set in the web deployments. | `{}`| `NO`
 `web.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the web deployments, these variables take value from existing Secret objects. | `[]`| `NO`
-`global.envoy.enabled` | enabled envoy deployment. | `false`| `NO`
+`envoy.enabled` | enabled envoy deployment. | `false`| `NO`
 `envoy.replicaCount` | replica count | `1`| `NO`
 `envoy.image.repository` | the docker image name to use | `envoyproxy/envoy-alpine`| `NO`
 `envoy.image.tag` | The image tag to use. | `v1.14.1`| `NO`
