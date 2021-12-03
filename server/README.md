@@ -60,6 +60,7 @@ cd aqua-helm/
 * Install Aqua
 
 ```shell
+helm dependency update ./server
 helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
 ```
 

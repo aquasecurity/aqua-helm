@@ -2,6 +2,7 @@
 {{- $fullname := .Release.Name -}}
 {{- $servicePort := (index .Values.web.service.ports 0).port -}}
 {{- $ingressPath := .Values.web.ingress.path -}}
+{{- $pathType := .Values.web.ingress.pathType -}}
 ---
 {{- if (semverCompare ">= 1.14" .Capabilities.KubeVersion.GitVersion) }}
 apiVersion: networking.k8s.io/v1
