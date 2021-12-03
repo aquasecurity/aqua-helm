@@ -110,10 +110,11 @@ extraSecretEnvironmentVars: []
   #   secretName: name
   #   secretKey: key
 
+#enable or disable creation of headless service for envoy
+headlessService: true
+
 
 global:
-  envoy:
-    enabled: false
   db:
     external:
       enabled: true
