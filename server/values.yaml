@@ -43,6 +43,8 @@ dockerSock:
   path: /var/run/docker.sock # pks - /var/vcap/data/sys/run/docker/docker.sock
 
 global:
+  envoy:
+    enabled: false
   db:
     external:
       enabled: false
@@ -340,7 +342,6 @@ web:
     #   secretKey: key
 
 envoy:
-  enabled: false
   replicaCount: 1
 
   image:
