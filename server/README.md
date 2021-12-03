@@ -359,6 +359,7 @@ Parameter | Description | Default| Mandatory
 `gateway.TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and gateway/envoy | `0`  |  `YES` <br /> `if gate.TLS.enabled is set to true`
 `gateway.extraEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments. | `{}`| `NO`
 `gateway.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`| `NO`
+`gateway.headlessService` | create headless service for envoy | `true`| `NO`
 `web.image.repository` | the docker image name to use | `console`| `NO`
 `web.image.tag` | The image tag to use. | `6.5`| `NO`
 `web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`

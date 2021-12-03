@@ -175,6 +175,7 @@ gateway:
         protocol: TCP
         targetPort: 8082
         nodePort:
+  headlessService: true
   publicIP:
   livenessProbe:
     httpGet:

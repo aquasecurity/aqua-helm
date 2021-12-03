@@ -54,3 +54,4 @@ spec:
 {{ toYaml .Values.web.ingress.tls | indent 4 }}
   {{- end -}}
 {{- end -}}
+{{- end -}}
