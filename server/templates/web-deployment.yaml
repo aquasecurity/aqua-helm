@@ -120,7 +120,7 @@ spec:
         - containerPort: 8080
           protocol: TCP
         - containerPort: 8443
-        {{- if eq .Values.platform "k3s" }}
+        {{- if eq .Values.global.platform "k3s" }}
           hostPort: 8444
         {{- end }}
           protocol: TCP
