@@ -1,5 +1,5 @@
 ## 6.5.3 ( December 5, 2021 )
-* Remove duplicated namespace definition in serviceAccount
+* Remove duplicated namespace definition in serviceAccount - [446](https://github.com/aquasecurity/aqua-helm/pull/446)
 ## 6.5.2 ( November 24th, 2021 )
 * Added separate config map for scanner chart and updated template with annotations for configmap checksum - [409](https://github.com/aquasecurity/aqua-helm/pull/409)
 * Updated image pullpolicy to Always
