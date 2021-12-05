@@ -1,6 +1,6 @@
-{{- if not .Values.platform -}}
+{{- if not .Values.global.platform -}}
 {{ template "platform" . }}
-{{- else if and ( .Values.openshift_route.create ) (eq .Values.platform "openshift" ) }}
+{{- else if and ( .Values.openshift_route.create ) (eq .Values.global.platform "openshift" ) }}
 ---
 ##webroute
 apiVersion: route.openshift.io/v1

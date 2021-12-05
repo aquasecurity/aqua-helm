@@ -12,18 +12,6 @@ rbac:
   privileged: true
   roleRef: ""
 
-#Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
-# aks = Azure Kubernetes Service
-# gke = Google kubernetes Engine
-# openshift = RedHat Openshift/OCP
-# tkg = VMware Tanzu kubernetes Grid
-# tkgi = VMware Tanzu kubernetes Grid Integrated Edition
-# k8s = Plain/on-prem Vanilla Kubernetes
-# rancher = Rancher Kubernetes Platform
-# gs = GaintSwarm platform
-# k3s = k3s kubernetes platform
-platform: ""
-
 openshift_route:
   create: false    #Enable if required openshift route for web and gateway
 
@@ -43,8 +31,17 @@ dockerSock:
   path: /var/run/docker.sock # pks - /var/vcap/data/sys/run/docker/docker.sock
 
 global:
-  envoy:
-    enabled: false
+  #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
+  # aks = Azure Kubernetes Service
+  # gke = Google kubernetes Engine
+  # openshift = RedHat Openshift/OCP
+  # tkg = VMware Tanzu kubernetes Grid
+  # tkgi = VMware Tanzu kubernetes Grid Integrated Edition
+  # k8s = Plain/on-prem Vanilla Kubernetes
+  # rancher = Rancher Kubernetes Platform
+  # gs = GaintSwarm platform
+  # k3s = k3s kubernetes platform
+  platform: ""
   db:
     external:
       enabled: false
@@ -177,6 +174,7 @@ gateway:
         protocol: TCP
         targetPort: 8082
         nodePort:
+  headlessService: true
   publicIP:
   livenessProbe:
     httpGet:
@@ -342,6 +340,7 @@ web:
     #   secretKey: key
 
 envoy:
+  enabled: false
   replicaCount: 1
 
   image:

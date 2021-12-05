@@ -1,23 +1,18 @@
+{{- if .Values.headlessService }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-gateway-svc
+  name: {{ .Release.Name }}-gateway-headless-svc
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-gateway
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
-{{- if .Values.service.annotations }}
-  annotations:
-{{ toYaml .Values.service.annotations | indent 4 }}
-{{- end }}
 spec:
-  type: {{ .Values.service.type }}
-  {{- if eq .Values.global.platform "aks" }}
-  loadBalancerIP: {{ .Values.service.loadbalancerIP }}
-  {{- end }}
+  clusterIP: None
+  type: ClusterIP
   selector:
     app: {{ .Release.Name }}-gateway
   ports:
@@ -32,3 +27,5 @@ spec:
       protocol: {{ $port.protocol }}
       {{- end }}
   {{- end }}
+
+{{- end }}

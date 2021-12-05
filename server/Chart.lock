@@ -1,0 +1,6 @@
+dependencies:
+- name: gateway
+  repository: file://../gateway/
+  version: 6.5.4
+digest: sha256:9e2c5aa24fd121c5a86349f7dbf8be18f9b87a05f84e38215dcf2658fde20b89
+generated: "2021-12-05T11:04:08.930299+02:00"

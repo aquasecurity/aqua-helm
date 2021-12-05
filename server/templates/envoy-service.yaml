@@ -1,4 +1,4 @@
-{{- if .Values.global.envoy.enabled }}
+{{- if .Values.envoy.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -19,13 +19,13 @@ metadata:
 {{- end }}
 spec:
   type: {{ .Values.envoy.service.type }}
-  {{- if eq .Values.platform "aks" }}
+  {{- if eq .Values.global.platform "aks" }}
   loadBalancerIP: {{ .Values.envoy.service.loadbalancerIP }}
   {{- end }}
   selector:
     app: {{ .Release.Name }}-envoy
   ports:
-  {{- if eq .Values.platform "k3s"}}
+  {{- if eq .Values.global.platform "k3s"}}
   {{- range $port := .Values.envoy.service.k3sPorts }}
     - name: {{ $port.name }}
       port: {{ $port.port }}

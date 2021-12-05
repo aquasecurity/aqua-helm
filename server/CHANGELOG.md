@@ -1,3 +1,5 @@
+## 6.5.7 ( December 5, 2021 )
+* Move platform variable to global scope - [445](https://github.com/aquasecurity/aqua-helm/pull/445)
 ## 6.5.6 ( December 2, 2021 )
 * Add support for gateway headless service - [437](https://github.com/aquasecurity/aqua-helm/pull/437)
 ## 6.5.5 ( December 1st, 2021 )
