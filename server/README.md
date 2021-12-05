@@ -279,7 +279,7 @@ Parameter | Description | Default| Mandatory
 `imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/` | `registry.aquasec.com`| `YES`
 `imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret`| `YES`
 `imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`| `YES`
-`platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s) | `unset` | `YES`
+`global.platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s) | `unset` | `YES`
 `openshift_route.create` | to create openshift routes for web and gateway | `false` | `NO`
 `rbac.enabled` | if to create rbac configuration for aqua | `true`| `YES`
 `rbac.privileged` | determines if any container in a pod can enable privileged mode. | `true`| `NO`
