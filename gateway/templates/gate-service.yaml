@@ -15,7 +15,7 @@ metadata:
 {{- end }}
 spec:
   type: {{ .Values.service.type }}
-  {{- if eq .Values.platform "aks" }}
+  {{- if eq .Values.global.platform "aks" }}
   loadBalancerIP: {{ .Values.service.loadbalancerIP }}
   {{- end }}
   selector:
