@@ -156,3 +156,7 @@ spec:
       affinity:
 {{ toYaml . | indent 8 }}
       {{- end }}
+{{- if and (.Values.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 8 }}
+  {{ end }}

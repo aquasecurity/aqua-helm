@@ -52,7 +52,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
 subjects:
   - kind: ServiceAccount
-    name: {{ .Release.Namespace }}-sa
+    name: {{ .Values.serviceAccount.name }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
@@ -73,7 +73,7 @@ metadata:
   name: cluster-reader
 subjects:
   - kind: ServiceAccount
-    name: {{ .Release.Namespace }}-sa
+    name: {{ .Values.serviceAccount.name }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -123,7 +123,7 @@ seLinuxContext:
 supplementalGroups:
   type: RunAsAny
 users:
-- system:serviceaccount:aqua:aqua-sa
+- system:serviceaccount:{{ .Release.Namespace }}:{{ .Values.serviceAccount.name }}
 volumes:
 - configMap
 - downwardAPI
