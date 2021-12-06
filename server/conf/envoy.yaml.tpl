@@ -86,7 +86,7 @@ static_resources:
         - endpoint:
             address:
               socket_address:
-                {{- if eq .Values.platform "gs" }}
+                {{- if eq .Values.global.platform "gs" }}
                 address: {{ .Release.Name }}-gateway-headless-svc.{{ .Release.Namespace }}
                 {{- else }}
                 address: {{ .Release.Name }}-gateway-headless-svc.{{ .Release.Namespace }}.svc.cluster.local

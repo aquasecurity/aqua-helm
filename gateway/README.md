@@ -103,7 +103,9 @@ Parameter | Description | Default | Mandatory |
 `rbac.roleRef` | name of rbac role to set in not create by helm | `unset` | `NO`
 `console.publicIP` | Address of the server | `aqua-console-svc` | `YES`
 `console.publicPort` | Server endpoint Port value  | `443` | `YES`
-`serviceAccount.name` | nams of the ServiceAccount | `aqua-sa` | `YES`
+`serviceAccount.name` | name of the ServiceAccount | `aqua-sa` | `YES`
+`headlessService` | create headless service for envoy | `true` | `YES`
+`global.platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s) | `unset` | `YES`
 `global.db.external.enabled` | Avoid installing a Postgres container and use an external database instead | `false`| `YES`
 `global.db.external.name` | PostgreSQL DB name | `unset`| `YES`<br />`if db.external.enabled is set to true`
 `global.db.external.host` | PostgreSQL DB hostname | `unset`| `YES`<br />`if db.external.enabled is set to true`

@@ -11,19 +11,6 @@ rbac:
   enabled: true
   privileged: true
   roleRef:
-
-#Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
-# aks = Azure Kubernetes Service
-# gke = Google kubernetes Engine
-# openshift = RedHat Openshift/OCP
-# tkg = VMware Tanzu kubernetes Grid
-# tkgi = VMware Tanzu kubernetes Grid Integrated Edition
-# k8s = Plain/on-prem Vanilla Kubernetes
-# rancher = Rancher Kubernetes Platform
-# gs = GaintSwarm platform
-# k3s = k3s kubernetes platform
-platform: ""
-
 console:
   publicIP:
   publicPort:
@@ -115,6 +102,17 @@ headlessService: true
 
 
 global:
+  #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
+  # aks = Azure Kubernetes Service
+  # gke = Google kubernetes Engine
+  # openshift = RedHat Openshift/OCP
+  # tkg = VMware Tanzu kubernetes Grid
+  # tkgi = VMware Tanzu kubernetes Grid Integrated Edition
+  # k8s = Plain/on-prem Vanilla Kubernetes
+  # rancher = Rancher Kubernetes Platform
+  # gs = GaintSwarm platform
+  # k3s = k3s kubernetes platform
+  platform: ""
   db:
     external:
       enabled: true
