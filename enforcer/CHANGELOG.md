@@ -1,5 +1,5 @@
 ## 6.5.1 ( December 1, 2021 )
-* Update service account name - [438](https://github.com/aquasecurity/aqua-helm/pull/440)
+* Update service account name - [447](https://github.com/aquasecurity/aqua-helm/pull/447)
 ## 6.5.2 ( November 24th, 2021 )
 * Added separate config map for Enforcer chart and updated template with annotations for configmap checksum - [401](https://github.com/aquasecurity/aqua-helm/pull/401)
 * Fixed readiness and liveness probes failure due to env AQUA_HEALTH_MONITOR_ENABLED missing - [408](https://github.com/aquasecurity/aqua-helm/pull/408)
