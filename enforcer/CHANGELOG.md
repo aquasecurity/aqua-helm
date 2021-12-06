@@ -1,4 +1,4 @@
-## 6.5.1 ( December 1, 2021 )
+## 6.5.3 ( December 6, 2021 )
 * Update service account name - [447](https://github.com/aquasecurity/aqua-helm/pull/447)
 ## 6.5.2 ( November 24th, 2021 )
 * Added separate config map for Enforcer chart and updated template with annotations for configmap checksum - [401](https://github.com/aquasecurity/aqua-helm/pull/401)
