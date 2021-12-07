@@ -2,9 +2,10 @@
 {{- $fullname := .Release.Name -}}
 {{- $servicePort := (index .Values.web.service.ports 0).port -}}
 {{- $ingressPath := .Values.web.ingress.path -}}
+{{- $pathType := .Values.web.ingress.pathType -}}
 ---
 {{- if (semverCompare ">= 1.14" .Capabilities.KubeVersion.GitVersion) }}
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 {{- else }}
 apiVersion: extensions/v1beta1
 {{- end }}
@@ -25,19 +26,28 @@ spec:
   {{ if .Values.web.ingress.hosts }}
   rules:
     {{- range $host := (required "A valid .Values.web.ingress.hosts entry required!" .Values.web.ingress.hosts) }}
-      - host: {{ $host }}
-        http:
-          paths:
-            - path: {{ $ingressPath }}
-              pathType: {{ .Values.web.ingress.pathType }}
-              backend:
-                serviceName: {{ $fullname }}-console-svc
-                servicePort: {{ $servicePort }}
+  - host: {{ $host }}
+    http:
+      paths:
+        - path: {{ $ingressPath }}
+          pathType: {{ $pathType }}
+          backend:
+            service: 
+              name: {{ $fullname }}-console-svc
+              port:
+                number: {{ $servicePort }}
     {{- end -}}
   {{ else }}
-  backend:
-    serviceName: {{ $fullname }}-console-svc
-    servicePort: {{ $servicePort }}
+  rules:
+  - http:
+      paths:
+        - path: {{ $ingressPath }}
+          pathType: {{ $pathType }}
+          backend:
+            service: 
+              name: {{ $fullname }}-console-svc
+              port:
+                number: {{ $servicePort }}
   {{ end }}
   {{- if .Values.web.ingress.tls }}
   tls:
