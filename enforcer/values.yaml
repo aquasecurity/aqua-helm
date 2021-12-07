@@ -12,6 +12,8 @@ serviceAccount:
 
 rbac:
   create: false # change to true if deploying enforcer on new cluster or rbac for aqua-sa doesn't exist.
+  roleRef: ""
+  privileged: true
 
 #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
 # aks = Azure Kubernetes Service
