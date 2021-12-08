@@ -40,7 +40,7 @@ cd aqua-helm/
 * Install Aqua Enforcer
 
 ```shell
-helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
+helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.create=<>,imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
 ```
 
 ### Installing Aqua Enforcer from Helm Private Repository
@@ -51,6 +51,7 @@ helm repo add aqua-helm https://helm.aquasec.com
 ```
 
 * Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
+
 ```shell
 helm search repo aqua-helm/enforcer --versions
 ```
@@ -58,7 +59,7 @@ helm search repo aqua-helm/enforcer --versions
 * Install Aqua Enforcer
 
 ```shell
-helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token> --version <>
+helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.create=<>,imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token> --version <>
 ```
 
 
@@ -136,14 +137,16 @@ Parameter | Description | Default| Mandatory
 `imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/` | `registry.aquasec.com`| `YES - New cluster`
 `imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret`| `YES - New cluster`
 `imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`| `YES - New cluster`
-`serviceAccount.create` | enable to create aqua-sa serviceaccount if it is missing in the environment | `false` | `YES - New cluster`
+`serviceAccount.create` | enable to create serviceaccount | `false` | `YES - New cluster`
+`serviceAccount.name` | service acccount name | `aqua-sa` | `NO`
+`clusterRole.roleRef` | cluster role reference name for cluster rolebinding | `unset` | `NO`
 `platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s) | `unset` | `YES`
 `enforcerToken` | enforcer token value | `enforcer-token`| `YES`
 `enforcerTokenSecretName` | enforcer token secret name if exists | `null`| `NO`
 `enforcerTokenSecretKey` | enforcer token secret key if exists | `null`| `NO`
 `enforcerLogicalName` | Specify the Logical Name the Aqua Enforcer will register under. if not specify the name will be `<Helm Release>-helm` | `unset`| `NO`
-`securityContext.privileged` | determines if any container in a pod can enable privileged mode. | `true`| `NO`
-`securityContext.capabilities` | Linux capabilities provide a finer grained breakdown of the privileges traditionally associated with the superuser. | `unset`| `NO`
+`securityContext.privileged` | determines if any container in a pod can enable privileged mode. | `false`| `NO`
+`securityContext.capabilities` | Linux capabilities provide a finer grained breakdown of the privileges traditionally associated with the superuser. | `add {}`| `NO`
 `hostRunPath` |	for changing host run path for example for pks need to change to /var/vcap/sys/run/docker	| `unset`| `NO`
 `gate.host` | gateway host | `aqua-gateway-svc`| `YES`
 `gate.port` | gateway port | `8443`| `YES`

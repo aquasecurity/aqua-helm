@@ -28,6 +28,7 @@ Refer to the Aqua Enterprise product documentation for the broader context: [Kub
 This repository includes the following charts; they can be deployed separately:
 
 | Chart | Description | Latest Chart Version |
+|---|---|---|
 | [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component | 6.5.7 |
 | [Enforcer](enforcer/) | Deploys the Aqua Enforcer daemonset | 6.5.3 |
 | [Scanner](scanner/)  | Deploys the Aqua Scanner deployment | 6.5.3 |
