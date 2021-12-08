@@ -143,6 +143,7 @@ gate:
   service:
     type: ClusterIP     # you can enable gateway to external by changing type to "LoadBalancer"
     loadbalancerIP: "" # Specify loadBalancerIP address for aqua-web in AKS platform
+    labels: {}
     annotations: {}
     ports:
       - name: aqua-gate
@@ -225,6 +226,7 @@ web:
   service:
     type: LoadBalancer
     loadbalancerIP: "" # Specify loadBalancerIP address for aqua-gateway in AKS platform
+    labels: {}
     annotations: {}
     ports:
       - name: aqua-web
