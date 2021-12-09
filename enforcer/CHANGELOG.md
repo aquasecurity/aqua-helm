@@ -1,3 +1,7 @@
+## 6.5.4 ( December 8, 2021 )
+* Adding capabilities for Behavioral detection
+* Making enforcer deployment default to non-privilege mode
+* Updating Readme
 ## 6.5.3 ( December 6, 2021 )
 * Update service account name - [447](https://github.com/aquasecurity/aqua-helm/pull/447)
 ## 6.5.2 ( November 24th, 2021 )
