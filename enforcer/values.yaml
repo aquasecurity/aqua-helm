@@ -10,10 +10,8 @@ serviceAccount:
   create: false # change to true if deploying enforcer on new cluster or aqua-sa serviceaccount doesn't exist.
   name: "aqua-sa"
 
-rbac:
-  create: false # change to true if deploying enforcer on new cluster or rbac for aqua-sa doesn't exist.
+clusterRole:
   roleRef: ""
-  privileged: true
 
 #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
 # aks = Azure Kubernetes Service
@@ -37,24 +35,25 @@ enforcerLogicalName:
 logLevel:
 
 securityContext:
-  privileged: true
-  # Note: enforcer deployment in non privileged mode https://docs.aquasec.com/docs/enforcer-deployment-in-non-privileged-mode#kubernetes-deployments
-  # privileged: false
-  # capabilities:
-  #   add:
-  #     - SYS_ADMIN
-  #     - NET_ADMIN
-  #     - NET_RAW
-  #     - SYS_PTRACE
-  #     - KILL
-  #     - MKNOD
-  #     - SETGID
-  #     - SETUID
-  #     - SYS_MODULE
-  #     - AUDIT_CONTROL
-  #     - SYSLOG
-  #     - SYS_CHROOT
-
+  privileged: false
+  capabilities:
+    add:
+      - SYS_ADMIN
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_PTRACE
+      - KILL
+      - MKNOD
+      - SETGID
+      - SETUID
+      - SYS_MODULE
+      - AUDIT_CONTROL
+      - SYSLOG
+      - SYS_CHROOT
+      - CAP_SYS_RESOURCE
+      - CAP_SYS_ADMIN
+      - CAP_IPC_LOCK
+      - CAP_SYS_PTRACE
 hostRunPath: # pks - /var/vcap/sys/run/docker
 
 multiple_gateway: # enable this to connect enforcer with multiple gateways
@@ -73,6 +72,8 @@ image:
   repository: enforcer
   tag: "6.5"
   pullPolicy: Always
+
+restartPolicy: Always
 
 healthMonitor:
   enabled: "true"
@@ -102,6 +103,11 @@ tolerations: []
 podAnnotations: {}
 affinity: {}
 #  my-annotation-key: my value; more value
+
+dnsPolicy: "ClusterFirst"
+hostPID: "true"
+schedulerName: "default-scheduler"
+terminationGracePeriodSeconds: "30"
 
 TLS:
   enabled: false
