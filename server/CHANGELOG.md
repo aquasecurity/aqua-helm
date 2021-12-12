@@ -1,3 +1,6 @@
+## 6.5.8 ( December 12, 2021 )
+* Fix Openshift route configuration - [453](https://github.com/aquasecurity/aqua-helm/pull/453)
+* Add web service label support
 ## 6.5.7 ( December 5, 2021 )
 * Move platform variable to global scope - [445](https://github.com/aquasecurity/aqua-helm/pull/445)
 ## 6.5.6 ( December 2, 2021 )

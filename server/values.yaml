@@ -239,6 +239,7 @@ web:
   service:
     type: LoadBalancer
     loadbalancerIP: "" # Specify loadBalancerIP address for aqua-gateway in AKS platform
+    labels: {}
     annotations: {}
     ports:
       - name: aqua-web

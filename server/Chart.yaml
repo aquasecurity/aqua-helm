@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: "6.5"
 description: A Helm chart for the Aqua Console components
 name: server
-version: "6.5.7"
+version: "6.5.8"
 dependencies:
   - name: gateway
     version: "6.5.4"
