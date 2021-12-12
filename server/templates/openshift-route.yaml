@@ -6,17 +6,17 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: aqua-web
+  name: {{ .Release.Name }}-web
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ .Release.Namespace }}-web
+    app: {{ .Release.Name }}-console
 spec:
   to:
     kind: Service
-    name: {{ .Release.Namespace }}-console-svc
+    name: {{ .Release.Name }}-console-svc
     weight: 100
   port:
-    targetPort: {{ .Release.Namespace }}-web-ssl
+    targetPort: aqua-web-ssl
   tls:
     termination: passthrough
     insecureEdgeTerminationPolicy: Redirect
@@ -26,17 +26,17 @@ spec:
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: {{ .Release.Namespace }}-gateway
+  name: {{ .Release.Name }}-gateway
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ .Release.Namespace }}-gateway
+    app: {{ .Release.Name }}-gateway
 spec:
   to:
     kind: Service
-    name: {{ .Release.Namespace }}-gateway
+    name: {{ .Release.Name }}-gateway-svc
     weight: 100
   port:
-    targetPort: {{ .Release.Namespace }}-gateway-ssl
+    targetPort: aqua-gate-ssl
   tls:
     termination: passthrough
     insecureEdgeTerminationPolicy: None
