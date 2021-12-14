@@ -2,6 +2,7 @@
 .vscode/
 server/charts
 server/subcharts
-server/*.lock
+server/Chart.lock
+*.lock
 *.tgz
 .DS_Store

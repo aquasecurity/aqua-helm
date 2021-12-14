@@ -1,5 +1,5 @@
 ## 6.5.9 ( December 14th, 2021 )
-* Update RBAC | default to non-privilege mode and remove capabilities in openshift SCC
+* Update RBAC | default to non-privilege mode and remove capabilities in openshift SCC - [454](https://github.com/aquasecurity/aqua-helm/pull/454)
 ## 6.5.8 ( December 12th, 2021 )
 * Fix Openshift route configuration - [453](https://github.com/aquasecurity/aqua-helm/pull/453)
 * Add web service label support
