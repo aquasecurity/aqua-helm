@@ -19,7 +19,7 @@ rules:
 - apiGroups: ["rbac.authorization.k8s.io"]
   resources: ["*"]
   verbs: ["get", "list", "watch"]
-{{- if eq .Values.platform "openshift" }}
+{{- if eq .Values.global.platform "openshift" }}
 - apiGroups: [""]
   resources: ["imagestreams", "imagestreams/layers"]
   verbs: ["get", "list", "watch"]
