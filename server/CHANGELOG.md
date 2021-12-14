@@ -1,9 +1,11 @@
-## 6.5.8 ( December 12, 2021 )
+## 6.5.9 ( December 14th, 2021 )
+* Update RBAC | default to non-privilege mode and remove capabilities in openshift SCC
+## 6.5.8 ( December 12th, 2021 )
 * Fix Openshift route configuration - [453](https://github.com/aquasecurity/aqua-helm/pull/453)
 * Add web service label support
-## 6.5.7 ( December 5, 2021 )
+## 6.5.7 ( December 5th, 2021 )
 * Move platform variable to global scope - [445](https://github.com/aquasecurity/aqua-helm/pull/445)
-## 6.5.6 ( December 2, 2021 )
+## 6.5.6 ( December 2nd, 2021 )
 * Add support for gateway headless service - [437](https://github.com/aquasecurity/aqua-helm/pull/437)
 ## 6.5.5 ( December 1st, 2021 )
 * Ingress definition updated for kubernetes versions up to 1.22 - [432](https://github.com/aquasecurity/aqua-helm/pull/432)

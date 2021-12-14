@@ -12,11 +12,6 @@ data:
   AQUA_SERVER: {{ .Values.gate.host | default "aqua-gateway-svc" }}:{{ .Values.gate.port | default "8443" }}
   {{- end }}
   AQUA_INSTALL_PATH: "/var/lib/aquasec"
-  {{- if .Values.enforcerLogicalName }}
-  AQUA_LOGICAL_NAME: {{ .Values.enforcerLogicalName }}
-  {{- else }}
-  AQUA_LOGICAL_NAME: {{ .Release.Name }}-helm
-  {{- end }}
   {{- if .Values.hostRunPath }}
   AQUA_HOST_RUN_PATH: {{ .Values.hostRunPath | quote }}
   {{- end }}

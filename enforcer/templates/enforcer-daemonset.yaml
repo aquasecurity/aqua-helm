@@ -45,9 +45,21 @@ spec:
             name: {{ .Release.Name }}-enforcer-config
         env:
         - name: AQUA_NODE_NAME
+        {{- if .Values.nodeName }}
+          value: {{ .Values.nodeName }}
+        {{- else }}
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
+        {{- end }}
+        - name: AQUA_LOGICAL_NAME
+        {{- if .Values.logicalName }}
+          value: {{ .Values.logicalName }}
+        {{- else }}
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        {{- end }}
         {{- if .Values.enforcerTokenSecretName }}
         - name: AQUA_TOKEN
           valueFrom:
@@ -179,3 +191,7 @@ spec:
       tolerations:
 {{ toYaml .Values.tolerations | indent 8 }}
   {{ end }}
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate

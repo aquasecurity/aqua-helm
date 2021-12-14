@@ -144,7 +144,8 @@ Parameter | Description | Default| Mandatory
 `enforcerToken` | enforcer token value | `enforcer-token`| `YES`
 `enforcerTokenSecretName` | enforcer token secret name if exists | `null`| `NO`
 `enforcerTokenSecretKey` | enforcer token secret key if exists | `null`| `NO`
-`enforcerLogicalName` | Specify the Logical Name the Aqua Enforcer will register under. if not specify the name will be `<Helm Release>-helm` | `unset`| `NO`
+`logicalName` | Specify the Logical Name the Aqua Enforcer will register under. if not specify the name will be `spec.nodeName` | `unset`| `NO`
+`nodelName` | Specify the Node Name the Aqua Enforcer will register under. if not specify the name will be `spec.nodeName` | `unset`| `NO`
 `securityContext.privileged` | determines if any container in a pod can enable privileged mode. | `false`| `NO`
 `securityContext.capabilities` | Linux capabilities provide a finer grained breakdown of the privileges traditionally associated with the superuser. | `add {}`| `NO`
 `hostRunPath` |	for changing host run path for example for pks need to change to /var/vcap/sys/run/docker	| `unset`| `NO`
