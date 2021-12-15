@@ -52,10 +52,6 @@ securityContext:
       - AUDIT_CONTROL
       - SYSLOG
       - SYS_CHROOT
-      - CAP_SYS_RESOURCE
-      - CAP_SYS_ADMIN
-      - CAP_IPC_LOCK
-      - CAP_SYS_PTRACE
 
 hostRunPath: # pks - /var/vcap/sys/run/docker
 
