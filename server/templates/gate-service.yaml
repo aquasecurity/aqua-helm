@@ -9,9 +9,9 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
-    {{- if .Values.gate.service.labels }}
-    {{ toYaml .Values.gate.service.labels | indent 4 }}
-    {{- end }}
+{{- if .Values.gate.service.labels }}
+{{ toYaml .Values.gate.service.labels | indent 4 }}
+{{- end }}
 {{- if .Values.gate.service.annotations }}
   annotations:
 {{ toYaml .Values.gate.service.annotations | indent 4 }}
