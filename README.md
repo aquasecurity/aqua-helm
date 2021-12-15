@@ -29,8 +29,8 @@ This repository includes the following charts; they can be deployed separately:
 
 | Chart | Description | Latest Chart Version |
 |-|-|-|
-| [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component | 6.2.7 |
-| [Enforcer](enforcer/) | Deploys the Aqua Enforcer daemonset | 6.2.8 |
+| [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component | 6.2.8 |
+| [Enforcer](enforcer/) | Deploys the Aqua Enforcer daemonset | 6.2.7 |
 | [Scanner](scanner/)  | Deploys the Aqua Scanner deployment | 6.2.5 |
 | [KubeEnforcer](kube-enforcer/)| Deploys Aqua KubeEnforcer | 6.2.7 |
 | [KubeEnforcer-Starboard](kube-enforcer-starboard/)| Deploys Aqua KubeEnforcer with Starboard | 6.2.4 |
