@@ -1,3 +1,6 @@
+{{- if not .Values.platform -}}
+{{ template "platform" .}}
+{{- end }}
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -16,6 +19,11 @@ rules:
 - apiGroups: ["rbac.authorization.k8s.io"]
   resources: ["*"]
   verbs: ["get", "list", "watch"]
+{{- if eq .Values.platform "openshift" }}
+- apiGroups: [""]
+  resources: ["imagestreams", "imagestreams/layers"]
+  verbs: ["get", "list", "watch"]
+{{- end }}
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -39,16 +47,13 @@ subjects:
   - kind: ServiceAccount
     name: {{ .Values.serviceAccount.name }}
     namespace: {{ .Release.Namespace }}
-{{- if not .Values.platform -}}
-{{ template "platform" .}}
-
-## Openshift RBAC
-{{- else if eq .Values.platform "openshift" }}
 ---
+## Openshift RBAC
+{{- if eq .Values.platform "openshift" }}
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: cluster-reader
+  name: {{ .Release.Name }}-cluster-reader
 subjects:
   - kind: ServiceAccount
     name: {{ .Values.serviceAccount.name }}
@@ -94,7 +99,7 @@ metadata:
       but allows users to run with any non-root UID and access hostPath. The user must
       specify the UID or it must be specified on the by the manifest of the container runtime.
     release.openshift.io/create-only: "true"
-  name: aqua-scc
+  name: {{ .Release.Name }}-scc
 priority: null
 readOnlyRootFilesystem: false
 requiredDropCapabilities: null
@@ -114,9 +119,10 @@ volumes:
 - projected
 - secret
 - hostPath
+{{- end }}
 
 ## TKG RBAC
-{{- else if eq .Values.platform "tkg" }}
+{{- if eq .Values.platform "tkg" }}
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1

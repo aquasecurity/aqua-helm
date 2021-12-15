@@ -98,9 +98,8 @@ Parameter | Description | Default | Mandatory |
 `imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/` | `registry.aquasec.com` | `YES`
 `imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret` | `YES`
 `imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset` | `YES`
-`rbac.enabled` | if to create rbac configuration for aqua | `true` | `YES`
-`rbac.privileged` | determines if any container in a pod can enable privileged mode. | `true` | `YES`
-`rbac.roleRef` | name of rbac role to set in not create by helm | `unset` | `NO`
+`rbac.create` | To create RBAC for gateway component | `false` | `YES` <br />`if gateway alone is deploying in new cluster` 
+`clusterRole.roleRef` | cluster role reference name for cluster rolebinding | `unset` | `NO`
 `console.publicIP` | Address of the server | `aqua-console-svc` | `YES`
 `console.publicPort` | Server endpoint Port value  | `443` | `YES`
 `serviceAccount.name` | name of the ServiceAccount | `aqua-sa` | `YES`

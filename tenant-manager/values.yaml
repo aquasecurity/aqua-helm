@@ -7,9 +7,7 @@ imageCredentials:
   username: ""
   password: ""
 
-rbac:
-  enabled: true
-  privileged: false
+clusterRole:
   roleRef: ""
 
 #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s

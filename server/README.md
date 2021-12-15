@@ -281,9 +281,7 @@ Parameter | Description | Default| Mandatory
 `imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`| `YES`
 `global.platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s) | `unset` | `YES`
 `openshift_route.create` | to create openshift routes for web and gateway | `false` | `NO`
-`rbac.enabled` | if to create rbac configuration for aqua | `true`| `YES`
-`rbac.privileged` | determines if any container in a pod can enable privileged mode. | `true`| `NO`
-`rbac.roleRef` | name of rbac role to set in not create by helm | `unset`| `NO`
+`clusterRole.roleRef` | cluster role reference name for cluster rolebinding | `unset` | `NO`
 `activeactive` | set for HA Active-Active cluster mode | `false`
 `clustermode` | set for HA Active-Passive cluster mode <br> To be deprecated, use Active-Active instead | `false`
 `admin.token`| Use this Aqua license token | `unset`| `NO`
@@ -338,7 +336,7 @@ Parameter | Description | Default| Mandatory
 `gateway.enabled` | Deploy gateway chart with server chart | `True`| `NO`
 `gateway.image.tag` | The image tag to use. | `6.5`| `NO`
 `gateway.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
-`gateway.service.type` | k8s service type | `ClusterIP`| `NO`
+`gateway.service.type` | k8s service type | `LoadBalancer`| `NO`
 `gateway.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
 `gateway.service.annotations` |	service annotations	| `{}` | `NO`
 `gateway.service.ports` | array of ports settings | `array`| `NO`

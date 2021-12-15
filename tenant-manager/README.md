@@ -116,9 +116,7 @@ Parameter | Description | Default| Mandatory
 `imageCredentials.username` | Your Docker registry (Docker Hub, etc.) username | `aqua-registry-secret`| `YES` 
 `imageCredentials.password` | Your Docker registry (Docker Hub, etc.) password | `unset`| `YES` 
 `platform` | Orchestration platform (allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s) | `unset` | `YES`
-`rbac.enabled` | Whether to create RBAC configuration for aqua | `true`| `YES` 
-`rbac.privileged` | WHether any container in a pod can enable privileged mode. | `true`| `NO` 
-`rbac.roleRef` | Name of RBAC role to set in not create by Helm | `unset`| `NO` 
+`clusterRole.roleRef` | cluster role reference name for cluster rolebinding | `unset` | `NO`
 `admin.token`| Use this Aqua license token | `unset`| `NO` 
 `admin.password` | Use this Aqua admin password | `unset`| `NO` 
 `db.external.enabled` | Avoid installing the packaged DB (Postgres container); use an external database instead | `false`| `YES` 

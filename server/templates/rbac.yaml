@@ -1,29 +1,6 @@
-{{- if .Values.rbac.enabled -}}
-  {{- if not .Values.rbac.roleRef }}
----
-apiVersion: policy/v1beta1
-kind: PodSecurityPolicy
-metadata:
-    name: {{ .Release.Name }}-psp
-    labels:
-      app: {{ .Release.Name }}
-      chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-      release: "{{ .Release.Name }}"
-      heritage: "{{ .Release.Service }}"
-spec:
-  privileged: {{ .Values.rbac.privileged }}
-  allowedCapabilities:
-  - '*'
-  fsGroup:
-    rule: RunAsAny
-  runAsUser:
-    rule: RunAsAny
-  seLinux:
-    rule: RunAsAny
-  supplementalGroups:
-    rule: RunAsAny
-  volumes:
-  - '*'
+{{- if not .Values.global.platform -}}
+{{ template "platform" .}}
+{{- end }}
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -36,15 +13,15 @@ metadata:
     heritage: "{{ .Release.Service }}"
     rbac.example.com/aggregate-to-monitoring: "true"
 rules:
-- apiGroups: ["extensions"]
-  resourceNames: [{{ .Release.Name }}-psp]
-  resources: ["podsecuritypolicies"]
-  verbs: ["use"]
 - apiGroups: [""]
   resources: ["nodes", "services", "endpoints", "pods", "deployments", "namespaces","componentstatuses"]
   verbs: ["get", "list", "watch"]
 - apiGroups: ["rbac.authorization.k8s.io"]
   resources: ["*"]
+  verbs: ["get", "list", "watch"]
+{{- if eq .Values.global.platform "openshift" }}
+- apiGroups: [""]
+  resources: ["imagestreams", "imagestreams/layers"]
   verbs: ["get", "list", "watch"]
 {{- end }}
 ---
@@ -58,27 +35,25 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
+roleRef:
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+  {{- if .Values.clusterRole.roleRef }}
+  name: {{ .Values.clusterRole.roleRef }}
+  {{- else }}
+  name: {{ .Release.Name }}-cluster-role
+  {{- end }}
 subjects:
   - kind: ServiceAccount
     name: {{ .Release.Namespace }}-sa
     namespace: {{ .Release.Namespace }}
-roleRef:
-  kind: ClusterRole
-  apiGroup: rbac.authorization.k8s.io
-  {{- if .Values.rbac.roleRef }}
-  name: {{ .Values.rbac.roleRef }}
-  {{- else }}
-  name: {{ .Release.Name }}-cluster-role
-  {{- end }}
 
-{{- if not .Values.global.platform -}}
-{{ template "platform" .}}
-{{- else if eq .Values.global.platform "openshift" }}
+{{- if eq .Values.global.platform "openshift" }}
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: cluster-reader
+  name: {{ .Release.Name }}-cluster-reader
 subjects:
   - kind: ServiceAccount
     name: {{ .Release.Namespace }}-sa
@@ -91,23 +66,10 @@ roleRef:
 allowHostDirVolumePlugin: true
 allowHostIPC: false
 allowHostNetwork: false
-allowHostPID: true
+allowHostPID: false
 allowHostPorts: false
-allowPrivilegeEscalation: false
+allowPrivilegeEscalation: true
 allowPrivilegedContainer: false
-allowedCapabilities:
-- SYS_ADMIN
-- NET_ADMIN
-- NET_RAW
-- SYS_PTRACE
-- KILL
-- MKNOD
-- SETGID
-- SETUID
-- SYS_MODULE
-- AUDIT_CONTROL
-- SYSLOG
-- SYS_CHROOT
 apiVersion: security.openshift.io/v1
 defaultAddCapabilities: null
 fsGroup:
@@ -120,18 +82,18 @@ metadata:
       but allows users to run with any non-root UID and access hostPath. The user must
       specify the UID or it must be specified on the by the manifest of the container runtime.
     release.openshift.io/create-only: "true"
-  name: aqua-scc
+  name: {{ .Release.Name }}-scc
 priority: null
 readOnlyRootFilesystem: false
 requiredDropCapabilities: null
 runAsUser:
-  type: RunAsAny
+  type: MustRunAsNonRoot
 seLinuxContext:
   type: MustRunAs
 supplementalGroups:
   type: RunAsAny
 users:
-- system:serviceaccount:aqua:aqua-sa
+- system:serviceaccount:{{ .Release.Namespace }}:{{ .Release.Namespace }}-sa
 volumes:
 - configMap
 - downwardAPI
@@ -141,7 +103,10 @@ volumes:
 - secret
 - hostPath
 
-{{- else if eq .Values.global.platform "tkg" }}
+{{- end }}
+
+## TKG RBAC
+{{- if eq .Values.global.platform "tkg" }}
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -157,4 +122,3 @@ subjects:
   apiGroup: rbac.authorization.k8s.io
   name: system:serviceaccounts
 {{- end -}}
-{{- end }}
