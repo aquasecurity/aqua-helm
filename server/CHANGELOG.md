@@ -1,3 +1,5 @@
+## 6.2.8 (December 15th, 2021)
+* Add web and gateway service labels - [449](https://github.com/aquasecurity/aqua-helm/pull/449)
 ## 6.2.7 (September 6th, 2021)
 Fixes:
 * Fixed database annotations for Audit-DB - [#356](https://github.com/aquasecurity/aqua-helm/pull/356)
