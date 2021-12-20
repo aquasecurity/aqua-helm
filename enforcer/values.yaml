@@ -50,6 +50,8 @@ securityContext:
       - AUDIT_CONTROL
       - SYSLOG
       - SYS_CHROOT
+      - SYS_RESOURCE
+      - IPC_LOCK
 
 hostRunPath: # pks - /var/vcap/sys/run/docker
 

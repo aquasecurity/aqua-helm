@@ -1,3 +1,6 @@
+## 6.5.6 ( December 20th)
+* Align serviceAccount and pull secret names
+* Add new capabilities
 ## 6.5.5 ( December 14th)
 * Add AQUA_LOGICAL_NAME and AQUA_NODE_NAME - [454](https://github.com/aquasecurity/aqua-helm/pull/454)
 ## 6.5.4 ( December 8th, 2021 )

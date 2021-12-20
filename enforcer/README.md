@@ -130,14 +130,12 @@ For more details please visit [Link](https://docs.aquasec.com/docs/kubernetes#se
 ### Enforcer
 
 Parameter | Description                                                                                                                        | Default                | Mandatory 
---------- |------------------------------------------------------------------------------------------------------------------------------------|------------------------| ------- 
-`imageCredentials.create` | Will create pull image secret for Aqua-Enforcer                                                                                    | `true`                 | `YES`
+--------- |------------------------------------------------------------------------------------------------------------------------------------|------------------------| -------
 `imageCredentials.name` | Your Docker pull image secret name                                                                                                 | `aqua-registry-secret` | `YES - New cluster`
 `imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io`                                                                                | `registry.aquasec.com` | `YES - New cluster`
 `imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/`                                                                       | `registry.aquasec.com` | `YES - New cluster`
 `imageCredentials.username` | Your Docker registry (DockerHub, etc.) username                                                                                    | `aqua-registry-secret` | `YES - New cluster`
 `imageCredentials.password` | Your Docker registry (DockerHub, etc.) password                                                                                    | `unset`                | `YES - New cluster`
-`serviceAccount.create` | enable to create serviceaccount                                                                                                    | `false`                | `YES - New cluster`
 `serviceAccount.name` | service acccount name                                                                                                              | `aqua-enforcer-sa`     | `YES`
 `clusterRole.roleRef` | cluster role reference name for cluster rolebinding                                                                                | `unset`                | `NO`
 `platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s)                        | `unset`                | `YES`
