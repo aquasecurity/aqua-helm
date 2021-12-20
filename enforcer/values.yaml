@@ -1,14 +1,12 @@
 imageCredentials:
-  create: false
-  name: aqua-registry-secret # When create is false please specify
+  name: registry-secret # When create is false please specify
   repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
   registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
   username: ""
   password: ""
 
 serviceAccount:
-  create: false # change to true if deploying enforcer on new cluster or aqua-sa serviceaccount doesn't exist.
-  name: "aqua-sa"
+  name: "aqua-enforcer-sa" # will create separate serviceAccount for aqua-enforcer
 
 clusterRole:
   roleRef: ""
