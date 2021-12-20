@@ -34,14 +34,14 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Release.Namespace }}-sa
+      serviceAccount: {{ .Values.global.serviceAccount.name }}
       containers:
       - name: web
         {{- with .Values.web.container_securityContext }}
         securityContext:
 {{ toYaml . | indent 10 }}
         {{- end }}
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
+        image: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
         imagePullPolicy: "{{ .Values.web.image.pullPolicy }}"
         envFrom:
         - configMapRef:

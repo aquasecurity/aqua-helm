@@ -34,7 +34,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Release.Namespace }}-sa
+      serviceAccount: {{ .Values.global.serviceAccount.name }}
       initContainers:
       - name: {{ .Release.Name }}-db-init
         envFrom:
@@ -54,7 +54,7 @@ spec:
               name: {{ .Release.Name }}-database-password
               key: db-password
         {{- end }}
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
+        image: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
         command: [ "sh", "-c", "[ -f $PGDATA/server.key ] && chmod 600 $PGDATA/server.key || echo 'OK' " ]
         volumeMounts:
         {{- if .Values.global.db.persistence.enabled }}
@@ -67,7 +67,7 @@ spec:
         securityContext:
 {{ toYaml . | indent 10 }}
         {{- end }}
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
+        image: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
         imagePullPolicy: "{{ .Values.global.db.image.pullPolicy }}"
         envFrom:
         - configMapRef:
@@ -163,7 +163,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Release.Namespace }}-sa
+      serviceAccount: {{ .Values.global.serviceAccount.name }}
       initContainers:
       - name: {{ .Release.Name }}-auditdb-init
         envFrom:
@@ -183,7 +183,7 @@ spec:
               name: {{ .Release.Name }}-database-password
               key: audit-password
         {{- end }}
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
+        image: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
         command: [ "sh", "-c", "[ -f $PGDATA/server.key ] && chmod 600 $PGDATA/server.key || echo 'OK' " ]
         volumeMounts:
         {{- if .Values.global.db.persistence.enabled }}
@@ -196,7 +196,7 @@ spec:
         securityContext:
 {{ toYaml . | indent 10 }}
         {{- end }}
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
+        image: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
         imagePullPolicy: "{{ .Values.global.db.image.pullPolicy }}"
         envFrom:
         - configMapRef:

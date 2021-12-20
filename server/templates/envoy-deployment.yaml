@@ -33,9 +33,9 @@ spec:
     spec:
       securityContext:
         {{ toYaml .Values.envoy.securityContext | nindent 8 }}
-      serviceAccount: {{ .Release.Namespace }}-sa
+      serviceAccount: {{ .Values.global.serviceAccount.name }}
       containers:
-      - image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.envoy.image.repository }}:{{ .Values.envoy.image.tag }}"
+      - image: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.envoy.image.repository }}:{{ .Values.envoy.image.tag }}"
         imagePullPolicy: "{{ .Values.envoy.image.pullPolicy }}"
         name: envoy
         env:
