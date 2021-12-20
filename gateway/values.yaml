@@ -1,12 +1,3 @@
-# Specifies the secret data for imagePullSecrets needed to fetch the private docker images
-imageCredentials:
-  create: false
-  name: aqua-registry-secret # example
-  repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
-  registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
-  username: ""
-  password: ""
-
 rbac:
   create: false # Enable to create RBAC for gateway chart
 
@@ -16,10 +7,6 @@ clusterRole:
 console:
   publicIP:
   publicPort:
-
-serviceAccount:
-  create: false
-  name: "aqua-sa"
 
 replicaCount: 1
 logLevel:
@@ -103,8 +90,19 @@ extraSecretEnvironmentVars: []
 #enable or disable creation of headless service for envoy
 headlessService: true
 
-
 global:
+  serviceAccount:
+    create: false
+    name: "aqua-gateway-sa"
+    annotations: {}
+  # Specifies the secret data for imagePullSecrets needed to fetch the private docker images
+  imageCredentials:
+    create: false
+    name: aqua-registry-secret # example
+    repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
+    registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+    username: ""
+    password: ""
   #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
   # aks = Azure Kubernetes Service
   # gke = Google kubernetes Engine

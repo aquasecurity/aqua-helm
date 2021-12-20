@@ -1,3 +1,6 @@
+## 6.5.6 ( December 20th, 2021)
+* Move serviceAccount and pull secret to global scope
+* Align serviceAccount and pull secret names
 ## 6.5.5 ( December 14th, 2021)
 * Update RBAC | default to non-privilege mode and remove capabilities in openshift SCC - [454](https://github.com/aquasecurity/aqua-helm/pull/454)
 * Add gateway service label support - [454](https://github.com/aquasecurity/aqua-helm/pull/454)
