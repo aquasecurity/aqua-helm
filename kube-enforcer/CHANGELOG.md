@@ -1,3 +1,5 @@
+## 6.5.3 ( December 22nd, 2021)
+* Adding openshift scc support
 ## 6.5.2 ( November 24th, 2021 )
 * Added separate config maps for Kube Enforcer chart and updated template with annotations for configmap checksum - [401](https://github.com/aquasecurity/aqua-helm/pull/401)
 * Updating image pullpolicy to Always
