@@ -83,10 +83,8 @@ allowedCapabilities:
 - AUDIT_CONTROL
 - SYSLOG
 - SYS_CHROOT
-- CAP_SYS_RESOURCE
-- CAP_SYS_ADMIN
-- CAP_IPC_LOCK
-- CAP_SYS_PTRACE
+- SYS_RESOURCE
+- IPC_LOCK
 apiVersion: security.openshift.io/v1
 defaultAddCapabilities: null
 fsGroup:
