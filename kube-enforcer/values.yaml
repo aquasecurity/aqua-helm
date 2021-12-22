@@ -64,8 +64,10 @@ webhooks:
   failurePolicy: Ignore
   validatingWebhook:
     name: kube-enforcer-admission-hook-config
+    annotations: {}
   mutatingWebhook:
     name: kube-enforcer-me-injection-hook-config
+    annotations: {}
 
 securityContext:
   runAsUser: 11431
