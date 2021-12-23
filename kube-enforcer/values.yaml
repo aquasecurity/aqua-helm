@@ -8,6 +8,18 @@ imageCredentials:
   username: ""
   password: ""
 
+#Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
+# aks = Azure Kubernetes Service
+# gke = Google kubernetes Engine
+# openshift = RedHat Openshift/OCP
+# tkg = VMware Tanzu kubernetes Grid
+# tkgi = VMware Tanzu kubernetes Grid Integrated Edition
+# k8s = Plain/on-prem Vanilla Kubernetes
+# rancher = Rancher Kubernetes Platform
+# gs = GaintSwarm platform
+# k3s = k3s kubernetes platform
+platform: ""
+
 aqua_enable_cache: yes # Specify whether to enable/disable the cache by using "yes", "true", "no", "false" values.
 aqua_cache_expiration_period: 60 # default value is 60
 

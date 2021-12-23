@@ -1,5 +1,7 @@
 ## 6.5.5 ( December 14th)
 * Add AQUA_LOGICAL_NAME and AQUA_NODE_NAME - [454](https://github.com/aquasecurity/aqua-helm/pull/454)
+* Fixing OCP SCC capabilities names - [464](https://github.com/aquasecurity/aqua-helm/pull/464)
+
 ## 6.5.4 ( December 8th, 2021 )
 * Adding capabilities for Behavioral detection
 * Making enforcer deployment default to non-privilege mode
