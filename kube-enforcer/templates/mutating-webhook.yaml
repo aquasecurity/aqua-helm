@@ -3,6 +3,10 @@ kind: MutatingWebhookConfiguration
 metadata:
   name: {{ .Values.webhooks.mutatingWebhook.name }}
   namespace: {{ .Release.Namespace }}
+{{- if .Values.webhooks.mutatingWebhook.annotations }}
+  annotations:
+{{ toYaml .Values.webhooks.mutatingWebhook.annotations | indent 4 }}
+{{- end }}
 webhooks:
   - name: microenforcer.aquasec.com
     sideEffects: "None"

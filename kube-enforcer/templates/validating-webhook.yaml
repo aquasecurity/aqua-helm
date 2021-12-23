@@ -3,6 +3,10 @@ kind: ValidatingWebhookConfiguration
 metadata:
   name: {{ .Values.webhooks.validatingWebhook.name }}
   namespace: {{ .Release.Namespace }}
+{{- if .Values.webhooks.validatingWebhook.annotations }}
+  annotations:
+{{ toYaml .Values.webhooks.validatingWebhook.annotations | indent 4 }}
+{{- end }}
 webhooks:
   - name: imageassurance.aquasec.com
     failurePolicy: {{ .Values.webhooks.failurePolicy }}
