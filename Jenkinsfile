@@ -45,14 +45,6 @@ pipeline {
                     """
                 }
             }
-        }
-        stage("Pushing Charts to aqua-dev repo") {
-            agent {
-                dockerfile {
-                    filename 'Dockerfile'
-                    reuseNode true
-                }
-            }
             steps {
                 script {
                     sh"""
@@ -69,6 +61,15 @@ pipeline {
                 }
             }
         }
+//        stage("Pushing Charts to aqua-dev repo") {
+//            agent {
+//                dockerfile {
+//                    filename 'Dockerfile'
+//                    reuseNode true
+//                }
+//            }
+//            
+//        }
     }
         
     //post {
