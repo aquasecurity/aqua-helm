@@ -65,6 +65,7 @@ pipeline {
                     helm cm-push kube-enforcer/ aqua-dev --version="${currentBuild.number}" && \
                     helm cm-push cyber-center/ aqua-dev --version="${currentBuild.number}" && \
                     helm cm-push cloud-connector/ aqua-dev --version="${currentBuild.number}"
+                    """
                 }
             }
         }
