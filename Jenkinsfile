@@ -45,6 +45,7 @@ pipeline {
                     """
 
                     sh"""
+                    ls -ltr ./ && ls -ltr / && \
                     helm repo add aqua-dev https://helm-dev.aquaseclabs.com/ && \
                     helm cm-push server/ aqua-dev --version="${currentBuild.number}" && \
                     helm cm-push tenant-manager/ aqua-dev --version="${currentBuild.number}" && \
