@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add --update --no-cache curl openssl && \
+RUN apk add --update --no-cache curl openssl git -y && \
     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && \
     chmod 700 get_helm.sh && \
     sh get_helm.sh && \
