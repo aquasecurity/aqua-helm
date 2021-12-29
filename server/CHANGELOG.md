@@ -1,3 +1,6 @@
+## 6.5.11 ( December 29th, 2021)
+* Update web ingress to support different Kubernetes versions - [469](https://github.com/aquasecurity/aqua-helm/pull/469)
+* Update gateway service type to ClusterIP by default - [470](https://github.com/aquasecurity/aqua-helm/pull/470)
 ## 6.5.10 ( December 23th, 2021 )
 * Issue [461](https://github.com/aquasecurity/aqua-helm/issues/461) - Fix duplicate global ref in password secrets PR - [464](https://github.com/aquasecurity/aqua-helm/pull/464)
 ## 6.5.9 ( December 14th, 2021 )

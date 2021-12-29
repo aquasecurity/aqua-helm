@@ -336,7 +336,7 @@ Parameter | Description | Default| Mandatory
 `gateway.enabled` | Deploy gateway chart with server chart | `True`| `NO`
 `gateway.image.tag` | The image tag to use. | `6.5`| `NO`
 `gateway.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
-`gateway.service.type` | k8s service type | `LoadBalancer`| `NO`
+`gateway.service.type` | k8s service type | `ClusterIP`| `NO`
 `gateway.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null` | `NO`
 `gateway.service.annotations` |	service annotations	| `{}` | `NO`
 `gateway.service.ports` | array of ports settings | `array`| `NO`

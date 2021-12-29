@@ -153,7 +153,7 @@ gateway:
     tag: "6.5"
     pullPolicy: Always
   service:
-    type: LoadBalancer     # you can enable gateway to internal by changing type to "clusterIP"
+    type: clusterIP     # you can enable gateway to external by changing type to "LoadBalancer"
     loadbalancerIP: "" # Specify loadBalancerIP address for aqua-web in AKS platform
     labels: {}
     annotations: {}
@@ -173,7 +173,10 @@ gateway:
         protocol: TCP
         targetPort: 8082
         nodePort:
+
+  #enable or disable creation of headless service for envoy
   headlessService: true
+
   publicIP:
   livenessProbe:
     httpGet:

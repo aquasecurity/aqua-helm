@@ -1,3 +1,5 @@
+## 6.5.4 ( December 29th, 2021 )
+* Fix namespace for starboard role - [470](https://github.com/aquasecurity/aqua-helm/pull/470)
 ## 6.5.3 ( December 22nd, 2021)
 * Add openshift scc support - [465](https://github.com/aquasecurity/aqua-helm/pull/465)
 * Issue [459](https://github.com/aquasecurity/aqua-helm/issues/459) - Add annotations support for Mutating and Validation webhooks - [464](https://github.com/aquasecurity/aqua-helm/pull/464)

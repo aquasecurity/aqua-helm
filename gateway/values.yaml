@@ -28,7 +28,7 @@ image:
   tag: "6.5"
   pullPolicy: Always
 service:
-  type: LoadBalancer     # Enable gateway to internal by changing type to "clusterIP"
+  type: clusterIP     # Enable gateway to external by changing type to "LoadBalancer"
   loadbalancerIP: "" # Specify loadBalancerIP address for aqua-web in AKS platform
   labels: {}
   annotations: {}
