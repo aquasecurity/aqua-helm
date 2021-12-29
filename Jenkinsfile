@@ -46,6 +46,28 @@ pipeline {
                 }
             }
         }
+        stage("Pushing Charts to aqua-dev repo") {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    reuseNode true
+                }
+            }
+            steps {
+                script {
+                    sh"""
+                    helm repo add aqua-dev https://helm-dev.aquaseclabs.com/ && \
+                    helm cm-push server/ aqua-dev --version="${currentBuild.number}" && \
+                    helm cm-push tenant-manager/ aqua-dev --version="${currentBuild.number}" && \
+                    helm cm-push enforcer/ aqua-dev --version="${currentBuild.number}" && \
+                    helm cm-push gateway/ aqua-dev --version="${currentBuild.number}" && \
+                    helm cm-push aqua-quickstart/ aqua-dev --version="${currentBuild.number}" && \
+                    helm cm-push kube-enforcer/ aqua-dev --version="${currentBuild.number}" && \
+                    helm cm-push cyber-center/ aqua-dev --version="${currentBuild.number}" && \
+                    helm cm-push cloud-connector/ aqua-dev --version="${currentBuild.number}"
+                }
+            }
+        }
     }
         
     //post {
