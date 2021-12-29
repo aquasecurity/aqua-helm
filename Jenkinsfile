@@ -43,10 +43,7 @@ pipeline {
                     helm lint cyber-center/ && \
                     helm lint cloud-connector/
                     """
-                }
-            }
-            steps {
-                script {
+
                     sh"""
                     helm repo add aqua-dev https://helm-dev.aquaseclabs.com/ && \
                     helm cm-push server/ aqua-dev --version="${currentBuild.number}" && \
@@ -71,13 +68,5 @@ pipeline {
 //            
 //        }
     }
-        
-    //post {
-    //    always {
-    //        script {
-    //            cleanWs()
-    //            notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
-    //        }
-    //    }
-    //}
+
 }
