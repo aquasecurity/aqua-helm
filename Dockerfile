@@ -16,6 +16,6 @@ RUN adduser -D -S -h /home/aqua aqua aqua
 
 RUN chown -R aqua:aqua /home/aqua
 
-USER aqua
+#USER aqua
 
 CMD [ "/bin/sh" ]
