@@ -1,5 +1,6 @@
 ## 6.5.6 ( December 29th, 2021)
 * Update gateway service type to ClusterIP by default - [470](https://github.com/aquasecurity/aqua-helm/pull/470)
+* Fix db secret value paths - [474](https://github.com/aquasecurity/aqua-helm/pull/474)
 ## 6.5.5 ( December 14th, 2021)
 * Update RBAC | default to non-privilege mode and remove capabilities in openshift SCC - [454](https://github.com/aquasecurity/aqua-helm/pull/454)
 * Add gateway service label support - [454](https://github.com/aquasecurity/aqua-helm/pull/454)
