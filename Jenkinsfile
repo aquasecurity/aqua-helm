@@ -41,7 +41,8 @@ pipeline {
                     helm lint aqua-quickstart/ && \
                     helm lint kube-enforcer/  --set "aquaSecret.kubeEnforcerToken=Test123" && \
                     helm lint cyber-center/ && \
-                    helm lint cloud-connector/
+                    helm lint cloud-connector/ && |
+                    helm cm-push --help 
                     """
                 }
             }
@@ -56,9 +57,10 @@ pipeline {
             steps {
                 script {
                     sh """
-                    echo $currentBuild.number && echo $JOB_NAME \
                     helm repo add aqua-dev https://helm-dev.aquaseclabs.com/ && \
-                    helm cm-push tenant-manager/ aqua-dev --version="test-${currentBuild.number}"
+                    helm repo list && \
+                    helm cm-push --help && \
+                    helm cm-push tenant-manager/ aqua-dev --version="${job#*/}-${currentBuild.number}"
                     """
                 }
             }
