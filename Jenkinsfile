@@ -42,7 +42,7 @@ pipeline {
                     helm lint kube-enforcer/  --set "aquaSecret.kubeEnforcerToken=Test123" && \
                     helm lint cyber-center/ && \
                     helm lint cloud-connector/ && \
-                    helm repo list
+                    helm cm-push --help
                     """
                 }
             }
