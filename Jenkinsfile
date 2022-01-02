@@ -41,7 +41,7 @@ pipeline {
                     helm lint aqua-quickstart/ && \
                     helm lint kube-enforcer/  --set "aquaSecret.kubeEnforcerToken=Test123" && \
                     helm lint cyber-center/ && \
-                    helm lint cloud-connector/ && \
+                    helm lint cloud-connector/
                     """
                     sh 'helm plugin install https://github.com/chartmuseum/helm-push.git'
                     sh 'helm plugin list'
