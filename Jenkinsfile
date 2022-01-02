@@ -42,8 +42,9 @@ pipeline {
                     helm lint kube-enforcer/  --set "aquaSecret.kubeEnforcerToken=Test123" && \
                     helm lint cyber-center/ && \
                     helm lint cloud-connector/ && \
-                    helm plugin list
                     """
+                    sh 'helm plugin install https://github.com/chartmuseum/helm-push.git'
+                    sh 'helm plugin list'
                 }
             }
         }
@@ -56,15 +57,14 @@ pipeline {
             }
             steps {
                 script {
-                    sh """
-                    echo $currentBuild.number && echo $JOB_NAME \
-                    helm repo add aqua-dev https://helm-dev.aquaseclabs.com/ && \
-                    helm repo list && \
-                    helm cm-push --help && \
-                    helm package tenant-manager/ && \
-                    ls -ltr tenant-manager/ && \
-                    helm push tenant-manager/ aqua-dev --version="${JOB_NAME}-${currentBuild.number}"
-                    """
+                    sh 'echo $currentBuild.number && echo $JOB_NAME'
+                    sh 'helm repo add aqua-dev https://helm-dev.aquaseclabs.com/'
+                    sh 'helm plugin install https://github.com/chartmuseum/helm-push.git'
+                    sh 'helm repo list'
+                    sh 'helm cm-push --help'
+                    sh 'helm package tenant-manager/'
+                    sh 'ls -ltr tenant-manager/'
+                    sh 'helm push tenant-manager/ aqua-dev --version="${JOB_NAME}-${currentBuild.number}"'
                 }
             }
         }

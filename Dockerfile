@@ -6,9 +6,7 @@ FROM alpine:latest
 RUN apk add --no-cache ca-certificates git && \
     wget https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz && \
     tar -zxvf helm-v3.7.2-linux-amd64.tar.gz && \
-    mv linux-amd64/helm /usr/local/bin && \
-    helm plugin install https://github.com/chartmuseum/helm-push && \
-    helm push --help
+    mv linux-amd64/helm /usr/local/bin
 
 #RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
 #    chmod 700 get_helm.sh && \
