@@ -68,17 +68,22 @@ pipeline {
             steps {
                 script {
                     sh 'ls -ltr'
-                    sh 'apk add --no-cache ca-certificates git tar && wget -O helm-v3.7.2.tar.gz https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz && tar -zxvf helm-v3.7.2.tar.gz && mv linux-amd64/helm /usr/local/bin/helm'
+                    sh 'apk add --no-cache ca-certificates git tar && tar -zxvf helm-v3.7.2-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin'
                     sh 'helm version'
                     sh 'ls -ltr'
                     sh 'helm plugin install https://github.com/chartmuseum/helm-push.git'
                     sh 'helm plugin list'
-                    sh 'echo $currentBuild.number && echo $JOB_NAME'
+                    sh """
+                        export build=$BUILD_NUMBER
+                        echo $build
+                        export job=$JOB_NAME
+                        echo $job
+                        """
                     sh 'helm repo add aqua-dev https://helm-dev.aquaseclabs.com/'
                     sh 'helm repo list'
                     sh 'helm cm-push --help'
                     sh 'ls -ltr tenant-manager/'
-                    sh 'helm cm-push tenant-manager/ aqua-dev --version="${JOB_NAME}-${currentBuild.number}"'
+                    sh 'helm cm-push tenant-manager/ aqua-dev --version="$job-$build"'
                 }
             }
         }
