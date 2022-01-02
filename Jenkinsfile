@@ -61,11 +61,9 @@ pipeline {
                     helm repo add aqua-dev https://helm-dev.aquaseclabs.com/ && \
                     helm repo list && \
                     helm cm-push --help && \
-                    job= echo $JOB_NAME | cut -f2 -d"/" && \
-                    echo $job && \
                     helm package tenant-manager/ && \
                     ls -ltr tenant-manager/ && \
-                    helm push tenant-manager/ aqua-dev --version="${job}-${currentBuild.number}"
+                    helm push tenant-manager/ aqua-dev --version="${JOB_NAME}-${currentBuild.number}"
                     """
                 }
             }
