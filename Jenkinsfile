@@ -74,10 +74,8 @@ pipeline {
                     sh 'helm plugin install https://github.com/chartmuseum/helm-push.git'
                     sh 'helm plugin list'
                     sh """
-                        export build=$BUILD_NUMBER
-                        echo $build
-                        export job=$JOB_NAME
-                        echo $job
+                        echo $BUILD_NUMBER
+                        echo $JOB_NAME
                         """
                     sh 'helm repo add aqua-dev https://helm-dev.aquaseclabs.com/'
                     sh 'helm repo list'
