@@ -40,7 +40,6 @@ pipeline {
             steps {
                 script {
                     sh 'apk add --no-cache ca-certificates git && wget https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz && tar -zxvf helm-v3.7.2-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin'
-                    sh ' ls -ltr'
                     sh """
                     helm lint server/ && \
                     helm lint tenant-manager/ && \
@@ -51,28 +50,32 @@ pipeline {
                     helm lint cyber-center/ && \
                     helm lint cloud-connector/
                     """
-                    sh 'helm plugin install https://github.com/chartmuseum/helm-push.git'
-                    sh 'helm plugin list'
                 }
             }
         }
         stage("Pushing Helm chart to dev repo") {
             agent {
-                dockerfile {
+                /*dockerfile {
                 filename 'Dockerfile'
                 reuseNode true
-                }
+                }*/
+                docker { 
+                    image 'alpine:latest' 
+                    args '-u root'
+                    reuseNode true
+                    }
             }
             steps {
                 script {
+                    sh 'apk add --no-cache ca-certificates git && wget https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz && tar -zxvf helm-v3.7.2-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin'
+                    sh 'helm plugin install https://github.com/chartmuseum/helm-push.git'
+                    sh 'helm plugin list'
                     sh 'echo $currentBuild.number && echo $JOB_NAME'
                     sh 'helm repo add aqua-dev https://helm-dev.aquaseclabs.com/'
-                    sh 'helm plugin install https://github.com/chartmuseum/helm-push.git'
                     sh 'helm repo list'
                     sh 'helm cm-push --help'
-                    sh 'helm package tenant-manager/'
                     sh 'ls -ltr tenant-manager/'
-                    sh 'helm push tenant-manager/ aqua-dev --version="${JOB_NAME}-${currentBuild.number}"'
+                    sh 'helm cm-push tenant-manager/ aqua-dev --version="${JOB_NAME}-${currentBuild.number}"'
                 }
             }
         }
