@@ -77,7 +77,7 @@ pipeline {
                     sh 'helm repo list'
                     sh 'helm cm-push --help'
                     sh 'ls -ltr tenant-manager/'
-                    sh 'helm cm-push tenant-manager/ aqua-dev --version="${JOB_NAME##*/}-${BUILD_NUMBER}"'
+                    sh 'helm cm-push tenant-manager/ aqua-dev --version="6.5-${JOB_NAME##*/}-${BUILD_NUMBER}"'
                 }
             }
         }
