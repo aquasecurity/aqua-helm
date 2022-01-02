@@ -67,7 +67,8 @@ pipeline {
             }
             steps {
                 script {
-                    sh 'apk add --no-cache ca-certificates git curl && curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh'
+                    sh 'ls -ltr'
+                    sh 'apk add --no-cache ca-certificates git tar && wget -O helm-v3.7.2.tar.gz https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz && tar -zxvf helm-v3.7.2.tar.gz && mv linux-amd64/helm /usr/local/bin/helm'
                     sh 'helm version'
                     sh 'ls -ltr'
                     sh 'helm plugin install https://github.com/chartmuseum/helm-push.git'
