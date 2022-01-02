@@ -1,13 +1,8 @@
-FROM alpine:latest
+FROM alpine/helm:3.7.2
 
 RUN apk add --update --no-cache curl openssl git && \
-    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && \
-    chmod 700 get_helm.sh && \
-    sh get_helm.sh && \
     helm plugin install https://github.com/chartmuseum/helm-push.git
-
-WORKDIR /aqua-helm
 
 COPY . .
 
-CMD [ "/bin/sh" ]
+ENTRYPOINT [ "/bin/sh" ]
