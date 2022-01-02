@@ -73,15 +73,11 @@ pipeline {
                     sh 'ls -ltr'
                     sh 'helm plugin install https://github.com/chartmuseum/helm-push.git'
                     sh 'helm plugin list'
-                    sh """
-                        echo $BUILD_NUMBER
-                        echo $JOB_NAME
-                        """
                     sh 'helm repo add aqua-dev https://helm-dev.aquaseclabs.com/'
                     sh 'helm repo list'
                     sh 'helm cm-push --help'
                     sh 'ls -ltr tenant-manager/'
-                    sh 'helm cm-push tenant-manager/ aqua-dev --version="$job-$build"'
+                    sh 'helm cm-push tenant-manager/ aqua-dev --version="$JOB_NAME-$BUILD_NUMBER'
                 }
             }
         }
