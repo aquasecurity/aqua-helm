@@ -26,14 +26,17 @@ pipeline {
         }
         stage("Helm Lint Git") {
             agent { 
-                dockerfile {
+                /*dockerfile {
                 filename 'Dockerfile'
                 args '-u root:sudo'
                 reuseNode true
-                } 
+                } */
+                docker { image 'alpine:latest' args '-u root'}
             }
             steps {
                 script {
+                    sh 'apk add --no-cache ca-certificates git && wget https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz && tar -zxvf helm-v3.7.2-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin'
+                    sh 'ls -ltr'
                     sh """
                     helm lint server/ && \
                     helm lint tenant-manager/ && \
