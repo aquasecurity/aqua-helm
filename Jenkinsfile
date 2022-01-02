@@ -67,7 +67,9 @@ pipeline {
             }
             steps {
                 script {
+                    sh 'apk add --no-cache ca-certificates git curl && curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh'
                     sh 'helm version'
+                    sh 'ls -ltr'
                     sh 'helm plugin install https://github.com/chartmuseum/helm-push.git'
                     sh 'helm plugin list'
                     sh 'echo $currentBuild.number && echo $JOB_NAME'
