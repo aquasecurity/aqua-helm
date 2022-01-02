@@ -43,9 +43,20 @@ pipeline {
                     helm lint cyber-center/ && \
                     helm lint cloud-connector/
                     """
-
-                    sh"""
-                    ls -ltr ./ && ls -ltr / && \
+                }
+            }
+        }
+        stage("Pushing Helm chart to dev repo") {
+            agent {
+                dockerfile {
+                filename 'Dockerfile'
+                reuseNode true
+                }
+            }
+            steps {
+                script {
+                    sh """
+                    echo $currentBuild.number && \
                     helm repo add aqua-dev https://helm-dev.aquaseclabs.com/ && \
                     helm cm-push server/ aqua-dev --version="${currentBuild.number}" && \
                     helm cm-push tenant-manager/ aqua-dev --version="${currentBuild.number}" && \
@@ -59,15 +70,13 @@ pipeline {
                 }
             }
         }
-//        stage("Pushing Charts to aqua-dev repo") {
-//            agent {
-//                dockerfile {
-//                    filename 'Dockerfile'
-//                    reuseNode true
-//                }
-//            }
-//            
-//        }
+        }
+    post {
+        always {
+            script {
+                cleanWs()
+//                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
+            }
+        }
     }
-
-}
+    }

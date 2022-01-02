@@ -6,16 +6,8 @@ RUN apk add --update --no-cache curl openssl git && \
     sh get_helm.sh && \
     helm plugin install https://github.com/chartmuseum/helm-push.git
 
-WORKDIR /home/aqua
+WORKDIR /aqua-helm
 
 COPY . .
-
-RUN addgroup -S aqua
-
-RUN adduser -D -S -h /home/aqua aqua aqua
-
-RUN chown -R aqua:aqua /home/aqua
-
-USER aqua
 
 CMD [ "/bin/sh" ]
