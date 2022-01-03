@@ -26,34 +26,52 @@ pipeline {
         }
         stage("Helm Lint Git") {
             agent { 
-                dockerfile {
-                filename 'Dockerfile'
-                reuseNode true
-                } 
+                docker { 
+                    image 'alpine:latest' 
+                    args '-u root'
+                    reuseNode true
+                    }
             }
             steps {
                 script {
-                    sh """
-                    helm lint server/ && \
-                    helm lint tenant-manager/ && \
-                    helm lint enforcer/ && \
-                    helm lint gateway/ --set "db.external.password=Test123" && \
-                    helm lint aqua-quickstart/ && \
-                    helm lint kube-enforcer/  --set "aquaSecret.kubeEnforcerToken=Test123" && \
-                    helm lint cyber-center/ && \
-                    helm lint cloud-connector/
-                    """
+                    sh 'apk add --no-cache ca-certificates git && wget https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz && tar -zxvf helm-v3.7.2-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin'
+                    sh 'helm lint server/ tenant-manager/ enforcer/ gateway/ aqua-quickstart/ kube-enforcer/ cyber-center/ cloud-connector/'
                 }
             }
         }
+        stage("Pushing Helm chart to dev repo") {
+            agent {
+                docker {
+                    image 'alpine:latest'
+                    args '-u root'
+                    reuseNode true
+                    }
+            }
+            steps {
+                script {
+                    sh 'apk add --no-cache ca-certificates git tar && tar -zxvf helm-v3.7.2-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin'
+                    sh 'helm plugin install https://github.com/chartmuseum/helm-push.git'
+                    sh 'helm plugin list'
+                    sh 'helm repo add aqua-dev https://helm-dev.aquaseclabs.com/'
+                    sh 'helm repo list'
+                    sh 'helm cm-push server/  aqua-dev --version="6.5-${JOB_NAME##*/}-${BUILD_NUMBER}"'
+                    sh 'helm cm-push tenant-manager/ aqua-dev --version="6.5-${JOB_NAME##*/}-${BUILD_NUMBER}"'
+                    sh 'helm cm-push enforcer/ aqua-dev --version="6.5-${JOB_NAME##*/}-${BUILD_NUMBER}"'
+                    sh 'helm cm-push gateway/ aqua-dev --version="6.5-${JOB_NAME##*/}-${BUILD_NUMBER}"'
+                    sh 'helm cm-push aqua-quickstart/ aqua-dev --version="6.5-${JOB_NAME##*/}-${BUILD_NUMBER}"'
+                    sh 'helm cm-push kube-enforcer/ aqua-dev --version="6.5-${JOB_NAME##*/}-${BUILD_NUMBER}"'
+                    sh 'helm cm-push cyber-center/ aqua-dev --version="6.5-${JOB_NAME##*/}-${BUILD_NUMBER}"'
+                    sh 'helm cm-push cloud-connector/ aqua-dev --version="6.5-${JOB_NAME##*/}-${BUILD_NUMBER}"'
+                }
+            }
+        }
+        }
+    post {
+        always {
+            script {
+                cleanWs()
+//                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
+            }
+        }
     }
-        
-    //post {
-    //    always {
-    //        script {
-    //            cleanWs()
-    //            notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
-    //        }
-    //    }
-    //}
-}
+    }
