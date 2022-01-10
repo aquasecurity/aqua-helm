@@ -275,7 +275,7 @@ In order to support L7 / gRPC communication between gateway and enforcers Aqua r
 | `imageCredentials.name`  | Your Docker pull image secret name | `aqua-registry-secret`    | `YES - New cluster`|
 | `imageCredentials.username`| Your Docker registry (Docker Hub, etc.) username   | `N/A`    | `YES - New cluster`|
 | `imageCredentials.password`| Your Docker registry (Docker Hub, etc.) password   | `N/A`    | `YES - New cluster`|
-| `platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s) | `unset` | `YES, for openshift platform`
+| `platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s, mke) | `unset` | `YES, for openshift and mirantis platform`
 | `aquaSecret.create`    | Aqua KubeEnforcer (KE) token secret creation | `true`    | `YES`  |
 | `aquaSecret.name`    | Aqua KubeEnforcer (KE) token secret name  | `aqua-kube-enforcer-token` | `YES`  |
 | `aquaSecret.kubeEnforcerToken`    | Aqua KubeEnforcer (KE) token  | `N/A`    | `YES`  |
