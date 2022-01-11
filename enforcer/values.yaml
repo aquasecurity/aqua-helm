@@ -34,8 +34,6 @@ enforcerTokenSecretKey: null
 logicalName:
 nodeName:
 
-logLevel:
-
 securityContext:
   privileged: false
   capabilities:

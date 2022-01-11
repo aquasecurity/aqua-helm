@@ -18,6 +18,7 @@ imageCredentials:
 # rancher = Rancher Kubernetes Platform
 # gs = GaintSwarm platform
 # k3s = k3s kubernetes platform
+# mke = Mirantis Kubernetes Engine
 platform: ""
 
 aqua_enable_cache: yes # Specify whether to enable/disable the cache by using "yes", "true", "no", "false" values.

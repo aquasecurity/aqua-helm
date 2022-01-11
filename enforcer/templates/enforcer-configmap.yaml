@@ -5,7 +5,6 @@ metadata:
   name: {{ .Release.Name }}-enforcer-config
   namespace: {{ .Release.Namespace }}
 data:
-  SCALOCK_LOG_LEVEL: {{ .Values.logLevel | default "INFO" }}
   {{- if .Values.multiple_gateway.enabled }}
   AQUA_SERVER: {{ join "," .Values.multi_gates }}
   {{- else }}
