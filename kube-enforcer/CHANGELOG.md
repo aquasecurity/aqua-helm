@@ -1,3 +1,5 @@
+## 6.2.8 (January 11th, 2022)
+* Adding openshift and mke platform support - [#481](https://github.com/aquasecurity/aqua-helm/pull/481)
 ## 6.2.7 (November 1st, 2021)
 * Updating admissionReviewVersions in webhooks to "v1beta1" from "v1", "v1beta1" - [#392](https://github.com/aquasecurity/aqua-helm/pull/392)
 * Added Affinity, nodeSelector, Tolerations, Annotations support - [#394](https://github.com/aquasecurity/aqua-helm/pull/394)
