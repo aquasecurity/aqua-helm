@@ -177,6 +177,7 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `imageCredentials.name`           | Your Docker pull image secret name        | `aqua-registry-secret`    | `YES - New cluster`     |
 | `imageCredentials.username`       | Your Docker registry (Docker Hub, etc.) username            | `N/A`    | `YES - New cluster`     |
 | `imageCredentials.password`       | Your Docker registry (Docker Hub, etc.) password            | `N/A`    | `YES - New cluster`     |
+| `platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s, mke) | `unset` | `YES, for openshift and mirantis platform`
 | `aquaSecret.kubeEnforcerToken`    | Aqua KubeEnforcer (KE) token  | `N/A`    | `YES`  |
 | `clusterName`                     | Cluster name registered with Aqua in Infrastructure tab | `N/A` | `NO` |
 | `certsSecret.create`              | Set to create a new secret for KE certs     | `true`   | `YES`  |

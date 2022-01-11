@@ -25,3 +25,19 @@ subjects:
   - kind: ServiceAccount
     name: {{ .Values.starboard.serviceAccount.name }}
     namespace: {{ .Release.Namespace }}
+{{- if eq .Values.platform "mke" }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Values.clusterRoleBinding.name }}-admin
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Values.serviceAccount.name }}
+    namespace: {{ .Release.Namespace }}
+{{- end }}
