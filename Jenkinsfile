@@ -51,6 +51,7 @@ pipeline {
                     sh 'apk add --no-cache ca-certificates git && tar -zxvf helm-v3.7.2-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin'
                     sh '''
                         wget https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz && tar xf kubeval-linux-amd64.tar.gz && mv kubeval /usr/local/bin
+                        helm dependency update server/
                         helm template server/ --set global.platform=k8s,imageCredentials.username=test,imageCredentials.password=test > server.yaml && kubeval server.yaml --strict --exit-on-error
                     '''
                 }
