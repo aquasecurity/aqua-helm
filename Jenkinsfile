@@ -85,7 +85,7 @@ pipeline {
         stage("Clearing deployment") {
             steps {
                 sh 'tar -zxvf helm-v3.7.2-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin'
-                sh 'helm uninstall -n aqua $(helm list -A | awk '{print $1}' | tail -n+2)'
+                //sh 'helm uninstall -n aqua $(helm list -A | awk '{print $1}' | tail -n+2)'
                 echo 'helm uninstall completed'
                 sh 'sh /usr/local/bin/k3s-uninstall.sh'
                 sleep(5)
