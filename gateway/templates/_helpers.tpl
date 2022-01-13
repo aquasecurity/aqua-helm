@@ -49,3 +49,18 @@ Inject extra environment populated by secrets, if populated
 {{- define "platform" }}
 {{- printf "%s" (required "A valid .Values.global.platform entry required" .Values.global.platform ) | replace "\n" "" }}
 {{- end }}
+
+{{/*
+Define a gateway serviceAccount name
+If Values.serviceAccount.create defined as false
+And will be used serviceAccount created by parrent chart
+*/}}
+{{- define "gateway.serviceAccount" -}}
+{{- if and .Values.serviceAccount.create .Values.serviceAccount.name -}}
+{{- printf "%s" .Values.serviceAccount.name -}}
+{{- else -}}
+{{- if not .Values.serviceAccount.create -}}
+{{- printf "%s-sa" .Release.Namespace -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
