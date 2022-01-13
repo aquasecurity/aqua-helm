@@ -39,6 +39,4 @@ webhooks:
         namespace: {{ .Release.Namespace }}
         name: {{ include "kube-enforcer.fullname" . }}
     timeoutSeconds: 5
-    failurePolicy: Ignore
     admissionReviewVersions: ["v1beta1"]
-    sideEffects: "None"
