@@ -49,17 +49,17 @@ pipeline {
                 }
                 steps {
                     sh '''
-                        wget https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz && tar xf kubeval-linux-amd64.tar.gz && sudo mv kubeval /usr/local/bin
+                        wget https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz && tar xf kubeval-linux-amd64.tar.gz && mv kubeval /usr/local/bin
                         helm template server/ --set global.platform=k8s,imageCredentials.username=test,imageCredentials.password=test > server.yaml && kubeval server.yaml --strict --exit-on-error
                     '''
                 }
             }
         stage("Creating k3s") {
             steps {
-                sh 'sudo curl -sfL https://get.k3s.io | sh -'
+                sh 'curl -sfL https://get.k3s.io | sh -'
                 sleep(45)
                 echo 'k3s installed'
-                sh 'sudo sh /usr/local/bin/k3s-uninstall.sh'
+                sh 'sh /usr/local/bin/k3s-uninstall.sh'
                 sleep(30)
                 echo 'k3s uninstalled'
             }
