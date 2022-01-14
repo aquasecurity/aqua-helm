@@ -316,6 +316,7 @@ In order to support L7 / gRPC communication between gateway and enforcers Aqua r
 | `starboard.ports.probeCntainerPort`  |
 | `starboard.readinessProbe`  |
 | `starboard.livenessProbe`  |
+| `starboard.nodeselector`  | NodeSelectors to be added to the Starboard Operator Deployment | `false` | `NO`
 | `kubeEnforcerAdvance.enable` | Advanced KubeEnforcer deployment | `false`  | `NO`   |
 | `kubeEnforcerAdvance.nodeID` | Envoy Node ID of the advance KE deployment    | `envoy` | `YES - if kubeEnforcerAdvance.enable` |
 `kubeEnforcerAdvance.envoy.TLS.listener.TLS.enabled` | If require secure channel communication | `false` | `NO`
