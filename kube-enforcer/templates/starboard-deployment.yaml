@@ -51,3 +51,7 @@ spec:
 {{ toYaml . | indent 12 }}
 {{- end }}
 
+{{- if .Values.starboard.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.starboard.nodeSelector | indent 8 }}
+{{- end }}
