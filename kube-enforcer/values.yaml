@@ -188,6 +188,8 @@ starboard:
     successThreshold: 1
     failureThreshold: 10
 
+  nodeSelector: {}
+
 ##Kube Enforcer advance deployment options
 ### Advanced Deployment (for Pod Enforcer injection)
 ### When using KubeEnforcers for Pod Enforcer injection, it is recommended that you deploy the KubeEnforcers in a special Advanced configuration.
