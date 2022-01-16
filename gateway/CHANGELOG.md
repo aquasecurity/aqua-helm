@@ -1,3 +1,6 @@
+## 6.5.7 ( January 16th, 2022)
+* Update gateway.serviceAccount to support different from aqua namespace - [486](https://github.com/aquasecurity/aqua-helm/pull/486/)
+* Fix minor bugs
 ## 6.5.6 ( December 29th, 2021)
 * Update gateway service type to ClusterIP by default - [470](https://github.com/aquasecurity/aqua-helm/pull/470)
 * Fix db secret value paths - [474](https://github.com/aquasecurity/aqua-helm/pull/474)

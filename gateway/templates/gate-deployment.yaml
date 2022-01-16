@@ -33,7 +33,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Values.serviceAccount.name }}
+      serviceAccount: {{ template "gateway.serviceAccount" . }}
       containers:
       - name: gate
         {{- with .Values.container_securityContext }}
