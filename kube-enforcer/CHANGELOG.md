@@ -1,5 +1,7 @@
 ## 6.5.5 ( January 10th, 2022 )
 * Add Mirantis kubernetes platform support [480](https://github.com/aquasecurity/aqua-helm/pull/480)
+* Fix issue with duplicate parameters [483](https://github.com/aquasecurity/aqua-helm/issues/483)
+* Add starboard nodeSelector [488](https://github.com/aquasecurity/aqua-helm/pull/488)
 ## 6.5.4 ( December 29th, 2021 )
 * Fix namespace for starboard role - [470](https://github.com/aquasecurity/aqua-helm/pull/470)
 ## 6.5.3 ( December 22nd, 2021)
