@@ -110,7 +110,7 @@ pipeline {
                     }
                 }
                 stage("Validating Server endpoint") {
-                    stpes {
+                    steps {
                         script {
                             sh "kubectl get svc -n aqua"
                         }
