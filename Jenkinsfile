@@ -115,7 +115,7 @@ pipeline {
                     steps {
                         script {
                             sh "kubectl get svc -n aqua"
-                            def STATUS = sh script: "curl -o /dev/null -s -w "%{http_code}" localhost:8080", returnStdout: true
+                            def STATUS = sh (script: "curl -o /dev/null -s -w '%{http_code}' localhost:8080", returnStdout: true)
                             if (STATUS == '200') {
                                 log.info("server up and running")
                             } else {
