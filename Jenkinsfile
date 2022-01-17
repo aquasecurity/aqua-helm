@@ -4,7 +4,7 @@ def charts = [ 'server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstar
 def platforms = ['gke', 'openshift']
 pipeline {
     agent {
-        label 'automation_slaves'
+        label 'automation_azure'
     }
     environment {
         AQUASEC_AZURE_ACR_PASSWORD = credentials('aquasecAzureACRpassword')
@@ -78,7 +78,7 @@ pipeline {
                 '''
                 sh 'cp /etc/rancher/k3s/k3s.yaml ~/.kube/config'
                 sh 'export KUBECONFIG=~/.kube/config'
-                sh 'kubectl get nodes -o wide'
+                sh 'kubectl get nodes -o wide && kubectl create namespace aqua'
                 script {
                     log.info "installing server chart"
                     def TOKEN = sh script: "az acr login --name 'aquasec' --expose-token -o json", returnStdout: true
@@ -89,7 +89,6 @@ pipeline {
                     sh "local/bin/helm list -n aqua"
                     sh "local/bin/helm uninstall server -n aqua"
                 }
-                
             }
         }
 
