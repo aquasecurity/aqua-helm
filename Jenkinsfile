@@ -1,13 +1,10 @@
 @Library('aqua-pipeline-lib@master')_
 
 def charts = [ 'server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector' ]
+def platforms = ['gke', 'openshift']
 pipeline {
     agent {
             label 'automation_slaves'
-    }
-    environment {
-        aqua_helm = fileExists 'aqua-helm'
-        helm_bin = fileExists 'linux-amd64/helm'
     }
     options {
         ansiColor('xterm')
@@ -31,22 +28,14 @@ pipeline {
         }
         stage("Helm Lint Git") {
             agent { 
-                docker { 
-                    image 'alpine:latest' 
-                    args '-u root'
+                dockerfile {
+                    filename 'Dockerfile'
                     reuseNode true
                     }
             }
             steps {
                 script {
-                    if (helm_bin) {
-                        sh "cp linux-amd64/helm /usr/local/bin"
-                    } else {
-                        sh "wget https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz && \
-                        tar -zxvf helm-v3.7.2-linux-amd64.tar.gz && \
-                        cp linux-amd64/helm /usr/local/bin"
-                    }
-                    for ( int i =0; i < charts.size(); i++) {
+                    for ( int i=0; i < charts.size(); i++) {
                         sh "helm lint ${charts[i]}"
                     }
                 }
@@ -54,19 +43,19 @@ pipeline {
         }
         stage("Kubeval checkings") {
                 agent {
-                        docker {
-                            image 'alpine:latest'
-                            args '-u root'
-                            reuseNode true
-                            }
+                    dockerfile {
+                        filename 'Dockerfile'
+                        reuseNode true
+                        }
                 }
                 steps {
-                    sh 'apk add --no-cache ca-certificates git && tar -zxvf helm-v3.7.2-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin'
-                    sh '''
-                        wget https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz && tar xf kubeval-linux-amd64.tar.gz && mv kubeval /usr/local/bin
-                        helm dependency update server/
-                        helm template server/ --set global.platform=k8s,imageCredentials.username=test,imageCredentials.password=test > server.yaml && kubeval server.yaml --strict --exit-on-error
-                    '''
+                    script {
+                        sh "helm dependency update server/"
+                        for ( int i=0; i < charts.size(); i++) {
+                            sh "helm template ${charts[i]}/ --set global.platform=k8s,platform=k8s,imageCredentials.username=test,imageCredentials.password=test,webhooks.caBundle=test,certsSecret.serverCertificate=test,certsSecret.serverKey=test,user=test,password=test > ${charts[i]}.yaml && \
+                            kubeval ${charts[i]}.yaml --ignore-missing-schemas"
+                        }
+                    }
                 }
             }
         stage("Creating k3s") {
@@ -74,22 +63,30 @@ pipeline {
                 sh 'curl -sfL https://get.k3s.io | sh -'
                 sleep(5)
                 echo 'k3s installed'
+                echo 'testing kubectl'
+                sh 'kubectl version'
             }
         }
         stage("Integration Test") {
             steps {
-                //sh 'tar -zxvf helm-v3.7.2-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin'
-                echo "okay"
+                sh '''
+                    wget -q https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz
+                    tar -zxvf helm-v3.7.2-linux-amd64.tar.gz
+                    mv linux-amd64/helm /usr/local/bin
+                    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x kubectl && mv kubectl /usr/bin/"
+                '''
+                sh 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml'
+                sh 'helm list -A'
             }
         }
         stage("Clearing deployment") {
             steps {
-                sh 'tar -zxvf helm-v3.7.2-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin'
                 //sh 'helm uninstall -n aqua $(helm list -A | awk '{print $1}' | tail -n+2)'
-                echo 'helm uninstall completed'
+                //echo 'helm uninstall completed'
                 sh 'sh /usr/local/bin/k3s-uninstall.sh'
                 sleep(5)
                 echo 'k3s uninstalled'
+                sh 'rm -rf helm-v3.7.2-linux-amd64.tar.gz linux-amd64 /usr/bin'
             }
         }
 //        stage("Pushing Helm chart to dev repo") {
