@@ -96,7 +96,7 @@ pipeline {
                     steps {
                         script {
                             log.info "checking all pods are running or not"
-                            def buildScript= "kubectl get pods -n aqua  | awk '{print $3}' |grep -v STATUS | grep -v Running"
+                            def buildScript= "kubectl get pods -n aqua  | awk '{print \$3}' |grep -v STATUS | grep -v Running"
                             def rc = script.sh(script: buildScript, returnStatus: true)
                             if (rc == 0) {
                                 log.warn("Found issues in aqua namespace")
