@@ -45,7 +45,7 @@ roleRef:
   {{- end }}
 subjects:
   - kind: ServiceAccount
-    name: {{ .Values.serviceAccount.name }}
+    name: {{ template "serviceAccount" . }}
     namespace: {{ .Release.Namespace }}
 ---
 ## Openshift RBAC
@@ -56,7 +56,7 @@ metadata:
   name: {{ .Release.Name }}-cluster-reader
 subjects:
   - kind: ServiceAccount
-    name: {{ .Values.serviceAccount.name }}
+    name: {{ template "serviceAccount" . }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -108,7 +108,7 @@ seLinuxContext:
 supplementalGroups:
   type: RunAsAny
 users:
-- system:serviceaccount:{{ .Release.Namespace }}:{{ .Values.serviceAccount.name }}
+- system:serviceaccount:{{ .Release.Namespace }}:{{ template "serviceAccount" . }}
 volumes:
 - configMap
 - downwardAPI
