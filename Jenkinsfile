@@ -61,14 +61,14 @@ pipeline {
                     }
                 }
             }
-        stage("Creating k3s") {
+        stage("Creating K3s Cluster") {
             steps {
                 sh 'curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -'
                 sleep(3)
                 echo 'k3s installed'
             }
         }
-        stage("Integration Test") {
+        stage("Deploying Aqua Charts") {
             steps {
                 sh '''
                     wget -q https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz
@@ -83,12 +83,39 @@ pipeline {
                     log.info "installing server chart"
                     def TOKEN = sh script: "az acr login --name 'aquasec' --expose-token -o json", returnStdout: true
                     def exposedTokenJSON = readJSON text: "${TOKEN}"
-                    sh "local/bin/helm upgrade --install --namespace aqua server server/ --set global.platform=k3s,repositoryUriPrefix=aquasec.azurecr.io,imageCredentials.username=00000000-0000-0000-0000-000000000000,imageCredentials.password=\\${exposedTokenJSON['accessToken']}\n"
-                    sh "kubectl -n aqua get secrets aqua-registry-secret -oyaml && local/bin/helm list -n aqua"
+                    sh "local/bin/helm upgrade --install --namespace aqua server server/ --set global.platform=k3s,gateway.service.type=LoadBalancer,imageCredentials.repositoryUriPrefix=aquasec.azurecr.io,gateway.imageCredentials.repositoryUriPrefix=aquasec.azurecr.io,imageCredentials.username=00000000-0000-0000-0000-000000000000,imageCredentials.password=\\${exposedTokenJSON['accessToken']}\n"
+                    sh "local/bin/helm list -n aqua"
                 }
                 sleep(45)
-                sh "kubectl get pods -n aqua"
-                sh "local/bin/helm uninstall server -n aqua"
+                sh "kubectl get pods -n aqua && kubectl get svc -n aqua"
+            }
+        }
+        stage("Validating") {
+            parallel {
+                stage("Validating pods state") {
+                    steps {
+                        script {
+                            log.info "checking all pods are running or not"
+                            def buildScript= "kubectl get pods -n aqua  | awk '{print $3}' |grep -v STATUS | grep -v Running"
+                            def rc = script.sh(script: buildScript, returnStatus: true)
+                            if (rc == 0) {
+                                log.warn("Found issues in aqua namespace")
+                                script.sh("kubectl describe pods -n aqua >> describe_pods.log ")
+                                script.archiveArtifacts "describe_pods.log"
+                            }
+                            else {
+                                log.info("all pods are running")
+                            }
+                        }
+                    }
+                }
+                stage("Validating Server endpoint") {
+                    stpes {
+                        script {
+                            sh "kubectl get svc -n aqua"
+                        }
+                    }
+                }
             }
         }
 
@@ -122,9 +149,9 @@ pipeline {
     post {
         always {
             script {
-                sh 'sh /usr/local/bin/k3s-uninstall.sh'
-                sleep(5)
-                echo 'k3s uninstalled'
+                sh "local/bin/helm uninstall server -n aqua"
+                sh "sh /usr/local/bin/k3s-uninstall.sh"
+                echo "k3s & server chart uninstalled"
                 cleanWs()
 //                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
             }
