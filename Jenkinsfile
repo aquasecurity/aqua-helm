@@ -8,6 +8,7 @@ pipeline {
     }
     environment {
         AQUASEC_AZURE_ACR_PASSWORD = credentials('aquasecAzureACRpassword')
+        AFW_SERVER_LICENSE_TOKEN = credentials('AFW_SERVER_LICENSE_TOKEN')
     }
     options {
         ansiColor('xterm')
@@ -84,7 +85,7 @@ pipeline {
                     def TOKEN = sh script: "az acr login --name 'aquasec' --expose-token -o json", returnStdout: true
                     def exposedTokenJSON = readJSON text: "${TOKEN}"
                     sh "kubectl create secret -n aqua docker-registry aquasec-registry --docker-server=aquasec.azurecr.io  --docker-username=00000000-0000-0000-0000-000000000000  --docker-password=\\${exposedTokenJSON['accessToken']}\n"
-                    sh "local/bin/helm upgrade --install --namespace aqua server server/ --set global.platform=k3s,gateway.service.type=LoadBalancer,imageCredentials.create=false,imageCredentials.name=aquasec-registry,imageCredentials.repositoryUriPrefix=aquasec.azurecr.io,gateway.imageCredentials.repositoryUriPrefix=aquasec.azurecr.io"
+                    sh "local/bin/helm upgrade --install --namespace aqua server server/ --set global.platform=k3s,gateway.service.type=LoadBalancer,imageCredentials.create=false,imageCredentials.name=aquasec-registry,imageCredentials.repositoryUriPrefix=aquasec.azurecr.io,gateway.imageCredentials.repositoryUriPrefix=aquasec.azurecr.io,admin.password=HelmAquaCI@123,admin.token=${AFW_SERVER_LICENSE_TOKEN}"
                     sh "local/bin/helm list -n aqua"
                 }
                 sleep(90)
@@ -97,8 +98,8 @@ pipeline {
                     steps {
                         script {
                             log.info "checking all pods are running or not"
-                            def buildScript = "kubectl get pods -n aqua  | awk '{print \$3}' |grep -v STATUS | grep -v Running"
-                            def rc = sh script: "${buildScript}", returnStdout: true
+                            def buildScript = sh script: "kubectl get pods -n aqua  | awk '{print \$3}' |grep -v STATUS | grep -v Running", returnStdout: true
+                            def rc = "${buildScript}"
                             if (rc == 0) {
                                 log.warn("Found issues in aqua namespace")
                                 script.sh("kubectl describe pods -n aqua >> describe_pods.log ")
@@ -114,7 +115,15 @@ pipeline {
                     steps {
                         script {
                             sh "kubectl get svc -n aqua"
+                            def STATUS = sh script: "curl -o /dev/null -s -w "%{http_code}\n" localhost:8080", returnStdout: true
+                            if (STATUS == '200') {
+                                log.info("server up and running")
+                            } else {
+                                log.warn("Issue with server")
+                            }
                         }
+                        sleep(5)
+                        sh "kubectl get pods -n aqua"
                     }
                 }
             }
