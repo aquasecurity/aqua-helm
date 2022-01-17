@@ -74,8 +74,9 @@ pipeline {
                     mv linux-amd64/helm local/bin/
                 '''
                 sh 'touch ./k3s.yaml && cp /etc/rancher/k3s/k3s.yaml ./k3s.yaml && export KUBECONFIG=./k3s.yaml'
-                sh 'echo $KUBECONFIG && cat ./k3s.yaml && cat export KUBECONFIG=./k3s.yaml'
+                sh 'echo $KUBECONFIG && cat ./k3s.yaml && cat /etc/rancher/k3s/k3s.yaml'
                 sh 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml'
+                sh 'echo $KUBECONFIG'
                 sh 'kubectl get nodes -o wide'
                 sh 'local/bin/helm list -A'
             }
