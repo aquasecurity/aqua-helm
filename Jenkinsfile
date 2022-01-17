@@ -63,8 +63,6 @@ pipeline {
                 sh 'curl -sfL https://get.k3s.io | sh -'
                 sleep(5)
                 echo 'k3s installed'
-                echo 'testing kubectl'
-                sh 'kubectl version'
             }
         }
         stage("Integration Test") {
@@ -73,22 +71,13 @@ pipeline {
                     wget -q https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz
                     tar -zxvf helm-v3.7.2-linux-amd64.tar.gz
                     mv linux-amd64/helm /usr/local/bin
-                    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x kubectl && mv kubectl /usr/bin/"
                 '''
                 sh 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml'
+                sh 'kubectl get nodes'
                 sh 'helm list -A'
             }
         }
-        stage("Clearing deployment") {
-            steps {
-                //sh 'helm uninstall -n aqua $(helm list -A | awk '{print $1}' | tail -n+2)'
-                //echo 'helm uninstall completed'
-                sh 'sh /usr/local/bin/k3s-uninstall.sh'
-                sleep(5)
-                echo 'k3s uninstalled'
-                sh 'rm -rf helm-v3.7.2-linux-amd64.tar.gz linux-amd64 /usr/bin'
-            }
-        }
+
 //        stage("Pushing Helm chart to dev repo") {
 //            agent {
 //                docker {
@@ -119,6 +108,10 @@ pipeline {
     post {
         always {
             script {
+                sh 'sh /usr/local/bin/k3s-uninstall.sh'
+                sleep(5)
+                echo 'k3s uninstalled'
+                sh 'rm -rf helm-v3.7.2-linux-amd64.tar.gz linux-amd64 /usr/bin/helm || true'
                 cleanWs()
 //                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
             }
