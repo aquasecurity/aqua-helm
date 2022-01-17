@@ -83,7 +83,8 @@ pipeline {
                     log.info "installing server chart"
                     def TOKEN = sh script: "az acr login --name 'aquasec' --expose-token -o json", returnStdout: true
                     def exposedTokenJSON = readJSON text: "${TOKEN}"
-                    sh "local/bin/helm upgrade --install --namespace aqua server server/ --set global.platform=k3s,gateway.service.type=LoadBalancer,imageCredentials.repositoryUriPrefix=aquasec.azurecr.io,gateway.imageCredentials.repositoryUriPrefix=aquasec.azurecr.io,imageCredentials.username=00000000-0000-0000-0000-000000000000,imageCredentials.password=\\${exposedTokenJSON['accessToken']}\n"
+                    sh "kubectl create secret -n aqua docker-registry aquasec-registry --docker-server=aquasec.azurecr.io  --docker-username=00000000-0000-0000-0000-000000000000  --docker-password=\\${exposedTokenJSON['accessToken']}\n"
+                    sh "local/bin/helm upgrade --install --namespace aqua server server/ --set global.platform=k3s,gateway.service.type=LoadBalancer,imageCredentials.create=false,imageCredentials.name=aquasec-registry,imageCredentials.repositoryUriPrefix=aquasec.azurecr.io,gateway.imageCredentials.repositoryUriPrefix=aquasec.azurecr.io"
                     sh "local/bin/helm list -n aqua"
                 }
                 sleep(45)
