@@ -4,7 +4,10 @@ def charts = [ 'server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstar
 def platforms = ['gke', 'openshift']
 pipeline {
     agent {
-            label 'automation_slaves'
+        label 'automation_slaves'
+    }
+    environment {
+        AQUASEC_AZURE_ACR_PASSWORD = credentials('aquasecAzureACRpassword')
     }
     options {
         ansiColor('xterm')
@@ -61,7 +64,7 @@ pipeline {
         stage("Creating k3s") {
             steps {
                 sh 'curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -'
-                sleep(5)
+                sleep(3)
                 echo 'k3s installed'
             }
         }
@@ -73,12 +76,20 @@ pipeline {
                     mkdir -pv local/bin
                     mv linux-amd64/helm local/bin/
                 '''
-                sh 'touch ./k3s.yaml && cp /etc/rancher/k3s/k3s.yaml ~/.kube/config && cat ~/.kube/config'
+                sh 'cp /etc/rancher/k3s/k3s.yaml ~/.kube/config'
                 sh 'export KUBECONFIG=~/.kube/config'
-                sh 'kubectl config view'
-                sh 'echo $KUBECONFIG'
                 sh 'kubectl get nodes -o wide'
-                sh 'local/bin/helm list -A'
+                script {
+                    log.info "installing server chart"
+                    def TOKEN = sh script: "az acr login --name 'aquasec' --expose-token -o json", returnStdout: true
+                    def exposedTokenJSON = readJSON text: "${TOKEN}"
+                    echo "\\${exposedTokenJSON['accessToken']}\n" || true
+                    echo "${exposedTokenJSON['accessToken']}" || true
+                    sh "local/bin/helm upgrade --install --namespace aqua server server/ --set imageCredentials.username=00000000-0000-0000-0000-000000000000,imageCredentials.password=\\${exposedTokenJSON['accessToken']}\n,global.platform=k3s"
+                    sh "local/bin/helm list -n aqua"
+                    sh "local/bin/helm uninstall server -n aqua"
+                }
+                
             }
         }
 
