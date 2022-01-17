@@ -70,11 +70,12 @@ pipeline {
                 sh '''
                     wget -q https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz
                     tar -zxvf helm-v3.7.2-linux-amd64.tar.gz
-                    mv linux-amd64/helm /usr/local/bin
+                    mkdir -pv local/bin
+                    mv linux-amd64/helm local/bin/
                 '''
                 sh 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml'
                 sh 'kubectl get nodes'
-                sh 'helm list -A'
+                sh 'local/bin/helm list -A'
             }
         }
 
@@ -111,7 +112,7 @@ pipeline {
                 sh 'sh /usr/local/bin/k3s-uninstall.sh'
                 sleep(5)
                 echo 'k3s uninstalled'
-                sh 'rm -rf helm-v3.7.2-linux-amd64.tar.gz linux-amd64 /usr/bin/helm || true'
+                sh 'rm -rf helm-v3.7.2-linux-amd64.tar.gz local/bin/helm || true'
                 cleanWs()
 //                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
             }
