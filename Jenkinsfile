@@ -87,7 +87,7 @@ pipeline {
                     sh "local/bin/helm upgrade --install --namespace aqua server server/ --set global.platform=k3s,gateway.service.type=LoadBalancer,imageCredentials.create=false,imageCredentials.name=aquasec-registry,imageCredentials.repositoryUriPrefix=aquasec.azurecr.io,gateway.imageCredentials.repositoryUriPrefix=aquasec.azurecr.io"
                     sh "local/bin/helm list -n aqua"
                 }
-                sleep(45)
+                sleep(90)
                 sh "kubectl get pods -n aqua && kubectl get svc -n aqua"
             }
         }
@@ -97,8 +97,8 @@ pipeline {
                     steps {
                         script {
                             log.info "checking all pods are running or not"
-                            def buildScript= "kubectl get pods -n aqua  | awk '{print \$3}' |grep -v STATUS | grep -v Running"
-                            def rc = script.sh(script: buildScript, returnStatus: true)
+                            def buildScript = "kubectl get pods -n aqua  | awk '{print \$3}' |grep -v STATUS | grep -v Running"
+                            def rc = sh script: "${buildScript}", returnStdout: true
                             if (rc == 0) {
                                 log.warn("Found issues in aqua namespace")
                                 script.sh("kubectl describe pods -n aqua >> describe_pods.log ")
