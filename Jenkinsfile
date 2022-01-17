@@ -60,7 +60,7 @@ pipeline {
             }
         stage("Creating k3s") {
             steps {
-                sh 'curl -sfL https://get.k3s.io | sh -'
+                sh 'curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -'
                 sleep(5)
                 echo 'k3s installed'
             }
@@ -73,8 +73,9 @@ pipeline {
                     mkdir -pv local/bin
                     mv linux-amd64/helm local/bin/
                 '''
-                sh 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml'
-                sh 'kubectl get nodes'
+                sh 'cat /etc/rancher/k3s/k3s.yaml > ./k3s.yaml && export KUBECONFIG=./k3s.yaml'
+                sh 'echo $KUBECONFIG && pwd && ls'
+                sh 'kubectl get nodes -o wide'
                 sh 'local/bin/helm list -A'
             }
         }
@@ -112,7 +113,7 @@ pipeline {
                 sh 'sh /usr/local/bin/k3s-uninstall.sh'
                 sleep(5)
                 echo 'k3s uninstalled'
-                sh 'rm -rf helm-v3.7.2-linux-amd64.tar.gz local/bin/helm || true'
+                sh 'rm -rf helm-v3.7.2-linux-amd64.tar.gz local/bin/helm k3s.yaml || true'
                 cleanWs()
 //                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
             }
