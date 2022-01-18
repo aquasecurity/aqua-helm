@@ -29,46 +29,42 @@ pipeline {
                 ])              
             }
         }
-        stage("Checkings & K3s Install") {
-            parallel {
-                stage("Lint Checking") {
-                    agent {
-                        dockerfile {
-                            filename 'Dockerfile'
-                            reuseNode true
-                            }
+        stage("Lint Checking") {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    reuseNode true
                     }
-                    steps {
-                        script {
-                            for ( int i=0; i < charts.size(); i++) {
-                                sh "helm lint ${charts[i]}"
-                            }
+            }
+            steps {
+                script {
+                    for ( int i=0; i < charts.size(); i++) {
+                        sh "helm lint ${charts[i]}"
+                    }
+                }
+            }
+        }
+        stage("Kubeval Checkings") {
+                agent {
+                    dockerfile {
+                        filename 'Dockerfile'
+                        reuseNode true
+                        }
+                }
+                steps {
+                    script {
+                        sh "helm dependency update server/"
+                        for ( int i=0; i < charts.size(); i++) {
+                            sh "helm template ${charts[i]}/ --set global.platform=k8s,platform=k8s,imageCredentials.username=test,imageCredentials.password=test,webhooks.caBundle=test,certsSecret.serverCertificate=test,certsSecret.serverKey=test,user=test,password=test > ${charts[i]}.yaml && \
+                            kubeval ${charts[i]}.yaml --ignore-missing-schemas"
                         }
                     }
                 }
-                stage("Kubeval Checkings") {
-                        agent {
-                            dockerfile {
-                                filename 'Dockerfile'
-                                reuseNode true
-                                }
-                        }
-                        steps {
-                            script {
-                                sh "helm dependency update server/"
-                                for ( int i=0; i < charts.size(); i++) {
-                                    sh "helm template ${charts[i]}/ --set global.platform=k8s,platform=k8s,imageCredentials.username=test,imageCredentials.password=test,webhooks.caBundle=test,certsSecret.serverCertificate=test,certsSecret.serverKey=test,user=test,password=test > ${charts[i]}.yaml && \
-                                    kubeval ${charts[i]}.yaml --ignore-missing-schemas"
-                                }
-                            }
-                        }
-                }
-                stage("Creating K3s Cluster") {
-                    steps {
-                        sh 'curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -'
-                        echo 'k3s installed'
-                    }
-                }
+        }
+        stage("Creating K3s Cluster") {
+            steps {
+                sh 'curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -'
+                echo 'k3s installed'
             }
         }
         stage("Deploying Aqua Charts") {
@@ -165,7 +161,7 @@ pipeline {
     post {
         always {
             script {
-                sh "local/bin/helm uninstall server -n aqua"
+                sh "local/bin/helm uninstall server enforcer -n aqua"
                 sh "sh /usr/local/bin/k3s-uninstall.sh"
                 echo "k3s & server chart uninstalled"
                 cleanWs()
