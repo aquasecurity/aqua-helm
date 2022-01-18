@@ -120,6 +120,11 @@ TLS:
 # https://docs.aquasec.com/docs/enforcer-optional-variables
 extraEnvironmentVars: {}
 #  ENV_NAME: value
+  #https_proxy:
+  #http_proxy: 
+  #no_proxy:
+
+
 
 # extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
 # These variables take value from existing Secret objects.
