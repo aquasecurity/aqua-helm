@@ -1,3 +1,6 @@
+## 6.5.6 ( January 19th, 2022 )
+* Fix serviceAccount and pull image registry secret to support deployment on same cluster
+  with the server and gateway or separate cluster
 ## 6.5.5 ( January 10th, 2022 )
 * Add Mirantis kubernetes platform support [480](https://github.com/aquasecurity/aqua-helm/pull/480)
 * Fix issue with duplicate parameters [483](https://github.com/aquasecurity/aqua-helm/issues/483)

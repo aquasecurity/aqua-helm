@@ -14,22 +14,18 @@ Else if .Values.serviceAccount.create set to true, so will becreate serviceAccou
 .Values.serviceAccount.name or will be generated name based on Chart Release name
 */}}
 {{- define "serviceAccount" -}}
-{{- if not (and .Values.serviceAccount.create .Values.serviceAccount.name) }}
-{{- printf "aqua-sa" }}
-{{- else }}
-{{- if .Values.serviceAccount.create }}
-{{ .Values.serviceAccount.name | default (printf "%s-sa" .Release.Name) }}
-{{- end -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ .Values.serviceAccount.name | default (printf "%s-sa" .Release.Name) }}
+{{- else if not .Values.serviceAccount.name -}}
+    {{- printf "aqua-sa" }}
 {{- end -}}
 {{- end -}}
 
 {{- define "registrySecret" -}}
-{{- if not (and .Values.imageCredentials.create .Values.imageCredentials.name) }}
-{{- printf "aqua-registry-secret" }}
-{{- else }}
-{{- if .Values.imageCredentials.create }}
-{{ .Values.imageCredentials.name | default (printf "%s-registry-secret" .Release.Name) }}
-{{- end -}}
+{{- if .Values.imageCredentials.create -}}
+    {{ .Values.imageCredentials.name | default (printf "%s-registry-secret" .Release.Name) }}
+{{- else if not .Values.imageCredentials.name -}}
+    {{- printf "aqua-registry-secret" }}
 {{- end -}}
 {{- end -}}
 
