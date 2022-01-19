@@ -27,7 +27,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccountName: {{ .Values.serviceAccount.name }}
+      serviceAccountName: {{ template "serviceAccount" . }}
       containers:
         - name: kube-enforcer
           {{- with .Values.container_securityContext }}

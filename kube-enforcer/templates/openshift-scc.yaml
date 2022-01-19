@@ -35,7 +35,7 @@ supplementalGroups:
 seccompProfiles:
 - '*'
 users:
-- system:serviceaccount:{{ .Release.Namespace }}:{{ .Values.serviceAccount.name }}
+- system:serviceaccount:{{ .Release.Namespace }}:{{ template "serviceAccount" . }}
 volumes: 
 - '*'
 {{- end }}
