@@ -7,7 +7,10 @@ pipeline {
     }
     environment {
         AQUASEC_AZURE_ACR_PASSWORD = credentials('aquasecAzureACRpassword')
-        AFW_SERVER_LICENSE_TOKEN = credentials('AFW_SERVER_LICENSE_TOKEN')
+        AFW_SERVER_LICENSE_TOKEN = credentials('AquaDeploymentLicenseToken')
+        ROOT_CA = credentials('deployment_ke_webook_root_ca')
+        SERVER_CERT = credentials('deployment_ke_webook_crt')
+        SERVER_KEY = credentials('deployment_ke_webook_key')
     }
     options {
         ansiColor('xterm')
@@ -88,6 +91,8 @@ pipeline {
                     sh('local/bin/helm upgrade --install --namespace aqua server server/ --set global.platform=k3s,gateway.service.type=LoadBalancer,imageCredentials.create=false,imageCredentials.name=aquasec-registry,imageCredentials.repositoryUriPrefix=aquasec.azurecr.io,gateway.imageCredentials.repositoryUriPrefix=aquasec.azurecr.io,admin.password=HelmAquaCI@123,admin.token=$AFW_SERVER_LICENSE_TOKEN')
                     log.info "Installing enforcer chart"
                     sh('local/bin/helm upgrade --install --namespace aqua enforcer enforcer/ --set imageCredentials.create=false,imageCredentials.name=aquasec-registry,imageCredentials.repositoryUriPrefix=aquasec.azurecr.io,platform=k3s')
+                    log.info "Installing Kube-enforcer chart"
+                    sh('local/bin/helm upgrade --install --namespace aqua kube-enforcer/ --set imageCredentials.create=false,imageCredentials.name=aquasec-registry,imageCredentials.repositoryUriPrefix=aquasec.azurecr.io,platform=k3s,webhooks.caBundle=$ROOT_CA,certsSecret.serverCertificate=$SERVER_CERT,certsSecret.serverKey=$SERVER_KEY')
                 }
                 sleep(120)
                 sh "kubectl get pods -n aqua && kubectl get svc -n aqua"
