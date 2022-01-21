@@ -153,7 +153,7 @@ Parameter | Description | Default| Mandatory
 `gate.port` | gateway port | `8443`| `YES`
 `image.repository` | the docker image name to use | `enforcer`| `YES`
 `image.tag` | The image tag to use. | `6.5`| `YES`
-`image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
+`image.pullPolicy` | The kubernetes image pull policy. | `Always`| `NO`
 `healthMonitor.enabled` | Enabling health monitoring for enforcer liveness and readiness | `true` | `YES`
 `resources` |	Resource requests and limits | `{}`| `NO`
 `nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
