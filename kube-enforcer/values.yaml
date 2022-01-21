@@ -10,7 +10,7 @@ imageCredentials:
 
 serviceAccount:
   create: false
-  name:
+  name: ""
 
 #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
 # aks = Azure Kubernetes Service
@@ -25,11 +25,11 @@ serviceAccount:
 # mke = Mirantis Kubernetes Engine
 platform: ""
 
-aqua_enable_cache: yes # Specify whether to enable/disable the cache by using "yes", "true", "no", "false" values.
-aqua_cache_expiration_period: 60 # default value is 60
+aqua_enable_cache: "yes" # Specify whether to enable/disable the cache by using "yes", "true", "no", "false" values.
+aqua_cache_expiration_period: "60" # default value is 60
 
 image:
-  repository: kube-enforcer
+  repository: "kube-enforcer"
   tag: "6.5"
   pullPolicy: Always
 
@@ -45,13 +45,13 @@ logLevel: ""
 # Set create to false if you want to use an existing secret for the kube-enforcer certs
 certsSecret:
   create: true
-  name: aqua-kube-enforcer-certs # If you're using existing certs change the name to existing secret name
+  name: "aqua-kube-enforcer-certs" # If you're using existing certs change the name to existing secret name
   serverCertificate: ""
   serverKey: ""
 
 aquaSecret:
   create: true
-  name: aqua-kube-enforcer-token
+  name: "aqua-kube-enforcer-token"
 # Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
   kubeEnforcerToken: ke-token
 
@@ -60,32 +60,33 @@ gateway:
   port: 8443
 
 clusterRole:
-  name: aqua-kube-enforcer
+  name: "aqua-kube-enforcer"
 
 clusterRoleBinding:
-  name: aqua-kube-enforcer  
+  name: "aqua-kube-enforcer"
 
 role:
-  name: aqua-kube-enforcer
+  name: "aqua-kube-enforcer"
 
 roleBinding:
-  name: aqua-kube-enforcer 
+  name: "aqua-kube-enforcer"
 
 webhooks:
-  caBundle: "" # this field is required unless you're using Kubernetes cert-manager (set the flag below to true)
   certManager: false # set this field true if you're using cert-manager and don't need to pass a caBundle
+  caBundle: ""
   failurePolicy: Ignore
   validatingWebhook:
-    name: kube-enforcer-admission-hook-config
+    name: "kube-enforcer-admission-hook-config"
     annotations: {}
   mutatingWebhook:
-    name: kube-enforcer-me-injection-hook-config
+    name: "kube-enforcer-me-injection-hook-config"
     annotations: {}
 
 securityContext:
   runAsUser: 11431
   runAsGroup: 11433
   fsGroup: 11433
+
 container_securityContext: {}
 
 livenessProbe:
@@ -202,7 +203,7 @@ kubeEnforcerAdvance:
 
   envoy:
     image:
-      repository: envoy
+      repository: "envoy"
       tag: "6.5"
       pullPolicy: Always
 

@@ -3,15 +3,16 @@
 def charts = [ 'server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector' ]
 pipeline {
     agent {
-        label 'automation_azure'
+        label 'automation_slaves'
     }
+    /*
     environment {
         AQUASEC_AZURE_ACR_PASSWORD = credentials('aquasecAzureACRpassword')
         AFW_SERVER_LICENSE_TOKEN = credentials('AquaDeploymentLicenseToken')
         ROOT_CA = credentials('deployment_ke_webook_root_ca')
         SERVER_CERT = credentials('deployment_ke_webook_crt')
         SERVER_KEY = credentials('deployment_ke_webook_key')
-    }
+    } */
     options {
         ansiColor('xterm')
         timestamps()
@@ -64,6 +65,7 @@ pipeline {
                     }
                 }
         }
+        /*
         stage("Creating K3s Cluster") {
             steps {
                 sh 'curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -'
@@ -135,7 +137,7 @@ pipeline {
                 }
             }
         }
-
+        */
         stage("Pushing Helm chart to dev repo") {
             agent {
                 docker {
@@ -166,9 +168,11 @@ pipeline {
     post {
         always {
             script {
+                /* 
                 sh "local/bin/helm uninstall server enforcer -n aqua"
                 sh "sh /usr/local/bin/k3s-uninstall.sh"
                 echo "k3s & server chart uninstalled"
+                */
                 cleanWs()
 //                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
             }

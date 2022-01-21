@@ -6,9 +6,9 @@ APP VERSION: {{ .Chart.AppVersion  }}
 
 ========================================================================
 
-Thank you for Deploying Aqua Enforcer.
+Thank you for Deploying Aqua Kube-Enforcer.
 
-Now that you have deployed Aqua Enforcer, you should look over the docs on using: 
+Now that you have deployed Aqua Kube-Enforcer, you should look over the docs on using: 
 
 https://docs.aquasec.com/docs
 

@@ -1,5 +1,12 @@
+======== Deployment Details =============
 
-Thank you for installing Aqua Security Server.
+CHART NAME: {{ .Chart.Name  }}
+CHART VERSION: {{ .Chart.Version  }}
+APP VERSION: {{ .Chart.AppVersion  }}
+
+========================================================================
+
+Thank you for Deploying Aqua Security Server.
 
 Now that you have deployed Aqua Server, you should look over the docs on using: 
 
@@ -7,3 +14,19 @@ https://docs.aquasec.com/docs
 
 
 Your release is named {{ .Release.Name }}.
+
+1. Get running pods
+* kubectl get pods --namespace {{ .Release.Namespace }}
+
+
+2. Get Endpoint of aqua server to access Aqua Web
+ * kubectl get svc/{{ .Release.Name }}-console-svc --namespace {{ .Release.Namespace }}
+
+ Access Aqua web UI by:
+    HTTP  - http://<EXTERNAL-IP>:8080
+    HTTPS - https://<EXTERNAL-IP>:443
+
+3. Get Endpoint of aqua gateway to connect enforcers
+ * kubectl get svc/{{ .Release.Name }}-gateway-svc --namespace {{ .Release.Namespace }}
+
+========================================================================
