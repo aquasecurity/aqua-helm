@@ -16,16 +16,16 @@ Else if .Values.serviceAccount.create set to true, so will becreate serviceAccou
 {{- define "serviceAccount" -}}
 {{- if .Values.serviceAccount.create -}}
     {{ .Values.serviceAccount.name | default (printf "%s-sa" .Release.Name) }}
-{{- else if not .Values.serviceAccount.name -}}
-    {{- printf "aqua-sa" }}
+{{- else if not .Values.serviceAccount.create -}}
+    {{ .Values.serviceAccount.name | default (printf "aqua-sa") }}
 {{- end -}}
 {{- end -}}
 
 {{- define "registrySecret" -}}
 {{- if .Values.imageCredentials.create -}}
     {{ .Values.imageCredentials.name | default (printf "%s-registry-secret" .Release.Name) }}
-{{- else if not .Values.imageCredentials.name -}}
-    {{- printf "aqua-registry-secret" }}
+{{- else if not .Values.imageCredentials.create -}}
+    {{ .Values.imageCredentials.name | default (printf "aqua-registry-secret") }}
 {{- end -}}
 {{- end -}}
 
