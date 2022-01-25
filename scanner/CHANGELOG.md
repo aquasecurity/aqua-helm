@@ -1,3 +1,5 @@
+## 6.5.4 ( January 25th, 2021 )
+* Update serviceAccount and image pull secret to support different options
 ## 6.5.3 ( December 5, 2021 )
 * Remove duplicated namespace definition in serviceAccount - [446](https://github.com/aquasecurity/aqua-helm/pull/446)
 ## 6.5.2 ( November 24th, 2021 )

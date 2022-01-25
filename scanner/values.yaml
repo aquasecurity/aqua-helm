@@ -1,7 +1,18 @@
 # Specifies the secret data for imagePullSecrets needed to fetch the private docker images
 imageCredentials:
-  create: false   #enable to create registry credentials for scanner image
-  name: scanner-registry-secret # example
+  # If imageCredentials.create=false and imageCredentials.name not defined
+  # then will be used secret aqua-registry-secret which created by aqua-server helm chart
+  #####################
+  # If imageCredentials.create=false and imageCredentials.name defined then will be used secret with defined name
+  # but in this case secret should be created manually before chart deploying
+  #####################
+  # If imageCredentials.create=create and imageCredentials.name not defined
+  # then will be created a secret with name <Chart ReleaseName>-registry-secret
+  #####################
+  # If imageCredentials.create=create and imageCredentials.name defined
+  # then will be created a secret with name provided name
+  create: false
+  name:
   repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
   registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
   username: ""
@@ -14,9 +25,20 @@ dockerSock:
 directCC:
   enabled: true     # Change it to false if the scanners don't connect directly to CyberCenter but only console does
 
+  # If serviceAccount.create=false and serviceAccount.name not defined
+  # then will be used serviceAccount aqua-sa which created by aqua-server helm chart
+  #####################
+  # If serviceAccount.create=false and serviceAccount.name defined then will be used serviceAccount with defined name
+  # but in this case serviceAccount should be created manually before chart deploying
+  #####################
+  # If serviceAccount.create=create and serviceAccount.name not defined
+  # then will be created a serviceAccount with name <Chart ReleaseName>-sa
+  #####################
+  # If serviceAccount.create=create and serviceAccount.name defined
+  # then will be created a serviceAccount with name provided name
 serviceAccount:
-  create: false     #Change it to false if the cluster doesn't consists aqua service account
-  name: "aqua-sa"   #Mention the Service Account name, Default "aqua-sa"
+  create: false
+  name:
 
 server:
   scheme: "http" #specify the schema for the server host URL, default it is http
