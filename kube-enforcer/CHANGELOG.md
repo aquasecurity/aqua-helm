@@ -1,3 +1,5 @@
+## 6.5.8 ( January 25th)
+* Update kube-enforcer configMap to support custom certificate names for TLS
 ## 6.5.7 ( January 21th)
 * Fix issue - [497](https://github.com/aquasecurity/aqua-helm/issues/497)
 ## 6.5.6 ( January 19th, 2022 )

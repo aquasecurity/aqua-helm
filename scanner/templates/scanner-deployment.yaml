@@ -34,11 +34,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- if not .Values.serviceAccount}}
-      serviceAccount: {{ .Release.Name }}-sa
-      {{- else }}
-      serviceAccount: {{ .Values.serviceAccount.name }}
-      {{- end }}
+      serviceAccount: {{ template "serviceAccount" . }}
       containers:
       - name: scanner
         {{- with .Values.container_securityContext }}

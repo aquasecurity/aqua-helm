@@ -1,3 +1,6 @@
+## 6.5.4 ( January 23)
+* Fix serviceAccount and pull image registry secret to support deployment on same cluster
+  with the server and gateway or separate cluster
 ## 6.5.3 ( December 5, 2021 )
 * Remove duplicated namespace definition in serviceAccount - [446](https://github.com/aquasecurity/aqua-helm/pull/446)
 ## 6.5.2 ( November 24th, 2021 )
