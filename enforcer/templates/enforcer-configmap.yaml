@@ -11,8 +11,8 @@ data:
   AQUA_SERVER: {{ .Values.gate.host | default "aqua-gateway-svc" }}:{{ .Values.gate.port | default "8443" }}
   {{- end }}
   AQUA_INSTALL_PATH: "/var/lib/aquasec"
-  {{- if .Values.hostRunPath }}
-  AQUA_HOST_RUN_PATH: {{ .Values.hostRunPath | quote }}
+  {{- if or .Values.hostRunPath .Values.volumes.hostRun }}
+  AQUA_HOST_RUN_PATH: {{ coalesce (dig "hostRun" "path" "" .Values.volumes) .Values.hostRunPath | quote }}
   {{- end }}
   {{- if .Values.TLS.enabled }}
   AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/key.pem"

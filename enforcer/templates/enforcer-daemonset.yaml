@@ -123,16 +123,11 @@ spec:
       schedulerName: {{ .Values.schedulerName }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       volumes:
-      {{- if .Values.hostRunPath }}
+      {{ $volumes := .Values.volumes }}
       - name: var-run
         hostPath:
-          path: {{ .Values.hostRunPath }}
-      {{- else }}
-      - name: var-run
-        hostPath:
-          path: /var/run
-          type: ""
-      {{- end }}
+          path: {{ coalesce (dig "hostRun" "path" "" $volumes) .Values.hostRunPath "/var/lib" | quote }} 
+          type: {{ dig "hostRun" "type" "" $volumes | quote }}
       - name: dev
         hostPath:
           path: /dev
@@ -151,19 +146,21 @@ spec:
           type: ""
       - name: aquasec
         hostPath:
-          path: /var/lib/aquasec
-          type: ""
+          path: {{ coalesce (dig "aquasec" "path" "" $volumes) "/var/lib/aquasec" | quote }}
+          type: {{ dig "aquasec" "type" "" $volumes | quote }}
       - name: aquasec-tmp
         hostPath:
-          path: /var/lib/aquasec/tmp
+          path: {{ print (coalesce (dig "aquasec" "path" "" $volumes) "/var/lib/aquasec") "/tmp" | quote }}
           type: ""
       - name: aquasec-audit
         hostPath:
-          path: /var/lib/aquasec/audit
+          path: {{ print (coalesce (dig "aquasec" "path" "" $volumes) "/var/lib/aquasec") "/audit" | quote }}
+          type: ""
       - name: aquasec-data
         hostPath:
-          path: /var/lib/aquasec/data
+          path: {{ print (coalesce (dig "aquasec" "path" "" $volumes) "/var/lib/aquasec") "/data" | quote }}
           type: ""
+
       {{- if .Values.TLS.enabled }}
       - name: certs
         secret:

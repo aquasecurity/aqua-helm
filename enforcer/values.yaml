@@ -53,7 +53,18 @@ securityContext:
       - SYS_RESOURCE
       - IPC_LOCK
 
-hostRunPath: # pks - /var/vcap/sys/run/docker
+# use the below volumes to configure path and type for hostPath volumes
+# volumes:
+#   hostRun:
+#     path: /var/vcap/sys/run/docker
+#     type: ""
+#   aquasec:
+#     path: /var/lib/docker/aquasec
+#     type: DirectoryOrCreate
+volumes: {}
+
+# deprecated, use "volumes.hostRun" instead.
+# hostRunPath:
 
 multiple_gateway: # enable this to connect enforcer with multiple gateways
   enabled: false
@@ -65,7 +76,6 @@ gate:
 multi_gates:  # use the below hosts to add multiple gateways as required to enforcer. Format is <hostname>:<port_number>
 - aqua-gateway1-svc:8443 #example gateway 1
 - aqua-gateway2-svc:8443 #example gateway 2
-
 
 image:
   repository: enforcer

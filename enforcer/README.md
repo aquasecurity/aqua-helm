@@ -145,10 +145,11 @@ Parameter | Description | Default| Mandatory
 `enforcerTokenSecretName` | enforcer token secret name if exists | `null`| `NO`
 `enforcerTokenSecretKey` | enforcer token secret key if exists | `null`| `NO`
 `logicalName` | Specify the Logical Name the Aqua Enforcer will register under. if not specify the name will be `spec.nodeName` | `unset`| `NO`
-`nodelName` | Specify the Node Name the Aqua Enforcer will register under. if not specify the name will be `spec.nodeName` | `unset`| `NO`
+`nodeName` | Specify the Node Name the Aqua Enforcer will register under. if not specify the name will be `spec.nodeName` | `unset`| `NO`
 `securityContext.privileged` | determines if any container in a pod can enable privileged mode. | `false`| `NO`
 `securityContext.capabilities` | Linux capabilities provide a finer grained breakdown of the privileges traditionally associated with the superuser. | `add {}`| `NO`
-`hostRunPath` |	for changing host run path for example for pks need to change to /var/vcap/sys/run/docker	| `unset`| `NO`
+`volumes.hostRun` | for changing host run path or type for example for pks need to change path to /var/vcap/sys/run/docker | `{}`| `NO`
+`volumes.aquasec` | for changing path or type of aquasec hostPath volume | `{}` | `NO`
 `gate.host` | gateway host | `aqua-gateway-svc`| `YES`
 `gate.port` | gateway port | `8443`| `YES`
 `image.repository` | the docker image name to use | `enforcer`| `YES`
