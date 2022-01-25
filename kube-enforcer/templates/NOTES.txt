@@ -17,6 +17,4 @@ Your release is named {{ .Release.Name }}.
 
 1. Get running enforcer pods
 * kubectl get pods --namespace {{ .Release.Namespace }}
-
-
 ========================================================================
