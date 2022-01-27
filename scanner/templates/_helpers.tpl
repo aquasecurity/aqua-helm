@@ -73,7 +73,7 @@ Inject extra environment populated by secrets, if populated
 {{- end }}
 
 {{- define "serverCertificate" }}
-{{- printf "%s" (required "A valid .Values.serverSSL.serverSSLCert entry required" .Values.serverSSL.serverSSLCert ) | replace "\n" "" }}
+{{- printf "%s" (required "A valid .Values.serverSSL.certFile entry required" .Values.serverSSL.certFile ) | replace "\n" "" }}
 {{- end }}
 
 {{/*

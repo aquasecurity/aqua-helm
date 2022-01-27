@@ -107,9 +107,10 @@ Parameter | Description | Default| Mandatory
 `server.scheme` | scheme for server to connect | `http`| `NO`
 `server.serviceName` | service name for server to connect | `aqua-console-svc`| `YES` 
 `server.port` | service port for server to connect | `8080`| `YES`
-`serverSSl.enabled` | To establish SSL communication with Aqua Server | `false` | `NO`
-`serverSSL.secretName` | secret name for the SSL cert | `scanner-web-cert` | `NO`
-`serverSSL.serverSSLCert` | base64 value of the aqua server public certificate | `Nill` | `YES` <br /> `if serverSSl.enabled is set to true `
+`serverSSl.enable` | To establish SSL communication with Aqua Server | `false` | `NO`
+`serverSSl.createSecret` | Change to false if you're using existing server certificate secret | `true` | `YES` <br /> `if serverSSl.enable is set to true `
+`serverSSL.secretName` | secret name for the SSL cert | `scanner-web-cert` | `YES` <br /> `if serverSSl.enable is set to true `
+`serverSSL.cert_file` | If serverSSL createSecret enable to true, add base64 value of the the server public certificate or add filename of certificate if loading from custom secret | `Nill` | `YES` <br /> `if serverSSl.enable is set to true `
 `cyberCenter.mtls.enabled` | If require secure channel communication | `false` | `NO`
 `cyberCenter.mtls.secretName` | certificates secret name | `nil` | `NO`
 `cyberCenter.mtls.publicKey_fileName` | filename of the public key eg: aqua_scanner.crt | `nil`  |  `YES` <br /> `if cyberCenter.mtls.enabled is set to true`
