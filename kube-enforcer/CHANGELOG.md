@@ -1,3 +1,7 @@
+## 6.5.8 ( January 25th)
+* Update kube-enforcer configMap to support custom names for TLS certificates
+## 6.5.7 ( January 21th)
+* Fix issue - [497](https://github.com/aquasecurity/aqua-helm/issues/497)
 ## 6.5.6 ( January 19th, 2022 )
 * Fix serviceAccount and pull image registry secret to support deployment on same cluster
   with the server and gateway or separate cluster
