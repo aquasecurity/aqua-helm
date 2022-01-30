@@ -62,7 +62,7 @@ spec:
         {{- end }}
         - --host
         - "{{ .Values.server.scheme | default "http" }}://{{ .Values.server.serviceName }}:{{ .Values.server.port }}"
-        {{- if or ( .Values.serverSSL.enabled ) ( .Values.cyberCenter.mtls.enabled  ) }}
+        {{- if or ( .Values.serverSSL.enable ) ( .Values.cyberCenter.mtls.enabled  ) }}
         {{- else }}
         - --no-verify
         {{- end }}
@@ -97,10 +97,9 @@ spec:
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
         {{- end }}
-        {{- if .Values.serverSSL.enabled }}
-        - mountPath: /etc/ssl/certs
+        {{- if .Values.serverSSL.enable }}
+        - mountPath: /etc/ssl/certs/aqua-ssl.crt
           name: ssl-certs
-          readOnly: true
         {{- end }}
         {{- if .Values.cyberCenter.mtls.enabled }}
         - name: cc-mtls-certs
@@ -138,10 +137,17 @@ spec:
         hostPath:
           path: {{ .Values.dockerSock.path }}
       {{- end }}
-      {{- if .Values.serverSSL.enabled }}
+      {{- if .Values.serverSSL.enable }}
       - name: ssl-certs
         secret:
           secretName: {{ .Values.serverSSL.secretName }}
+          items:
+          {{- if .Values.serverSSL.createSecret }}
+            - key: aqua-ssl.crt
+          {{- else }}
+            - key: {{ .Values.serverSSL.certFile }}
+          {{- end }}
+              path: aqua-ssl.crt
       {{- end }}
       {{- if .Values.cyberCenter.mtls.enabled }}
       - name: cc-mtls-certs
