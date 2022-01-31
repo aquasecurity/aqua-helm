@@ -44,10 +44,10 @@ logLevel: ""
 
 # Set create to false if you want to use an existing secret for the kube-enforcer certs
 certsSecret:
-  create: true
-  name: "aqua-kube-enforcer-certs" # If you're using existing certs change the name to existing secret name
-  serverCertificate: ""
-  serverKey: ""
+  create: true            # Change to false if you're using existing server certificate secret
+  name: "aqua-kube-enforcer-certs" # Change secret name if already exists with server/web public certificate
+  serverCertificate: ""   # If certsSecret.create is enable to true, Add base64 value of the Public Certificate(server certificate) or add filename of certificate if it is loading from custom secret
+  serverKey: ""           # If certsSecret.create is enable to true, Add base64 value of the Private Key(server key) or add filename of key if it is loading from custom secret
 
 aquaSecret:
   create: true
@@ -72,7 +72,8 @@ roleBinding:
   name: "aqua-kube-enforcer"
 
 webhooks:
-  certManager: false # set this field true if you're using cert-manager and don't need to pass a caBundle
+  certManager: false      # set this field true if you're using cert-manager and don't need to pass a caBundle
+  # Add base64 value of the CA cert/Ca Bundle/RootCA Cert if certificates are not generated from cert-manager to webhooks.caBundle
   caBundle: ""
   failurePolicy: Ignore
   validatingWebhook:
