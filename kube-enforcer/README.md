@@ -293,10 +293,10 @@ In order to support L7 / gRPC communication between gateway and enforcers Aqua r
 | `clusterName`   | Cluster name registered with Aqua in Infrastructure tab | `aqua-secure` | `No` |
 | `logicalName` | This variable is used in conjunction with the KubeEnforcer group logical name to determine how the KubeEnforcer name will be displayed in the Aqua UI | `""` | `No` |
 | `logLevel` | Setting this might be helpful for problem determination. Acceptable values are DEBUG, INFO, WARN, and ERROR | `""` | `No`
-| `certsSecret.create`| Set to create a new secret for TLS authentication with the Kubernetes api-server | `true`   | `Yes`  |
-| `certsSecret.name`| Secret name for TLS authentication with the Kubernetes api-server | `aqua-kube-enforcer-certs`| `Yes`  |
-| `certsSecret.serverCertificate`   | Public certificate for TLS authentication with the Kubernetes api-server  | `N/A`    | `Yes`  |
-| `certsSecret.serverKey`  | Certificate key for TLS authentication with the Kubernetes api-server| `N/A`    | `Yes`  |
+| `certsSecret.create`| Set to create a new secret for TLS authentication with the Kubernetes api-server, Change to false if you're using existing server certificate secret | `true`   | `Yes`  |
+| `certsSecret.name`| Secret name for TLS authentication with the Kubernetes api-server, Change secret name if already exists with server/web public certificate | `aqua-kube-enforcer-certs`| `Yes`  |
+| `certsSecret.serverCertificate`   | Public certificate for TLS authentication with the Kubernetes api-server, If certsSecret.create is enable to true, Add base64 value of the Public Certificate(server certificate) or add filename of certificate if it is loading from custom secret  | `N/A`    | `Yes`  |
+| `certsSecret.serverKey`  | Certificate key for TLS authentication with the Kubernetes api-server, If certsSecret.create is enable to true, Add base64 value of the Private Key(server key) or add filename of key if it is loading from custom secret| `N/A`    | `Yes`  |
 | `aquaSecret.create`    | Aqua KubeEnforcer (KE) token secret creation | `true`    | `Yes`  |
 | `aquaSecret.name`    | Aqua KubeEnforcer (KE) token secret name  | `aqua-kube-enforcer-token` | `Yes`  |
 | `aquaSecret.kubeEnforcerToken`    | Aqua KubeEnforcer (KE) token  | `ke-token`    | `Yes`  |
@@ -307,7 +307,7 @@ In order to support L7 / gRPC communication between gateway and enforcers Aqua r
 | `role.name` | KE role name | `aqua-kube-enforcer` | `Yes` |
 | `roleBinding.name` | KE rolebinding name | `aqua-kube-enforcer` | `Yes` |
 | `webhooks.certManager` | Enable to true if using KE webhook certificates generated from kubernetes cert-manager | `false` | `No`
-| `webhooks.caBundle` | Root certificate for TLS authentication with the Kubernetes api-server | `N/A`    | `Yes` </br> `if webhooks.certManager is false`  |
+| `webhooks.caBundle` | Root certificate for TLS authentication with the Kubernetes api-server, Add base64 value of the CA cert/Ca Bundle/RootCA Cert if certificates are not generated from cert-manager to webhooks.caBundle | `N/A`    | `Yes` </br> `if webhooks.certManager is false`  |
 | `webhooks.failurePolicy` | Webhook failure policy | `false` | `Yes` |
 | `webhooks.validatingWebhook.name` | KE validating webhook name | `kube-enforcer-admission-hook-config` | `Yes` |
 | `webhooks.validatingWebhook.annotations` |  KE validating webhook annotations | `{}` | `No` |
