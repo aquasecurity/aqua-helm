@@ -78,6 +78,7 @@ groups: []
 kind: SecurityContextConstraints
 metadata:
   annotations:
+    "helm.sh/hook": pre-install
     kubernetes.io/description: aqua scc provides all features of the restricted SCC
       but allows users to run with any non-root UID and access hostPath. The user must
       specify the UID or it must be specified on the by the manifest of the container runtime.
