@@ -15,7 +15,7 @@ image:
   pullPolicy: IfNotPresent
 
 # Additional certifications that the server should trust, such a network proxy
-# The certificates should be bundled into a single file inside of a configmap
+# The certificates should be bundled into a single PEM-formatted file inside of a configmap
 additionalCerts:
   enabled: false
   name:             # The name of the configmap containing the certificates
