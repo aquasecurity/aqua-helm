@@ -168,6 +168,14 @@ web:
     repository: console
     tag: "5.3"
     pullPolicy: IfNotPresent
+  
+  # Additional certifications that the server should trust, such a network proxy
+  # The certificates should be bundled into a single file inside of a configmap
+  additionalCerts:
+    enabled: false
+    name:             # The name of the configmap containing the certificates
+    certName:         # The filename key inside of the configmap, such as "certificates.pem"
+
   service:
     type: LoadBalancer
     annotations: {}

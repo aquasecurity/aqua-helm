@@ -48,10 +48,17 @@ spec:
               fieldPath: metadata.name
         {{- include "scanner.extraEnvironmentVars" .Values | nindent 8 }}
         {{- include "scanner.extraSecretEnvironmentVars" .Values | nindent 8 }}
-        {{- if .Values.dockerSock.mount }}
+        {{- if or (.Values.dockerSock.mount) (.Values.additionalCerts.enabled) }}
         volumeMounts:
+        {{- end }}
+        {{- if .Values.dockerSock.mount }}
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
+        {{- end }}
+        {{- if .Values.additionalCerts.enabled }}
+        - name: additional-certs
+          subPath: {{ .Values.additionalCerts.certName }}
+          mountPath: /etc/ssl/certs/{{ .Values.additionalCerts.certName }}
         {{- end }}
         ports:
         - containerPort: 8080
@@ -78,9 +85,17 @@ spec:
       tolerations:
 {{ toYaml .Values.tolerations | indent 6 }}
       {{- end }}
-      {{- if .Values.dockerSock.mount }}
+      {{- if or (.Values.dockerSock.mount) (.Values.additionalCerts.enabled) }}
       volumes:
+      {{- end }}
+      {{- if .Values.dockerSock.mount }}
       - name: docker-socket-mount
         hostPath:
           path: {{ .Values.dockerSock.path }}
       {{- end }}
+      {{- if .Values.additionalCerts.enabled }}
+      - name: additional-certs
+        configMap: 
+          name: {{ .Values.additionalCerts.name }}
+      {{- end }}
+

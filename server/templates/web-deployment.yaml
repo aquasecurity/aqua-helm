@@ -164,10 +164,17 @@ spec:
         readinessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
-        {{- if .Values.dockerSock.mount }}
+        {{- if or (.Values.dockerSock.mount) (.Values.web.additionalCerts.enabled) }}
         volumeMounts:
+        {{- end }}
+        {{- if .Values.dockerSock.mount }}
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
+        {{- end }}
+        {{- if .Values.web.additionalCerts.enabled }}
+        - name: additional-certs
+          subPath: {{ .Values.web.additionalCerts.certName }}
+          mountPath: /etc/ssl/certs/{{ .Values.web.additionalCerts.certName }}
         {{- end }}
         resources:
 {{ toYaml .Values.web.resources | indent 12 }}
@@ -183,9 +190,16 @@ spec:
       tolerations:
 {{ toYaml .Values.web.tolerations | indent 6 }}
       {{- end }}
-      {{- if .Values.dockerSock.mount }}
+      {{- if or (.Values.dockerSock.mount) (.Values.web.additionalCerts.enabled) }}
       volumes:
+      {{- end }}
+      {{- if .Values.dockerSock.mount }}
       - name: docker-socket-mount
         hostPath:
           path: {{ .Values.dockerSock.path }}
+      {{- end }}
+      {{- if .Values.web.additionalCerts.enabled }}
+      - name: additional-certs
+        configMap: 
+          name: {{ .Values.web.additionalCerts.name }}
       {{- end }}
