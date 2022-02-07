@@ -1,5 +1,7 @@
-## 6.5.12 ( December 16th, 2022)
-* Update Gateway version to 6.5.12
+## 6.5.13 ( February 4th, 2022)
+* Align server labels
+## 6.5.12 ( January 16th, 2022)
+* Update Gateway version to 6.5.7
 ## 6.5.11 ( December 29th, 2021)
 * Update web ingress to support different Kubernetes versions - [469](https://github.com/aquasecurity/aqua-helm/pull/469)
 * Update gateway service type to ClusterIP by default - [470](https://github.com/aquasecurity/aqua-helm/pull/470)

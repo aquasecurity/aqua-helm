@@ -5,10 +5,8 @@ metadata:
   name: {{ .Release.Name }}-database-pvc
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ .Release.Name }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    app: aqua-audit-db
+{{ include "aqua.labels" . | indent 4 }}
 spec:
   accessModes:
     - {{ .Values.global.db.persistence.accessMode | quote }}
@@ -26,9 +24,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+{{ include "aqua.labels" . | indent 4 }}
 spec:
   accessModes:
     - {{ .Values.global.db.persistence.accessMode | quote }}
