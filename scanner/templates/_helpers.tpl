@@ -98,3 +98,30 @@ Else if .Values.serviceAccount.create set to true, so will becreate serviceAccou
     {{ .Values.imageCredentials.name | default (printf "aqua-registry-secret") }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "aqua.labels" -}}
+helm.sh/chart: '{{ include "aqua.chart" . }}'
+{{ include "aqua.template-labels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+{{- end -}}
+
+{{/*
+Common template labels
+*/}}
+{{- define "aqua.template-labels" -}}
+app.kubernetes.io/name: "{{ template "scanner.name" . }}"
+app.kubernetes.io/instance: {{ .Release.Name | quote }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{/*
+Create chart name and version as used by the chart label.
+*/}}
+{{- define "aqua.chart" -}}
+{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
