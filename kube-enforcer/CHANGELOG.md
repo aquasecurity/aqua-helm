@@ -1,3 +1,7 @@
+## 6.5.9 ( February 2nd)
+* Add certsSecret.autoGenerate to support auto generated self-signed certificates
+* Add cert-manager annotation description for webhook manifests in values.yaml
+* Add instruction for cert-manager usage
 ## 6.5.8 ( January 25th)
 * Update kube-enforcer configMap to support custom names for TLS certificates
 ## 6.5.7 ( January 21th)

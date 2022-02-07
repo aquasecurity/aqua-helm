@@ -61,7 +61,7 @@ cd aqua-helm/
 
 ```shell
 helm dependency update ./server
-helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
+helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,global.platform=<>
 ```
 
 ### Installing Aqua Web from Helm Private Repository
@@ -79,7 +79,7 @@ helm search repo aqua-helm/server --versions
 * Install Aqua
 
 ```shell
-helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<> --version <>
+helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredentials.username=<>,imageCredentials.password=<>,global.platform=<> --version <>
 ```
 
 ## Advanced Configuration
