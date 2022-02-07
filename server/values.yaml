@@ -1,9 +1,16 @@
+## Default values for Aqua Server
+## See Aqua helm documentation to learn more:
+## https://docs.aquasec.com/docs/kubernetes-with-helm
+
 # Specifies the secret data for imagePullSecrets needed to fetch the private docker images
 imageCredentials:
   create: true
-  name: aqua-registry-secret # example
-  repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
-  registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+  # example
+  name: aqua-registry-secret
+  # for dockerhub - "docker.io"
+  repositoryUriPrefix: "registry.aquasec.com"
+  #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+  registry: "registry.aquasec.com"
   username: ""
   password: ""
 
@@ -11,7 +18,8 @@ clusterRole:
   roleRef: ""
 
 openshift_route:
-  create: false    #Enable if required openshift route for web and gateway
+  #Enable if required openshift route for web and gateway
+  create: false
 
 serviceaccount:
   annotations: {}
@@ -25,8 +33,10 @@ admin:
   password: ""
 
 dockerSock:
-  mount: # put true for mount docker socket.
-  path: /var/run/docker.sock # pks - /var/vcap/data/sys/run/docker/docker.sock
+  # put true for mount docker socket.
+  mount:
+  # pks - /var/vcap/data/sys/run/docker/docker.sock
+  path: /var/run/docker.sock
 
 global:
   #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
@@ -59,13 +69,20 @@ global:
       pubsubUser: ""
       pubsubPassword: ""
     passwordFromSecret:
-      enabled: false              #Enable if loading passwords for db and audit-db from secret
-      dbPasswordName: ""            #Specify the Password Secret name used for db password
-      dbPasswordKey: ""             #Specify the db password key name stored in the #dbPasswordName secret
-      dbAuditPasswordName: ""          #Specify the Password Secret name used for audit db password
-      dbAuditPasswordKey: ""            #Specify the audit db password key name stored in the #dbAuditPasswordName secret
-      dbPubsubPasswordName: ""            #Specify the Password Secret name used for pubsub db password
-      dbPubsubPasswordKey: ""           #Specify the pubsub db password key name stored in the #PubsubPasswordName secret
+      #Enable if loading passwords for db and audit-db from secret
+      enabled: false
+      #Specify the Password Secret name used for db password
+      dbPasswordName: ""
+      #Specify the db password key name stored in the #dbPasswordName secret
+      dbPasswordKey: ""
+      #Specify the Password Secret name used for audit db password
+      dbAuditPasswordName: ""
+      #Specify the audit db password key name stored in the #dbAuditPasswordName secret
+      dbAuditPasswordKey: ""
+      #Specify the Password Secret name used for pubsub db password
+      dbPubsubPasswordName: ""
+      #Specify the pubsub db password key name stored in the #PubsubPasswordName secret
+      dbPubsubPasswordKey: ""
     ssl: false
     auditssl: false
     pubsubssl: false
@@ -75,7 +92,8 @@ global:
       fsGroup: 11433
     container_securityContext:
       privileged: false
-    env_size: "S"   # Possible values: “S” (default), “M”, “L”
+    # Possible values: “S” (default), “M”, “L”
+    env_size: "S"
     image:
       repository: database
       tag: "6.5"
@@ -105,8 +123,12 @@ global:
       initialDelaySeconds: 5
       timeoutSeconds: 3
       periodSeconds: 5
+    # We not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # Note: For recommendations please check the official sizing guide.
     resources: {}
-      # Note: For recommendations please check the official sizing guide.
       # requests:
       #   cpu: 3000m
       #   memory: 6Gi
@@ -133,9 +155,12 @@ gateway:
   enabled: true
   imageCredentials:
     create: false
-    name: aqua-registry-secret # example
-    repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
-    registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+    # example
+    name: aqua-registry-secret
+    # for dockerhub - "docker.io"
+    repositoryUriPrefix: "registry.aquasec.com"
+    #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+    registry: "registry.aquasec.com"
   rbac:
     enabled: false
     privileged: true
@@ -153,8 +178,10 @@ gateway:
     tag: "6.5"
     pullPolicy: Always
   service:
-    type: ClusterIP     # you can enable gateway to external by changing type to "LoadBalancer"
-    loadbalancerIP: "" # Specify loadBalancerIP address for aqua-web in AKS platform
+    # you can enable gateway to external by changing type to "LoadBalancer"
+    type: ClusterIP
+    # Specify loadBalancerIP address for aqua-web in AKS platform
+    loadbalancerIP: ""
     labels: {}
     annotations: {}
     ports:
@@ -212,12 +239,18 @@ gateway:
 
   # TLS is for enabling mTLS/TLS establishment between gateway <-> server and gateway <-> enforcers
   TLS:
-    enabled: false              # enable to true for secure communication (mTLS/TLS)
-    secretName: ""               # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
-    publicKey_fileName: ""       #provide filename of the public key eg: aqua_gateway.crt
-    privateKey_fileName: ""      #provide filename of the private key eg: aqua_gateway.key
-    rootCA_fileName: ""          #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
-    aqua_verify_enforcer: "0"    # change it to "1" for enabling mTLS between enforcer and gateway/envoy
+    # enable to true for secure communication (mTLS/TLS)
+    enabled: false
+    # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
+    secretName: ""
+    #provide filename of the public key eg: aqua_gateway.crt
+    publicKey_fileName: ""
+    #provide filename of the private key eg: aqua_gateway.key
+    privateKey_fileName: ""
+    #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
+    rootCA_fileName: ""
+    # change it to "1" for enabling mTLS between enforcer and gateway/envoy
+    aqua_verify_enforcer: "0"
 
   # extraEnvironmentVars is a list of extra environment variables to set in the gateway deployments.
   # https://docs.aquasec.com/docs/gateway-optional-variables
@@ -240,7 +273,8 @@ web:
     pullPolicy: Always
   service:
     type: LoadBalancer
-    loadbalancerIP: "" # Specify loadBalancerIP address for aqua-gateway in AKS platform
+    # Specify loadBalancerIP address for aqua-gateway in AKS platform
+    loadbalancerIP: ""
     labels: {}
     annotations: {}
     ports:
@@ -321,14 +355,20 @@ web:
 
   # TLS is for enabling mTLS/TLS establishment between server <-> gateway and https for aqua console
   TLS:
-    enabled: false              # enable to true for secure communication
-    secretName: ""              # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
-    publicKey_fileName: ""      #provide filename of the public key eg: aqua_web.crt
-    privateKey_fileName: ""     #provide filename of the private key eg: aqua_web.key
-    rootCA_fileName: ""         #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
+    # enable to true for secure communication
+    enabled: false
+    # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
+    secretName: ""
+    #provide filename of the public key eg: aqua_web.crt
+    publicKey_fileName: ""
+    #provide filename of the private key eg: aqua_web.key
+    privateKey_fileName: ""
+    #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
+    rootCA_fileName: ""
 
   maintenance_db:
-    name: ""         #specify the AQUA_MAINTENANCE_DB name if enabled
+    #specify the AQUA_MAINTENANCE_DB name if enabled
+    name: ""
 
   # extraEnvironmentVars is a list of extra environment variables to set in the web deployments.
   # https://docs.aquasec.com/docs/server-optional-variables
@@ -353,7 +393,8 @@ envoy:
   
   service:
     type: LoadBalancer
-    loadbalancerIP: "" # Specify loadBalancerIP address for envoy in AKS platform
+    # Specify loadBalancerIP address for envoy in AKS platform
+    loadbalancerIP: ""
     annotations: {}
       # service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
       # service.beta.kubernetes.io/aws-load-balancer-internal: "false"
@@ -386,17 +427,27 @@ envoy:
   # Find the instructions in the readme for help with generating the required certificates.
   TLS:
     listener:
-      enabled: false                    # true to enable loading custom self-signed or CA certs, by default envoy uses packaged self-signed certs
-      secretName: "aqua-lb-tls"         # provide secret name containing the certificates
-      publicKey_fileName: ""            # provide filename of the public key in the secret eg: aqua-lb.fqdn.crt
-      privateKey_fileName: ""           # provide filename of the private key in the secret eg: aqua-lb.fqdn.key
-      rootCA_fileName: ""               # optional: use this field if using a custom CA or chain
+      # true to enable loading custom self-signed or CA certs, by default envoy uses packaged self-signed certs
+      enabled: false
+      # provide secret name containing the certificates
+      secretName: "aqua-lb-tls"
+      # provide filename of the public key in the secret eg: aqua-lb.fqdn.crt
+      publicKey_fileName: ""
+      # provide filename of the private key in the secret eg: aqua-lb.fqdn.key
+      privateKey_fileName: ""
+      # optional: use this field if using a custom CA or chain
+      rootCA_fileName: ""
     cluster:
-      enabled: false                    # true to enable secure communication between Aqua Envoy and Gateways
-      secretName: "aqua-lb-tls-custer"  # provide secret name containing the certificates
-      publicKey_fileName: ""            # provide filename of the public key in the secret eg: aqua-lb.crt
-      privateKey_fileName: ""           # provide filename of the private key in the secret eg: aqua-lb.key
-      rootCA_fileName: ""               # optional: use this field if using a custom CA or chain
+      # true to enable secure communication between Aqua Envoy and Gateways
+      enabled: false
+      # provide secret name containing the certificates
+      secretName: "aqua-lb-tls-custer"
+      # provide filename of the public key in the secret eg: aqua-lb.crt
+      publicKey_fileName: ""
+      # provide filename of the private key in the secret eg: aqua-lb.key
+      privateKey_fileName: ""
+      # optional: use this field if using a custom CA or chain
+      rootCA_fileName: ""
 
   livenessProbe:
     failureThreshold: 3

@@ -64,3 +64,30 @@ And will be used serviceAccount created by parrent chart
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "aqua.labels" -}}
+helm.sh/chart: '{{ include "aqua.chart" . }}'
+{{ include "aqua.template-labels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+{{- end -}}
+
+{{/*
+Common template labels
+*/}}
+{{- define "aqua.template-labels" -}}
+app.kubernetes.io/name: "{{ template "fullname" . }}"
+app.kubernetes.io/instance: {{ .Release.Name | quote }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{/*
+Create chart name and version as used by the chart label.
+*/}}
+{{- define "aqua.chart" -}}
+{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
