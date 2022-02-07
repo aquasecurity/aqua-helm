@@ -6,9 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-scanner
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+{{ include "aqua.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -28,6 +26,7 @@ spec:
       {{- end }}
       labels:
         app: {{ .Release.Name }}-scanner
+{{ include "aqua.labels" . | indent 8 }}
       name: {{ .Release.Name }}-scanner
     spec:
       {{- with .Values.securityContext }}
