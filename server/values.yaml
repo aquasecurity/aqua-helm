@@ -271,6 +271,14 @@ web:
     repository: console
     tag: "6.5"
     pullPolicy: Always
+
+  # Additional certificates that the server should trust, such as a network proxy
+  # The certificates should be bundled into a single file inside of a configmap
+  additionalCerts:
+    enabled: false
+    name:             # The name of the configmap containing the certificates
+    certName:         # The filename key inside of the configmap, such as "certificates.pem"
+
   service:
     type: LoadBalancer
     # Specify loadBalancerIP address for aqua-gateway in AKS platform

@@ -95,7 +95,9 @@ spec:
         {{- end }}
         {{- include "scanner.extraEnvironmentVars" .Values | nindent 8 }}
         {{- include "scanner.extraSecretEnvironmentVars" .Values | nindent 8 }}
+        {{- if or (.Values.dockerSock.mount) (.Values.serverSSL.enable) (.Values.cyberCenter.mtls.enabled) (.Values.additionalCerts.enabled) }}
         volumeMounts:
+        {{- end }}
         {{- if .Values.dockerSock.mount }}
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
@@ -108,6 +110,11 @@ spec:
         - name: cc-mtls-certs
           mountPath: /opt/aquasec/ssl/
           readOnly: true
+        {{- end }}
+        {{- if .Values.additionalCerts.enabled }}
+        - name: additional-certs
+          subPath: {{ .Values.additionalCerts.certName }}
+          mountPath: /etc/ssl/certs/{{ .Values.additionalCerts.certName }}
         {{- end }}
         ports:
         - containerPort: 8080
@@ -134,7 +141,9 @@ spec:
       tolerations:
 {{ toYaml .Values.tolerations | indent 6 }}
       {{- end }}
+      {{- if or (.Values.dockerSock.mount) (.Values.serverSSL.enable) (.Values.cyberCenter.mtls.enabled) (.Values.additionalCerts.enabled) }}
       volumes:
+      {{- end }}
       {{- if .Values.dockerSock.mount }}
       - name: docker-socket-mount
         hostPath:
@@ -166,4 +175,9 @@ spec:
           - key: {{ .Values.cyberCenter.mtls.rootCA_fileName }}
             path: ca.pem
           {{- end }}
+      {{- end }}
+      {{- if .Values.additionalCerts.enabled }}
+      - name: additional-certs
+        configMap: 
+          name: {{ .Values.additionalCerts.name }}
       {{- end }}
