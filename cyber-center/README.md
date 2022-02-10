@@ -26,22 +26,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
 [Link](../docs/imagepullsecret.md)
 
 ## Installing the Chart
-Follow the steps in this section for production grade deployments. You can either clone aqua-helm git repo or you can add our helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com))
-
-### Installing Aqua Cyber-Center from Github Repo
-
-* Clone the GitHub repository with the charts
-
-```shell
-git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
-cd aqua-helm/
-```
-
-* Install Aqua Cyber-Center
-
-```shell
-helm upgrade --install --namespace aqua aqua-cyber-center ./cyber-center --set imageCredentials.username=<>,imageCredentials.password=<>
-```
+Follow the steps in this section for production grade deployments. It's recommended to add our helm private repository and use the latest release for the installation ([https://helm.aquasec.com](https://helm.aquasec.com))
 
 ### Installing Aqua Cyber-Center from Helm Private Repository
 

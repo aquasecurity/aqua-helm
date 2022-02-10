@@ -24,46 +24,7 @@ Helm chart for installation and maintenance of Aqua Container Security Platform 
 
 
 ## Installing the Chart
-Follow the steps in this section for production grade deployments. You can either clone aqua-helm git repo or you can add our helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com))
-
-### Installing Aqua Gateway from Github Repo
-
-1. Clone the GitHub repository with the charts
-    ```shell
-    git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
-    cd aqua-helm/
-    ```
-
-##### Edit values.yaml file in gateway directory with following details as prerequisite
-```json
-  1. global.db.external.name - External database name
-  2. global.db.external.host - External database public IP or endpoint URL
-  3. global.db.external.port - External database port
-  4. global.db.external.user - External database username
-  5. global.db.external.password - External database password
-  6. global.db.external.auditName - External audit database name
-  7. global.db.external.auditHost - External audit database public IP or endpoint URL
-  8. global.db.external.auditPort - External audit database port
-  9. global.db.external.auditUser - External audit database username
-  10. global.db.external.auditPassword - External audit database password
-  11. console.publicIP - Aqua CSP console public IP or endpoint URL
-  12. console.publicPort - Aqua CSP console public port
-  // To load DB passswords from secrets:
-  // change passwordFromSecret.enable to true
-  // for loading DB password from secret edit passwordFromSecret.dbPasswordName  passwordFromSecret.dbPasswordName with secret name and secret key
-  // for loading Audit-DB password from secret edit passwordFromSecret.dbAuditPasswordName  passwordFromSecret.dbAuditPasswordName with secret name and secret key
-  // for loading PubSub DB password from secret edit passwordFromSecret.dbPubsubPasswordName  passwordFromSecret.dbPubsubPasswordName with secret name and secret key
-```
-
-2. Create `aqua` namespace if gateway is being deployed to a new cluster.
-    ```shell
-    kubectl create namespace aqua
-    ```
-
-3. Install Aqua
-    ```shell
-    helm upgrade --install --namespace aqua gateway ./gateway --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
-    ```
+Follow the steps in this section for production grade deployments. It's recommended to add our helm private repository and use the latest release for the installation ([https://helm.aquasec.com](https://helm.aquasec.com))
 
 ### Installing Aqua Gateway from Helm Private Repository
 

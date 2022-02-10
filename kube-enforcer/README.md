@@ -95,38 +95,9 @@ webhooks:
     cert-manager.io/inject-ca-from: < namespace >/< certsSecret.name >
 ```
 
-## Deploy the Helm chart
+## Install the Helm chart
 
-### Deploy the KubeEnforcer with Starboard from the GitHub repository
-
-1. Clone the Aqua Helm GitHub repository with the charts (skip if you have already cloned the aqua-helm repo):
-
-   ```shell
-   git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
-   cd aqua-helm
-   ```
-
-2. Update the Helm charts `values.yaml` file with your environment's custom values, registry secret, Aqua Server (console) credentials, and TLS certificates. This eliminates the need to pass the parameters to the Helm command. Then run one of the following commands to deploy the relevant services.
-
-3. Choose **either** 3a **or** 3b:
-
-   3a. To deploy the KubeEnforcer on the same cluster as the Aqua Server (console), run this command on that cluster:
-
-   ```shell
-    helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer
-   ```
-    
-   3b. Multi-cluster: To deploy the KubeEnforcer in a different cluster:
-
-   First, create a namespace on that cluster named `aqua`:
-   ```shell
-   kubectl create namespace aqua
-   ```
-   Next, run the following command:
-   
-   ```shell
-   helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set gateway.address="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.create=true,imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
-   ```
+Follow the steps in this section for production grade deployments. It's recommended to add our helm private repository and use the latest release for the installation ([https://helm.aquasec.com](https://helm.aquasec.com))
 
 ### Deploy the KubeEnforcer with Starboard from a Helm private repository
 
