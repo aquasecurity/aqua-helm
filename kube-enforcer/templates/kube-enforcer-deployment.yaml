@@ -74,7 +74,7 @@ spec:
               mountPath: "/etc/aquasec/envoy"
 {{- end }}
 {{- if .Values.TLS.enabled }}
-            - name: "{{ .Values.TLS.secretName }}
+            - name: "{{ .Values.TLS.secretName }}"
               mountPath: "/opt/aquasec/ssl/"
               readOnly: true
 {{- end }}
