@@ -34,11 +34,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- if not .Values.serviceAccount}}
-      serviceAccount: {{ .Release.Name }}-sa
-      {{- else }}
-      serviceAccount: {{ .Values.serviceAccount.name }}
-      {{- end }}
+      serviceAccount: {{ template "serviceAccount" . }}
       containers:
       - name: scanner
         {{- with .Values.container_securityContext }}
@@ -56,17 +52,17 @@ spec:
         {{- if .Values.scannerUserSecret.enable }}
         - "$(SCANNER_USER)"
         {{- else }}
-        - "{{ required "Please specify a username associated with the Scanner role" .Values.user }}"
+        - {{ required "Please specify a username associated with the Scanner role" .Values.user }}
         {{- end }}
         - --password
         {{- if .Values.scannerUserSecret.enable }}
         - "$(SCANNER_PASSWORD)"
         {{- else }}
-        - "{{ required "Please specify a password for a user associated with the Scanner role" .Values.password }}"
+        - {{ required "Please specify a password for a user associated with the Scanner role" .Values.password | squote }}
         {{- end }}
         - --host
         - "{{ .Values.server.scheme | default "http" }}://{{ .Values.server.serviceName }}:{{ .Values.server.port }}"
-        {{- if or ( .Values.serverSSL.enabled ) ( .Values.cyberCenter.mtls.enabled  ) }}
+        {{- if or ( .Values.serverSSL.enable ) ( .Values.cyberCenter.mtls.enabled  ) }}
         {{- else }}
         - --no-verify
         {{- end }}
@@ -101,10 +97,9 @@ spec:
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
         {{- end }}
-        {{- if .Values.serverSSL.enabled }}
-        - mountPath: /etc/ssl/certs
+        {{- if .Values.serverSSL.enable }}
+        - mountPath: /etc/ssl/certs/aqua-ssl.crt
           name: ssl-certs
-          readOnly: true
         {{- end }}
         {{- if .Values.cyberCenter.mtls.enabled }}
         - name: cc-mtls-certs
@@ -142,10 +137,17 @@ spec:
         hostPath:
           path: {{ .Values.dockerSock.path }}
       {{- end }}
-      {{- if .Values.serverSSL.enabled }}
+      {{- if .Values.serverSSL.enable }}
       - name: ssl-certs
         secret:
           secretName: {{ .Values.serverSSL.secretName }}
+          items:
+          {{- if .Values.serverSSL.createSecret }}
+            - key: aqua-ssl.crt
+          {{- else }}
+            - key: {{ .Values.serverSSL.certFile }}
+          {{- end }}
+              path: aqua-ssl.crt
       {{- end }}
       {{- if .Values.cyberCenter.mtls.enabled }}
       - name: cc-mtls-certs

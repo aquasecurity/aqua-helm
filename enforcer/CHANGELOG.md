@@ -1,3 +1,17 @@
+## 6.5.7 ( January 21th)
+* Fix issue - [497](https://github.com/aquasecurity/aqua-helm/issues/497)
+## 6.5.6 ( January 18th)
+* Fix serviceAccount and pull image registry secret to support deployment on same cluster 
+  with the server and gateway or separate cluster
+## 6.5.5 ( December 14th)
+* Add AQUA_LOGICAL_NAME and AQUA_NODE_NAME - [454](https://github.com/aquasecurity/aqua-helm/pull/454)
+* Fixing OCP SCC capabilities names - [464](https://github.com/aquasecurity/aqua-helm/pull/464)
+## 6.5.4 ( December 8th, 2021 )
+* Adding capabilities for Behavioral detection
+* Making enforcer deployment default to non-privilege mode
+* Updating Readme
+## 6.5.3 ( December 6th, 2021 )
+* Update service account name - [447](https://github.com/aquasecurity/aqua-helm/pull/447)
 ## 6.5.2 ( November 24th, 2021 )
 * Added separate config map for Enforcer chart and updated template with annotations for configmap checksum - [401](https://github.com/aquasecurity/aqua-helm/pull/401)
 * Fixed readiness and liveness probes failure due to env AQUA_HEALTH_MONITOR_ENABLED missing - [408](https://github.com/aquasecurity/aqua-helm/pull/408)

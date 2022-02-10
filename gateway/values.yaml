@@ -8,9 +8,11 @@ imageCredentials:
   password: ""
 
 rbac:
-  enabled: true
-  privileged: true
-  roleRef:
+  create: false # Enable to create RBAC for gateway chart
+
+clusterRole:
+  roleRef: ""
+
 console:
   publicIP:
   publicPort:
@@ -26,8 +28,9 @@ image:
   tag: "6.5"
   pullPolicy: Always
 service:
-  type: LoadBalancer     # you can enable gateway to internal by changing type to "clusterIP"
+  type: ClusterIP     # Enable gateway to external by changing type to "LoadBalancer"
   loadbalancerIP: "" # Specify loadBalancerIP address for aqua-web in AKS platform
+  labels: {}
   annotations: {}
   ports:
     - name: aqua-gate

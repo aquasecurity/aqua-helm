@@ -1,5 +1,12 @@
+======== Deployment Details =============
 
-Thank you for installing Aqua Security Gateway.
+CHART NAME: {{ .Chart.Name  }}
+CHART VERSION: {{ .Chart.Version  }}
+APP VERSION: {{ .Chart.AppVersion  }}
+
+========================================================================
+
+Thank you for Deploying Aqua Gateway.
 
 Now that you have deployed Aqua Gateway, you should look over the docs on using: 
 
@@ -7,3 +14,12 @@ https://docs.aquasec.com/docs
 
 
 Your release is named {{ .Release.Name }}.
+
+1. Get running pods
+* kubectl get pods --namespace {{ .Release.Namespace }}
+
+
+2. Get Endpoint of aqua gateway to connect enforcers
+ * kubectl get svc/{{ .Release.Name }}-gateway-svc --namespace {{ .Release.Namespace }}
+
+========================================================================

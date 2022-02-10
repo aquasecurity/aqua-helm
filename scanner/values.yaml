@@ -1,7 +1,18 @@
 # Specifies the secret data for imagePullSecrets needed to fetch the private docker images
 imageCredentials:
-  create: false   #enable to create registry credentials for scanner image
-  name: scanner-registry-secret # example
+  # If imageCredentials.create=false and imageCredentials.name not defined
+  # then will be used secret aqua-registry-secret which created by aqua-server helm chart
+  #####################
+  # If imageCredentials.create=false and imageCredentials.name defined then will be used secret with defined name
+  # but in this case secret should be created manually before chart deploying
+  #####################
+  # If imageCredentials.create=create and imageCredentials.name not defined
+  # then will be created a secret with name <Chart ReleaseName>-registry-secret
+  #####################
+  # If imageCredentials.create=create and imageCredentials.name defined
+  # then will be created a secret with name provided name
+  create: false
+  name:
   repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
   registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
   username: ""
@@ -14,9 +25,20 @@ dockerSock:
 directCC:
   enabled: true     # Change it to false if the scanners don't connect directly to CyberCenter but only console does
 
+  # If serviceAccount.create=false and serviceAccount.name not defined
+  # then will be used serviceAccount aqua-sa which created by aqua-server helm chart
+  #####################
+  # If serviceAccount.create=false and serviceAccount.name defined then will be used serviceAccount with defined name
+  # but in this case serviceAccount should be created manually before chart deploying
+  #####################
+  # If serviceAccount.create=create and serviceAccount.name not defined
+  # then will be created a serviceAccount with name <Chart ReleaseName>-sa
+  #####################
+  # If serviceAccount.create=create and serviceAccount.name defined
+  # then will be created a serviceAccount with name provided name
 serviceAccount:
-  create: false     #Change it to false if the cluster doesn't consists aqua service account
-  name: "aqua-sa"   #Mention the Service Account name, Default "aqua-sa"
+  create: false
+  name:
 
 server:
   scheme: "http" #specify the schema for the server host URL, default it is http
@@ -24,17 +46,18 @@ server:
   port: 8080
 
 serverSSL:
-  enabled: false
-  secretName: "scanner-web-cert"
-  serverSSLCert:        # if serverSLL enabled true, add base64 value of the the server public certofcate
+  enable: false                   # Enable to true to establish secure connection with server
+  createSecret: true              # Change to false if you're using existing server certificate secret
+  secretName: "scanner-web-cert"  # Change secret name if already exists with server/web public certificate
+  certFile:                       # If serverSSL createSecret enable to true, add base64 value of the the server public certificate or add filename of certificate if loading from custom secret
 
 cyberCenter:
   mtls:
-    enabled: false             # enable to true for mTLS communication with cyber center
-    secretName: ""              # provide certificates secret name created to enable tls/mtls communication between scanner and cybercenter
-    publicKey_fileName: ""      #provide filename of the public key eg: aqua_scanner.crt
-    privateKey_fileName: ""     #provide filename of the private key eg: aqua_scanner.key
-    rootCA_fileName: ""         #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
+    enabled: false                # enable to true for mTLS communication with cyber center
+    secretName: ""                # provide certificates secret name created to enable tls/mtls communication between scanner and cybercenter
+    publicKey_fileName: ""        # provide filename of the public key eg: aqua_scanner.crt
+    privateKey_fileName: ""       # provide filename of the private key eg: aqua_scanner.key
+    rootCA_fileName: ""           # provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
 
 image:
   repository: scanner

@@ -7,9 +7,7 @@ imageCredentials:
   username: ""
   password: ""
 
-rbac:
-  enabled: true
-  privileged: true
+clusterRole:
   roleRef: ""
 
 openshift_route:
@@ -157,6 +155,7 @@ gateway:
   service:
     type: ClusterIP     # you can enable gateway to external by changing type to "LoadBalancer"
     loadbalancerIP: "" # Specify loadBalancerIP address for aqua-web in AKS platform
+    labels: {}
     annotations: {}
     ports:
       - name: aqua-gate
@@ -174,7 +173,10 @@ gateway:
         protocol: TCP
         targetPort: 8082
         nodePort:
+
+  #enable or disable creation of headless service for envoy
   headlessService: true
+
   publicIP:
   livenessProbe:
     httpGet:
@@ -239,6 +241,7 @@ web:
   service:
     type: LoadBalancer
     loadbalancerIP: "" # Specify loadBalancerIP address for aqua-gateway in AKS platform
+    labels: {}
     annotations: {}
     ports:
       - name: aqua-web

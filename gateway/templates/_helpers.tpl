@@ -2,18 +2,6 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{/*
-Create a default fully qualified app name.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-*/}}
-{{- define "fullname" -}}
-{{- $name := default .Chart.Name .Values.nameOverride -}}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
 
 {{- define "imagePullSecret" }}
 {{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (required "A valid .Values.imageCredentials.registry entry required!" .Values.imageCredentials.registry) (printf "%s:%s" (required "A valid .Values.imageCredentials.username entry required!" .Values.imageCredentials.username) (required "A valid .Values.imageCredentials.password entry required!" .Values.imageCredentials.password) | b64enc) | b64enc }}
@@ -55,5 +43,24 @@ Inject extra environment populated by secrets, if populated
 {{- printf "%s:%s" .Values.console.publicIP .Values.console.publicPort -}}
 {{- else -}}
 {{- printf "%s-console-svc:443" .Release.Name -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "platform" }}
+{{- printf "%s" (required "A valid .Values.global.platform entry required" .Values.global.platform ) | replace "\n" "" }}
+{{- end }}
+
+{{/*
+Define a gateway serviceAccount name
+If Values.serviceAccount.create defined as false
+And will be used serviceAccount created by parrent chart
+*/}}
+{{- define "gateway.serviceAccount" -}}
+{{- if and .Values.serviceAccount.create .Values.serviceAccount.name -}}
+{{- printf "%s" .Values.serviceAccount.name -}}
+{{- else -}}
+{{- if not .Values.serviceAccount.create -}}
+{{- printf "%s-sa" .Release.Namespace -}}
+{{- end -}}
 {{- end -}}
 {{- end -}}

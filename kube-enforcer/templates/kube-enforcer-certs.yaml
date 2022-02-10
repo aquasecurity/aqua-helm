@@ -1,3 +1,4 @@
+{{- if not .Values.certsSecret.autoGenerate }}
 {{- if not .Values.certsSecret.name}}
 {{ template "certsSecret_name" . }}
 {{- end }}
@@ -10,4 +11,5 @@ metadata:
 data:
   server.crt: {{ template "serverCertificate" . }}  # place server cert
   server.key: {{ template "serverKey" . }}  # place server key
+{{- end }}
 {{- end }}

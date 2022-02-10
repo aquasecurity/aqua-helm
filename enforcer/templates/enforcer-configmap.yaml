@@ -5,18 +5,12 @@ metadata:
   name: {{ .Release.Name }}-enforcer-config
   namespace: {{ .Release.Namespace }}
 data:
-  SCALOCK_LOG_LEVEL: {{ .Values.logLevel | default "INFO" }}
   {{- if .Values.multiple_gateway.enabled }}
   AQUA_SERVER: {{ join "," .Values.multi_gates }}
   {{- else }}
   AQUA_SERVER: {{ .Values.gate.host | default "aqua-gateway-svc" }}:{{ .Values.gate.port | default "8443" }}
   {{- end }}
   AQUA_INSTALL_PATH: "/var/lib/aquasec"
-  {{- if .Values.enforcerLogicalName }}
-  AQUA_LOGICAL_NAME: {{ .Values.enforcerLogicalName }}
-  {{- else }}
-  AQUA_LOGICAL_NAME: {{ .Release.Name }}-helm
-  {{- end }}
   {{- if .Values.hostRunPath }}
   AQUA_HOST_RUN_PATH: {{ .Values.hostRunPath | quote }}
   {{- end }}

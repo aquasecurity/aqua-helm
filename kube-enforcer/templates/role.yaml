@@ -1,0 +1,19 @@
+---
+# This role specific to kube-bench scans permissions
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .Values.role.name }}
+  namespace: {{ .Release.Namespace }}
+rules:
+  - apiGroups: ["*"]
+    resources: ["pods/log"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["*"]
+    resources: ["jobs"]
+    verbs: ["create", "delete"]
+{{- if eq .Values.platform "openshift" }}
+  - apiGroups: ["*"]
+    resources: ["pods"]
+    verbs: ["create", "delete"]
+{{- end }}

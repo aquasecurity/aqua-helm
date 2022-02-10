@@ -1,20 +1,8 @@
 FROM alpine:latest
-
-RUN apk add --update --no-cache curl openssl && \
-    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && \
-    chmod 700 get_helm.sh && \
-    sh get_helm.sh
-
-WORKDIR /home/aqua
-
-COPY . .
-
-RUN addgroup -S aqua
-
-RUN adduser -D -S -h /home/aqua aqua aqua
-
-RUN chown -R aqua:aqua /home/aqua
-
-USER aqua
-
-CMD [ "/bin/sh" ]
+RUN apk add --no-cache ca-certificates git && \
+    wget -q https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz && \
+    tar -zxvf helm-v3.7.2-linux-amd64.tar.gz && \
+    mv linux-amd64/helm /usr/local/bin && \
+    wget -q https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz && \
+    tar xf kubeval-linux-amd64.tar.gz && \
+    mv kubeval /usr/local/bin

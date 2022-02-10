@@ -33,7 +33,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Values.serviceAccount.name }}
+      serviceAccount: {{ template "gateway.serviceAccount" . }}
       containers:
       - name: gate
         {{- with .Values.container_securityContext }}
@@ -50,8 +50,8 @@ spec:
         - name: SCALOCK_DBPASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.global.db.passwordFromSecret.global.dbPasswordName }}
-              key: {{ .Values.global.db.passwordFromSecret.global.dbPasswordKey }}
+              name: {{ .Values.global.db.passwordFromSecret.dbPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.dbPasswordKey }}
           {{- else }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
@@ -63,8 +63,8 @@ spec:
           {{- if .Values.global.db.passwordFromSecret.enabled }}
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordName }}
-              key: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordKey }}
+              name: {{ .Values.global.db.passwordFromSecret.dbAuditPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.dbAuditPasswordKey }}
           {{- else if and ( not .Values.global.db.passwordFromSecret.enabled ) ( .Values.global.db.external.enabled ) }}
           valueFrom:
             secretKeyRef:
@@ -85,8 +85,8 @@ spec:
         - name: AQUA_PUBSUB_DBPASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.global.db.passwordFromSecret.global.dbPubsubPasswordName }}
-              key: {{ .Values.global.db.passwordFromSecret.global.dbPubsubPasswordKey }}
+              name: {{ .Values.global.db.passwordFromSecret.dbPubsubPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.dbPubsubPasswordKey }}
           {{- else }}
         - name: AQUA_PUBSUB_DBPASSWORD
           valueFrom:

@@ -7,7 +7,7 @@ metadata:
   name: {{ include "kube-enforcer.fullname" . }}
   namespace: {{ .Release.Namespace }}
 spec:
-  replicas: {{ .Values.ke_ReplicaCount }}
+  replicas: {{ .Values.ke_ReplicaCount | default "1" }}
   template:
     metadata:
       annotations:
@@ -27,7 +27,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccountName: {{ .Values.serviceAccount.name }}
+      serviceAccountName: {{ template "serviceAccount" . }}
       containers:
         - name: kube-enforcer
           {{- with .Values.container_securityContext }}
@@ -74,7 +74,7 @@ spec:
               mountPath: "/etc/aquasec/envoy"
 {{- end }}
 {{- if .Values.TLS.enabled }}
-            - name: "ke-mtls-certs"
+            - name: "{{ .Values.TLS.secretName }}
               mountPath: "/opt/aquasec/ssl/"
               readOnly: true
 {{- end }}
@@ -94,7 +94,7 @@ spec:
           - mountPath: "/etc/ssl/envoy"
             readOnly: true
 {{- if .Values.kubeEnforcerAdvance.envoy.TLS.listener.enabled }}
-            name: "envoy-mtls-certs"
+            name: "{{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.secretName}}"
 {{- else }}
             name: "certs"
 {{- end }}
@@ -123,7 +123,7 @@ spec:
           emptyDir: {}
 {{- end }}
         {{- if .Values.TLS.enabled }}
-        - name: "ke-mtls-certs"
+        - name: "{{ .Values.TLS.secretName }}"
           secret:
             defaultMode: 420
             secretName: {{ .Values.TLS.secretName }}
@@ -138,7 +138,7 @@ spec:
             {{- end }}
         {{- end }}
         {{- if .Values.kubeEnforcerAdvance.envoy.TLS.listener.enabled }}
-        - name: "envoy-mtls-certs"
+        - name: "{{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.secretName}}"
           secret:
             defaultMode: 420
             secretName: {{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.secretName }}

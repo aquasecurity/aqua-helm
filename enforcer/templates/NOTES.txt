@@ -1,5 +1,12 @@
+======== Deployment Details =============
 
-Thank you for installing Aqua Security Enforcer.
+CHART NAME: {{ .Chart.Name  }}
+CHART VERSION: {{ .Chart.Version  }}
+APP VERSION: {{ .Chart.AppVersion  }}
+
+========================================================================
+
+Thank you for Deploying Aqua Enforcer.
 
 Now that you have deployed Aqua Enforcer, you should look over the docs on using: 
 
@@ -7,3 +14,9 @@ https://docs.aquasec.com/docs
 
 
 Your release is named {{ .Release.Name }}.
+
+1. Get running enforcer pods
+* kubectl get pods --namespace {{ .Release.Namespace }}
+
+
+========================================================================

@@ -61,7 +61,7 @@ cd aqua-helm/
 
 ```shell
 helm dependency update ./server
-helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
+helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,global.platform=<>
 ```
 
 ### Installing Aqua Web from Helm Private Repository
@@ -79,7 +79,7 @@ helm search repo aqua-helm/server --versions
 * Install Aqua
 
 ```shell
-helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<> --version <>
+helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredentials.username=<>,imageCredentials.password=<>,global.platform=<> --version <>
 ```
 
 ## Advanced Configuration
@@ -281,9 +281,7 @@ Parameter | Description | Default| Mandatory
 `imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`| `YES`
 `global.platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s) | `unset` | `YES`
 `openshift_route.create` | to create openshift routes for web and gateway | `false` | `NO`
-`rbac.enabled` | if to create rbac configuration for aqua | `true`| `YES`
-`rbac.privileged` | determines if any container in a pod can enable privileged mode. | `true`| `NO`
-`rbac.roleRef` | name of rbac role to set in not create by helm | `unset`| `NO`
+`clusterRole.roleRef` | cluster role reference name for cluster rolebinding | `unset` | `NO`
 `activeactive` | set for HA Active-Active cluster mode | `false`
 `clustermode` | set for HA Active-Passive cluster mode <br> To be deprecated, use Active-Active instead | `false`
 `admin.token`| Use this Aqua license token | `unset`| `NO`

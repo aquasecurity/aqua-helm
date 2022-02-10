@@ -7,6 +7,31 @@ Expand the name of the chart.
 {{- end -}}
 
 {{/*
+If .Values.serviceAccount.create set to false and .Values.serviceAccount.name not defined
+Will be created serviceAccount with name "aqua-sa" - the default serviceAccount
+for server chart.
+Else if .Values.serviceAccount.create set to true, so will becreate serviceAccount based on
+.Values.serviceAccount.name or will be generated name based on Chart Release name
+*/}}
+{{- define "serviceAccount" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ .Values.serviceAccount.name | default (printf "%s-sa" .Release.Name) }}
+{{- else if not .Values.serviceAccount.create -}}
+    {{ .Values.serviceAccount.name | default (printf "aqua-sa") }}
+{{- end -}}
+{{- end -}}
+
+{{- define "registrySecret" -}}
+{{- if .Values.imageCredentials.create -}}
+    {{ .Values.imageCredentials.name | default (printf "%s-registry-secret" .Release.Name) }}
+{{- else if not .Values.imageCredentials.create -}}
+    {{ .Values.imageCredentials.name | default (printf "aqua-registry-secret") }}
+{{- end -}}
+{{- end -}}
+
+
+
+{{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
