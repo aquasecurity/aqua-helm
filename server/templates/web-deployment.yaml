@@ -131,7 +131,7 @@ spec:
         readinessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
-        {{- if or (.Values.dockerSock.mount) (.Values.web.TLS.enabled) (.Values.web.additionalCerts.enabled) }}
+        {{- if or (.Values.dockerSock.mount) (.Values.web.TLS.enabled) (.Values.web.additionalCerts) }}
         volumeMounts:
         {{- end }}
         {{- if .Values.dockerSock.mount }}
@@ -143,11 +143,7 @@ spec:
           mountPath: /opt/aquasec/ssl/
           readOnly: true
         {{- end }}
-        {{- if .Values.web.additionalCerts.enabled }}
-        - name: additional-certs
-          subPath: {{ .Values.web.additionalCerts.certName }}
-          mountPath: /etc/ssl/certs/{{ .Values.web.additionalCerts.certName }}
-        {{- end }}
+        {{- include "server.additionalCertVolumeMounts" .Values | nindent 8 }}
         resources:
 {{ toYaml .Values.web.resources | indent 12 }}
       {{- with .Values.web.nodeSelector }}
@@ -162,7 +158,7 @@ spec:
       tolerations:
 {{ toYaml .Values.web.tolerations | indent 6 }}
       {{- end }}
-      {{- if or (.Values.dockerSock.mount) (.Values.web.TLS.enabled) (.Values.web.additionalCerts.enabled) }}
+      {{- if or (.Values.dockerSock.mount) (.Values.web.TLS.enabled) (.Values.web.additionalCerts) }}
       volumes:
       {{- end }}
       {{- if .Values.dockerSock.mount }}
@@ -185,8 +181,4 @@ spec:
             path: ca.pem
           {{- end }}
       {{- end }}
-      {{- if .Values.web.additionalCerts.enabled }}
-      - name: additional-certs
-        configMap: 
-          name: {{ .Values.web.additionalCerts.name }}
-      {{- end }}
+      {{- include "server.additionalCertVolumes" .Values | nindent 6 }}

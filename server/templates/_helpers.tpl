@@ -78,3 +78,38 @@ Create chart name and version as used by the chart label.
 {{- define "aqua.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+
+{{/*
+Inject additional certificates as volumes if populated
+*/}}
+{{- define "server.additionalCertVolumes" -}}
+{{- if .web.additionalCerts -}}
+{{- range $i, $cert := .web.additionalCerts }}
+- name: {{ $cert.secretName | quote }}
+  secret:
+    defaultMode: 420
+    secretName: {{ $cert.secretName | quote }}
+    items:
+    {{- if $cert.createSecret }}
+      - key: cert.pem
+    {{- else }}
+      - key: {{ $cert.certFile | quote }}
+    {{- end }}
+        path: {{ $cert.secretName }}.pem
+{{- end }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Inject additional certificates as volumemounts if populated
+*/}}
+{{- define "server.additionalCertVolumeMounts" -}}
+{{- if .web.additionalCerts -}}
+{{- range $i, $cert := .web.additionalCerts }}
+- name: {{ $cert.secretName | quote }}
+  subPath: {{ $cert.secretName }}.pem
+  mountPath: /etc/ssl/certs/{{ $cert.secretName }}.pem
+{{- end }}
+{{- end -}}
+{{- end -}}
