@@ -1,3 +1,4 @@
+
 ======== Deployment Details =============
 
 CHART NAME: {{ .Chart.Name  }}
@@ -16,7 +17,7 @@ To get further information, you can run the commands:
 
 Get the list of pods by executing:
 
-  $ kubectl get pods --namespace {{ .Release.Namespace }} -l app={{ include "kube-enforcer.fullname" . }}
+  $ kubectl get pods --namespace {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}
 
 Access the pod you want to debug by executing
 

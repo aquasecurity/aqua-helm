@@ -5,6 +5,10 @@ kind: Role
 metadata:
   name: {{ .Values.role.name }}
   namespace: {{ .Release.Namespace }}
+  labels:
+    role: {{ .Release.Name }}
+    app: {{ include "kube-enforcer.fullname" . }}
+{{ include "aqua.labels" . | indent 4 }}
 rules:
   - apiGroups: ["*"]
     resources: ["pods/log"]
