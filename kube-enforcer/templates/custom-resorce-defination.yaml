@@ -5,7 +5,9 @@ metadata:
   name: configauditreports.aquasecurity.github.io
   namespace: {{ .Release.Namespace }}
   labels:
+    role: {{ .Release.Name }}
     app.kubernetes.io/managed-by: starboard
+{{ include "aqua.labels" . | indent 4 }}
 spec:
   group: aquasecurity.github.io
   versions:
@@ -56,7 +58,9 @@ kind: CustomResourceDefinition
 metadata:
   name: clusterconfigauditreports.aquasecurity.github.io
   labels:
+    role: {{ .Release.Name }}
     app.kubernetes.io/managed-by: starboard
+{{ include "aqua.labels" . | indent 4 }}
 spec:
   group: aquasecurity.github.io
   versions:
