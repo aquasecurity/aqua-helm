@@ -1,5 +1,5 @@
 ## 6.5.5 ( February 4th, 2021 )
-* Align labels
+* Align labels + update NOTES.txt
 ## 6.5.4 ( January 25th, 2021 )
 * Update serviceAccount and image pull secret to support different options
 * Fix server ssl certs volumemount issue - [505](https://github.com/aquasecurity/aqua-helm/pull/505)

@@ -33,27 +33,12 @@ Before installing scanner chart the recommendation is to create user with scanni
 ## Installing the Chart
 Follow the steps in this section for production grade deployments. You can either clone aqua-helm git repo or you can add our helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com))
 
-### Installing Aqua Scanner from Github Repo
-
-* Clone the GitHub repository with the charts
-
-```shell
-git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
-cd aqua-helm/
-```
-
-
-* Install Aqua
-
-```shell
-helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>
-```
-
 ### Installing Aqua Scanner from Helm Private Repository
 
 * Add Aqua Helm Repository
 ```shell
 helm repo add aqua-helm https://helm.aquasec.com
+helm repo update
 ```
 
 * Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
@@ -64,7 +49,7 @@ helm search repo aqua-helm/scanner --versions
 * Install Aqua
 
 ```shell
-helm upgrade --install --namespace aqua scanner aqua-helm/scanner --set imageCredentials.username=<>,imageCredentials.password=<> --version <>
+helm upgrade --install --namespace aqua scanner aqua-helm/scanner --set imageCredentials.username=<>,imageCredentials.password=<>
 ```
 ### (Optional) Configure SSL communication with Aqua Server
 To enable SSL communication from the Scanner to the Aqua Server. Perform these steps:
