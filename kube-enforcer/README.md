@@ -96,44 +96,13 @@ webhooks:
 ```
 
 ## Deploy the Helm chart
-
-### Deploy the KubeEnforcer with Starboard from the GitHub repository
-
-1. Clone the Aqua Helm GitHub repository with the charts (skip if you have already cloned the aqua-helm repo):
-
-   ```shell
-   git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
-   cd aqua-helm
-   ```
-
-2. Update the Helm charts `values.yaml` file with your environment's custom values, registry secret, Aqua Server (console) credentials, and TLS certificates. This eliminates the need to pass the parameters to the Helm command. Then run one of the following commands to deploy the relevant services.
-
-3. Choose **either** 3a **or** 3b:
-
-   3a. To deploy the KubeEnforcer on the same cluster as the Aqua Server (console), run this command on that cluster:
-
-   ```shell
-    helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer
-   ```
-    
-   3b. Multi-cluster: To deploy the KubeEnforcer in a different cluster:
-
-   First, create a namespace on that cluster named `aqua`:
-   ```shell
-   kubectl create namespace aqua
-   ```
-   Next, run the following command:
-   
-   ```shell
-   helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set gateway.address="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.create=true,imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
-   ```
-
 ### Deploy the KubeEnforcer with Starboard from a Helm private repository
 
 1. Add Aqua Helm Repository
 
    ```shell
    helm repo add aqua-helm https://helm.aquasec.com
+   helm repo update
    ```
 
 2. (Optional) Update the Helm charts `values.yaml` file with your environment's custom values, registry secret, Aqua Server (console) credentials, and TLS certificates. This eliminates the need to pass the parameters to the Helm command. Then run one of the following commands to deploy the relevant services.
@@ -149,7 +118,7 @@ webhooks:
    4a. To deploy the KubeEnforcer on the same cluster as the Aqua Server (console), run this command on that cluster:
 
    ```shell
-   helm upgrade --install --namespace aqua kube-enforcer aqua-helm/kube-enforcer --version <>
+   helm upgrade --install --namespace aqua kube-enforcer aqua-helm/kube-enforcer
    ```
     
    4b. Multi-cluster: To deploy the KubeEnforcer in a different cluster:

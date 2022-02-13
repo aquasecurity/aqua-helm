@@ -1,5 +1,7 @@
 ## 6.5.13 ( February 4th, 2022)
-* Align server labels
+* Align server labels + NOTES.txt
+* Separate ocp scc declaration
+* Update gateway version
 ## 6.5.12 ( January 16th, 2022)
 * Update Gateway version to 6.5.7
 ## 6.5.11 ( December 29th, 2021)

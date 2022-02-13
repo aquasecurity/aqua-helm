@@ -1,5 +1,5 @@
 ## 6.5.10 ( February 4th)
-* Align labels
+* Align labels + update NOTES.txt
 ## 6.5.9 ( February 2nd)
 * Add certsSecret.autoGenerate to support auto generated self-signed certificates
 * Add cert-manager annotation description for webhook manifests in values.yaml

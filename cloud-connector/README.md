@@ -25,27 +25,12 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
 
 ## Installing the Chart
 Follow the steps in this section for production grade deployments. You can either clone aqua-helm git repo or you can add our helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com))
-
-### Installing Aqua Cloud-Connector from Github Repo
-
-* Clone the GitHub repository with the charts
-
-```shell
-git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
-cd aqua-helm/
-```
-
-* Install Aqua Cloud-Connector
-
-```shell
-helm upgrade --install --namespace aqua aqua-cloud-connector ./cloud-connector --set imageCredentials.username=<>,imageCredentials.password=<>
-```
-
 ### Installing Aqua Cloud-Connector from Helm Private Repository
 
 * Add Aqua Helm Repository
 ```shell
 helm repo add aqua-helm https://helm.aquasec.com
+helm repo update
 ```
 
 * Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command

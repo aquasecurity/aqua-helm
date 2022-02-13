@@ -54,6 +54,7 @@ Follow the steps in this section for production-grade deployments. You can eithe
 1. Add the Aqua Helm repository to your local Helm repos by executing the following command:
 ```shell
 helm repo add aqua-helm https://helm.aquasec.com
+helm repo update
 ```
 
 2. Search for all components of the latest version in our Aqua Helm repository
