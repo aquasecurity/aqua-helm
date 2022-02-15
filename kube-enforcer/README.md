@@ -13,6 +13,7 @@ This page provides instructions for using Helm charts to configure and deploy th
     - [Container registry credentials](#container-registry-credentials)
     - [Clone the GitHub repository with the charts](#clone-the-github-repository-with-the-charts)
     - [Configure TLS authentication between the KubeEnforcer and the API Server](#configure-tls-authentication-between-the-kubeenforcer-and-the-api-server)
+      - [How to use cert-manager to configure TLS authentication between the KubeEnforcer and the API Server](#how-to-use-cert-manager-to-configure-tls-authentication-between-the-kubeenforcer-and-the-api-server)
   - [Deploy the Helm chart](#deploy-the-helm-chart)
     - [Deploy the KubeEnforcer with Starboard from the GitHub repository](#deploy-the-kubeenforcer-with-starboard-from-the-github-repository)
     - [Deploy the KubeEnforcer with Starboard from a Helm private repository](#deploy-the-kubeenforcer-with-starboard-from-a-helm-private-repository)
@@ -20,6 +21,7 @@ This page provides instructions for using Helm charts to configure and deploy th
   - [Configuration for performing kube-bench scans](#configuration-for-performing-kube-bench-scans)
   - [Configuring KubeEnforcer mTLS with Gateway/Envoy](#configuring-kubeenforcer-mtls-with-gatewayenvoy)
   - [Configuration for KubeEnforcer Advance deployment](#configuration-for-kubeenforcer-advance-deployment)
+  - [Configuration for KubeEnforcer with cert-manager](#configuration-for-kubeenforcer-with-cert-manager)
   - [Configurable Variables](#configurable-variables)
   - [Issues and feedback](#issues-and-feedback)
 
@@ -96,6 +98,38 @@ webhooks:
 ```
 
 ## Deploy the Helm chart
+
+### Deploy the KubeEnforcer with Starboard from the GitHub repository
+
+1. Clone the Aqua Helm GitHub repository with the charts (skip if you have already cloned the aqua-helm repo):
+
+   ```shell
+   git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
+   cd aqua-helm
+   ```
+
+2. Update the Helm charts `values.yaml` file with your environment's custom values, registry secret, Aqua Server (console) credentials, and TLS certificates. This eliminates the need to pass the parameters to the Helm command. Then run one of the following commands to deploy the relevant services.
+
+3. Choose **either** 3a **or** 3b:
+
+   3a. To deploy the KubeEnforcer on the same cluster as the Aqua Server (console), run this command on that cluster:
+
+   ```shell
+    helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer
+   ```
+
+   3b. Multi-cluster: To deploy the KubeEnforcer in a different cluster:
+
+   First, create a namespace on that cluster named `aqua`:
+   ```shell
+   kubectl create namespace aqua
+   ```
+   Next, run the following command:
+
+   ```shell
+   helm upgrade --install --namespace aqua kube-enforcer ./kube-enforcer --set gateway.address="<Aqua_Remote_Gateway_IP/URL>",imageCredentials.create=true,imageCredentials.username=<registry-username>,imageCredentials.password=<registry-password>
+   ```
+
 ### Deploy the KubeEnforcer with Starboard from a Helm private repository
 
 1. Add Aqua Helm Repository
@@ -120,7 +154,7 @@ webhooks:
    ```shell
    helm upgrade --install --namespace aqua kube-enforcer aqua-helm/kube-enforcer
    ```
-    
+
    4b. Multi-cluster: To deploy the KubeEnforcer in a different cluster:
 
    First, create a namespace on that cluster named `aqua`:
@@ -128,7 +162,7 @@ webhooks:
    kubectl create namespace aqua
    ```
    Next, copy the content from [Values.yaml](./values.yaml), make the respective changes, and run the following command:
-   
+
    ```shell
    helm upgrade --install --namespace aqua kube-enforcer aqua-helm/kube-enforcer --values values.yaml --version <>
    ```
@@ -142,7 +176,7 @@ webhooks:
 
 ## Configuration for discovery
 
-To perform discovery on the cluster, the KubeEnforcer needs a dedicated ClusterRole with `get`, `list`, and `watch` permissions on pods, secrets, nodes, namespaces, deployments, ReplicaSets, ReplicationControllers, StatefulSets, DaemonSets, jobs, CronJobs, ClusterRoles, ClusterRoleBindings, and ComponentStatuses`. 
+To perform discovery on the cluster, the KubeEnforcer needs a dedicated ClusterRole with `get`, `list`, and `watch` permissions on pods, secrets, nodes, namespaces, deployments, ReplicaSets, ReplicationControllers, StatefulSets, DaemonSets, jobs, CronJobs, ClusterRoles, ClusterRoleBindings, and ComponentStatuses`.
 
 ## Configuration for performing kube-bench scans
 
@@ -193,7 +227,7 @@ In order to support L7 / gRPC communication between gateway and enforcers Aqua r
    $ kubectl create secret generic ke-mtls-certs --from-file=mydomain.com.crt --from-file=mydomain.com.ke --from-file=rootCA.crt -n aqua
    ```
 
-   3. Edit the values.yaml file to include above secret 
+   3. Edit the values.yaml file to include above secret
    ```
        TLS:
          listener:
@@ -247,8 +281,63 @@ In order to support L7 / gRPC communication between gateway and enforcers Aqua r
                privateKey_fileName: "mydomain.com.key"
                rootCA_fileName: "rootCA.crt"
       ```
-   
+
    3. For more customizations please refer to [***Configurable Variables***](#configure-variables)
+
+## Configuration for KubeEnforcer with cert-manager
+
+   1. Create self signed `ClusterIssuer` and `Certificate` needed by Aqua:
+
+   ```bash
+   kubectl create namespace aqua
+
+   kubectl apply -f - << EOF
+   apiVersion: cert-manager.io/v1
+   kind: ClusterIssuer
+   metadata:
+     name: selfsigned-cluster-issuer
+   spec:
+     selfSigned: {}
+   EOF
+
+   kubectl apply -f - << EOF
+   apiVersion: cert-manager.io/v1
+   kind: Certificate
+   metadata:
+     name: aqua-kube-enforcer-certs
+     namespace: aqua
+   spec:
+     commonName: admission_ca
+     secretName: aqua-kube-enforcer-certs
+     issuerRef:
+       name: selfsigned-cluster-issuer
+       kind: ClusterIssuer
+       group: cert-manager.io
+     commonName: aqua-kube-enforcer.aqua.svc
+     dnsNames:
+     - aqua-kube-enforcer.aqua.svc
+     - aqua-kube-enforcer.aqua.svc.cluster.local
+     duration: 26280h
+     renewBefore: 720h
+   EOF
+   ```
+
+   Install kube-enforcer:
+
+   ```bash
+   helm upgrade --install --version "6.5.8" --namespace aqua --values - kube-enforcer aqua-helm/kube-enforcer << EOF
+   ...
+   certsSecret:
+     create: true
+     name: aqua-kube-enforcer-certs
+     serverCertificate: tls.crt
+     serverKey: tls.key
+   ...
+   webhooks:
+     certManager: true
+   EOF
+   ```
+
 ## Configurable Variables
 
 | Parameter | Description                                                                                                                                                                                                                                          | Default                                  | Mandatory                                                                                        |
@@ -261,16 +350,16 @@ In order to support L7 / gRPC communication between gateway and enforcers Aqua r
 | `imageCredentials.password`| Your Docker registry (Docker Hub, etc.) password                                                                                                                                                                                                     | `N/A`                                    | `Yes - New cluster`                                                                              |
 | `serviceAccount.create` | enable to create serviceaccount                                                                                                                                                                                                                      | `false`                                  | `Yes - New cluster`                                                                              |
 | `serviceAccount.name` | service acccount name                                                                                                                                                                                                                                | `aqua-sa`                                | `No`                                                                                             |
-`platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s) | `unset` | `YES`                                                       
+| `platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s, mke)                                                                                                                                     | `""`                                     | `Yes, for openshift and mirantis platform`
 | `aqua_enable_cache` | Set this to yes to enable caching for the KubeEnforcer; this can improve performance in clusters with high traffic                                                                                                                                   | `yes`                                    | `Yes`                                                                                            |
 | `aqua_cache_expiration_period` | If caching is enabled, you can adjust the cache refresh time. This defaults to 60 seconds                                                                                                                                                            | `60`                                     | `Yes` </br> `if aqua_enable_cache enabled`                                                       |
 | `image.repository` | the docker image name to use                                                                                                                                                                                                                         | `kube-enforcer`                          | `Yes`                                                                                            |
 | `image.tag` | The image tag to use.                                                                                                                                                                                                                                | `6.5`                                    | `Yes`                                                                                            |
 | `image.pullPolicy` | The kubernetes image pull policy.                                                                                                                                                                                                                    | `Always`                                 | `Yes`                                                                                            |
-| `ke_ReplicaCount` | kube-enforcer replica count                                                                                                                                                                                                                          | `1`                                      | `No`                                                                                             
+| `ke_ReplicaCount` | kube-enforcer replica count                                                                                                                                                                                                                          | `1`                                      | `No`
 | `clusterName`   | Cluster name registered with Aqua in Infrastructure tab                                                                                                                                                                                              | `aqua-secure`                            | `No`                                                                                             |
 | `logicalName` | This variable is used in conjunction with the KubeEnforcer group logical name to determine how the KubeEnforcer name will be displayed in the Aqua UI                                                                                                | `""`                                     | `No`                                                                                             |
-| `logLevel` | Setting this might be helpful for problem determination. Acceptable values are DEBUG, INFO, WARN, and ERROR                                                                                                                                          | `""`                                     | `No`                                                                                             
+| `logLevel` | Setting this might be helpful for problem determination. Acceptable values are DEBUG, INFO, WARN, and ERROR                                                                                                                                          | `""`                                     | `No`
 | `certsSecret.create`| Set to create a new secret for TLS authentication with the Kubernetes api-server, Change to false if you're using existing server certificate secret                                                                                                 | `true`                                   | `Yes`                                                                                            |
 | `certsSecret.autoGenerate`| Set to automaticly generate self-signed secret for TLS authentication with the Kubernetes api-server, Change to false if you're using existing server certificate secret                                                                       | `false`                                  | `No`                                                                                             |
 | `certsSecret.name`| Secret name for TLS authentication with the Kubernetes api-server, Change secret name if already exists with server/web public certificate                                                                                                           | `aqua-kube-enforcer-certs`               | `Yes`                                                                                            |
@@ -285,7 +374,7 @@ In order to support L7 / gRPC communication between gateway and enforcers Aqua r
 | `clusterRoleBinding.name` | KE cluster rolebinding name                                                                                                                                                                                                                          | `aqua-kube-enforcer`                     | `Yes`                                                                                            |
 | `role.name` | KE role name                                                                                                                                                                                                                                         | `aqua-kube-enforcer`                     | `Yes`                                                                                            |
 | `roleBinding.name` | KE rolebinding name                                                                                                                                                                                                                                  | `aqua-kube-enforcer`                     | `Yes`                                                                                            |
-| `webhooks.certManager` | Enable to true if using KE webhook certificates generated from kubernetes cert-manager                                                                                                                                                               | `false`                                  | `No`                                                                                             
+| `webhooks.certManager` | Enable to true if using KE webhook certificates generated from kubernetes cert-manager                                                                                                                                                               | `false`                                  | `No`
 | `webhooks.caBundle` | Root certificate for TLS authentication with the Kubernetes api-server, Add base64 value of the CA cert/Ca Bundle/RootCA Cert if certificates are not generated from cert-manager to webhooks.caBundle                                               | `N/A`                                    | `Yes` </br> `if webhooks.certManager is false`                                                   |
 | `webhooks.failurePolicy` | Webhook failure policy                                                                                                                                                                                                                               | `false`                                  | `Yes`                                                                                            |
 | `webhooks.validatingWebhook.name` | KE validating webhook name                                                                                                                                                                                                                           | `kube-enforcer-admission-hook-config`    | `Yes`                                                                                            |
@@ -325,7 +414,7 @@ In order to support L7 / gRPC communication between gateway and enforcers Aqua r
 | `starboard.nodeselector`  | NodeSelectors to be added to the Starboard Operator Deployment                                                                                                                                                                                       | `false`                                  | `No`                                                                                             |
 | `kubeEnforcerAdvance.enable` | Advanced KubeEnforcer deployment                                                                                                                                                                                                                     | `false`                                  | `No`                                                                                             |
 | `kubeEnforcerAdvance.nodeID` | Envoy Node ID of the advance KE deployment                                                                                                                                                                                                           | `envoy`                                  | `Yes - if kubeEnforcerAdvance.enable`                                                            |
-| `kubeEnforcerAdvance.envoy.image.repository` | envoy image repository for KE advance deployment                                                                                                                                                                                                     | `envoy`                                  | `Yes`                                                                                            | 
+| `kubeEnforcerAdvance.envoy.image.repository` | envoy image repository for KE advance deployment                                                                                                                                                                                                     | `envoy`                                  | `Yes`                                                                                            |
 | `kubeEnforcerAdvance.envoy.image.tag` | envoy image tag for KE advance deployment                                                                                                                                                                                                            | `6.5`                                    | `Yes`                                                                                            |
 | `kubeEnforcerAdvance.envoy.image.pullPolicy` | envoy image pull policy for KE advance deployment                                                                                                                                                                                                    | `Always`                                 | `Yes - if kubeEnforcerAdvance.enable`                                                            |
 | `kubeEnforcerAdvance.envoy.TLS.listener.enabled` | If require secure channel communication                                                                                                                                                                                                              | `false`                                  | `No`                                                                                             |
