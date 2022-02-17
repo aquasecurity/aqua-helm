@@ -19,7 +19,7 @@ imageCredentials:
   password: ""
 
 #Define this variable for openshift platform
-platform:
+platform: " "
 
 dockerSock:
   mount: # put true for mount docker socket.
