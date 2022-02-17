@@ -46,8 +46,10 @@ serviceAccount:
 # mke = Mirantis Kubernetes Engine
 platform: ""
 
-aqua_enable_cache: "yes" # Specify whether to enable/disable the cache by using "yes", "true", "no", "false" values.
-aqua_cache_expiration_period: "60" # default value is 60
+# Specify whether to enable/disable the cache by using "yes", "true", "no", "false" values.
+aqua_enable_cache: "yes"
+# default value is 60
+aqua_cache_expiration_period: "60"
 
 image:
   repository: "kube-enforcer"
@@ -59,7 +61,8 @@ ke_ReplicaCount: "1"
 nameOverride: "aqua-kube-enforcer"
 fullnameOverride: "aqua-kube-enforcer"
 
-clusterName: "aqua-secure"   # Display a custom cluster name in the infrastructure tab of Aqua Enterprise
+# Display a custom cluster name in the infrastructure tab of Aqua Enterprise
+clusterName: "aqua-secure"
 logicalName: ""
 logLevel: ""
 
@@ -74,18 +77,20 @@ logLevel: ""
 certsSecret:
   autoGenerate: false
   create: true
-  name: "aqua-kube-enforcer-certs" # If you're using existing certs change the name to existing secret name
+  # If you're using existing certs change the name to existing secret name
+  name: "aqua-kube-enforcer-certs"
   serverCertificate: ""
   serverKey: ""
 
 aquaSecret:
   create: true
   name: "aqua-kube-enforcer-token"
-# Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
+  # Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
   kubeEnforcerToken: ke-token
 
 gateway:
-  address: aqua-gateway-svc.aqua  # change address to gateway endpoint
+  # change address to gateway endpoint
+  address: aqua-gateway-svc.aqua
   port: 8443
 
 clusterRole:
@@ -101,7 +106,8 @@ roleBinding:
   name: "aqua-kube-enforcer"
 
 webhooks:
-  certManager: false      # set this field true if you're using cert-manager and don't need to pass a caBundle
+  # set this field true if you're using cert-manager and don't need to pass a caBundle
+  certManager: false
   # Add base64 value of the CA cert/Ca Bundle/RootCA Cert if certificates are not generated from cert-manager to webhooks.caBundle
   caBundle: ""
   failurePolicy: Ignore
@@ -148,12 +154,32 @@ podAnnotations: {}
 affinity: {}
 
 TLS:
-  enabled: false              # enable to true for secure communication
-  secretName: "ke-mtls-certs"             # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
-  publicKey_fileName: ""       # provide filename of the public key eg: aqua_web.crt
-  privateKey_fileName: ""      # provide filename of the private key eg: aqua_web.key
-  rootCA_fileName: ""           #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
-  tls_verify: false             # change it to true for enabling mTLS between enforcer and gateway/envoy
+  # enable to true for secure communication
+  enabled: false
+  # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
+  secretName: "ke-mtls-certs"
+  # provide filename of the public key eg: aqua_web.crt
+  publicKey_fileName: ""
+  # provide filename of the private key eg: aqua_web.key
+  privateKey_fileName: ""
+  # provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
+  rootCA_fileName: ""
+  # change it to true for enabling mTLS between enforcer and gateway/envoy
+  tls_verify: false
+
+# extraEnvironmentVars is a list of extra environment variables to set in the kube-enforcer deployment
+# https://docs.aquasec.com/docs/kubeenforcer-variables
+extraEnvironmentVars:
+  # ENV_NAME: value
+  # For example:
+  # AQUA_CACHE_EXPIRATION_PERIOD: 60
+
+# extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
+# These variables take value from existing Secret objects.
+extraSecretEnvironmentVars: []
+  # - envName: ENV_NAME
+  #   secretName: name
+  #   secretKey: key
 
 starboard:
   replicaCount: "1"
@@ -228,7 +254,6 @@ starboard:
 ### When using KubeEnforcers for Pod Enforcer injection, it is recommended that you deploy the KubeEnforcers in a special Advanced configuration.
 ### This will cause Pod Enforcer traffic to be routed to the KubeEnforcers via a local envoy, which then forwards the traffic to an Aqua Gateway.
 ### This configuration improves performance and reduces remote network connections between pods and Gateways.
-
 kubeEnforcerAdvance:
   enable: false
   nodeID: "envoy"
@@ -243,11 +268,16 @@ kubeEnforcerAdvance:
     # Find the instructions in the readme for help with generating the required certificates.
     TLS:
       listener:
-        enabled: false                     # true to enable secure communication between Aqua Envoy and Gateways
-        secretName: "envoy-mtls-certs"                    # provide secret name containing the certificates
-        publicKey_fileName: ""            # provide filename of the public key in the secret eg: aqua-lb.crt
-        privateKey_fileName: ""           # provide filename of the private key in the secret eg: aqua-lb.key
-        rootCA_fileName: ""               # optional: use this field if using a custom CA or chain
+        # true to enable secure communication between Aqua Envoy and Gateways
+        enabled: false
+        # provide secret name containing the certificates
+        secretName: "envoy-mtls-certs"
+        # provide filename of the public key in the secret eg: aqua-lb.crt
+        publicKey_fileName: ""
+        # provide filename of the private key in the secret eg: aqua-lb.key
+        privateKey_fileName: ""
+        # optional: use this field if using a custom CA or chain
+        rootCA_fileName: ""
 
     readinessProbe:
       exec:

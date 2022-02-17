@@ -48,6 +48,8 @@ spec:
               secretKeyRef:
                 name: {{ .Values.aquaSecret.name }}
                 key: token
+          {{- include "kube-enforcer.extraEnvironmentVars" .Values | nindent 10 }}
+          {{- include "kube-enforcer.extraSecretEnvironmentVars" .Values | nindent 10 }}
           ports:
 {{- if not .Values.kubeEnforcerAdvance.enable }}
             - containerPort: 8443

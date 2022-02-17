@@ -79,7 +79,7 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{- define "platform" }}
-{{- printf "%s" (required "A valid .Values.global.platform entry required" .Values.global.platform ) | replace "\n" "" }}
+{{- printf "%s" (required "A valid .Values.platform entry required" .Values.platform ) | replace "\n" "" }}
 {{- end }}
 
 {{/*
@@ -107,4 +107,28 @@ Create chart name and version as used by the chart label.
 */}}
 {{- define "aqua.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "kube-enforcer.extraEnvironmentVars" -}}
+{{- if .extraEnvironmentVars -}}
+{{- range $key, $value := .extraEnvironmentVars }}
+- name: {{ printf "%s" $key | replace "." "_" | upper | quote }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Inject extra environment populated by secrets, if populated
+*/}}
+{{- define "kube-enforcer.extraSecretEnvironmentVars" -}}
+{{- if .extraSecretEnvironmentVars -}}
+{{- range .extraSecretEnvironmentVars }}
+- name: {{ .envName }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ .secretName }}
+      key: {{ .secretKey }}
+{{- end -}}
+{{- end -}}
 {{- end -}}
