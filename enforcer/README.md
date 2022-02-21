@@ -45,7 +45,7 @@ helm search repo aqua-helm/enforcer --versions
 * Install Aqua Enforcer
 
 ```shell
-helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.create=<>,imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
+helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.create=<>,imageCredentials.username=<>,imageCredentials.password=<>,platform=<>,enforcerToken=<aquasec-token>
 ```
 
 
