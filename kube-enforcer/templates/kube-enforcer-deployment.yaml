@@ -4,6 +4,7 @@ metadata:
   labels:
     role: {{ .Release.Name }}
     app: {{ include "kube-enforcer.fullname" . }}
+{{ include "aqua.labels" . | indent 4 }}
   name: {{ include "kube-enforcer.fullname" . }}
   namespace: {{ .Release.Namespace }}
 spec:
@@ -21,7 +22,9 @@ spec:
       {{- end }}
       {{- end }}
       labels:
+        role: {{ .Release.Name }}
         app: {{ include "kube-enforcer.fullname" . }}
+{{ include "aqua.labels" . | indent 8 }}
     spec:
       {{- with .Values.securityContext }}
       securityContext:
@@ -45,6 +48,8 @@ spec:
               secretKeyRef:
                 name: {{ .Values.aquaSecret.name }}
                 key: token
+          {{- include "kube-enforcer.extraEnvironmentVars" .Values | nindent 10 }}
+          {{- include "kube-enforcer.extraSecretEnvironmentVars" .Values | nindent 10 }}
           ports:
 {{- if not .Values.kubeEnforcerAdvance.enable }}
             - containerPort: 8443

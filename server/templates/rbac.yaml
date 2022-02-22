@@ -8,9 +8,7 @@ metadata:
   name: {{ .Release.Name }}-cluster-role
   labels:
     app: {{ .Release.Name }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+{{ include "aqua.labels" . | indent 4 }}
     rbac.example.com/aggregate-to-monitoring: "true"
 rules:
 - apiGroups: [""]
@@ -32,9 +30,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+{{ include "aqua.labels" . | indent 4 }}
 roleRef:
   kind: ClusterRole
   apiGroup: rbac.authorization.k8s.io
@@ -47,64 +43,6 @@ subjects:
   - kind: ServiceAccount
     name: {{ .Release.Namespace }}-sa
     namespace: {{ .Release.Namespace }}
-
-{{- if eq .Values.global.platform "openshift" }}
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: {{ .Release.Name }}-cluster-reader
-subjects:
-  - kind: ServiceAccount
-    name: {{ .Release.Namespace }}-sa
-    namespace: {{ .Release.Namespace }}
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-reader
----
-allowHostDirVolumePlugin: true
-allowHostIPC: false
-allowHostNetwork: false
-allowHostPID: false
-allowHostPorts: false
-allowPrivilegeEscalation: true
-allowPrivilegedContainer: false
-apiVersion: security.openshift.io/v1
-defaultAddCapabilities: null
-fsGroup:
-  type: RunAsAny
-groups: []
-kind: SecurityContextConstraints
-metadata:
-  annotations:
-    "helm.sh/hook": pre-install
-    kubernetes.io/description: aqua scc provides all features of the restricted SCC
-      but allows users to run with any non-root UID and access hostPath. The user must
-      specify the UID or it must be specified on the by the manifest of the container runtime.
-    release.openshift.io/create-only: "true"
-  name: {{ .Release.Name }}-scc
-priority: null
-readOnlyRootFilesystem: false
-requiredDropCapabilities: null
-runAsUser:
-  type: MustRunAsNonRoot
-seLinuxContext:
-  type: MustRunAs
-supplementalGroups:
-  type: RunAsAny
-users:
-- system:serviceaccount:{{ .Release.Namespace }}:{{ .Release.Namespace }}-sa
-volumes:
-- configMap
-- downwardAPI
-- emptyDir
-- persistentVolumeClaim
-- projected
-- secret
-- hostPath
-
-{{- end }}
 
 ## TKG RBAC
 {{- if eq .Values.global.platform "tkg" }}

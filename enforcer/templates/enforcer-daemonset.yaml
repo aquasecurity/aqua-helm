@@ -6,9 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-ds
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+{{ include "aqua.labels" . | indent 4 }}
 spec:
   selector:
     matchLabels:
@@ -30,6 +28,7 @@ spec:
       {{- end }}
       labels:
         app: {{ .Release.Name }}-ds
+{{ include "aqua.labels" . | indent 8 }}
       name: {{ .Release.Name }}-ds
     spec:
       serviceAccount: {{ template "serviceAccount" . }}
