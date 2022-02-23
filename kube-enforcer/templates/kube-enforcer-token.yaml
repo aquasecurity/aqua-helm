@@ -4,6 +4,10 @@ kind: Secret
 metadata:
   name: {{ .Values.aquaSecret.name }}
   namespace: {{ .Release.Namespace }}
+  labels:
+    role: {{ .Release.Name }}
+    app: {{ include "kube-enforcer.fullname" . }}
+{{ include "aqua.labels" . | indent 4 }}
 type: Opaque
 data:
   token: {{ .Values.aquaSecret.kubeEnforcerToken | b64enc }}             # aqua kube enforcer token

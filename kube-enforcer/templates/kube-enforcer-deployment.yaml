@@ -4,10 +4,11 @@ metadata:
   labels:
     role: {{ .Release.Name }}
     app: {{ include "kube-enforcer.fullname" . }}
+{{ include "aqua.labels" . | indent 4 }}
   name: {{ include "kube-enforcer.fullname" . }}
   namespace: {{ .Release.Namespace }}
 spec:
-  replicas: {{ .Values.ke_ReplicaCount }}
+  replicas: {{ .Values.ke_ReplicaCount | default "1" }}
   template:
     metadata:
       annotations:
@@ -21,13 +22,15 @@ spec:
       {{- end }}
       {{- end }}
       labels:
+        role: {{ .Release.Name }}
         app: {{ include "kube-enforcer.fullname" . }}
+{{ include "aqua.labels" . | indent 8 }}
     spec:
       {{- with .Values.securityContext }}
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccountName: {{ .Values.serviceAccount.name }}
+      serviceAccountName: {{ template "serviceAccount" . }}
       containers:
         - name: kube-enforcer
           {{- with .Values.container_securityContext }}
@@ -45,6 +48,8 @@ spec:
               secretKeyRef:
                 name: {{ .Values.aquaSecret.name }}
                 key: token
+          {{- include "kube-enforcer.extraEnvironmentVars" .Values | nindent 10 }}
+          {{- include "kube-enforcer.extraSecretEnvironmentVars" .Values | nindent 10 }}
           ports:
 {{- if not .Values.kubeEnforcerAdvance.enable }}
             - containerPort: 8443
@@ -74,7 +79,7 @@ spec:
               mountPath: "/etc/aquasec/envoy"
 {{- end }}
 {{- if .Values.TLS.enabled }}
-            - name: "ke-mtls-certs"
+            - name: "{{ .Values.TLS.secretName }}"
               mountPath: "/opt/aquasec/ssl/"
               readOnly: true
 {{- end }}
@@ -94,7 +99,7 @@ spec:
           - mountPath: "/etc/ssl/envoy"
             readOnly: true
 {{- if .Values.kubeEnforcerAdvance.envoy.TLS.listener.enabled }}
-            name: "envoy-mtls-certs"
+            name: "{{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.secretName}}"
 {{- else }}
             name: "certs"
 {{- end }}
@@ -123,7 +128,7 @@ spec:
           emptyDir: {}
 {{- end }}
         {{- if .Values.TLS.enabled }}
-        - name: "ke-mtls-certs"
+        - name: "{{ .Values.TLS.secretName }}"
           secret:
             defaultMode: 420
             secretName: {{ .Values.TLS.secretName }}
@@ -138,7 +143,7 @@ spec:
             {{- end }}
         {{- end }}
         {{- if .Values.kubeEnforcerAdvance.envoy.TLS.listener.enabled }}
-        - name: "envoy-mtls-certs"
+        - name: "{{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.secretName}}"
           secret:
             defaultMode: 420
             secretName: {{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.secretName }}

@@ -1,0 +1,100 @@
+{{- if .Values.certsSecret.autoGenerate }}
+{{- if not .Values.certsSecret.name }}
+{{ template "certsSecret_name" . }}
+{{- end }}
+{{- $altNames := list ( printf "%s.%s" (include "kube-enforcer.fullname" .) .Release.Namespace ) ( printf "%s.%s.svc" (include "kube-enforcer.fullname" .) .Release.Namespace ) -}}
+{{- $ca := genCA "kube-enforcer-ca" 365 -}}
+{{- $cert := genSignedCert ( include "kube-enforcer.fullname" . ) nil $altNames 365 $ca -}}
+{{- $secret := (lookup "v1" "Secret" .Release.Namespace .Values.certsSecret.name) }}
+{{- $rootCaCert := ($ca.Cert | b64enc) }}
+{{- $serverCert := ($cert.Cert | b64enc) }}
+{{- $serverKey := ($cert.Key | b64enc) }}
+{{- if .Values.certsSecret.create }}
+{{- if $secret }}
+{{- $rootCaCert = (index $secret.data "ca.crt") }}
+{{- $serverCert = (index $secret.data "server.crt") }}
+{{- $serverKey = (index $secret.data "server.key") }}
+{{- end }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.certsSecret.name }}
+  namespace: {{ .Release.Namespace }}
+data:
+  ca.crt: {{ $rootCaCert }}
+  server.crt: {{ $serverCert }}
+  server.key: {{ $serverKey }}
+{{- end }}
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: {{ .Values.webhooks.validatingWebhook.name }}
+  namespace: {{ .Release.Namespace }}
+{{- if .Values.webhooks.validatingWebhook.annotations }}
+  annotations:
+{{ toYaml .Values.webhooks.validatingWebhook.annotations | indent 4 }}
+{{- end }}
+webhooks:
+  - name: imageassurance.aquasec.com
+    failurePolicy: {{ .Values.webhooks.failurePolicy }}
+    sideEffects: "None"
+    rules:
+      - operations: ["CREATE", "UPDATE"]
+        apiGroups: ["*"]
+        apiVersions: ["*"]
+        resources:
+          - pods
+          - deployments
+          - replicasets
+          - replicationcontrollers
+          - statefulsets
+          - daemonsets
+          - jobs
+          - cronjobs
+          - configmaps
+          - services
+          - roles
+          - rolebindings
+          - clusterroles
+          - clusterrolebindings
+          - customresourcedefinitions
+    clientConfig:
+      {{- if not .Values.webhooks.certManager }}
+      caBundle: {{ $rootCaCert }}
+      {{- end }}
+      service:
+        namespace: {{ .Release.Namespace }}
+        name: {{ include "kube-enforcer.fullname" . }}
+    timeoutSeconds: 5
+    admissionReviewVersions: ["v1beta1"]
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: {{ .Values.webhooks.mutatingWebhook.name }}
+  namespace: {{ .Release.Namespace }}
+{{- if .Values.webhooks.mutatingWebhook.annotations }}
+  annotations:
+{{ toYaml .Values.webhooks.mutatingWebhook.annotations | indent 4 }}
+{{- end }}
+webhooks:
+  - name: microenforcer.aquasec.com
+    sideEffects: "None"
+    failurePolicy: {{ .Values.webhooks.failurePolicy }}
+    rules:
+      - operations: ["CREATE", "UPDATE"]
+        apiGroups: ["*"]
+        apiVersions: ["*"]
+        resources: ["pods"]
+    clientConfig:
+      {{- if not .Values.webhooks.certManager }}
+      caBundle: {{ $rootCaCert }}
+      {{- end }}
+      service:
+        namespace: {{ .Release.Namespace }}
+        name: {{ include "kube-enforcer.fullname" . }}
+        path: "/mutate"
+    timeoutSeconds: 5
+    admissionReviewVersions: ["v1beta1"]
+{{- end }}

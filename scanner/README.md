@@ -33,27 +33,12 @@ Before installing scanner chart the recommendation is to create user with scanni
 ## Installing the Chart
 Follow the steps in this section for production grade deployments. You can either clone aqua-helm git repo or you can add our helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com))
 
-### Installing Aqua Scanner from Github Repo
-
-* Clone the GitHub repository with the charts
-
-```shell
-git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
-cd aqua-helm/
-```
-
-
-* Install Aqua
-
-```shell
-helm upgrade --install --namespace aqua scanner ./scanner --set imageCredentials.username=<>,imageCredentials.password=<>
-```
-
 ### Installing Aqua Scanner from Helm Private Repository
 
 * Add Aqua Helm Repository
 ```shell
 helm repo add aqua-helm https://helm.aquasec.com
+helm repo update
 ```
 
 * Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
@@ -64,7 +49,7 @@ helm search repo aqua-helm/scanner --versions
 * Install Aqua
 
 ```shell
-helm upgrade --install --namespace aqua scanner aqua-helm/scanner --set imageCredentials.username=<>,imageCredentials.password=<> --version <>
+helm upgrade --install --namespace aqua scanner aqua-helm/scanner --set imageCredentials.username=<>,imageCredentials.password=<>
 ```
 ### (Optional) Configure SSL communication with Aqua Server
 To enable SSL communication from the Scanner to the Aqua Server. Perform these steps:
@@ -96,42 +81,44 @@ The following table lists the configurable parameters of the Console and Enforce
 
 ### Scanner
 
-Parameter | Description | Default| Mandatory 
---------- | ----------- | ------- | ------- 
-`repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com`| `YES` 
-`dockerSocket.mount` | boolean parameter if to mount docker socket | `unset`| `NO` 
-`dockerSocket.path` | docker socket path | `/var/run/docker.sock`| `NO` 
-`directCC.enabled` | scanner talk to the cybercenter directly | `yes`| `NO` 
-`serviceAccount.create` | Enable to create serviceaccount if not exist in the k8s | `false`| `NO`
-`serviceAccount.name` | K8 service-account name either existing one or new name if create is enabled | `aqua-sa`  | `YES`
-`server.scheme` | scheme for server to connect | `http`| `NO`
-`server.serviceName` | service name for server to connect | `aqua-console-svc`| `YES` 
-`server.port` | service port for server to connect | `8080`| `YES`
-`serverSSl.enabled` | To establish SSL communication with Aqua Server | `false` | `NO`
-`serverSSL.secretName` | secret name for the SSL cert | `scanner-web-cert` | `NO`
-`serverSSL.serverSSLCert` | base64 value of the aqua server public certificate | `Nill` | `YES` <br /> `if serverSSl.enabled is set to true `
-`cyberCenter.mtls.enabled` | If require secure channel communication | `false` | `NO`
-`cyberCenter.mtls.secretName` | certificates secret name | `nil` | `NO`
-`cyberCenter.mtls.publicKey_fileName` | filename of the public key eg: aqua_scanner.crt | `nil`  |  `YES` <br /> `if cyberCenter.mtls.enabled is set to true`
-`cyberCenter.mtls.privateKey_fileName`   | filename of the private key eg: aqua_scanner.key | `nil`  |  `YES` <br /> `if cyberCenter.mtls.enabled is set to true`
-`cyberCenter.mtls.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO` <br /> `if using self-signed certificates for mTLS`
-`image.repository` | the docker image name to use | `scanner`| `YES` 
-`image.tag` | The image tag to use. | `6.5`| `YES`
-`image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO` 
-`user` | scanner username | `unset`| `YES` 
-`password` | scanner password | `unset`| `YES` 
-`scannerUserSecret.enable` | change it to true for loading scanner user, scanner password from secret | `false` | `YES` <br /> `If password is not declared`
-`scannerUserSecret.secretName` | secret name for the scanner user, scanner password secret | `null` | `YES` <br /> `If password is not declared`
-`scannerUserSecret.userKey` | secret key of the scanner user | `null` | `YES` <br /> `If password is not declared`
-`scannerUserSecret.passwordKey` | secret key of the scanner password | `null` | `YES` <br /> `If password is not declared`
-`replicaCount` | replica count | `1`| `NO` 
-`resources` |	Resource requests and limits | `{}`| `NO` 
-`nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
-`tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
-`affinity` |	Kubernetes node affinity | `{}`| `NO`
-`podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
-`extraEnvironmentVars` | is a list of extra environment variables to set in the scanner deployments. | `{}`| `NO`
-`extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner deployments, these variables take value from existing Secret objects. | `[]`| `NO`
+Parameter | Description                                                                                                                                                  | Default| Mandatory 
+--------- |--------------------------------------------------------------------------------------------------------------------------------------------------------------| ------- | ------- 
+`repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io`                                                                                                          | `registry.aquasec.com`| `YES` 
+`dockerSocket.mount` | boolean parameter if to mount docker socket                                                                                                                  | `unset`| `NO` 
+`dockerSocket.path` | docker socket path                                                                                                                                           | `/var/run/docker.sock`| `NO` 
+`platform` | Orchestration platform name for OpenShift deployment (use platform=openshift)                                                                                | `unset` | `NO`
+`directCC.enabled` | scanner talk to the cybercenter directly                                                                                                                     | `yes`| `NO` 
+`serviceAccount.create` | Enable to create serviceaccount if not exist in the k8s                                                                                                      | `false`| `NO`
+`serviceAccount.name` | K8 service-account name either existing one or new name if create is enabled                                                                                 | `aqua-sa`  | `YES`
+`server.scheme` | scheme for server to connect                                                                                                                                 | `http`| `NO`
+`server.serviceName` | service name for server to connect                                                                                                                           | `aqua-console-svc`| `YES` 
+`server.port` | service port for server to connect                                                                                                                           | `8080`| `YES`
+`serverSSl.enable` | To establish SSL communication with Aqua Server                                                                                                              | `false` | `NO`
+`serverSSl.createSecret` | Change to false if you're using existing server certificate secret                                                                                           | `true` | `YES` <br /> `if serverSSl.enable is set to true `
+`serverSSL.secretName` | secret name for the SSL cert                                                                                                                                 | `scanner-web-cert` | `YES` <br /> `if serverSSl.enable is set to true `
+`serverSSL.cert_file` | If serverSSL createSecret enable to true, add base64 value of the the server public certificate or add filename of certificate if loading from custom secret | `Nill` | `YES` <br /> `if serverSSl.enable is set to true `
+`cyberCenter.mtls.enabled` | If require secure channel communication                                                                                                                      | `false` | `NO`
+`cyberCenter.mtls.secretName` | certificates secret name                                                                                                                                     | `nil` | `NO`
+`cyberCenter.mtls.publicKey_fileName` | filename of the public key eg: aqua_scanner.crt                                                                                                              | `nil`  |  `YES` <br /> `if cyberCenter.mtls.enabled is set to true`
+`cyberCenter.mtls.privateKey_fileName`   | filename of the private key eg: aqua_scanner.key                                                                                                             | `nil`  |  `YES` <br /> `if cyberCenter.mtls.enabled is set to true`
+`cyberCenter.mtls.rootCA_fileName` | filename of the rootCA, if using self-signed certificates eg: rootCA.crt                                                                                     | `nil`  |  `NO` <br /> `if using self-signed certificates for mTLS`
+`image.repository` | the docker image name to use                                                                                                                                 | `scanner`| `YES` 
+`image.tag` | The image tag to use.                                                                                                                                        | `6.5`| `YES`
+`image.pullPolicy` | The kubernetes image pull policy.                                                                                                                            | `IfNotPresent`| `NO` 
+`user` | scanner username                                                                                                                                             | `unset`| `YES` 
+`password` | scanner password                                                                                                                                             | `unset`| `YES` 
+`scannerUserSecret.enable` | change it to true for loading scanner user, scanner password from secret                                                                                     | `false` | `YES` <br /> `If password is not declared`
+`scannerUserSecret.secretName` | secret name for the scanner user, scanner password secret                                                                                                    | `null` | `YES` <br /> `If password is not declared`
+`scannerUserSecret.userKey` | secret key of the scanner user                                                                                                                               | `null` | `YES` <br /> `If password is not declared`
+`scannerUserSecret.passwordKey` | secret key of the scanner password                                                                                                                           | `null` | `YES` <br /> `If password is not declared`
+`replicaCount` | replica count                                                                                                                                                | `1`| `NO` 
+`resources` | 	Resource requests and limits                                                                                                                                | `{}`| `NO` 
+`nodeSelector` | 	Kubernetes node selector	                                                                                                                                   | `{}`| `NO`
+`tolerations` | 	Kubernetes node tolerations	                                                                                                                                | `[]`| `NO`
+`affinity` | 	Kubernetes node affinity                                                                                                                                    | `{}`| `NO`
+`podAnnotations` | Kubernetes pod annotations                                                                                                                                   | `{}` | `NO`
+`extraEnvironmentVars` | is a list of extra environment variables to set in the scanner deployments.                                                                                  | `{}`| `NO`
+`extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner deployments, these variables take value from existing Secret objects.                         | `[]`| `NO`
 ## Issues and feedback
 
 If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub.

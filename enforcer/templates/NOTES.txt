@@ -1,9 +1,28 @@
 
-Thank you for installing Aqua Security Enforcer.
+======== Deployment Details =============
 
-Now that you have deployed Aqua Enforcer, you should look over the docs on using: 
+CHART NAME: {{ .Chart.Name  }}
+CHART VERSION: {{ .Chart.Version  }}
+APP VERSION: {{ .Chart.AppVersion  }}
 
-https://docs.aquasec.com/docs
+** Please be patient while the chart is being deployed **
+===================================================================================
 
+Thank you for Deploying Aqua Enforcer.
+You have deployed the following release: {{ .Release.Name }}.
 
-Your release is named {{ .Release.Name }}.
+To get further information, you can run the commands:
+  $ helm status {{ .Release.Name }} --namespace {{ .Release.Namespace }}
+  $ helm get all {{ .Release.Name }} --namespace {{ .Release.Namespace }}
+
+Get the list of pods by executing:
+
+  $ kubectl get pods --namespace {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}
+
+Access the pod you want to debug by executing
+
+  $ kubectl exec --namespace {{ .Release.Namespace }} -ti <NAME OF THE POD> -- bash
+
+For more information about Aqua Enforcer, you can look over the docs on using:
+https://docs.aquasec.com/docs/aqua-enforcer
+=======================================================================================

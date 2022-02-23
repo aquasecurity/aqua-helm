@@ -5,7 +5,9 @@ metadata:
   name: {{ .Values.starboard.appName }}
   namespace: {{ .Release.Namespace }}
   labels:
+    role: {{ .Release.Name }}
     app: {{ .Values.starboard.appName }}
+{{ include "aqua.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.starboard.replicaCount }}
   strategy:
@@ -18,7 +20,9 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/starboard-configmap.yaml") . | sha256sum }}
       labels:
+        role: {{ .Release.Name }}
         app: {{ .Values.starboard.appName }}
+{{ include "aqua.labels" . | indent 8 }}
     spec:
       serviceAccountName: {{ .Values.starboard.serviceAccount.name }}
       automountServiceAccountToken: {{ .Values.starboard.automountServiceAccountToken }}

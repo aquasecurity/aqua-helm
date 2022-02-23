@@ -14,22 +14,18 @@ Else if .Values.serviceAccount.create set to true, so will becreate serviceAccou
 .Values.serviceAccount.name or will be generated name based on Chart Release name
 */}}
 {{- define "serviceAccount" -}}
-{{- if not (and .Values.serviceAccount.create .Values.serviceAccount.name) }}
-{{- printf "aqua-sa" }}
-{{- else }}
-{{- if .Values.serviceAccount.create }}
-{{ .Values.serviceAccount.name | default (printf "%s-sa" .Release.Name) }}
-{{- end -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ .Values.serviceAccount.name | default (printf "%s-sa" .Release.Name) }}
+{{- else if not .Values.serviceAccount.create -}}
+    {{ .Values.serviceAccount.name | default (printf "aqua-sa") }}
 {{- end -}}
 {{- end -}}
 
 {{- define "registrySecret" -}}
-{{- if not (and .Values.imageCredentials.create .Values.imageCredentials.name) }}
-{{- printf "aqua-registry-secret" }}
-{{- else }}
-{{- if .Values.imageCredentials.create }}
-{{ .Values.imageCredentials.name | default (printf "%s-registry-secret" .Release.Name) }}
-{{- end -}}
+{{- if .Values.imageCredentials.create -}}
+    {{ .Values.imageCredentials.name | default (printf "%s-registry-secret" .Release.Name) }}
+{{- else if not .Values.imageCredentials.create -}}
+    {{ .Values.imageCredentials.name | default (printf "aqua-registry-secret") }}
 {{- end -}}
 {{- end -}}
 
@@ -78,3 +74,30 @@ Inject extra environment populated by secrets, if populated
 {{- define "platform" }}
 {{- printf "%s" (required "A valid .Values.platform entry required" .Values.platform ) | replace "\n" "" }}
 {{- end }}
+
+{{/*
+Common labels
+*/}}
+{{- define "aqua.labels" -}}
+helm.sh/chart: '{{ include "aqua.chart" . }}'
+{{ include "aqua.template-labels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+{{- end -}}
+
+{{/*
+Common template labels
+*/}}
+{{- define "aqua.template-labels" -}}
+app.kubernetes.io/name: "{{ template "name" . }}"
+app.kubernetes.io/instance: {{ .Release.Name | quote }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{/*
+Create chart name and version as used by the chart label.
+*/}}
+{{- define "aqua.chart" -}}
+{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}

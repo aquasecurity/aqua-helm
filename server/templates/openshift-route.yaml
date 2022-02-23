@@ -10,6 +10,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-console
+{{ include "aqua.labels" . | indent 4 }}
 spec:
   to:
     kind: Service
@@ -30,6 +31,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-gateway
+{{ include "aqua.labels" . | indent 4 }}
 spec:
   to:
     kind: Service

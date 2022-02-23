@@ -1,3 +1,7 @@
+## 6.5.8 ( February 4th)
+* Align labels + update NOTES.txt
+## 6.5.7 ( January 21th)
+* Fix issue - [497](https://github.com/aquasecurity/aqua-helm/issues/497)
 ## 6.5.6 ( January 18th)
 * Fix serviceAccount and pull image registry secret to support deployment on same cluster 
   with the server and gateway or separate cluster

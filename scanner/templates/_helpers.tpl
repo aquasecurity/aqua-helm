@@ -66,10 +66,6 @@ Inject extra environment populated by secrets, if populated
 {{- printf "%s" (required "A valid .Values.imageCredentials.name required" .Values.imageCredentials.name ) }}
 {{- end }}
 
-{{- define "serviceAccount" }}
-{{- printf "%s" (required "A valid .Values.serviceAccount.name required" .Values.serviceAccount.name ) }}
-{{- end }}
-
 {{- define "scannerSecret" }}
 {{- printf "%s" (required "A valid .Values.scannerUserSecret.secretName required" .Values.scannerUserSecret.secretName ) }}
 {{- printf "%s" (required "A valid .Values.scannerUserSecret.userKey required" .Values.scannerUserSecret.userKey ) }}
@@ -77,5 +73,55 @@ Inject extra environment populated by secrets, if populated
 {{- end }}
 
 {{- define "serverCertificate" }}
-{{- printf "%s" (required "A valid .Values.serverSSL.serverSSLCert entry required" .Values.serverSSL.serverSSLCert ) | replace "\n" "" }}
+{{- printf "%s" (required "A valid .Values.serverSSL.certFile entry required" .Values.serverSSL.certFile ) | replace "\n" "" }}
 {{- end }}
+
+{{/*
+If .Values.serviceAccount.create set to false and .Values.serviceAccount.name not defined
+Will be created serviceAccount with name "aqua-sa" - the default serviceAccount
+for server chart.
+Else if .Values.serviceAccount.create set to true, so will becreate serviceAccount based on
+.Values.serviceAccount.name or will be generated name based on Chart Release name
+*/}}
+{{- define "serviceAccount" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ .Values.serviceAccount.name | default (printf "%s-sa" .Release.Name) }}
+{{- else if not .Values.serviceAccount.create -}}
+    {{ .Values.serviceAccount.name | default (printf "aqua-sa") }}
+{{- end -}}
+{{- end -}}
+
+{{- define "registrySecret" -}}
+{{- if .Values.imageCredentials.create -}}
+    {{ .Values.imageCredentials.name | default (printf "%s-registry-secret" .Release.Name) }}
+{{- else if not .Values.imageCredentials.create -}}
+    {{ .Values.imageCredentials.name | default (printf "aqua-registry-secret") }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "aqua.labels" -}}
+helm.sh/chart: '{{ include "aqua.chart" . }}'
+{{ include "aqua.template-labels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+{{- end -}}
+
+{{/*
+Common template labels
+*/}}
+{{- define "aqua.template-labels" -}}
+app.kubernetes.io/name: "{{ template "scanner.name" . }}"
+app.kubernetes.io/instance: {{ .Release.Name | quote }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{/*
+Create chart name and version as used by the chart label.
+*/}}
+{{- define "aqua.chart" -}}
+{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}

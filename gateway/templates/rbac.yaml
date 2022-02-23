@@ -9,9 +9,7 @@ metadata:
   name: {{ .Release.Name }}-cluster-role
   labels:
     app: {{ .Release.Name }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+{{ include "aqua.labels" . | indent 4 }}
     rbac.example.com/aggregate-to-monitoring: "true"
 rules:
 - apiGroups: [""]
@@ -33,9 +31,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+{{ include "aqua.labels" . | indent 4 }}
 roleRef:
   kind: ClusterRole
   apiGroup: rbac.authorization.k8s.io

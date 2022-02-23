@@ -1,3 +1,5 @@
+## 6.5.8 ( February 4th, 2022)
+* Align labels
 ## 6.5.7 ( January 16th, 2022)
 * Update gateway.serviceAccount to support different from aqua namespace - [486](https://github.com/aquasecurity/aqua-helm/pull/486/)
 * Fix minor bugs

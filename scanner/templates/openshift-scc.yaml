@@ -1,23 +1,20 @@
 {{- if eq .Values.platform "openshift" }}
 allowHostDirVolumePlugin: true
-allowHostIPC: true
-allowHostNetwork: true
-allowHostPID: true
-allowHostPorts: true
+allowHostIPC: false
+allowHostNetwork: false
+allowHostPID: false
+allowHostPorts: false
 allowPrivilegeEscalation: true
-allowPrivilegedContainer: true
+allowPrivilegedContainer: false
 apiVersion: security.openshift.io/v1
 defaultAddCapabilities: null
-allowedUnsafeSysctls:
-- '*'
-allowedCapabilities: 
-- '*'
 fsGroup:
   type: RunAsAny
 groups: []
 kind: SecurityContextConstraints
 metadata:
   annotations:
+    "helm.sh/hook": pre-install
     kubernetes.io/description: aqua scc provides all features of the restricted SCC
       but allows users to run with any non-root UID and access hostPath. The user must
       specify the UID or it must be specified on the by the manifest of the container runtime.
@@ -27,15 +24,15 @@ priority: null
 readOnlyRootFilesystem: false
 requiredDropCapabilities: null
 runAsUser:
-  type: RunAsAny
+  type: MustRunAsNonRoot
 seLinuxContext:
-  type: RunAsAny
+  type: MustRunAs
 supplementalGroups:
   type: RunAsAny
-seccompProfiles:
-- '*'
 users:
-- system:serviceaccount:{{ .Release.Namespace }}:{{ template "serviceAccount" . }}
-volumes: 
-- '*'
+  - system:serviceaccount:{{ .Release.Namespace }}:{{ template "serviceAccount" . }}
+volumes:
+  - configMap
+  - secret
+  - hostPath
 {{- end }}

@@ -1,9 +1,48 @@
 
-Thank you for installing Aqua Security Server.
+======== Deployment Details =============
 
-Now that you have deployed Aqua Server, you should look over the docs on using: 
+CHART NAME: {{ .Chart.Name  }}
+CHART VERSION: {{ .Chart.Version  }}
+APP VERSION: {{ .Chart.AppVersion  }}
 
-https://docs.aquasec.com/docs
+** Please be patient while the chart is being deployed **
+===================================================================================
 
+Thank you for Deploying Aqua Server.
+You have deployed the following release: {{ .Release.Name }}.
 
-Your release is named {{ .Release.Name }}.
+To get further information, you can run the commands:
+  $ helm status {{ .Release.Name }} --namespace {{ .Release.Namespace }}
+  $ helm get all {{ .Release.Name }} --namespace {{ .Release.Namespace }}
+
+Get the list of pods by executing:
+
+  $ kubectl get pods --namespace {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}
+
+Access the pod you want to debug by executing
+
+  $ kubectl exec --namespace {{ .Release.Namespace }} -ti <NAME OF THE POD> -- bash
+
+Get Endpoint of aqua server to access Aqua Web
+
+  $ kubectl get svc/{{ .Release.Name }}-console-svc --namespace {{ .Release.Namespace }}
+
+ Access Aqua web UI by:
+    HTTP  - http://<EXTERNAL-IP>:8080
+    HTTPS - https://<EXTERNAL-IP>:443
+
+{{- if .Values.gateway.enabled }}
+
+Get Endpoint of aqua gateway to connect enforcers
+ $ kubectl get svc/{{ .Release.Name }}-gateway-svc --namespace {{ .Release.Namespace }}
+{{- end }}
+
+For more information about Aqua Server, you can look over the docs on using:
+https://docs.aquasec.com/docs/environment-and-components
+
+{{- if .Values.gateway.enabled }}
+
+For more information about Aqua Gateway, you can look over the docs on using:
+https://docs.aquasec.com/docs/aqua-gateways
+{{- end }}
+=======================================================================================

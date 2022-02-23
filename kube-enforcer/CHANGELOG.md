@@ -1,3 +1,21 @@
+## 6.5.11 ( February 22nd, 2022 )
+> **_NOTE:_**  This new liveness & readiness probes only works with KE version >= 6.5.22054 or 6.5(latest)
+* Update liveness & readiness probes
+## 6.5.10 ( February 4th, 2022 )
+* Align labels + update NOTES.txt
+* Add support for extraEnvironmentVars
+* Add support for extraSecretEnvironmentVars
+## 6.5.9 ( February 2nd, 2022 )
+* Add certsSecret.autoGenerate to support auto generated self-signed certificates
+* Add cert-manager annotation description for webhook manifests in values.yaml
+* Add instruction for cert-manager usage
+## 6.5.8 ( January 25th, 2022 )
+* Update kube-enforcer configMap to support custom names for TLS certificates
+## 6.5.7 ( January 21th, 2022 )
+* Fix issue - [497](https://github.com/aquasecurity/aqua-helm/issues/497)
+## 6.5.6 ( January 19th, 2022 )
+* Fix serviceAccount and pull image registry secret to support deployment on same cluster
+  with the server and gateway or separate cluster
 ## 6.5.5 ( January 10th, 2022 )
 * Add Mirantis kubernetes platform support [480](https://github.com/aquasecurity/aqua-helm/pull/480)
 * Fix issue with duplicate parameters [483](https://github.com/aquasecurity/aqua-helm/issues/483)

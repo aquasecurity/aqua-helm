@@ -28,26 +28,12 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
 ## Installing the Chart
 Follow the steps in this section for production grade deployments. You can either clone aqua-helm git repo or you can add our helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com))
 
-### Installing Aqua Enforcer from Github Repo
-
-* Clone the GitHub repository with the charts
-
-```shell
-git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
-cd aqua-helm/
-```
-
-* Install Aqua Enforcer
-
-```shell
-helm upgrade --install --namespace aqua aqua-enforcer ./enforcer --set imageCredentials.create=<>,imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token>
-```
-
 ### Installing Aqua Enforcer from Helm Private Repository
 
 * Add Aqua Helm Repository
 ```shell
 helm repo add aqua-helm https://helm.aquasec.com
+helm repo update
 ```
 
 * Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
@@ -59,7 +45,7 @@ helm search repo aqua-helm/enforcer --versions
 * Install Aqua Enforcer
 
 ```shell
-helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.create=<>,imageCredentials.username=<>,imageCredentials.password=<>,enforcerToken=<aquasec-token> --version <>
+helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.create=<>,imageCredentials.username=<>,imageCredentials.password=<>,platform=<>,enforcerToken=<aquasec-token>
 ```
 
 
@@ -153,7 +139,7 @@ Parameter | Description | Default| Mandatory
 `gate.port` | gateway port | `8443`| `YES`
 `image.repository` | the docker image name to use | `enforcer`| `YES`
 `image.tag` | The image tag to use. | `6.5`| `YES`
-`image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`| `NO`
+`image.pullPolicy` | The kubernetes image pull policy. | `Always`| `NO`
 `healthMonitor.enabled` | Enabling health monitoring for enforcer liveness and readiness | `true` | `YES`
 `resources` |	Resource requests and limits | `{}`| `NO`
 `nodeSelector` |	Kubernetes node selector	| `{}`| `NO`

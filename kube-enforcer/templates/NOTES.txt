@@ -8,7 +8,7 @@ APP VERSION: {{ .Chart.AppVersion  }}
 ** Please be patient while the chart is being deployed **
 ===================================================================================
 
-Thank you for Deploying Aqua Gateway.
+Thank you for Deploying Aqua Kube-Enforcer.
 You have deployed the following release: {{ .Release.Name }}.
 
 To get further information, you can run the commands:
@@ -23,9 +23,6 @@ Access the pod you want to debug by executing
 
   $ kubectl exec --namespace {{ .Release.Namespace }} -ti <NAME OF THE POD> -- bash
 
-Get Endpoint of aqua gateway to connect enforcers
- $ kubectl get svc/{{ .Release.Name }}-gateway-svc --namespace {{ .Release.Namespace }}
-
-For more information about Aqua Gateway, you can look over the docs on using:
-https://docs.aquasec.com/docs/aqua-gateways
+For more information about Aqua Kube-Enforcer, you can look over the docs on using:
+https://docs.aquasec.com/docs/kubeenforcer
 =======================================================================================

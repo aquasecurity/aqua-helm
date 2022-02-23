@@ -3,11 +3,15 @@ kind: RoleBinding
 metadata:
   name: {{ .Values.roleBinding.name }}
   namespace: {{ .Release.Namespace }}
+  labels:
+    role: {{ .Release.Name }}
+    app: {{ include "kube-enforcer.fullname" . }}
+{{ include "aqua.labels" . | indent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: {{ .Values.role.name }}
 subjects:
   - kind: ServiceAccount
-    name: {{ .Values.serviceAccount.name }}
+    name: {{ template "serviceAccount" . }}
     namespace: {{ .Release.Namespace }}

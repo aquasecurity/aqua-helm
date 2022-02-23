@@ -45,30 +45,15 @@ global:
       password: verysecret
 ```
 ## Installing the Chart
-Follow the steps in this section for production grade deployments. You can either clone aqua-helm git repo or you can add our helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com))
-
-### Installing Aqua Web from Github Repo
-
-* Clone the GitHub repository with the charts
-
-```shell
-git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
-cd aqua-helm/
-```
-
-
-* Install Aqua
-
-```shell
-helm dependency update ./server
-helm upgrade --install --namespace aqua aqua ./server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
-```
+Follow the steps in this section for production grade deployments.
+You can either clone aqua-helm git repo or you can add our helm private repository ([https://helm.aquasec.com](https://helm.aquasec.com))
 
 ### Installing Aqua Web from Helm Private Repository
 
 * Add Aqua Helm Repository
 ```shell
 helm repo add aqua-helm https://helm.aquasec.com
+helm repo update
 ```
 
 * Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command
@@ -79,7 +64,7 @@ helm search repo aqua-helm/server --versions
 * Install Aqua
 
 ```shell
-helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<> --version <>
+helm upgrade --install --namespace aqua <RELEASE_NAME> aqua-helm/server --set imageCredentials.username=<>,imageCredentials.password=<>,global.platform=<>
 ```
 
 ## Advanced Configuration
@@ -157,19 +142,19 @@ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredent
 
    1. By default aqua helm chart will deploy a database container. If you wish to use an external database please set `db.external.enabled` to true and the following with appropriate values.
       ```shell
-      1. global.db.external.name
-      2. global.db.external.host
-      3. global.db.external.port
-      4. global.db.external.user
-      5. global.db.external.password
+      global.db.external.name
+      global.db.external.host
+      global.db.external.port
+      global.db.external.user
+      global.db.external.password
       ```
    2. By default same database (Packaged DB Container | Managed DB like AWS RDS) will be used to host both main DB and Audit DB. If you want to use a different database for audit db then set following variables in the values.yaml file
       ```shell
-      1. global.db.external.auditName
-      2. global.db.external.auditHost
-      3. global.db.external.auditPort
-      4. global.db.external.auditUser
-      5. global.db.external.auditPassword      
+      global.db.external.auditName
+      global.db.external.auditHost
+      global.db.external.auditPort
+      global.db.external.auditUser
+      global.db.external.auditPassword      
       ```
    3. If you are using packaged DB container then
       1. AQUA_ENV_SIZE variable can be used to define the sizing of your DB container in terms of number of connections and optimized configuration but not the PV size. Please choose appropriate PV size as per your requirements.
@@ -262,11 +247,11 @@ helm upgrade --install --namespace aqua aqua aqua-helm/server --set imageCredent
    1. Set `activeactive` to true in values.yaml
    2. Also set following configurable variables
       ```shell
-      1. global.db.external.pubsubName
-      2. global.db.external.pubsubHost
-      3. global.db.external.pubsubPort
-      4. global.db.external.pubsubUser
-      5. global.db.external.pubsubPassword      
+      global.db.external.pubsubName
+      global.db.external.pubsubHost
+      global.db.external.pubsubPort
+      global.db.external.pubsubUser
+      global.db.external.pubsubPassword      
       ```
 
 ## Configurable Variables
