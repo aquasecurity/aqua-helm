@@ -86,6 +86,10 @@ global:
     ssl: false
     auditssl: false
     pubsubssl: false
+    #accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
+    sslmode: require
+    auditsslmode: require
+    pubsubsslmode: require
     securityContext:
       runAsUser: 70
       runAsGroup: 70
