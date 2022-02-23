@@ -114,3 +114,10 @@ extraSecretEnvironmentVars: []
   # - envName: ENV_NAME
   #   secretName: name
   #   secretKey: key
+
+# A list of speficic registries this scanner will be used for
+# If none are passed, the scanner will be used for all registries
+registries: []
+# registries:
+# - registry1
+# - registry2
