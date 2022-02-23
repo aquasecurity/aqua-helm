@@ -19,6 +19,11 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/starboard-configmap.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
+      {{- range $key,$value := . }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
       labels:
         role: {{ .Release.Name }}
         app: {{ .Values.starboard.appName }}
