@@ -119,33 +119,49 @@ spec:
           mountPath: /opt/aquasec/ssl/
           readOnly: true
         {{- end }}
+                volumeMounts:
+        - name: db-cert
+          mountPath: /etc/ssl/certs/
+          readOnly: true
+        {{- end }}
         resources:
-{{ toYaml .Values.resources | indent 12 }}
-      {{- with .Values.nodeSelector }}
+{{ toYaml .Values.web.resources | indent 12 }}
+      {{- with .Values.web.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.web.affinity }}
       affinity:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      {{- if and (.Values.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      {{- if and (.Values.web.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
       tolerations:
-{{ toYaml .Values.tolerations | indent 6 }}
+{{ toYaml .Values.web.tolerations | indent 6 }}
       {{- end }}
-      {{- if .Values.TLS.enabled }}
+      {{- if .Values.dockerSock.mount }}
+      volumes:
+      - name: docker-socket-mount
+        hostPath:
+          path: {{ .Values.dockerSock.path }}
+      {{- end }}
+      {{- if .Values.web.TLS.enabled }}
       volumes:
       - name: certs
         secret:
           defaultMode: 420
-          secretName: {{ .Values.TLS.secretName }}
+          secretName: {{ .Values.web.TLS.secretName }}
           items:
-          - key: {{ .Values.TLS.publicKey_fileName }}
+          - key: {{ .Values.web.TLS.publicKey_fileName }}
             path: cert.pem
-          - key: {{ .Values.TLS.privateKey_fileName }}
+          - key: {{ .Values.web.TLS.privateKey_fileName }}
             path: key.pem
-          {{- if .Values.TLS.rootCA_fileName }}
-          - key: {{ .Values.TLS.rootCA_fileName }}
+          {{- if .Values.web.TLS.rootCA_fileName }}
+          - key: {{ .Values.web.TLS.rootCA_fileName }}
             path: ca.pem
           {{- end }}
+       volumes:
+       - name: db-cert
+         secret:
+           secretName: {{ .Values.global.db.externaldbcert_secretname }}
+      {{- end }}
       {{- end }}
