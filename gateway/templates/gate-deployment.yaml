@@ -159,9 +159,9 @@ spec:
           - key: {{ .Values.web.TLS.rootCA_fileName }}
             path: ca.pem
           {{- end }}
-       volumes:
-       - name: db-cert
-         secret:
-           secretName: {{ .Values.global.db.externaldbcert_secretname }}
+      volumes:
+      - name: db-cert
+        secret:
+          secretName: {{ .Values.global.db.externaldbcert_secretname }}
       {{- end }}
       {{- end }}
