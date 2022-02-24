@@ -142,6 +142,12 @@ spec:
           mountPath: /opt/aquasec/ssl/
           readOnly: true
         {{- end }}
+        {{- if .Values.global.db.externaldbcerts }}
+        volumeMounts:
+        - name: db-cert
+          mountPath: /etc/ssl/certs/
+          readOnly: true
+        {{- end }}
         resources:
 {{ toYaml .Values.web.resources | indent 12 }}
       {{- with .Values.web.nodeSelector }}
@@ -177,4 +183,8 @@ spec:
           - key: {{ .Values.web.TLS.rootCA_fileName }}
             path: ca.pem
           {{- end }}
+       volumes:
+       - name: db-cert
+         secret:
+           secretName: {{ .Values.global.db.externaldbcert_secretname }}
       {{- end }}
