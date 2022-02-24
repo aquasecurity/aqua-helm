@@ -127,3 +127,9 @@ extraSecretEnvironmentVars: []
   # - envName: ENV_NAME
   #   secretName: name
   #   secretKey: key
+
+# Set environment variables for Proxy connectivy: Enforcer -> Proxy -> Gateway
+proxy:
+  enabled: false
+  http: ""
+  https: ""
