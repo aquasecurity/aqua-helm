@@ -133,3 +133,4 @@ proxy:
   enabled: false
   http: ""
   https: ""
+  no_proxy: ""

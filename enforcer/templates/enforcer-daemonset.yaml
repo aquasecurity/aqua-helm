@@ -85,6 +85,12 @@ spec:
         - name: HTTPS_PROXY
           value: {{ .Values.proxy.https }}
         {{- end }}
+        {{- if .Values.proxy.no_proxy }}
+        - name: no_proxy
+          value: {{ .Values.proxy.no_proxy }}
+        - name: NO_PROXY
+          value: {{ .Values.proxy.no_proxy }}
+        {{- end }}
         {{- end }}
         {{- include "enforcer.extraEnvironmentVars" .Values | nindent 8 -}}
         {{- include "enforcer.extraSecretEnvironmentVars" .Values | nindent 8 -}}

@@ -155,8 +155,9 @@ Parameter | Description | Default| Mandatory
 `extraEnvironmentVars` | is a list of extra environment variables to set in the enforcer daemonset. | `{}`| `NO`
 `extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner daemonset, these variables take value from existing Secret objects. | `[]`| `NO`
 `proxy.enabled` | If require secure a proxy for the communication between Enforcers and Gateway | `false` | `NO`
-`proxy.enabled.http` | HTTP proxy value, used only if proxy.enabled = true | `` | `NO`
-`proxy.enabled.https` | HTTPS proxy value, used only if proxy.enabled = true | `false` | `NO`
+`proxy.http` | HTTP proxy value, used only if proxy.enabled = true | `` | `NO`
+`proxy.https` | HTTPS proxy value, used only if proxy.enabled = true | `` | `NO`
+`proxy.no_proxy` | Exclusions for proxy, used only if proxy.enabled = true | `` | `NO`
 
 
 > Note: that `imageCredentials.create` is false and if you need to create image pull secret please update to true, set the username and password for the registry and `serviceAccount.create` is false and if you're environment is new or not having aqua-sa serviceaccount please update it to true.
