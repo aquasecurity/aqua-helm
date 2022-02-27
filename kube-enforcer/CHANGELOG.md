@@ -1,5 +1,6 @@
 ## 6.5.12 ( February 27th)
 * Fix extraEnvironmentVars to support proxy variables in lowercase
+* Add starboard pod annotation
 ## 6.5.11 ( February 22nd, 2022 )
 > **_NOTE:_**  This new liveness & readiness probes only works with KE version >= 6.5.22054 or 6.5(latest)
 * Update liveness & readiness probes
