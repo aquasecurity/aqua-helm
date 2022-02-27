@@ -47,10 +47,14 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{/*
 Inject extra environment vars in the format key:value, if populated
 */}}
-{{- define "enforcer.extraEnvironmentVars" -}}
-{{- if .extraEnvironmentVars -}}
-{{- range $key, $value := .extraEnvironmentVars }}
+{{- define "extraEnvironmentVars" -}}
+{{ if .extraEnvironmentVars -}}
+{{ range $key, $value := .extraEnvironmentVars }}
+{{ if or (eq ( $key | lower ) "http_proxy") (eq ( $key | lower ) "https_proxy") (eq ( $key | lower ) "no_proxy") }}
+- name: {{ printf "%s" $key | replace "." "_" | lower | quote }}
+{{ else }}
 - name: {{ printf "%s" $key | replace "." "_" | upper | quote }}
+{{ end }}
   value: {{ $value | quote }}
 {{- end }}
 {{- end -}}
@@ -59,7 +63,7 @@ Inject extra environment vars in the format key:value, if populated
 {{/*
 Inject extra environment populated by secrets, if populated
 */}}
-{{- define "enforcer.extraSecretEnvironmentVars" -}}
+{{- define "extraSecretEnvironmentVars" -}}
 {{- if .extraSecretEnvironmentVars -}}
 {{- range .extraSecretEnvironmentVars }}
 - name: {{ .envName }}

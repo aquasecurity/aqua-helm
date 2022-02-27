@@ -1,3 +1,5 @@
+## 6.5.9 ( February 27th)
+* Fix extraEnvironmentVars to support proxy variables in lowercase
 ## 6.5.8 ( February 4th)
 * Align labels + update NOTES.txt
 ## 6.5.7 ( January 21th)
