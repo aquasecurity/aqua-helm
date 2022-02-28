@@ -65,6 +65,10 @@ spec:
         {{- else }}
         - --no-verify
         {{- end }}
+        {{- if .Values.registries }}
+        - --registries
+        - {{ join "," .Values.registries }}
+        {{- end }}
         envFrom:
         - configMapRef:
             name: {{ .Release.Name }}-scanner-config        
