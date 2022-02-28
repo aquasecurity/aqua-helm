@@ -109,10 +109,14 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "kube-enforcer.extraEnvironmentVars" -}}
-{{- if .extraEnvironmentVars -}}
-{{- range $key, $value := .extraEnvironmentVars }}
+{{- define "extraEnvironmentVars" -}}
+{{ if .extraEnvironmentVars -}}
+{{ range $key, $value := .extraEnvironmentVars }}
+{{ if or (eq ( $key | lower ) "http_proxy") (eq ( $key | lower ) "https_proxy") (eq ( $key | lower ) "no_proxy") }}
+- name: {{ printf "%s" $key | replace "." "_" | lower | quote }}
+{{ else }}
 - name: {{ printf "%s" $key | replace "." "_" | upper | quote }}
+{{ end }}
   value: {{ $value | quote }}
 {{- end }}
 {{- end -}}
@@ -121,7 +125,7 @@ Create chart name and version as used by the chart label.
 {{/*
 Inject extra environment populated by secrets, if populated
 */}}
-{{- define "kube-enforcer.extraSecretEnvironmentVars" -}}
+{{- define "extraSecretEnvironmentVars" -}}
 {{- if .extraSecretEnvironmentVars -}}
 {{- range .extraSecretEnvironmentVars }}
 - name: {{ .envName }}

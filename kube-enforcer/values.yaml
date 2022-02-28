@@ -184,10 +184,13 @@ TLS:
 
 # extraEnvironmentVars is a list of extra environment variables to set in the kube-enforcer deployment
 # https://docs.aquasec.com/docs/kubeenforcer-variables
+# The variables could be provided via values.yaml file as shown below
+# or using cli command, for example:  --set extraEnvironmentVars.http_proxy="1.1.1.1",extraEnvironmentVars.https_proxy="2.2.2.2"
 extraEnvironmentVars:
+  # http_proxy: < >
+  # https_proxy: < >
+  # no_proxy: < >
   # ENV_NAME: value
-  # For example:
-  # AQUA_CACHE_EXPIRATION_PERIOD: 60
 
 # extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
 # These variables take value from existing Secret objects.
@@ -263,6 +266,9 @@ starboard:
     failureThreshold: 10
 
   nodeSelector: {}
+  tolerations: [ ]
+  podAnnotations: { }
+  affinity: { }
 
 ##Kube Enforcer advance deployment options
 ### Advanced Deployment (for Pod Enforcer injection)
