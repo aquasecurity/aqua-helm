@@ -105,6 +105,8 @@ container_securityContext: {}
 
 # extraEnvironmentVars is a list of extra environment variables to set in the scanner deployments.
 # https://docs.aquasec.com/docs/scanner-optional-variables
+# The variables could be provided via values.yaml file as shown below
+# or using cli command, for example:  --set extraEnvironmentVars.http_proxy="1.1.1.1",extraEnvironmentVars.https_proxy="2.2.2.2"
 extraEnvironmentVars: {}
   # ENV_NAME: value
 
@@ -115,7 +117,7 @@ extraSecretEnvironmentVars: []
   #   secretName: name
   #   secretKey: key
 
-# A list of speficic registries this scanner will be used for
+# A list of specific registries this scanner will be used for
 # If none are passed, the scanner will be used for all registries
 registries: []
 # registries:
