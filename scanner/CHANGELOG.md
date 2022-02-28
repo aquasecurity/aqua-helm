@@ -1,3 +1,5 @@
+## 6.5.6 ( February 28th, 2021 )
+* Add option to specify which registries this scanner is allowed to scan
 ## 6.5.5 ( February 4th, 2021 )
 * Align labels + update NOTES.txt
 * Add support for Openshift scc
