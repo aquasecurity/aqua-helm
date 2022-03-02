@@ -126,7 +126,7 @@ Parameter | Description | Default| Mandatory
 `serviceAccount.create` | enable to create serviceaccount | `false` | `YES - New cluster`
 `serviceAccount.name` | service acccount name | `aqua-sa` | `NO`
 `clusterRole.roleRef` | cluster role reference name for cluster rolebinding | `unset` | `NO`
-`platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s) | `unset` | `YES`
+`global.platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s) | `unset` | `YES`
 `enforcerToken` | enforcer token value | `enforcer-token`| `YES`
 `enforcerTokenSecretName` | enforcer token secret name if exists | `null`| `NO`
 `enforcerTokenSecretKey` | enforcer token secret key if exists | `null`| `NO`
@@ -135,8 +135,8 @@ Parameter | Description | Default| Mandatory
 `securityContext.privileged` | determines if any container in a pod can enable privileged mode. | `false`| `NO`
 `securityContext.capabilities` | Linux capabilities provide a finer grained breakdown of the privileges traditionally associated with the superuser. | `add {}`| `NO`
 `hostRunPath` |	for changing host run path for example for pks need to change to /var/vcap/sys/run/docker	| `unset`| `NO`
-`gate.host` | gateway host | `aqua-gateway-svc`| `YES`
-`gate.port` | gateway port | `8443`| `YES`
+`global.gateway.address` | Gateway host address  | `aqua-gateway-svc`| `YES`
+`global.gateway.port` | Gateway host port | `8443`| `YES`
 `image.repository` | the docker image name to use | `enforcer`| `YES`
 `image.tag` | The image tag to use. | `6.5`| `YES`
 `image.pullPolicy` | The kubernetes image pull policy. | `Always`| `NO`

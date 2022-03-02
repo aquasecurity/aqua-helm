@@ -13,9 +13,9 @@ for server chart.
 Else if .Values.serviceAccount.create set to true, so will becreate serviceAccount based on
 .Values.serviceAccount.name or will be generated name based on Chart Release name
 */}}
-{{- define "serviceAccount" -}}
+{{- define "agentServiceAccount" -}}
 {{- if .Values.serviceAccount.create -}}
-    {{ .Values.serviceAccount.name | default (printf "%s-sa" .Release.Name) }}
+    {{ .Values.serviceAccount.name | default (printf "%s-agent-sa" .Release.Name) }}
 {{- else if not .Values.serviceAccount.create -}}
     {{ .Values.serviceAccount.name | default (printf "aqua-sa") }}
 {{- end -}}

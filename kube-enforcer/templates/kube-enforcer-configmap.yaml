@@ -26,7 +26,7 @@ data:
   AQUA_ROOT_CA: "/opt/aquasec/ssl/ca.pem"
 {{- end }}
 {{- end }}
-  AQUA_GATEWAY_SECURE_ADDRESS: {{ .Values.gateway.address | default "aqua-gateway-svc" }}:{{ .Values.gateway.port | default "8443" }}
+  AQUA_GATEWAY_SECURE_ADDRESS: {{ .Values.global.gateway.address | default "aqua-gateway-svc" }}:{{ .Values.global.gateway.port | default "8443" }}
   AQUA_KAP_ADD_ALL_CONTROL: "true"
   AQUA_WATCH_CONFIG_AUDIT_REPORT: "true"
 {{- if .Values.kubeEnforcerAdvance.enable }}

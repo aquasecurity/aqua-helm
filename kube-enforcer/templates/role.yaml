@@ -16,7 +16,7 @@ rules:
   - apiGroups: ["*"]
     resources: ["jobs"]
     verbs: ["create", "delete"]
-{{- if eq .Values.platform "openshift" }}
+{{- if eq .Values.global.platform "openshift" }}
   - apiGroups: ["*"]
     resources: ["pods"]
     verbs: ["create", "delete"]

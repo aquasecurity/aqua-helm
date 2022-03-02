@@ -1,29 +1,41 @@
+global:
+  #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
+  # aks = Azure Kubernetes Service
+  # gke = Google kubernetes Engine
+  # openshift = RedHat Openshift/OCP
+  # tkg = VMware Tanzu kubernetes Grid
+  # tkgi = VMware Tanzu kubernetes Grid Integrated Edition
+  # k8s = Plain/on-prem Vanilla Kubernetes
+  # rancher = Rancher Kubernetes Platform
+  # gs = GaintSwarm platform
+  # k3s = k3s kubernetes platform
+  # mke = Mirantis Kubernetes Engine
+  platform: ""
+  gateway:
+    # change address to gateway endpoint
+    address: aqua-gateway-svc.aqua
+    port: 8443
+
 imageCredentials:
-  create: false # change to true if deploying enforcer on new cluster or aqua-registry-secret secret doesn't exist.
-  name: # use it to overwrite the default secret name
-  repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
-  registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+  # change to true if deploying enforcer on new cluster or aqua-registry-secret secret doesn't exist.
+  create: false
+  # use it to overwrite the default secret name
+  name:
+  # for dockerhub - "docker.io"
+  repositoryUriPrefix: "registry.aquasec.com"
+  #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+  registry: "registry.aquasec.com"
   username: ""
   password: ""
 
 serviceAccount:
-  create: false # change to true if deploying enforcer on new cluster or aqua-sa serviceAccount doesn't exist.
-  name: # use it to overwrite the default serviceAccount name
+  # change to true if deploying enforcer on new cluster or aqua-sa serviceAccount doesn't exist.
+  create: false
+  # use it to overwrite the default serviceAccount name
+  name:
 
 clusterRole:
   roleRef: ""
-
-#Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
-# aks = Azure Kubernetes Service
-# gke = Google kubernetes Engine
-# openshift = RedHat Openshift/OCP
-# tkg = VMware Tanzu kubernetes Grid
-# tkgi = VMware Tanzu kubernetes Grid Integrated Edition
-# k8s = Plain/on-prem Vanilla Kubernetes
-# rancher = Rancher Kubernetes Platform
-# gs = GaintSwarm platform
-# k3s = k3s kubernetes platform
-platform: ""
 
 # Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
 enforcerToken: enforcer-token
@@ -54,15 +66,11 @@ securityContext:
       - IPC_LOCK
 
 hostRunPath: # pks - /var/vcap/sys/run/docker
-
-multiple_gateway: # enable this to connect enforcer with multiple gateways
+# enable this to connect enforcer with multiple gateways
+multiple_gateway:
   enabled: false
-
-gate:
-  host: aqua-gateway-svc # for envoy deployment use host for aqua-lb and port 443
-  port: 8443
-
-multi_gates:  # use the below hosts to add multiple gateways as required to enforcer. Format is <hostname>:<port_number>
+# use the below hosts to add multiple gateways as required to enforcer. Format is <hostname>:<port_number>
+multi_gates:
 - aqua-gateway1-svc:8443 #example gateway 1
 - aqua-gateway2-svc:8443 #example gateway 2
 
@@ -110,11 +118,16 @@ terminationGracePeriodSeconds: "30"
 
 TLS:
   enabled: false
-  secretName: ""              # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
-  publicKey_fileName: ""      #provide filename of the public key eg: aqua_enforcer.crt
-  privateKey_fileName: ""     #provide filename of the private key eg: aqua_enforcer.key
-  rootCA_fileName: ""         #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
-  tls_verify: false           # change it to true for enabling mTLS between enforcer and gateway/envoy
+  # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
+  secretName: ""
+  #provide filename of the public key eg: aqua_enforcer.crt
+  publicKey_fileName: ""
+  #provide filename of the private key eg: aqua_enforcer.key
+  privateKey_fileName: ""
+  #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
+  rootCA_fileName: ""
+  # change it to true for enabling mTLS between enforcer and gateway/envoy
+  tls_verify: false
 
 # extraEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
 # https://docs.aquasec.com/docs/enforcer-optional-variables

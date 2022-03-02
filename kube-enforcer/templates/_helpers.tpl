@@ -79,7 +79,7 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{- define "platform" }}
-{{- printf "%s" (required "A valid .Values.platform entry required" .Values.platform ) | replace "\n" "" }}
+{{- printf "%s" (required "A valid Values.global.platform entry required" .Values.global.platform ) | replace "\n" "" }}
 {{- end }}
 
 {{/*
