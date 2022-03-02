@@ -1,7 +1,9 @@
-## 6.5.6 ( February 28th, 2021 )
-* Add option to specify which registries this scanner is allowed to scan
+## 6.5.7 ( March 2nd, 2022 )
+* Adds additional capability to add a configmap file containing a PEM certificate bundle. - [512](https://github.com/aquasecurity/aqua-helm/pull/512)
+## 6.5.6 ( February 28th, 2022 )
+* Add option to specify which registries this scanner is allowed to scan - [520](https://github.com/aquasecurity/aqua-helm/pull/520)
 ## 6.5.5 ( February 4th, 2021 )
-* Align labels + update NOTES.txt
+* Align labels + update NOTES.txt - [515](https://github.com/aquasecurity/aqua-helm/pull/515)
 * Add support for Openshift scc
 ## 6.5.4 ( January 25th, 2021 )
 * Update serviceAccount and image pull secret to support different options

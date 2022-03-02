@@ -1,5 +1,7 @@
+## 6.5.14 ( March 2nd, 2022 )
+* Adds additional capability to add a configmap file containing a PEM certificate bundle. - [512](https://github.com/aquasecurity/aqua-helm/pull/512)
 ## 6.5.13 ( February 4th, 2022)
-* Align server labels + NOTES.txt
+* Align server labels + NOTES.txt- [515](https://github.com/aquasecurity/aqua-helm/pull/515)
 * Separate ocp scc declaration
 * Update gateway version
 ## 6.5.12 ( January 16th, 2022)
