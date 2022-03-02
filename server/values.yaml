@@ -375,7 +375,8 @@ web:
     rootCA_fileName: ""
 
   maintenance_db:
-    #specify the AQUA_MAINTENANCE_DB name if enabled
+    #Specifies the name of a maintenance database, to be used in place of the default postgres DB.
+    #It will define the environment variable AQUA_MAINTENANCE_DBNAME
     name: ""
 
   # extraEnvironmentVars is a list of extra environment variables to set in the web deployments.
