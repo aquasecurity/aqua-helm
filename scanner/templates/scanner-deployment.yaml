@@ -95,7 +95,9 @@ spec:
         {{- end }}
         {{- include "scanner.extraEnvironmentVars" .Values | nindent 8 }}
         {{- include "scanner.extraSecretEnvironmentVars" .Values | nindent 8 }}
+        {{- if or (.Values.dockerSock.mount) (.Values.serverSSL.enable) (.Values.cyberCenter.mtls.enabled) (.Values.additionalCerts) }}
         volumeMounts:
+        {{- end }}
         {{- if .Values.dockerSock.mount }}
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
@@ -109,6 +111,7 @@ spec:
           mountPath: /opt/aquasec/ssl/
           readOnly: true
         {{- end }}
+        {{- include "scanner.additionalCertVolumeMounts" .Values | nindent 8 }}
         ports:
         - containerPort: 8080
           protocol: TCP
@@ -134,7 +137,9 @@ spec:
       tolerations:
 {{ toYaml .Values.tolerations | indent 6 }}
       {{- end }}
+      {{- if or (.Values.dockerSock.mount) (.Values.serverSSL.enable) (.Values.cyberCenter.mtls.enabled) (.Values.additionalCerts) }}
       volumes:
+      {{- end }}
       {{- if .Values.dockerSock.mount }}
       - name: docker-socket-mount
         hostPath:
@@ -167,3 +172,4 @@ spec:
             path: ca.pem
           {{- end }}
       {{- end }}
+      {{- include "scanner.additionalCertVolumes" .Values | nindent 6 }}

@@ -77,6 +77,40 @@ Inject extra environment populated by secrets, if populated
 {{- end }}
 
 {{/*
+Inject additional certificates as volumes if populated
+*/}}
+{{- define "scanner.additionalCertVolumes" -}}
+{{- if .additionalCerts -}}
+{{- range $i, $cert := .additionalCerts }}
+- name: {{ $cert.secretName | quote }}
+  secret:
+    defaultMode: 420
+    secretName: {{ $cert.secretName | quote }}
+    items:
+    {{- if $cert.createSecret }}
+      - key: cert.pem
+    {{- else }}
+      - key: {{ $cert.certFile | quote }}
+    {{- end }}
+        path: {{ $cert.secretName }}.pem
+{{- end }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Inject additional certificates as volumemounts if populated
+*/}}
+{{- define "scanner.additionalCertVolumeMounts" -}}
+{{- if .additionalCerts -}}
+{{- range $i, $cert := .additionalCerts }}
+- name: {{ $cert.secretName | quote }}
+  subPath: {{ $cert.secretName }}.pem
+  mountPath: /etc/ssl/certs/{{ $cert.secretName }}.pem
+{{- end }}
+{{- end -}}
+{{- end -}}
+
+{{/*
 If .Values.serviceAccount.create set to false and .Values.serviceAccount.name not defined
 Will be created serviceAccount with name "aqua-sa" - the default serviceAccount
 for server chart.
