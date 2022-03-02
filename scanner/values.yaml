@@ -48,6 +48,14 @@ server:
   serviceName: "aqua-console-svc" # example
   port: 8080
 
+# Additional certificates that the server should trust, such as a network proxy
+# The certificates should be bundled into a single file inside of a configmap
+additionalCerts: []
+  # - createSecret: true                # Change to false if you're using existing server certificate secret
+  #   secretName: "proxy-server-certs"  # Change secret name if already exists with server/web public certificate
+  #   certFile:                         # If additionalCerts createSecret enable to true, add base64 value of the the server public certificate or add filename of certificate if loading from custom secret
+
+
 serverSSL:
   enable: false                   # Enable to true to establish secure connection with server
   createSecret: true              # Change to false if you're using existing server certificate secret
