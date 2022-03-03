@@ -57,6 +57,7 @@ spec:
             - containerPort: 8449
             - containerPort: 8442
 {{- end }}
+{{- if not .Values.kubeEnforcerAdvance.enable }}
 {{- with .Values.livenessProbe }}
           livenessProbe:
 {{ toYaml . | indent 12 }}
@@ -64,6 +65,7 @@ spec:
 {{- with .Values.readinessProbe }}
           readinessProbe:
 {{ toYaml . | indent 12 }}
+{{- end }}
 {{- end }}
 {{- with .Values.resources }}
           resources:
