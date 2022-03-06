@@ -19,10 +19,10 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/starboard-configmap.yaml") . | sha256sum }}
-      {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
-        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
+      {{- if and (.Values.starboard.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.starboard.tolerations }}'
       {{- end }}
-      {{- with .Values.podAnnotations }}
+      {{- with .Values.starboard.podAnnotations }}
       {{- range $key,$value := . }}
         {{ $key }}: {{ $value | quote }}
       {{- end }}
@@ -65,7 +65,7 @@ spec:
 {{- if .Values.starboard.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.starboard.nodeSelector | indent 8 }}
-      {{- with .Values.affinity }}
+      {{- with .Values.starboard.affinity }}
       affinity:
 {{ toYaml . | indent 8 }}
       {{- end }}
