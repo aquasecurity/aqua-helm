@@ -13,7 +13,7 @@ metadata:
   name: starboard-conftest-config
   namespace: {{ .Release.Namespace }}
 data:
-  conftest.imageRef: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+  conftest.imageRef: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
   conftest.resources.requests.cpu: "{{ .Values.starboard.conftest_resources_requests_cpu }}"
   conftest.resources.requests.memory: "{{ .Values.starboard.conftest_resources_requests_memory }}"
   conftest.resources.limits.cpu: "{{ .Values.starboard.conftest_resources_limits_cpu }}"

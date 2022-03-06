@@ -11,30 +11,31 @@ global:
   # k3s = k3s kubernetes platform
   # mke = Mirantis Kubernetes Engine
   platform: ""
+  enforcer:
+    enabled: false
   gateway:
     # change address to gateway endpoint
     address: aqua-gateway-svc.aqua
     port: 8443
-
-# Specifies the secret data for imagePullSecrets needed to fetch the private docker images
-imageCredentials:
-  # If imageCredentials.create=false and imageCredentials.name not defined
-  # then will be used secret aqua-registry-secret which created by aqua-server helm chart
-  #####################
-  # If imageCredentials.create=false and imageCredentials.name defined then will be used secret with defined name
-  # but in this case secret should be created manually before chart deploying
-  #####################
-  # If imageCredentials.create=create and imageCredentials.name not defined
-  # then will be created a secret with name <Chart ReleaseName>-registry-secret
-  #####################
-  # If imageCredentials.create=create and imageCredentials.name defined
-  # then will be created a secret with name provided name
-  create: false
-  name: aqua-ke-registry
-  repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
-  registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
-  username: ""
-  password: ""
+  # Specifies the secret data for imagePullSecrets needed to fetch the private docker images
+  imageCredentials:
+    # If imageCredentials.create=false and imageCredentials.name not defined
+    # then will be used secret aqua-registry-secret which created by aqua-server helm chart
+    #####################
+    # If imageCredentials.create=false and imageCredentials.name defined then will be used secret with defined name
+    # but in this case secret should be created manually before chart deploying
+    #####################
+    # If imageCredentials.create=create and imageCredentials.name not defined
+    # then will be created a secret with name <Chart ReleaseName>-registry-secret
+    #####################
+    # If imageCredentials.create=create and imageCredentials.name defined
+    # then will be created a secret with name provided name
+    create: false
+    name:
+    repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
+    registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+    username: ""
+    password: ""
 
 # If serviceAccount.create=false and serviceAccount.name not defined
 # then will be used serviceAccount aqua-sa which created by aqua-server helm chart
@@ -203,7 +204,9 @@ starboard:
   replicaCount: "1"
   appName: "starboard-operator"
   serviceAccount:
-    name: "starboard-operator"
+    create: false
+    #"starboard-operator"
+    name:
   clusterRoleBinding:
     name: "starboard-operator"
   clusterRole:
@@ -317,15 +320,6 @@ kubeEnforcerAdvance:
     custom_envoy_files: {}
 
 enforcer:
-  enabled: false
-  imageCredentials:
-    create: false
-    name: aqua-ke-registry
-    repositoryUriPrefix: "registry.aquasec.com"
-    registry: "registry.aquasec.com"
-    username: ""
-    password: ""
-
   serviceAccount:
     create: true
     name: ""

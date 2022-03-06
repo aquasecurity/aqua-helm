@@ -39,11 +39,19 @@ Else if .Values.serviceAccount.create set to true, so will becreate serviceAccou
 {{- end -}}
 {{- end -}}
 
+{{- define "serviceAccountStarboard" -}}
+{{- if .Values.starboard.serviceAccount.create -}}
+    {{ .Values.starboard.serviceAccount.name | default (printf "%s-starboard-sa" .Release.Name) }}
+{{- else if not .Values.starboard.serviceAccount.create -}}
+    {{ .Values.starboard.serviceAccount.name | default (printf "%s-sa" .Release.Name) }}
+{{- end -}}
+{{- end -}}
+
 {{- define "registrySecret" -}}
-{{- if .Values.imageCredentials.create -}}
-    {{ .Values.imageCredentials.name | default (printf "%s-registry-secret" .Release.Name) }}
-{{- else if not .Values.imageCredentials.create -}}
-    {{ .Values.imageCredentials.name | default (printf "aqua-registry-secret") }}
+{{- if .Values.global.imageCredentials.create -}}
+    {{ .Values.global.imageCredentials.name | default (printf "%s-registry-secret" .Release.Name) }}
+{{- else if not .Values.global.imageCredentials.create -}}
+    {{ .Values.global.imageCredentials.name | default (printf "aqua-registry-secret") }}
 {{- end -}}
 {{- end -}}
 
@@ -55,7 +63,7 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{- define "imagePullSecret" }}
-{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (required "A valid .Values.imageCredentials.registry entry required" .Values.imageCredentials.registry) (printf "%s:%s" (required "A valid .Values.imageCredentials.username entry required" .Values.imageCredentials.username) (required "A valid .Values.imageCredentials.password entry required" .Values.imageCredentials.password) | b64enc) | b64enc }}
+{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (required "A valid .Values.global.imageCredentials.registry entry required" .Values.global.imageCredentials.registry) (printf "%s:%s" (required "A valid .Values.global.imageCredentials.username entry required" .Values.global.imageCredentials.username) (required "A valid .Values.global.imageCredentials.password entry required" .Values.global.imageCredentials.password) | b64enc) | b64enc }}
 {{- end }}
 
 {{- define "serverCertificate" }}
@@ -75,7 +83,7 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{- define "imageCredentials_name" }}
-{{- printf "%s" (required "A valid .Values.imageCredentials.name required" .Values.imageCredentials.name ) }}
+{{- printf "%s" (required "A valid .Values.global.imageCredentials.name required" .Values.global.imageCredentials.name ) }}
 {{- end }}
 
 {{- define "platform" }}

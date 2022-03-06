@@ -22,10 +22,10 @@ Else if .Values.serviceAccount.create set to true, so will becreate serviceAccou
 {{- end -}}
 
 {{- define "registrySecret" -}}
-{{- if .Values.imageCredentials.create -}}
-    {{ .Values.imageCredentials.name | default (printf "%s-registry-secret" .Release.Name) }}
-{{- else if not .Values.imageCredentials.create -}}
-    {{ .Values.imageCredentials.name | default (printf "aqua-registry-secret") }}
+{{- if .Values.global.imageCredentials.create -}}
+    {{ .Values.global.imageCredentials.name | default (printf "%s-registry-secret" .Release.Name) }}
+{{- else if not .Values.global.imageCredentials.create -}}
+    {{ .Values.global.imageCredentials.name | default (printf "aqua-registry-secret") }}
 {{- end -}}
 {{- end -}}
 
@@ -41,7 +41,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{- define "imagePullSecret" }}
-{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (required "A valid .Values.imageCredentials.registry entry required!" .Values.imageCredentials.registry) (printf "%s:%s" (required "A valid .Values.imageCredentials.username entry required!" .Values.imageCredentials.username) (required "A valid .Values.imageCredentials.password entry required!" .Values.imageCredentials.password) | b64enc) | b64enc }}
+{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (required "A valid .Values.global.imageCredentials.registry entry required!" .Values.global.imageCredentials.registry) (printf "%s:%s" (required "A valid .Values.global.imageCredentials.username entry required!" .Values.global.imageCredentials.username) (required "A valid .Values.global.imageCredentials.password entry required!" .Values.global.imageCredentials.password) | b64enc) | b64enc }}
 {{- end }}
 
 {{/*

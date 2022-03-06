@@ -11,22 +11,23 @@ global:
   # k3s = k3s kubernetes platform
   # mke = Mirantis Kubernetes Engine
   platform: ""
+  enforcer:
+    enabled: false
   gateway:
     # change address to gateway endpoint
     address: aqua-gateway-svc.aqua
     port: 8443
-
-imageCredentials:
-  # change to true if deploying enforcer on new cluster or aqua-registry-secret secret doesn't exist.
-  create: false
-  # use it to overwrite the default secret name
-  name:
-  # for dockerhub - "docker.io"
-  repositoryUriPrefix: "registry.aquasec.com"
-  #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
-  registry: "registry.aquasec.com"
-  username: ""
-  password: ""
+  imageCredentials:
+    # change to true if deploying enforcer on new cluster or aqua-registry-secret secret doesn't exist.
+    create: false
+    # use it to overwrite the default secret name
+    name:
+    # for dockerhub - "docker.io"
+    repositoryUriPrefix: "registry.aquasec.com"
+    #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+    registry: "registry.aquasec.com"
+    username: ""
+    password: ""
 
 serviceAccount:
   # change to true if deploying enforcer on new cluster or aqua-sa serviceAccount doesn't exist.
