@@ -2,17 +2,26 @@
 import com.aquasec.deployments.orchestrators.*
 
 def orchestrator = new OrcFactory(this).GetOrc()
-def charts = [ 'server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector' ]
+def charts = [ 'server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner' ]
 
 pipeline {
     agent {
         label 'deployment_slave'
     }
-
     environment {
         ROOT_CA = credentials('deployment_ke_webook_root_ca')
         SERVER_CERT = credentials('deployment_ke_webook_crt')
         SERVER_KEY = credentials('deployment_ke_webook_key')
+        AFW_SERVER_LICENSE_TOKEN = credentials('aquaDeploymentLicenseToken')
+
+        AQUADEV_AZURE_ACR_PASSWORD = credentials('aquadevAzureACRpassword')
+        AUTH0_CREDS = credentials('auth0Credential')
+        VAULT_TERRAFORM_SID = credentials('VAULT_TERRAFORM_SID')
+        VAULT_TERRAFORM_SID_USERNAME = "$VAULT_TERRAFORM_SID_USR"
+        VAULT_TERRAFORM_SID_PASSWORD = "$VAULT_TERRAFORM_SID_PSW"
+        VAULT_TERRAFORM_RID = credentials('VAULT_TERRAFORM_RID')
+        VAULT_TERRAFORM_RID_USERNAME = "$VAULT_TERRAFORM_RID_USR"
+        VAULT_TERRAFORM_RID_PASSWORD = "$VAULT_TERRAFORM_RID_PSW"
     }
     options {
         ansiColor('xterm')
@@ -24,6 +33,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                cleanWs()
                 checkout([
                         $class: 'GitSCM',
                         branches: scm.branches,
@@ -56,6 +66,13 @@ pipeline {
                 }
             }
         }
+        stage("updating conul") {
+            steps {
+                script {
+                    helm.updateConsul()
+                }
+            }
+        }
         stage("Installing Helm") {
             steps {
                 script {
@@ -67,79 +84,22 @@ pipeline {
         stage ("preparation") {
             steps {
                 script {
-                    kubectl.createNamespace()
-                    kubectl.createDockerRegistrySecret()
+                    kubectl.createNamespace create: "yes"
+                    kubectl.createDockerRegistrySecret create: "yes"
                 }
             }
         }
         stage("Deploying Aqua Charts") {
             steps {
-                parallel(
-                        server: {
-                            stage("install") {
-                                steps {
-                                    script {
-                                        helm.install(chart = "server")
-                                    }
-                                }
-                            }
-                            stage("validate") {
-                                steps {
-                                    script {
-                                        helm.validate(chart = "server")
-                                    }
-                                }
-                            }
-                        },
-                        enforcer: {
-                            stage("install") {
-                                steps {
-                                    script {
-                                        helm.install(chart = "enforcer")
-                                    }
-                                }
-                            }
-                            stage("validate") {
-                                steps {
-                                    script {
-                                        helm.validate(chart = "enforcer")
-                                    }
-                                }
-                            }
-                        },
-                        "kube-enforcer": {
-                            stage("install") {
-                                steps {
-                                    script {
-                                        helm.install(chart = "kube-enforcer")
-                                    }
-                                }
-                            }
-                            stage("validate") {
-                                steps {
-                                    script {
-                                        helm.validate(chart = "kube-enforcer")
-                                    }
-                                }
-                            }
-                        },
-                        scanner: {
-                            stage("install") {
-                                steps {
-                                    script {
-                                        helm.install(chart = "scanner")
-                                    }
-                                }
-                            }
-                            stage("validate") {
-                                steps {
-                                    script {
-                                        helm.validate(chart = "scanner")
-                                    }
-                                }
-                            }
-                        }
-                )
+                script {
+                    def parallelStagesMap = [:]
+                    def tmpCharts = [ 'server', 'kube-enforcer', 'enforcer', 'scanner' ]
+                    tmpCharts.eachWithIndex { item, index ->
+                        parallelStagesMap["${index}"] = helm.generateDeployStage(index, item)
+                    }
+                    parallel parallelStagesMap
+                }
+                sleep(600)
             }
         }
         stage("Pushing Helm chart to dev repo") {
@@ -166,7 +126,7 @@ pipeline {
             script {
                 orchestrator.uninstall()
                 echo "k3s & server chart uninstalled"
-                cleanWs()
+//                cleanWs()
 //                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
             }
         }
