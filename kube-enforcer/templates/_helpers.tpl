@@ -86,8 +86,13 @@ Create chart name and version as used by the chart label.
 {{- printf "%s" (required "A valid .Values.global.imageCredentials.name required" .Values.global.imageCredentials.name ) }}
 {{- end }}
 
+{{/*
 {{- define "platform" }}
 {{- printf "%s" (required "A valid Values.global.platform entry required" .Values.global.platform ) | replace "\n" "" }}
+{{- end }}
+*/}}
+{{- define "platform" }}
+{{- printf "%s" .Values.global.platform | default "k8s" }}
 {{- end }}
 
 {{/*

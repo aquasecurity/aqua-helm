@@ -75,8 +75,13 @@ Inject extra environment populated by secrets, if populated
 {{- end -}}
 {{- end -}}
 
+{{/*
 {{- define "platform" }}
-{{- printf "%s" (required "A valid .Values.platform entry required" .Values.platform ) | replace "\n" "" }}
+{{- printf "%s" (required "A valid Values.global.platform entry required" .Values.global.platform ) | replace "\n" "" }}
+{{- end }}
+*/}}
+{{- define "platform" }}
+{{- printf "%s" .Values.global.platform | default "k8s" }}
 {{- end }}
 
 {{/*
