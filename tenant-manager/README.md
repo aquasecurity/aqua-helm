@@ -41,21 +41,6 @@ db:
 ## Installing the Chart
 Follow the steps in this section for production-grade deployments. You can either clone the aqua-helm GitHub repo or you can add our private Helm repository ([https://helm.aquasec.com](https://helm.aquasec.com)).
 
-### Installing Aqua Tenant Manager from Github Repo
-
-* Clone the GitHub repository with the charts:
-
-```shell
-git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
-cd aqua-helm/
-```
-
-* Deploy the Aqua Tenant Manager
-
-```shell
-helm upgrade --install --namespace aqua tenant-manager ./tenant-manager --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
-```
-
 ### Installing Aqua Tenant Manager from Helm Private Repository
   
 * Add the Aqua Helm repository
@@ -72,7 +57,7 @@ helm search repo aqua-helm/tenant-manager --versions
 * Deploy the Aqua Tenant Manager
 
 ```shell
-helm upgrade --install --namespace aqua tenant-manager aqua-helm/tenant-manager --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<> --version <>
+helm upgrade --install --namespace aqua tenant-manager aqua-helm/tenant-manager --set imageCredentials.username=<>,imageCredentials.password=<>,platform=<>
 ```
 
 ## Database

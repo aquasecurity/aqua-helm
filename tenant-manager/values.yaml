@@ -23,7 +23,6 @@ admin:
   token: ""
   password: ""
 
-
 db:
   external:
     enabled: false
@@ -38,11 +37,16 @@ db:
     auditUser: ""
     auditPassword: ""
   passwordFromSecret:
-    enabled: false              #Enable if loading passwords for db and audit-db from secret
-    dbPasswordName: ""            #Specify the Password Secret name used for db password
-    dbPasswordKey: ""             #Specify the db password key name stored in the #dbPasswordName secret
-    dbAuditPasswordName: ""          #Specify the Password Secret name used for audit db password
-    dbAuditPasswordKey: ""            #Specify the audit db password key name stored in the #dbAuditPasswordName secret
+    #Enable if loading passwords for db and audit-db from secret
+    enabled: false
+    #Specify the Password Secret name used for db password
+    dbPasswordName: ""
+    #Specify the db password key name stored in the #dbPasswordName secret
+    dbPasswordKey: ""
+    #Specify the Password Secret name used for audit db password
+    dbAuditPasswordName: ""
+    #Specify the Password Secret name used for audit db password
+    dbAuditPasswordKey: ""
 
   securityContext:
     runAsUser: 70
@@ -169,12 +173,16 @@ tenantmanager:
   container_securityContext: {}
 
   TLS:
-    enabled: false      # change to true for enabling secure communication
-    secretName: ""        #created certs secret name for web
+    # change to true for enabling secure communication
+    enabled: false
+    #created certs secret name for web
+    secretName: ""
     #Follow Advance configuration for mTLS communication establishment and place your certs in /opt/aquasec/ssl/
 
   maintenance_db:
-    name: ""         #specify the AQUA_MAINTENANCE_DB name if enabled
+    #Specifies the name of a maintenance database, to be used in place of the default postgres DB.
+    #It will define the environment variable AQUA_MAINTENANCE_DBNAME
+    name: ""
 
   # extraEnvironmentVars is a list of extra environment variables to set in the tenantmanager deployments.
   # https://docs.aquasec.com/docs/server-optional-variables
