@@ -35,7 +35,7 @@ This repository includes the following charts; they can be deployed separately:
 | [KubeEnforcer](kube-enforcer/)| Deploys Aqua KubeEnforcer | 6.5.12               |
 | [Gateway](gateway)| Deploys the Aqua Standalone Gateway | 6.5.8                |
 | [Tenant-Manager](tenant-manager/)| Deploys the Aqua Tenant Manager | 6.5.1                |
-| [Cyber Center](cyber-center/)| Deploys Aqua CyberCenter offline for air-gap environment| 6.5.0                |
+| [Cyber Center](cyber-center/)| Deploys Aqua CyberCenter offline for air-gap environment| 6.5.1                |
 | [Cloud Connector](cloud-connector/) | Deploys the Aqua Cloud Connector | 6.5.2                |
 | [QuickStart](aqua-quickstart/ )| Not for production use (see [below](#quick-start-deployment-not-for-production-purposes)). Deploys the Console, Database, Gateway and KubeEnforcer components | 6.5.2                |
 
@@ -79,7 +79,7 @@ Example output:
 ```csv
 NAME                            CHART VERSION   APP VERSION     DESCRIPTION                                     
 aqua-helm/cloud-connector       6.5.2           6.5             A Helm chart for Aqua Cloud-Connector           
-aqua-helm/cyber-center          6.5.0           6.5             A Helm chart for Aqua CyberCenter               
+aqua-helm/cyber-center          6.5.1           6.5             A Helm chart for Aqua CyberCenter               
 aqua-helm/enforcer              6.5.9           6.5             A Helm chart for the Aqua Enforcer              
 aqua-helm/gateway               6.5.8           6.5             A Helm chart for the Aqua Gateway               
 aqua-helm/kube-enforcer         6.5.12          6.5             A Helm chart for the Aqua KubeEnforcer Starboard
