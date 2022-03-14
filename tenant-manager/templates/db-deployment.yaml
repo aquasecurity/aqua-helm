@@ -7,9 +7,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-tm-db
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+{{ include "aqua.labels" . | indent 4 }}
 spec:
   selector:
     matchLabels:
@@ -27,6 +25,7 @@ spec:
       {{- end }}
       labels:
         app: {{ .Release.Name }}-tm-db
+{{ include "aqua.labels" . | indent 8 }}
       name: {{ .Release.Name }}-tm-db
     spec:
       {{- with .Values.db.securityContext }}
