@@ -117,6 +117,7 @@ Parameter | Description | Default| Mandatory
 `imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret`| `YES - New cluster`
 `imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`| `YES - New cluster`
 `serviceAccount.create` | enable to create aqua-sa serviceaccount if it is missing in the environment | `false` | `YES - New cluster`
+`serviceAccount.name` | service acccount name | `aqua-sa` | `NO`
 `image.repository` | the docker image name to use | `cc-standard`| `YES`
 `image.tag` | The image tag to use. | `6.5`| `YES`
 `image.pullPolicy` | The kubernetes image pull policy. | `Always`| `NO`
