@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.starboard.appName }}
+  name: {{ .Release.Name }}-{{ .Values.starboard.appName }}
   namespace: {{ .Release.Namespace }}
   labels:
     role: {{ .Release.Name }}
@@ -32,7 +32,7 @@ spec:
         app: {{ .Values.starboard.appName }}
 {{ include "aqua.labels" . | indent 8 }}
     spec:
-      serviceAccountName: {{ .Values.starboard.serviceAccount.name }}
+      serviceAccountName: {{ template "serviceAccountStarboard" . }}
       automountServiceAccountToken: {{ .Values.starboard.automountServiceAccountToken }}
       {{- with .Values.starboard.securityContext }}
       securityContext:

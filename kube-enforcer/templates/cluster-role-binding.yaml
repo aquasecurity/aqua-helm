@@ -23,9 +23,9 @@ roleRef:
   name: {{ .Values.starboard.clusterRole.name }}
 subjects:
   - kind: ServiceAccount
-    name: {{ .Values.starboard.serviceAccount.name }}
+    name: {{ template "serviceAccountStarboard" . }}
     namespace: {{ .Release.Namespace }}
-{{- if eq .Values.platform "mke" }}
+{{- if eq .Values.global.platform "mke" }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding

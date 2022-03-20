@@ -31,11 +31,11 @@ spec:
 {{ include "aqua.labels" . | indent 8 }}
       name: {{ .Release.Name }}-ds
     spec:
-      serviceAccount: {{ template "serviceAccount" . }}
+      serviceAccount: {{ template "agentServiceAccount" . }}
       hostPID: true
       containers:
       - name: enforcer
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         securityContext:
           {{- toYaml .Values.securityContext | nindent 10 }}
@@ -69,7 +69,7 @@ spec:
         - name: AQUA_TOKEN
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-token
+              name: {{ .Release.Name }}-agent-token
               key: token
         {{- end }}
         {{- include "extraEnvironmentVars" .Values | nindent 8 }}

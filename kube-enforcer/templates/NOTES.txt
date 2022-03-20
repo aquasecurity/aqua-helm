@@ -25,4 +25,10 @@ Access the pod you want to debug by executing
 
 For more information about Aqua Kube-Enforcer, you can look over the docs on using:
 https://docs.aquasec.com/docs/kubeenforcer
+
+{{- if .Values.global.enforcer.enabled }}
+
+For more information about Aqua Enforcer, you can look over the docs on using:
+https://docs.aquasec.com/docs/aqua-enforcer
+{{- end }}
 =======================================================================================

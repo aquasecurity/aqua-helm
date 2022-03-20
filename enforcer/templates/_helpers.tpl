@@ -13,19 +13,19 @@ for server chart.
 Else if .Values.serviceAccount.create set to true, so will becreate serviceAccount based on
 .Values.serviceAccount.name or will be generated name based on Chart Release name
 */}}
-{{- define "serviceAccount" -}}
+{{- define "agentServiceAccount" -}}
 {{- if .Values.serviceAccount.create -}}
-    {{ .Values.serviceAccount.name | default (printf "%s-sa" .Release.Name) }}
+    {{ .Values.serviceAccount.name | default (printf "%s-agent-sa" .Release.Name) }}
 {{- else if not .Values.serviceAccount.create -}}
     {{ .Values.serviceAccount.name | default (printf "aqua-sa") }}
 {{- end -}}
 {{- end -}}
 
 {{- define "registrySecret" -}}
-{{- if .Values.imageCredentials.create -}}
-    {{ .Values.imageCredentials.name | default (printf "%s-registry-secret" .Release.Name) }}
-{{- else if not .Values.imageCredentials.create -}}
-    {{ .Values.imageCredentials.name | default (printf "aqua-registry-secret") }}
+{{- if .Values.global.imageCredentials.create -}}
+    {{ .Values.global.imageCredentials.name | default (printf "%s-registry-secret" .Release.Name) }}
+{{- else if not .Values.global.imageCredentials.create -}}
+    {{ .Values.global.imageCredentials.name | default (printf "aqua-registry-secret") }}
 {{- end -}}
 {{- end -}}
 
@@ -41,7 +41,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{- define "imagePullSecret" }}
-{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (required "A valid .Values.imageCredentials.registry entry required!" .Values.imageCredentials.registry) (printf "%s:%s" (required "A valid .Values.imageCredentials.username entry required!" .Values.imageCredentials.username) (required "A valid .Values.imageCredentials.password entry required!" .Values.imageCredentials.password) | b64enc) | b64enc }}
+{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (required "A valid .Values.global.imageCredentials.registry entry required!" .Values.global.imageCredentials.registry) (printf "%s:%s" (required "A valid .Values.global.imageCredentials.username entry required!" .Values.global.imageCredentials.username) (required "A valid .Values.global.imageCredentials.password entry required!" .Values.global.imageCredentials.password) | b64enc) | b64enc }}
 {{- end }}
 
 {{/*
@@ -75,8 +75,13 @@ Inject extra environment populated by secrets, if populated
 {{- end -}}
 {{- end -}}
 
+{{/*
 {{- define "platform" }}
-{{- printf "%s" (required "A valid .Values.platform entry required" .Values.platform ) | replace "\n" "" }}
+{{- printf "%s" (required "A valid Values.global.platform entry required" .Values.global.platform ) | replace "\n" "" }}
+{{- end }}
+*/}}
+{{- define "platform" }}
+{{- printf "%s" .Values.global.platform | default "k8s" }}
 {{- end }}
 
 {{/*

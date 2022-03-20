@@ -70,8 +70,8 @@ resources:
             - endpoint:
                 address:
                   socket_address:
-                    address: {{ .Values.gateway.address }}
-                    port_value: {{ .Values.gateway.port }}
+                    address: {{ Values.global.gateway.address }}
+                    port_value: {{ Values.global.gateway.port }}
     transport_socket:
       name: envoy.transport_sockets.tls
       typed_config:
