@@ -1,3 +1,5 @@
+## 6.5.3 ( Mar 22nd, 2022 )
+* Add K3s platform support
 ## 6.5.2 ( Mar 10th, 2022)
 * Align labels
 * Update NOTES.txt with correct information
