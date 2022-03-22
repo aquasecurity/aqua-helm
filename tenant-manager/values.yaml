@@ -136,6 +136,18 @@ tenantmanager:
         targetPort: 8444
         nodePort:
         protocol: TCP
+    #As 443, 8443 already occupied in k3s kubernetes by traefik ingress. below are the console ports
+    k3sPorts:
+      - name: aqua-tenantmanager
+        port: 8081
+        targetPort: 8081
+        nodePort:
+        protocol: TCP
+      - name: aqua-tenantmanager-ssl
+        port: 444
+        targetPort: 8444
+        nodePort:
+        protocol: TCP
 
   # default liveness and readiness probe
   livenessProbe:
