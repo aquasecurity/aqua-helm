@@ -1,3 +1,5 @@
+## 6.5.13( March 23th)
+* Update default starboard version to be 0.14.1
 ## 6.5.12 ( February 27th)
 * Fix extraEnvironmentVars to support proxy variables in lowercase
 * Add starboard pod annotation
