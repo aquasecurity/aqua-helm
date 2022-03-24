@@ -1,6 +1,6 @@
 ## 6.5.10 ( March 24th, 2022 )
 * Fix [539](https://github.com/aquasecurity/aqua-helm/issues/539), Add support to modify updateStrategy.
-* Add priority-class for aqua enforcer
+* Fix [537](https://github.com/aquasecurity/aqua-helm/issues/537),Add priority-class for aqua enforcer
 ## 6.5.9 ( February 27th)
 * Fix extraEnvironmentVars to support proxy variables in lowercase
 ## 6.5.8 ( February 4th, 2022 )
