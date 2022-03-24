@@ -192,5 +192,5 @@ spec:
   {{ end }}
   updateStrategy:
     rollingUpdate:
-      maxUnavailable: 1
-    type: RollingUpdate
+      maxUnavailable: {{ .Values.updateStrategy.maxUnavailable }}
+    type: {{ .Values.updateStrategy.type }}

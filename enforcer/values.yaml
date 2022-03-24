@@ -108,6 +108,15 @@ hostPID: "true"
 schedulerName: "default-scheduler"
 terminationGracePeriodSeconds: "30"
 
+updateStrategy:
+  maxUnavailable: 1
+  type: "RollingUpdate"
+
+priorityClass:
+  priorityClassCreate: false
+  preemptionPolicy: "PreemptLowerPriority"
+  priorityClassValue: 1000000
+
 TLS:
   enabled: false
   secretName: ""              # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
