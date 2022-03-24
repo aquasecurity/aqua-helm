@@ -1,13 +1,16 @@
+## 6.5.10 ( March 24th, 2022 )
+* Fix [539](https://github.com/aquasecurity/aqua-helm/issues/539), Add support to modify updateStrategy.
+* Fix [537](https://github.com/aquasecurity/aqua-helm/issues/537),Add priority-class for aqua enforcer
 ## 6.5.9 ( February 27th)
 * Fix extraEnvironmentVars to support proxy variables in lowercase
-## 6.5.8 ( February 4th)
+## 6.5.8 ( February 4th, 2022 )
 * Align labels + update NOTES.txt
 ## 6.5.7 ( January 21th)
 * Fix issue - [497](https://github.com/aquasecurity/aqua-helm/issues/497)
-## 6.5.6 ( January 18th)
+## 6.5.6 ( January 18th, 2022 )
 * Fix serviceAccount and pull image registry secret to support deployment on same cluster 
   with the server and gateway or separate cluster
-## 6.5.5 ( December 14th)
+## 6.5.5 ( December 14th, 2021 )
 * Add AQUA_LOGICAL_NAME and AQUA_NODE_NAME - [454](https://github.com/aquasecurity/aqua-helm/pull/454)
 * Fixing OCP SCC capabilities names - [464](https://github.com/aquasecurity/aqua-helm/pull/464)
 ## 6.5.4 ( December 8th, 2021 )
