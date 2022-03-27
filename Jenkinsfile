@@ -2,7 +2,8 @@
 import com.aquasec.deployments.orchestrators.*
 
 def orchestrator = new OrcFactory(this).GetOrc()
-def charts = [ 'server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner' ]
+def charts = [ 'server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager' ]
+
 
 pipeline {
     agent {
@@ -33,7 +34,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                cleanWs()
                 checkout([
                         $class: 'GitSCM',
                         branches: scm.branches,
@@ -69,7 +69,7 @@ pipeline {
         stage("updating conul") {
             steps {
                 script {
-                    helm.updateConsul()
+                    helm.updateConsul("create")
                 }
             }
         }
@@ -93,13 +93,19 @@ pipeline {
             steps {
                 script {
                     def parallelStagesMap = [:]
-                    def tmpCharts = [ 'server', 'kube-enforcer', 'enforcer', 'scanner' ]
+                    def tmpCharts = [ 'server', 'kube-enforcer', 'enforcer', 'scanner', 'tenant-manager', 'cyber-center' ]
                     tmpCharts.eachWithIndex { item, index ->
                         parallelStagesMap["${index}"] = helm.generateDeployStage(index, item)
                     }
                     parallel parallelStagesMap
                 }
-                sleep(600)
+            }
+        }
+        stage("Running Mstp tests") {
+            steps {
+                script {
+                    helm.runMstpTests test: "test"
+                }
             }
         }
         stage("Pushing Helm chart to dev repo") {
@@ -124,10 +130,12 @@ pipeline {
     post {
         always {
             script {
+                helm.removeDockerLocalImages()
                 orchestrator.uninstall()
+                helm.updateConsul("delete")
                 echo "k3s & server chart uninstalled"
-//                cleanWs()
-//                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
+                cleanWs()
+                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: 'deployments@aquasec.com'
             }
         }
     }

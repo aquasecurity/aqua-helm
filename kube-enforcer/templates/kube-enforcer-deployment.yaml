@@ -4,60 +4,22 @@ metadata:
   labels:
     role: {{ .Release.Name }}
     app: {{ include "kube-enforcer.fullname" . }}
-{{ include "aqua.labels" . | indent 4 }}
   name: {{ include "kube-enforcer.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ .Values.namespace }}
 spec:
-  replicas: {{ .Values.ke_ReplicaCount | default "1" }}
+  replicas: 1
   template:
     metadata:
-      annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/kube-enforcer-configmap.yaml") . | sha256sum }}
-      {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
-        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
-      {{- end }}
-      {{- with .Values.podAnnotations }}
-      {{- range $key,$value := . }}
-        {{ $key }}: {{ $value | quote }}
-      {{- end }}
-      {{- end }}
       labels:
-        role: {{ .Release.Name }}
         app: {{ include "kube-enforcer.fullname" . }}
-{{ include "aqua.labels" . | indent 8 }}
     spec:
-      {{- with .Values.securityContext }}
-      securityContext:
-{{ toYaml . | indent 8 }}
-      {{- end }}
-      serviceAccountName: {{ template "serviceAccount" . }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
       containers:
         - name: kube-enforcer
-          {{- with .Values.container_securityContext }}
-          securityContext:
-{{ toYaml . | indent 12 }}
-          {{- end }}
           image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
-          envFrom:
-            - configMapRef:
-                name: {{ .Release.Name }}-kube-enforcer-config
-          env:
-          - name: AQUA_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.aquaSecret.name }}
-                key: token
-          {{- include "extraEnvironmentVars" .Values | nindent 10 }}
-          {{- include "extraSecretEnvironmentVars" .Values | nindent 10 }}
+          imagePullPolicy: Always
           ports:
-{{- if not .Values.kubeEnforcerAdvance.enable }}
             - containerPort: 8443
-{{- else }}
-            - containerPort: 8449
-            - containerPort: 8442
-{{- end }}
-{{- if not .Values.kubeEnforcerAdvance.enable }}
 {{- with .Values.livenessProbe }}
           livenessProbe:
 {{ toYaml . | indent 12 }}
@@ -66,105 +28,35 @@ spec:
           readinessProbe:
 {{ toYaml . | indent 12 }}
 {{- end }}
-{{- end }}
-{{- with .Values.resources }}
-          resources:
-{{ toYaml . | indent 12 }}
-{{- end }}
+          env:
+            - name: AQUA_TOKEN
+              valueFrom: 
+                secretKeyRef:
+                  name: {{ .Values.aquaSecret.name }}
+                  key: token      
+            - name: AQUA_ENABLE_CACHE
+              value: "{{ .Values.aqua_enable_cache }}"
+            - name: AQUA_CACHE_EXPIRATION_PERIOD
+              value: "{{ .Values.aqua_cache_expiration_period }}"
+            - name: TLS_SERVER_CERT_FILEPATH
+              value: /certs/server.crt
+            - name: TLS_SERVER_KEY_FILEPATH
+              value: /certs/server.key
+            - name: AQUA_GATEWAY_SECURE_ADDRESS
+              value: {{ .Values.envs.gatewayAddress }}
+            - name: AQUA_TLS_PORT
+              value: "8443"
+            - name: SCALOCK_LOG_LEVEL
+              value: {{ .Values.logLevel | default "INFO" }}
           volumeMounts:
             - name: "certs"
               mountPath: "/certs"
-{{- if .Values.kubeEnforcerAdvance.enable }}
-            - name: "envoy-shared"
-              mountPath: "/etc/aquasec/envoy"
-{{- end }}
-{{- if .Values.TLS.enabled }}
-            - name: "{{ .Values.TLS.secretName }}"
-              mountPath: "/opt/aquasec/ssl/"
-              readOnly: true
-{{- end }}
-{{- if .Values.kubeEnforcerAdvance.enable }}
-        - name: envoy
-          image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.kubeEnforcerAdvance.envoy.image.repository }}:{{ .Values.kubeEnforcerAdvance.envoy.image.tag }}"
-          imagePullPolicy: "{{ .Values.kubeEnforcerAdvance.envoy.image.pullPolicy }}"
-          command: ["/bin/sh", "-c", "cp /etc/envoy/cds.yaml /etc/aquasec/envoy/cds.yaml && touch /etc/aquasec/envoy/ca-certificates.crt && envoy -c /etc/envoy/envoy.yaml"]
-          ports:
-          - containerPort: 8443
-            protocol: TCP
-          volumeMounts:
-          - mountPath: /etc/envoy
-            name: envoy-config
-          - name: "envoy-shared"
-            mountPath: "/etc/aquasec/envoy"
-          - mountPath: "/etc/ssl/envoy"
-            readOnly: true
-{{- if .Values.kubeEnforcerAdvance.envoy.TLS.listener.enabled }}
-            name: "{{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.secretName}}"
-{{- else }}
-            name: "certs"
-{{- end }}
-{{- with .Values.kubeEnforcerAdvance.envoy.livenessProbe }}
-          livenessProbe:
-{{ toYaml . | indent 12 }}
-{{- end }}
-{{- with .Values.kubeEnforcerAdvance.envoy.readinessProbe }}
-          readinessProbe:
-{{ toYaml . | indent 12 }}
-{{- end }}
-{{- with .Values.kubeEnforcerAdvance.envoy.resources }}
-          resources:
-{{ toYaml . | indent 12 }}
-{{- end }}
-{{- end }}
       volumes:
         - name: "certs"
           secret:
             secretName: {{ .Values.certsSecret.name }}
-{{- if .Values.kubeEnforcerAdvance.enable }}
-        - name: "envoy-config"
-          configMap:
-            name: "{{ .Release.Name }}-envoy-conf"
-        - name: "envoy-shared"
-          emptyDir: {}
-{{- end }}
-        {{- if .Values.TLS.enabled }}
-        - name: "{{ .Values.TLS.secretName }}"
-          secret:
-            defaultMode: 420
-            secretName: {{ .Values.TLS.secretName }}
-            items:
-            - key: {{ .Values.TLS.publicKey_fileName }}
-              path: cert.pem
-            - key: {{ .Values.TLS.privateKey_fileName }}
-              path: key.pem
-            {{- if .Values.TLS.rootCA_fileName }}
-            - key: {{ .Values.TLS.rootCA_fileName }}
-              path: ca.pem
-            {{- end }}
-        {{- end }}
-        {{- if .Values.kubeEnforcerAdvance.envoy.TLS.listener.enabled }}
-        - name: "{{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.secretName}}"
-          secret:
-            defaultMode: 420
-            secretName: {{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.secretName }}
-            items:
-            - key: {{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.publicKey_fileName }}
-              path: server.crt
-            - key: {{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.privateKey_fileName }}
-              path: server.key
-            {{- if .Values.kubeEnforcerAdvance.envoy.TLS.listener.rootCA_fileName }}
-            - key: {{ .Values.kubeEnforcerAdvance.envoy.TLS.listener.rootCA_fileName }}
-              path: rootCA.crt
-            {{- end }}
-        {{- end }}
-{{- if .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml .Values.nodeSelector | indent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-      {{- end }}
+      imagePullSecrets:
+        - name: {{ .Values.imageCredentials.name }}
   selector:
     matchLabels:
-      app: {{ include "kube-enforcer.fullname" . }}
+      app: {{ include "kube-enforcer.fullname" . }}                           

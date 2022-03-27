@@ -1,23 +1,20 @@
 {{- if .Values.web.ingress.enabled -}}
 {{- $fullname := .Release.Name -}}
 {{- $servicePort := (index .Values.web.service.ports 0).port -}}
-{{- $ingressPath := .Values.web.ingress.path -}}
-{{- $pathType := .Values.web.ingress.pathType -}}
 ---
-{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" -}}
-apiVersion: networking.k8s.io/v1
-{{- else if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1/Ingress" -}}
+{{- if (semverCompare ">= 1.14" .Capabilities.KubeVersion.GitVersion) }}
 apiVersion: networking.k8s.io/v1beta1
-{{- else -}}
+{{- else }}
 apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
   name: {{ .Release.Name }}-console-ingress
-  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-console-ingress
-{{ include "aqua.labels" . | indent 4 }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 {{- if .Values.web.ingress.annotations }}
   annotations:
 {{ toYaml .Values.web.ingress.annotations | indent 4 }}
@@ -29,34 +26,18 @@ spec:
       - host: {{ $host }}
         http:
           paths:
-            - path: {{ $ingressPath }}
-              pathType: {{ $pathType }}
+            - path: /
               backend:
-              {{- if $.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
-                service:
-                  name: {{ $fullname }}-console-svc
-                  port:
-                    number: {{ $servicePort }}
-              {{- else }}
                 serviceName: {{ $fullname }}-console-svc
                 servicePort: {{ $servicePort }}
-              {{- end }}
     {{- end -}}
   {{ else }}
-  {{- if $.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
-  defaultBackend:
-    service:
-      name: {{ $fullname }}-console-svc
-      port:
-        number: {{ $servicePort }}
-  {{- else }}
   backend:
     serviceName: {{ $fullname }}-console-svc
     servicePort: {{ $servicePort }}
-  {{ end }}
   {{ end }}
   {{- if .Values.web.ingress.tls }}
   tls:
 {{ toYaml .Values.web.ingress.tls | indent 4 }}
   {{- end -}}
-  {{- end -}}
+{{- end -}}
