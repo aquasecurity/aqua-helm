@@ -1,22 +1,29 @@
 @Library('aqua-pipeline-lib@master')_
 import com.aquasec.deployments.orchestrators.*
 
-def orchestrator = new K3s(this)
-def namespace = "aqua"
-def registry = "registry.aquasec.com"
-platform = "k3s"
-def charts = [ 'server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector' ]
+def orchestrator = new OrcFactory(this).GetOrc()
+def charts = [ 'server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager' ]
+def debug = false
+
 pipeline {
     agent {
         label 'deployment_slave'
-    }
 
+    }
     environment {
-//        AQUASEC_AZURE_ACR_PASSWORD = credentials('aquasecAzureACRpassword')
-//        AFW_SERVER_LICENSE_TOKEN = credentials('aquaDeploymentLicenseToken')
         ROOT_CA = credentials('deployment_ke_webook_root_ca')
         SERVER_CERT = credentials('deployment_ke_webook_crt')
         SERVER_KEY = credentials('deployment_ke_webook_key')
+        AFW_SERVER_LICENSE_TOKEN = credentials('aquaDeploymentLicenseToken')
+
+        AQUADEV_AZURE_ACR_PASSWORD = credentials('aquadevAzureACRpassword')
+        AUTH0_CREDS = credentials('auth0Credential')
+        VAULT_TERRAFORM_SID = credentials('VAULT_TERRAFORM_SID')
+        VAULT_TERRAFORM_SID_USERNAME = "$VAULT_TERRAFORM_SID_USR"
+        VAULT_TERRAFORM_SID_PASSWORD = "$VAULT_TERRAFORM_SID_PSW"
+        VAULT_TERRAFORM_RID = credentials('VAULT_TERRAFORM_RID')
+        VAULT_TERRAFORM_RID_USERNAME = "$VAULT_TERRAFORM_RID_USR"
+        VAULT_TERRAFORM_RID_PASSWORD = "$VAULT_TERRAFORM_RID_PSW"
     }
     options {
         ansiColor('xterm')
@@ -38,7 +45,7 @@ pipeline {
                 ])
             }
         }
-        stage ("Generate parallel stages") {
+        stage ("Yamls Checking") {
             steps {
                 script {
                     def deploymentImage = docker.build("helm", "-f Dockerfile .")
@@ -60,6 +67,13 @@ pipeline {
                 }
             }
         }
+        stage("updating conul") {
+            steps {
+                script {
+                    helm.updateConsul("create")
+                }
+            }
+        }
         stage("Installing Helm") {
             steps {
                 script {
@@ -71,50 +85,33 @@ pipeline {
         stage ("preparation") {
             steps {
                 script {
-                    kubectl.createNamespace(namespace)
-                    kubectl.createDockerRegistrySecret("registry.aquasec.com", namespace)
+                    kubectl.createNamespace create: "yes"
+                    kubectl.createDockerRegistrySecret create: "yes"
                 }
             }
         }
         stage("Deploying Aqua Charts") {
-            steps {
-                parallel(
-                        server: {
-                            script {
-                                helm.install("server", namespace, registry, platform)
-                            }
-                        },
-                        enforcer: {
-                            script {
-                                helm.install("enforcer", namespace, registry, platform)
-                            }
-                        },
-                        "kube-enforcer": {
-                            script {
-                                helm.install("kube-enforcer", namespace, registry, platform)
-                            }
-                        },
-                        scanner: {
-                            script {
-                                helm.install("scanner", namespace, registry, platform)
-                            }
-                        }
-                )
-            }
-        }
-        stage("Validating Aqua Charts") {
+            failFast true
             steps {
                 script {
-                    helm.getPodsState(namespace)
-                    log.info "checking all pods are running or not"
-                    def bs = "kubectl get pods -n aqua  | awk '{print \$3}' |grep -v STATUS | grep -v Running"
-                    def status = sh (returnStatus:true ,script: bs)
-                    log.info "checking Server endpoint"
-                    helm.getScvStatus(namespace)
+                    def parallelStagesMap = [:]
+                    def tmpCharts = [ 'server', 'kube-enforcer', 'enforcer', 'scanner', 'tenant-manager', 'cyber-center' ]
+                    tmpCharts.eachWithIndex { item, index ->
+                        parallelStagesMap["${index}"] = helm.generateDeployStage(index, item)
+                    }
+                    parallel parallelStagesMap
                 }
             }
         }
-        stage("Pushing Helm chart to dev repo") {
+        stage("Running Mstp tests") {
+            steps {
+                script {
+                    helm.runMstpTests debug: debug
+                }
+            }
+        }
+        stage("Pushing Helm chart to dev repo")
+                {
             steps {
                 script {
                     docker.image('alpine:latest').inside("-u root") {
@@ -136,10 +133,12 @@ pipeline {
     post {
         always {
             script {
+                helm.removeDockerLocalImages()
                 orchestrator.uninstall()
+                helm.updateConsul("delete")
                 echo "k3s & server chart uninstalled"
                 cleanWs()
-//                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: userEmail
+                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: 'deployments@aquasec.com'
             }
         }
     }
