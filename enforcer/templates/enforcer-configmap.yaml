@@ -4,6 +4,10 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-enforcer-config
   namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-ds
+    aqua.component: enforcer
+{{ include "aqua.labels" . | indent 4 }}
 data:
   {{- if .Values.multiple_gateway.enabled }}
   AQUA_SERVER: {{ join "," .Values.multi_gates }}

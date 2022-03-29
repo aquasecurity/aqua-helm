@@ -1,3 +1,5 @@
+# 6.5.11 ( March 29th, 2022 )
+* Add new static label
 ## 6.5.10 ( March 24th, 2022 )
 * Fix [539](https://github.com/aquasecurity/aqua-helm/issues/539), Add support to modify updateStrategy.
 * Fix [537](https://github.com/aquasecurity/aqua-helm/issues/537),Add priority-class for aqua enforcer
