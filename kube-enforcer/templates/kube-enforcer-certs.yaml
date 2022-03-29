@@ -11,6 +11,7 @@ metadata:
   labels:
     role: {{ .Release.Name }}
     app: {{ include "kube-enforcer.fullname" . }}
+    aqua.component: kubeenforcer
 {{ include "aqua.labels" . | indent 4 }}
 data:
   server.crt: {{ template "serverCertificate" . }}  # place server cert

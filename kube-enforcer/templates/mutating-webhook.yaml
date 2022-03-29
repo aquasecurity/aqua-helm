@@ -4,6 +4,11 @@ kind: MutatingWebhookConfiguration
 metadata:
   name: {{ .Values.webhooks.mutatingWebhook.name }}
   namespace: {{ .Release.Namespace }}
+  labels:
+    role: {{ .Release.Name }}
+    app: {{ include "kube-enforcer.fullname" . }}
+    aqua.component: kubeenforcer
+  {{ include "aqua.labels" . | indent 4 }}
 {{- if .Values.webhooks.mutatingWebhook.annotations }}
   annotations:
 {{ toYaml .Values.webhooks.mutatingWebhook.annotations | indent 4 }}

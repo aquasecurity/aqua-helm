@@ -4,6 +4,11 @@ kind: ValidatingWebhookConfiguration
 metadata:
   name: {{ .Values.webhooks.validatingWebhook.name }}
   namespace: {{ .Release.Namespace }}
+  labels:
+    role: {{ .Release.Name }}
+    app: {{ include "kube-enforcer.fullname" . }}
+    aqua.component: kubeenforcer
+  {{ include "aqua.labels" . | indent 4 }}
 {{- if .Values.webhooks.validatingWebhook.annotations }}
   annotations:
 {{ toYaml .Values.webhooks.validatingWebhook.annotations | indent 4 }}

@@ -4,6 +4,11 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-kube-enforcer-config
   namespace: {{ .Release.Namespace }}
+  labels:
+    role: {{ .Release.Name }}
+    app: {{ include "kube-enforcer.fullname" . }}
+    aqua.component: kubeenforcer
+{{ include "aqua.labels" . | indent 4 }}
 data:
   SCALOCK_LOG_LEVEL: {{ .Values.logLevel | default "INFO" | quote }}
   AQUA_ENABLE_CACHE: {{ .Values.aqua_enable_cache | quote }}

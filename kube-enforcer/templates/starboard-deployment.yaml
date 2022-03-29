@@ -7,6 +7,7 @@ metadata:
   labels:
     role: {{ .Release.Name }}
     app: {{ .Values.starboard.appName }}
+    aqua.component: starboard-operator
 {{ include "aqua.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.starboard.replicaCount }}
@@ -30,6 +31,7 @@ spec:
       labels:
         role: {{ .Release.Name }}
         app: {{ .Values.starboard.appName }}
+        aqua.component: starboard-operator
 {{ include "aqua.labels" . | indent 8 }}
     spec:
       serviceAccountName: {{ .Values.starboard.serviceAccount.name }}

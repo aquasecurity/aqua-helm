@@ -4,6 +4,12 @@ kind: ConfigMap
 metadata:
   name: starboard
   namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    aqua.component: starboard-operator
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
 data:
   configAuditReports.scanner: Conftest
 ---
@@ -12,6 +18,12 @@ kind: ConfigMap
 metadata:
   name: starboard-conftest-config
   namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    aqua.component: starboard-operator
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
 data:
   conftest.imageRef: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
   conftest.resources.requests.cpu: "{{ .Values.starboard.conftest_resources_requests_cpu }}"
