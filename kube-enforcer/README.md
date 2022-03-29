@@ -181,8 +181,8 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
   - Generating aqua_kube-enforcer csr:
   ```shell
   openssl req -new -sha256 -key aqua_kube-enforcer.key \
-  -subj "/C=US/ST=MA/O=aqua/CN=aqua-kube-enforcer" \
-  -out aqua_kube-enforcer.csr
+    -subj "/C=US/ST=MA/O=aqua/CN=aqua-kube-enforcer" \
+    -out aqua_kube-enforcer.csr
   ```
 
   **3. Verify the CSR content:**

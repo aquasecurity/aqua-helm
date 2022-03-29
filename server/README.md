@@ -195,7 +195,7 @@ helm upgrade --install --namespace aqua <RELEASE_NAME> aqua-helm/server --set im
    **1. Create Root Key**
 
    **Attention:** this is the key used to sign the certificate requests, anyone holding this can sign certificates on your behalf. So keep it in a safe place!
-
+   - Generating rootCA key
       ```shell
       openssl genrsa -des3 -out rootCA.key 4096
       ```
@@ -203,7 +203,7 @@ helm upgrade --install --namespace aqua <RELEASE_NAME> aqua-helm/server --set im
    If you want a non password protected key just remove the `-des3` option
 
    **2. Create and self sign the Root Certificate**
-
+   - Creating rootCA certificate
       ```shell
       openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt
       ```
@@ -211,7 +211,7 @@ helm upgrade --install --namespace aqua <RELEASE_NAME> aqua-helm/server --set im
    After creating rootCA certs start generating component certificates.
 
    **3. Create component keys:**
-
+   - Generating server and gateway keys
       ```shell
       openssl genrsa -out aqua_web.key 2048
       openssl genrsa -out aqua_gateway.key 2048
@@ -229,9 +229,9 @@ helm upgrade --install --namespace aqua <RELEASE_NAME> aqua-helm/server --set im
    1. Creating aqua_web CSR:
       ```shell
       openssl req -new -sha256 -key aqua_web.key \
-      -subj "/C=US/ST=CA/O=MyOrg/CN=aqua-console-svc" \
-      -addext "subjectAltName = DNS:aqua-console-svc.aqua, DNS:my-domain.com, IP:ww.xx.yy.zz" \
-      -out aqua_web.csr
+         -subj "/C=US/ST=CA/O=MyOrg/CN=aqua-console-svc" \
+         -addext "subjectAltName = DNS:aqua-console-svc.aqua, DNS:my-domain.com, IP:ww.xx.yy.zz" \
+         -out aqua_web.csr
       ```
 
    here, change the `subjectAltName` accordingly to your domain.

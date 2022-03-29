@@ -76,8 +76,8 @@ helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set i
   - Generating aqua_enforcer csr:
   ```shell
   openssl req -new -sha256 -key aqua_enforcer.key \
-  -subj "/C=US/ST=MA/O=aqua/CN=aqua-agent" \
-  -out aqua_enforcer.csr
+    -subj "/C=US/ST=MA/O=aqua/CN=aqua-agent" \
+    -out aqua_enforcer.csr
   ```
 
   **3. Verify the CSR content:**
