@@ -1,3 +1,5 @@
+## 6.5.8 ( March 29nd, 2022 )
+* Add new static label
 ## 6.5.7 ( March 2nd, 2022 )
 * Adds additional capability to add a configmap file containing a PEM certificate bundle. - [512](https://github.com/aquasecurity/aqua-helm/pull/512)
 ## 6.5.6 ( February 28th, 2022 )

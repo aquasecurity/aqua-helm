@@ -6,6 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-scanner
+    aqua.component: scanner
 {{ include "aqua.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
@@ -26,6 +27,7 @@ spec:
       {{- end }}
       labels:
         app: {{ .Release.Name }}-scanner
+        aqua.component: scanner
 {{ include "aqua.labels" . | indent 8 }}
       name: {{ .Release.Name }}-scanner
     spec:
