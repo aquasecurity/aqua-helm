@@ -18,7 +18,10 @@ This page provides instructions for using Helm charts to configure and deploy th
     - [Deploy the KubeEnforcer with Starboard from a Helm private repository](#deploy-the-kubeenforcer-with-starboard-from-a-helm-private-repository)
   - [Configuration for discovery](#configuration-for-discovery)
   - [Configuration for performing kube-bench scans](#configuration-for-performing-kube-bench-scans)
-  - [Configuring KubeEnforcer mTLS with Gateway/Envoy](#configuring-kubeenforcer-mtls-with-gatewayenvoy)
+  - [4. Configuring mTLS/TLS for Aqua Server and Aqua Gateway](#4-configuring-mtlstls-for-aqua-server-and-aqua-gateway)
+    - [Create Root CA (Done once)](#create-root-ca-done-once)
+    - [Create the certificate key and certificate for kube-enforcer](#create-the-certificate-key-and-certificate-for-kube-enforcer)
+    - [Create secrets with generated certs and change `values.yaml` as mentioned below](#create-secrets-with-generated-certs-and-change-valuesyaml-as-mentioned-below)
   - [Configuration for KubeEnforcer Advance deployment](#configuration-for-kubeenforcer-advance-deployment)
   - [Configuration for KubeEnforcer with cert-manager](#configuration-for-kubeenforcer-with-cert-manager)
   - [Configurable Variables](#configurable-variables)
@@ -152,65 +155,72 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 - `create` and `delete` permissions on jobs
 -  `create` and `delete` permissions on pods(Only for Openshift platform)
 
-## Configuring KubeEnforcer mTLS with Gateway/Envoy
+## 4. Configuring mTLS/TLS for Aqua Server and Aqua Gateway
+  By default, deploying Aqua Enterprise configures TLS-based encrypted communication, using self-signed certificates, between Aqua components. If you want to use self-signed certificates to establish mTLS between kube-enforcer and gateway/envoy use the below instrictions to generate rootCA and component certificates
 
-In order to support L7 / gRPC communication between gateway and enforcers Aqua recommends that customers use the Envoy load balancer. Following are the detailed steps to enable and deploy a secure envoy based load balancer.
 
-   1. Generate TLS certificates signed by a public CA or Self-Signed CA
+  ### Create Root CA (Done once)
 
-      ```shell
-      # Self-Signed Root CA (Optional)
-      #####################################################################################
+  ***Important:*** The rootCA certificate used to generate the certificates for aqua server/gateway/envoy, use the same rootCA to generate kube-enforcer certificates.
 
-      # Create Root Key
-      # If you want a non password protected key just remove the -des3 option
-      openssl genrsa -des3 -out rootCA.key 4096
-      # Create and self sign the Root Certificate
-      openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt
-      #####################################################################################
-      # Create a certificate
-      #####################################################################################
+  ### Create the certificate key and certificate for kube-enforcer
 
-      # Create the certificate key
-      openssl genrsa -out mydomain.com.key 2048
-      # Create the signing (csr)
-      openssl req -new -key mydomain.com.key -out mydomain.com.csr
-      # Verify the csr content
-      openssl req -in mydomain.com.csr -noout -text
+  **1. Create component key:**
 
-      #####################################################################################
-      # Generate the certificate using the mydomain csr and key along with the CA Root key
-      #####################################################################################
+  ```shell
+  openssl genrsa -out aqua_kube-enforcer.key 2048
+  ```
 
-      openssl x509 -req -in mydomain.com.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out mydomain.com.crt -days 500 -sha256
+  **2. Create the signing (csr):**
 
-      #####################################################################################
-      # If you wish to use a Public CA like GoDaddy or LetsEncrypt please
-      # submit the mydomain csr to the respective CA to generate mydomain crt
-      ```
+  The certificate signing request is where you specify the details for the certificate you want to generate.
+  This request will be processed by the owner of the Root key (you in this case since you create it earlier) to generate the certificate.
 
-   2. Create TLS cert secret
-   ```shell
-   $ kubectl create secret generic ke-mtls-certs --from-file=mydomain.com.crt --from-file=mydomain.com.ke --from-file=rootCA.crt -n aqua
-   ```
+  ***Important:*** Please mind that while creating the signign request is important to specify the `Common Name` providing the IP address or domain name for the service, otherwise the certificate cannot be verified.
 
-   3. Edit the values.yaml file to include above secret
-   ```
-       TLS:
-         listener:
-            secretName: "envoy-mtls-certs"
-            publicKey_fileName: "mydomain.com.crt"
-            privateKey_fileName: "mydomain.com.key"
-            rootCA_fileName: "rootCA.crt"
-   ```
-   4. For more customizations please refer to [***Configurable Variables***](#configure-variables)
+  - Generating aqua_kube-enforcer csr:
+  ```shell
+  openssl req -new -sha256 -key aqua_kube-enforcer.key \
+  -subj "/C=US/ST=MA/O=aqua/CN=aqua-kube-enforcer" \
+  -out aqua_kube-enforcer.csr
+  ```
+
+  **3. Verify the CSR content:**
+  - verify the generated csr content(optional)
+  ```shell
+    openssl req -in aqua_kube-enforcer.csr -noout -text
+  ```
+
+  **4. Generate the certificate using the component csr and key along with the CA Root key:**
+
+  ```shell
+  openssl x509 -req -in aqua_kube-enforcer.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out aqua_kube-enforcer.crt -days 500 -sha256
+  ```
+
+  **5. Verify the certificate content:**
+  - verify the generated certificate content(optional)
+  ```shell
+  openssl x509 -in aqua_kube-enforcer.crt -text -noout
+  ```
+
+  ### Create secrets with generated certs and change `values.yaml` as mentioned below
+  1. Create Kubernetes secret for kube-enforcer using the generated SSL certificates.
+  ```shell
+    # Example:
+    # Change < certificate filenames > respectively
+      kubectl create secret generic ke-mtls-certs --from-file aqua_kube-enforcer.key --from-file aqua_kube-enforcer.crt --from-file rootCA.crt -n aqua
+  ```
+  2. Enable `TLS.enabled`  to `true` in values.yaml
+  3. Add the certificates secret name `TLS.secretName` in values.yaml
+  4. Add respective certificate file names to `TLS.publicKey_fileName`, `TLS.privateKey_fileName` and `TLS.rootCA_fileName`(Add rootCA if certs are self-signed) in values.yaml
+  5. For enabling mTLS/TLS connection with self-signed or CA certificates between gateway and enforcer please setup mTLS/TLS config for gateway inserver chart as well [server chart](../server/README.md#configuring-mtlstls-for-aqua-server-and-aqua-gateway)
 ## Configuration for KubeEnforcer Advance deployment
 
    1. Change kubeEnforcerAdvance.enable to `true` in `values.yaml`
    2. (optional) By default envoy generates self-signed certs for secure communcations.
       1. Optionally, Generate TLS certificates signed by a public CA or Self-Signed CA
 
-      ```bash
+      ```shell
          #####################################################################################
          # Create a certificate
          #####################################################################################
@@ -255,7 +265,7 @@ In order to support L7 / gRPC communication between gateway and enforcers Aqua r
 
    1. Create self signed `ClusterIssuer` and `Certificate` needed by Aqua:
 
-   ```bash
+   ```shell
    kubectl create namespace aqua
 
    kubectl apply -f - << EOF
@@ -291,7 +301,7 @@ In order to support L7 / gRPC communication between gateway and enforcers Aqua r
 
    2. Install kube-enforcer:
 
-   ```bash
+   ```shell
    helm upgrade --install --version "6.5.8" --namespace aqua --values - kube-enforcer aqua-helm/kube-enforcer << EOF
    ...
    certsSecret:

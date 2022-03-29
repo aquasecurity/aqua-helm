@@ -174,7 +174,7 @@ TLS:
   # enable to true for secure communication
   enabled: false
   # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
-  secretName: "ke-mtls-certs"
+  secretName: ""
   # provide filename of the public key eg: aqua_web.crt
   publicKey_fileName: ""
   # provide filename of the private key eg: aqua_web.key
