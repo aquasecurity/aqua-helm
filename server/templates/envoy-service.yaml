@@ -10,6 +10,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-envoy
+    aqua.component: envoy
 {{ include "aqua.labels" . | indent 4 }}
 {{- if .Values.envoy.service.annotations }}
   annotations:

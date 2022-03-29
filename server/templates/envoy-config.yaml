@@ -6,6 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-envoy
+    aqua.component: envoy
 {{ include "aqua.labels" . | indent 4 }}
 data:
 {{- if gt (len .Values.envoy.custom_envoy_files ) 0 }}

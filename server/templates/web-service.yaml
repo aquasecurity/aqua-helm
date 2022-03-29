@@ -6,6 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-console
+    aqua.component: server
 {{ include "aqua.labels" . | indent 4 }}
 {{- if .Values.web.service.labels }}
 {{ toYaml .Values.web.service.labels | indent 4 }}

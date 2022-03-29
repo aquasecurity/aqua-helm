@@ -6,6 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: aqua-audit-db
+    aqua.component: database-audit
 {{ include "aqua.labels" . | indent 4 }}
 spec:
   accessModes:
@@ -24,6 +25,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}
+    aqua.component: database
 {{ include "aqua.labels" . | indent 4 }}
 spec:
   accessModes:
