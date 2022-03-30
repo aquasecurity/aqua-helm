@@ -103,7 +103,7 @@ helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set i
   ```shell
   # Example:
   # Change < certificate filenames > respectively
-  kubectl create secret generic aqua-enforcer-certs --from-file aqua_enforcer.key --from-file aqua_enforcer.crt --from-file rootCA.crt -naqua
+  kubectl create secret generic aqua-enforcer-certs --from-file aqua_enforcer.key --from-file aqua_enforcer.crt --from-file rootCA.crt -n aqua
   ```
   2. Enable `TLS.enabled`  to `true` in values.yaml
   3. Add the certificates secret name `TLS.secretName` in values.yaml

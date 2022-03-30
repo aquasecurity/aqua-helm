@@ -190,7 +190,7 @@ helm upgrade --install --namespace aqua <RELEASE_NAME> aqua-helm/server --set im
 
    ### Create Root CA (Done once)
 
-   ***Important:*** Optional, If you have already the existing rootCA certs you can skip to generate [component certificates](#create-the-certificate-key-for-aqua-server-gateway)
+   ***Important:*** Optional, If you have already the existing rootCA certs you can skip to generating [component certificates] step.(#create-the-certificate-key-for-aqua-server-gateway)
    
    **1. Create Root Key**
 
@@ -205,19 +205,13 @@ helm upgrade --install --namespace aqua <RELEASE_NAME> aqua-helm/server --set im
    **2. Create and self sign the Root Certificate**
    - Creating rootCA certificate
       ```shell
-      openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt
+      openssl req -new -x509 -days 365 -key rootCA.key -sha256 -days 1024 -out rootCA.crt
       ```
    ### Create the certificate key for Aqua server, gateway
    After creating rootCA certs start generating component certificates.
 
-   **3. Create component keys:**
-   - Generating server and gateway keys
-      ```shell
-      openssl genrsa -out aqua_web.key 2048
-      openssl genrsa -out aqua_gateway.key 2048
-      ```
 
-   **4. Create the signing (csr):**
+   **3. Create keys and signing (csr):**
 
    The certificate signing request is where you specify the details for the certificate you want to generate.
    This request will be processed by the owner of the Root key (you in this case since you create it earlier) to generate the certificate.
@@ -226,41 +220,51 @@ helm upgrade --install --namespace aqua <RELEASE_NAME> aqua-helm/server --set im
 
    ***Important for multi-cluster:*** When using multi-cluster setup like enforcer/kube-enforcers from various clusters or connecting over the internet with gateway/envoy, then `SAN(subjectAltName)` section should contain alternate domain/IP addresses of the component.
 
-   1. Creating aqua_web CSR:
-      ```shell
-      openssl req -new -sha256 -key aqua_web.key \
-         -subj "/C=US/ST=CA/O=MyOrg/CN=aqua-console-svc" \
-         -addext "subjectAltName = DNS:aqua-console-svc.aqua, DNS:my-domain.com, IP:ww.xx.yy.zz" \
-         -out aqua_web.csr
+   1. Creating aqua_web key and csr:
+      ```bash
+      openssl req -newkey rsa:2048 -nodes -keyout aqua_web.key -subj "/C=US/ST=CA/O=MyOrg/CN=aqua-console-svc" -out aqua_web.csr
       ```
+
+   2. Creating aqua_gateway key and csr:
+      ```bash
+      openssl req -newkey rsa:2048 -nodes -keyout aqua_gateway.key -subj "/C=US/ST=CA/O=MyOrg/CN=aqua-gateway-svc" -out aqua_gateway.csr
+      ``` 
 
    here, change the `subjectAltName` accordingly to your domain.
 
-   1. Creating aqua_gateway CSR: 
-      ```shell
-      openssl req -new -sha256 -key aqua_gateway.key \
-      -subj "/C=US/ST=CA/O=MyOrg/CN=aqua-gateway-svc" \
-      -addext "subjectAltName = DNS:aqua-gateway-svc.aqua, DNS:my-domain.com, IP:ww.xx.yy.zz" \
-      -out aqua_gateway.csr
-      ```
-
-   here, change the `subjectAltName` accordingly to your domain.
-
-   **5. Verify the CSR's content:**
+   **4. Verify the CSR's content:**
    - verify the generated component csr content(optional)
       ```shell
       openssl req -in aqua_web.csr -noout -text
       openssl req -in aqua_gateway.csr -noout -text
       ```
 
-   **6. Generate the certificate using the component csr's and key along with the CA Root key:**
+   **5. Generate the certificate using the component csr's and key along with the CA Root key:**
 
+   1. Creating aqua_web certificate
       ```shell
-      openssl x509 -req -in aqua_web.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out aqua_web.crt -days 500 -sha256
-      openssl x509 -req -in aqua_gateway.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out aqua_gateway.crt -days 500 -sha256
+      openssl x509 -req \
+         -extfile <(printf "subjectAltName=DNS:aqua-console-svc.aqua,DNS:aqua-console-svc,DNS:my-domain.com") \
+         -days 365 -in aqua_web.csr \
+         -CA rootCA.crt -CAkey rootCA.key -CAcreateserial \
+         -out aqua_web.crt
       ```
 
-   **7. Verify the certificate's content:**
+      here, change the `subjectAltName` accordingly to your domain.
+
+   2. Creating aqua_gateway certificate
+      ```shell
+      openssl x509 -req \
+         -extfile <(printf "subjectAltName=DNS:aqua-gateway-svc.aqua,DNS:aqua-gateway-svc,DNS:my-domain.com") \
+         -days 365 -in aqua_gateway.csr \
+         -CA rootCA.crt -CAkey rootCA.key -CAcreateserial \
+         -out aqua_gateway.crt
+      ```
+
+      here, change the `subjectAltName` accordingly to your domain.
+
+
+   **6. Verify the certificate's content:**
    - verify the generated component certificate content(optional)
       ```shell
       openssl x509 -in aqua_web.crt -text -noout
@@ -273,7 +277,7 @@ helm upgrade --install --namespace aqua <RELEASE_NAME> aqua-helm/server --set im
       ```shell
       # Example:
       # Change < certificate filenames > respectively
-      kubectl create secret generic aqua-web-certs --from-file aqua_web.key --from-file aqua_web.crt --from-file rootCA.crt -naqua
+      kubectl create secret generic aqua-web-certs --from-file aqua_web.key --from-file aqua_web.crt --from-file rootCA.crt -n aqua
       kubectl create secret generic aqua-gateway-certs --from-file aqua_gateway.key --from-file aqua_gateway.crt --from-file rootCA.crt -n aqua
       ```
 
