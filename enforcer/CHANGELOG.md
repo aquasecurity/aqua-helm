@@ -1,3 +1,5 @@
+# 6.5.12 ( March 30th, 2022 )
+* Fix the hostRunPath usage
 # 6.5.11 ( March 29th, 2022 )
 * Add new static label
 ## 6.5.10 ( March 24th, 2022 )

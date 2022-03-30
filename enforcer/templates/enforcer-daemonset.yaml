@@ -36,87 +36,91 @@ spec:
       serviceAccount: {{ template "serviceAccount" . }}
       hostPID: true
       containers:
-      - name: enforcer
-        image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
-        securityContext:
+        - name: enforcer
+          image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          securityContext:
           {{- toYaml .Values.securityContext | nindent 10 }}
-        envFrom:
-        - configMapRef:
-            name: {{ .Release.Name }}-enforcer-config
-        env:
-        - name: AQUA_NODE_NAME
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-enforcer-config
+          env:
+            - name: AQUA_NODE_NAME
         {{- if .Values.nodeName }}
-          value: {{ .Values.nodeName }}
+              value: {{ .Values.nodeName }}
         {{- else }}
-          valueFrom:
-            fieldRef:
-              fieldPath: spec.nodeName
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
         {{- end }}
-        - name: AQUA_LOGICAL_NAME
+            - name: AQUA_LOGICAL_NAME
         {{- if .Values.logicalName }}
-          value: {{ .Values.logicalName }}
+              value: {{ .Values.logicalName }}
         {{- else }}
-          valueFrom:
-            fieldRef:
-              fieldPath: spec.nodeName
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
         {{- end }}
         {{- if .Values.enforcerTokenSecretName }}
-        - name: AQUA_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.enforcerTokenSecretName }}
-              key: {{ .Values.enforcerTokenSecretKey }}
+            - name: AQUA_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.enforcerTokenSecretName }}
+                  key: {{ .Values.enforcerTokenSecretKey }}
         {{- else }}
-        - name: AQUA_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Release.Name }}-token
-              key: token
+            - name: AQUA_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-token
+                  key: token
         {{- end }}
         {{- include "extraEnvironmentVars" .Values | nindent 8 }}
         {{- include "extraSecretEnvironmentVars" .Values | nindent 8 }}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-        volumeMounts:
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
         {{- if .Values.TLS.enabled }}
-        - name: certs
-          mountPath: /opt/aquasec/ssl/
-          readOnly: true
+            - name: certs
+              mountPath: /opt/aquasec/ssl/
+              readOnly: true
         {{- end }}
-        - mountPath: /var/run
-          name: var-run
-        - mountPath: /dev
-          name: dev
-        - mountPath: /host/sys
-          name: sys
-          readOnly: true
-        - mountPath: /host/proc
-          name: proc
-          readOnly: true
-        - mountPath: /host/etc
-          name: etc
-          readOnly: true
-        - mountPath: /host/opt/aquasec
-          name: aquasec
-          readOnly: true
-        - mountPath: /opt/aquasec/tmp
-          name: aquasec-tmp
-        - mountPath: /opt/aquasec/audit
-          name: aquasec-audit
-        - mountPath: /data
-          name: aquasec-data
+            - mountPath: /var/run
+              name: var-run
+            - mountPath: /dev
+              name: dev
+            - mountPath: /host/sys
+              name: sys
+              readOnly: true
+            - mountPath: /host/proc
+              name: proc
+              readOnly: true
+            - mountPath: /host/etc
+              name: etc
+              readOnly: true
+            - mountPath: /host/opt/aquasec
+              name: aquasec
+              readOnly: true
+            - mountPath: /opt/aquasec/tmp
+              name: aquasec-tmp
+            - mountPath: /opt/aquasec/audit
+              name: aquasec-audit
+            - mountPath: /data
+              name: aquasec-data
+        {{- if .Values.hostRunPath }}
+            - mountPath: {{ .Values.hostRunPath }}
+              name: var-run-vcap
+        {{- end }}
 {{- if .Values.healthMonitor.enabled }}
 {{- with .Values.livenessProbe }}
-        livenessProbe:
+          livenessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
 {{- with .Values.readinessProbe }}
-        readinessProbe:
+          readinessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
 {{- end }}
-        resources:
+          resources:
 {{ toYaml .Values.resources | indent 12 }}
       dnsPolicy: {{ .Values.dnsPolicy }}
       hostPID: {{ .Values.hostPID }}
@@ -124,60 +128,59 @@ spec:
       schedulerName: {{ .Values.schedulerName }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       volumes:
+        - name: var-run
+          hostPath:
+            path: /var/run
+            type: ""
+        - name: dev
+          hostPath:
+            path: /dev
+            type: ""
+        - name: sys
+          hostPath:
+            path: /sys
+            type: ""
+        - name: proc
+          hostPath:
+            path: /proc
+            type: ""
+        - name: etc
+          hostPath:
+            path: /etc
+            type: ""
+        - name: aquasec
+          hostPath:
+            path: /var/lib/aquasec
+            type: ""
+        - name: aquasec-tmp
+          hostPath:
+            path: /var/lib/aquasec/tmp
+            type: ""
+        - name: aquasec-audit
+          hostPath:
+            path: /var/lib/aquasec/audit
+        - name: aquasec-data
+          hostPath:
+            path: /var/lib/aquasec/data
+            type: ""
       {{- if .Values.hostRunPath }}
-      - name: var-run
-        hostPath:
-          path: {{ .Values.hostRunPath }}
-      {{- else }}
-      - name: var-run
-        hostPath:
-          path: /var/run
-          type: ""
+        - name: var-run-vcap
+          hostPath:
+            path: {{ .Values.hostRunPath }}
       {{- end }}
-      - name: dev
-        hostPath:
-          path: /dev
-          type: ""
-      - name: sys
-        hostPath:
-          path: /sys
-          type: ""
-      - name: proc
-        hostPath:
-          path: /proc
-          type: ""
-      - name: etc
-        hostPath:
-          path: /etc
-          type: ""
-      - name: aquasec
-        hostPath:
-          path: /var/lib/aquasec
-          type: ""
-      - name: aquasec-tmp
-        hostPath:
-          path: /var/lib/aquasec/tmp
-          type: ""
-      - name: aquasec-audit
-        hostPath:
-          path: /var/lib/aquasec/audit
-      - name: aquasec-data
-        hostPath:
-          path: /var/lib/aquasec/data
-          type: ""
       {{- if .Values.TLS.enabled }}
-      - name: certs
-        secret:
-          defaultMode: 420
-          secretName: {{ .Values.TLS.secretName }}
-          items:
-          - key: {{ .Values.TLS.publicKey_fileName }}
-            path: cert.pem
-          - key: {{ .Values.TLS.privateKey_fileName }}
-            path: key.pem
+        - name: certs
+          secret:
+            defaultMode: 420
+            secretName: {{ .Values.TLS.secretName }}
+            items:
+              - key: {{ .Values.TLS.publicKey_fileName }}
+                path: cert.pem
+              - key: {{ .Values.TLS.privateKey_fileName }}
+                path: key.pem
           {{- if .Values.TLS.rootCA_fileName }}
-          - key: {{ .Values.TLS.rootCA_fileName }}
-            path: ca.pem
+              - key: {{ .Values.TLS.rootCA_fileName }}
+                path: ca.pem
           {{- end }}
       {{- end }}
 {{- if .Values.nodeSelector }}
