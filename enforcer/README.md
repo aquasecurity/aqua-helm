@@ -11,9 +11,11 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Prerequisites](#prerequisites)
     - [Container Registry Credentials](#container-registry-credentials)
   - [Installing the Chart](#installing-the-chart)
-    - [Installing Aqua Enforcer from Github Repo](#installing-aqua-enforcer-from-github-repo)
     - [Installing Aqua Enforcer from Helm Private Repository](#installing-aqua-enforcer-from-helm-private-repository)
-  - [Configuring mTLS/TLS](#configuring-mtlstls)
+  - [Configuring Enforcer mTLS with Gateway/Envoy](#configuring-enforcer-mtls-with-gatewayenvoy)
+    - [Create Root CA (Done once)](#create-root-ca-done-once)
+    - [Create the certificate and key for enforcer from existing rootca cert](#create-the-certificate-and-key-for-enforcer-from-existing-rootca-cert)
+    - [Create secrets with generated certs and change `values.yaml` as mentioned below](#create-secrets-with-generated-certs-and-change-valuesyaml-as-mentioned-below)
   - [Guide how to create enforcer group in Kubernetes](#guide-how-to-create-enforcer-group-in-kubernetes)
   - [Configurable Variables](#configurable-variables)
     - [Enforcer](#enforcer)
@@ -49,51 +51,64 @@ helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set i
 ```
 
 
-## Configuring mTLS/TLS
+## Configuring Enforcer mTLS with Gateway/Envoy
+  By default, deploying Aqua Enterprise configures TLS-based encrypted communication, using self-signed certificates, between Aqua components. If you want to use self-signed certificates to establish mTLS between enforcer and gateway/envoy use the below instrictions to generate rootCA and component certificates
 
-In order to support L7 / gRPC communication between enforcer and envoy or enforcer and gateway it is recommended to follow the detailed steps to enable and deploy a enforcer.
 
-   1. The Enforcer should connect to the Envoy/Gateway service and verify its certificate. If Envoy/Gateway certificate is signed by a public provider (e.g., Let’s Encrypt), the Enforcer will be able to verify the certificate without being given a root certificate. Otherwise, Envoy/Gateway root certificate should be accessible to the Enforcer from a ConfigMap that is mounted at /opt/aquasec/ssl/
+  ### Create Root CA (Done once)
 
-      ```shell
-      # Self-Signed Root CA (Optional)
-      #####################################################################################
-      # Create Root Key
-      # If you want a non password protected key just remove the -des3 option
-      openssl genrsa -des3 -out rootCA.key 4096
-      # Create and self sign the Root Certificate
-      openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt
-      #####################################################################################
-      # Create a certificate
-      #####################################################################################
-      # Create the certificate key
-      openssl genrsa -out aqua_enforcer_mydomain.com.key 2048
-      # Create the signing (csr)
-      openssl req -new -key aqua_enforcer_mydomain.com.key -out aqua_enforcer_mydomain.com.csr
-      # Verify the csr content
-      openssl req -in aqua_enforcer_mydomain.com.csr -noout -text
-      #####################################################################################
-      # Generate the certificate using the aqua_enforcer_mydomain csr and key along with the CA Root key
-      #####################################################################################
-      openssl x509 -req -in aqua_enforcer_mydomain.com.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out aqua_enforcer_mydomain.com.crt -days 500 -sha256
-      #####################################################################################
+  ***Important:*** The rootCA certificate used to generate the certificates for aqua server, gateway or envoy, use the same rootCA to generate enforcer certificates.
+  ### Create the certificate and key for enforcer from existing rootca cert
 
-      # If you wish to use a Public CA like GoDaddy or LetsEncrypt please
-      # submit the aqua_enforcer_mydomain csr to the respective CA to generate aqua_enforcer_mydomain crt
-      ```
+  **1. Create component key:**
 
-   2. Create enforcer agent cert secret
+  ```shell
+  openssl genrsa -out aqua_enforcer.key 2048
+  ```
 
-      ```shell
-      ## Example: 
-      ## Change < certificate filenames > respectively
-      kubectl create secret generic aqua-enforcer-certs --from-file <aqua_enforcer_private.key> --from-file <aqua_enforcer_public.crt> --from-file <rootCA.crt> -n aqua
-      ```
+  **2. Create the signing (csr):**
 
-   3. Enable `TLS.enable`  to `true` in values.yaml
-   4. Add the certificates secret name `TLS.secretName` in values.yaml
-   5. Add respective certificate file names to `TLS.publicKey_fileName`, `TLS.privateKey_fileName` and `TLS.rootCA_fileName`(Add rootCA if certs are self-signed) in values.yaml
-   6. For enabling mTLS/TLS connection with self-signed or CA certificates between gateway and enforcer please setup mTLS/TLS config for gateway in server chart as well [server chart](../server)
+  The certificate signing request is where you specify the details for the certificate you want to generate.
+  This request will be processed by the owner of the Root key (you in this case since you create it earlier) to generate the certificate.
+
+  ***Important:*** Please mind that while creating the signign request is important to specify the `Common Name` providing the IP address or domain name for the service, otherwise the certificate cannot be verified.
+
+  - Generating aqua_enforcer csr:
+  ```shell
+  openssl req -new -sha256 -key aqua_enforcer.key \
+    -subj "/C=US/ST=MA/O=aqua/CN=aqua-agent" \
+    -out aqua_enforcer.csr
+  ```
+
+  **3. Verify the CSR content:**
+  - verify the generated csr content(optional)
+  ```shell
+  openssl req -in aqua_enforcer.csr -noout -text
+  ```
+
+  **4. Generate the certificate using the component csr and key along with the CA Root key:**
+
+  ```shell
+  openssl x509 -req -in aqua_enforcer.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out aqua_enforcer.crt -days 500 -sha256
+  ```
+
+  **5. Verify the certificate content:**
+  - verify the generated certificate content(optional)
+  ```shell
+  openssl x509 -in aqua_enforcer.crt -text -noout
+  ```
+
+  ### Create secrets with generated certs and change `values.yaml` as mentioned below
+  1. Create Kubernetes secret for enforcer using the generated SSL certificates.
+  ```shell
+  # Example:
+  # Change < certificate filenames > respectively
+  kubectl create secret generic aqua-enforcer-certs --from-file aqua_enforcer.key --from-file aqua_enforcer.crt --from-file rootCA.crt -n aqua
+  ```
+  2. Enable `TLS.enabled`  to `true` in values.yaml
+  3. Add the certificates secret name `TLS.secretName` in values.yaml
+  4. Add respective certificate file names to `TLS.publicKey_fileName`, `TLS.privateKey_fileName` and `TLS.rootCA_fileName`(Add rootCA if certsare self-signed) in values.yaml
+  5. For enabling mTLS/TLS connection with self-signed or CA certificates between gateway and enforcer please setup mTLS/TLS config for gateway inserver chart as well [server chart](../server/README.md#configuring-mtlstls-for-aqua-server-and-aqua-gateway)
 
 
 ## Guide how to create enforcer group in Kubernetes

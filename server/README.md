@@ -12,14 +12,16 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
     - [Container Registry Credentials](#container-registry-credentials)
     - [PostgreSQL database](#postgresql-database)
   - [Installing the Chart](#installing-the-chart)
-    - [Installing Aqua Web from Github Repo](#installing-aqua-web-from-github-repo)
     - [Installing Aqua Web from Helm Private Repository](#installing-aqua-web-from-helm-private-repository)
   - [Advanced Configuration](#advanced-configuration)
-    - [1. Envoy](#1-envoy)
-    - [2. Database](#2-database)
-    - [3. Configuring HTTPS for Aqua's server](#3-configuring-https-for-aquas-server)
-    - [4. Configuring mTLS/TLS for Aqua Server and Aqua Gateway](#4-configuring-mtlstls-for-aqua-server-and-aqua-gateway)
-    - [5. Setting active-active mode](#5-setting-active-active-mode)
+  - [Envoy](#envoy)
+  - [Database](#database)
+  - [Configuring HTTPS for Aqua's server](#configuring-https-for-aquas-server)
+  - [Configuring mTLS/TLS for Aqua Server and Aqua Gateway](#configuring-mtlstls-for-aqua-server-and-aqua-gateway)
+    - [Create Root CA (Done once)](#create-root-ca-done-once)
+    - [Create the certificate key for Aqua server, gateway](#create-the-certificate-key-for-aqua-server-gateway)
+    - [Create secrets with generated certs and change `values.yaml` as mentioned below](#create-secrets-with-generated-certs-and-change-valuesyaml-as-mentioned-below)
+  - [Setting active-active mode](#setting-active-active-mode)
   - [Configurable Variables](#configurable-variables)
   - [Issues and feedback](#issues-and-feedback)
 
@@ -69,7 +71,7 @@ helm upgrade --install --namespace aqua <RELEASE_NAME> aqua-helm/server --set im
 
 ## Advanced Configuration
 
-### 1. Envoy
+## Envoy
 
    In order to support L7 / gRPC communication between gateway and enforcers Aqua recommends that customers use the Envoy load balancer. Following are the detailed steps to enable and deploy a secure envoy based load balancer.
 
@@ -138,7 +140,7 @@ helm upgrade --install --namespace aqua <RELEASE_NAME> aqua-helm/server --set im
    
    5. For more customizations please refer to [***Configurable Variables***](#configure-variables)
    
-### 2. Database
+## Database
 
    1. By default aqua helm chart will deploy a database container. If you wish to use an external database please set `db.external.enabled` to true and the following with appropriate values.
       ```shell
@@ -160,7 +162,7 @@ helm upgrade --install --namespace aqua <RELEASE_NAME> aqua-helm/server --set im
       1. AQUA_ENV_SIZE variable can be used to define the sizing of your DB container in terms of number of connections and optimized configuration but not the PV size. Please choose appropriate PV size as per your requirements.
       2. By default AQUA_ENV_SIZE is set to `"S"` and the possible values are `"M", "L"`
    
-### 3. Configuring HTTPS for Aqua's server
+## Configuring HTTPS for Aqua's server
 
    By default Aqua will generate a self signed cert and will use the same for HTTPS communication. If you wish to use your own SSL/TLS certs you can do this in two different ways
 
@@ -182,67 +184,110 @@ helm upgrade --install --namespace aqua <RELEASE_NAME> aqua-helm/server --set im
       4. Add respective certificate file names to `web.TLS.publicKey_fileName`, `web.TLS.privateKey_fileName` and `web.TLS.rootCA_fileName`(Add rootCA if certs are self-signed) in values.yaml
       5. Proceed with the deployment.
 
-### 4. Configuring mTLS/TLS for Aqua Server and Aqua Gateway
-   By default, deploying Aqua Enterprise configures TLS-based encrypted communication, using self-signed certificates, between Aqua components server and gateway.
+## Configuring mTLS/TLS for Aqua Server and Aqua Gateway
+   By default, deploying Aqua Enterprise configures TLS-based encrypted communication, using self-signed certificates, between Aqua components. If you want to use self-signed certificates to establish mTLS between aqua components use the below instrictions to generate rootCA and component certificates
 
-   1. Generate TLS certificates signed by a public CA or Self-Signed CA for server and gateway
 
+   ### Create Root CA (Done once)
+
+   ***Important:*** Optional, If you have already the existing rootCA certs you can skip to generating [component certificates] step.(#create-the-certificate-key-for-aqua-server-gateway)
+   
+   **1. Create Root Key**
+
+   **Attention:** this is the key used to sign the certificate requests, anyone holding this can sign certificates on your behalf. So keep it in a safe place!
+   - Generating rootCA key
       ```shell
-      # Self-Signed Root CA (Optional)
-      #####################################################################################
-      
-      # Create Root Key
-      # If you want a non password protected key just remove the -des3 option
       openssl genrsa -des3 -out rootCA.key 4096
-      # Create and self sign the Root Certificate
-      openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt
-      
-      #####################################################################################
-      # Create a aqua server and gateway certificate
-      #####################################################################################
-      
-      # Create the server certificate key
-      openssl genrsa -out aqua_web_mydomain.com.key 2048
-      # Create the gateway certificate key
-      openssl genrsa -out aqua_gateway_mydomain.com.key 2048
-      # Generate signing (csr) for aqua server
-      openssl req -new -key aqua_web_mydomain.com.key -out aqua_web_mydomain.com.csr
-      # Generate signing (csr) for aqua gateway
-      openssl req -new -key aqua_gateway_mydomain.com.key -out aqua_gateway_mydomain.com.csr
-      # Verify the csr content
-      openssl req -in aqua_web_mydomain.com.csr -noout -text
-      openssl req -in aqua_gateway_mydomain.com.csr -noout -text
-      
-      #####################################################################################
-      # Generate the certificate using the mydomain csr and key along with the CA Root key
-      # for server and gateway
-      #####################################################################################
-      
-      openssl x509 -req -in aqua_web_mydomain.com.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out aqua_web_mydomain.com.crt -days 500 -sha256
-      openssl x509 -req -in aqua_gateway_mydomain.com.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out aqua_gateway_mydomain.com.crt -days 500 -sha256
-      
-      #####################################################################################
-      # If you wish to use a Public CA like GoDaddy or LetsEncrypt please
-      # submit the mydomain csr to the respective CA to generate mydomain crt
       ```
 
-  2.  Create Kubernetes secrets for server and gateway components using the generated SSL certificates.
+   If you want a non password protected key just remove the `-des3` option
 
-         ```shell
-         # Example:
-         # Change < certificate filenames > respectively
-         kubectl create secret generic aqua-web-certs --from-file <aqua_web_private.key> --from-file <aqua_web_public.crt> --from-file <rootCA.crt> -n aqua
-
-         kubectl create secret generic aqua-gateway-certs --from-file <aqua_gateway_private.key> --from-file <aqua_gateway_public.crt> --from-file <rootCA.crt> -n aqua
-         ```
-
-   3. Enable `web.TLS.enable` and `gate.TLS.enable` to `true` in values.yaml
-   4. Add the certificates secret name `web.TLS.secretName` and `gateway.TLS.secretName` in values.yaml
-   5. Add respective certificate file names to `web.TLS.publicKey_fileName`, `web.TLS.privateKey_fileName`, `web.TLS.rootCA_fileName`(Add rootCA if certs are self-signed), `gate.TLS.publicKey_fileName`, `gate.TLS.privateKey_fileName` and `gate.TLS.rootCA_fileName`(Add rootCA if certs are self-signed) in values.yaml
-   6. For enabling mTLS/TLS connection with self-signed or CA certificates between gateway and enforcer please setup mTLS/TLS config for enforcer as well [enforcer chart](../enforcer)
+   **2. Create and self sign the Root Certificate**
+   - Creating rootCA certificate
+      ```shell
+      openssl req -new -x509 -days 365 -key rootCA.key -sha256 -days 1024 -out rootCA.crt
+      ```
+   ### Create the certificate key for Aqua server, gateway
+   After creating rootCA certs start generating component certificates.
 
 
-### 5. Setting active-active mode
+   **3. Create keys and signing (csr):**
+
+   The certificate signing request is where you specify the details for the certificate you want to generate.
+   This request will be processed by the owner of the Root key (you in this case since you create it earlier) to generate the certificate.
+
+   ***Important:*** Please mind that while creating the signign request is important to specify the `Common Name` providing the IP address or domain name for the service, otherwise the certificate cannot be verified.
+
+   ***Important for multi-cluster:*** When using multi-cluster setup like enforcer/kube-enforcers from various clusters or connecting over the internet with gateway/envoy, then `SAN(subjectAltName)` section should contain alternate domain/IP addresses of the component.
+
+   1. Creating aqua_web key and csr:
+      ```bash
+      openssl req -newkey rsa:2048 -nodes -keyout aqua_web.key -subj "/C=US/ST=CA/O=MyOrg/CN=aqua-console-svc" -out aqua_web.csr
+      ```
+
+   2. Creating aqua_gateway key and csr:
+      ```bash
+      openssl req -newkey rsa:2048 -nodes -keyout aqua_gateway.key -subj "/C=US/ST=CA/O=MyOrg/CN=aqua-gateway-svc" -out aqua_gateway.csr
+      ``` 
+
+   here, change the `subjectAltName` accordingly to your domain.
+
+   **4. Verify the CSR's content:**
+   - verify the generated component csr content(optional)
+      ```shell
+      openssl req -in aqua_web.csr -noout -text
+      openssl req -in aqua_gateway.csr -noout -text
+      ```
+
+   **5. Generate the certificate using the component csr's and key along with the CA Root key:**
+
+   1. Creating aqua_web certificate
+      ```shell
+      openssl x509 -req \
+         -extfile <(printf "subjectAltName=DNS:aqua-console-svc.aqua,DNS:aqua-console-svc,DNS:my-domain.com") \
+         -days 365 -in aqua_web.csr \
+         -CA rootCA.crt -CAkey rootCA.key -CAcreateserial \
+         -out aqua_web.crt
+      ```
+
+      here, change the `subjectAltName` accordingly to your domain.
+
+   2. Creating aqua_gateway certificate
+      ```shell
+      openssl x509 -req \
+         -extfile <(printf "subjectAltName=DNS:aqua-gateway-svc.aqua,DNS:aqua-gateway-svc,DNS:my-domain.com") \
+         -days 365 -in aqua_gateway.csr \
+         -CA rootCA.crt -CAkey rootCA.key -CAcreateserial \
+         -out aqua_gateway.crt
+      ```
+
+      here, change the `subjectAltName` accordingly to your domain.
+
+
+   **6. Verify the certificate's content:**
+   - verify the generated component certificate content(optional)
+      ```shell
+      openssl x509 -in aqua_web.crt -text -noout
+      openssl x509 -in aqua_gateway.crt -text -noout
+      ```
+
+   ### Create secrets with generated certs and change `values.yaml` as mentioned below
+
+   1. Create Kubernetes secrets for server and gateway components using the generated SSL certificates.
+      ```shell
+      # Example:
+      # Change < certificate filenames > respectively
+      kubectl create secret generic aqua-web-certs --from-file aqua_web.key --from-file aqua_web.crt --from-file rootCA.crt -n aqua
+      kubectl create secret generic aqua-gateway-certs --from-file aqua_gateway.key --from-file aqua_gateway.crt --from-file rootCA.crt -n aqua
+      ```
+
+   2. Enable `web.TLS.enable` and `gate.TLS.enable` to `true` in values.yaml
+   3. Add the certificates secret name `web.TLS.secretName` and `gateway.TLS.secretName` in values.yaml
+   4. Add respective certificate file names to `web.TLS.publicKey_fileName`, `web.TLS.privateKey_fileName`, `web.TLS.rootCA_fileName`(Add rootCA if certs are self-signed), `gate.TLS.publicKey_fileName`, `gate.TLS.privateKey_fileName` and `gate.TLS.rootCA_fileName`(Add rootCA if certs are self-signed) in values.yaml
+   5. For enabling mTLS/TLS connection with self-signed or CA certificates between gateway and enforcers please setup mTLS/TLS config for [enforcer chart](../enforcer) and [kube-enforcer](../kube-enforcer/README.md#4-configuring-mtlstls-for-aqua-server-and-aqua-gateway)
+
+
+## Setting active-active mode
 
    1. Set `activeactive` to true in values.yaml
    2. Also set following configurable variables
