@@ -12,7 +12,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
     - [Container Registry Credentials](#container-registry-credentials)
   - [Installing the Chart](#installing-the-chart)
     - [Installing Aqua Enforcer from Helm Private Repository](#installing-aqua-enforcer-from-helm-private-repository)
-  - [Configuring mTLS/TLS for Aqua Server and Aqua Gateway](#configuring-mtlstls-for-aqua-server-and-aqua-gateway)
+  - [Configuring Enforcer mTLS with Gateway/Envoy](#configuring-enforcer-mtls-with-gatewayenvoy)
     - [Create Root CA (Done once)](#create-root-ca-done-once)
     - [Create the certificate and key for enforcer from existing rootca cert](#create-the-certificate-and-key-for-enforcer-from-existing-rootca-cert)
     - [Create secrets with generated certs and change `values.yaml` as mentioned below](#create-secrets-with-generated-certs-and-change-valuesyaml-as-mentioned-below)
@@ -51,7 +51,7 @@ helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set i
 ```
 
 
-## Configuring mTLS/TLS for Aqua Server and Aqua Gateway
+## Configuring Enforcer mTLS with Gateway/Envoy
   By default, deploying Aqua Enterprise configures TLS-based encrypted communication, using self-signed certificates, between Aqua components. If you want to use self-signed certificates to establish mTLS between enforcer and gateway/envoy use the below instrictions to generate rootCA and component certificates
 
 

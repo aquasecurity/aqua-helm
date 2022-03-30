@@ -18,7 +18,7 @@ This page provides instructions for using Helm charts to configure and deploy th
     - [Deploy the KubeEnforcer with Starboard from a Helm private repository](#deploy-the-kubeenforcer-with-starboard-from-a-helm-private-repository)
   - [Configuration for discovery](#configuration-for-discovery)
   - [Configuration for performing kube-bench scans](#configuration-for-performing-kube-bench-scans)
-  - [4. Configuring mTLS/TLS for Aqua Server and Aqua Gateway](#4-configuring-mtlstls-for-aqua-server-and-aqua-gateway)
+  - [4. Configuring KubeEnforcer mTLS with Gateway/Envoy](#4-configuring-kubeenforcer-mtls-with-gatewayenvoy)
     - [Create Root CA (Done once)](#create-root-ca-done-once)
     - [Create the certificate key and certificate for kube-enforcer](#create-the-certificate-key-and-certificate-for-kube-enforcer)
     - [Create secrets with generated certs and change `values.yaml` as mentioned below](#create-secrets-with-generated-certs-and-change-valuesyaml-as-mentioned-below)
@@ -155,7 +155,7 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 - `create` and `delete` permissions on jobs
 -  `create` and `delete` permissions on pods(Only for Openshift platform)
 
-## 4. Configuring mTLS/TLS for Aqua Server and Aqua Gateway
+## 4. Configuring KubeEnforcer mTLS with Gateway/Envoy
   By default, deploying Aqua Enterprise configures TLS-based encrypted communication, using self-signed certificates, between Aqua components. If you want to use self-signed certificates to establish mTLS between kube-enforcer and gateway/envoy use the below instrictions to generate rootCA and component certificates
 
 
