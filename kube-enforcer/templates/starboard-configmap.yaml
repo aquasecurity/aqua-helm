@@ -4,6 +4,12 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-starboard-config
   namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    aqua.component: starboard-operator
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
 data:
 {{- if .Values.starboard.OPERATOR_NAMESPACE }}
   OPERATOR_NAMESPACE: {{ .Values.starboard.OPERATOR_NAMESPACE }}

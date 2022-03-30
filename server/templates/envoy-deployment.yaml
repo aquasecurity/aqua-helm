@@ -7,6 +7,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-envoy
+    aqua.component: envoy
 {{ include "aqua.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.envoy.replicaCount }}
@@ -27,6 +28,7 @@ spec:
       {{- end }}
       labels:
         app: {{ .Release.Name }}-envoy
+        aqua.component: envoy
 {{ include "aqua.template-labels" . | indent 8 }}
       name: {{ .Release.Name }}-envoy
     spec:

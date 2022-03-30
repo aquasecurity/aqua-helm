@@ -20,6 +20,11 @@ kind: Secret
 metadata:
   name: {{ .Values.certsSecret.name }}
   namespace: {{ .Release.Namespace }}
+  labels:
+    role: {{ .Release.Name }}
+    app: {{ include "kube-enforcer.fullname" . }}
+    aqua.component: kubeenforcer
+{{ include "aqua.labels" . | indent 4 }}
 data:
   ca.crt: {{ $rootCaCert }}
   server.crt: {{ $serverCert }}
@@ -31,6 +36,11 @@ kind: ValidatingWebhookConfiguration
 metadata:
   name: {{ .Values.webhooks.validatingWebhook.name }}
   namespace: {{ .Release.Namespace }}
+  labels:
+    role: {{ .Release.Name }}
+    app: {{ include "kube-enforcer.fullname" . }}
+    aqua.component: kubeenforcer
+{{ include "aqua.labels" . | indent 4 }}
 {{- if .Values.webhooks.validatingWebhook.annotations }}
   annotations:
 {{ toYaml .Values.webhooks.validatingWebhook.annotations | indent 4 }}
@@ -74,6 +84,11 @@ kind: MutatingWebhookConfiguration
 metadata:
   name: {{ .Values.webhooks.mutatingWebhook.name }}
   namespace: {{ .Release.Namespace }}
+  labels:
+    role: {{ .Release.Name }}
+    app: {{ include "kube-enforcer.fullname" . }}
+    aqua.component: kubeenforcer
+{{ include "aqua.labels" . | indent 4 }}
 {{- if .Values.webhooks.mutatingWebhook.annotations }}
   annotations:
 {{ toYaml .Values.webhooks.mutatingWebhook.annotations | indent 4 }}

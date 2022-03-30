@@ -6,6 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-console
+    aqua.component: server
 {{ include "aqua.labels" . | indent 4 }}
 spec:
   minAvailable: {{ .Values.web.pdb.minAvailable }}

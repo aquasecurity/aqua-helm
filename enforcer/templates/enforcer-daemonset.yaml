@@ -6,6 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-ds
+    aqua.component: enforcer
 {{ include "aqua.labels" . | indent 4 }}
 spec:
   selector:
@@ -28,6 +29,7 @@ spec:
       {{- end }}
       labels:
         app: {{ .Release.Name }}-ds
+        aqua.component: enforcer
 {{ include "aqua.labels" . | indent 8 }}
       name: {{ .Release.Name }}-ds
     spec:

@@ -9,6 +9,7 @@ metadata:
   name: {{ .Release.Name }}-cluster-role
   labels:
     app: {{ .Release.Name }}
+    aqua.component: gateway
 {{ include "aqua.labels" . | indent 4 }}
     rbac.example.com/aggregate-to-monitoring: "true"
 rules:
@@ -31,6 +32,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}
+    aqua.component: gateway
 {{ include "aqua.labels" . | indent 4 }}
 roleRef:
   kind: ClusterRole

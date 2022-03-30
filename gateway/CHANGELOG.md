@@ -1,3 +1,5 @@
+## 6.5.9 ( March 25th, 2022)
+* * Add new static label
 ## 6.5.8 ( February 4th, 2022)
 * Align labels
 ## 6.5.7 ( January 16th, 2022)

@@ -17,6 +17,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-console-ingress
+    aqua.component: server-ingress
 {{ include "aqua.labels" . | indent 4 }}
 {{- if .Values.web.ingress.annotations }}
   annotations:

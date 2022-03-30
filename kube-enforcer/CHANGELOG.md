@@ -1,3 +1,5 @@
+## 6.5.14( March 29th)
+* Add new static label
 ## 6.5.13( March 23th)
 * Update default starboard version to be 0.14.1
 ## 6.5.12 ( February 27th)
