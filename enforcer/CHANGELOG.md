@@ -1,3 +1,5 @@
+# 6.5.13 ( March 31th, 2022 )
+* Fix [537](https://github.com/aquasecurity/aqua-helm/issues/537),Add priority-class for aqua enforcer
 # 6.5.12 ( March 30th, 2022 )
 * Fix the hostRunPath usage
 # 6.5.11 ( March 29th, 2022 )

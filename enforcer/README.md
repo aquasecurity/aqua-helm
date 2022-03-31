@@ -152,6 +152,10 @@ Parameter | Description | Default| Mandatory
 `hostRunPath` |	for changing host run path for example for pks need to change to /var/vcap/sys/run/docker	| `unset`| `NO`
 `gate.host` | gateway host | `aqua-gateway-svc`| `YES`
 `gate.port` | gateway port | `8443`| `YES`
+`priorityClass.create` | If true priority class will be created | `False` | `NO`
+`priorityClass.name` | Define the name of priority class or default value will be used | `` | `NO`
+`priorityClass.preemptionPolicy` | Preemption policy for priority class | `PreemptLowerPriority` | `NO`
+`priorityClass.value` | `The integer value of the priority` | `1000000` | `NO`
 `image.repository` | the docker image name to use | `enforcer`| `YES`
 `image.tag` | The image tag to use. | `6.5`| `YES`
 `image.pullPolicy` | The kubernetes image pull policy. | `Always`| `NO`

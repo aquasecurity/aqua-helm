@@ -33,6 +33,9 @@ spec:
 {{ include "aqua.labels" . | indent 8 }}
       name: {{ .Release.Name }}-ds
     spec:
+      {{- if or .Values.priorityClass.create .Values.priorityClass.name }}
+      priorityClassName: {{ template "priorityClass" . }}
+      {{- end }}
       serviceAccount: {{ template "serviceAccount" . }}
       hostPID: true
       containers:
