@@ -128,16 +128,10 @@ spec:
       schedulerName: {{ .Values.schedulerName }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       volumes:
-      {{- if .Values.hostRunPath }}
-      - name: var-run
-        hostPath:
-          path: {{ .Values.hostRunPath }}
-      {{- else }}
       - name: var-run
         hostPath:
           path: /var/run
           type: ""
-      {{- end }}
       - name: dev
         hostPath:
           path: /dev
