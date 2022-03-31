@@ -1,3 +1,5 @@
+## 6.2.8 (March 31th, 2022)
+* Fix hostRunPath for enforcer 
 ## 6.2.7 (November 1st, 2021)
 * Added Affinity support to daemonset deployment - [#394](https://github.com/aquasecurity/aqua-helm/pull/394)
 
