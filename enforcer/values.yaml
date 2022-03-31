@@ -53,7 +53,9 @@ securityContext:
       - SYS_RESOURCE
       - IPC_LOCK
 
-hostRunPath: # pks - /var/vcap/sys/run/docker
+# example for tkgi platform
+# hostRunPath: /var/vcap/sys/run/
+hostRunPath:
 
 multiple_gateway: # enable this to connect enforcer with multiple gateways
   enabled: false

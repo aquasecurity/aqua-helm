@@ -106,6 +106,10 @@ spec:
           name: aquasec-audit
         - mountPath: /data
           name: aquasec-data
+        {{- if .Values.hostRunPath }}
+        - mountPath: {{ .Values.hostRunPath }}
+          name: var-run-vcap
+        {{- end }}
 {{- if .Values.healthMonitor.enabled }}
 {{- with .Values.livenessProbe }}
         livenessProbe:
@@ -165,6 +169,12 @@ spec:
         hostPath:
           path: /var/lib/aquasec/data
           type: ""
+      {{- if .Values.hostRunPath }}
+      - name: var-run-vcap
+        hostPath:
+          path: {{ .Values.hostRunPath }}
+          type: ""
+      {{- end }}
       {{- if .Values.TLS.enabled }}
       - name: certs
         secret:
