@@ -115,9 +115,10 @@ updateStrategy:
   type: "RollingUpdate"
 
 priorityClass:
-  priorityClassCreate: false
+  create: false
+  name:
   preemptionPolicy: "PreemptLowerPriority"
-  priorityClassValue: 1000000
+  value: 1000000
 
 TLS:
   enabled: false

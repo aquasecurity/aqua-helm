@@ -29,6 +29,13 @@ Else if .Values.serviceAccount.create set to true, so will becreate serviceAccou
 {{- end -}}
 {{- end -}}
 
+{{- define "priorityClass" -}}
+{{- if .Values.priorityClass.create -}}
+    {{ .Values.priorityClass.name | default (printf "%s-enforcer-priority-class" .Release.Name) }}
+{{- else if not .Values.priorityClass.create -}}
+    {{ .Values.priorityClass.name | default (printf "%s-enforcer-priority-class" .Release.Name) }}
+{{- end -}}
+{{- end -}}
 
 
 {{/*
