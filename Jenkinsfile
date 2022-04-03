@@ -106,7 +106,7 @@ pipeline {
         stage("Running Mstp tests") {
             steps {
                 script {
-                    helm.runMstpTests debug: debug
+                    helm.runMstpTests debug: debug, afwImage: "anna_helm_k8s_node"
                 }
             }
         }
