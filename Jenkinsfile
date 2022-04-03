@@ -31,6 +31,7 @@ pipeline {
         skipStagesAfterUnstable()
         skipDefaultCheckout()
         buildDiscarder(logRotator(daysToKeepStr: '7'))
+        lock('k3s')
     }
     stages {
         stage('Checkout') {
@@ -133,10 +134,10 @@ pipeline {
     post {
         always {
             script {
-                helm.removeDockerLocalImages()
-                orchestrator.uninstall()
                 helm.updateConsul("delete")
+                orchestrator.uninstall()
                 echo "k3s & server chart uninstalled"
+                helm.removeDockerLocalImages()
                 cleanWs()
                 notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: 'deployments@aquasec.com'
             }
