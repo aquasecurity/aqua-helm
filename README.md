@@ -29,11 +29,11 @@ This repository includes the following charts; they can be deployed separately:
 
 | Chart | Description | Latest Chart Version |
 |---|---|----------------------|
-| [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component | 6.5.15               |
+| [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component | 2022.4.0             |
 | [Enforcer](enforcer/) | Deploys the Aqua Enforcer daemonset | 6.5.13               |
 | [Scanner](scanner/)  | Deploys the Aqua Scanner deployment | 6.5.8                |
 | [KubeEnforcer](kube-enforcer/)| Deploys Aqua KubeEnforcer | 6.5.14               |
-| [Gateway](gateway)| Deploys the Aqua Standalone Gateway | 6.5.9                |
+| [Gateway](gateway)| Deploys the Aqua Standalone Gateway | 2022.4.0             |
 | [Tenant-Manager](tenant-manager/)| Deploys the Aqua Tenant Manager | 6.5.3                |
 | [Cyber Center](cyber-center/)| Deploys Aqua CyberCenter offline for air-gap environment| 6.5.1                |
 | [Cloud Connector](cloud-connector/) | Deploys the Aqua Cloud Connector | 6.5.2                |

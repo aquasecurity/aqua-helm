@@ -96,7 +96,7 @@ global:
     env_size: "S"
     image:
       repository: database
-      tag: "6.5"
+      tag: "2022.4.13"
       pullPolicy: Always
     service:
       type: ClusterIP
@@ -175,7 +175,7 @@ gateway:
   logLevel:
   image:
     repository: gateway
-    tag: "6.5"
+    tag: "2022.4.13"
     pullPolicy: Always
   service:
     # you can enable gateway to external by changing type to "LoadBalancer"
@@ -269,7 +269,7 @@ web:
   logLevel:
   image:
     repository: console
-    tag: "6.5"
+    tag: "2022.4.13"
     pullPolicy: Always
 
   # Additional certificates that the server should trust, such as a network proxy
@@ -397,7 +397,7 @@ envoy:
 
   image:
     repository: envoy
-    tag: "6.5"
+    tag: "2022.4.13"
     pullPolicy: Always
   
   service:
