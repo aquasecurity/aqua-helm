@@ -49,7 +49,7 @@ When Starboard is **not** deployed, the KubeEnforcer will check workloads for co
 ### Clone the GitHub repository with the charts
 
 ```shell
-git clone -b 6.5 https://github.com/aquasecurity/aqua-helm.git
+git clone -b 2022.4 https://github.com/aquasecurity/aqua-helm.git
 cd aqua-helm/
 ```
 
