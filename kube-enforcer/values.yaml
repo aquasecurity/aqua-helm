@@ -62,7 +62,7 @@ nameOverride: "aqua-kube-enforcer"
 fullnameOverride: "aqua-kube-enforcer"
 
 # Display a custom cluster name in the infrastructure tab of Aqua Enterprise
-clusterName: "aqua-secure"
+clusterName: "Default-cluster-name"
 logicalName: ""
 logLevel: ""
 
