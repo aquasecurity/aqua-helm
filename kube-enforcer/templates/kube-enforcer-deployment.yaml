@@ -44,6 +44,10 @@ spec:
             - configMapRef:
                 name: {{ .Release.Name }}-kube-enforcer-config
           env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
           - name: AQUA_TOKEN
             valueFrom:
               secretKeyRef:

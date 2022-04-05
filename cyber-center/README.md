@@ -108,32 +108,32 @@ For more information please check [Link](https://docs.aquasec.com/docs/cybercent
 
 ### Cyber-Center
 
-Parameter | Description | Default| Mandatory 
---------- | ----------- | ------- | ------- 
-`imageCredentials.create` | Set if to create new pull image secret | `false`| `YES - New cluster`
-`imageCredentials.name` | Your Docker pull image secret name | `aqua-registry-secret`| `YES - New cluster`
-`imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com`| `YES - New cluster`
-`imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/` | `registry.aquasec.com`| `YES - New cluster`
-`imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret`| `YES - New cluster`
-`imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`| `YES - New cluster`
-`serviceAccount.create` | enable to create aqua-sa serviceaccount if it is missing in the environment | `false` | `YES - New cluster`
-`serviceAccount.name` | service acccount name | `aqua-sa` | `NO`
-`image.repository` | the docker image name to use | `cc-standard`| `YES`
-`image.tag` | The image tag to use. | `6.5`| `YES`
-`image.pullPolicy` | The kubernetes image pull policy. | `Always`| `NO`
-`service.type` | k8s service type | `ClusterIP`| `NO`
-`service.annotations` |	service annotations	| `{}` | `NO`
-`service.ports` | array of ports settings | `array`| `NO`
-`tolerations` |	Kubernetes node tolerations	| `[]`| `NO`
-`podAnnotations` | Kubernetes pod annotations | `{}` | `NO`
-`resources` |	Resource requests and limits | `{}`| `NO`
-`nodeSelector` |	Kubernetes node selector	| `{}`| `NO`
-`affinity` |	Kubernetes node affinity | `{}`| `NO`
-`TLS.enabled` | If require secure channel communication | `false` | `NO`
-`TLS.secretName` | certificates secret name | `nil` | `YES` <br /> `if TLS.enabled is set to true`
-`TLS.publicKey_fileName` | filename of the public key eg: aqua_cyber-center.crt | `nil`  |  `YES` <br /> `if TLS.enabled is set to true`
-`TLS.privateKey_fileName`   | filename of the private key eg: aqua_cyber-center.key | `nil`  |  `YES` <br /> `if TLS.enabled is set to true`
-`TLS.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`  |  `NO` <br /> `if TLS.enabled is set to true and using self-signed certificates for TLS/mTLS`
+Parameter | Description | Default                | Mandatory 
+--------- | ----------- |------------------------| ------- 
+`imageCredentials.create` | Set if to create new pull image secret | `false`                | `YES - New cluster`
+`imageCredentials.name` | Your Docker pull image secret name | `aqua-registry-secret` | `YES - New cluster`
+`imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com` | `YES - New cluster`
+`imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/` | `registry.aquasec.com` | `YES - New cluster`
+`imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret` | `YES - New cluster`
+`imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`                | `YES - New cluster`
+`serviceAccount.create` | enable to create aqua-sa serviceaccount if it is missing in the environment | `false`                | `YES - New cluster`
+`serviceAccount.name` | service acccount name | `aqua-sa`              | `NO`
+`image.repository` | the docker image name to use | `cc-standard`          | `YES`
+`image.tag` | The image tag to use. | `2022.4`               | `YES`
+`image.pullPolicy` | The kubernetes image pull policy. | `Always`               | `NO`
+`service.type` | k8s service type | `ClusterIP`            | `NO`
+`service.annotations` |	service annotations	| `{}`                   | `NO`
+`service.ports` | array of ports settings | `array`                | `NO`
+`tolerations` |	Kubernetes node tolerations	| `[]`                   | `NO`
+`podAnnotations` | Kubernetes pod annotations | `{}`                   | `NO`
+`resources` |	Resource requests and limits | `{}`                   | `NO`
+`nodeSelector` |	Kubernetes node selector	| `{}`                   | `NO`
+`affinity` |	Kubernetes node affinity | `{}`                   | `NO`
+`TLS.enabled` | If require secure channel communication | `false`                | `NO`
+`TLS.secretName` | certificates secret name | `nil`                  | `YES` <br /> `if TLS.enabled is set to true`
+`TLS.publicKey_fileName` | filename of the public key eg: aqua_cyber-center.crt | `nil`                  |  `YES` <br /> `if TLS.enabled is set to true`
+`TLS.privateKey_fileName`   | filename of the private key eg: aqua_cyber-center.key | `nil`                  |  `YES` <br /> `if TLS.enabled is set to true`
+`TLS.rootCA_fileName` |  filename of the rootCA, if using self-signed certificates eg: rootCA.crt | `nil`                  |  `NO` <br /> `if TLS.enabled is set to true and using self-signed certificates for TLS/mTLS`
 
 
 > Note: that `imageCredentials.create` is false and if you need to create image pull secret please update to true, set the username and password for the registry and `serviceAccount.create` is false and if you're environment is new or not having aqua-sa serviceaccount please update it to true.

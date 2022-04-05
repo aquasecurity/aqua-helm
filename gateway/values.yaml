@@ -25,7 +25,7 @@ replicaCount: 1
 logLevel:
 image:
   repository: gateway
-  tag: "6.5"
+  tag: "2022.4"
   pullPolicy: Always
 service:
   type: ClusterIP     # Enable gateway to external by changing type to "LoadBalancer"

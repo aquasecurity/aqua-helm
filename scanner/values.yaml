@@ -72,7 +72,7 @@ cyberCenter:
 
 image:
   repository: scanner
-  tag: "6.5"
+  tag: "2022.4.13"
   pullPolicy: Always
 
 logLevel:
