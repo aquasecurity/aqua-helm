@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: starboard
+  name: {{ .Release.Name }}-starboard-conftest
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}
@@ -16,7 +16,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: starboard-conftest-config
+  name: {{ .Release.Name }}-starboard-conftest-config
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}
@@ -25,7 +25,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 data:
-  conftest.imageRef: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+  conftest.imageRef: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
   conftest.resources.requests.cpu: "{{ .Values.starboard.conftest_resources_requests_cpu }}"
   conftest.resources.requests.memory: "{{ .Values.starboard.conftest_resources_requests_memory }}"
   conftest.resources.limits.cpu: "{{ .Values.starboard.conftest_resources_limits_cpu }}"

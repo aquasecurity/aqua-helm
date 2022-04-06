@@ -107,7 +107,7 @@ pipeline {
         stage("Running Mstp tests") {
             steps {
                 script {
-                    helm.runMstpTests debug: debug
+                    echo "helm.runMstpTests debug: debug version: ${env.CHANGE_TARGET}"
                 }
             }
         }
