@@ -27,6 +27,9 @@ spec:
       labels:
         app: {{ .Release.Name }}-gateway
         aqua.component: gateway
+        {{- range $key, $value := .Values.podLabels }}
+        {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 8 }}
+        {{- end }}
 {{ include "aqua.labels" . | indent 8 }}
       name: {{ .Release.Name }}-gateway
     spec:

@@ -140,6 +140,7 @@ global:
     affinity: {}
     podAnnotations: {}
     #  my-annotation-key: my value; more value
+    podLabels: {}
 
     # extraEnvironmentVars is a list of extra environment variables to set in the database deployments.
     extraEnvironmentVars: {}
@@ -229,6 +230,7 @@ gateway:
   affinity: {}
   podAnnotations: {}
   #  my-annotation-key: my value; more value
+  podLabels: {}
   securityContext:
     runAsUser: 11431
     runAsGroup: 11433
@@ -351,6 +353,7 @@ web:
   affinity: {}
   podAnnotations: {}
   #  my-annotation-key: my value; more value
+  podLabels: {}
 
   securityContext:
     runAsUser: 11431
@@ -498,6 +501,7 @@ envoy:
   affinity: {}
   podAnnotations: {}
   #  my-annotation-key: my value; more value
+  podLabels: {}
 
   pdb:
     minAvailable: "1"

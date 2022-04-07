@@ -102,6 +102,7 @@ resources: {}
 nodeSelector: {}
 tolerations: []
 podAnnotations: {}
+podLabels: {}
 affinity: {}
 #  my-annotation-key: my value; more value
 
