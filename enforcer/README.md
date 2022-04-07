@@ -47,7 +47,7 @@ helm search repo aqua-helm/enforcer --versions
 * Install Aqua Enforcer
 
 ```shell
-helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set imageCredentials.create=<>,imageCredentials.username=<>,imageCredentials.password=<>,platform=<>,enforcerToken=<aquasec-token>
+helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set global.imageCredentials.create=<>,global.imageCredentials.username=<>,global.imageCredentials.password=<>,global.platform=<>,enforcerToken=<aquasec-token>
 ```
 
 
@@ -143,6 +143,7 @@ Parameter | Description                                                         
 `clusterRole.roleRef` | cluster role reference name for cluster rolebinding                                                                                | `unset`                | `NO`
 `platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s)                        | `unset`                | `YES`
 `enforcerToken` | enforcer token value                                                                                                               | `enforcer-token`       | `YES`
+`expressMode` | Install enforcer in EXPRESS MODE or not                                                                                            | `false`                | `YES`
 `enforcerTokenSecretName` | enforcer token secret name if exists                                                                                               | `null`                 | `NO`
 `enforcerTokenSecretKey` | enforcer token secret key if exists                                                                                                | `null`                 | `NO`
 `logicalName` | Specify the Logical Name the Aqua Enforcer will register under. if not specify the name will be `spec.nodeName`                    | `unset`                | `NO`

@@ -330,7 +330,7 @@ enforcer:
 
   # Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
   enforcerToken: enforcer-token
-
+  expressMode: false
   enforcerTokenSecretName: null
   enforcerTokenSecretKey: null
 

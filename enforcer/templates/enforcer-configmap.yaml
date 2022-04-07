@@ -27,3 +27,4 @@ data:
   AQUA_TLS_VERIFY: {{ .Values.TLS.tls_verify | quote }}
   {{- end }}
   AQUA_HEALTH_MONITOR_ENABLED: {{ .Values.healthMonitor.enabled | quote }}
+  AQUA_EXPRESS_MODE: {{ .Values.expressMode | quote }}

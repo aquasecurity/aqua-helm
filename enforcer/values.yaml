@@ -47,6 +47,7 @@ enforcerTokenSecretKey: null
 logicalName:
 nodeName:
 
+expressMode: false
 securityContext:
   privileged: false
   capabilities:
