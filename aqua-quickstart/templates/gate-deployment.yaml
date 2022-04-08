@@ -5,6 +5,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-gateway
+    aqua.component: gateway
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -26,6 +27,7 @@ spec:
       {{- end }}
       labels:
         app: {{ .Release.Name }}-gateway
+        aqua.component: gateway
       name: {{ .Release.Name }}-gateway
     spec:
       {{- with .Values.gate.securityContext }}

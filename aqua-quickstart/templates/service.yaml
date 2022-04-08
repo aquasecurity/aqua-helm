@@ -4,6 +4,7 @@ kind: Service
 metadata:
   labels:
     role: {{ include "kube-enforcer.fullname" . }}
+    aqua.component: kubeenforcer
   name: {{ include "kube-enforcer.fullname" . }}
   namespace: {{ .Release.Namespace }}
 spec:

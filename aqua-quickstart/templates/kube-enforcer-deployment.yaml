@@ -4,6 +4,7 @@ metadata:
   labels:
     role: {{ .Release.Name }}
     app: {{ include "kube-enforcer.fullname" . }}
+    aqua.component: kubeenforcer
   name: {{ include "kube-enforcer.fullname" . }}
   namespace: {{ .Release.Namespace }}
 spec:
@@ -12,6 +13,7 @@ spec:
     metadata:
       labels:
         app: {{ include "kube-enforcer.fullname" . }}
+        aqua.component: kubeenforcer
     spec:
       {{- with .Values.ke.securityContext }}
       securityContext:
