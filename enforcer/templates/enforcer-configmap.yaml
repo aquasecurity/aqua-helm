@@ -12,7 +12,7 @@ data:
   {{- if .Values.multiple_gateway.enabled }}
   AQUA_SERVER: {{ join "," .Values.multi_gates }}
   {{- else }}
-  AQUA_SERVER: {{ .Values.gate.host | default "aqua-gateway-svc" }}:{{ .Values.gate.port | default "8443" }}
+  AQUA_SERVER: {{ .Values.global.gateway.address | default "aqua-gateway-svc" }}:{{ .Values.global.gateway.port | default "8443" }}
   {{- end }}
   AQUA_INSTALL_PATH: "/var/lib/aquasec"
   {{- if .Values.hostRunPath }}
@@ -27,3 +27,4 @@ data:
   AQUA_TLS_VERIFY: {{ .Values.TLS.tls_verify | quote }}
   {{- end }}
   AQUA_HEALTH_MONITOR_ENABLED: {{ .Values.healthMonitor.enabled | quote }}
+  AQUA_EXPRESS_MODE: {{ .Values.expressMode | quote }}

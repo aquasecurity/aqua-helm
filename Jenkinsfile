@@ -52,6 +52,7 @@ pipeline {
                     def deploymentImage = docker.build("helm", "-f Dockerfile .")
                     deploymentImage.inside("-u root") {
                         sh "helm dependency update server/"
+                        sh "helm dependency update kube-enforcer/"
                         def parallelStagesMap = [:]
                         charts.eachWithIndex { item, index ->
                             parallelStagesMap["${index}"] = helm.generateStage(index, item)
