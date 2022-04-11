@@ -59,7 +59,7 @@ aqua_cache_expiration_period: "60"
 
 image:
   repository: "kube-enforcer"
-  tag: "2022.4.13"
+  tag: "2022.4.23preview"
   pullPolicy: Always
 
 ke_ReplicaCount: "1"
@@ -287,7 +287,7 @@ kubeEnforcerAdvance:
   envoy:
     image:
       repository: "envoy"
-      tag: "2022.4.13"
+      tag: "2022.4.23preview"
       pullPolicy: Always
 
     # Enabling Envoy requires the use of TLS certificates for the cluster section, while the cluster TLS section is optional and to be enabled if TLS is in use for kube-enforcer and gateway.
@@ -368,7 +368,7 @@ enforcer:
 
   image:
     repository: enforcer
-    tag: "2022.4.13"
+    tag: "2022.4.23preview"
     pullPolicy: Always
 
   restartPolicy: Always
