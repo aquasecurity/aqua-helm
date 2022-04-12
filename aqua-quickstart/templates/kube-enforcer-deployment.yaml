@@ -4,6 +4,7 @@ metadata:
   labels:
     role: {{ .Release.Name }}
     app: {{ include "kube-enforcer.fullname" . }}
+    aqua.component: kubeenforcer
   name: {{ include "kube-enforcer.fullname" . }}
   namespace: {{ .Release.Namespace }}
 spec:
@@ -12,6 +13,7 @@ spec:
     metadata:
       labels:
         app: {{ include "kube-enforcer.fullname" . }}
+        aqua.component: kubeenforcer
     spec:
       {{- with .Values.ke.securityContext }}
       securityContext:
@@ -30,6 +32,10 @@ spec:
             - containerPort: 8449
             - containerPort: 8442
           env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             - name: AQUA_TOKEN
               valueFrom: 
                 secretKeyRef:
