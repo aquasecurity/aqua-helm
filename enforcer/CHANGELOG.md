@@ -1,3 +1,5 @@
+## 6.5.14 ( April 10th, 2022 )
+* Make pod labels configurable - [559](https://github.com/aquasecurity/aqua-helm/pull/559)
 # 6.5.13 ( March 31th, 2022 )
 * Fix [537](https://github.com/aquasecurity/aqua-helm/issues/537),Add priority-class for aqua enforcer
 # 6.5.12 ( March 30th, 2022 )
