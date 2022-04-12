@@ -6,6 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }} 
   labels:
     app: {{ .Values.starboard.appName }}
+    aqua.component: starboard-operator
 spec:
   replicas: 1
   strategy:
@@ -19,6 +20,7 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/starboard-config.yaml") . | sha256sum }} 
       labels:
         app: {{ .Values.starboard.appName }}
+        aqua.component: starboard-operator
     spec:
       serviceAccountName: {{ .Values.starboard.serviceAccount.name }}
       automountServiceAccountToken: {{ .Values.starboard.automountServiceAccountToken }}

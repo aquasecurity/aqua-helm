@@ -10,3 +10,11 @@ rules:
   - apiGroups: ["*"]
     resources: ["jobs"]
     verbs: ["create", "delete"]
+  - apiGroups: [ "*" ]
+    resources: [ "leases" ]
+    verbs: [ "get", "list", "create", "update" ]
+{{- if eq .Values.platform "openshift" }}
+  - apiGroups: ["*"]
+    resources: ["pods"]
+    verbs: ["create", "delete"]
+{{- end }}
