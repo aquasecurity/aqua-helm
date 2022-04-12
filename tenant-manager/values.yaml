@@ -57,7 +57,7 @@ db:
 
   image:
     repository: database
-    tag: "2022.4.13"
+    tag: "2022.4.23preview"
     pullPolicy: Always
 
   service:
@@ -118,7 +118,7 @@ tenantmanager:
 
   image:
     repository: tenantmanager
-    tag: "2022.4.13"
+    tag: "2022.4.23preview"
     pullPolicy: Always
 
   service:
