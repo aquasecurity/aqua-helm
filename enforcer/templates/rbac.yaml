@@ -91,7 +91,7 @@ metadata:
       but allows users to run with any non-root UID and access hostPath. The user must
       specify the UID or it must be specified on the by the manifest of the container runtime.
     release.openshift.io/create-only: "true"
-  name: {{ .Release.Name }}-scc
+  name: {{ .Release.Name }}-agent-scc
 priority: null
 readOnlyRootFilesystem: false
 requiredDropCapabilities: null
