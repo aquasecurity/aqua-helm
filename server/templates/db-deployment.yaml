@@ -28,6 +28,9 @@ spec:
       labels:
         app: {{ .Release.Name }}-database
         aqua.component: database
+        {{- range $key, $value := .Values.global.db.podLabels }}
+        {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 8 }}
+        {{- end }}
 {{ include "aqua.template-labels" . | indent 8 }}
       name: {{ .Release.Name }}-database
     spec:
