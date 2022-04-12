@@ -1,3 +1,5 @@
+## 6.5.9 ( April 10th, 2022 )
+* Make pod labels configurable - [559](https://github.com/aquasecurity/aqua-helm/pull/559)
 ## 6.5.8 ( March 29nd, 2022 )
 * Add new static label
 ## 6.5.7 ( March 2nd, 2022 )

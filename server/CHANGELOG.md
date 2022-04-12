@@ -1,4 +1,6 @@
-## 6.5.14 ( March 25th, 2022 )
+## 6.5.16 ( April 10th, 2022 )
+* Make pod labels configurable - [559](https://github.com/aquasecurity/aqua-helm/pull/559)
+## 6.5.15 ( March 25th, 2022 )
 * Add new static label
 ## 6.5.14 ( March 2nd, 2022 )
 * Adds additional capability to add a configmap file containing a PEM certificate bundle. - [512](https://github.com/aquasecurity/aqua-helm/pull/512)
