@@ -31,7 +31,7 @@ global:
     # If imageCredentials.create=create and imageCredentials.name defined
     # then will be created a secret with name provided name
     create: false
-    name:
+    name: "aqua-registry"
     repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
     registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
     username: ""
@@ -62,7 +62,7 @@ image:
   tag: "2022.4.23preview"
   pullPolicy: Always
 
-ke_ReplicaCount: "1"
+ke_ReplicaCount: "2"
 
 nameOverride: "aqua-kube-enforcer"
 fullnameOverride: "aqua-kube-enforcer"
@@ -206,9 +206,8 @@ starboard:
   replicaCount: "1"
   appName: "starboard-operator"
   serviceAccount:
-    create: false
-    #"starboard-operator"
-    name:
+    create: true
+    name: "starboard-operator"
   clusterRoleBinding:
     name: "starboard-operator"
   clusterRole:
