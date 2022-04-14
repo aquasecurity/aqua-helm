@@ -27,8 +27,8 @@ container_securityContext:
   privileged: false
 
 admin:
-  username: ""      # Add Base64 value of the Aqua username
-  password: ""      # Add Base64 value of the Aqua password
+  username: ""      # Add plain text value of the Aqua username
+  password: ""      # Add plain text value of the Aqua password
 
 
 healthPort:
