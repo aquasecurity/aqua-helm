@@ -17,14 +17,14 @@ spec:
     spec:
       {{- with .Values.ke.securityContext }}
       securityContext:
-{{ toYaml . | indent 8 }}
+      {{ toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ .Values.ke.serviceAccount.name }}
       containers:
         - name: kube-enforcer
           {{- with .Values.ke.container_securityContext }}
           securityContext:
-{{ toYaml . | indent 12 }}
+          {{ toYaml . | nindent 12 }}
           {{- end }}
           image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.ke.image.repository }}:{{ .Values.ke.image.tag }}"
           imagePullPolicy: "{{ .Values.ke.image.pullPolicy }}"
@@ -56,7 +56,7 @@ spec:
             - name: TLS_SERVER_KEY_FILEPATH
               value: /certs/server.key
             - name: AQUA_GATEWAY_SECURE_ADDRESS
-              value: {{ .Values.ke.envs.gatewayAddress }}
+              value: {{ .Release.Name }}-gateway-svc:8443
             - name: AQUA_KAP_ADD_ALL_CONTROL
               value: "true"
             - name: AQUA_WATCH_CONFIG_AUDIT_REPORT
