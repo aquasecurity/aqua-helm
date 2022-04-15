@@ -1,8 +1,29 @@
-{{- if and (not .Values.global.db.external.enabled) (.Values.global.db.persistence.enabled) }}
+{{- if and (not .Values.global.db.external.enabled) (.Values.global.db.persistence.database.enabled) }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: {{ .Release.Name }}-database-pvc
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-db
+    aqua.component: database
+{{ include "aqua.labels" . | indent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.global.db.persistence.database.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.global.db.persistence.database.size | quote }}
+{{- if .Values.global.db.persistence.database.storageClass }}
+  storageClassName: "{{ .Values.global.db.persistence.database.storageClass }}"
+{{- end }}
+{{- end }}
+---
+{{- if and (not .Values.global.db.external.enabled) (.Values.global.db.persistence.audit_database.enabled) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-audit-database-pvc
   namespace: {{ .Release.Namespace }}
   labels:
     app: aqua-audit-db
@@ -10,30 +31,11 @@ metadata:
 {{ include "aqua.labels" . | indent 4 }}
 spec:
   accessModes:
-    - {{ .Values.global.db.persistence.accessMode | quote }}
+    - {{ .Values.global.db.persistence.audit_database.accessMode | quote }}
   resources:
     requests:
-      storage: {{ .Values.global.db.persistence.size | quote }}
-{{- if .Values.global.db.persistence.storageClass }}
-  storageClassName: "{{ .Values.global.db.persistence.storageClass }}"
-{{- end }}
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: {{ .Release.Name }}-audit-database-pvc
-  namespace: {{ .Release.Namespace }}
-  labels:
-    app: {{ .Release.Name }}
-    aqua.component: database
-{{ include "aqua.labels" . | indent 4 }}
-spec:
-  accessModes:
-    - {{ .Values.global.db.persistence.accessMode | quote }}
-  resources:
-    requests:
-      storage: {{ .Values.global.db.persistence.size | quote }}
-{{- if .Values.global.db.persistence.storageClass }}
-  storageClassName: "{{ .Values.global.db.persistence.storageClass }}"
+      storage: {{ .Values.global.db.persistence.audit_database.size | quote }}
+{{- if .Values.global.db.persistence.audit_database.storageClass }}
+  storageClassName: "{{ .Values.global.db.persistence.audit_database.storageClass }}"
 {{- end }}
 {{- end }}
