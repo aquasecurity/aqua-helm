@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-{{ .Values.starboard.appName }}
+  name: {{ .Values.starboard.appName }}
   namespace: {{ .Release.Namespace }}
   labels:
     role: {{ .Release.Name }}

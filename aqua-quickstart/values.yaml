@@ -65,8 +65,6 @@ ke:
   aquaSecret:
     name: aqua-kube-enforcer-token
     kubeEnforcerToken: token-ke
-  envs:
-    gatewayAddress: aqua-gateway-svc.aqua:8443 
   serviceAccount:
     name: aqua-kube-enforcer-sa
   clusterRole:
