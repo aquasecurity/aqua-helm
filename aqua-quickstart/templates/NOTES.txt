@@ -1,9 +1,14 @@
 
-Thank you for installing Aqua Security Server.
+Thank you for installing Aqua Security Quick Start Chart.
 
-Now that you have deployed Aqua Server, you should look over the docs on using: 
-
+You can take a look on Aqua Documentation
 https://docs.aquasec.com/docs
 
+Please remember that this chart can be used only for DEV or POC setups
+and contain the following Aqua components:
+    * Aqua Server
+    * Aqua Gateway
+    * Aqua Database
+    * Aqua Kube Enforcer
 
 Your release is named {{ .Release.Name }}.

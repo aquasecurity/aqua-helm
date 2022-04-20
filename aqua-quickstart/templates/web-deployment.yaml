@@ -6,6 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-console
+    aqua.component: server
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -27,13 +28,14 @@ spec:
       {{- end }}
       labels:
         app: {{ .Release.Name }}-console
+        aqua.component: server
       name: {{ .Release.Name }}-console
     spec:
       {{- with .Values.web.securityContext }}
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Release.Namespace }}-sa
+      serviceAccount: {{ .Release.Name }}-sa
       containers:
       - name: web
         {{- with .Values.web.container_securityContext }}
@@ -54,7 +56,7 @@ spec:
         - name: BATCH_INSTALL_ORCHESTRATOR
           value: "Kubernetes"
         - name: BATCH_INSTALL_GATEWAY
-          value: "aqua-gateway-svc"
+          value: {{ .Release.Name }}-gateway-svc
         {{- if .Values.db.passwordFromSecret.enabled }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:

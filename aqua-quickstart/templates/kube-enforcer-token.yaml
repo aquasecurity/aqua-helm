@@ -11,4 +11,4 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: starboard
-  namespace: aqua
+  namespace: {{ .Release.Namespace }}
