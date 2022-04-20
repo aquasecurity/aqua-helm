@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-kube-enforcer-config
+  name: aqua-csp-kube-enforcer
   namespace: {{ .Release.Namespace }}
   labels:
     role: {{ .Release.Name }}

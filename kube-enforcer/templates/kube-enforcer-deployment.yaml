@@ -42,7 +42,7 @@ spec:
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
           envFrom:
             - configMapRef:
-                name: {{ .Release.Name }}-kube-enforcer-config
+                name: aqua-csp-kube-enforcer
           env:
           - name: POD_NAME
             valueFrom:
