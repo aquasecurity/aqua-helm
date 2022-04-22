@@ -2,7 +2,7 @@ apiVersion: v1
 name: cloud-connector
 description: A Helm chart for Aqua Cloud-Connector
 appVersion: "6.5"
-version: "6.5.2"
+version: "6.5.3"
 icon: https://avatars3.githubusercontent.com/u/12783832?s=200&v=4
 home: https://www.aquasec.com/
 maintainers:
