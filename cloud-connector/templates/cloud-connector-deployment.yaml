@@ -57,7 +57,6 @@ spec:
               {{- if .Values.adminFromSecret.enable }}
               key: {{ .Values.adminFromSecret.userkey }}
               name: {{ .Values.adminFromSecret.secretName }}
-              {{- end }}
               {{- else }}
               key: username
               name: {{ .Release.Name }}-user-secret
@@ -68,7 +67,6 @@ spec:
               {{- if .Values.adminFromSecret.enable }}
               key: {{ .Values.adminFromSecret.userkey }}
               name: {{ .Values.adminFromSecret.secretName }}
-              {{- end }}
               {{- else }}
               key: password
               name: {{ .Release.Name }}-user-secret
