@@ -169,6 +169,7 @@ resources: {}
 nodeSelector: {}
 tolerations: []
 podAnnotations: {}
+podLabels: {}
 affinity: {}
 
 TLS:
@@ -400,6 +401,7 @@ enforcer:
   podAnnotations: { }
   affinity: { }
   #  my-annotation-key: my value; more value
+  podLabels: {}
 
   dnsPolicy: "ClusterFirst"
   hostPID: "true"

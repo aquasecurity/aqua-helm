@@ -34,6 +34,9 @@ spec:
       labels:
         app: {{ .Release.Name }}-ds
         aqua.component: enforcer
+        {{- range $key, $value := .Values.podLabels }}
+        {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 8 }}
+        {{- end }}
         {{ include "aqua.labels" . | nindent 8 }}
       name: {{ .Release.Name }}-ds
     spec:

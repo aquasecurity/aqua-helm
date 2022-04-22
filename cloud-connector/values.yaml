@@ -26,10 +26,17 @@ securityContext:
 container_securityContext:
   privileged: false
 
+# creates admin username and password secret using below provided pain-text values.
 admin:
-  username: ""      # Add Base64 value of the Aqua username
-  password: ""      # Add Base64 value of the Aqua password
-
+  username: ""      # Add plain text value of the Aqua username
+  password: ""      # Add plain text value of the Aqua password
+# ( or )
+# To load admin username and password from existing secret
+adminFromSecret:
+  enable: false
+  secretName: ""
+  userkey: ""
+  passwordKey: ""
 
 healthPort:
   port: "8080"     # default is 8080
