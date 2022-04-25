@@ -7,6 +7,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-database
+    aqua.component: database
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -27,13 +28,14 @@ spec:
       {{- end }}
       labels:
         app: {{ .Release.Name }}-database
+        aqua.component: database
       name: {{ .Release.Name }}-database
     spec:
       {{- with .Values.db.securityContext }}
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Release.Namespace }}-sa
+      serviceAccount: {{ .Release.Name }}-sa
       initContainers:
       - name: {{ .Release.Name }}-db-init
         env:
@@ -157,7 +159,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Release.Namespace }}-sa
+      serviceAccount: {{ .Release.Name }}-sa
       initContainers:
       - name: {{ .Release.Name }}-auditdb-init
         env:

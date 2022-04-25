@@ -1,3 +1,6 @@
+## 6.5.3 ( April 20th, 2022 )
+* Fix the chart and add support for diffrenet then aqua namespace
+* Updating image pullpolicy to Always
 ## 6.5.2 ( November 24th, 2021 )
 * Updating image pullpolicy to Always
 ## 6.5.1 ( November 1st, 2021)
