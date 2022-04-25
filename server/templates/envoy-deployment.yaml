@@ -29,6 +29,9 @@ spec:
       labels:
         app: {{ .Release.Name }}-envoy
         aqua.component: envoy
+        {{- range $key, $value := .Values.envoy.podLabels }}
+        {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 8 }}
+        {{- end }}
 {{ include "aqua.template-labels" . | indent 8 }}
       name: {{ .Release.Name }}-envoy
     spec:

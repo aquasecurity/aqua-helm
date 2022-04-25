@@ -54,13 +54,23 @@ spec:
         - name: AQUA_CLOUD_CONNECTOR_USERNAME
           valueFrom:
             secretKeyRef:
+              {{- if .Values.adminFromSecret.enable }}
+              key: {{ .Values.adminFromSecret.userkey }}
+              name: {{ .Values.adminFromSecret.secretName }}
+              {{- else }}
               key: username
-              name: user-secret
+              name: {{ .Release.Name }}-user-secret
+              {{- end }}
         - name: AQUA_CLOUD_CONNECTOR_PASSWORD
           valueFrom:
             secretKeyRef:
+              {{- if .Values.adminFromSecret.enable }}
+              key: {{ .Values.adminFromSecret.userkey }}
+              name: {{ .Values.adminFromSecret.secretName }}
+              {{- else }}
               key: password
-              name: user-secret
+              name: {{ .Release.Name }}-user-secret
+              {{- end }}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         ports:
