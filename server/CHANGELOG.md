@@ -1,3 +1,5 @@
+## 6.5.17 ( April 26th, 2022 )
+* Remove unused envoy 8082 port
 ## 6.5.16 ( April 10th, 2022 )
 * Make pod labels configurable - [559](https://github.com/aquasecurity/aqua-helm/pull/559)
 ## 6.5.15 ( March 25th, 2022 )
