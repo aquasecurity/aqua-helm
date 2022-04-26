@@ -49,9 +49,6 @@ spec:
         - containerPort: 8443
           name: https
           protocol: TCP
-        - containerPort: 8082
-          name: healthserver
-          protocol: TCP
         volumeMounts:
         - mountPath: /etc/envoy
           name: config
