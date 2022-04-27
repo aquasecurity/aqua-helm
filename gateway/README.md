@@ -132,7 +132,7 @@ Parameter | Description | Default                | Mandatory |
 `global.db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration audit database. | 	`false`               | `NO`
 `global.db.pubsubssl` | If require an SSL-encrypted connection to the Postgres configuration pubsub database. | 	`false`               | `NO`
 `image.repository` | the docker image name to use | `gateway`              | `NO` 
-`image.tag` | The image tag to use. | `2022.4.46`               | `NO`
+`image.tag` | The image tag to use. | `2022.4`               | `NO`
 `image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`         | `NO` 
 `service.type` | k8s service type | `ClusterIP`            | `NO` 
 `service.loadbalancerIP` | can specify loadBalancerIP address for aqua-gateway in AKS platform | `null`                 | `NO`
