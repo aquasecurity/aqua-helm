@@ -13,7 +13,7 @@ serviceaccount:
 
 image:
   repository: "aqua-cloud-connector"
-  tag: "2022.4.23preview"
+  tag: "2022.4"
   pullPolicy: "Always"
 
 replicaCount: 1
