@@ -58,7 +58,7 @@ Parameter | Description | Default                 | Mandatory
 `imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`                 | `YES - New cluster`
 `serviceAccount.create` | enable to create aqua-sa serviceaccount if it is missing in the environment | `false`                 | `YES - New cluster`
 `image.repository` | the docker image name to use | `cc-standard`           | `YES`
-`image.tag` | The image tag to use. | `2022.4`                | `YES`
+`image.tag` | The image tag to use. | `2022.4.46`                | `YES`
 `image.pullPolicy` | The kubernetes image pull policy | `Always`                | `NO`
 `admin.username` | Admin Username | `unset`                 |`YES`
 `admin.password` | Admin Password | `unset`                 |`YES`

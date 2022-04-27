@@ -351,7 +351,7 @@ Parameter | Description | Default                          | Mandatory
 `global.db.persistence.storageClass` |	Persistent Volume Storage Class | `unset`                          | `NO`
 `global.db.env_size` | Set this to tune DB parameters | `S`                              | `YES`</br >`Possible values: “S” (default), “M”, “L”`
 `global.db.image.repository` | the docker image name to use | `database`                       | `NO`
-`global.db.image.tag` | The image tag to use. | `2022.4`                         | `NO`
+`global.db.image.tag` | The image tag to use. | `2022.4.46`                         | `NO`
 `global.db.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`                   | `NO`
 `global.db.service.type` | k8s service type | `ClusterIP`                      | `NO`
 `global.db.resources` |	Resource requests and limits | `{}`                             | `NO`
@@ -364,7 +364,7 @@ Parameter | Description | Default                          | Mandatory
 `global.db.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the database deployments, these variables take value from existing Secret objects. | `[]`                             | `NO`
 `gateway.image.repository` | the docker image name to use | `gateway`                        | `NO`
 `gateway.enabled` | Deploy gateway chart with server chart | `True`                           | `NO`
-`gateway.image.tag` | The image tag to use. | `2022.4`                         | `NO`
+`gateway.image.tag` | The image tag to use. | `2022.4.46`                         | `NO`
 `gateway.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`                   | `NO`
 `gateway.service.type` | k8s service type | `ClusterIP`                      | `NO`
 `gateway.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null`                           | `NO`
@@ -389,7 +389,7 @@ Parameter | Description | Default                          | Mandatory
 `gateway.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the gateway deployments, these variables take value from existing Secret objects. | `[]`                             | `NO`
 `gateway.headlessService` | create headless service for envoy | `true`                           | `NO`
 `web.image.repository` | the docker image name to use | `console`                        | `NO`
-`web.image.tag` | The image tag to use. | `2022.4`                         | `NO`
+`web.image.tag` | The image tag to use. | `2022.4.46`                         | `NO`
 `web.image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`                   | `NO`
 `web.service.type` | k8s service type | `LoadBalancer`                   | `NO`
 `web.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform | `null`                           | `NO`

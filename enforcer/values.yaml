@@ -81,7 +81,7 @@ multi_gates:
 
 image:
   repository: enforcer
-  tag: "2022.4.23preview"
+  tag: "2022.4.46"
   pullPolicy: Always
 
 restartPolicy: Always

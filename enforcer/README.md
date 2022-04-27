@@ -158,7 +158,7 @@ Parameter | Description                                                         
 `priorityClass.preemptionPolicy` | Preemption policy for priority class                                                                                               | `PreemptLowerPriority` | `NO`
 `priorityClass.value` | `The integer value of the priority`                                                                                                | `1000000`              | `NO`
 `image.repository` | the docker image name to use                                                                                                       | `enforcer`             | `YES`
-`image.tag` | The image tag to use.                                                                                                              | `2022.4`               | `YES`
+`image.tag` | The image tag to use.                                                                                                              | `2022.4.46`               | `YES`
 `image.pullPolicy` | The kubernetes image pull policy.                                                                                                  | `Always`               | `NO`
 `healthMonitor.enabled` | Enabling health monitoring for enforcer liveness and readiness                                                                     | `true`                 | `YES`
 `resources` | 	Resource requests and limits                                                                                                      | `{}`                   | `NO`
