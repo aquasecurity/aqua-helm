@@ -16,6 +16,8 @@ spec:
           value: aqua-lb
         - name: gateway.port
           value: '443'
+        - name: starboard.OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT
+          value: '2'
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: aqua
