@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - enforcer.yaml
   - kube-enforcer.yaml
-  - scanner.yaml
