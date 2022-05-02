@@ -17,7 +17,7 @@ spec:
         - name: platform
           value: gke
         - name: image.tag
-          value: 6.5.22093
+          value: 6.5.22110
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: aqua
