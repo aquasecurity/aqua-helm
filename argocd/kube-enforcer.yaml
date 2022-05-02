@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aqua-enforcer
+  namespace: aqua
+spec:
+  project: aqua
+  source:
+    repoURL: 'https://github.com/semyonmor/aqua-helm'
+    path: kube-enforcer
+    targetRevision: '6.5'
+    helm:
+      parameters:
+        - name: certsSecret.autoGenerate
+          value: 'true'
+        - name: gateway.address
+          value: aqua-lb
+        - name: gateway.port
+          value: '443'
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: aquas
