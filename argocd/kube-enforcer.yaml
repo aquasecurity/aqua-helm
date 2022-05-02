@@ -19,3 +19,7 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: aqua
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

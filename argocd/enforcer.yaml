@@ -17,7 +17,11 @@ spec:
         - name: platform
           value: gke
         - name: image.tag
-          value: 6.5.22110
+          value: 6.5.22093
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: aqua
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
