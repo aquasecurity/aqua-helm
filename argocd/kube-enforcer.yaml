@@ -21,7 +21,7 @@ spec:
         - name: starboard.OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT
           value: '2'
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: 'https://34.91.104.18:443'
     namespace: aqua
   syncPolicy:
     automated:
