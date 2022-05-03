@@ -21,7 +21,7 @@ spec:
         - name: starboard.OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT
           value: '2'
   destination:
-    server: 'https://34.91.104.18:443'
+    server: 'https://34.91.104.18'
     namespace: aqua
   syncPolicy:
     automated:
