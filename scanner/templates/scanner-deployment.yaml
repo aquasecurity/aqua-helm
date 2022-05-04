@@ -52,6 +52,10 @@ spec:
         {{- if .Values.directCC.enabled }}
         - --direct-cc
         {{- end }}
+        {{- if .Values.scannerToken }}
+        - --token
+        - {{ .Values.scannerToken }}
+        {{- else }}
         - --user
         {{- if .Values.scannerUserSecret.enable }}
         - "$(SCANNER_USER)"
@@ -63,6 +67,7 @@ spec:
         - "$(SCANNER_PASSWORD)"
         {{- else }}
         - {{ required "Please specify a password for a user associated with the Scanner role" .Values.password | squote }}
+        {{- end }}
         {{- end }}
         - --host
         - "{{ .Values.server.scheme | default "http" }}://{{ .Values.server.serviceName }}:{{ .Values.server.port }}"
