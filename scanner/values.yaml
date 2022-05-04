@@ -80,8 +80,11 @@ logLevel:
 nameOverride: "aqua-scanner"
 fullnameOverride: "aqua-scanner"
 
-user: ""          # user name for the scanner created in the console
-password: ""      # password for the scanner user you can also use "passwordSecret" below for loading password from secrets
+user: ""            # user name for the scanner created in the console
+password: ""        # password for the scanner user you can also use "passwordSecret" below for loading password from secrets
+
+scannerToken: ""    # token used for deploying USE scanners
+
 # Loading scanner user & password from secret
 scannerUserSecret:
   enable: false   # change it to true for loading password from secrets
