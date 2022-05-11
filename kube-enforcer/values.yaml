@@ -62,7 +62,7 @@ image:
   tag: "2022.4"
   pullPolicy: Always
 
-ke_ReplicaCount: "2"
+ke_ReplicaCount: "1"
 
 nameOverride: "aqua-kube-enforcer"
 fullnameOverride: "aqua-kube-enforcer"

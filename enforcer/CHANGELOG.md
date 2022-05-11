@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.1 (May 5th, 2022)
+* fix issue #[581](https://github.com/aquasecurity/aqua-helm/issues/581) of duplicate hostPID parameter
+
 ## 2022.4.0 ( Apr 5th, 2022)
 * Init commit
 * Add new variable `expressMode`, default value is `false`

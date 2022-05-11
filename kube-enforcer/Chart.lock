@@ -1,6 +1,6 @@
 dependencies:
 - name: enforcer
   repository: file://../enforcer/
-  version: 2022.4.0
-digest: sha256:3ec77e9d2fdc7adc4aae1543d3e7846547a30fe123a66733af3bbcfa0478c1ee
-generated: "2022-04-06T10:00:21.543148+03:00"
+  version: 2022.4.1
+digest: sha256:705138c62e4aabf3ca01b75a62e8baf2ef7e98607a9b482ca43c75ad530b590b
+generated: "2022-05-05T13:11:48.141946366+05:30"
