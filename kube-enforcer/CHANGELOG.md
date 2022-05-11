@@ -1,3 +1,5 @@
+## 6.5.16 ( May 11th, 2022 )
+* Remove all categories definition in configauditreports CRD spec
 ## 6.5.15 ( April 10th, 2022 )
 * Make pod labels configurable - [559](https://github.com/aquasecurity/aqua-helm/pull/559)
 ## 6.5.14( March 29th)
