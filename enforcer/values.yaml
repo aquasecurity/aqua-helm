@@ -137,6 +137,7 @@ extraEnvironmentVars: {}
   # http_proxy: < >
   # https_proxy: < >
   # no_proxy: < >
+  # AQUA_OCP_FULL_VERSION: <OCP version> #set this variable with the exact OCP version to allow accurate vulnerability scanning
   # ENV_NAME: value
 
 # extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
