@@ -4,9 +4,10 @@
 - obtain Argon Token
 - url and credentials for Bitbucket server 
 
-## Intallation / Upgrade
+## Installation / Upgrade
 ```
-helm repo add argon https://argonsecurity.github.io/broker-deployment
+helm repo add argon https://helm.aquasec.com
+helm repo update
 HELM_RELEASE=argon-broker
 helm upgrade -i $HELM_RELEASE argon/argon-broker --namespace argon --create-namespace \
    [ --set key1=val1,key2=val2 ] [ -f my-values.yaml ] [ <helm parameters> ] 
@@ -50,12 +51,12 @@ In addition to the values above it is possible to specify:
 - custom ca and client ssl certificates for servers
 - kubernetes scheduler values - resources, nodeSelector, affinity, tolleration  
 
-refer to [values.yaml](charts/argong-broker/values.yaml) and [templates](charts/argong-broker/templates) 
+refer to [values.yaml](codesec-agent/values.yaml) and [templates](codesec-agent/templates) 
 
 ## Example
 - add helm repository
 ```
-helm repo add argon https://argonsecurity.github.io/broker-deployment
+helm repo add argon https://helm.aquasec.com
 ```
 ### Simple Connect to Bitbucket server
 ```
@@ -67,7 +68,7 @@ helm upgrade -i argon-broker argon/argon-broker --namespace argon --create-names
 ```
 
 ### Install multiple releases per repo provider
-Install different helm releases for each repo provoder
+Install different helm releases for each repo provider
 #### bitbucket
 helm upgrade -i argon-broker-bitbucket argon/argon-broker --namespace argon --create-namespace \
   --set global.token=***** \
