@@ -2,7 +2,7 @@
 import com.aquasec.deployments.orchestrators.*
 
 def orchestrator = new OrcFactory(this).GetOrc()
-def charts = [ 'server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager' ]
+def charts = [ 'server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager', 'codesec-agent' ]
 def debug = false
 
 pipeline {
@@ -69,7 +69,7 @@ pipeline {
                 }
             }
         }
-        stage("updating conul") {
+        stage("updating consul") {
             steps {
                 script {
                     helm.updateConsul("create")

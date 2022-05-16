@@ -38,6 +38,7 @@ This repository includes the following charts; they can be deployed separately:
 | [Cyber Center](cyber-center/)| Deploys Aqua CyberCenter offline for air-gap environment| 2022.4.0                |
 | [Cloud Connector](cloud-connector/) | Deploys the Aqua Cloud Connector | 2022.4.0                |
 | [QuickStart](aqua-quickstart/ )| Not for production use (see [below](#quick-start-deployment-not-for-production-purposes)). Deploys the Console, Database, Gateway and KubeEnforcer components | 2022.4.0                |
+| [Codesec-Agent](codesec-agent/) | Argon Broker Deployment | 1.0.9             |
 
 # Deployment instructions
 
@@ -77,9 +78,10 @@ helm search repo aqua-helm --version 2022.4
 
 Example output:
 ```csv
-NAME                            CHART VERSION   APP VERSION     DESCRIPTION                                     
+NAME                            CHART VERSION   APP VERSION     DESCRIPTION
+aqua-helm/codesec-agent         1.0.9           2022.4          A Helm chart for the Argon Broker Deployment
 aqua-helm/cloud-connector       2022.4.0        2022.4          A Helm chart for Aqua Cloud-Connector           
-aqua-helm/cyber-center          2022.4.0        2022.4          A Helm chart for Aqua CyberCenter               
+aqua-helm/cyber-center          2022.4.0        2022.4          A Helm chart for Aqua CyberCenter
 aqua-helm/enforcer              2022.4.1        2022.4          A Helm chart for the Aqua Enforcer
 aqua-helm/gateway               2022.4.0        2022.4          A Helm chart for the Aqua Gateway               
 aqua-helm/kube-enforcer         2022.4.0        2022.4          A Helm chart for the Aqua KubeEnforcer Starboard

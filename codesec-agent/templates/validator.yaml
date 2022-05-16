@@ -1,0 +1,6 @@
+{{- if empty .Values.global.argonServer }}
+{{ fail "Error - missing .Values.global.argonServer" }}
+{{- end }}
+{{- if empty .Values.global.token }}
+{{ fail "Error - missing .Values.global.token" }}
+{{- end }}
