@@ -51,7 +51,7 @@ In addition to the values above it is possible to specify:
 - custom ca and client ssl certificates for servers
 - kubernetes scheduler values - resources, nodeSelector, affinity, tolleration  
 
-refer to [values.yaml](codesec-agent/values.yaml) and [templates](codesec-agent/templates) 
+refer to [values.yaml](values.yaml) and [templates](templates) 
 
 ## Example
 - add helm repository
