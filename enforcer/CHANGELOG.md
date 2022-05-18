@@ -1,3 +1,6 @@
+## 6.5.15 ( May 18th, 2022 )
+## 6.5.15 ( May 18th, 2022 )
+* Rename RoleBinding to ClusterRole vmware-system-privileged if platform=tkg
 ## 6.5.14 ( April 10th, 2022 )
 * Make pod labels configurable - [559](https://github.com/aquasecurity/aqua-helm/pull/559)
 # 6.5.13 ( March 31th, 2022 )
