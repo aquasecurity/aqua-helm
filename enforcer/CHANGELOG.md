@@ -1,6 +1,8 @@
 # Changelog
-
 All notable changes to this project will be documented in this file.
+
+## 2002.4.2 ( May 18th, 2022 )
+* Rename RoleBinding to ClusterRole vmware-system-privileged if platform=tkg
 
 ## 2022.4.1 (May 5th, 2022)
 * fix issue #[581](https://github.com/aquasecurity/aqua-helm/issues/581) of duplicate hostPID parameter
