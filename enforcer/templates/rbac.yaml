@@ -119,7 +119,7 @@ volumes:
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: rolebinding-default-privileged-sa-ns_default
+  name: {{ .Release.Name }}-rolebinding-vmware-system-privileged
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
