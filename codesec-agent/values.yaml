@@ -48,6 +48,7 @@ connect:
   nodeSelector: {}
   affinity: {}
   tolerations: {}
+  hostAliases:
 
 scan:
   image: docker.io/aquasec/codesec-scanner:latest
@@ -56,3 +57,4 @@ scan:
   nodeSelector: {}
   affinity: {}
   tolerations: {}
+  hostAliases:

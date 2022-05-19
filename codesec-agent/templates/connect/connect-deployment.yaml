@@ -22,6 +22,10 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
 {{ include "common.podLabels" . | indent 8 }}
     spec:
+      {{- with .Values.connect.hostAliases }}
+      hostAliases:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ $name }}
           image: {{ $v.image }}

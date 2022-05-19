@@ -7,3 +7,4 @@ First release:
 * Added SSL configurations as secrets.
 * Cosmetics / docs / other small fixes.
 * Removed unneeded providers.
+* Add "hostAliases" to support connectivity from minikube -> localhost scenarios.

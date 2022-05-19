@@ -82,22 +82,23 @@ ___
 ___
 ### Optional Variables
 
-| Variable | Type | Description | Example | Default |
-| --- | --- | --- | --- | --- |
-| ssl.enabled | Boolean | Enable usage of SSL Certificates | | false |
-| ssl.ca | String | The CA file content | | |
-| ssl.cert | String | The Certificate file content | | |
-| ssl.key | String | The Certificate private key | | |
-| proxy.url | String | The url to the http/s proxy including any required basic auth | https://username:password@my-proxy-server.com:8080 | |
-| connect.port | Number | The connector http service port | | 9999 |
-| connect.service.port | Number | The connector service port | | 9999 |
-| connect.service.annotations | Object | Any annotations for the Connector service | | |
-| connect.resources | Object | Resource limitation for the connector deployment | | {} |
-| connect.nodeSelector | Object | Node selector configuration for the connector deployment | | {} |
-| connect.affinity | Object | Affinity configuration for the connector deployment | | {} |
-| connect.tolerations | Object | Tolerations configuration for the connector deployment | | {} |
-| scan.resources | Object | Resource limitation for the scanner deployment | | {} |
-| scan.nodeSelector | Object | Node selector configuration for the scanner deployment | | {} |
-| scan.affinity | Object | Affinity configuration for the scanner deployment | | {} |
-| scan.tolerations | Object | Tolerations configuration for the scanner deployment | | {} |
-
+| Variable                    | Type    | Description                                                   | Example                                            | Default |
+|-----------------------------|---------|---------------------------------------------------------------|----------------------------------------------------|---------|
+| ssl.enabled                 | Boolean | Enable usage of SSL Certificates                              |                                                    | false   |
+| ssl.ca                      | String  | The CA file content                                           |                                                    |         |
+| ssl.cert                    | String  | The Certificate file content                                  |                                                    |         |
+| ssl.key                     | String  | The Certificate private key                                   |                                                    |         |
+| proxy.url                   | String  | The url to the http/s proxy including any required basic auth | https://username:password@my-proxy-server.com:8080 |         |
+| connect.port                | Number  | The connector http service port                               |                                                    | 9999    |
+| connect.service.port        | Number  | The connector service port                                    |                                                    | 9999    |
+| connect.service.annotations | Object  | Any annotations for the Connector service                     |                                                    |         |
+| connect.resources           | Object  | Resource limitation for the connector deployment              |                                                    | {}      |
+| connect.nodeSelector        | Object  | Node selector configuration for the connector deployment      |                                                    | {}      |
+| connect.affinity            | Object  | Affinity configuration for the connector deployment           |                                                    | {}      |
+| connect.tolerations         | Object  | Tolerations configuration for the connector deployment        |                                                    | {}      |
+| connect.hostAliases         | Object  | Host Aliases configuration for the connector deployment       |                                                    |         |
+| scan.resources              | Object  | Resource limitation for the scanner deployment                |                                                    | {}      |
+| scan.nodeSelector           | Object  | Node selector configuration for the scanner deployment        |                                                    | {}      |
+| scan.affinity               | Object  | Affinity configuration for the scanner deployment             |                                                    | {}      |
+| scan.tolerations            | Object  | Tolerations configuration for the scanner deployment          |                                                    | {}      |
+| scan.hostAliases            | Object  | Host Aliases configuration for the scanner deployment         |                                                    |         |
