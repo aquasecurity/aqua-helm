@@ -1,6 +1,33 @@
-{{- if empty .Values.global.argonServer }}
-{{ fail "Error - missing .Values.global.argonServer" }}
+{{- if empty .Values.global.connectServerUrl }}
+{{ fail "Error - missing .Values.global.connectServerUrl" }}
 {{- end }}
-{{- if empty .Values.global.token }}
-{{ fail "Error - missing .Values.global.token" }}
+{{- if empty .Values.global.scanServerUrl }}
+{{ fail "Error - missing .Values.global.scanServerUrl" }}
+{{- end }}
+{{- if empty .Values.global.aquaServerUrl }}
+{{ fail "Error - missing .Values.global.aquaServerUrl" }}
+{{- end }}
+{{- if empty .Values.global.cspmServerUrl }}
+{{ fail "Error - missing .Values.global.cspmServerUrl" }}
+{{- end }}
+{{- if empty .Values.credentials.aqua_key }}
+{{ fail "Error - missing .Values.credentials.aqua_key" }}
+{{- end }}
+{{- if empty .Values.credentials.aqua_secret }}
+{{ fail "Error - missing .Values.credentials.aqua_secret" }}
+{{- end }}
+{{- if empty .Values.integration.url }}
+{{ fail "Error - missing .Values.integration.url" }}
+{{- end }}
+{{- if empty .Values.integration.username }}
+{{ fail "Error - missing .Values.integration.username" }}
+{{- end }}
+{{- if empty .Values.integration.password }}
+{{ fail "Error - missing .Values.integration.password" }}
+{{- end }}
+{{- if empty .Values.integration.source }}
+{{ fail "Error - missing .Values.integration.source" }}
+{{- end }}
+{{- if empty .Values.connect.client_url }}
+{{ fail "Error - missing .Values.connect.client_url" }}
 {{- end }}

@@ -1,6 +1,5 @@
-{{- if .Values.nexus.url }}
-{{- $v := .Values.nexus.nexusBroker }}
-{{- $name := printf "%s-%s" (include "chart.fullname" . ) $v.nameSuffix }}
+{{- $v := .Values.connect }}
+{{- $name := printf "%s-%s" (include "chart.fullname" . ) "connector" }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -20,4 +19,3 @@ spec:
     protocol: TCP
     targetPort: {{ $v.port }}
   type: {{ $v.service.type | default "ClusterIP" }}
-{{- end }}

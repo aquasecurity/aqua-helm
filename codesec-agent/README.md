@@ -1,120 +1,104 @@
-# Argon Broker Deployment
+<img src="https://avatars3.githubusercontent.com/u/12783832?s=200&v=4" height="100" width="100" /><img src="https://avatars3.githubusercontent.com/u/15859888?s=200&v=4" width="100" height="100"/>
 
-## Prerequisite
-- obtain Argon Token
-- url and credentials for Bitbucket server 
+# Aqua Security Codesec Agent Helm Chart
 
-## Installation / Upgrade
-```
-helm repo add argon https://helm.aquasec.com
+*Protect your Software Supply Chain.*
+
+> Using this helm chart, you can integrate code security into your organization
+
+## Contents
+
+- [Aqua Security Codesec Agent Helm Chart](#aqua-security-codesec-agent-helm-chart)
+  - [Contents](#contents)
+  - [Prerequisites and limitations](#prerequisites-and-limitations)
+  - [Installing the chart](#installing-the-chart)
+    - [Installing Codesec Agents from Helm Private Repository](#installing-codesec-agents-from-helm-private-repository)
+  - [Variables](#variables)
+    - [Mandatory Variables](#mandatory-variables)
+    - [Optional Variables](#optional-variables)
+
+
+
+## Prerequisites and limitations
+
+* The deployment requires network access to the desired integration(SCM/Artifactory/CI tools).
+* This deployment is not for Air gapped environments.
+* Access Token/App Token for the specific integration.
+* Available integrations(and how to generate access token):
+  * [Gitlab Server](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#create-a-personal-access-token)
+  * [Azure Devops Server](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows)
+  * [BitBucket Server](https://support.atlassian.com/bitbucket-cloud/docs/app-passwords/)
+  * [JFrog Server](https://www.jfrog.com/confluence/display/JFROG/Access+Tokens)
+  * Nexus
+  * Jenkins
+
+## Installing the chart
+
+Follow the steps in this section for production grade deployments. You can either clone aqua-helm git repo or you can add our helm private repository (https://helm.aquasec.com)
+
+### Installing Codesec Agents from Helm Private Repository
+* Add Aqua Helm Repository
+```bash
+helm repo add aqua-helm https://helm.aquasec.com
 helm repo update
-HELM_RELEASE=argon-broker
-helm upgrade -i $HELM_RELEASE argon/argon-broker --namespace argon --create-namespace \
-   [ --set key1=val1,key2=val2 ] [ -f my-values.yaml ] [ <helm parameters> ] 
+```
+* Check for available chart versions by running the below command
+```bash
+helm search repo aqua-helm/codesec-agent --versions
+```
+* Install the Agents
+```bash
+helm upgrade --install --namespace aqua-codesec <RELEASE_NAME> aqua-helm/codesec-agent \
+--set credentials.aqua_key=<AQUA API KEY> \
+--set credentials.aqua_secret=<AQUA API KEY SECRET> \
+--set integration.source=<SOURCE> \
+--set integration.url=<THE INTEGRATION URL> \
+--set integration.username=<THE ACCESS TOKEN NAME OR ACCOUNT USERNAME> \
+--set integration.password=<THE ACCESS TOKEN VALUE OR ACCOUNT PASSWORD> \
+--set connect.client_url=<THE CONNECTOR SERVICE NAME OR CLUSTER IP>
 ```
 
-## Basic helm values
-- Setting <server-type>.url deploys Argon Broker for that server. Example: `--set bitbucket.url=https://bitbucket.example.com --set gitlab.url=https://gitlab.example.com` will deploy two Argon Brokers for Bitbucket and Gitlab
-- You must specify at least one <server-type>.url, otherwise nothing will be deployed
+## Variables
 
-| Value Key | Description | Mandatory |
-| --- | --- | --- |
-| **global** |
-| global.argonServer | Address of Argong Broker Server, default https://app-broker.argon.io | yes |
-| global.token | Argon Token | yes |
-| global.envs  | global envs for all pods like http_proxy | no |
-| global.registry | registry to pull images from (default docker.io) | no |
-| **bitbucket** |
-| bitbucket.url | Bitbucket URL, ex. https://bitbucket.example.com:7990 | yes, if Bitbucket Broker enabled |
-| bitbucket.username | Bitbucket username | yes, if Bitbucket Broker enabled |
-| bitbucket.password | Bitbucket password | yes, if Bitbucket Broker enabled |
-| **gitlab** |
-| gitlab.url | Gitlab URL, ex. https://gitlab.example.com | yes, if Gitlab Broker enabled |
-| gitlab.token | Gitlab token| yes, if Gitlab Broker enabled |
-| **jfrog** |
-| jfrog.url | Jfrog Artifactory URL, ex. https://jfrog.example.com | yes, if Jfrog Broker enabled |
-| jfrog.token | Jfrog Artifactory token | yes, if Jfrog Broker enabled |
-| **azure devops** |
-| azure.url | Azure Devops URL, ex. https://azure.example.com | yes, if Azure Devops Broker enabled |
-| azure.token | Azure Devops token | yes, if Azure Devops enabled |
-| **jenkins** |
-| jenkins.url | Jenkins URL, ex. https://jenkins.example.com | yes, if Jenkins Broker enabled |
-| jenkins.token | Jenkins token | yes, if Jenkins Broker enabled |
-| **nexus** |
-| nexus.url | Nexus URL, ex. https://nexus.example.com | yes, if Nexus Broker enabled |
-| nexus.token | Nexus token | yes, if Nexus Broker enabled |
-| **jira** |
-| jira.url | Jira URL, ex. https://jira.example.com | yes, if Jira Broker enabled 
-| jira.token | Jira token | yes, if Jira enabled |
-## Additional helm values
-In addition to the values above it is possible to specify:
-- custom ca and client ssl certificates for servers
-- kubernetes scheduler values - resources, nodeSelector, affinity, tolleration  
+In-order to deploy successfully there are mandatory and optional variables for certain occasions:
+* Mandatory Aqua account credentials
+* Mandatory Integration credentials
+* Optional SSL credentials for Environments that are using CA and certificates
+* Optional Http/s Proxy specification
 
-refer to [values.yaml](values.yaml) and [templates](templates) 
+___
+### Mandatory Variables
 
-## Example
-- add helm repository
-```
-helm repo add argon https://helm.aquasec.com
-```
-### Simple Connect to Bitbucket server
-```
-helm upgrade -i argon-broker argon/argon-broker --namespace argon --create-namespace \
-  --set global.token=***** \
-  --set bitbucket.url="https://bitbucket.example.com" \
-  --set bitbucket.username=bitbucket \
-  --set bitbucket.password=******
-```
+| Variable | Type | Description | Example |
+| -------- | ----------- | -------- | ---- |
+| credentials.aqua_key | String |The Aqua account api key |
+| credentials.aqua_secret | String | The Aqua account api key secret |
+| integration.source | String(Enum) | The type of the integration (gitlab_server, azure_server, bitbucket_server,jenkins,nexus,jfrog_server) | "gitlab_server" |
+| integration.url| String | The SCM/Artifactory/CI integration endpoint | "https://my-gitlab-server.com" |
+| integration.username | String | The SCM/Artifactory/CI account username or access token name | |
+| integration.password | String | The SCM/Artifactory/CI account password or access token value | |
+| connect.client_url | String | The ip or service name of the Connect agent service, used to point webhooks from the integration back to the client | http://chart-full-name-connector |
 
-### Install multiple releases per repo provider
-  
-Install different helm releases for each repo provider
-#### bitbucket
-helm upgrade -i argon-broker-bitbucket argon/argon-broker --namespace argon --create-namespace \
-  --set global.token=***** \
-  --set bitbucket.url="https://bitbucket.example.com" \
-  --set bitbucket.username=bitbucket \
-  --set bitbucket.password=******
+___
+### Optional Variables
 
-#### jfrog
-helm upgrade -i argon-broker-jfrog argon/argon-broker --namespace argon --create-namespace \
-  --set global.token=***** \
-  --set jfrog.url="https://jfrog.example.com" \
-  --set jfrog.token=*****
-
-
-
-### Advanced run with HTTP_PROXY and ssl certificates
-- create values file `my-env-values.yaml`:
-```yaml
-global:
-  argonServer: https://app-broker.argon.io
-  token: ***** 
-  envs:
-    http_proxy: proxy.example.com:3128
-    https_proxy: proxy.example.com:3128
-    no_proxy: .example.com
-
-gitlab:
-  url: https://gitlab.example.com
-  token: *****
-  ssl:
-    ca: -|
-      -----BEGIN CERTIFICATE-----
-      ***** ca-cert-content
-      -----END CERTIFICATE
-    cert: -|
-      -----BEGIN CERTIFICATE-----
-      ***** client-cert
-      -----END CERTIFICATE-----
-    key: -|
-      -----BEGIN RSA PRIVATE KEY-----
-      ***** private-key-content
-      -----END RSA PRIVATE KEY-----
-```
-- run helm
-```
-helm upgrade -i argon-broker argon/argon-broker --namespace argon --create-namespace -f my-env-values.yaml
-```
-
+| Variable                    | Type    | Description                                                   | Example                                            | Default |
+|-----------------------------|---------|---------------------------------------------------------------|----------------------------------------------------|---------|
+| ssl.enabled                 | Boolean | Enable usage of SSL Certificates                              |                                                    | false   |
+| ssl.ca                      | String  | The CA file content                                           |                                                    |         |
+| ssl.cert                    | String  | The Certificate file content                                  |                                                    |         |
+| ssl.key                     | String  | The Certificate private key                                   |                                                    |         |
+| proxy.url                   | String  | The url to the http/s proxy including any required basic auth | https://username:password@my-proxy-server.com:8080 |         |
+| connect.port                | Number  | The connector http service port                               |                                                    | 9999    |
+| connect.service.port        | Number  | The connector service port                                    |                                                    | 9999    |
+| connect.service.annotations | Object  | Any annotations for the Connector service                     |                                                    |         |
+| connect.resources           | Object  | Resource limitation for the connector deployment              |                                                    | {}      |
+| connect.nodeSelector        | Object  | Node selector configuration for the connector deployment      |                                                    | {}      |
+| connect.affinity            | Object  | Affinity configuration for the connector deployment           |                                                    | {}      |
+| connect.tolerations         | Object  | Tolerations configuration for the connector deployment        |                                                    | {}      |
+| connect.hostAliases         | Object  | Host Aliases configuration for the connector deployment       |                                                    |         |
+| scan.resources              | Object  | Resource limitation for the scanner deployment                |                                                    | {}      |
+| scan.nodeSelector           | Object  | Node selector configuration for the scanner deployment        |                                                    | {}      |
+| scan.affinity               | Object  | Affinity configuration for the scanner deployment             |                                                    | {}      |
+| scan.tolerations            | Object  | Tolerations configuration for the scanner deployment          |                                                    | {}      |
+| scan.hostAliases            | Object  | Host Aliases configuration for the scanner deployment         |                                                    |         |

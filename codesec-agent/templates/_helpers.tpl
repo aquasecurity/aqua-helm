@@ -35,7 +35,7 @@ Create chart name and version as used by the chart label.
 CommonPodLabels:
 example:
 metadata:
-  labels: 
+  labels:
 {{ include common.podLabels . | indent 4 }}
 */}}
 {{- define "common.podLabels" -}}
@@ -59,13 +59,13 @@ example: {{ include common.image .Values.brokerBitbucket }}
 
 {{/*
 ssl secret volume mount :
-example: 
+example:
 {{- $ssl := dict "secret" $bitbucket_secret "ssl" .Values.bitbucket.ssl }}
 ....
           envs:
           ...
           {{- include "ssl.envs" $ssl | indent 10 }}
-          
+
           volumeMounts:
           {{- include "ssl.volumeMount" $ssl | indent 10 }}
       volumes:
@@ -96,7 +96,7 @@ example:
 - name: {{ .volumeName | default "ssl" }}
   mountPath: {{ $mountPath }}
 {{- end }}
-{{- end }}
+{{- end }} }}
 
 
 {{- define "ssl.volumeSecret" -}}

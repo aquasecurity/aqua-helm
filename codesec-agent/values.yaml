@@ -1,324 +1,60 @@
 global:
-  ## Set Argon Server Address and token. Manadatory values
-  argonServer: https://app-broker.argon.io
-  token:
-  username:
+  connectServerUrl: https://connect.codesec.aquasec.com
+  scanServerUrl: https://scan.codesec.aquasec.com
+  aquaServerUrl: https://aqua-api.aquasec.com
+  cspmServerUrl: https://api.cloudsploit.com
 
-  ### Set Registry to pull images (default - docker.io)
-  # registry: "docker.io"
+credentials:
+  aqua_key:
+  aqua_secret:
 
-  ### Optionally Set Global Envs, for example for proxy
-  # env:
-  #   HTTP_PROXY: proxy.example.com:3128
-  #   HTTPS_PROXY: proxy.example.com:3128
-
-  ### Optionally set common pod labels
-  # commonPodLabels: {}
-
-#######################################################
-#  Bitbucket
-#######################################################
-bitbucket:
+# SCM configurations:
+integration:
+  # Should be one of: github|gitlab_server|azure|jenkins|etc...
+  source:
   url:
-  username: bitbucket
+  username:
   password:
-  ### Optionally add ssl ca cert and client cert/key for ssl connection to the server
-  # ssl:
-  #   ca: -|
-  #     -----BEGIN CERTIFICATE-----
-  #     ca-cert
-  #     -----END CERTIFICATE
-  #   cert: -|
-  #     -----BEGIN CERTIFICATE-----
-  #     client-cert
-  #     -----END CERTIFICATE-----
-  #   key: -|
-  #     -----BEGIN RSA PRIVATE KEY-----
-  #     secure key
-  #     -----BEGIN RSA PRIVATE KEY-----
 
-  bitbucketBroker:
-    nameSuffix: bitbucket-broker
-    image:
-      repository: argonsecurity/broker
-      tag: bitbucket
+# Optionally add ssl ca cert and client cert/key for ssl connection to the SCM/CI server:
+ssl:
+  enabled: false
+#  ca: -|
+#    -----BEGIN CERTIFICATE-----
+#    ca-cert
+#    -----END CERTIFICATE
+#  cert: -|
+#    -----BEGIN CERTIFICATE-----
+#    client-cert
+#    -----END CERTIFICATE-----
+#  key: -|
+#    -----BEGIN RSA PRIVATE KEY-----
+#    secure key
+#    -----BEGIN RSA PRIVATE KEY-----
 
-    port: 9091
-    service:
-      type: ClusterIP
-      annotations: {}
-
-    resources: {}
-    nodeSelector: {}
-    affinity: {}
-    tollerations: {}
-
-  bitbucketSecretsScanner:
-    nameSuffix: bitbucket-secrets-scanner
-    image:
-      repository: argonsecurity/secrets-scanner-broker
-      tag: bitbucket
-
-    port: 9094
-    service:
-      type: ClusterIP
-      annotations: {}
-
-    resources: {}
-    nodeSelector: {}
-    affinity: {}
-    tollerations: {}
-
-  bitbucketSastScanner:
-    nameSuffix: bitbucket-sast-scanner
-    image:
-      repository: argonsecurity/sast-scanner-broker
-      tag: bitbucket
-
-    port: 9095
-    service:
-      type: ClusterIP
-      annotations: {}
-
-    resources: {}
-    nodeSelector: {}
-    affinity: {}
-    tollerations: {}
-
-#######################################################
-#  Gitlab
-#######################################################
-gitlab:
+proxy:
   url:
-  token:
-  username:
-  ### Optionally add ssl ca cert and client cert/key for ssl connection to the server
-  # ssl:
-  #   ca:
-  #   cert:
-  #   key:
 
-  gitlabBroker:
-    nameSuffix: gitlab-broker
-    image:
-      repository: argonsecurity/broker
-      tag: gitlab
+connect:
+  image: docker.io/aquasec/codesec-connector:minified
+  pullPolicy: Always
+  port: 9999
+  client_url:
+  service:
+    port: 9999
+    type: ClusterIP
+    annotations: {}
+  resources: {}
+  nodeSelector: {}
+  affinity: {}
+  tolerations: {}
+  hostAliases:
 
-    port: 9091
-    service:
-      type: ClusterIP
-      annotations: {}
-
-    resources: {}
-    nodeSelector: {}
-    affinity: {}
-    tollerations: {}
-
-  gitlabSecretsScanner:
-    nameSuffix: gitlab-secrets-scanner
-    image:
-      repository: argonsecurity/secrets-scanner-broker
-      tag: gitlab
-
-    port: 9094
-    service:
-      type: ClusterIP
-      annotations: {}
-
-    resources: {}
-    nodeSelector: {}
-    affinity: {}
-    tollerations: {}
-
-  gitlabSastScanner:
-    nameSuffix: gitlab-sast-scanner
-    image:
-      repository: argonsecurity/sast-scanner-broker
-      tag: gitlab
-
-    port: 9095
-    service:
-      type: ClusterIP
-      annotations: {}
-
-    resources: {}
-    nodeSelector: {}
-    affinity: {}
-    tollerations: {}
-
-#######################################################
-#  Jfrog
-#######################################################
-jfrog:
-  url:
-  token:
-  username:
-  ### Optionally add ssl ca cert and client cert/key for ssl connection to the server
-  # ssl:
-  #   ca:
-  #   cert:
-  #   key:
-
-  jfrogBroker:
-    nameSuffix: jfrog-broker
-    image:
-      repository: argonsecurity/broker
-      tag: jfrog
-
-    port: 9091
-    service:
-      type: ClusterIP
-      annotations: {}
-
-    resources: {}
-    nodeSelector: {}
-    affinity: {}
-    tollerations: {}
-
-#######################################################
-#  Azure Devops
-#######################################################
-azure:
-  url:
-  token:
-  username:
-  ### Optionally add ssl ca cert and client cert/key for ssl connection to the server
-  # ssl:
-  #   ca:
-  #   cert:
-  #   key:
-
-  azureBroker:
-    nameSuffix: azure-broker
-    image:
-      repository: argonsecurity/broker
-      tag: azure
-
-    port: 9091
-    service:
-      type: ClusterIP
-      annotations: {}
-
-    resources: {}
-    nodeSelector: {}
-    affinity: {}
-    tollerations: {}
-
-  azureSecretsScanner:
-    nameSuffix: azure-secrets-scanner
-    image:
-      repository: argonsecurity/secrets-scanner-broker
-      tag: azure
-
-    port: 9094
-    service:
-      type: ClusterIP
-      annotations: {}
-
-    resources: {}
-    nodeSelector: {}
-    affinity: {}
-    tollerations: {}
-
-  azureSastScanner:
-    nameSuffix: azure-sast-scanner
-    image:
-      repository: argonsecurity/sast-scanner-broker
-      tag: azure
-
-    port: 9095
-    service:
-      type: ClusterIP
-      annotations: {}
-
-    resources: {}
-    nodeSelector: {}
-    affinity: {}
-    tollerations: {}
-
-#######################################################
-#  Jenkins
-#######################################################
-jenkins:
-  url:
-  token:
-  username:
-  ### Optionally add ssl ca cert and client cert/key for ssl connection to the server
-  # ssl:
-  #   ca:
-  #   cert:
-  #   key:
-
-  jenkinsBroker:
-    nameSuffix: jenkins-broker
-    image:
-      repository: argonsecurity/broker
-      tag: jenkins
-
-    port: 9093
-    service:
-      type: ClusterIP
-      annotations: {}
-
-    resources: {}
-    nodeSelector: {}
-    affinity: {}
-    tollerations: {}
-
-#######################################################
-#  Nexus
-#######################################################
-nexus:
-  url:
-  token:
-  username:
-  ### Optionally add ssl ca cert and client cert/key for ssl connection to the server
-  # ssl:
-  #   ca:
-  #   cert:
-  #   key:
-
-  nexusBroker:
-    nameSuffix: nexus-broker
-    image:
-      repository: argonsecurity/broker
-      tag: nexus
-
-    port: 9093
-    service:
-      type: ClusterIP
-      annotations: {}
-
-    resources: {}
-    nodeSelector: {}
-    affinity: {}
-    tollerations: {}
-
-#######################################################
-#  Jira
-#######################################################
-jira:
-  url:
-  token:
-  username:
-  ### Optionally add ssl ca cert and client cert/key for ssl connection to the server
-  # ssl:
-  #   ca:
-  #   cert:
-  #   key:
-
-  jiraBroker:
-    nameSuffix: jira-broker
-    image:
-      repository: argonsecurity/broker
-      tag: jira
-
-    port: 9096
-    service:
-      type: ClusterIP
-      annotations: {}
-
-    resources: {}
-    nodeSelector: {}
-    affinity: {}
-    tollerations: {}
+scan:
+  image: docker.io/aquasec/codesec-scanner:latest
+  pullPolicy: Always
+  resources: {}
+  nodeSelector: {}
+  affinity: {}
+  tolerations: {}
+  hostAliases:

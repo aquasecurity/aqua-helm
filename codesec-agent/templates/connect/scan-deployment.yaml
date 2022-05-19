@@ -1,0 +1,95 @@
+{{- $v := .Values.scan }}
+{{- $name := printf "%s-%s" (include "chart.fullname" . ) "scanner" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $name }}
+  labels:
+    app.kubernetes.io/name: {{ $name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ $name }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ $name }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+{{ include "common.podLabels" . | indent 8 }}
+    spec:
+      {{- with .Values.connect.hostAliases }}
+      hostAliases:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ $name }}
+          image: {{ $v.image }}
+          imagePullPolicy: {{ $v.pullPolicy }}
+          env:
+          - name: SCANNER_SERVER
+            value: {{ .Values.global.scanServerUrl }}
+          - name: PORT
+            value: {{ $v.port | quote }}
+          - name: SOURCE
+            value: {{ .Values.integration.source }}
+          - name: SCM_URL
+            value: {{ .Values.integration.url }}
+
+          {{- if .Values.ssl.enabled }}
+          {{- if .Values.ssl.ca }}
+          - name: CA_CERT # Path to file
+            value: /home/node/ca.pem
+          {{- end }}
+          - name: HTTPS_CERT # Path to file
+            value: /home/node/cert.pem
+          - name: HTTPS_KEY # Path to file
+            value: /home/node/key.pem
+          {{- end }}
+
+          {{- if .Values.proxy.url }}
+          - name: HTTP_PROXY
+            value: {{ .Values.proxy.url }}
+          {{- end }}
+
+          envFrom:
+            - secretRef:
+                name: {{ printf "%s-%s" (include "chart.fullname" . ) "secrets" }}
+
+          resources:
+            {{- toYaml $v.resources | indent 12 }}
+
+          {{- if .Values.ssl.enabled }}
+          volumeMounts:
+            - name: ssl-secrets
+              mountPath: "/home/node"
+          {{- end }}
+          {{- if .Values.ssl.enabled }}
+      volumes:
+        - name: ssl-secrets
+          secret:
+            secretName: {{ printf "%s-%s" (include "chart.fullname" . ) "secrets" }}
+            items:
+              {{- if .Values.ssl.ca }}
+              - key: ssl-ca-certificate
+                path: ca.pem
+              {{- end }}
+              - key: ssl-certificate
+                path: cert.pem
+              - key: ssl-key
+                path: key.pem
+      {{- end }}
+    {{- with $v.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with $v.affinity }}
+      affinity:
+        {{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with $v.tolerations }}
+      tolerations:
+        {{ toYaml . | indent 8 }}
+    {{- end }}
