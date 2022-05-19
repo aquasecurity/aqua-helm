@@ -1,3 +1,5 @@
+## 6.5.18 ( May 18th, 2022 )
+* Rename RoleBinding to ClusterRole vmware-system-privileged if platform=tkg
 ## 6.5.17 ( April 26th, 2022 )
 * Remove unused envoy 8082 port
 ## 6.5.16 ( April 10th, 2022 )
