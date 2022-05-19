@@ -61,7 +61,7 @@ spec:
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
         command: [ "sh", "-c", "[ -f $PGDATA/server.key ] && chmod 600 $PGDATA/server.key || echo 'OK' " ]
         volumeMounts:
-        {{- if .Values.global.db.persistence.enabled }}
+        {{- if .Values.global.db.persistence.database.enabled }}
         - mountPath: /var/lib/postgresql/data
           name: postgres-database
         {{- end }}
@@ -97,7 +97,7 @@ spec:
         {{- include "server.extraEnvironmentVars" .Values.global.db | nindent 8 }}
         {{- include "server.extraSecretEnvironmentVars" .Values.global.db | nindent 8 }}
         volumeMounts:
-        {{- if .Values.global.db.persistence.enabled }}
+        {{- if .Values.global.db.persistence.database.enabled }}
         - mountPath: /var/lib/postgresql/data
           name: postgres-database
         {{- end }}
@@ -127,7 +127,7 @@ spec:
 {{ toYaml .Values.global.db.tolerations | indent 6 }}
       {{- end }}
       volumes:
-      {{- if .Values.global.db.persistence.enabled }}
+      {{- if .Values.global.db.persistence.database.enabled }}
       - name: postgres-database
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-database-pvc
@@ -191,7 +191,7 @@ spec:
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
         command: [ "sh", "-c", "[ -f $PGDATA/server.key ] && chmod 600 $PGDATA/server.key || echo 'OK' " ]
         volumeMounts:
-        {{- if .Values.global.db.persistence.enabled }}
+        {{- if .Values.global.db.persistence.audit_database.enabled }}
         - mountPath: /var/lib/postgresql/data
           name: postgres-audit-database
         {{- end }}
@@ -227,7 +227,7 @@ spec:
         {{- include "server.extraEnvironmentVars" .Values.global.db | nindent 8 }}
         {{- include "server.extraSecretEnvironmentVars" .Values.global.db | nindent 8 }}
         volumeMounts:
-        {{- if .Values.global.db.persistence.enabled }}
+        {{- if .Values.global.db.persistence.audit_database.enabled }}
         - mountPath: /var/lib/postgresql/data
           name: postgres-audit-database
         {{- end }}
@@ -257,7 +257,7 @@ spec:
 {{ toYaml .Values.global.db.tolerations | indent 6 }}
       {{- end }}
       volumes:
-      {{- if .Values.global.db.persistence.enabled }}
+      {{- if .Values.global.db.persistence.audit_database.enabled }}
       - name: postgres-audit-database
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-audit-database-pvc

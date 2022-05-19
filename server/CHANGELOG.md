@@ -1,3 +1,5 @@
+## 6.5.19 ( May 19th, 2022 )
+* Separate packaged DB volume size
 ## 6.5.18 ( May 18th, 2022 )
 * Rename RoleBinding to ClusterRole vmware-system-privileged if platform=tkg
 ## 6.5.17 ( April 26th, 2022 )
