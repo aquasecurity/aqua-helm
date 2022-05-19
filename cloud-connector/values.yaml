@@ -38,6 +38,14 @@ adminFromSecret:
   userkey: ""
   passwordKey: ""
 
+token: "" # Add token configured in Aqua ESE if enabled. Contact support to enable cloud connector.
+
+TokenFromSecret:
+  enable: false
+  secretName: "" # Add the secret name referencing the token
+  token: "" # Add the cloud connector token from Aqua ESE 
+
+
 healthPort:
   port: "8080"     # default is 8080
 
