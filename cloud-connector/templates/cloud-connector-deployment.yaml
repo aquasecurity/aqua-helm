@@ -72,15 +72,15 @@ spec:
               name: {{ .Release.Name }}-user-secret
               {{- end }}
         - name: AQUA_CLOUD_CONNECTOR_TOKEN
-        valueFrom:
-          secretKeyRef:
-              {{- if .Values.TokenFromSecret.enable }}
-              key: {{ .Values.TokenFromSecret.token }}     
-              name: {{ .Values.TokenFromSecret.secretName }}
-              {{- else }}
-              key: token
-              name: {{ .Release.Name }}-token-secret
-              {{- end }}                         
+          valueFrom:
+            secretKeyRef:
+                {{- if .Values.TokenFromSecret.enable }}
+                key: {{ .Values.TokenFromSecret.token }}     
+                name: {{ .Values.TokenFromSecret.secretName }}
+                {{- else }}
+                key: token
+                name: {{ .Release.Name }}-token-secret
+                {{- end }}                         
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         ports:
