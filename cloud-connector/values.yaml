@@ -26,6 +26,16 @@ securityContext:
 container_securityContext:
   privileged: false
 
+# creates admin and password or token secret dependent on the authentication type
+auth:
+  auth_type: "" # use either "user" or "token" for the value type
+  authFromSecret:
+    enable: false
+    secretName: ""
+    username: ""
+    password: ""
+    token: ""
+
 # creates admin username and password secret using below provided pain-text values.
 admin:
   username: ""      # Add plain text value of the Aqua username
@@ -43,8 +53,7 @@ token: "" # Add token configured in Aqua ESE if enabled. Contact support to enab
 TokenFromSecret:
   enable: false
   secretName: "" # Add the secret name referencing the token
-  token: "" # Add the cloud connector token from Aqua ESE 
-
+  tokenkey: "" # Add the cloud connector token from Aqua ESE 
 
 healthPort:
   port: "8080"     # default is 8080

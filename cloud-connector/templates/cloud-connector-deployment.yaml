@@ -51,12 +51,13 @@ spec:
         - configMapRef:
             name: {{ .Release.Namespace }}-cloud-connector-configmap
         env:
+        {{- if eq .Values.auth.type "user" }}
         - name: AQUA_CLOUD_CONNECTOR_USERNAME
           valueFrom:
             secretKeyRef:
-              {{- if .Values.adminFromSecret.enable }}
-              key: {{ .Values.adminFromSecret.userkey }}
-              name: {{ .Values.adminFromSecret.secretName }}
+              {{- if .Values.auth.authFromSecret.enable }}
+              key: {{ .Values.auth.authFromSecret.username }}
+              name: {{ .Values.auth.authFromSecret.secretName }}
               {{- else }}
               key: username
               name: {{ .Release.Name }}-user-secret
@@ -64,23 +65,29 @@ spec:
         - name: AQUA_CLOUD_CONNECTOR_PASSWORD
           valueFrom:
             secretKeyRef:
-              {{- if .Values.adminFromSecret.enable }}
-              key: {{ .Values.adminFromSecret.userkey }}
-              name: {{ .Values.adminFromSecret.secretName }}
+              {{- if .Values.auth.authFromSecret.enable }}
+              key: {{ .Values.auth.authFromSecret.username }}
+              name: {{ .Values.auth.authFromSecret.secretName }}
               {{- else }}
               key: password
               name: {{ .Release.Name }}-user-secret
               {{- end }}
+        {{- else if eq .Values.auth.type "token" }}     
         - name: AQUA_CLOUD_CONNECTOR_TOKEN
           valueFrom:
             secretKeyRef:
-                {{- if .Values.TokenFromSecret.enable }}
-                key: {{ .Values.TokenFromSecret.token }}     
-                name: {{ .Values.TokenFromSecret.secretName }}
+                {{- if .Values.auth.authFromSecret.enable }}
+                key: {{ .Values.auth.authFromSecret.token }}     
+                name: {{ .Values.auth.authFromSecret.secretName }}
                 {{- else }}
                 key: token
                 name: {{ .Release.Name }}-token-secret
-                {{- end }}                         
+                {{- end }}
+        {{- end }}
+        - name: AQUA_CLOUD_CONNECTOR_USERNAME
+          value: username
+        - name: AQUA_CLOUD_CONNECTOR_PASSWORD
+          value: password                                  
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         ports:
