@@ -53,6 +53,7 @@ connect:
 scan:
   image: docker.io/aquasec/codesec-scanner:latest
   pullPolicy: Always
+  replicas: 1
   resources: {}
   nodeSelector: {}
   affinity: {}

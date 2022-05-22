@@ -97,6 +97,7 @@ ___
 | connect.affinity            | Object  | Affinity configuration for the connector deployment           |                                                    | {}      |
 | connect.tolerations         | Object  | Tolerations configuration for the connector deployment        |                                                    | {}      |
 | connect.hostAliases         | Object  | Host Aliases configuration for the connector deployment       |                                                    |         |
+| scan.replicas               | Number  | Number of pod replicas for the "scanner" service.             |                                                    | 1       |
 | scan.resources              | Object  | Resource limitation for the scanner deployment                |                                                    | {}      |
 | scan.nodeSelector           | Object  | Node selector configuration for the scanner deployment        |                                                    | {}      |
 | scan.affinity               | Object  | Affinity configuration for the scanner deployment             |                                                    | {}      |
