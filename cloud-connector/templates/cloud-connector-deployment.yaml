@@ -51,7 +51,7 @@ spec:
         - configMapRef:
             name: {{ .Release.Namespace }}-cloud-connector-configmap
         env:
-        {{- if eq .Values.auth.type "user" }}
+        {{- if eq .Values.auth.auth_type "user" }}
         - name: AQUA_CLOUD_CONNECTOR_USERNAME
           valueFrom:
             secretKeyRef:
@@ -72,7 +72,7 @@ spec:
               key: password
               name: {{ .Release.Name }}-user-secret
               {{- end }}
-        {{- else if eq .Values.auth.type "token" }}     
+        {{- else if eq .Values.auth.auth_type "token" }}     
         - name: AQUA_CLOUD_CONNECTOR_TOKEN
           valueFrom:
             secretKeyRef:
