@@ -84,6 +84,7 @@ Parameter | Description | Default                 | Mandatory
 `tolerations` |	Kubernetes node tolerations	| `[]`                    | `NO`
 `podAnnotations` | Kubernetes pod annotations | `{}`                    | `NO`
 `affinity` |	Kubernetes node affinity | `{}`                    | `NO`
+`auth.auth_type` |	`user` or `token` for connecting to Aqua SaaS environments | `{}`                    | `NO`
 
 
 > Note: that `imageCredentials.create` is false and if you need to create image pull secret please update to true, set the username and password for the registry and `serviceAccount.create` is false and if you're environment is new or not having aqua-sa serviceaccount please update it to true.
