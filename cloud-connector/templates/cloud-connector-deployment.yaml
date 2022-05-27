@@ -83,6 +83,8 @@ spec:
         livenessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
       volumes:
         - name: config
           configMap:
