@@ -11,7 +11,6 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Prerequisites](#prerequisites)
     - [Container Registry Credentials](#container-registry-credentials)
   - [Installing the Chart](#installing-the-chart)
-    - [Installing Aqua Cloud-Connector from Github Repo](#installing-aqua-cloud-connector-from-github-repo)
     - [Installing Aqua Cloud-Connector from Helm Private Repository](#installing-aqua-cloud-connector-from-helm-private-repository)
   - [Configurable Variables](#configurable-variables)
     - [Cloud-Connector](#cloud-connector)
@@ -55,29 +54,40 @@ Parameter | Description | Default                 | Mandatory
 `imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com`  | `YES - New cluster`
 `imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/` | `registry.aquasec.com`  | `YES - New cluster`
 `imageCredentials.username` | Your Docker registry (DockerHub, etc.) username | `aqua-registry-secret`  | `YES - New cluster`
-`imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `unset`                 | `YES - New cluster`
+`imageCredentials.password` | Your Docker registry (DockerHub, etc.) password | `""`                 | `YES - New cluster`
 `serviceAccount.create` | enable to create aqua-sa serviceaccount if it is missing in the environment | `false`                 | `YES - New cluster`
 `image.repository` | the docker image name to use | `cc-standard`           | `YES`
 `image.tag` | The image tag to use. | `2022.4`                | `YES`
 `image.pullPolicy` | The kubernetes image pull policy | `Always`                | `NO`
-`admin.username` | Admin Username | `unset`                 |`YES`
-`admin.password` | Admin Password | `unset`                 |`YES`
+`replicaCount` | Kubernetes replica count | `1` | `YES`
+`authType.tokenAuth` | Boolean value to select authentication type as token | `true` | `YES`
+`authType.userCreds` | Boolean value to select authentication type as user/password | `false` | `YES`
+`token` | Token value generated from the UI | `""` | `YES - authtype selected as token`
+`tokenFromSecret.enable` | Enable to true to load token from existing secret | `false` | `NO`
+`tokenFromSecret.secretName` | Loaded secret name for token | `""` | `NO`
+`tokenFromSecret.tokenKey` | Loaded secret token key value | `""` | `NO`
+`userCreds.username` | Admin Username | `""`                 |`YES`
+`userCreds.password` | Admin Password | `""`                 |`YES`
+`userCredsFromSecret.enable` | Enable to true to load user credentials from existing secret | `false` | `NO`
+`userCredsFromSecret.secretName` | Loaded secret name for user credentials | `""` | `NO`
+`userCredsFromSecret.userKey` | Loaded secret username key value | `""` | `NO`
+`userCredsFromSecret.passwordKey` | loaded secret password key value | `""` | `NO`
 `healthPort.port` | Aqua Cloud Connector Health Port | `8080`                  | `YES`
-`tunnels.azure.registryHost` |Azure conatainer registry host, if ACR is in use for container images| `unset`                 | `NO`
-`tunnels.azure.registryPort` |Azure conatainer registry port, if ACR is in use for container images| `unset`                 | `NO`
-`tunnels.aws.registryHost` |AWS conatainer registry host, if ECR is in use for container images| `unset`                 | `NO`
+`tunnels.azure.registryHost` |Azure conatainer registry host, if ACR is in use for container images| `""`                 | `NO`
+`tunnels.azure.registryPort` |Azure conatainer registry port, if ACR is in use for container images| `""`                 | `NO`
+`tunnels.aws.registryHost` |AWS conatainer registry host, if ECR is in use for container images| `""`                 | `NO`
 `tunnels.aws.registryPort` |AWS conatainer registry type, if ECR is in use for container images| `ecr`                   | `NO`
-`tunnels.aws.service.type` |AWS conatainer registry region, if ECR is in use for container images| `unset`                 | `YES - if AWS ECR in use`
-`tunnels.aws.service.region` |AWS conatainer registry port, if ECR is in use for container images| `unset`                 | `YES - if AWS ECR in use`
-`tunnels.gcp.registryHost` |GCP conatainer registry host, if GCR is in use for container images| `unset`                 | `NO`
-`tunnels.gcp.registryPort` |Azure conatainer registry port, if GCR is in use for container images| `unset`                 | `NO`
-`tunnels.jfrog.registryHost` |JFrog conatainer registry host, if JFrog regostry is in use for container images| `unset`                 |
-`tunnels.jfrog.registryPort` |JFrog conatainer registry port, if JFrog registry is in use for container images| `unset`                 | `NO`
-`tunnels.onprem.registryHost` |onprem conatainer registry host, if onprem registry is in use for container images| `unset`                 | `NO`
-`tunnels.onprem.registryPort` |onprem conatainer registry port, if onprem registry is in use for container images| `unset`                 | `NO`
+`tunnels.aws.service.type` |AWS conatainer registry region, if ECR is in use for container images| `""`                 | `YES - if AWS ECR in use`
+`tunnels.aws.service.region` |AWS conatainer registry port, if ECR is in use for container images| `""`                 | `YES - if AWS ECR in use`
+`tunnels.gcp.registryHost` |GCP conatainer registry host, if GCR is in use for container images| `""`                 | `NO`
+`tunnels.gcp.registryPort` |Azure conatainer registry port, if GCR is in use for container images| `""`                 | `NO`
+`tunnels.jfrog.registryHost` |JFrog conatainer registry host, if JFrog regostry is in use for container images| `""`                 |
+`tunnels.jfrog.registryPort` |JFrog conatainer registry port, if JFrog registry is in use for container images| `""`                 | `NO`
+`tunnels.onprem.registryHost` |onprem conatainer registry host, if onprem registry is in use for container images| `""`                 | `NO`
+`tunnels.onprem.registryPort` |onprem conatainer registry port, if onprem registry is in use for container images| `""`                 | `NO`
 `gateway.host` | gateway host | `aqua-gateway-svc.aqua` | `YES`
 `gateway.port` | gateway port | `8443`                  | `YES`
-`TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and ay/envoy | `0`                     |  `YES` <br /> `if TLS.enabled is set to true`
+`TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and envoy | `0`                     |  `YES` <br /> `if TLS.enabled is set to true`
 `container_securityContext.privileged` | Container security context | `false`                 | `NO`
 `resources` |	Resource requests and limits | `{}`                    | `NO`
 `nodeSelector` |	Kubernetes node selector	| `{}`                    | `NO`
