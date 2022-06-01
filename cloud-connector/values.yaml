@@ -26,13 +26,33 @@ securityContext:
 container_securityContext:
   privileged: false
 
-# creates admin username and password secret using below provided pain-text values.
-admin:
+gateway:
+  host: "aqua-gateway-svc.aqua"   # Gateway Host Address
+  port: "8443"               # Gateway Port
+
+# Cloud-Connector can authenticate using 2 ways, Token_based authentication and User/Password
+authType:
+  tokenAuth: true     # Boolean Value(true/false) to enable/disable token based authentication
+  userCreds: false    # Boolean Value(true/false) to enable/disable user/password authentication
+
+## Token-based authentication
+# Add plain text value of cloud connector token generated from aqua ui
+token: ""
+# ( or )
+# To load token from existing secret
+tokenFromSecret:
+  enable: false
+  secretName: ""
+  tokenKey: ""
+
+## User/Password authentication
+# creates username and password secret using below provided pain-text values.
+userCreds:
   username: ""      # Add plain text value of the Aqua username
   password: ""      # Add plain text value of the Aqua password
 # ( or )
-# To load admin username and password from existing secret
-adminFromSecret:
+# To load username and password from existing secret
+userCredsFromSecret:
   enable: false
   secretName: ""
   userkey: ""
@@ -40,6 +60,32 @@ adminFromSecret:
 
 healthPort:
   port: "8080"     # default is 8080
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 10
+
+resources: {}
+  # Note: For recommendations please check the official sizing guide.
+  # requests:
+  #   cpu: 500m
+  #   memory: 0.5Gi
+  # limits:
+  #   cpu: 2000m
+  #   memory: 2Gi
+
+tls_verify:
+  value: "0"    # change it to "1" to enable tls_verify b/w Gateway and Cloud-Connector
+
+nodeSelector: {}
+tolerations: []
+podAnnotations: {}
+affinity: {}
 
 tunnels:
   # ACR - Azure Container Registry
@@ -64,33 +110,3 @@ tunnels:
   onprem:
     registryHost: ""
     registryPort: ""
-
-gateway:
-  host: "aqua-gateway-svc.aqua"   # Gateway Host Address
-  port: "8443"               # Gateway Port
-
-tls_verify:
-  value: "0"    # change it to "1" to enable tls_verify b/w Gateway and Cloud-Connector
-
-livenessProbe:
-  httpGet:
-    path: /health
-    port: 8080
-  initialDelaySeconds: 5
-  periodSeconds: 10
-  successThreshold: 1
-  failureThreshold: 10
-
-resources: {}
-  # Note: For recommendations please check the official sizing guide.
-  # requests:
-  #   cpu: 500m
-  #   memory: 0.5Gi
-  # limits:
-  #   cpu: 2000m
-  #   memory: 2Gi
-
-nodeSelector: {}
-tolerations: []
-podAnnotations: {}
-affinity: {}
