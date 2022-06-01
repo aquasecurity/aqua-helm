@@ -70,6 +70,15 @@ livenessProbe:
   successThreshold: 1
   failureThreshold: 10
 
+resources: {}
+  # Note: For recommendations please check the official sizing guide.
+  # requests:
+  #   cpu: 500m
+  #   memory: 0.5Gi
+  # limits:
+  #   cpu: 2000m
+  #   memory: 2Gi
+
 tls_verify:
   value: "0"    # change it to "1" to enable tls_verify b/w Gateway and Cloud-Connector
 
