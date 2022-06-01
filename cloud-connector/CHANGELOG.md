@@ -1,3 +1,6 @@
+## 6.5.4 ( June 1st, 2022 )
+* Add resource support to cloud-connector [#601](https://github.com/aquasecurity/aqua-helm/pull/601)
+
 ## 6.5.3 ( April 22nd, 2022 )
 * Fix user/password base64 conversion [#569](https://github.com/aquasecurity/aqua-helm/pull/569)
 * Add support to load user/password from secret
