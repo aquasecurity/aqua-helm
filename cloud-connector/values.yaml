@@ -81,6 +81,15 @@ livenessProbe:
   successThreshold: 1
   failureThreshold: 10
 
+resources: {}
+  # Note: For recommendations please check the official sizing guide.
+  # requests:
+  #   cpu: 500m
+  #   memory: 0.5Gi
+  # limits:
+  #   cpu: 2000m
+  #   memory: 2Gi
+
 nodeSelector: {}
 tolerations: []
 podAnnotations: {}
