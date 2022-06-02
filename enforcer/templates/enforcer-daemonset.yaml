@@ -129,8 +129,18 @@ spec:
 {{ toYaml . | indent 10 }}
 {{- end }}
 {{- end }}
+        {{- if .Values.global.enforcer.enabled }}
         resources:
-{{ toYaml .Values.resources | indent 12 }}
+          requests:
+            cpu: "500m"
+            memory: "1640Mi"
+          limits:
+            cpu: "2000m"
+            memory: "2660Mi"
+        {{- else }}
+        resources:
+          {{ toYaml .Values.resources | nindent 12 }}
+        {{- end }}
       dnsPolicy: {{ .Values.dnsPolicy }}
       hostPID: {{ .Values.hostPID }}
       restartPolicy: {{ .Values.restartPolicy }}
