@@ -271,9 +271,9 @@ starboard:
     failureThreshold: 10
 
   nodeSelector: {}
-  tolerations: [ ]
-  podAnnotations: { }
-  affinity: { }
+  tolerations: []
+  podAnnotations: {}
+  affinity: {}
 
 ##Kube Enforcer advance deployment options
 ### Advanced Deployment (for Pod Enforcer injection)

@@ -1,3 +1,5 @@
+## 6.5.12 ( June 7th, 2022 )
+* Fix serviceaccount name
 ## 6.5.11 ( May 18th, 2022 )
 * Rename RoleBinding to ClusterRole vmware-system-privileged if platform=tkg
 ## 6.5.10 ( April 10th, 2022 )

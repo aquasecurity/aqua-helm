@@ -82,6 +82,9 @@ container_securityContext: {}
 
 pdb:
   minAvailable: "1"
+
+nameOverride: ""
+
 # TLS is for enabling mTLS/TLS establishment between gateway <-> server and gateway <-> enforcers
 TLS:
   enabled: false              # enable to true for secure communication (mTLS/TLS)

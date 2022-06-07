@@ -1,3 +1,6 @@
+## 6.5.17 ( June 7th, 2022)
+* Fix crds label issue [608](https://github.com/aquasecurity/aqua-helm/issues/608) by moving all custom resource definations to crds/
+* Fix annotations for tolerations issue [599](https://github.com/aquasecurity/aqua-helm/issues/599) by adding tolerations at spec
 ## 6.5.16 ( May 11th, 2022 )
 * Remove all categories definition in configauditreports CRD spec
 ## 6.5.15 ( April 10th, 2022 )

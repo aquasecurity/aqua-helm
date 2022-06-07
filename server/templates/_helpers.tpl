@@ -25,6 +25,28 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- printf "%s" (required "A valid .Values.global.platform entry required" .Values.global.platform ) | replace "\n" "" }}
 {{- end }}
 
+
+{{/*
+Define a server serviceAccount name
+If Values.serviceAccount.create defined as false
+*/}}
+{{- define "server.serviceAccount" -}}
+{{- if .Values.serviceAccount.create -}}
+  {{- if .Values.serviceAccount.name -}}
+  {{- printf "%s" .Values.serviceAccount.name -}}
+  {{- else -}}
+  {{- printf "%s-sa" .Release.Namespace -}}
+  {{- end -}}
+{{- end -}}
+{{- if not .Values.serviceAccount.create -}}
+  {{- if .Values.serviceAccount.name -}}
+  {{- printf "%s" .Values.serviceAccount.name -}}
+  {{- else -}}
+  {{- printf "%s" (required "A valid .Values.serviceAccount.name is required as you're selected not create serviceaccount by default" .Values.serviceAccount.name) -}}
+  {{- end -}}
+{{- end -}}
+{{- end -}}
+
 {{/*
 Inject extra environment vars in the format key:value, if populated
 */}}
