@@ -71,7 +71,7 @@ securityContext:
 # or version higher or equal to 1.12 but with docker engine, the hostRunPath should be defined as
 # hostRunPath: /var/vcap/sys/run/docker
 # For TKGi version higher or equal 1.12 with containerd engine, the hostRunPath should be defined as
-# hostRunPath: /var/vcap/sys/run
+# hostRunPath: /var/vcap/sys/run or hostRunPath: /var/vcap/sys/run/containerd
 hostRunPath:
 
 multiple_gateway: # enable this to connect enforcer with multiple gateways
