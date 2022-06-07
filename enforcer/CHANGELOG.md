@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2002.4.3 ( June 2nd, 2022 )
+* Add resource definition in case of express-mode
+
 ## 2002.4.2 ( May 18th, 2022 )
 * Rename RoleBinding to ClusterRole vmware-system-privileged if platform=tkg
 
