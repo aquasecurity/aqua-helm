@@ -2,9 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.2 ( Jun 8th, 2022)
+* Fix annotations for tolerations issue [#599](https://github.com/aquasecurity/aqua-helm/issues/599) by adding tolerations at spec
 ## 2022.4.1 ( Jun 7th, 2022)
 * Update Enforcer chart version
-* Move CRD's to separate folder [609](https://github.com/aquasecurity/aqua-helm/pull/609)
+* Move CRD's to separate folder [#609](https://github.com/aquasecurity/aqua-helm/pull/609)
 
 ## 2022.4.0 ( Apr 5th, 2022)
 * Init commit

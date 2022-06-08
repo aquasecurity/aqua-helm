@@ -46,8 +46,35 @@ subjects:
     name: {{ .Release.Namespace }}-sa
     namespace: {{ .Release.Namespace }}
 
-## TKG RBAC
+{{- if and (.Values.podSecurityPolicy.create) (le .Capabilities.KubeVersion.Minor "21") }}
+---
+# PodSecurityPolicy
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: {{ .Release.Name }}-psp
+  labels:
+    app: {{ .Release.Name }}
+    aqua.component: server
+spec:
+  privileged: {{ .Values.podSecurityPolicy.privileged }}
+  allowedCapabilities:
+  - '*'
+  fsGroup:
+    rule: RunAsAny
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  volumes:
+  - '*'
+{{- end }}
+
+
 {{- if eq .Values.global.platform "tkg" }}
+## TKG RBAC
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
