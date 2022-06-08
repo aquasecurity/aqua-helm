@@ -172,6 +172,9 @@ podAnnotations: {}
 podLabels: {}
 affinity: {}
 
+podDisruptionBudget:
+  minAvailable: 1
+
 TLS:
   # enable to true for secure communication
   enabled: false
