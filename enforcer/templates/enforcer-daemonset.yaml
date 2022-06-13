@@ -90,8 +90,17 @@ spec:
           mountPath: /opt/aquasec/ssl/
           readOnly: true
         {{- end }}
+        {{- if or (eq .Values.platform "tkg") (eq .Values.platform "tkgi") }}
+        - mountPath: /var/run
+          subPath: docker
+          name: var-run-docker
+        - mountPath: /var/run
+          subPath: containerd
+          name: var-run-containerd
+        {{- else }}
         - mountPath: /var/run
           name: var-run
+        {{- end }}
         - mountPath: /dev
           name: dev
         - mountPath: /host/sys
@@ -112,10 +121,6 @@ spec:
           name: aquasec-audit
         - mountPath: /data
           name: aquasec-data
-        {{- if .Values.hostRunPath }}
-        - mountPath: {{ .Values.hostRunPath }}
-          name: var-run-vcap
-        {{- end }}
 {{- if .Values.healthMonitor.enabled }}
 {{- with .Values.livenessProbe }}
         livenessProbe:
@@ -134,10 +139,21 @@ spec:
       schedulerName: {{ .Values.schedulerName }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       volumes:
+      {{- if or (eq .Values.platform "tkg") (eq .Values.platform "tkgi") }}
+      - name: var-run-docker
+        hostPath:
+          path: /var/vcap/sys/run
+          type: ""
+      - name: var-run-containerd
+        hostPath:
+          path: /var/vcap/sys/run
+          type: ""
+      {{- else }}
       - name: var-run
         hostPath:
           path: /var/run
           type: ""
+      {{- end }}
       - name: dev
         hostPath:
           path: /dev
@@ -169,12 +185,6 @@ spec:
         hostPath:
           path: /var/lib/aquasec/data
           type: ""
-      {{- if .Values.hostRunPath }}
-      - name: var-run-vcap
-        hostPath:
-          path: {{ .Values.hostRunPath }}
-          type: ""
-      {{- end }}
       {{- if .Values.TLS.enabled }}
       - name: certs
         secret:
