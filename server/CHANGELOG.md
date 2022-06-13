@@ -1,3 +1,6 @@
+## 6.5.20 ( June 7th, 2022 )
+* Add PSP support in rbac for backward compatibility - issue [606](https://github.com/aquasecurity/aqua-helm/issues/606)
+* Fix hard-coded serviceaccount name to dynamic - issue [605](https://github.com/aquasecurity/aqua-helm/issues/605)
 ## 6.5.19 ( May 19th, 2022 )
 * Separate packaged DB volume size
 ## 6.5.18 ( May 18th, 2022 )

@@ -21,8 +21,10 @@ openshift_route:
   #Enable if required openshift route for web and gateway
   create: false
 
-serviceaccount:
+serviceAccount:
   annotations: {}
+  create: true      # change to false if service-account exists in the cluster to deploy server & gateway.
+  name: ""            # mention existing service-account name to overwrite the default serviceAccount name, Default is {{ .Release.Namespace }}-sa
 
 # enable only one of the modes
 clustermode: ""
@@ -38,6 +40,13 @@ dockerSock:
   # pks - /var/vcap/data/sys/run/docker/docker.sock
   path: /var/run/docker.sock
 
+nameOverride: ""
+
+# podsecurity policy [Deprecated from kubernetes version < 1.21]
+podSecurityPolicy:
+  create: false     # Enable to true to create PSP
+  privileged: true
+
 global:
   #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
   # aks = Azure Kubernetes Service
@@ -50,6 +59,7 @@ global:
   # gs = GaintSwarm platform
   # k3s = k3s kubernetes platform
   platform: ""
+
   db:
     external:
       enabled: false
@@ -158,6 +168,7 @@ global:
       # - envName: ENV_NAME
       #   secretName: name
       #   secretKey: key
+
 gateway:
   enabled: true
   imageCredentials:

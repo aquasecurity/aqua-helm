@@ -38,7 +38,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Release.Namespace }}-sa
+      serviceAccount: {{ template "server.serviceAccount" . }}
       containers:
       - name: web
         {{- with .Values.web.container_securityContext }}
