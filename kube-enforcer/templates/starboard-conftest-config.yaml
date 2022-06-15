@@ -16,7 +16,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: starboard-conftest-config
+  name: starboard-policies-config
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}
@@ -24,9 +24,6 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
-data:
-  conftest.imageRef: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-  conftest.resources.requests.cpu: "{{ .Values.starboard.conftest_resources_requests_cpu }}"
-  conftest.resources.requests.memory: "{{ .Values.starboard.conftest_resources_requests_memory }}"
-  conftest.resources.limits.cpu: "{{ .Values.starboard.conftest_resources_limits_cpu }}"
-  conftest.resources.limits.memory: "{{ .Values.starboard.conftest_resources_limits_memory }}"
+    app.kubernetes.io/name: {{ .Values.starboard.appName }}
+    app.kubernetes.io/instance: {{ .Values.starboard.appName }}
+    app.kubernetes.io/version: {{ .Values.starboard.image.tag | quote }}
