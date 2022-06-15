@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## 2022.4.3 ( Jun 15th, 2022 )
-* Add support for starboard v1.15.4
+* Add support for starboard v0.15.4
 ## 2022.4.2 ( Jun 8th, 2022 )
 * Fix annotations for tolerations issue [#599](https://github.com/aquasecurity/aqua-helm/issues/599) by adding tolerations at spec
 * Add PodDisruptionBudget to kube-enforcer deployment [#613](https://github.com/aquasecurity/aqua-helm/pull/613/files)
