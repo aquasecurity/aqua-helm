@@ -93,11 +93,15 @@ spec:
         {{- if and (or (eq .Values.platform "tkg") (eq .Values.platform "tkgi")) ((lt .Capabilities.KubeVersion.Minor "21")) }}
         - mountPath: /var/run
           name: var-run
+        - mountPath: /run/docker
+          name: run-docker
         {{- else if and (or (eq .Values.platform "tkg") (eq .Values.platform "tkgi")) ((ge .Capabilities.KubeVersion.Minor "21")) }}
         - mountPath: /var/run
           name: var-run
         - mountPath: /var/vcap/sys/run
           name: var-run-vcap
+        - mountPath: /var/vcap/data/sys/run
+          name: var-vcap-data
         {{- else }}
         - mountPath: /var/run
           name: var-run
@@ -145,6 +149,10 @@ spec:
         hostPath:
           path: /var/vcap/sys/run/docker
           type: ""
+      - name: run-docker
+        hostPath:
+          path: /run/docker
+          type: ""
       {{- else if and (or (eq .Values.platform "tkg") (eq .Values.platform "tkgi")) ((ge .Capabilities.KubeVersion.Minor "21")) }}
       - name: var-run
         hostPath:
@@ -153,6 +161,10 @@ spec:
       - name: var-run-vcap
         hostPath:
           path: /var/vcap/sys/run
+          type: ""
+      - name: var-vcap-data
+        hostPath:
+          path: /var/vcap/data/sys/run
           type: ""
       {{- else }}
       - name: var-run
