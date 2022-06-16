@@ -4,7 +4,7 @@ metadata:
   name: configauditreports.aquasecurity.github.io
   labels:
     app.kubernetes.io/managed-by: starboard
-    app.kubernetes.io/version: {{ .Values.starboard.image.tag | quote }}
+    app.kubernetes.io/version: "0.15.4"
 spec:
   group: aquasecurity.github.io
   versions:
