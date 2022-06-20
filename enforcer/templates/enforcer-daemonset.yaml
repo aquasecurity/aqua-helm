@@ -90,16 +90,17 @@ spec:
           mountPath: /opt/aquasec/ssl/
           readOnly: true
         {{- end }}
-        {{- if and (or (eq .Values.platform "tkg") (eq .Values.platform "tkgi")) ((lt .Capabilities.KubeVersion.Minor "21")) }}
+        {{- if or (eq .Values.platform "tkg") (eq .Values.platform "tkgi")}}
+          #fallback for docker
         - mountPath: /var/run
           name: var-run
+          #access config.json on TKGI docker
         - mountPath: /run/docker
           name: run-docker
-        {{- else if and (or (eq .Values.platform "tkg") (eq .Values.platform "tkgi")) ((ge .Capabilities.KubeVersion.Minor "21")) }}
-        - mountPath: /var/run
-          name: var-run
+          #mount for correct discovery
         - mountPath: /var/vcap/sys/run
           name: var-run-vcap
+          ##access config.json on TKGI containerd
         - mountPath: /var/vcap/data/sys/run
           name: var-vcap-data
         {{- else }}
@@ -144,7 +145,7 @@ spec:
       schedulerName: {{ .Values.schedulerName }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       volumes:
-      {{- if and (or (eq .Values.platform "tkg") (eq .Values.platform "tkgi")) ((lt .Capabilities.KubeVersion.Minor "21")) }}
+      {{- if or (eq .Values.platform "tkg") (eq .Values.platform "tkgi")}}
       - name: var-run
         hostPath:
           path: /var/vcap/sys/run/docker
@@ -152,11 +153,6 @@ spec:
       - name: run-docker
         hostPath:
           path: /run/docker
-          type: ""
-      {{- else if and (or (eq .Values.platform "tkg") (eq .Values.platform "tkgi")) ((ge .Capabilities.KubeVersion.Minor "21")) }}
-      - name: var-run
-        hostPath:
-          path: /var/run
           type: ""
       - name: var-run-vcap
         hostPath:
