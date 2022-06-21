@@ -5,7 +5,7 @@ name: server
 version: "6.5.20"
 dependencies:
   - name: gateway
-    version: "6.5.12"
+    version: "6.5.13"
     repository: "file://../gateway/"
     condition: gateway.enabled
 icon: https://avatars3.githubusercontent.com/u/12783832?s=200&v=4
