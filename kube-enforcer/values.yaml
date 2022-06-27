@@ -54,7 +54,7 @@ serviceAccount:
 
 # Specify whether to enable/disable the cache by using "yes", "true", "no", "false" values.
 aqua_enable_cache: "yes"
-# default value is 60
+## default value is 60
 aqua_cache_expiration_period: "60"
 
 image:
