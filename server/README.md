@@ -187,6 +187,8 @@ helm upgrade --install --namespace aqua <RELEASE_NAME> aqua-helm/server --set im
 ## Configuring mTLS/TLS for Aqua Server and Aqua Gateway
    By default, deploying Aqua Enterprise configures TLS-based encrypted communication, using self-signed certificates, between Aqua components. If you want to use self-signed certificates to establish mTLS between aqua components use the below instrictions to generate rootCA and component certificates
 
+   > **Note:** **_mTLS communication and setup is only supported for self-hosted Aqua. It is not supported for Aqua ESE an Aqua SAAS_**
+
 
    ### Create Root CA (Done once)
 
