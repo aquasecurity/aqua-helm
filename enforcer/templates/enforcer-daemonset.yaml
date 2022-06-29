@@ -129,7 +129,7 @@ spec:
 {{ toYaml . | indent 10 }}
 {{- end }}
 {{- end }}
-        {{- if .Values.global.enforcer.enabled }}
+        {{- if .Values.expressMode }}
         resources:
           requests:
             cpu: "500m"
