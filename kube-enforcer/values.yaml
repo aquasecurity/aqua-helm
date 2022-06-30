@@ -52,17 +52,29 @@ serviceAccount:
   create: false
   name: ""
 
+# Replica count
+ke_ReplicaCount: "1"
+
 # Specify whether to enable/disable the cache by using "yes", "true", "no", "false" values.
 aqua_enable_cache: "yes"
 # default value is 60
 aqua_cache_expiration_period: "60"
 
+# Kube-Enforcer Image
 image:
   repository: "kube-enforcer"
   tag: "2022.4"
   pullPolicy: Always
 
-ke_ReplicaCount: "1"
+# Micro Enforcer Image
+microEnforcerImage:
+  repository: "microenforcer"
+  tag: "2022.4"
+
+# Kubebench Image
+kubebenchImage:
+  repository: "aquasec/kube-bench"
+  tag: "v0.6.8"
 
 nameOverride: "aqua-kube-enforcer"
 fullnameOverride: "aqua-kube-enforcer"
@@ -335,6 +347,7 @@ enforcer:
 
   logicalName:
   nodeName:
+  nameOverride:
 
   securityContext:
     privileged: false

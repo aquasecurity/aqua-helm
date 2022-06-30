@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.4 ( Jun 29th, 2022 )
+* Fix hard-coded name of aqua enforcer in express mode deployment
+
 ## 2002.4.3 ( June 2nd, 2022 )
 * Add resource definition in case of express-mode
 

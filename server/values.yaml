@@ -460,7 +460,7 @@ envoy:
       # true to enable secure communication between Aqua Envoy and Gateways
       enabled: false
       # provide secret name containing the certificates
-      secretName: "aqua-lb-tls-custer"
+      secretName: "aqua-lb-tls-cluster"
       # provide filename of the public key in the secret eg: aqua-lb.crt
       publicKey_fileName: ""
       # provide filename of the private key in the secret eg: aqua-lb.key

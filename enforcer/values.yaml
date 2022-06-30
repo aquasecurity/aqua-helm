@@ -46,6 +46,7 @@ enforcerTokenSecretKey: null
 
 logicalName:
 nodeName:
+nameOverride:
 
 expressMode: false
 securityContext:

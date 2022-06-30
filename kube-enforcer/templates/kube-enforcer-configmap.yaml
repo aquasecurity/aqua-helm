@@ -15,6 +15,12 @@ data:
   AQUA_CACHE_EXPIRATION_PERIOD: {{ .Values.aqua_cache_expiration_period | default "60" | quote }}
   AQUA_LOGICAL_NAME: {{ .Values.logicalName | quote }}
   CLUSTER_NAME: {{ .Values.clusterName | quote }}
+  AQUA_KB_IMAGE_NAME: "{{ .Values.kubebenchImage.repository }}:{{ .Values.kubebenchImage.tag }}"
+  AQUA_ME_IMAGE_NAME: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.microEnforcerImage.repository }}:{{ .Values.microEnforcerImage.tag }}"
+  AQUA_KB_ME_REGISTRY_NAME: "{{ template "registrySecret" .  }}"
+  {{- if .Values.global.enforcer.enabled }}
+  AQUA_ENFORCER_DS_NAME: {{ .Release.Name }}-ds
+  {{- end }}
   {{- if .Values.certsSecret.create }}
   TLS_SERVER_CERT_FILEPATH: "/certs/server.crt"
   TLS_SERVER_KEY_FILEPATH: "/certs/server.key"
