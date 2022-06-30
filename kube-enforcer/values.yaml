@@ -66,14 +66,21 @@ image:
   tag: "2022.4"
   pullPolicy: Always
 
+# MicroEnforcer & KubeBench custom image registry
+# Default is KE image registry and KE image pull secrets
+me_ke_custom_registry:
+  enable: false             # Enable to true to pull microenforcer and kubebench images from custom registry
+  registry: ""              # Custom registry name of microenforcer and kubebench
+  imagePullSecretName: ""   # Custom registry image pull secret name to pull microenforcer and kubebench
+
 # Micro Enforcer Image
 microEnforcerImage:
-  repository: "microenforcer"
+  repository: "microenforcer"   # Default aqua registry MicroEnforcer repository name
   tag: "2022.4"
 
 # Kubebench Image
 kubebenchImage:
-  repository: "aquasec/kube-bench"
+  repository: "aquasec/kube-bench"  # Default aqua registry KubeBench repository name
   tag: "v0.6.8"
 
 nameOverride: "aqua-kube-enforcer"

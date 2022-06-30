@@ -15,9 +15,15 @@ data:
   AQUA_CACHE_EXPIRATION_PERIOD: {{ .Values.aqua_cache_expiration_period | default "60" | quote }}
   AQUA_LOGICAL_NAME: {{ .Values.logicalName | quote }}
   CLUSTER_NAME: {{ .Values.clusterName | quote }}
+  {{- if .Values.me_ke_custom_registry.enable }}
+  AQUA_KB_IMAGE_NAME: "{{ .Values.me_ke_custom_registry.registry }}/{{ .Values.kubebenchImage.repository }}:{{ .Values.kubebenchImage.tag }}"
+  AQUA_ME_IMAGE_NAME: "{{ .Values.me_ke_custom_registry.registry }}/{{ .Values.microEnforcerImage.repository }}:{{ .Values.microEnforcerImage.tag }}"
+  AQUA_KB_ME_REGISTRY_NAME: "{{ .Values.me_ke_custom_registry.imagePullSecretName  }}"
+  {{- else }}
   AQUA_KB_IMAGE_NAME: "{{ .Values.kubebenchImage.repository }}:{{ .Values.kubebenchImage.tag }}"
   AQUA_ME_IMAGE_NAME: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.microEnforcerImage.repository }}:{{ .Values.microEnforcerImage.tag }}"
   AQUA_KB_ME_REGISTRY_NAME: "{{ template "registrySecret" .  }}"
+  {{- end }}
   {{- if .Values.global.enforcer.enabled }}
   AQUA_ENFORCER_DS_NAME: {{ .Release.Name }}-ds
   {{- end }}
