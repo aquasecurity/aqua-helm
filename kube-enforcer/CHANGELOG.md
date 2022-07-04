@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.4 ( Jun 29th, 2022 )
+* Add 2022.4 Update-3 environment variables support
+* Fix hard-coded name of aqua enforcer in express mode deployment
 ## 2022.4.3 ( Jun 15th, 2022 )
 * Add support for starboard v0.15.4
 ## 2022.4.2 ( Jun 8th, 2022 )

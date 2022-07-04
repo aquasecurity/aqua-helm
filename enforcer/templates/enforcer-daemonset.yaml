@@ -2,11 +2,7 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  {{- if .Values.global.enforcer.enabled }}
-  name: aqua-agent
-  {{- else }}
   name: {{ .Release.Name }}-ds
-  {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-ds
