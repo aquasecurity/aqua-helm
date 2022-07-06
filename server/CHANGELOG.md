@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.3 ( Jul 6th, 2022 )
+* Support to load to db certs for external DB - PR fix [#493](https://github.com/aquasecurity/aqua-helm/issues/493)
+
 ## 2022.4.2 ( June 8th, 2022 )
 * Add PSP support in rbac for backward compatibility - issue [#606](https://github.com/aquasecurity/aqua-helm/issues/606)
 * Fix hard-coded serviceaccount name to dynamic - issue [#605](https://github.com/aquasecurity/aqua-helm/issues/605)
