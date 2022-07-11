@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.5 ( Jul 11th, 2022 )
+* Add multi container engine support for different TKGi versions based only on platform choice
+
 ## 2022.4.4 ( Jun 29th, 2022 )
 * Fix hard-coded name of aqua enforcer in express mode deployment
 

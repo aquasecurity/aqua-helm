@@ -151,7 +151,6 @@ Parameter | Description                                                         
 `nodelName` | Specify the Node Name the Aqua Enforcer will register under. if not specify the name will be `spec.nodeName`                       | `unset`                | `NO`
 `securityContext.privileged` | determines if any container in a pod can enable privileged mode.                                                                   | `false`                | `NO`
 `securityContext.capabilities` | Linux capabilities provide a finer grained breakdown of the privileges traditionally associated with the superuser.                | `add {}`               | `NO`
-`hostRunPath` | 	for changing host run path for example for pks need to change to /var/vcap/sys/run/docker	                                        | `unset`                | `NO`
 `global.gateway.address` | Gateway host address                                                                                                               | `aqua-gateway-svc`     | `YES`
 `global.gateway.port` | Gateway host port                                                                                                                  | `8443`                 | `YES`
 `priorityClass.create` | If true priority class will be created                                                                                             | `False`                | `NO`
