@@ -1,4 +1,5 @@
-## 6.5.15 ( May 18th, 2022 )
+## 6.5.16 ( June 14th, 2022 )
+* Add multi container engine support for different TKGi versions based only on platform choice - [614](https://github.com/aquasecurity/aqua-helm/pull/614)
 ## 6.5.15 ( May 18th, 2022 )
 * Rename RoleBinding to ClusterRole vmware-system-privileged if platform=tkg
 ## 6.5.14 ( April 10th, 2022 )
