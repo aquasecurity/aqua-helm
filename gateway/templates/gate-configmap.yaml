@@ -40,13 +40,13 @@ data:
   AQUA_PUBSUB_DBPORT: {{ .Values.global.db.external.enabled | ternary .Values.global.db.external.pubsubPort "5432" | quote }}
   {{- end }}
   {{- if .Values.global.db.ssl }}
-  SCALOCK_DBSSL: require
+  SCALOCK_DBSSL: {{ .Values.global.db.sslmode }}
   {{- end }}
   {{- if .Values.global.db.auditssl }}
-  SCALOCK_AUDIT_DBSSL: require
+  SCALOCK_AUDIT_DBSSL: {{ .Values.global.db.auditsslmode }}
   {{- end }}
   {{- if .Values.global.db.pubsubssl }}
-  AQUA_PUBSUB_DBSSL: require
+  AQUA_PUBSUB_DBSSL: {{ .Values.global.db.pubsubsslmode }}
   {{- end }}
   {{- if .Values.TLS.enabled }}
   AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/key.pem"

@@ -93,9 +93,17 @@ global:
       dbPubsubPasswordName: ""
       #Specify the pubsub db password key name stored in the #PubsubPasswordName secret
       dbPubsubPasswordKey: ""
+
     ssl: false
+    sslmode: require          # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
     auditssl: false
+    auditsslmode: require     # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
     pubsubssl: false
+    pubsubsslmode: require    # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
+
+    externaldbcert: false
+    externaldbcert_secretname:
+
     securityContext:
       runAsUser: 70
       runAsGroup: 70
