@@ -221,7 +221,7 @@ starboard:
   image:
     repositoryUriPrefix: "docker.io/aquasec"
     repository: "starboard-operator"
-    tag: "0.14.1"
+    tag: "0.15.4"
     pullPolicy: Always
 
   container_securityContext:
@@ -245,11 +245,7 @@ starboard:
   OPERATOR_VULNERABILITY_SCANNER_ENABLED: "false"
   OPERATOR_BATCH_DELETE_LIMIT: "10"
   OPERATOR_BATCH_DELETE_DELAY: "10s"
-
-  conftest_resources_requests_cpu: "1m"
-  conftest_resources_requests_memory: "10M"
-  conftest_resources_limits_cpu: "15m"
-  conftest_resources_limits_memory: "40M"
+  OPERATOR_CLUSTER_COMPLIANCE_ENABLED: false
 
   ports:
     metricContainerPort: 8080

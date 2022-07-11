@@ -78,6 +78,8 @@ rules:
       - configmaps
       - secrets
       - serviceaccounts
+      - resourcequotas
+      - limitranges
     verbs:
       - list
       - watch
@@ -102,6 +104,7 @@ rules:
       - replicasets
       - statefulsets
       - daemonsets
+      - deployments
     verbs:
       - get
       - list
@@ -141,6 +144,23 @@ rules:
     verbs:
       - create
       - delete
+  - apiGroups:
+      - networking.k8s.io
+    resources:
+      - networkpolicies
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - policy
+    resources:
+      - podsecuritypolicies
+    verbs:
+      - get
+      - list
+      - watch
   - apiGroups:
       - aquasecurity.github.io
     resources:
