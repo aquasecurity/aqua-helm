@@ -75,8 +75,8 @@ spec:
             fieldRef:
               fieldPath: spec.nodeName
         {{- end }}
-        {{- if .Values.enforcerTokenSecretName }}
         {{- if not .Values.vaultSecret.enabled }}
+        {{- if .Values.enforcerTokenSecretName }}
         - name: AQUA_TOKEN
           valueFrom:
             secretKeyRef:
