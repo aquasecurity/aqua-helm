@@ -27,6 +27,11 @@ spec:
         {{ $key }}: {{ $value | quote }}
       {{- end }}
       {{- end }}
+      {{- if .Values.vaultSecret.enabled }}
+      {{- with .Values.vaultAnnotations }}
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- end }}
       labels:
         app: {{ .Release.Name }}-ds
         aqua.component: enforcer
@@ -46,6 +51,10 @@ spec:
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         securityContext:
           {{- toYaml .Values.securityContext | nindent 10 }}
+        {{- if .Values.vaultSecret.enabled }}
+        command: ["/bin/sh"]
+        args: ["-c", "source {{ .Values.vaultSecret.vaultFilepath }} && /autorun.sh"]
+        {{- end }}
         envFrom:
         - configMapRef:
             name: {{ .Release.Name }}-enforcer-config
@@ -66,6 +75,7 @@ spec:
             fieldRef:
               fieldPath: spec.nodeName
         {{- end }}
+        {{- if not .Values.vaultSecret.enabled }}
         {{- if .Values.enforcerTokenSecretName }}
         - name: AQUA_TOKEN
           valueFrom:
@@ -78,6 +88,7 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-agent-token
               key: token
+        {{- end }}
         {{- end }}
         {{- include "extraEnvironmentVars" .Values | nindent 8 }}
         {{- include "extraSecretEnvironmentVars" .Values | nindent 8 }}

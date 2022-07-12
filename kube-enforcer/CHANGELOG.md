@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.5 ( Jul 6th, 2022 )
+* Add HashiCorp Vault support to load token
+
 ## 2022.4.4 ( Jun 29th, 2022 )
 * Add 2022.4 Update-3 environment variables support
 * Fix hard-coded name of aqua enforcer in express mode deployment

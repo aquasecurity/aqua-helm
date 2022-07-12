@@ -135,6 +135,8 @@ global:
       pubsubPort: ""
       pubsubUser: ""
       pubsubPassword: ""
+      dbcerts: false          # set to true to consume database certificates as a volume
+      dbcerts_secretname: ""
     passwordFromSecret:
       enabled: false              #Enable if loading passwords for db and audit-db from secret
       dbPasswordName: ""            #Specify the Password Secret name used for db password
@@ -144,5 +146,8 @@ global:
       dbPubsubPasswordName: ""            #Specify the Password Secret name used for pubsub db password
       dbPubsubPasswordKey: ""           #Specify the pubsub db password key name stored in the #PubsubPasswordName secret
     ssl: false
+    sslmode: require          # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
     auditssl: false
+    auditsslmode: require     # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
     pubsubssl: false
+    pubsubsslmode: require    # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)

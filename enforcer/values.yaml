@@ -38,6 +38,30 @@ serviceAccount:
 clusterRole:
   roleRef: ""
 
+# Hashicorp Vault is a secrets management tool
+# Below vaultSecret and vaultAnnotations section helps setting vault sidecar/initcontainer agents to load enforcer-token securely
+vaultSecret:
+  enabled: false          # Enable to true once you have secrets in vault and annotations are enabled to load enforcer token from hashicorp vault
+  vaultFilepath: ""       # Change the path to "/vault/secrets/<filename>" as per the setup
+
+# Add hashicorp Vault annotations to enable sidecar/init-container vault agent to load enforcer token
+# example annotations for self-hosted vault server:
+vaultAnnotations:
+  ####
+  # vault.hashicorp.com/agent-inject: "true"
+  # vault.hashicorp.com/agent-inject-status: update
+  # vault.hashicorp.com/agent-pre-populate-only: 'false'                 # Enable to true to add vault agent as init-container without sidecar
+  # vault.hashicorp.com/role: "aqua-enforcer"                            # Specify your role used by vault agent auto-auth
+  # vault.hashicorp.com/agent-inject-secret-enforcer-token: ""           # Specify your vault secrets path eg: `aqua-path/data/aqua-enforcer/token`
+  # vault.hashicorp.com/agent-inject-template-enforcer-token: |
+  #   {{- with secret "aqua-path/data/aqua-enforcer/token" -}}
+  #   export AQUA_TOKEN="{{ .Data.data.token}}"
+  #   {{- end -}}
+  ####
+  # Change aqua secret path as per the setup
+  # Add the secrets in Key Value pair as environment variable
+
+
 # Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
 enforcerToken: enforcer-token
 
@@ -49,6 +73,7 @@ nodeName:
 nameOverride:
 
 expressMode: false
+
 securityContext:
   privileged: false
   capabilities:
@@ -146,9 +171,9 @@ TLS:
 # The variables could be provided via values.yaml file as shown below
 # or using cli command, for example:  --set extraEnvironmentVars.http_proxy="1.1.1.1",extraEnvironmentVars.https_proxy="2.2.2.2"
 extraEnvironmentVars: {}
-  # http_proxy: < >
-  # https_proxy: < >
-  # no_proxy: < >
+  # http_proxy:
+  # https_proxy:
+  # no_proxy:
   # AQUA_OCP_FULL_VERSION: <OCP version> #set this variable with the exact OCP version to allow accurate vulnerability scanning
   # ENV_NAME: value
 

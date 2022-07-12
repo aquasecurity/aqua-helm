@@ -1,4 +1,5 @@
-{{ if  .Values.aquaSecret.create }}
+{{- if not .Values.vaultSecret.enabled }}
+{{- if  .Values.aquaSecret.create }}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -12,4 +13,5 @@ metadata:
 type: Opaque
 data:
   token: {{ .Values.aquaSecret.kubeEnforcerToken | b64enc }}             # aqua kube enforcer token
-{{ end }}
+{{- end }}
+{{- end }}

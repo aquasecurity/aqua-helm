@@ -22,6 +22,11 @@ spec:
         {{ $key }}: {{ $value | quote }}
       {{- end }}
       {{- end }}
+      {{- if .Values.vaultSecret.enabled }}
+      {{- with .Values.vaultAnnotations }}
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- end }}
       labels:
         role: {{ .Release.Name }}
         app: {{ include "kube-enforcer.fullname" . }}
@@ -43,6 +48,10 @@ spec:
           {{- end }}
           image: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          {{- if .Values.vaultSecret.enabled }}
+          command: ["/bin/sh"]
+          args: ["-c", "source {{ .Values.vaultSecret.vaultFilepath }} && ./kubenf "]
+          {{- end }}
           envFrom:
             - configMapRef:
                 name: aqua-csp-kube-enforcer
@@ -51,11 +60,13 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.name
+          {{- if not .Values.vaultSecret.enabled }}
           - name: AQUA_TOKEN
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.aquaSecret.name }}
                 key: token
+          {{- end }}
           {{- include "extraEnvironmentVars" .Values | nindent 10 }}
           {{- include "extraSecretEnvironmentVars" .Values | nindent 10 }}
           ports:

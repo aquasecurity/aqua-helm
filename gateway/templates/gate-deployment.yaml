@@ -118,10 +118,15 @@ spec:
         readinessProbe:
 {{ toYaml . | indent 10 }}
 {{- end }}
-        {{- if .Values.TLS.enabled }}
         volumeMounts:
+        {{- if .Values.TLS.enabled }}
         - name: certs
           mountPath: /opt/aquasec/ssl/
+          readOnly: true
+        {{- end }}
+        {{- if .Values.global.db.external.dbcerts }}
+        - name: ext-db-cert
+          mountPath: /etc/ssl/certs/
           readOnly: true
         {{- end }}
         resources:
@@ -138,8 +143,8 @@ spec:
       tolerations:
 {{ toYaml .Values.tolerations | indent 6 }}
       {{- end }}
-      {{- if .Values.TLS.enabled }}
       volumes:
+      {{- if .Values.TLS.enabled }}
       - name: certs
         secret:
           defaultMode: 420
@@ -153,4 +158,9 @@ spec:
           - key: {{ .Values.TLS.rootCA_fileName }}
             path: ca.pem
           {{- end }}
+      {{- end }}
+      {{- if .Values.global.db.external.dbcerts }}
+      - name: ext-db-cert
+        secret:
+          secretName: {{ .Values.global.db.external.dbcerts_secretname }}
       {{- end }}

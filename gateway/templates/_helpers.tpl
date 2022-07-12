@@ -51,6 +51,8 @@ Inject extra environment populated by secrets, if populated
 {{- define "aquaConsoleSecureAddress" -}}
 {{- if and .Values.console.publicIP .Values.console.publicPort -}}
 {{- printf "%s:%v" .Values.console.publicIP .Values.console.publicPort -}}
+{{- else if eq .Values.global.platform "k3s" -}}
+{{- printf "%s-console-svc:444" .Release.Name -}}
 {{- else -}}
 {{- printf "%s-console-svc:443" .Release.Name -}}
 {{- end -}}

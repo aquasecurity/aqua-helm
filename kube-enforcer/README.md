@@ -24,6 +24,7 @@ This page provides instructions for using Helm charts to configure and deploy th
     - [Create secrets with generated certs and change `values.yaml` as mentioned below](#create-secrets-with-generated-certs-and-change-valuesyaml-as-mentioned-below)
   - [Configuration for KubeEnforcer Advance deployment](#configuration-for-kubeenforcer-advance-deployment)
   - [Configuration for KubeEnforcer with cert-manager](#configuration-for-kubeenforcer-with-cert-manager)
+  - [Integrate Kube-Enforcer with Hashicorp Vault to Load Token](#integrate-kube-enforcer-with-hashicorp-vault-to-load-token)
   - [Configurable Variables](#configurable-variables)
   - [Issues and feedback](#issues-and-feedback)
 
@@ -316,6 +317,11 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
    EOF
    ```
 
+## Integrate Kube-Enforcer with Hashicorp Vault to Load Token
+* Hashicorp Vault is a secrets management tools.
+* Kube-enforcer charts supports to load token values from vault by vault-agent using annotations. To enable the Vault integration enable `vaultSecret.enable=true`, add vault secret filepath `vaultSecret.vaultFilepath= ""` and uncomment the `vaultAnnotations`.
+* `vaultAnnotations` - Change the vault annotations according as per your vault setup, Annotations support both self-hosted and SaaS Vault setups.
+
 ## Configurable Variables
 
 | Parameter | Description| Default | Mandatory|
@@ -350,6 +356,8 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `certsSecret.name`| Secret name for TLS authentication with the Kubernetes api-server, Change secret name if already exists with server/web public certificate  | `aqua-kube-enforcer-certs`| `Yes`    |
 | `certsSecret.serverCertificate`   | Public certificate for TLS authentication with the Kubernetes api-server, If certsSecret.create is enable to true, Add base64 value of the Public Certificate(server certificate) or add filename of certificate if it is loading from custom secret | `N/A` | `Yes`    |
 | `certsSecret.serverKey`  | Certificate key for TLS authentication with the Kubernetes api-server, If certsSecret.create is enable to true, Add base64 value of the Private Key(server key) or add filename of key if it is loading from custom secret | `N/A` | `Yes`    |
+| `vaultSecret.enable` | Enable to true once you have secrets in vault and annotations are enabled to load enforcer token from hashicorp vault | `false` | `No` |
+| `vaultSecret.vaultFilepath` |  Change the path to "/vault/secrets/<filename>" as per the setup | `""` | `No` |
 | `aquaSecret.create`    | Aqua KubeEnforcer (KE) token secret creation| `true`| `Yes`    |
 | `aquaSecret.name`    | Aqua KubeEnforcer (KE) token secret name| `aqua-kube-enforcer-token`| `Yes`    |
 | `aquaSecret.kubeEnforcerToken`    | Aqua KubeEnforcer (KE) token  | `ke-token` | `Yes`    |
