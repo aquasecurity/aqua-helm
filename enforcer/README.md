@@ -159,7 +159,6 @@ Parameter | Description  | Default  | Mandatory
 `nodelName` | Specify the Node Name the Aqua Enforcer will register under. if not specify the name will be `spec.nodeName` | `unset`    | `NO`
 `securityContext.privileged` | determines if any container in a pod can enable privileged mode. | `false`    | `NO`
 `securityContext.capabilities` | Linux capabilities provide a finer grained breakdown of the privileges traditionally associated with the superuser.    | `add {}`   | `NO`
-`hostRunPath` | 	for changing host run path for example for pks need to change to /var/vcap/sys/run/docker  | `unset` | `NO`
 `global.gateway.address` | Gateway host address | `aqua-gateway-svc`     | `YES`
 `global.gateway.port` | Gateway host port | `8443` | `YES`
 `priorityClass.create` | If true priority class will be created  | `False`    | `NO`
@@ -183,7 +182,6 @@ Parameter | Description  | Default  | Mandatory
 `TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and ay/envoy  | `0`        |  `YES` <br /> `if TLS.enabled is set to true`
 `extraEnvironmentVars` | is a list of extra environment variables to set in the enforcer daemonset.         | `{}`       | `NO`
 `extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner daemonset, these variables take value from existing Secret objects. | `[]`       | `NO`
-
 
 > Note: that `imageCredentials.create` is false and if you need to create image pull secret please update to true, set the username and password for the registry and `serviceAccount.create` is false and if you're environment is new or not having aqua-sa serviceaccount please update it to true.
 
