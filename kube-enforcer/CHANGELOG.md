@@ -1,3 +1,5 @@
+## 6.5.18 ( July 11th, 2022 )
+* Add support for starboard v0.15.4
 ## 6.5.17 ( June 7th, 2022)
 * Fix crds label issue [608](https://github.com/aquasecurity/aqua-helm/issues/608) by moving all custom resource definations to crds/
 * Fix annotations for tolerations issue [599](https://github.com/aquasecurity/aqua-helm/issues/599) by adding tolerations at spec
