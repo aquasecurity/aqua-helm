@@ -82,10 +82,35 @@ certsSecret:
   serverCertificate: ""
   serverKey: ""
 
+
+# Hashicorp Vault is a secrets management tool
+# Below vaultSecret and vaultAnnotations section helps setting vault sidecar/initcontainer agents to load kube-enforcer-token securely
+vaultSecret:
+  enabled: false         # Enable to true once you have secrets in vault and annotations are enabled to load kube-enforcer token from hashicorp vault
+  vaultFilepath: ""      # Change the path to "/vault/secrets/<filename>" as per the setup
+
+# Add hashicorp Vault annotations to enable sidecar/init-container vault agent to load kube-enforcer token
+# example annotations for self-hosted vault server:
+vaultAnnotations:
+  ####
+  # vault.hashicorp.com/agent-inject: "true"
+  # vault.hashicorp.com/agent-inject-status: update
+  # vault.hashicorp.com/agent-pre-populate-only: 'false'                     # Enable to true to add vault agent as init-container without sidecar
+  # vault.hashicorp.com/role: "kube-enforcer"                                # Specify your role used by vault agent auto-auth
+  # vault.hashicorp.com/agent-inject-secret-kube-enforcer-token: ""          # Specify your vault secrets path eg: `aqua-path/data/aqua-enforcer/token`
+  # vault.hashicorp.com/agent-inject-template-kube-enforcer-token: |
+  #   {{- with secret "aqua-path/data/kube-enforcer/token" -}}
+  #   export AQUA_TOKEN="{{ .Data.data.token}}"
+  #   {{- end -}}
+  ####
+  # Change aqua secret path as per the setup
+  # Add the secrets in Key Value pair as environment variable
+
+
 aquaSecret:
   create: true
   name: "aqua-kube-enforcer-token"
-  # Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
+  # Enter the ekube-nforcer token in "clear-text" format without quotes generated from the Console UI
   kubeEnforcerToken: ke-token
 
 gateway:
@@ -177,7 +202,7 @@ podDisruptionBudget:
 TLS:
   # enable to true for secure communication
   enabled: false
-  # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
+  # provide certificates secret name created to enable tls/mtls communication between kube-enforcer and gateway/envoy
   secretName: ""
   # provide filename of the public key eg: aqua_web.crt
   publicKey_fileName: ""
@@ -185,7 +210,7 @@ TLS:
   privateKey_fileName: ""
   # provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
   rootCA_fileName: ""
-  # change it to true for enabling mTLS between enforcer and gateway/envoy
+  # change it to true for enabling mTLS between kube-enforcer and gateway/envoy
   tls_verify: false
 
 # extraEnvironmentVars is a list of extra environment variables to set in the kube-enforcer deployment
@@ -198,7 +223,7 @@ extraEnvironmentVars: {}
   # no_proxy: < >
   # ENV_NAME: value
 
-# extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
+# extraSecretEnvironmentVars is a list of extra environment variables to set in the kube-enforcer.
 # These variables take value from existing Secret objects.
 extraSecretEnvironmentVars: []
   # - envName: ENV_NAME
@@ -274,7 +299,7 @@ starboard:
   podAnnotations: {}
   affinity: {}
 
-##Kube Enforcer advance deployment options
+## KubeEnforcer advance deployment options
 ### Advanced Deployment (for Pod Enforcer injection)
 ### When using KubeEnforcers for Pod Enforcer injection, it is recommended that you deploy the KubeEnforcers in a special Advanced configuration.
 ### This will cause Pod Enforcer traffic to be routed to the KubeEnforcers via a local envoy, which then forwards the traffic to an Aqua Gateway.

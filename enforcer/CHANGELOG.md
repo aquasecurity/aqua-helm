@@ -1,3 +1,5 @@
+## 6.5.17 ( July 14th, 2022 )
+* Add HashiCorp Vault support to load token
 ## 6.5.16 ( June 14th, 2022 )
 * Add multi container engine support for different TKGi versions based only on platform choice - [614](https://github.com/aquasecurity/aqua-helm/pull/614)
 ## 6.5.15 ( May 18th, 2022 )

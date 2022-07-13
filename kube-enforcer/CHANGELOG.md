@@ -1,11 +1,12 @@
-## 6.5.18 ( July 11th, 2022 )
+## 6.5.18 ( July 14th, 2022 )
+* Add HashiCorp Vault support to load token
+## 6.5.17 ( July 11th, 2022 )
 * Add support for starboard v0.15.4
-## 6.5.17 ( June 7th, 2022)
+## 6.5.16 ( May 11th, 2022 )
+* Remove all categories definition in configauditreports CRD spec
 * Fix crds label issue [608](https://github.com/aquasecurity/aqua-helm/issues/608) by moving all custom resource definations to crds/
 * Fix annotations for tolerations issue [599](https://github.com/aquasecurity/aqua-helm/issues/599) by adding tolerations at spec
 * Add PodDisruptionBudget to kube-enforcer deployment [#610](https://github.com/aquasecurity/aqua-helm/pull/610)
-## 6.5.16 ( May 11th, 2022 )
-* Remove all categories definition in configauditreports CRD spec
 ## 6.5.15 ( April 10th, 2022 )
 * Make pod labels configurable - [559](https://github.com/aquasecurity/aqua-helm/pull/559)
 ## 6.5.14( March 29th)
