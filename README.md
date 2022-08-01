@@ -32,7 +32,7 @@ This repository includes the following charts; they can be deployed separately:
 | [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component | 6.5.20               |
 | [Enforcer](enforcer/) | Deploys the Aqua Enforcer daemonset | 6.5.17               |
 | [Scanner](scanner/)  | Deploys the Aqua Scanner deployment | 6.5.10               |
-| [KubeEnforcer](kube-enforcer/)| Deploys Aqua KubeEnforcer | 6.5.18               |
+| [KubeEnforcer](kube-enforcer/)| Deploys Aqua KubeEnforcer | 6.5.19               |
 | [Gateway](gateway)| Deploys the Aqua Standalone Gateway | 6.5.13               |
 | [Tenant-Manager](tenant-manager/)| Deploys the Aqua Tenant Manager | 6.5.3                |
 | [Cyber Center](cyber-center/)| Deploys Aqua CyberCenter offline for air-gap environment| 6.5.1                |
@@ -77,12 +77,12 @@ helm search repo aqua-helm --version 6.5
 
 Example output:
 ```csv
-NAME                            CHART VERSION   APP VERSION     DESCRIPTION                                     
+NAME                            CHART VERSION   APP VERSION     DESCRIPTION
 aqua-helm/cloud-connector       6.5.3           6.5             A Helm chart for Aqua Cloud-Connector
-aqua-helm/cyber-center          6.5.1           6.5             A Helm chart for Aqua CyberCenter               
+aqua-helm/cyber-center          6.5.1           6.5             A Helm chart for Aqua CyberCenter
 aqua-helm/enforcer              6.5.17          6.5             A Helm chart for the Aqua Enforcer
 aqua-helm/gateway               6.5.13          6.5             A Helm chart for the Aqua Gateway
-aqua-helm/kube-enforcer         6.5.18          6.5             A Helm chart for the Aqua KubeEnforcer Starboard
+aqua-helm/kube-enforcer         6.5.19          6.5             A Helm chart for the Aqua KubeEnforcer Starboard
 aqua-helm/scanner               6.5.10          6.5             A Helm chart for the Aqua Scanner CLI component
 aqua-helm/server                6.5.20          6.5             A Helm chart for the Aqua Console components
 aqua-helm/tenant-manager        6.5.3           6.5             A Helm chart for the Aqua Tenant Manager
@@ -133,12 +133,12 @@ helm init --service-account tiller --upgrade
 #### Error 2
 
 * Error message: **No persistent volumes available for this claim and no storage class is set.**
-* Solution: Most managed Kubernetes deployments do NOT include all possible storage provider variations at setup time. Refer to the [official Kubernetes guidance on storage classes](https://kubernetes.io/docs/concepts/storage/storage-classes/) for your platform. 
+* Solution: Most managed Kubernetes deployments do NOT include all possible storage provider variations at setup time. Refer to the [official Kubernetes guidance on storage classes](https://kubernetes.io/docs/concepts/storage/storage-classes/) for your platform.
 For more information see the [storage documentation](docs/storage.md).
 
 #### Error 3
 
-* Error message: When executing `kubectl get events -n aqua` you might encounter either **No persistent volumes available for this claim and no storage class is set** or 
+* Error message: When executing `kubectl get events -n aqua` you might encounter either **No persistent volumes available for this claim and no storage class is set** or
 **PersistentVolumeClaim is not bound**.
 * Solution: If you encounter either of these errors, you need to create a persistent volume prior to chart deployment with a generic or existing storage class. Specify `db.persistence.storageClass` in the values.yaml file. A sample file using `aqua-storage` is included in the repo.
 
@@ -148,10 +148,10 @@ kubectl apply -f pv-example.yaml
 
 # Quick-start deployment (not for production purposes)
 
-Quick-start deployments are fast and easy. 
+Quick-start deployments are fast and easy.
 They are intended for deploying Aqua Enterprise for non-production purposes, such as proofs-of-concept (POCs) and environments intended for instruction, development, and test.
 
-Use the [**aqua-quickstart**](aqua-quickstart) chart to 
+Use the [**aqua-quickstart**](aqua-quickstart) chart to
 
   1. Clone the GitHub repository
   ```shell

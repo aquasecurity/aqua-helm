@@ -276,6 +276,8 @@ starboard:
     metricContainerPort: 8080
     probeCntainerPort: 9090
 
+  resources: {}
+
   readinessProbe:
     httpGet:
       path: /readyz/
@@ -294,6 +296,7 @@ starboard:
     successThreshold: 1
     failureThreshold: 10
 
+  podLabels: {}
   nodeSelector: {}
   tolerations: []
   podAnnotations: {}

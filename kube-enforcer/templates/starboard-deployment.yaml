@@ -32,6 +32,9 @@ spec:
         role: {{ .Release.Name }}
         app: {{ .Values.starboard.appName }}
         aqua.component: starboard-operator
+        {{- range $key, $value := .Values.starboard.podLabels }}
+        {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 8 }}
+        {{- end }}
 {{ include "aqua.labels" . | indent 8 }}
     spec:
       serviceAccountName: {{ .Values.starboard.serviceAccount.name }}
@@ -62,6 +65,10 @@ spec:
 {{- end }}
 {{- with .Values.starboard.livenessProbe }}
           livenessProbe:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.starboard.resources }}
+          resources:
 {{ toYaml . | indent 12 }}
 {{- end }}
 {{- if .Values.starboard.nodeSelector }}
