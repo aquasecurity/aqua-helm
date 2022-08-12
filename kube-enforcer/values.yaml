@@ -91,6 +91,9 @@ clusterName: "Default-cluster-name"
 logicalName: ""
 logLevel: ""
 
+#Comma-separated node-labels for nodes on which Kube-Bench is to be skipped. key1=val1,key2=val2,...
+skipNodes: ""
+
 # Set create to false if you want to use an existing secret for the kube-enforcer certs
 # If certsSecret.create and certsSecret.name defined then need provide certsSecret.serverCertificate and
 # certsSecret.serverKey and webhooks.caBundle encrypted with base64 and secret for TLS connectivity with kube-api will be created
