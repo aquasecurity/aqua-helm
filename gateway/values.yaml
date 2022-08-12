@@ -129,25 +129,37 @@ global:
       auditHost: ""
       auditPort: ""
       auditUser: ""
-      auditPassword:
+      auditPassword: ""
       pubsubName: ""
       pubsubHost: ""
       pubsubPort: ""
       pubsubUser: ""
       pubsubPassword: ""
-      dbcerts: false          # set to true to consume database certificates as a volume
-      dbcerts_secretname: ""
+
     passwordFromSecret:
-      enabled: false              #Enable if loading passwords for db and audit-db from secret
-      dbPasswordName: ""            #Specify the Password Secret name used for db password
-      dbPasswordKey: ""             #Specify the db password key name stored in the #dbPasswordName secret
-      dbAuditPasswordName: ""          #Specify the Password Secret name used for audit db password
-      dbAuditPasswordKey: ""            #Specify the audit db password key name stored in the #dbAuditPasswordName secret
-      dbPubsubPasswordName: ""            #Specify the Password Secret name used for pubsub db password
-      dbPubsubPasswordKey: ""           #Specify the pubsub db password key name stored in the #PubsubPasswordName secret
+      #Enable if loading passwords for db and audit-db from secret
+      enabled: false
+      #Specify the Password Secret name used for db password
+      dbPasswordName: ""
+      #Specify the db password key name stored in the #dbPasswordName secret
+      dbPasswordKey: ""
+      #Specify the Password Secret name used for audit db password
+      dbAuditPasswordName: ""
+      #Specify the audit db password key name stored in the #dbAuditPasswordName secret
+      dbAuditPasswordKey: ""
+      #Specify the Password Secret name used for pubsub db password
+      dbPubsubPasswordName: ""
+      #Specify the pubsub db password key name stored in the #PubsubPasswordName secret
+      dbPubsubPasswordKey: ""
+
     ssl: false
     sslmode: require          # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
     auditssl: false
     auditsslmode: require     # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
     pubsubssl: false
     pubsubsslmode: require    # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
+
+    # To establish mTLS/verify-ca/verify-full with External DB, enable to true and supply dbcerts secret to dcertSecretName
+    externalDbCerts:
+      enable: false
+      certSecretName: ""

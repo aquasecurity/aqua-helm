@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.7 ( Aug 12th, 2022 )
+* Add support to exclude Nodes From Kube-Bench based on labels [#635](https://github.com/aquasecurity/aqua-helm/issues/635)
 ## 2022.4.6 ( Jul 28th, 2022 )
 * Add podLables and resources to starboard deployment issue [#632](https://github.com/aquasecurity/aqua-helm/issues/632)
 ## 2022.4.5 ( Jul 6th, 2022 )

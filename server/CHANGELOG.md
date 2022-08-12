@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.4 ( Aug 12th, 2022)
+* Fix mTLS config between external DB and server/gateway
+* Update documentation
 ## 2022.4.3 ( Jul 6th, 2022 )
 * Support to load to db certs for external DB - PR fix [#493](https://github.com/aquasecurity/aqua-helm/issues/493)
 

@@ -14,6 +14,7 @@ Helm chart for installation and maintenance of Aqua Container Security Platform 
     - [Installing Aqua Gateway from Github Repo](#installing-aqua-gateway-from-github-repo)
         - [Edit values.yaml file in gateway directory with following details as prerequisite](#edit-valuesyaml-file-in-gateway-directory-with-following-details-as-prerequisite)
     - [Installing Aqua Gateway from Helm Private Repository](#installing-aqua-gateway-from-helm-private-repository)
+  - [Configure mTLS between server/gateway and external DB](#configure-mtls-between-servergateway-and-external-db)
   - [Configurable Variables](#configurable-variables)
 
 ## Prerequisites
@@ -87,6 +88,24 @@ Follow the steps in this section for production grade deployments. You can eithe
     helm upgrade --install --namespace aqua gateway aqua-helm/gateway --values values.yaml --version <>
     ```
 
+## Configure mTLS between server/gateway and external DB
+   1. Add the external DB values under `global.db.external` section
+   2. Change `global.db.ssl` and `global.db.auditssl` to true
+   3. Create secret with external DB public certificate
+      ```shell
+      kubectl create secret generic <<dbcert_secret_name>> --from-file <<db_certificate.pem_file_path>> -n aqua
+      ```
+   4. Set the following variables
+      ```shell
+      global.db.externalDBCerts.enable: true
+      global.db.externalDBCerts.certSecretName: <<dbcert_secret_name>>
+      ```
+   5. Select ssl mode for external databases
+      ```shell
+      sslmode: require          # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
+      auditsslmode: require     # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
+      ```
+   6. Note: In Active-Active mode set respective values to pubsub varibales
 
 ## Configurable Variables
 
@@ -128,13 +147,18 @@ Parameter | Description | Default                | Mandatory |
 `global.db.passwordFromSecret.dbAuditPasswordKey` | Audit password secret key | `null`                 | `NO`
 `global.db.passwordFromSecret.dbPubsubPasswordName` | Pubsub password secret name | `null`                 | `NO`
 `global.db.passwordFromSecret.dbPubsubPasswordKey` | Pubsub password secret key | `null`                 | `NO`
-`global.db.ssl` | If require an SSL-encrypted connection to the Postgres configuration database. | 	`false`               | `NO`
-`global.db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration audit database. | 	`false`               | `NO`
-`global.db.pubsubssl` | If require an SSL-encrypted connection to the Postgres configuration pubsub database. | 	`false`               | `NO`
-`image.repository` | the docker image name to use | `gateway`              | `NO` 
+`global.db.ssl` | If require an SSL-encrypted connection to the Postgres configuration database. | 	`false`      | `NO`
+`global.db.sslmode` | If `ssl` is true, select the type of SSL mode between db and console/gateway  accepts: allow, prefer, require, verify-ca, verify-full (Default: Require) | `require` | `NO`
+`global.db.auditssl` | If require an SSL-encrypted connection to the Postgres configuration audit database.        | 	`false`      | `NO`
+`global.db.auditsslmode` | If `auditssl` is true, select the type of SSL mode between db and console/gateway  accepts: allow, prefer, require, verify-ca, verify-full (Default: Require) | `require` | `NO`
+`global.db.pubsubssl` | If require an SSL-encrypted connection to the Postgres configuration pubsub database.       | 	`false`      | `NO`
+`global.db.pubsubsslmode` | If `pubsubssl` is true, select the type of SSL mode between db and console/gateway  accepts: allow, prefer, require, verify-ca, verify-full (Default: Require) | `require` | `NO`
+`global.db.externalDbCerts.enable` | If true, external db can connect with mTLS i.e.., verify-ca/verify-full ssl mode by mounting the ca cert to console & gateway | `false` | `NO`
+`global.db.externalDbCerts.certSecretName` | If `global.db.externalDbCerts.enable` true, Secret name which holds external db ca certificate files | `null` | `NO`
+`image.repository` | the docker image name to use | `gateway`              | `NO`
 `image.tag` | The image tag to use. | `2022.4`               | `NO`
-`image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`         | `NO` 
-`service.type` | k8s service type | `ClusterIP`            | `NO` 
+`image.pullPolicy` | The kubernetes image pull policy. | `IfNotPresent`         | `NO`
+`service.type` | k8s service type | `ClusterIP`            | `NO`
 `service.loadbalancerIP` | can specify loadBalancerIP address for aqua-gateway in AKS platform | `null`                 | `NO`
 `service.annotations` |	service annotations	| `{}`                   | `NO`
 `service.ports` | array of ports settings | `array`                | `NO`
