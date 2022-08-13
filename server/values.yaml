@@ -78,6 +78,7 @@ global:
       pubsubPort: ""
       pubsubUser: ""
       pubsubPassword: ""
+
     passwordFromSecret:
       #Enable if loading passwords for db and audit-db from secret
       enabled: false
@@ -101,8 +102,10 @@ global:
     pubsubssl: false
     pubsubsslmode: require    # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
 
-    externaldbcert: false
-    externaldbcert_secretname:
+    # To establish mTLS/verify-ca/verify-full with External DB, enable to true and supply dbcerts secret to dcertSecretName
+    externalDbCerts:
+      enable: false
+      certSecretName: ""
 
     securityContext:
       runAsUser: 70

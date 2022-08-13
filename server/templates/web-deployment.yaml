@@ -146,7 +146,7 @@ spec:
           mountPath: /opt/aquasec/ssl/
           readOnly: true
         {{- end }}
-        {{- if .Values.global.db.external.dbcerts }}
+        {{- if .Values.global.db.externalDbCerts.enable }}
         - name: ext-db-cert
           mountPath: /etc/ssl/certs/
           readOnly: true
@@ -187,9 +187,9 @@ spec:
             path: ca.pem
           {{- end }}
       {{- end }}
-      {{- if .Values.global.db.external.dbcerts }}
+      {{- if .Values.global.db.externalDbCerts.enable }}
       - name: ext-db-cert
         secret:
-          secretName: {{ .Values.global.db.external.dbcerts_secretname }}
+          secretName: {{ .Values.global.db.externalDbCerts.certSecretName }}
       {{- end }}
       {{- include "server.additionalCertVolumes" .Values | nindent 6 }}
