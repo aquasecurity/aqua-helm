@@ -26,6 +26,9 @@ pipeline {
         VAULT_TERRAFORM_RID_PASSWORD = "$VAULT_TERRAFORM_RID_PSW"
         ENV_PLATFORM = "k3s"
     }
+    parameters {
+        string(name: 'AUTOMATION_BRANCH', defaultValue: 'master', description: "Automation branch for MSTP tests", trim: true)
+    }
     options {
         ansiColor('xterm')
         timestamps()
@@ -109,7 +112,7 @@ pipeline {
         stage("Running Mstp tests") {
             steps {
                 script {
-                    helm.runMstpTests debug: debug
+                    helm.runMstpTests debug: debug, afwImage: params.AUTOMATION_BRANCH
                 }
             }
         }
