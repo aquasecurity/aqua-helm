@@ -15,7 +15,7 @@ pipeline {
         SERVER_CERT = credentials('deployment_ke_webook_crt')
         SERVER_KEY = credentials('deployment_ke_webook_key')
         AFW_SERVER_LICENSE_TOKEN = credentials('aquaDeploymentLicenseToken')
-
+        DEPLOY_REGISTRY = "aquasec.azurecr.io"
         AQUADEV_AZURE_ACR_PASSWORD = credentials('aquadevAzureACRpassword')
         AUTH0_CREDS = credentials('auth0Credential')
         VAULT_TERRAFORM_SID = credentials('VAULT_TERRAFORM_SID')
@@ -24,6 +24,10 @@ pipeline {
         VAULT_TERRAFORM_RID = credentials('VAULT_TERRAFORM_RID')
         VAULT_TERRAFORM_RID_USERNAME = "$VAULT_TERRAFORM_RID_USR"
         VAULT_TERRAFORM_RID_PASSWORD = "$VAULT_TERRAFORM_RID_PSW"
+        ENV_PLATFORM = "k3s"
+    }
+    parameters {
+        string(name: 'AUTOMATION_BRANCH', defaultValue: 'master', description: "Automation branch for MSTP tests", trim: true)
     }
     options {
         ansiColor('xterm')
@@ -68,7 +72,7 @@ pipeline {
                 }
             }
         }
-        stage("updating conul") {
+        stage("updating consul") {
             steps {
                 script {
                     helm.updateConsul("create")
@@ -87,7 +91,7 @@ pipeline {
             steps {
                 script {
                     kubectl.createNamespace create: "yes"
-                    kubectl.createDockerRegistrySecret create: "yes"
+                    kubectl.createDockerRegistrySecret create: "yes", registry: env.DEPLOY_REGISTRY
                 }
             }
         }
@@ -107,7 +111,7 @@ pipeline {
         stage("Running Mstp tests") {
             steps {
                 script {
-                    helm.runMstpTests debug: debug
+                    helm.runMstpTests debug: debug, afwImage: params.AUTOMATION_BRANCH
                 }
             }
         }
