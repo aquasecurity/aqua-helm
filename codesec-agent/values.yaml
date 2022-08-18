@@ -49,6 +49,7 @@ connect:
   affinity: {}
   tolerations: {}
   hostAliases:
+  extraEnv: {}
 
 scan:
   image: docker.io/aquasec/codesec-scanner:latest
@@ -59,3 +60,4 @@ scan:
   affinity: {}
   tolerations: {}
   hostAliases:
+  extraEnv: {}

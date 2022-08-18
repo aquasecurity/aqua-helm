@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+_1.2.0_
+* Add "extraEnv" setting to scanner and connector containers.
+
 _1.1.0_
 * Add "replicas" setting to 'scan.replicas' values.
 
