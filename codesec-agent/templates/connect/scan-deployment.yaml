@@ -54,6 +54,10 @@ spec:
             value: {{ .Values.proxy.url }}
           {{- end }}
 
+          {{- range $key, $value := .Values.scan.extraEnv }}
+          - name: {{ $key }}
+            value: "{{ $value }}"
+          {{- end }}
           envFrom:
             - secretRef:
                 name: {{ printf "%s-%s" (include "chart.fullname" . ) "secrets" }}
