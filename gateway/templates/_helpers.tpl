@@ -68,7 +68,7 @@ If Values.serviceAccount.create defined as false
 And will be used serviceAccount created by parrent chart
 */}}
 {{- define "gateway.serviceAccount" -}}
-{{- if and .Values.serviceAccount.create .Values.serviceAccount.name -}}
+{{- if .Values.serviceAccount.name -}}
 {{- printf "%s" .Values.serviceAccount.name -}}
 {{- else -}}
 {{- if not .Values.serviceAccount.create -}}
