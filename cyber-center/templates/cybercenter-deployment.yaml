@@ -50,6 +50,8 @@ spec:
         {{- range $port := .Values.service.ports }}
         - containerPort: {{ $port.targetPort }}
         {{- end }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
         env:
         {{- if .Values.TLS.rootCA_fileName }}
         - name: "AQUA_ROOT_CA"
