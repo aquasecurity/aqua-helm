@@ -1,6 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.6 (Aug 22nd, 2022)
+* Fix gateway serviceaccount naming in custom namespace deployment - PR [#641](https://github.com/aquasecurity/aqua-helm/pull/641)
 ## 2022.4.5 ( Aug 12th, 2022)
 * Fix mTLS config between external DB and server/gateway
 * Update documentation

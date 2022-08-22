@@ -35,6 +35,15 @@ service:
       nodePort:
       protocol: TCP
 
+resources: {}
+  # Note: For recommendations please check the official sizing guide.
+  # requests:
+  #   cpu: 500m
+  #   memory: 0.5Gi
+  # limits:
+  #   cpu: 2000m
+  #   memory: 2Gi
+
 tolerations: []
 securityContext: {}
 container_securityContext: {}
