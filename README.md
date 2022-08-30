@@ -90,18 +90,71 @@ aqua-helm/tenant-manager        6.5.3           6.5             A Helm chart for
 
 ### Deploy the Helm charts
 
-1. Create the `aqua` namespace.
+1. Add Aqua Helm Repository
+   ```
+   helm repo add aqua-helm https://helm.aquasec.com
+   helm repo update
+   ```
+   Check for available chart versions either from [Changelog](./CHANGELOG.md) or by running the below command.
+    ```
+   helm search repo aqua-helm/enforcer --versions
+   ```
+
+   Create the `aqua` namespace.
     ```shell
     kubectl create namespace aqua
     ```
+   Create `aqua-registry` secret
+   ```
+   kubectl create secret docker-registry aqua-registry-secret \
+    --docker-server=registry.aquasec.com \
+    --docker-username=$YOUR_REGISTRY_USER \
+    --docker-password=$YOUR_REGISTRY_PASSWORD \
+    -n aqua
+   ```
 2. Deploy the [**Server**](server/) chart.
+    ```
+   helm upgrade --install --namespace aqua aqua aqua-helm/server --version $VERSION \
+   --set imageCredentials.create=false \
+   --set global.platform=$PLATFORM
+    ```
 3. Deploy the [**Enforcer**](enforcer/) chart.
+    ```
+   helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --version $VERSION \
+   --set imageCredentials.create=false \
+   --set platform=$PLATFORM
+    ```
 4. Deploy the [**KubeEnforcer**](kube-enforcer/) chart.
+    ```
+   helm upgrade --install --namespace aqua kube-enforcer aqua-helm/kube-enforcer --version $VERSION \
+    --set platform=$PLATFORM \
+    --set certsSecret.autoGenerate=true
+    ```
 5. (Optional) Deploy the [**Scanner**](scanner/) chart.
-6. (For multi-cluster) Deploy the [**Gateway**](gateway/) chart.
+    ```
+   helm upgrade --install --namespace aqua scanner aqua-helm/scanner --version $VERSION \
+    --set user=$AQUA_CONSOLE_USERNAME \
+    --set password=$AQUA_CONSOLE_PASSWORD
+    ```
+6. (Optional For multi-cluster) Deploy the [**Gateway**](gateway/) chart.
 7. (Optional) Deploy the [**TenantManager**](tenant-manager/) chart.
+    ```
+   helm upgrade --install --namespace aqua tenant-manager aqua-helm/tenant-manager --version $VERSION \
+   --set platform=$PLATFORM
+    ```
 8. (Optional) Deploy the [**Cyber-Center**](cyber-center/) chart.
+    ```
+   helm upgrade --install --namespace aqua aqua-cyber-center aqua-helm/cyber-center --version $VERSION \
+   --set imageCredentials.create=false
+    ```
 9. (Optional) Deploy the [**Cloud-Connector**](cloud-connector) chart.
+    ```
+    helm upgrade --install --namespace aqua aqua-cloud-connector aqua-helm/cloud-connector --version $VERSION \
+   --set userCreds.username=$AQUA_CONSOLE_USERNAME \
+   --set userCreds.password=$AQUA_CONSOLE_PASSWORD \
+   --set authType.tokenAuth=false \
+   --set authType.userCreds=true
+    ```
 10. Access the Aqua UI in browser with {{ .Release.Name }}-console-svc service and port, to check the service details:
       ```shell
       kubectl get svc -n aqua
