@@ -151,7 +151,7 @@ Parameter | Description  | Default  | Mandatory
 `platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s)| `unset`    | `YES`
 `vaultSecret.enable` | Enable to true once you have secrets in vault and annotations are enabled to load enforcer token from hashicorp vault | `false` | `No` |
 `vaultSecret.vaultFilepath` |  Change the path to "/vault/secrets/<filename>" as per the setup | `""` | `No` |
-`enforcerToken` | enforcer token value | `enforcer-token`  | `YES`
+`enforcerToken` | enforcer token value | `enforcer-token`  | `YES` if `enforcerTokenSecretName` is set to null
 `expressMode` | Install enforcer in EXPRESS MODE or not | `false` | `YES`
 `enforcerTokenSecretName` | enforcer token secret name if exists | `null`     | `NO`
 `enforcerTokenSecretKey` | enforcer token secret key if exists | `null`     | `NO`
