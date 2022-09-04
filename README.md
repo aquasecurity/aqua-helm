@@ -136,7 +136,7 @@ aqua-helm/tenant-manager        6.5.3           6.5             A Helm chart for
     --set user=$AQUA_CONSOLE_USERNAME \
     --set password=$AQUA_CONSOLE_PASSWORD
     ```
-6. Gateway is Deployed by default with Server chart, advanced Gateway Deployments can be found [**Here**](gateway/).
+6. Gateway is Deployed by default with Server chart, advanced Gateway Deployment options can be found [**Here**](gateway/).
 7. (Optional) Deploy the [**TenantManager**](tenant-manager/) chart.
     ```
    helm upgrade --install --namespace aqua tenant-manager aqua-helm/tenant-manager --version $VERSION \
