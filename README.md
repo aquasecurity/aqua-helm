@@ -138,7 +138,7 @@ aqua-helm/tenant-manager        2022.4.0        2022.4          A Helm chart for
     --set user=$AQUA_CONSOLE_USERNAME \
     --set password=$AQUA_CONSOLE_PASSWORD
     ```
-6. (Optional For multi-cluster) Deploy the [**Gateway**](gateway/) chart.
+6. Gateway is Deployed by default with Server chart, advanced Gateway Deployment options can be found [**Here**](gateway/).
 7. (Optional) Deploy the [**TenantManager**](tenant-manager/) chart.
     ```
    helm upgrade --install --namespace aqua tenant-manager aqua-helm/tenant-manager --version $VERSION \
