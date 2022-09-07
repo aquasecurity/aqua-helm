@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+_1.2.1_
+* Remove "client_url" from env vars validator.
+
 _1.2.0_
 * Add "extraEnv" setting to scanner and connector containers.
 

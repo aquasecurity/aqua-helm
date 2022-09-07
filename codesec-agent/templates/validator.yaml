@@ -28,6 +28,3 @@
 {{- if empty .Values.integration.source }}
 {{ fail "Error - missing .Values.integration.source" }}
 {{- end }}
-{{- if empty .Values.connect.client_url }}
-{{ fail "Error - missing .Values.connect.client_url" }}
-{{- end }}
