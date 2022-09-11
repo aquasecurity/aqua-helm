@@ -1,8 +1,7 @@
 global:
   connectServerUrl: https://connect.codesec.aquasec.com
   scanServerUrl: https://scan.codesec.aquasec.com
-  aquaServerUrl: https://aqua-api.aquasec.com
-  cspmServerUrl: https://api.cloudsploit.com
+  region: 
 
 credentials:
   aqua_key:
