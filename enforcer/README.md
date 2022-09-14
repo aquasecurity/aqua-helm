@@ -150,7 +150,7 @@ For more details please visit [Link](https://docs.aquasec.com/docs/kubernetes#se
 | `platform`| Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s)                       | `unset` | `YES`
 `vaultSecret.enable` | Enable to true once you have secrets in vault and annotations are enabled to load enforcer token from hashicorp vault | `false` | `No` |
 `vaultSecret.vaultFilepath` |  Change the path to "/vault/secrets/<filename>" as per the setup | `""` | `No` |
-| `enforcerToken`                        | enforcer token value                    | `enforcer-token`| `YES`
+| `enforcerToken`                        | enforcer token value                    | `enforcer-token`| `YES` if `enforcerTokenSecretName` is set to null
 | `enforcerTokenSecretName`              | enforcer token secret name if exists    | `null`| `NO`
 | `enforcerTokenSecretKey`               | enforcer token secret key if exists     | `null`| `NO`
 | `logicalName`                          | Specify the Logical Name the Aqua Enforcer will register under. if not specify the name will be `spec.nodeName`                   | `unset`| `NO`
