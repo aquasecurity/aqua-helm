@@ -84,9 +84,7 @@ spec:
             name: {{ .Release.Name }}-scanner-config        
         env:
         - name: AQUA_SCANNER_LOGICAL_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
+          value: {{ .Values.nameOverride }}
         {{- if .Values.scannerUserSecret.enable }}
           {{- if or  (not .Values.scannerUserSecret.secretName) (not .Values.scannerUserSecret.passwordKey) (not .Values.scannerUserSecret.userKey) }}
           {{- template "scannerSecret" . }}
