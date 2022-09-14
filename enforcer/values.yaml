@@ -65,6 +65,8 @@ vaultAnnotations:
 # Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
 enforcerToken: enforcer-token
 
+# Use these values to reference a pre-existing secret for the enforcer token.
+# Setting these values will make the chart ignore the content of enforcerToken
 enforcerTokenSecretName: null
 enforcerTokenSecretKey: null
 
