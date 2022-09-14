@@ -78,7 +78,6 @@ image:
 logLevel:
 
 nameOverride: "aqua-scanner"
-fullnameOverride: "aqua-scanner"
 
 user: ""          # user name for the scanner created in the console
 password: ""      # password for the scanner user you can also use "passwordSecret" below for loading password from secrets

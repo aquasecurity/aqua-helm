@@ -1,3 +1,5 @@
+## 6.5.11 (Sep 13th, 2022)
+* Add support for scanner name override
 ## 6.5.10 ( May 4th, 2022 )
 * Add token auth support to scanner - [582](https://github.com/aquasecurity/aqua-helm/pull/582)
 ## 6.5.9 ( April 10th, 2022 )
