@@ -1,3 +1,4 @@
+{{- if .Values.rbac.create }}
 {{- if eq .Values.global.platform "openshift" }}
 ---
 kind: ClusterRoleBinding
@@ -53,5 +54,7 @@ volumes:
   - projected
   - secret
   - hostPath
+
+{{- end }}
 
 {{- end }}

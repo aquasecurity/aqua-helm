@@ -17,6 +17,10 @@ imageCredentials:
 clusterRole:
   roleRef: ""
 
+# Create default cluster-role and cluster-role bindings according to the platform
+rbac:
+  create: true
+
 openshift_route:
   #Enable if required openshift route for web and gateway
   create: false
@@ -192,8 +196,8 @@ gateway:
     registry: "registry.aquasec.com"
   rbac:
     enabled: false
-    privileged: true
-    roleRef:
+  clusterRole:
+    roleRef: ""
   platform:
   console:
     publicIP:

@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.6 (Sep 19th, 2022)
+* Add support to switch rbac creation in server chart
+
 ## 2022.4.5 (Aug 22nd, 2022)
 * Fix gateway serviceaccount naming in custom namespace deployment - PR [#641](https://github.com/aquasecurity/aqua-helm/pull/641)
 
