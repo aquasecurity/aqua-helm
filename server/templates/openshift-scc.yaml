@@ -1,4 +1,5 @@
 {{- if eq .Values.global.platform "openshift" }}
+{{- if .Values.rbac.create }}
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -53,5 +54,7 @@ volumes:
   - projected
   - secret
   - hostPath
+
+{{- end }}
 
 {{- end }}

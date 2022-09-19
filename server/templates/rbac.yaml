@@ -1,6 +1,7 @@
-{{- if not .Values.global.platform -}}
+{{- if not .Values.global.platform }}
 {{ template "platform" .}}
 {{- end }}
+{{- if .Values.rbac.create }}
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -89,4 +90,6 @@ subjects:
 - kind: Group
   apiGroup: rbac.authorization.k8s.io
   name: system:serviceaccounts
+{{- end }}
+
 {{- end }}

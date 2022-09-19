@@ -181,8 +181,8 @@ gateway:
     registry: "registry.aquasec.com"
   rbac:
     enabled: false
-    privileged: true
-    roleRef:
+  clusterRole:
+    roleRef: ""
   platform:
   console:
     publicIP:
