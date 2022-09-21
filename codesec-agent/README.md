@@ -27,10 +27,9 @@
 * Available integrations(and how to generate access token):
   * [Gitlab Server](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#create-a-personal-access-token)
   * [Azure Devops Server](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows)
-  * [BitBucket Server](https://support.atlassian.com/bitbucket-cloud/docs/app-passwords/)
+  * [BitBucket Server](https://confluence.atlassian.com/bitbucketserver/personal-access-tokens-939515499.html)
   * [JFrog Server](https://www.jfrog.com/confluence/display/JFROG/Access+Tokens)
   * Nexus
-  * Jenkins
 
 ## Installing the chart
 
@@ -55,7 +54,6 @@ helm upgrade --install --namespace aqua-codesec <RELEASE_NAME> aqua-helm/codesec
 --set integration.url=<THE INTEGRATION URL> \
 --set integration.username=<THE ACCESS TOKEN NAME OR ACCOUNT USERNAME> \
 --set integration.password=<THE ACCESS TOKEN VALUE OR ACCOUNT PASSWORD> \
---set connect.client_url=<THE CONNECTOR SERVICE NAME OR CLUSTER IP>
 ```
 
 ## Variables
@@ -77,7 +75,6 @@ ___
 | integration.url| String | The SCM/Artifactory/CI integration endpoint | "https://my-gitlab-server.com" |
 | integration.username | String | The SCM/Artifactory/CI account username or access token name | |
 | integration.password | String | The SCM/Artifactory/CI account password or access token value | |
-| connect.client_url | String | The ip or service name of the Connect agent service, used to point webhooks from the integration back to the client | http://chart-full-name-connector |
 
 ___
 ### Optional Variables
