@@ -1,3 +1,5 @@
+## 6.5.21 (Sep 19th, 2022)
+* Add support to switch rbac creation in server chart
 ## 6.5.20 ( June 7th, 2022 )
 * Add PSP support in rbac for backward compatibility - issue [606](https://github.com/aquasecurity/aqua-helm/issues/606)
 * Fix hard-coded serviceaccount name to dynamic - issue [605](https://github.com/aquasecurity/aqua-helm/issues/605)

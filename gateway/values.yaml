@@ -8,7 +8,7 @@ imageCredentials:
   password: ""
 
 rbac:
-  create: false # Enable to create RBAC for gateway chart
+  create: false # Enable to create RBAC for gateway chart, when deploying Gateway only
 
 clusterRole:
   roleRef: ""
