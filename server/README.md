@@ -331,6 +331,7 @@ Parameter | Description| Default | Mandatory
 `imageCredentials.password` | Your Docker registry (DockerHub, etc.) password| `unset`| `YES`
 `global.platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s)| `unset`| `YES`
 `openshift_route.create` | to create openshift routes for web and gateway | `false`| `NO`
+`rbac.create` | to create default cluster-role and cluster-role bindings according to the platform | `true` | `NO`
 `serviceAccount.create`    | Enable to true to create serviceaccount         | `true`  | `YES`
 `serviceAccount.name`      | mention existing service-account name to overwrite the default serviceAccount name, Default is {{ .Release.Namespace }}-sa | `unset` | `NO`
 `clusterRole.roleRef` | cluster role reference name for cluster rolebinding         | `unset`| `NO`

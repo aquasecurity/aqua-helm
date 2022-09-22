@@ -3,6 +3,5 @@
 server/charts
 server/subcharts
 server/Chart.lock
-*.lock
 *.tgz
 .DS_Store

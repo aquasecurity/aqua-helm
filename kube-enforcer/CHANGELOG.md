@@ -1,7 +1,9 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-
+## 2022.4.8 ( Sep 21st, 2022 )
+* Change env of NODE_LABELS_TO_SKIP_KUBE_BENCH to AQUA_NODE_LABELS_TO_SKIP_KB [#644](https://github.com/aquasecurity/aqua-helm/pull/644)
+* Fix typo in cds.yaml.tpl [#653](https://github.com/aquasecurity/aqua-helm/pull/653)
 ## 2022.4.7 ( Aug 12th, 2022 )
 * Add support to exclude Nodes From Kube-Bench based on labels [#635](https://github.com/aquasecurity/aqua-helm/issues/635)
 ## 2022.4.6 ( Jul 28th, 2022 )
