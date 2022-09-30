@@ -77,7 +77,8 @@ image:
 
 logLevel:
 
-nameOverride: "aqua-scanner"
+#The scanners will be registered with the random name
+nameOverride: ""
 
 user: ""          # user name for the scanner created in the console
 password: ""      # password for the scanner user you can also use "passwordSecret" below for loading password from secrets
