@@ -1,6 +1,7 @@
+## 6.5.20 ( October 10th, 2022 )
+* Add support for starboard v0.15.10
 ## 6.5.19 ( July 28th, 2022 )
 * Add podLables and resources to starboard deployment issue [#632](https://github.com/aquasecurity/aqua-helm/issues/632)
-
 ## 6.5.18 ( July 14th, 2022 )
 * Add HashiCorp Vault support to load token
 ## 6.5.17 ( July 11th, 2022 )

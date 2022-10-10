@@ -246,7 +246,7 @@ starboard:
   image:
     repositoryUriPrefix: "docker.io/aquasec"
     repository: "starboard-operator"
-    tag: "0.15.4"
+    tag: "0.15.10"
     pullPolicy: Always
 
   container_securityContext:
@@ -265,7 +265,7 @@ starboard:
   OPERATOR_METRICS_BIND_ADDRESS: ":8080"
   OPERATOR_HEALTH_PROBE_BIND_ADDRESS: ":9090"
   # OPERATOR_CIS_KUBERNETES_BENCHMARK_ENABLED should always remain "false"
-  OPERATOR_CIS_KUBERNETES_BENCHMARK_ENABLED: "false" 
+  OPERATOR_CIS_KUBERNETES_BENCHMARK_ENABLED: "false"
   # OPERATOR_VULNERABILITY_SCANNER_ENABLED should always remain "false"
   OPERATOR_VULNERABILITY_SCANNER_ENABLED: "false"
   OPERATOR_BATCH_DELETE_LIMIT: "10"
