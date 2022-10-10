@@ -1,6 +1,8 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## 2022.4.9 ( Oct 10th, 2022 )
+* Add support for starboard v0.15.10
 ## 2022.4.8 ( Sep 21st, 2022 )
 * Change env of NODE_LABELS_TO_SKIP_KUBE_BENCH to AQUA_NODE_LABELS_TO_SKIP_KB [#644](https://github.com/aquasecurity/aqua-helm/pull/644)
 * Fix typo in cds.yaml.tpl [#653](https://github.com/aquasecurity/aqua-helm/pull/653)
