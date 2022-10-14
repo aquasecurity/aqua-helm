@@ -103,6 +103,10 @@ spec:
               {{- end }}
         {{- end }}
         {{- end }}
+        {{- if .Values.global.db.externalDbCerts.enable }}
+        - name: SSL_CERT_DIR
+          value: "/etc/ext_db_certs:/etc/ssl/certs"
+        {{- end }}
         {{- include "server.extraEnvironmentVars" .Values | nindent 8 }}
         {{- include "server.extraSecretEnvironmentVars" .Values | nindent 8 }}
         ports:
@@ -126,7 +130,7 @@ spec:
         {{- end }}
         {{- if .Values.global.db.externalDbCerts.enable }}
         - name: ext-db-cert
-          mountPath: /etc/ssl/certs/
+          mountPath: /etc/ext_db_certs/
           readOnly: true
         {{- end }}
         resources:
