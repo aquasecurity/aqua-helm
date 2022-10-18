@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.7 (Oct 14th, 2022)
+* Fix external DB certificate mounts in mtls connection
+
 ## 2022.4.6 (Sep 19th, 2022)
 * Add support to switch rbac creation in server chart
 
