@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.8 (Oct 31st, 2022)
+* Fix Cluster Role Binding SA name
+
 ## 2022.4.7 (Oct 14th, 2022)
 * Fix external DB certificate mounts in mtls connection
 
