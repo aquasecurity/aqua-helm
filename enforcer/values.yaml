@@ -1,6 +1,7 @@
 global:
   #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
   # aks = Azure Kubernetes Service
+  # eks = Amazon Kubernetes Service
   # gke = Google kubernetes Engine
   # openshift = RedHat Openshift/OCP
   # tkg = VMware Tanzu kubernetes Grid
