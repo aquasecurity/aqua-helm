@@ -402,6 +402,7 @@ Parameter | Description| Default | Mandatory
 `gateway.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform   | `null` | `NO`
 `gateway.service.annotations` | 	service annotations	| `{}`   | `NO`
 `gateway.service.ports` | array of ports settings| `array`| `NO`
+`gateway.serviceAccount.name` | The name of the SA to deploy the gateway | `aqua-sa`| `NO`
 `gateway.publicIP` | gateway public ip  | `aqua-gateway`| `NO`
 `gateway.replicaCount` | replica count      | `1`    | `NO`
 `gateway.resources` | 	Resource requests and limits         | `{}`   | `NO`

@@ -33,10 +33,8 @@ Else if .Values.serviceAccount.create set to true, so will becreate serviceAccou
 .Values.serviceAccount.name or will be generated name based on Chart Release name
 */}}
 {{- define "server.serviceAccount" -}}
-{{- if and ( .Values.serviceAccount.create ) ( .Values.serviceAccount.name ) -}}
-    {{ .Values.serviceAccount.name | default (printf "%s-sa" .Release.Name) }}
-{{- else if .Values.serviceAccount.create -}}
-    {{ .Values.serviceAccount.name | default (printf "%s-sa" .Release.Name) }}
+{{- if .Values.serviceAccount.create -}}
+    {{ .Values.serviceAccount.name | default (printf "aqua-sa") }}
 {{- else if not .Values.serviceAccount.create -}}
     {{ .Values.serviceAccount.name | default (printf "aqua-sa") }}
 {{- end -}}
