@@ -33,6 +33,8 @@ spec:
           env:
           - name: SERVER_URL
             value: {{ .Values.global.connectServerUrl }}
+          - name: CSPM_URL
+            value: {{ .Values.global.cspmServerUrl }}
           - name: PORT
             value: {{ $v.port | quote }}
           - name: SOURCE

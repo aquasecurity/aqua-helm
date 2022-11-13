@@ -31,6 +31,10 @@ spec:
           env:
           - name: SCANNER_SERVER
             value: {{ .Values.global.scanServerUrl }}
+          - name: CSPM_SERVER_URL
+            value: {{ .Values.global.cspmServerUrl }}
+          - name: AQUA_SERVER_URL
+            value: {{ .Values.global.aquaServerUrl }}
           - name: PORT
             value: {{ $v.port | quote }}
           - name: SOURCE
