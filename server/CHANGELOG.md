@@ -1,3 +1,5 @@
+## 6.5.22 (Nov 13th, 2022)
+* Fix Cluster Role Binding SA name
 ## 6.5.21 (Sep 19th, 2022)
 * Add support to switch rbac creation in server chart
 ## 6.5.20 ( June 7th, 2022 )
