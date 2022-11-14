@@ -3,7 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 _1.2.2_
-* Add envs to connect and scan deployments
+* Inject authentication (CSPM_URL) and API (AQUA_SERVER_URL) environment variables to deployment objects.
+* Fix default value of "aquaServerUrl".
 
 _1.2.1_
 * Remove "client_url" from env vars validator.
