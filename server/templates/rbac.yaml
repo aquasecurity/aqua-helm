@@ -44,7 +44,7 @@ roleRef:
   {{- end }}
 subjects:
   - kind: ServiceAccount
-    name: {{ .Release.Namespace }}-sa
+    name: {{ template "server.serviceAccount" . }}
     namespace: {{ .Release.Namespace }}
 
 {{- if and (.Values.podSecurityPolicy.create) (le .Capabilities.KubeVersion.Minor "21") }}

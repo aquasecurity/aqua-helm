@@ -27,23 +27,17 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 
 
 {{/*
-Define a server serviceAccount name
-If Values.serviceAccount.create defined as false
+If .Values.serviceAccount.create set to false and .Values.serviceAccount.name not defined
+Will be created serviceAccount with name "aqua-sa" - the default serviceAccount
+for server chart.
+Else if .Values.serviceAccount.create set to true, so will becreate serviceAccount based on
+.Values.serviceAccount.name or will be generated name based on Chart Release name
 */}}
 {{- define "server.serviceAccount" -}}
 {{- if .Values.serviceAccount.create -}}
-  {{- if .Values.serviceAccount.name -}}
-  {{- printf "%s" .Values.serviceAccount.name -}}
-  {{- else -}}
-  {{- printf "%s-sa" .Release.Namespace -}}
-  {{- end -}}
-{{- end -}}
-{{- if not .Values.serviceAccount.create -}}
-  {{- if .Values.serviceAccount.name -}}
-  {{- printf "%s" .Values.serviceAccount.name -}}
-  {{- else -}}
-  {{- printf "%s" (required "A valid .Values.serviceAccount.name is required as you're selected not create serviceaccount by default" .Values.serviceAccount.name) -}}
-  {{- end -}}
+    {{ .Values.serviceAccount.name | default (printf "aqua-sa") }}
+{{- else if not .Values.serviceAccount.create -}}
+    {{ .Values.serviceAccount.name | default (printf "aqua-sa") }}
 {{- end -}}
 {{- end -}}
 

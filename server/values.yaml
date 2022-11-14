@@ -193,6 +193,7 @@ gateway:
     publicPort:
   serviceAccount:
     create: false
+    name:
   replicaCount: 1
   logLevel:
   image:
