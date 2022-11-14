@@ -32,6 +32,30 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
 
 [Link](../docs/imagepullsecret.md)
 
+### Service Account
+By default the chart will create a SA named `aqua-sa`, and will deploy the resources using it.
+There are 3 scenarios for the service account usage:
+
+1. Using the default SA `aqua-sa`, this is the default option, no additional values need to be provided.
+
+
+2. Using a custom name for SA, in this scenario the following values need to be provided:
+   1. `serviceAccount.name` and `gateway.serviceAccount.name` containing the desired name.
+
+
+3. Using an existing SA or imperatively created one:
+   1. For example the SA can be created and patched with this commands:
+
+    ```shell
+   # Create the ServiceAccount
+    kubectl create serviceaccount aqua-custom-sa -n aqua
+   # Patch the ServiceAccount with the pull secret
+    kubectl patch serviceaccount aqua-custom-sa -n aqua -p '{"imagePullSecrets": [{"name": "aqua-registry-secret"}]}'
+    ```
+    and the values that need to be provided are:
+   1. `serviceAccount.name` and `gateway.serviceAccount.name` containing the value `aqua-custom-sa`.
+   2. `serviceAccount.create` with the value`false`
+
 ### PostgreSQL database
 
 Aqua Security recommends implementing a highly-available PostgreSQL database. By default, the console chart will install a PostgreSQL database and attach it to persistent storage for POC usage and testing. For production use, one may override this default behavior and specify an existing PostgreSQL database by setting the following variables in values.yaml:
@@ -402,6 +426,7 @@ Parameter | Description| Default | Mandatory
 `gateway.service.loadbalancerIP` | can specify loadBalancerIP address for aqua-web in AKS platform   | `null` | `NO`
 `gateway.service.annotations` | 	service annotations	| `{}`   | `NO`
 `gateway.service.ports` | array of ports settings| `array`| `NO`
+`gateway.serviceAccount.name` | The name of the SA to deploy the gateway | `aqua-sa`| `NO`
 `gateway.publicIP` | gateway public ip  | `aqua-gateway`| `NO`
 `gateway.replicaCount` | replica count      | `1`    | `NO`
 `gateway.resources` | 	Resource requests and limits         | `{}`   | `NO`
