@@ -49,10 +49,14 @@ spec:
           - name: CA_CERT # Path to file
             value: /home/node/ca.pem
           {{- end }}
+          {{- if .Values.ssl.cert }}
           - name: HTTPS_CERT # Path to file
             value: /home/node/cert.pem
+          {{- end }}
+          {{- if .Values.ssl.key }}
           - name: HTTPS_KEY # Path to file
             value: /home/node/key.pem
+          {{- end }}
           {{- end }}
 
           {{- if .Values.proxy.url }}
@@ -88,10 +92,14 @@ spec:
               - key: ssl-ca-certificate
                 path: ca.pem
               {{- end }}
+              {{- if .Values.ssl.cert }}
               - key: ssl-certificate
                 path: cert.pem
+              {{- end }}
+              {{- if .Values.ssl.key }}
               - key: ssl-key
                 path: key.pem
+              {{- end }}
       {{- end }}
     {{- with $v.nodeSelector }}
       nodeSelector:
