@@ -19,15 +19,15 @@ integration:
 # Optionally add ssl ca cert and client cert/key for ssl connection to the SCM/CI server:
 ssl:
   enabled: false
-#  ca: -|
+#  ca: |
 #    -----BEGIN CERTIFICATE-----
 #    ca-cert
 #    -----END CERTIFICATE
-#  cert: -|
+#  cert: |
 #    -----BEGIN CERTIFICATE-----
 #    client-cert
 #    -----END CERTIFICATE-----
-#  key: -|
+#  key: |
 #    -----BEGIN RSA PRIVATE KEY-----
 #    secure key
 #    -----BEGIN RSA PRIVATE KEY-----
