@@ -54,3 +54,5 @@ data:
 {{- else }}
   AQUA_TLS_PORT: "8443"
 {{- end }}
+  AQUA_KB_SCAN_TAINTED_NODES: "{{ .Values.kubeBench.scanTainted }}"
+

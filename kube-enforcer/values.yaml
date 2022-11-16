@@ -83,6 +83,10 @@ kubebenchImage:
   repository: "aquasec/kube-bench"  # Default aqua registry KubeBench repository name
   tag: "v0.6.8"
 
+#Enable/Disable KB scanning on tainted nodes
+kubeBench:
+  scanTainted: "true"
+
 nameOverride: "aqua-kube-enforcer"
 fullnameOverride: "aqua-kube-enforcer"
 
