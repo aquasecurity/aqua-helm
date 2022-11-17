@@ -11,6 +11,12 @@ metadata:
 data:
   aqua-tunnels-cloud-connector-config: |
     tunnels:
+      # Host endpoints for Azure Functions
+      {{- if .Values.tunnels.azure_functions.host }}
+      - host: {{ .Values.tunnels.azure_functions.host }}
+      - port: {{ .Values.tunnels.azure_functions.port }}
+      {{- end }}
+      
       # Azure Container Registry
       {{- if .Values.tunnels.azure.registryHost }}
       - host: {{ .Values.tunnels.azure.registryHost }}

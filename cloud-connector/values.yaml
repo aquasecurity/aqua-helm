@@ -88,6 +88,10 @@ podAnnotations: {}
 affinity: {}
 
 tunnels:
+  # Host endpoints for Azure Functions
+  azure_functions:
+    host: ""
+    port: ""
   # ACR - Azure Container Registry
   azure:
     registryHost: ""
