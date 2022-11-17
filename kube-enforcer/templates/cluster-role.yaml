@@ -20,6 +20,11 @@ rules:
   - apiGroups: ["*"]
     resources: ["configmaps"]
     verbs: ["get", "list", "watch", "update", "create"]
+  {{- if eq .Values.global.platform "openshift"}}
+  - apiGroups: ["operator.openshift.io"]
+    resources: ["imagecontentsourcepolicies"]
+    verbs: ["get", "list", "watch"]
+  {{- end }}
   - apiGroups:
       - "*"
     resources:
