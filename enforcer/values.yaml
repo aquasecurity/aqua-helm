@@ -142,6 +142,7 @@ affinity: {}
 #  my-annotation-key: my value; more value
 
 dnsPolicy: "ClusterFirst"
+dnsNdots:
 hostPID: "true"
 schedulerName: "default-scheduler"
 terminationGracePeriodSeconds: "30"
