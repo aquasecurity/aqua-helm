@@ -2,9 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 ## 2022.4.10 ( Nov 16th, 2022 )
-* Added Env variable for KubeBench
-* Modified Cluster role for Openshift
+* Added Env variable for KubeBench.
+* Modified Cluster role for Openshift.
 * Added support for Ndots DNS configuration.
+* Modifying RBAC permissions for Kube-Enforcer and Starboard Operator
 ## 2022.4.9 ( Oct 10th, 2022 )
 * Add support for starboard v0.15.10
 ## 2022.4.8 ( Sep 21st, 2022 )
