@@ -20,8 +20,51 @@ rules:
   - apiGroups: [ "*" ]
     resources: [ "leases" ]
     verbs: [ "get", "list", "create", "update" ]
+  - apiGroups: [ "" ]
+    resources: [ "secrets" ]
+    verbs: [ "create", "delete" ]
+  - apiGroups: [ "" ]
+    resources: [ "configmaps" ]
+    verbs: [ "update", "create" ]
 {{- if eq .Values.global.platform "openshift" }}
   - apiGroups: ["*"]
     resources: ["pods"]
     verbs: ["create", "delete"]
 {{- end }}
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: starboard-operator
+  namespace: aqua
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - create
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+      - serviceaccounts
+    verbs:
+      - create
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+  - apiGroups:
+      - batch
+    resources:
+      - jobs
+    verbs:
+      - create
+      - delete

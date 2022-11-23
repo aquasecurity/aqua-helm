@@ -83,6 +83,10 @@ kubebenchImage:
   repository: "aquasec/kube-bench"  # Default aqua registry KubeBench repository name
   tag: "v0.6.8"
 
+#Enable/Disable KB scanning on tainted nodes
+kubeBench:
+  scanTainted: "true"
+
 nameOverride: "aqua-kube-enforcer"
 fullnameOverride: "aqua-kube-enforcer"
 
@@ -93,6 +97,8 @@ logLevel: ""
 
 #Comma-separated node-labels for nodes on which Kube-Bench is to be skipped. key1=val1,key2=val2,...
 skipNodes: ""
+
+dnsNdots:
 
 # Set create to false if you want to use an existing secret for the kube-enforcer certs
 # If certsSecret.create and certsSecret.name defined then need provide certsSecret.serverCertificate and

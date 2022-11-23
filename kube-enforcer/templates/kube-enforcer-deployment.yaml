@@ -35,6 +35,12 @@ spec:
         {{- end }}
 {{ include "aqua.labels" . | indent 8 }}
     spec:
+      {{- if .Values.dnsNdots }}
+      dnsConfig:
+        options:
+          - name: ndots
+            value: {{ int .Values.dnsNdots | quote }}
+      {{- end }}
       {{- with .Values.securityContext }}
       securityContext:
 {{ toYaml . | indent 8 }}

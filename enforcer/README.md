@@ -176,6 +176,7 @@ Parameter | Description                                                         
 `tolerations` | 	Kubernetes node tolerations	                                                                                                      | `[]`                                       | `NO`
 `podAnnotations` | Kubernetes pod annotations                                                                                                         | `{}`                                       | `NO`
 `affinity` | 	Kubernetes node affinity                                                                                                          | `{}`                                       | `NO`
+`dnsNdots` | Modifies ndots DNS configuration for the deployment                                                                                | `unset`    | `NO`
 `TLS.enabled` | If require secure channel communication                                                                                            | `false`                                    | `NO`
 `TLS.secretName` | certificates secret name                                                                                                           | `nil`                                      | `YES` <br /> `if TLS.enabled is set to true`
 `TLS.publicKey_fileName` | filename of the public key eg: aqua_enforcer.crt                                                                                   | `nil`                                      |  `YES` <br /> `if TLS.enabled is set to true`
