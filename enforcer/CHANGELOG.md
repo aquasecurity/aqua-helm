@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2022.4.7 ( Nov 20th, 2022 )
 * Added support for Ndots DNS configuration.
+* Fix PodSecurityPolicy #[666](https://github.com/aquasecurity/aqua-helm/pull/666/)
 
 ## 2022.4.6 ( Jul 11th, 2022 )
 * Add multi container engine support for different TKGi versions based only on platform choice
