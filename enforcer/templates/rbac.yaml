@@ -14,6 +14,13 @@ rules:
 - apiGroups: ["rbac.authorization.k8s.io"]
   resources: ["*"]
   verbs: ["get", "list", "watch"]
+{{- if and (.Values.podSecurityPolicy.create) (le .Capabilities.KubeVersion.Minor "24") }}
+- apiGroups: ["policies"]
+  resources: ["podsecuritypolicies"]
+  verbs: ["use"]
+  resourceNames:
+    - {{ .Release.Name }}-psp
+{{- end }}
 {{- if eq .Values.global.platform "openshift" }}
 - apiGroups: [""]
   resources: ["imagestreams", "imagestreams/layers"]
@@ -41,6 +48,31 @@ subjects:
   - kind: ServiceAccount
     name: {{ template "agentServiceAccount" . }}
     namespace: {{ .Release.Namespace }}
+{{- if and (.Values.podSecurityPolicy.create) (le .Capabilities.KubeVersion.Minor "24") }}
+---
+# PodSecurityPolicy
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: {{ .Release.Name }}-psp
+  labels:
+    app: {{ .Release.Name }}
+    aqua.component: server
+spec:
+  privileged: {{ .Values.podSecurityPolicy.privileged }}
+  allowedCapabilities:
+  - '*'
+  fsGroup:
+    rule: RunAsAny
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  volumes:
+  - '*'
+{{- end }}
 ---
 ## Openshift RBAC
 {{- if eq .Values.global.platform "openshift" }}

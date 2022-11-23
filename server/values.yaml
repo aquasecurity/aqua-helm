@@ -46,7 +46,7 @@ dockerSock:
 
 nameOverride: ""
 
-# podsecurity policy [Deprecated from kubernetes version < 1.21]
+# podsecurity policy [Deprecated from kubernetes version > 1.21]
 podSecurityPolicy:
   create: false     # Enable to true to create PSP
   privileged: true

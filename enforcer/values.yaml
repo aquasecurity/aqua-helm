@@ -96,6 +96,11 @@ securityContext:
       - SYS_RESOURCE
       - IPC_LOCK
 
+# podsecurity policy [Deprecated from kubernetes version > 1.21]
+podSecurityPolicy:
+  create: false     # Enable to true to create PSP
+  privileged: true
+
 multiple_gateway: # enable this to connect enforcer with multiple gateways
   enabled: false
 # use the below hosts to add multiple gateways as required to enforcer. Format is <hostname>:<port_number>
