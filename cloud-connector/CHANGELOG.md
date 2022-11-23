@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.2 (Nov 23, 2022)
+* Add capability for Azure Functions #670(https://github.com/aquasecurity/aqua-helm/pull/670)
+
 ## 2022.4.1 (May 31st, 2022)
 * Add token authentication support to cloud-connector #[602](https://github.com/aquasecurity/aqua-helm/pull/602)
 * Add resource support to cloud-connector #[600](https://github.com/aquasecurity/aqua-helm/pull/600)
