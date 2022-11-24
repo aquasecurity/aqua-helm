@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.8 ( Nov 24th, 2022 )
+* Add new capability LINUX_IMMUTABLE (SLK-59669)
+* Change volume mount for tkg (SLK-58184)
+
 ## 2022.4.7 ( Nov 20th, 2022 )
 * Added support for Ndots DNS configuration.
 * Fix PodSecurityPolicy #[666](https://github.com/aquasecurity/aqua-helm/pull/666/)

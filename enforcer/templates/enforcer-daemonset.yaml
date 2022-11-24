@@ -106,7 +106,7 @@ spec:
           mountPath: /opt/aquasec/ssl/
           readOnly: true
         {{- end }}
-        {{- if or (eq .Values.global.platform "tkg") (eq .Values.global.platform "tkgi")}}
+        {{- if eq .Values.global.platform "tkgi" }}
           #fallback for docker
         - mountPath: /var/run
           name: var-run
@@ -171,7 +171,7 @@ spec:
       schedulerName: {{ .Values.schedulerName }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       volumes:
-      {{- if or (eq .Values.global.platform "tkg") (eq .Values.global.platform "tkgi")}}
+      {{- if eq .Values.global.platform "tkgi" }}
       - name: var-run
         hostPath:
           path: /var/vcap/sys/run/docker
