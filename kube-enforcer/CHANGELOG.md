@@ -1,6 +1,8 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## 2022.4.11 ( Nov 20th, 2022 )
+* Modify Kube Enforcer Role template to support release namespace.
 ## 2022.4.10 ( Nov 16th, 2022 )
 * Added Env variable for KubeBench.
 * Modified Cluster role for Openshift.
