@@ -1,6 +1,9 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## 2022.4.12 ( Nov 27, 2022 )
+* Fix type in KE role and cluster role
 ## 2022.4.11 ( Nov 20th, 2022 )
 * Modify Kube Enforcer Role template to support release namespace.
 ## 2022.4.10 ( Nov 16th, 2022 )

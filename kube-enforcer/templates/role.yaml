@@ -20,10 +20,10 @@ rules:
   - apiGroups: [ "*" ]
     resources: [ "leases" ]
     verbs: [ "get", "list", "create", "update" ]
-  - apiGroups: [ "" ]
+  - apiGroups: [ "*" ]
     resources: [ "secrets" ]
     verbs: [ "create", "delete" ]
-  - apiGroups: [ "" ]
+  - apiGroups: [ "*" ]
     resources: [ "configmaps" ]
     verbs: [ "update", "create" ]
 {{- if eq .Values.global.platform "openshift" }}
