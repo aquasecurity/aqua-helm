@@ -2,7 +2,11 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
+  {{- if .Values.expressMode }}
+  name: aqua-enforcer-ds
+  {{ else }}
   name: {{ .Release.Name }}-ds
+  {{ end }}
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-ds
@@ -143,6 +147,8 @@ spec:
           name: aquasec-audit
         - mountPath: /data
           name: aquasec-data
+        - mountPath: /var/lib/containers
+          name: containers
 {{- if .Values.healthMonitor.enabled }}
 {{- with .Values.livenessProbe }}
         livenessProbe:
@@ -225,6 +231,11 @@ spec:
         hostPath:
           path: /var/lib/aquasec/data
           type: ""
+      - name: containers
+        hostPath:
+          path: /var/lib/containers
+          type: ""
+
       {{- if .Values.hostRunPath }}
       - name: var-run-vcap
         hostPath:
