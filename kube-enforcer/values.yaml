@@ -515,3 +515,5 @@ enforcer:
     #   secretName: name
     #   secretKey: key
 
+# AquaEnforcer DaemonSet name for KubEnforcer config map
+enforcer_ds_name: ""
