@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.9 ( Nov 27th, 2022 )
+* Change DS name when deployed using Express Mode.
+* Add mount for Podman
+
 ## 2022.4.8 ( Nov 24th, 2022 )
 * Add new capability LINUX_IMMUTABLE (SLK-59669)
 * Change volume mount for tkg (SLK-58184)
