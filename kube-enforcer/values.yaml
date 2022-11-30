@@ -46,6 +46,9 @@ serviceAccount:
 # mke = Mirantis Kubernetes Engine
 platform: ""
 
+# AquaEnforcer DaemonSet name for KubEnforcer config map
+enforcer_ds_name: ""
+
 # Specify whether to enable/disable the cache by using "yes", "true", "no", "false" values.
 aqua_enable_cache: "yes"
 # default value is 60
