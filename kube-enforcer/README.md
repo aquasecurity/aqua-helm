@@ -342,6 +342,7 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `image.pullPolicy` | The kubernetes image pull policy.    | `Always`       | `Yes`      |
 | `ke_ReplicaCount`  | kube-enforcer replica count  | `1`    | `No`
 | `clusterName`  | Cluster name registered with Aqua in Infrastructure tab| `aqua-secure`  | `No`       |
+| `enforcer_ds_name`                                                | AquaEnforcer DaemonSet name for KubEnforcer config map| ``  | `No`|
 | `logicalName`  | This variable is used in conjunction with the KubeEnforcer group logical name to determine how the KubeEnforcer name will be displayed in the Aqua UI  | `""`   | `No`|
 | `logLevel`  | Setting this might be helpful for problem determination. Acceptable values are DEBUG, INFO, WARN, and ERROR        | `""` | `No`
 | `certsSecret.create`| Set to create a new secret for TLS authentication with the Kubernetes api-server, Change to false if you're using existing server certificate secret| `true`         | `Yes`|
