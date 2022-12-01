@@ -310,6 +310,12 @@ starboard:
 ### When using KubeEnforcers for Pod Enforcer injection, it is recommended that you deploy the KubeEnforcers in a special Advanced configuration.
 ### This will cause Pod Enforcer traffic to be routed to the KubeEnforcers via a local envoy, which then forwards the traffic to an Aqua Gateway.
 ### This configuration improves performance and reduces remote network connections between pods and Gateways.
+
+# Kubebench Image
+kubebenchImage:
+  repository: "aquasec/kube-bench"  # Default aqua registry KubeBench repository name
+  tag: "v0.6.8"
+
 kubeEnforcerAdvance:
   enable: false
   nodeID: "envoy"
