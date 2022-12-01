@@ -314,7 +314,7 @@ starboard:
 # Kubebench Image
 kubebenchImage:
   repository: "aquasec/kube-bench"  # Default aqua registry KubeBench repository name
-  tag: "v0.6.8"
+  tag: "v0.6.10"
 
 kubeEnforcerAdvance:
   enable: false

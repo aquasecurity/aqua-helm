@@ -32,7 +32,7 @@ This repository includes the following charts; they can be deployed separately:
 | [Server](server/) | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component | 6.5.22               |
 | [Enforcer](enforcer/) | Deploys the Aqua Enforcer daemonset | 6.5.17               |
 | [Scanner](scanner/)  | Deploys the Aqua Scanner deployment | 6.5.10               |
-| [KubeEnforcer](kube-enforcer/)| Deploys Aqua KubeEnforcer | 6.5.21               |
+| [KubeEnforcer](kube-enforcer/)| Deploys Aqua KubeEnforcer | 6.5.22               |
 | [Gateway](gateway)| Deploys the Aqua Standalone Gateway | 6.5.13               |
 | [Tenant-Manager](tenant-manager/)| Deploys the Aqua Tenant Manager | 6.5.3                |
 | [Cyber Center](cyber-center/)| Deploys Aqua CyberCenter offline for air-gap environment| 6.5.1                |
@@ -82,7 +82,7 @@ aqua-helm/cloud-connector       6.5.3           6.5             A Helm chart for
 aqua-helm/cyber-center          6.5.1           6.5             A Helm chart for Aqua CyberCenter
 aqua-helm/enforcer              6.5.17          6.5             A Helm chart for the Aqua Enforcer
 aqua-helm/gateway               6.5.13          6.5             A Helm chart for the Aqua Gateway
-aqua-helm/kube-enforcer         6.5.21          6.5             A Helm chart for the Aqua KubeEnforcer Starboard
+aqua-helm/kube-enforcer         6.5.22          6.5             A Helm chart for the Aqua KubeEnforcer Starboard
 aqua-helm/scanner               6.5.10          6.5             A Helm chart for the Aqua Scanner CLI component
 aqua-helm/server                6.5.22          6.5             A Helm chart for the Aqua Console components
 aqua-helm/tenant-manager        6.5.3           6.5             A Helm chart for the Aqua Tenant Manager

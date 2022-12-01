@@ -15,6 +15,7 @@ data:
   AQUA_CACHE_EXPIRATION_PERIOD: {{ .Values.aqua_cache_expiration_period | default "60" | quote }}
   AQUA_LOGICAL_NAME: {{ .Values.logicalName | quote }}
   CLUSTER_NAME: {{ .Values.clusterName | quote }}
+  AQUA_KB_IMAGE_NAME: "{{ .Values.kubebenchImage.repository }}:{{ .Values.kubebenchImage.tag }}"
   {{- if .Values.certsSecret.create }}
   TLS_SERVER_CERT_FILEPATH: "/certs/server.crt"
   TLS_SERVER_KEY_FILEPATH: "/certs/server.key"
