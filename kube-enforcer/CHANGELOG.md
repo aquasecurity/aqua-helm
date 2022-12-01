@@ -1,3 +1,5 @@
+## 6.5.21 ( October 10th, 2022 )
+* Added custom AquaEnforcer DaemonSet name support for KubEnforcer config map.
 ## 6.5.20 ( October 10th, 2022 )
 * Add support for starboard v0.15.10
 ## 6.5.19 ( July 28th, 2022 )

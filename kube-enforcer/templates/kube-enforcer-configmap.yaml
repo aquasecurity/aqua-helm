@@ -41,3 +41,7 @@ data:
 {{- else }}
   AQUA_TLS_PORT: "8443"
 {{- end }}
+{{- if ne .Values.enforcer_ds_name "" }}
+  AQUA_ENFORCER_DS_NAME: {{ .Values.enforcer_ds_name }}
+{{- end }}
+
