@@ -1,6 +1,8 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## 2022.4.13 ( Dec 1st, 2022 )
+* Changed default KubeBench version.
 ## 2022.4.12 ( Nov 27, 2022 )
 * Fix typo in KE role and cluster role.
 * Added custom AquaEnforcer DaemonSet name support for KubEnforcer config map.

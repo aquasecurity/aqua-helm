@@ -324,98 +324,98 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 
 ## Configurable Variables
 
-| Parameter                                                    | Description| Default | Mandatory|
-|--------------------------------------------------------------|------------|-----|----------|
-| `global.imageCredentials.create`                             | Set to create new pull image secret| `true`| `Yes - New cluster`|
-| `global.imageCredentials.name`                               | Your Docker pull image secret name | `aqua-registry-secret` | `Yes - New cluster`|
-| `global.imageCredentials.repositoryUriPrefix`                | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com` | `Yes - New cluster`|
-| `global.imageCredentials.registry`                           | set the registry url for dockerhub set `index.docker.io/v1/`  | `registry.aquasec.com` | `Yes - New cluster`|
-| `global.imageCredentials.username`                           | Your Docker registry (Docker Hub, etc.) username    | `N/A` | `Yes - New cluster`|
-| `global.imageCredentials.password`                           | Your Docker registry (Docker Hub, etc.) password    | `N/A` | `Yes - New cluster`|
-| `serviceAccount.create`                                      | enable to create serviceaccount    | `false` | `Yes - New cluster`|
-| `serviceAccount.name`                                        | service acccount name  | `aqua-sa` | `No`|
-| `global.platform`                                            | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s) | `unset` | `YES`  |
-| `global.enforcer.enabled`                                    | Change to true to enable express mode and deploy aqua enforcer along with kube-enforcer | `false` | `NO` |
-| `global.gateway.address`                                     | Gateway host address| `aqua-gateway-svc.aqua`| `Yes`    |
-| `global.gateway.port`                                        | Gateway host port| `8443`| `Yes`    |
-| `aqua_enable_cache`                                          | Set this to yes to enable caching for the KubeEnforcer; this can improve performance in clusters with high traffic| `yes` | `Yes`    |
-| `aqua_cache_expiration_period`                               | If caching is enabled, you can adjust the cache refresh time. This defaults to 60 seconds | `60` | `Yes` </br> `if aqua_enable_cache enabled`  |
-| `ke_ReplicaCount`                                            | kube-enforcer replica count| `1` | `No` |
-| `image.repository`                                           | kube-enforcer docker image name to use  | `kube-enforcer`| `Yes`    |
-| `image.tag`                                                  | kube-enforcer image tag to use.  | `2022.4` | `Yes`    |
-| `image.pullPolicy`                                           | The kubernetes image pull policy.  | `Always`| `Yes`    |
-| `microEnforcerImage.repository`                              | Microenforcer docker image name | `microenforcer` | `YES` |
-| `microEnforcerImage.tag`                                     | Microenforcer docker image tag | `2022.4` | `YES` |
-| `kubebenchImage.repository`                                  | KubeBench docker image name | `aquasec/kube-benc` | `YES` |
-| `kubebenchImage.tag`                                         | KubeBench docker image tag | `v0.6.8` | `YES` |
-| `clusterName`                                                | Cluster name registered with Aqua in Infrastructure tab| `aqua-secure` | `No`|
-| `enforcer_ds_name`                                                | AquaEnforcer DaemonSet name for KubEnforcer config map| ``  | `No`|
-| `logicalName`                                                | This variable is used in conjunction with the KubeEnforcer group logical name to determine how the KubeEnforcer name will be displayed in the Aqua UI| `""` | `No`|
-| `logLevel`                                                   | Setting this might be helpful for problem determination. Acceptable values are DEBUG, INFO, WARN, and ERROR| `""` | `No`
-| `certsSecret.create`                                         | Set to create a new secret for TLS authentication with the Kubernetes api-server, Change to false if you're using existing server certificate secret | `true`| `Yes`    |
-| `certsSecret.autoGenerate`                                   | Set to automaticly generate self-signed secret for TLS authentication with the Kubernetes api-server, Change to false if you're using existing server certificate secret | `false` | `No`|
-| `certsSecret.name`                                           | Secret name for TLS authentication with the Kubernetes api-server, Change secret name if already exists with server/web public certificate  | `aqua-kube-enforcer-certs`| `Yes`    |
-| `certsSecret.serverCertificate`                              | Public certificate for TLS authentication with the Kubernetes api-server, If certsSecret.create is enable to true, Add base64 value of the Public Certificate(server certificate) or add filename of certificate if it is loading from custom secret | `N/A` | `Yes`    |
-| `certsSecret.serverKey`                                      | Certificate key for TLS authentication with the Kubernetes api-server, If certsSecret.create is enable to true, Add base64 value of the Private Key(server key) or add filename of key if it is loading from custom secret | `N/A` | `Yes`    |
-| `dnsNdots`                                                   | Modifies ndots DNS configuration for the deployment                                                                                | `unset` | `NO`|
-| `vaultSecret.enable`                                         | Enable to true once you have secrets in vault and annotations are enabled to load enforcer token from hashicorp vault | `false` | `No` |
-| `vaultSecret.vaultFilepath`                                  |  Change the path to "/vault/secrets/<filename>" as per the setup | `""` | `No` |
-| `aquaSecret.create`                                          | Aqua KubeEnforcer (KE) token secret creation| `true`| `Yes`    |
-| `aquaSecret.name`                                            | Aqua KubeEnforcer (KE) token secret name| `aqua-kube-enforcer-token`| `Yes`    |
-| `aquaSecret.kubeEnforcerToken`                               | Aqua KubeEnforcer (KE) token  | `ke-token` | `Yes`    |
-| `clusterRole.name`                                           | KE cluster role name| `aqua-kube-enforcer` | `Yes`    |
-| `clusterRoleBinding.name`                                    | KE cluster rolebinding name| `aqua-kube-enforcer` | `Yes`    |
-| `role.name`                                                  | KE role name| `aqua-kube-enforcer` | `Yes`    |
-| `roleBinding.name`                                           | KE rolebinding name | `aqua-kube-enforcer` | `Yes`    |
-| `webhooks.certManager`                                       | Enable to true if using KE webhook certificates generated from kubernetes cert-manager | `false` | `No`
-| `webhooks.caBundle`                                          | Root certificate for TLS authentication with the Kubernetes api-server, Add base64 value of the CA cert/Ca Bundle/RootCA Cert if certificates are not generated from cert-manager to webhooks.caBundle| `N/A` | `Yes` </br> `if webhooks.certManager is false` |
-| `webhooks.failurePolicy`                                     | Webhook failure policy | `false` | `Yes`    |
-| `webhooks.validatingWebhook.name`                            | KE validating webhook name | `kube-enforcer-admission-hook-config` | `Yes`    |
-| `webhooks.validatingWebhook.annotations`                     | KE validating webhook annotations  | `{}` | `No`|
+| Parameter                                                    | Description| Default                                  | Mandatory|
+|--------------------------------------------------------------|------------|------------------------------------------|----------|
+| `global.imageCredentials.create`                             | Set to create new pull image secret| `true`                                   | `Yes - New cluster`|
+| `global.imageCredentials.name`                               | Your Docker pull image secret name | `aqua-registry-secret`                   | `Yes - New cluster`|
+| `global.imageCredentials.repositoryUriPrefix`                | repository uri prefix for dockerhub set `docker.io` | `registry.aquasec.com`                   | `Yes - New cluster`|
+| `global.imageCredentials.registry`                           | set the registry url for dockerhub set `index.docker.io/v1/`  | `registry.aquasec.com`                   | `Yes - New cluster`|
+| `global.imageCredentials.username`                           | Your Docker registry (Docker Hub, etc.) username    | `N/A`                                    | `Yes - New cluster`|
+| `global.imageCredentials.password`                           | Your Docker registry (Docker Hub, etc.) password    | `N/A`                                    | `Yes - New cluster`|
+| `serviceAccount.create`                                      | enable to create serviceaccount    | `false`                                  | `Yes - New cluster`|
+| `serviceAccount.name`                                        | service acccount name  | `aqua-sa`                                | `No`|
+| `global.platform`                                            | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s) | `unset`                                  | `YES`  |
+| `global.enforcer.enabled`                                    | Change to true to enable express mode and deploy aqua enforcer along with kube-enforcer | `false`                                  | `NO` |
+| `global.gateway.address`                                     | Gateway host address| `aqua-gateway-svc.aqua`                  | `Yes`    |
+| `global.gateway.port`                                        | Gateway host port| `8443`                                   | `Yes`    |
+| `aqua_enable_cache`                                          | Set this to yes to enable caching for the KubeEnforcer; this can improve performance in clusters with high traffic| `yes`                                    | `Yes`    |
+| `aqua_cache_expiration_period`                               | If caching is enabled, you can adjust the cache refresh time. This defaults to 60 seconds | `60`                                     | `Yes` </br> `if aqua_enable_cache enabled`  |
+| `ke_ReplicaCount`                                            | kube-enforcer replica count| `1`                                      | `No` |
+| `image.repository`                                           | kube-enforcer docker image name to use  | `kube-enforcer`                          | `Yes`    |
+| `image.tag`                                                  | kube-enforcer image tag to use.  | `2022.4`                                 | `Yes`    |
+| `image.pullPolicy`                                           | The kubernetes image pull policy.  | `Always`                                 | `Yes`    |
+| `microEnforcerImage.repository`                              | Microenforcer docker image name | `microenforcer`                          | `YES` |
+| `microEnforcerImage.tag`                                     | Microenforcer docker image tag | `2022.4`                                 | `YES` |
+| `kubebenchImage.repository`                                  | KubeBench docker image name | `aquasec/kube-benc`                      | `YES` |
+| `kubebenchImage.tag`                                         | KubeBench docker image tag | `v0.6.10`                                | `YES` |
+| `clusterName`                                                | Cluster name registered with Aqua in Infrastructure tab| `aqua-secure`                            | `No`|
+| `enforcer_ds_name`                                                | AquaEnforcer DaemonSet name for KubEnforcer config map| ``                                       | `No`|
+| `logicalName`                                                | This variable is used in conjunction with the KubeEnforcer group logical name to determine how the KubeEnforcer name will be displayed in the Aqua UI| `""`                                     | `No`|
+| `logLevel`                                                   | Setting this might be helpful for problem determination. Acceptable values are DEBUG, INFO, WARN, and ERROR| `""`                                     | `No`
+| `certsSecret.create`                                         | Set to create a new secret for TLS authentication with the Kubernetes api-server, Change to false if you're using existing server certificate secret | `true`                                   | `Yes`    |
+| `certsSecret.autoGenerate`                                   | Set to automaticly generate self-signed secret for TLS authentication with the Kubernetes api-server, Change to false if you're using existing server certificate secret | `false`                                  | `No`|
+| `certsSecret.name`                                           | Secret name for TLS authentication with the Kubernetes api-server, Change secret name if already exists with server/web public certificate  | `aqua-kube-enforcer-certs`               | `Yes`    |
+| `certsSecret.serverCertificate`                              | Public certificate for TLS authentication with the Kubernetes api-server, If certsSecret.create is enable to true, Add base64 value of the Public Certificate(server certificate) or add filename of certificate if it is loading from custom secret | `N/A`                                    | `Yes`    |
+| `certsSecret.serverKey`                                      | Certificate key for TLS authentication with the Kubernetes api-server, If certsSecret.create is enable to true, Add base64 value of the Private Key(server key) or add filename of key if it is loading from custom secret | `N/A`                                    | `Yes`    |
+| `dnsNdots`                                                   | Modifies ndots DNS configuration for the deployment                                                                                | `unset`                                  | `NO`|
+| `vaultSecret.enable`                                         | Enable to true once you have secrets in vault and annotations are enabled to load enforcer token from hashicorp vault | `false`                                  | `No` |
+| `vaultSecret.vaultFilepath`                                  |  Change the path to "/vault/secrets/<filename>" as per the setup | `""`                                     | `No` |
+| `aquaSecret.create`                                          | Aqua KubeEnforcer (KE) token secret creation| `true`                                   | `Yes`    |
+| `aquaSecret.name`                                            | Aqua KubeEnforcer (KE) token secret name| `aqua-kube-enforcer-token`               | `Yes`    |
+| `aquaSecret.kubeEnforcerToken`                               | Aqua KubeEnforcer (KE) token  | `ke-token`                               | `Yes`    |
+| `clusterRole.name`                                           | KE cluster role name| `aqua-kube-enforcer`                     | `Yes`    |
+| `clusterRoleBinding.name`                                    | KE cluster rolebinding name| `aqua-kube-enforcer`                     | `Yes`    |
+| `role.name`                                                  | KE role name| `aqua-kube-enforcer`                     | `Yes`    |
+| `roleBinding.name`                                           | KE rolebinding name | `aqua-kube-enforcer`                     | `Yes`    |
+| `webhooks.certManager`                                       | Enable to true if using KE webhook certificates generated from kubernetes cert-manager | `false`                                  | `No`
+| `webhooks.caBundle`                                          | Root certificate for TLS authentication with the Kubernetes api-server, Add base64 value of the CA cert/Ca Bundle/RootCA Cert if certificates are not generated from cert-manager to webhooks.caBundle| `N/A`                                    | `Yes` </br> `if webhooks.certManager is false` |
+| `webhooks.failurePolicy`                                     | Webhook failure policy | `false`                                  | `Yes`    |
+| `webhooks.validatingWebhook.name`                            | KE validating webhook name | `kube-enforcer-admission-hook-config`    | `Yes`    |
+| `webhooks.validatingWebhook.annotations`                     | KE validating webhook annotations  | `{}`                                     | `No`|
 | `webhooks.mutatingWebhook.name`                              | | `kube-enforcer-me-injection-hook-config` | `Yes`    |
-| `webhooks.mutatingWebhook.annotations`                       | KE mutating webhook annotations    | `{}` | `No`|
-| `container_securityContext`                                  | KE container security context | `{}` | `No`|
-| `resources`                                                  | 	KE Resource requests and limits   | `{}` | `No`|
-| `nodeSelector`                                               | 	Kubernetes node selector	 | `{}` | `No`|
-| `tolerations`                                                | 	Kubernetes node tolerations	 | `[]` | `No`|
-| `podAnnotations`                                             | Kubernetes pod annotations | `{}` | `No`|
-| `affinity`                                                   | 	Kubernetes node affinity  | `{}` | `No`|
-| `TLS.enabled`                                                | If require secure channel communication | `false` | `No`|
-| `TLS.secretName`                                             | certificates secret name   | `nil` | `No`|
-| `TLS.publicKey_fileName`                                     | filename of the public key eg: aqua_ke.crt  | `nil` | `Yes` <br /> `if gate.TLS.enabled is set to true` |
-| `TLS.privateKey_fileName`                                    | filename of the private key eg: aqua_ke.key | `nil` | `Yes` <br /> `if gate.TLS.enabled is set to true` |
-| `TLS.rootCA_fileName`                                        | filename of the rootCA, if using self-signed certificates eg: rootCA.crt| `nil` | `No` <br /> `if gate.TLS.enabled is set to true and using self-signed certificates for TLS/mTLS` |
-| `starboard.replicaCount`                                     | Starboard replica count| `1` | `Yes`    |
-| `starboard.appName`                                          | Starboard application name | `starboard-operator` | `Yes`    |
-| `starboard.serviceAccount.name`                              | Starboard service account  | `starboard-operator` | `Yes`    |
-| `starboard.clusterRoleBinding.name`                          | Starboard cluster binding name| `starboard-operator` | `Yes`    |
-| `starboard.clusterRole.name`                                 | Starboard cluster role name| `starboard-operator` | `Yes`    |
-| `starboard.image.repositoryUriPrefix`                        | Starboard image repository URI| `docker.io/aquasec` | `Yes`    |
-| `starboard.image.repository`                                 | Starboard image name| `starboard-operator` | `Yes`    |
-| `starboard.tag`                                              | Starboard image tag | `0.13.0`| `Yes`    |
-| `starboard.pullPolicy`                                       | Starboard image pullPolicy | `Always`| `Yes`    |
-| `starboard.OPERATOR_TARGET_NAMESPACES`                       | This determines the installation mode, which in turn determines the multi-tenancy support of the operator| `(blank)` | `Yes` <br> `(blank string)=> ALLNAMESPACES, foo,bar.baz => specific NAMESPACES`|
-| `starboard.OPERATOR_LOG_DEV_MODE`                            | The flag to use (or not use) development mode (more human-readable output, extra stack traces and logging information, etc.) | `false` | `Yes`    |
-| `starboard.OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT`              | The maximum number of scan jobs create by the operator | `10` | `Yes`    |
-| `starboard.OPERATOR_SCAN_JOB_RETRY_AFTER`                    | The time to wait before retrying a failed scan job  | `30s` | `Yes`    |
-| `starboard.OPERATOR_METRICS_BIND_ADDRESS`                    | The TCP address to bind to for serving Prometheus metrics. It can be set to 0 to disable the metrics serving. | `:8080` | `Yes`    |
-| `starboard.OPERATOR_HEALTH_PROBE_BIND_ADDRESS`               | The TCP address to bind to for serving health probes, i.e., the /healthz/ and /readyz/ endpoints | `:9090` | `true`   |
-| `starboard.OPERATOR_CIS_KUBERNETES_BENCHMARK_ENABLED`        | The flag to enable CIS Kubernetes Benchmark scanning| `false` | `Yes, but should always remain false`    |
-| `starboard.OPERATOR_VULNERABILITY_SCANNER_ENABLED`           | The flag to enable vulnerability scanner| `false` | `Yes, but should always remain false`    |
-| `starboard.OPERATOR_BATCH_DELETE_LIMIT`                      | The maximum number of config audit reports deleted by the operator when the plugin's config has changed  | `10` | `Yes`    |
-| `starboard.OPERATOR_BATCH_DELETE_DELAY`                      | The time to wait before deleting another batch of config audit reports| `10s` | `Yes`    |
-| `starboard.nodeselector`                                     | NodeSelectors to be added to the Starboard Operator Deployment| `false` | `No`|
-| `kubeEnforcerAdvance.enable`                                 | Advanced KubeEnforcer deployment   | `false` | `No`|
-| `kubeEnforcerAdvance.nodeID`                                 | Envoy Node ID of the advance KE deployment  | `envoy` | `Yes - if kubeEnforcerAdvance.enable`  |
-| `kubeEnforcerAdvance.envoy.image.repository`                 | envoy image repository for KE advance deployment    | `envoy` | `Yes`    |
-| `kubeEnforcerAdvance.envoy.image.tag`                        | envoy image tag for KE advance deployment   | `2022.4` | `Yes`    |
-| `kubeEnforcerAdvance.envoy.image.pullPolicy`                 | envoy image pull policy for KE advance deployment   | `Always`| `Yes - if kubeEnforcerAdvance.enable`  |
-| `kubeEnforcerAdvance.envoy.TLS.listener.enabled`             | If require secure channel communication | `false` | `No`|
-| `kubeEnforcerAdvance.envoy.TLS.listener.secretName`          | certificates secret name   | `nil` | `No`|
-| `kubeEnforcerAdvance.envoy.TLS.listener.publicKey_fileName`  | filename of the public key eg: aqua_envoy.crt  | `nil` | `Yes`    | <br /> `if gate.TLS.enabled is set to true` |
-| `kubeEnforcerAdvance.envoy.TLS.listener.privateKey_fileName` | filename of the private key eg: aqua_envoy.key | `nil` |  | `Yes` <br /> `if gate.TLS.enabled is set to true` |
-| `kubeEnforcerAdvance.envoy.TLS.listener.rootCA_fileName`     | filename of the rootCA, if using self-signed certificates eg: | rootCA.crt | `nil`    |  `No` <br /> `if gate.TLS.enabled is set to true and using self-signed certificates for TLS/mTLS` |
-| `kubeEnforcerAdvance.envoy.resources`                        | Envoy resources  | `{}` | `Yes - if kubeEnforcerAdvance.enable`  |
+| `webhooks.mutatingWebhook.annotations`                       | KE mutating webhook annotations    | `{}`                                     | `No`|
+| `container_securityContext`                                  | KE container security context | `{}`                                     | `No`|
+| `resources`                                                  | 	KE Resource requests and limits   | `{}`                                     | `No`|
+| `nodeSelector`                                               | 	Kubernetes node selector	 | `{}`                                     | `No`|
+| `tolerations`                                                | 	Kubernetes node tolerations	 | `[]`                                     | `No`|
+| `podAnnotations`                                             | Kubernetes pod annotations | `{}`                                     | `No`|
+| `affinity`                                                   | 	Kubernetes node affinity  | `{}`                                     | `No`|
+| `TLS.enabled`                                                | If require secure channel communication | `false`                                  | `No`|
+| `TLS.secretName`                                             | certificates secret name   | `nil`                                    | `No`|
+| `TLS.publicKey_fileName`                                     | filename of the public key eg: aqua_ke.crt  | `nil`                                    | `Yes` <br /> `if gate.TLS.enabled is set to true` |
+| `TLS.privateKey_fileName`                                    | filename of the private key eg: aqua_ke.key | `nil`                                    | `Yes` <br /> `if gate.TLS.enabled is set to true` |
+| `TLS.rootCA_fileName`                                        | filename of the rootCA, if using self-signed certificates eg: rootCA.crt| `nil`                                    | `No` <br /> `if gate.TLS.enabled is set to true and using self-signed certificates for TLS/mTLS` |
+| `starboard.replicaCount`                                     | Starboard replica count| `1`                                      | `Yes`    |
+| `starboard.appName`                                          | Starboard application name | `starboard-operator`                     | `Yes`    |
+| `starboard.serviceAccount.name`                              | Starboard service account  | `starboard-operator`                     | `Yes`    |
+| `starboard.clusterRoleBinding.name`                          | Starboard cluster binding name| `starboard-operator`                     | `Yes`    |
+| `starboard.clusterRole.name`                                 | Starboard cluster role name| `starboard-operator`                     | `Yes`    |
+| `starboard.image.repositoryUriPrefix`                        | Starboard image repository URI| `docker.io/aquasec`                      | `Yes`    |
+| `starboard.image.repository`                                 | Starboard image name| `starboard-operator`                     | `Yes`    |
+| `starboard.tag`                                              | Starboard image tag | `0.13.0`                                 | `Yes`    |
+| `starboard.pullPolicy`                                       | Starboard image pullPolicy | `Always`                                 | `Yes`    |
+| `starboard.OPERATOR_TARGET_NAMESPACES`                       | This determines the installation mode, which in turn determines the multi-tenancy support of the operator| `(blank)`                                | `Yes` <br> `(blank string)=> ALLNAMESPACES, foo,bar.baz => specific NAMESPACES`|
+| `starboard.OPERATOR_LOG_DEV_MODE`                            | The flag to use (or not use) development mode (more human-readable output, extra stack traces and logging information, etc.) | `false`                                  | `Yes`    |
+| `starboard.OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT`              | The maximum number of scan jobs create by the operator | `10`                                     | `Yes`    |
+| `starboard.OPERATOR_SCAN_JOB_RETRY_AFTER`                    | The time to wait before retrying a failed scan job  | `30s`                                    | `Yes`    |
+| `starboard.OPERATOR_METRICS_BIND_ADDRESS`                    | The TCP address to bind to for serving Prometheus metrics. It can be set to 0 to disable the metrics serving. | `:8080`                                  | `Yes`    |
+| `starboard.OPERATOR_HEALTH_PROBE_BIND_ADDRESS`               | The TCP address to bind to for serving health probes, i.e., the /healthz/ and /readyz/ endpoints | `:9090`                                  | `true`   |
+| `starboard.OPERATOR_CIS_KUBERNETES_BENCHMARK_ENABLED`        | The flag to enable CIS Kubernetes Benchmark scanning| `false`                                  | `Yes, but should always remain false`    |
+| `starboard.OPERATOR_VULNERABILITY_SCANNER_ENABLED`           | The flag to enable vulnerability scanner| `false`                                  | `Yes, but should always remain false`    |
+| `starboard.OPERATOR_BATCH_DELETE_LIMIT`                      | The maximum number of config audit reports deleted by the operator when the plugin's config has changed  | `10`                                     | `Yes`    |
+| `starboard.OPERATOR_BATCH_DELETE_DELAY`                      | The time to wait before deleting another batch of config audit reports| `10s`                                    | `Yes`    |
+| `starboard.nodeselector`                                     | NodeSelectors to be added to the Starboard Operator Deployment| `false`                                  | `No`|
+| `kubeEnforcerAdvance.enable`                                 | Advanced KubeEnforcer deployment   | `false`                                  | `No`|
+| `kubeEnforcerAdvance.nodeID`                                 | Envoy Node ID of the advance KE deployment  | `envoy`                                  | `Yes - if kubeEnforcerAdvance.enable`  |
+| `kubeEnforcerAdvance.envoy.image.repository`                 | envoy image repository for KE advance deployment    | `envoy`                                  | `Yes`    |
+| `kubeEnforcerAdvance.envoy.image.tag`                        | envoy image tag for KE advance deployment   | `2022.4`                                 | `Yes`    |
+| `kubeEnforcerAdvance.envoy.image.pullPolicy`                 | envoy image pull policy for KE advance deployment   | `Always`                                 | `Yes - if kubeEnforcerAdvance.enable`  |
+| `kubeEnforcerAdvance.envoy.TLS.listener.enabled`             | If require secure channel communication | `false`                                  | `No`|
+| `kubeEnforcerAdvance.envoy.TLS.listener.secretName`          | certificates secret name   | `nil`                                    | `No`|
+| `kubeEnforcerAdvance.envoy.TLS.listener.publicKey_fileName`  | filename of the public key eg: aqua_envoy.crt  | `nil`                                    | `Yes`    | <br /> `if gate.TLS.enabled is set to true` |
+| `kubeEnforcerAdvance.envoy.TLS.listener.privateKey_fileName` | filename of the private key eg: aqua_envoy.key | `nil`                                    |  | `Yes` <br /> `if gate.TLS.enabled is set to true` |
+| `kubeEnforcerAdvance.envoy.TLS.listener.rootCA_fileName`     | filename of the rootCA, if using self-signed certificates eg: | rootCA.crt                               | `nil`    |  `No` <br /> `if gate.TLS.enabled is set to true and using self-signed certificates for TLS/mTLS` |
+| `kubeEnforcerAdvance.envoy.resources`                        | Envoy resources  | `{}`                                     | `Yes - if kubeEnforcerAdvance.enable`  |
 ## Issues and feedback
 
 If you encounter any problems or would like to give us feedback on this deployment, we encourage you to raise issues here on GitHub.
