@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.9 (Dec 1st, 2022)
+* Add pre-upgrade hook job, to fail the upgrade if the DB upgrade is detected to fail.
+
 ## 2022.4.8 (Oct 31st, 2022)
 * Fix Cluster Role Binding SA name
 
