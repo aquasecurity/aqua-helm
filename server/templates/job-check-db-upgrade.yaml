@@ -6,7 +6,7 @@ metadata:
     app: {{ .Release.Name }}-console
     aqua.component: server
     {{- range $key, $value := .Values.web.podLabels }}
-      {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 8 }}
+      {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
     {{- end }}
     {{- include "aqua.template-labels" . | nindent 4 }}
   annotations:
