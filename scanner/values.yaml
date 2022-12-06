@@ -92,6 +92,12 @@ scannerUserSecret:
   userKey: ""   # secret key of the scanner user
   passwordKey: "" # secret key of the scanner password
 
+scannerTokenSecret:
+  enable: false   # change it to true for loading the scanner token from secrets
+  secretName: ""  # secret name for the scanner token secret
+  token: ""   # scanner token key name
+
+
 replicaCount: 1
 livenessProbe: {}
 readinessProbe: {}
