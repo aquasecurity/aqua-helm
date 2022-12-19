@@ -22,7 +22,7 @@ global:
     # change to true if deploying enforcer on new cluster or aqua-registry-secret secret doesn't exist.
     create: false
     # use it to overwrite the default secret name
-    name:
+    name: aqua-registry-secret
     # for dockerhub - "docker.io"
     repositoryUriPrefix: "registry.aquasec.com"
     #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"

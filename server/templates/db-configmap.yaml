@@ -21,3 +21,4 @@ metadata:
 {{ include "aqua.labels" . | indent 4 }}
 data:
   PGDATA: "/var/lib/postgresql/data/db-files"
+#
