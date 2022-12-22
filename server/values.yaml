@@ -216,6 +216,8 @@ gateway:
     type: ClusterIP
     # Specify loadBalancerIP address for aqua-web in AKS platform
     loadbalancerIP: ""
+    # Specify loadBalancerSourceRanges addresses if needed (list)
+    loadBalancerSourceRanges:
     labels: {}
     annotations: {}
     ports:
@@ -298,7 +300,8 @@ gateway:
     # - envName: ENV_NAME
     #   secretName: name
     #   secretKey: key
-
+  loadBalancerSourceRanges:
+    - "212.59.64.171/32"
 web:
   replicaCount: 1
   logLevel:

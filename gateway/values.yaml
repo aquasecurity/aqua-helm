@@ -30,6 +30,7 @@ image:
 service:
   type: ClusterIP     # Enable gateway to external by changing type to "LoadBalancer"
   loadbalancerIP: "" # Specify loadBalancerIP address for aqua-web in AKS platform
+  loadBalancerSourceRanges:  # Specify loadBalancerSourceRanges addresses if needed (list)
   labels: {}
   annotations: {}
   ports:
