@@ -1,6 +1,8 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## 2022.4.13 ( Dec 22nd, 2022 )
+* Added control of Rules for KE ClusterRole
 
 ## 2022.4.12 ( Nov 27, 2022 )
 * Fix typo in KE role and cluster role.

@@ -147,6 +147,7 @@ aquaSecret:
 
 clusterRole:
   name: "aqua-kube-enforcer"
+  usingPodEnforcer: true
 
 clusterRoleBinding:
   name: "aqua-kube-enforcer"
