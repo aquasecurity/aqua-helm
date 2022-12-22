@@ -624,7 +624,7 @@ envoy:
     #         port_value: 8090
 
 sidecarContainers:
-  enabled: true
+  enabled: false
   ContainersDefinitions:
 #for example
 #    - name: sidecar-name
@@ -632,7 +632,7 @@ sidecarContainers:
 # etc..
 
 initContainers:
-  enabled: true
+  enabled: false
   ContainersDefinitions:
 #for example
 #    - name: sidecar-name
