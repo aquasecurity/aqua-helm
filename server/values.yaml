@@ -635,6 +635,6 @@ initContainers:
   enabled: false
   ContainersDefinitions:
 #for example
-#    - name: sidecar-name
+#    - name: init-name
 #      image: image:tag
 # etc..
