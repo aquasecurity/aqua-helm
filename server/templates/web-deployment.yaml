@@ -158,7 +158,14 @@ spec:
         {{- include "server.additionalCertVolumeMounts" .Values | nindent 8 }}
         resources:
 {{ toYaml .Values.web.resources | indent 12 }}
-      {{- with .Values.web.nodeSelector }}
+{{- if .Values.sidecarContainers.enabled }}
+{{- toYaml .Values.sidecarContainers.ContainersDefinitions | nindent 6 }}
+{{- end }}
+{{- if .Values.initContainers.enabled }}
+      initContainers:
+{{- toYaml .Values.initContainers.ContainersDefinitions | nindent 6 }}
+{{- end }}
+{{- with .Values.web.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
       {{- end }}
@@ -197,3 +204,4 @@ spec:
           secretName: {{ .Values.global.db.externalDbCerts.certSecretName }}
       {{- end }}
       {{- include "server.additionalCertVolumes" .Values | nindent 6 }}
+
