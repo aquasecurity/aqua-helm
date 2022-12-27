@@ -1,6 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.8 (Dec 22nd, 2022)
+* In Gateway Service of type LoadBalancer, loadBalancerSourceRanges are now supported
 ## 2022.4.7 (Oct 14th, 2022)
 * Fix external DB certificate mounts in mtls connection
 ## 2022.4.6 (Aug 22nd, 2022)
