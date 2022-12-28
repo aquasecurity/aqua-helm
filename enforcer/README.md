@@ -20,6 +20,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Integrate Aqua Enforcer with Hashicorp Vault to Load Token](#integrate-aqua-enforcer-with-hashicorp-vault-to-load-token)
   - [Configurable Variables](#configurable-variables)
     - [Enforcer](#enforcer)
+  - [Special cases](#special-cases)
   - [Issues and feedback](#issues-and-feedback)
 
 ## Prerequisites
@@ -184,6 +185,16 @@ For more details please visit [Link](https://docs.aquasec.com/docs/kubernetes#se
 
 
 > Note: that `imageCredentials.create` is false and if you need to create image pull secret please update to true, set the username and password for the registry and `serviceAccount.create` is false and if you're environment is new or not having aqua-sa serviceaccount please update it to true.
+
+## Special cases
+* For EKS cluster with the Bottlerocket OS add below section under `securityContext`
+```yaml
+seLinuxOptions:
+  user: system_u
+  role: system_r
+  type: super_t
+  level: s0
+```  
 
 ## Issues and feedback
 
