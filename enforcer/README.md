@@ -20,6 +20,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Integrate Aqua Enforcer with Hashicorp Vault to Load Token](#integrate-aqua-enforcer-with-hashicorp-vault-to-load-token)
   - [Configurable Variables](#configurable-variables)
     - [Enforcer](#enforcer)
+  - [Special cases](#special-cases)
   - [Issues and feedback](#issues-and-feedback)
 
 ## Prerequisites
