@@ -7,7 +7,7 @@ imageCredentials:
   password: ""
 
 serviceAccount:
-  create: false # change to true if deploying enforcer on new cluster or aqua-sa serviceAccount doesn't exist.
+  create: true # change to false if aqua-kube-enforcer-sa serviceAccount already exist.
   name: # use it to overwrite the default serviceAccount name
 
 clusterRole:

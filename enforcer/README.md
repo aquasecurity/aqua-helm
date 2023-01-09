@@ -145,7 +145,7 @@ For more details please visit [Link](https://docs.aquasec.com/docs/kubernetes#se
 | `imageCredentials.username`            | Your Docker registry (DockerHub, etc.) username                       | `aqua-registry-secret`| `YES - New cluster`
 | `imageCredentials.password`            | Your Docker registry (DockerHub, etc.) password                       | `unset`| `YES - New cluster`
 | `serviceAccount.create`                | enable to create serviceaccount         | `false` | `YES - New cluster`
-| `serviceAccount.name`                  | service acccount name                   | `aqua-sa` | `NO`
+| `serviceAccount.name`                  | service acccount name                   | `aqua-kube-enforcer-sa` | `YES`
 | `clusterRole.roleRef`                  | cluster role reference name for cluster rolebinding                   | `unset` | `NO`
 | `platform`| Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s)                       | `unset` | `YES`
 `vaultSecret.enable` | Enable to true once you have secrets in vault and annotations are enabled to load enforcer token from hashicorp vault | `false` | `No` |

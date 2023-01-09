@@ -26,8 +26,8 @@ If release name contains chart name it will be used as a full name.
 
 {{/*
 If .Values.serviceAccount.create set to false and .Values.serviceAccount.name not defined
-Will be created serviceAccount with name "aqua-sa" - the default serviceAccount
-for server chart.
+Will be use serviceAccount with name "aqua-kube-enforcer-scc" - the default serviceAccount
+for kube-enforcer chart.
 Else if .Values.serviceAccount.create set to true, so will becreate serviceAccount based on
 .Values.serviceAccount.name or will be generated name based on Chart Release name
 */}}
@@ -35,7 +35,7 @@ Else if .Values.serviceAccount.create set to true, so will becreate serviceAccou
 {{- if .Values.serviceAccount.create -}}
     {{ .Values.serviceAccount.name | default (printf "%s-sa" .Release.Name) }}
 {{- else if not .Values.serviceAccount.create -}}
-    {{ .Values.serviceAccount.name | default (printf "aqua-sa") }}
+    {{ .Values.serviceAccount.name | default (printf "aqua-kube-enforcer-sa") }}
 {{- end -}}
 {{- end -}}
 
