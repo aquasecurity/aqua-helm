@@ -1,6 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## 2022.4.14 ( Jan 9, 2023 )
+* Added new openshift-scc for kube-enforcer.
+* Modify the default kube-enforcer service account name.
+
 ## 2022.4.13 ( Dec 22nd, 2022 )
 * Added control of Rules for KE ClusterRole
 
