@@ -49,10 +49,11 @@ rules:
       - get
       - list
       - watch
-      # Comment the below 3 verbs if Pod-Enforcer injection is not going to be used
+    {{- if .Values.clusterRole.usingPodEnforcer}}
       - create
       - update
       - delete
+    {{- end }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
