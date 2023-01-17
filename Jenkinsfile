@@ -122,7 +122,6 @@ pipeline {
                 script {
                     docker.image('alpine:latest').inside("-u root") {
                         helm.pushPreparation env: "dev"
-
                         def parallelStagesMap = [:]
                         charts.each {chart ->
                             parallelStagesMap[chart] = {
