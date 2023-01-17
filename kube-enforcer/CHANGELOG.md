@@ -1,3 +1,6 @@
+## 6.5.22 ( January 9th, 2023 )
+* Added new openshift-scc for kube-enforcer.
+* Modify the default kube-enforcer service account name.
 ## 6.5.21 ( October 10th, 2022 )
 * Added custom AquaEnforcer DaemonSet name support for KubEnforcer config map.
 ## 6.5.20 ( October 10th, 2022 )
