@@ -37,8 +37,8 @@ global:
     username: ""
     password: ""
 
-# If serviceAccount.create=false and serviceAccount.name not defined
-# then will be used serviceAccount aqua-sa which created by aqua-server helm chart
+# If serviceAccount.create=false and serviceAccount.name not defined then will be used serviceAccount aqua-kube-enforcer-sa
+# but in this case serviceAccount should be created manually before chart deploying
 #####################
 # If serviceAccount.create=false and serviceAccount.name defined then will be used serviceAccount with defined name
 # but in this case serviceAccount should be created manually before chart deploying
@@ -49,7 +49,7 @@ global:
 # If serviceAccount.create=create and serviceAccount.name defined
 # then will be created a serviceAccount with name provided name
 serviceAccount:
-  create: false
+  create: true
   name: ""
 
 # Replica count

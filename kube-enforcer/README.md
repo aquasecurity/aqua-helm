@@ -332,8 +332,8 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `global.imageCredentials.registry`                           | set the registry url for dockerhub set `index.docker.io/v1/`  | `registry.aquasec.com`                   | `Yes - New cluster`|
 | `global.imageCredentials.username`                           | Your Docker registry (Docker Hub, etc.) username    | `N/A`                                    | `Yes - New cluster`|
 | `global.imageCredentials.password`                           | Your Docker registry (Docker Hub, etc.) password    | `N/A`                                    | `Yes - New cluster`|
-| `serviceAccount.create`                                      | enable to create serviceaccount    | `false`                                  | `Yes - New cluster`|
-| `serviceAccount.name`                                        | service acccount name  | `aqua-sa`                                | `No`|
+| `serviceAccount.create`                                      | enable to create serviceaccount    | `true`                                  | `Yes - New cluster`|
+| `serviceAccount.name`                                        | service acccount name  | `aqua-kube-enforcer-sa`                                | `No`|
 | `global.platform`                                            | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s) | `unset`                                  | `YES`  |
 | `global.enforcer.enabled`                                    | Change to true to enable express mode and deploy aqua enforcer along with kube-enforcer | `false`                                  | `NO` |
 | `global.gateway.address`                                     | Gateway host address| `aqua-gateway-svc.aqua`                  | `Yes`    |
