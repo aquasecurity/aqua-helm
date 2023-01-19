@@ -623,3 +623,19 @@ envoy:
     #       socket_address:
     #         address: 127.0.0.1
     #         port_value: 8090
+
+sidecarContainers:
+  enabled: false
+  ContainersDefinitions:
+#for example
+#    - name: sidecar-name
+#      image: image:tag
+# etc..
+
+initContainers:
+  enabled: false
+  ContainersDefinitions:
+#for example
+#    - name: init-name
+#      image: image:tag
+# etc..

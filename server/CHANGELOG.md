@@ -1,7 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2022.4.10 (Dec 6st, 2022)
+## 2022.4.11 (Jan 16th, 2022)
+* Added support for Init containers and sidecar containers.
+
+## 2022.4.10 (Dec 6th, 2022)
 * Fix labels in the pre-upgrade hook job
 
 ## 2022.4.9 (Dec 1st, 2022)
