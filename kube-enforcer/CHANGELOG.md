@@ -1,6 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## 2022.4.15 ( Jan 25th, 2023 )
+* Update KE resource limits definition
+* Fix type in starboard rolebinding
+
 ## 2022.4.14 ( Jan 9, 2023 )
 * Added new openshift-scc for kube-enforcer.
 * Modify the default kube-enforcer service account name.

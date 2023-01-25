@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.10 ( Jan 25th, 2023 )
+* Update agent resource limits definition
+
 ## 2022.4.9 ( Nov 27th, 2022 )
 * Change DS name when deployed using Express Mode.
 * Add mount for Podman
