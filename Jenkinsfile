@@ -92,7 +92,7 @@ pipeline {
             steps {
                 script {
                     kubectl.createNamespace create: "yes"
-                    kubectl.createDockerRegistrySecret create: "yes", registry: env.DEPLOY_REGISTRY
+                    //kubectl.createDockerRegistrySecret create: "yes", registry: env.DEPLOY_REGISTRY
                 }
             }
         }
