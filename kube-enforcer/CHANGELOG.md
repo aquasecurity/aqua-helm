@@ -1,6 +1,9 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## 2022.4.15 ( Jan 27, 2023 )
+* Fixed issue with Starboard to deploy in custom namespace
+
 ## 2022.4.14 ( Jan 9, 2023 )
 * Added new openshift-scc for kube-enforcer.
 * Modify the default kube-enforcer service account name.
