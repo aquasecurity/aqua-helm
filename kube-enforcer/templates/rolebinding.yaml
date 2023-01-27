@@ -29,4 +29,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: starboard-operator
-    namespace: aqua
+    namespace: {{ .Release.Namespace }}
