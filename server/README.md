@@ -10,6 +10,9 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Contents](#contents)
   - [Prerequisites](#prerequisites)
     - [Container Registry Credentials](#container-registry-credentials)
+    - [Service Account](#service-account)
+- [Create the ServiceAccount](#create-the-serviceaccount)
+- [Patch the ServiceAccount with the pull secret](#patch-the-serviceaccount-with-the-pull-secret)
     - [PostgreSQL database](#postgresql-database)
   - [Installing the Chart](#installing-the-chart)
     - [Installing Aqua Web from Helm Private Repository](#installing-aqua-web-from-helm-private-repository)
@@ -436,6 +439,7 @@ helm upgrade --install --namespace aqua <RELEASE_NAME> aqua-helm/server --set im
 | `web.podAnnotations`                                | Kubernetes pod annotations  | `{}` | `NO`
 | `web.podLabels`                                     | Configure pod labels        | `{}`| `NO`
 | `web.ingress.enabled`                               | If true, Ingress will be created                       | `false`| `NO`
+|`web.ingress.apiVersion`                             | Override the API version of the Ingress. | ``| `NO`
 | `web.ingress.annotations`                           | Ingress annotations	       | `[]`| `NO`
 | `web.ingress.hosts`                                 | Ingress hostnames           |	`[]`| `NO`
 | `web.ingress.path`                                  | Ingress Path               | `/`| `NO`
