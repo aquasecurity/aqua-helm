@@ -346,6 +346,9 @@ web:
         protocol: TCP
   ingress:
     enabled: false
+    # Allows you to specify the API version for the Ingesss 
+    # This is useful where .Capabilities.APIVersions.Has does not work e.g. Helm template & ArgoCD
+    apiVersion:
     externalPort:
     annotations: {}
     #  kubernetes.io/ingress.class: nginx

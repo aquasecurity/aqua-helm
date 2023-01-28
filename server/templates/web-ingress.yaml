@@ -4,12 +4,16 @@
 {{- $ingressPath := .Values.web.ingress.path -}}
 {{- $pathType := .Values.web.ingress.pathType -}}
 ---
+{{- if .Values.web.ingress.apiVersion -}}
+apiVersion: {{ .Values.web.ingress.apiVersion }}
+{{- else -}}
 {{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" -}}
 apiVersion: networking.k8s.io/v1
 {{- else if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1/Ingress" -}}
 apiVersion: networking.k8s.io/v1beta1
 {{- else -}}
 apiVersion: extensions/v1beta1
+{{- end }}
 {{- end }}
 kind: Ingress
 metadata:
@@ -44,7 +48,7 @@ spec:
               {{- end }}
     {{- end -}}
   {{ else }}
-  {{- if $.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
+   {{- if or ($.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") (eq .Values.web.ingress.apiVersion "networking.k8s.io/v1/Ingress") }}
   defaultBackend:
     service:
       name: {{ $fullname }}-console-svc
