@@ -10,6 +10,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
   - [Contents](#contents)
   - [Prerequisites](#prerequisites)
     - [Container Registry Credentials](#container-registry-credentials)
+    - [Service Account](#service-account)
     - [PostgreSQL database](#postgresql-database)
   - [Installing the Chart](#installing-the-chart)
     - [Installing Aqua Web from Helm Private Repository](#installing-aqua-web-from-helm-private-repository)
@@ -462,6 +463,7 @@ Parameter | Description                                                         
 `web.affinity` | 	Kubernetes node affinity                                                                                                                                                                           | `{}`                                         | `NO`
 `web.podAnnotations` | Kubernetes pod annotations                                                                                                                                                                          | `{}`                                         | `NO`
 `web.ingress.enabled` | 	If true, Ingress will be created                                                                                                                                                                   | `false`                                      | `NO`
+`web.ingress.apiVersion` | 	Override the API version of the Ingress                                                                                                                                                                   | `false`                                      | `NO`
 `web.ingress.annotations` | 	Ingress annotations	                                                                                                                                                                               | `[]`                                         | `NO`
 `web.ingress.hosts` | Ingress hostnames                                                                                                                                                                                   | 	`[]`                                        | `NO`
 `web.ingress.path` | 	Ingress Path                                                                                                                                                                                       | `/`                                          | `NO`

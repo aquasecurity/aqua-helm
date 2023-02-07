@@ -1,7 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2022.4.11 (Jan 16th, 2022)
+## 2022.4.12 (Feb 7th, 2023)
+* Allow the ApiVersion of the Ingress to be specified via values.yaml
+
+## 2022.4.11 (Jan 16th, 2023)
 * Added support for Init containers and sidecar containers.
 
 ## 2022.4.10 (Dec 6th, 2022)

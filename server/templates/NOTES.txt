@@ -38,11 +38,11 @@ Get Endpoint of aqua gateway to connect enforcers
 {{- end }}
 
 For more information about Aqua Server, you can look over the docs on using:
-https://docs.aquasec.com/docs/environment-and-components
+https://docs.aquasec.com/v{{ .Chart.AppVersion  }}/platform/aqua-environment-and-configuration/aqua-server-recommendations/
 
 {{- if .Values.gateway.enabled }}
 
 For more information about Aqua Gateway, you can look over the docs on using:
-https://docs.aquasec.com/docs/aqua-gateways
+https://docs.aquasec.com/v{{ .Chart.AppVersion  }}/platform/administration/aqua-gateways/
 {{- end }}
 =======================================================================================
