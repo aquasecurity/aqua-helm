@@ -1,3 +1,8 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+## 6.5.23 (Feb 7th, 2023)
+* Allow the ApiVersion of the Ingress to be specified via values.yaml
 ## 6.5.22 (Nov 13th, 2022)
 * Fix Cluster Role Binding SA name
 ## 6.5.21 (Sep 19th, 2022)
