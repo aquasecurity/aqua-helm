@@ -1,3 +1,6 @@
+
+## 6.5.14 ( Feb 7th, 2023 )
+* Fix typo in gateway configMap
 ## 6.5.13 ( June 20th, 2022 )
 * Fix gateway console.publicPort [616](https://github.com/aquasecurity/aqua-helm/issues/616)
 ## 6.5.12 ( June 7th, 2022 )
