@@ -45,7 +45,6 @@ spec:
       priorityClassName: {{ template "priorityClass" . }}
       {{- end }}
       serviceAccount: {{ template "serviceAccount" . }}
-      hostPID: true
       containers:
       - name: enforcer
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
