@@ -12,7 +12,11 @@ metadata:
     role: {{ .Release.Name }}
     app: {{ include "kube-enforcer.fullname" . }}
     aqua.component: kubeenforcer
-{{ include "aqua.labels" . | indent 4 }}
+    {{ include "aqua.labels" . | nindent 4 }}
+  {{- if .Values.certsSecret.annotations }}
+  annotations:
+    {{ toYaml .Values.certsSecret.annotations | nindent 4 }}
+  {{- end }}
 data:
   server.crt: {{ template "serverCertificate" . }}  # place server cert
   server.key: {{ template "serverKey" . }}  # place server key

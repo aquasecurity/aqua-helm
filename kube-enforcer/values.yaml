@@ -111,6 +111,7 @@ dnsNdots:
 certsSecret:
   autoGenerate: false
   create: true
+  annotations: {}
   # If you're using existing certs change the name to existing secret name
   name: "aqua-kube-enforcer-certs"
   serverCertificate: ""
