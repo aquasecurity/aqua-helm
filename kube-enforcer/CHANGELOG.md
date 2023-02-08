@@ -1,8 +1,12 @@
 # Changelog
-
 All notable changes to this project will be documented in this file.
+
+## 2022.4.16 ( Feb 07, 2023 )
+* Fix [695](https://github.com/aquasecurity/aqua-helm/issues/695)
+
 ## 2022.4.15 ( Jan 27, 2023 )
 * Fixed issue with Starboard to deploy in custom namespace
+* Fix [695](https://github.com/aquasecurity/aqua-helm/issues/695)
 
 ## 2022.4.14 ( Jan 9, 2023 )
 * Added new openshift-scc for kube-enforcer.
