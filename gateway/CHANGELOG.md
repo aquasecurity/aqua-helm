@@ -1,6 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.9 (Feb 07nd, 2022)
+* Fix typo in a gateway configMap
 ## 2022.4.8 (Dec 22nd, 2022)
 * In Gateway Service of type LoadBalancer, loadBalancerSourceRanges are now supported
 ## 2022.4.7 (Oct 14th, 2022)
