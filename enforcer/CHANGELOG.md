@@ -1,3 +1,8 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+## 6.5.18 ( Feb 7th, 2023 )
+* Fix unmarshal error [699](https://github.com/aquasecurity/aqua-helm/issues/699)
 ## 6.5.17 ( July 14th, 2022 )
 * Add HashiCorp Vault support to load token
 ## 6.5.16 ( June 14th, 2022 )
