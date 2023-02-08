@@ -11,7 +11,7 @@ metadata:
 data:
   SCALOCK_LOG_LEVEL: {{ .Values.logLevel | default "INFO" }}
   AQUA_CONSOLE_SECURE_ADDRESS: {{ include "aquaConsoleSecureAddress" . }}
-  SCALOCK_GATEWAY_PUBLIC_IP: {{ .Values.console.publicIP | default (printf "%s-gateway-svc" .Release.Name) }}
+  SCALOCK_GATEWAY_PUBLIC_IP: {{ .Values.publicIP | default (printf "%s-gateway-svc" .Release.Name) }}
   HEALTH_MONITOR: "0.0.0.0:8082"
   SCALOCK_DBUSER: {{ .Values.global.db.external.enabled | ternary .Values.global.db.external.user "postgres" }}
   SCALOCK_DBNAME: {{ .Values.global.db.external.enabled | ternary .Values.global.db.external.name "scalock" }}
