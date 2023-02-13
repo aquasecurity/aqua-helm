@@ -76,26 +76,32 @@ spec:
           {{- include "extraEnvironmentVars" .Values | nindent 10 }}
           {{- include "extraSecretEnvironmentVars" .Values | nindent 10 }}
           ports:
-{{- if not .Values.kubeEnforcerAdvance.enable }}
+          {{- if not .Values.kubeEnforcerAdvance.enable }}
             - containerPort: 8443
-{{- else }}
+          {{- else }}
             - containerPort: 8449
             - containerPort: 8442
-{{- end }}
-{{- if not .Values.kubeEnforcerAdvance.enable }}
-{{- with .Values.livenessProbe }}
+          {{- end }}
+          {{- if not .Values.kubeEnforcerAdvance.enable }}
+          {{- with .Values.livenessProbe }}
           livenessProbe:
-{{ toYaml . | indent 12 }}
-{{- end }}
-{{- with .Values.readinessProbe }}
+          {{ toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
           readinessProbe:
-{{ toYaml . | indent 12 }}
-{{- end }}
-{{- end }}
-{{- with .Values.resources }}
-          resources:
-{{ toYaml . | indent 12 }}
-{{- end }}
+          {{ toYaml . | nindent 12 }}
+          {{- end }}
+          {{- end }}
+          {{- if and (not .Values.resources) .Values.enforcer.expressMode }}
+          requests:
+            cpu: "300m"
+            memory: "250Mi"
+          limits:
+            cpu: "1000m"
+            memory: "500Mi"
+          {{- else }}
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - name: "certs"
               mountPath: "/certs"

@@ -59,18 +59,24 @@ spec:
               containerPort: {{ .Values.starboard.ports.metricContainerPort }}
             - name: probes
               containerPort: {{ .Values.starboard.ports.probeCntainerPort }}
-{{- with .Values.starboard.readinessProbe }}
+          {{- with .Values.starboard.readinessProbe }}
           readinessProbe:
-{{ toYaml . | indent 12 }}
-{{- end }}
-{{- with .Values.starboard.livenessProbe }}
+          {{ toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.starboard.livenessProbe }}
           livenessProbe:
-{{ toYaml . | indent 12 }}
-{{- end }}
-{{- with .Values.starboard.resources }}
-          resources:
-{{ toYaml . | indent 12 }}
-{{- end }}
+          {{ toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if and (not .Values.starboard.resources) .Values.enforcer.expressMode }}
+          requests:
+            cpu: "500m"
+            memory: "125Mi"
+          limits:
+            cpu: "1000m"
+            memory: "250Mi"
+          {{- else }}
+          resources: {{ toYaml .Values.starboard.resources | nindent 12 }}
+          {{- end }}
 {{- if .Values.starboard.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.starboard.nodeSelector | indent 8 }}
