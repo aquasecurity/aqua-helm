@@ -68,12 +68,13 @@ spec:
           {{ toYaml . | nindent 12 }}
           {{- end }}
           {{- if and (not .Values.starboard.resources) .Values.enforcer.expressMode }}
-          requests:
-            cpu: "500m"
-            memory: "125Mi"
-          limits:
-            cpu: "1000m"
-            memory: "250Mi"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "125Mi"
+            limits:
+              cpu: "1000m"
+              memory: "250Mi"
           {{- else }}
           resources: {{ toYaml .Values.starboard.resources | nindent 12 }}
           {{- end }}

@@ -93,12 +93,13 @@ spec:
           {{- end }}
           {{- end }}
           {{- if and (not .Values.resources) .Values.enforcer.expressMode }}
-          requests:
-            cpu: "300m"
-            memory: "250Mi"
-          limits:
-            cpu: "1000m"
-            memory: "500Mi"
+          resources:
+            requests:
+              cpu: "300m"
+              memory: "250Mi"
+            limits:
+              cpu: "1000m"
+              memory: "500Mi"
           {{- else }}
           resources: {{ toYaml .Values.resources | nindent 12 }}
           {{- end }}
