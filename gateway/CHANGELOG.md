@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.10 (Feb 14th, 2022)
+* Fix headless service - PR [#706](https://github.com/aquasecurity/aqua-helm/pull/706)
+
 ## 2022.4.9 (Feb 07nd, 2022)
 * Fix typo in a gateway configMap
 ## 2022.4.8 (Dec 22nd, 2022)
