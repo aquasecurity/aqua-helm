@@ -32,6 +32,7 @@ rules:
     verbs: ["create", "delete"]
 {{- end }}
 
+{{- if (semverCompare ">= 1.19" .Capabilities.KubeVersion.GitVersion) }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -68,3 +69,4 @@ rules:
     verbs:
       - create
       - delete
+{{- end }}

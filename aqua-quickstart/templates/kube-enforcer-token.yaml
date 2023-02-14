@@ -6,9 +6,12 @@ metadata:
 type: Opaque
 data:
   token: {{ .Values.ke.aquaSecret.kubeEnforcerToken | b64enc }}               # aqua kube enforcer token
+
+{{- if .Values.starboard.serviceAccount.create }}
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: starboard
   namespace: {{ .Release.Namespace }}
+{{- end }}

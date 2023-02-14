@@ -1,4 +1,5 @@
 ---
+{{- if (semverCompare ">= 1.19" .Capabilities.KubeVersion.GitVersion) }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -27,3 +28,4 @@ data:
   OPERATOR_BATCH_DELETE_LIMIT: "{{ .Values.starboard.OPERATOR_BATCH_DELETE_LIMIT }}"
   OPERATOR_BATCH_DELETE_DELAY: "{{ .Values.starboard.OPERATOR_BATCH_DELETE_DELAY }}"
   OPERATOR_CLUSTER_COMPLIANCE_ENABLED: "{{ .Values.starboard.OPERATOR_CLUSTER_COMPLIANCE_ENABLED }}"
+{{- end }}
