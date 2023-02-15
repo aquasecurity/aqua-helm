@@ -32,7 +32,7 @@ This page provides instructions for using Helm charts to configure and deploy th
 
 Starboard is an Aqua Security open-source tool that increases the effectiveness of Kubernetes security. For this reason, Starboard is deployed by default when you deploy KubeEnforcers.
 
-> **Note:** Starboard supported from Kubernetes v1.19.x. Starboard will not be installed on earlier versions of Kubernetes
+> :exclamation: Starboard supported from Kubernetes v1.19.x. Starboard will not be installed on earlier versions of Kubernetes
 
 An important part of Kubernetes security is the evaluation of workload compliance results with respect to Kubernetes Assurance Policies, and preventing the deployment of non-compliant workloads; see Admission control for Kubernetes containers.
 
