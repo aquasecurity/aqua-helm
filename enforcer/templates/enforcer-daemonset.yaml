@@ -159,7 +159,7 @@ spec:
 {{ toYaml . | indent 10 }}
 {{- end }}
 {{- end }}
-        {{- if .Values.expressMode }}
+        {{- if ( and .Values.expressMode ( not .Values.resources ))}}
         resources:
           requests:
             cpu: "500m"
