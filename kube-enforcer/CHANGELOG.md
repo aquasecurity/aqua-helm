@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2022.4.17 ( Feb 13th, 2023 )
 * Update KE and starboard resource limits definition
+* Prevent starboard from been deployed on k8s earlier than v1.19
 
 ## 2022.4.16 ( Feb 07, 2023 )
 * Fix [695](https://github.com/aquasecurity/aqua-helm/issues/695)
