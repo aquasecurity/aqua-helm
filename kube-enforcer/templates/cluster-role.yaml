@@ -54,6 +54,8 @@ rules:
       - update
       - delete
     {{- end }}
+
+{{- if and (semverCompare ">= 1.19" .Capabilities.KubeVersion.GitVersion) .Values.starboard.enabled }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -169,3 +171,4 @@ rules:
       - create
       - get
       - update
+{{- end }}

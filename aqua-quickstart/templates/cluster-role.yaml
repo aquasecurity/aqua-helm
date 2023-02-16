@@ -34,6 +34,8 @@ rules:
       - get
       - list
       - watch
+
+{{- if (semverCompare ">= 1.19" .Capabilities.KubeVersion.GitVersion) }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -151,3 +153,4 @@ rules:
       - create
       - get
       - update
+{{- end }}

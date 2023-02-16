@@ -6,9 +6,12 @@ metadata:
 type: Opaque
 data:
   token: {{ .Values.ke.aquaSecret.kubeEnforcerToken | b64enc }}               # aqua kube enforcer token
+
+{{- if (semverCompare ">= 1.19" .Capabilities.KubeVersion.GitVersion) }}
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: starboard
   namespace: {{ .Release.Namespace }}
+{{- end }}
