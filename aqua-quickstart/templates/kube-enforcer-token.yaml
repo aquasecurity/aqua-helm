@@ -7,7 +7,7 @@ type: Opaque
 data:
   token: {{ .Values.ke.aquaSecret.kubeEnforcerToken | b64enc }}               # aqua kube enforcer token
 
-{{- if .Values.starboard.serviceAccount.create }}
+{{- if (semverCompare ">= 1.19" .Capabilities.KubeVersion.GitVersion) }}
 ---
 apiVersion: v1
 kind: Secret

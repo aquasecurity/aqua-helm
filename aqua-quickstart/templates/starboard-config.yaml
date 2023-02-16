@@ -1,4 +1,4 @@
-{{- if .Values.starboard.serviceAccount.create }}
+{{- if (semverCompare ">= 1.19" .Capabilities.KubeVersion.GitVersion) }}
 ---
 apiVersion: v1
 kind: ConfigMap
