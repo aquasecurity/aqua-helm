@@ -5,3 +5,15 @@
 {{- define "imageCredentials_name" }}
 {{- printf "%s" (required "A valid .Values.imageCredentials.name required" .Values.imageCredentials.name ) }}
 {{- end }}
+
+{{/*
+Inject extra environment vars in the format key:value, if populated
+*/}}
+{{- define "extraEnvironmentVars" -}}
+{{- if .extraEnvironmentVars -}}
+{{- range $key, $value := .extraEnvironmentVars }}
+- name: {{ printf "%s" $key | replace "." "_" | upper | quote }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end -}}
+{{- end -}}

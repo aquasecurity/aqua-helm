@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.3 (Feb 14th, 2023)
+* Add extraEnvironmentVars to cloud connector deployment
+
 ## 2022.4.2 (Nov 23, 2022)
 * Add capability for Azure Functions #670(https://github.com/aquasecurity/aqua-helm/pull/670)
 

@@ -86,6 +86,7 @@ nodeSelector: {}
 tolerations: []
 podAnnotations: {}
 affinity: {}
+extraEnvironmentVars: {}
 
 tunnels:
   # Host endpoints for Azure Functions

@@ -1,6 +1,6 @@
 dependencies:
 - name: gateway
   repository: file://../gateway/
-  version: 2022.4.8
-digest: sha256:df06d531ca21ec13c31a5dbd7e002236715d0047819291a5e8ebbcffe3eec2be
-generated: "2022-12-22T16:57:55.980577+02:00"
+  version: 2022.4.10
+digest: sha256:0e58f12028c43996a36ef6023163c5f864ee51a0c5de4d6823df9e3393b344d8
+generated: "2023-02-14T13:17:30.765221+02:00"
