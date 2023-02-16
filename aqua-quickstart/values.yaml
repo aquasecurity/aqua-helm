@@ -84,6 +84,7 @@ ke:
       name: kube-enforcer-me-injection-hook-config
 
 starboard:
+  enabled: "true"
   appName: "starboard-operator"
   serviceAccount:
     name: "starboard-operator"
