@@ -260,6 +260,7 @@ extraSecretEnvironmentVars: []
   #   secretKey: key
 
 starboard:
+  enabled: true
   replicaCount: "1"
   appName: "starboard-operator"
   serviceAccount:
