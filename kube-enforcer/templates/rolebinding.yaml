@@ -17,7 +17,7 @@ subjects:
     name: {{ template "serviceAccount" . }}
     namespace: {{ .Release.Namespace }}
 
-{{- if and (semverCompare ">= 1.19" .Capabilities.KubeVersion.GitVersion) .Values.starboard.enabled }}
+{{- if and (ge (int .Capabilities.KubeVersion.Minor) 19 ) .Values.starboard.enabled }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding

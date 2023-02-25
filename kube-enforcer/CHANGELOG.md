@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.18 ( Feb 25th, 2023 )
+* Fix the starboard deployment
+
 ## 2022.4.17 ( Feb 13th, 2023 )
 * Update KE and starboard resource limits definition
 * Prevent starboard from been deployed on k8s earlier than v1.19
