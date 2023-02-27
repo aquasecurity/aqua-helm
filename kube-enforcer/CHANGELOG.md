@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.19 ( Feb 27th, 2023 )
+* Fix the starboard deployment for eks
+* 
 ## 2022.4.18 ( Feb 25th, 2023 )
 * Fix the starboard deployment
 

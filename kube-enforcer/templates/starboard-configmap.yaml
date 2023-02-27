@@ -1,5 +1,5 @@
 ---
-{{- if and (ge (int .Capabilities.KubeVersion.Minor) 19 ) .Values.starboard.enabled }}
+{{- if and (ge (atoi (.Capabilities.KubeVersion.Minor | replace "+" "")) 19 ) .Values.starboard.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
