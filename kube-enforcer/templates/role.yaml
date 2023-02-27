@@ -32,7 +32,7 @@ rules:
     verbs: ["create", "delete"]
 {{- end }}
 
-{{- if and (ge (int .Capabilities.KubeVersion.Minor) 19 ) .Values.starboard.enabled }}
+{{- if and (ge (atoi (.Capabilities.KubeVersion.Minor | replace "+" "")) 19 ) .Values.starboard.enabled }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
