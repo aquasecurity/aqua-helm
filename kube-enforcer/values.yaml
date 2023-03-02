@@ -81,7 +81,7 @@ microEnforcerImage:
 # Kubebench Image
 kubebenchImage:
   repository: "aquasec/kube-bench"  # Default aqua registry KubeBench repository name
-  tag: "v0.6.10"
+  tag: "v0.6.12"
 
 # Enable/Disable KB scanning on tainted nodes
 kubeBench:
@@ -167,9 +167,11 @@ webhooks:
   failurePolicy: Ignore
   validatingWebhook:
     name: "kube-enforcer-admission-hook-config"
+    timeout: 2
     annotations: {}
   mutatingWebhook:
     name: "kube-enforcer-me-injection-hook-config"
+    timeout: 2
     annotations: {}
       # cert-manager.io/inject-ca-from: < namespace >/< certsSecret.name >
       # If you are using webhooks.certManager=true, so need to add cert-manager annotations

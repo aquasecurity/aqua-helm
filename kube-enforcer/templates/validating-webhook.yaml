@@ -44,6 +44,6 @@ webhooks:
       service:
         namespace: {{ .Release.Namespace }}
         name: {{ include "kube-enforcer.fullname" . }}
-    timeoutSeconds: 5
+    timeoutSeconds: {{ .Values.webhooks.validatingWebhook.timeout }}
     admissionReviewVersions: ["v1beta1"]
 {{- end }}

@@ -1,9 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.20 ( Mar 2nd, 2023 )
+* Update kube-bench version to v0.6.12
+* Make timeout for validatingWebhook and mutatingWebhook configurable
+
 ## 2022.4.19 ( Feb 27th, 2023 )
 * Fix the starboard deployment for eks
-* 
+
 ## 2022.4.18 ( Feb 25th, 2023 )
 * Fix the starboard deployment
 
