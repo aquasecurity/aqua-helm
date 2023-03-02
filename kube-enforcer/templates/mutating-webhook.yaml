@@ -30,6 +30,6 @@ webhooks:
         namespace: {{ .Release.Namespace }}
         name: {{ include "kube-enforcer.fullname" . }}
         path: "/mutate"
-    timeoutSeconds: 5
+    timeoutSeconds: {{ .Values.webhooks.mutatingWebhook.timeout }}
     admissionReviewVersions: ["v1beta1"]
 {{- end }}
