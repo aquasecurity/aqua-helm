@@ -205,6 +205,7 @@ gateway:
   serviceAccount:
     create: false
     name: ""
+    annotations: {}
   replicaCount: 1
   logLevel:
   image:
