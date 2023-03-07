@@ -52,10 +52,7 @@ spec:
         {{- if .Values.directCC.enabled }}
         - --direct-cc
         {{- end }}
-        {{- if .Values.scannerToken }}
-        - --token
-        - {{ .Values.scannerToken }}
-        {{- else if .Values.scannerTokenSecret.enable }}
+        {{- if or (eq .Values.scannerTokenSecret.enable true) .Values.scannerToken }}
         - --token
         - "$(SCANNER_TOKEN)"
         {{- else }}
@@ -87,7 +84,13 @@ spec:
             name: {{ .Release.Name }}-scanner-config        
         env:
         - name: AQUA_SCANNER_LOGICAL_NAME
+        {{- if .Values.nameOverride }}
           value: {{ .Values.nameOverride }}
+        {{- else }}
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        {{- end }}
         {{- if .Values.scannerUserSecret.enable }}
           {{- if or  (not .Values.scannerUserSecret.secretName) (not .Values.scannerUserSecret.passwordKey) (not .Values.scannerUserSecret.userKey) }}
           {{- template "scannerSecret" . }}
@@ -104,7 +107,7 @@ spec:
               key: {{ .Values.scannerUserSecret.userKey }}
           {{- end }}
         {{- end }}
-        {{- if .Values.scannerTokenSecret.enable }}
+        {{- if or (eq .Values.scannerTokenSecret.enable true) .Values.scannerToken }}
         - name: SCANNER_TOKEN
           valueFrom:
             secretKeyRef:
@@ -112,7 +115,7 @@ spec:
               key: {{ .Values.scannerTokenSecret.tokenKey }}
               name: {{ .Values.scannerTokenSecret.secretName }}
               {{- else }}
-              key: {{ .Values.scannerToken }}
+              key: token
               name: {{ .Release.Name }}-token-secret
               {{- end }}
         {{- end }}
