@@ -18,6 +18,7 @@ console:
   publicPort:
 
 serviceAccount:
+  annotations: {}
   create: false
   name: "aqua-sa"
 
