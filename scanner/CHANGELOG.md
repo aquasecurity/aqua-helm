@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.3 (Mar 7th, 2023)
+* Added support for custom Scanner token secret
+
 ## 2022.4.2 (Sep 13th, 2022)
 * Add support for scanner name override
 
