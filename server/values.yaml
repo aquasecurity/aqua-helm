@@ -34,7 +34,10 @@ serviceAccount:
 clustermode: ""
 activeactive: ""
 
-admin:
+adminCredentials:
+  enabled: true
+  create: false
+  name: aqua-console-secrets
   token: ""
   password: ""
 

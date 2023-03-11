@@ -108,18 +108,18 @@ spec:
         - name: SSL_CERT_DIR
           value: "/etc/ext_db_certs:/etc/ssl/certs"
         {{- end }}
-        {{- if .Values.admin.token }}
+        {{- if .Values.adminCredentials.enabled }}
         - name: LICENSE_TOKEN
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-console-secrets
+              name: {{ .Values.adminCredentials.name }}
               key: license-token
         {{- end }}
-        {{- if .Values.admin.password }}
+        {{- if .Values.adminCredentials.enabled }}
         - name: ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-console-secrets
+              name: {{ .Values.adminCredentials.name }}
               key: admin-password
         {{- end }}
         {{- include "server.extraEnvironmentVars" .Values.web | nindent 8 }}
