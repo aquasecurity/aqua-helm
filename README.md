@@ -17,6 +17,7 @@ Refer to the Aqua Enterprise product documentation for the broader context: [Kub
         - [For Helm 3.x](#for-helm-3x)
     - [Deploy the Helm charts](#deploy-the-helm-charts)
     - [Troubleshooting](#troubleshooting)
+    - [Troubleshooting](#troubleshooting)
         - [Error 1](#error-1)
         - [Error 2](#error-2)
         - [Error 3](#error-3)
@@ -31,7 +32,7 @@ This repository includes the following charts; they can be deployed separately:
 |--------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
 | [Server](server/)                    | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component                                                                     | 2022.4.13            |
 | [Enforcer](enforcer/)                | Deploys the Aqua Enforcer daemonset                                                                                                                           | 2022.4.9             |
-| [Scanner](scanner/)                  | Deploys the Aqua Scanner deployment                                                                                                                           | 2022.4.1             |
+| [Scanner](scanner/)                  | Deploys the Aqua Scanner deployment                                                                                                                           | 2022.4.3             |
 | [KubeEnforcer](kube-enforcer/)       | Deploys Aqua KubeEnforcer                                                                                                                                     | 2022.4.20            |
 | [Gateway](gateway)                   | Deploys the Aqua Standalone Gateway                                                                                                                           | 2022.4.11            |
 | [Tenant-Manager](tenant-manager/)    | Deploys the Aqua Tenant Manager                                                                                                                               | 2022.4.0             |
