@@ -78,6 +78,7 @@ image:
 logLevel:
 
 #The scanners will be registered with the random name
+#Working only for single scanner instance. If need to deploy a several replicas keep it empty
 nameOverride: ""
 
 user: ""            # user name for the scanner created in the console
