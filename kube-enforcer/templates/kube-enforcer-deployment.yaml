@@ -104,6 +104,9 @@ spec:
           resources: {{ toYaml .Values.resources | nindent 12 }}
           {{- end }}
           volumeMounts:
+            {{- with .Values.extraVolumeMounts }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
             - name: "certs"
               mountPath: "/certs"
 {{- if .Values.kubeEnforcerAdvance.enable }}
@@ -149,6 +152,9 @@ spec:
 {{- end }}
 {{- end }}
       volumes:
+        {{- with .Values.extraVolumes }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
         - name: "certs"
           secret:
             secretName: {{ .Values.certsSecret.name }}
