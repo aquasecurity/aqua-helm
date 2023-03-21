@@ -3,6 +3,13 @@ global:
   scanServerUrl: https://scan.codesec.aquasec.com
   aquaServerUrl: https://api.aquasec.com
   cspmServerUrl: https://api.cloudsploit.com
+  #Please specify if you want to use PVC or not. 
+  #PVC might be need on hardened infrastructure such as Openshift, as scanner needs to writes to /tmp
+  persistency: false
+  # optional changes to pvc in case needed
+  # scan-pvc: 
+  #   size: 15Gi
+  #   storageClass: ""
 
 credentials:
   aqua_key:

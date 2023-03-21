@@ -73,13 +73,17 @@ spec:
           resources:
             {{- toYaml $v.resources | indent 12 }}
 
-          {{- if .Values.ssl.enabled }}
           volumeMounts:
+          {{- if .Values.ssl.enabled }}
             - name: ssl-secrets
               mountPath: "/home/node"
           {{- end }}
-          {{- if .Values.ssl.enabled }}
+          {{- if .Values.global.persistency }}
+            - name: scanner-cache
+              mountPath: "/tmp"
+          {{- end }}
       volumes:
+      {{- if .Values.ssl.enabled }}
         - name: ssl-secrets
           secret:
             secretName: {{ printf "%s-%s" (include "chart.fullname" . ) "secrets" }}
@@ -96,6 +100,11 @@ spec:
               - key: ssl-key
                 path: key.pem
               {{- end }}
+      {{- end }}
+      {{- if .Values.global.persistency }}
+        - name: scanner-cache
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-scanner-cache
       {{- end }}
     {{- with $v.nodeSelector }}
       nodeSelector:
