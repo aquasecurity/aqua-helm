@@ -1,6 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 6.5.19 ( Mar 21th, 2023 )
+* Update tolerations [723](https://github.com/aquasecurity/aqua-helm/issues/723)
 ## 6.5.18 ( Feb 7th, 2023 )
 * Fix unmarshal error [699](https://github.com/aquasecurity/aqua-helm/issues/699)
 ## 6.5.17 ( July 14th, 2022 )

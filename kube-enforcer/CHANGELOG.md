@@ -1,3 +1,5 @@
+## 6.5.23 ( Mar 21st, 2023 )
+* Fix starboard tolerations
 ## 6.5.22 ( January 9th, 2023 )
 * Added new openshift-scc for kube-enforcer.
 * Modify the default kube-enforcer service account name.
