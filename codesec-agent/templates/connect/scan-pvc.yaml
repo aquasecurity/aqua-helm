@@ -1,0 +1,19 @@
+{{- if .Values.global.persistency }}
+{{- $name := printf "%s-%s" (include "chart.fullname" . ) "scanner" }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-scanner-cache
+  labels:
+    app.kubernetes.io/name: {{ $name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.global.scan-pvc.size | default "15Gi" | quote }}
+{{- if .Values.global.db.scan-pvc.storageClass }}
+  storageClassName: "{{ .Values.global.scan-pvc.storageClass }}"
+{{- end }}
+{{- end }}
