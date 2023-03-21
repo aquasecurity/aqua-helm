@@ -119,3 +119,21 @@ example:
     {{- end }}
 {{- end }}
 {{- end -}}
+
+{{- define "scanPVCsize" -}}
+{{- if and (.Values.global.scanPVC) (.Values.global.scanPVC.size) -}}
+    {{ .Values.global.scanPVC.size | quote }}
+{{- else -}}
+    {{ (printf "15Gi") }}
+{{- end -}}
+{{- end -}}
+
+{{- define "scanStorageClass" -}}
+{{- if and (.Values.global.scanPVC) (.Values.global.scanPVC.storageClass) -}}
+    {{ .Values.global.scanPVC.storageClass | quote }}
+{{- else -}}
+    {{ (printf "default") }}
+{{- end -}}
+{{- end -}}
+
+

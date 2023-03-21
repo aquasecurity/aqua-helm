@@ -3,25 +3,27 @@ global:
   scanServerUrl: https://scan.codesec.aquasec.com
   aquaServerUrl: https://api.aquasec.com
   cspmServerUrl: https://api.cloudsploit.com
-  #Please specify if you want to use PVC or not. 
-  #PVC might be need on hardened infrastructure such as Openshift, as scanner needs to writes to /tmp
-  persistency: false
+  # Please specify if you want to use PVC or not. 
+  # PVC might be need on hardened infrastructure such as Openshift, as scanner needs to writes to /tmp
+  # Note: NOTE: if scan.replicas >1 && persistency: true = RWX storage required
+  persistency: true
   # optional changes to pvc in case needed
-  # scan-pvc: 
+  # scanPVC: 
   #   size: 15Gi
-  #   storageClass: ""
+  #   storageClass: "default"
 
 credentials:
-  aqua_key:
-  aqua_secret:
+# obtain credentials from Aqua UI -> CSPM -> Settings -> API Keys
+  aqua_key: 
+  aqua_secret: 
 
 # SCM configurations:
 integration:
   # Should be one of: github|gitlab_server|azure|jenkins|etc...
-  source:
-  url:
-  username:
-  password:
+  source: 
+  url: 
+  username: 
+  password: 
 
 # Optionally add ssl ca cert and client cert/key for ssl connection to the SCM/CI server:
 ssl:
@@ -61,7 +63,7 @@ connect:
 scan:
   image: docker.io/aquasec/codesec-scanner:latest
   pullPolicy: Always
-  replicas: 1
+  replicas: 1 # NOTE: if >1 && persistency: true = RWX storage required
   resources: {}
   nodeSelector: {}
   affinity: {}
