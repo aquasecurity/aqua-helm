@@ -165,17 +165,17 @@ spec:
       initContainers:
 {{- toYaml .Values.initContainers.ContainersDefinitions | nindent 6 }}
 {{- end }}
-{{- with .Values.web.nodeSelector }}
+      {{- with .Values.web.nodeSelector }}
       nodeSelector:
-{{ toYaml . | indent 8 }}
+        {{ toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.web.affinity }}
       affinity:
-{{ toYaml . | indent 8 }}
+        {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- if and (.Values.web.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      {{- with .Values.web.tolerations }}
       tolerations:
-{{ toYaml .Values.web.tolerations | indent 6 }}
+        {{ toYaml . | nindent 6 }}
       {{- end }}
       volumes:
       {{- if .Values.dockerSock.mount }}
