@@ -153,15 +153,15 @@ spec:
 {{ toYaml .Values.web.resources | indent 12 }}
       {{- with .Values.web.nodeSelector }}
       nodeSelector:
-{{ toYaml . | indent 8 }}
+        {{ toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.web.affinity }}
       affinity:
-{{ toYaml . | indent 8 }}
+        {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- if and (.Values.web.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      {{- with .Values.web.afftolerationsinity }}
       tolerations:
-{{ toYaml .Values.web.tolerations | indent 6 }}
+        {{ toYaml . | nindent 6 }}
       {{- end }}
       {{- if or (.Values.dockerSock.mount) (.Values.web.TLS.enabled) (.Values.web.additionalCerts) }}
       volumes:

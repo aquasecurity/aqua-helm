@@ -71,11 +71,15 @@ spec:
           resources:
 {{ toYaml . | indent 12 }}
 {{- end }}
-{{- if .Values.starboard.nodeSelector }}
+      {{- with .Values.starboard.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.starboard.nodeSelector | indent 8 }}
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.starboard.affinity }}
       affinity:
-{{ toYaml . | indent 8 }}
+        {{ toYaml . | indent 8 }}
       {{- end }}
-{{- end }}
+      {{- with .Values.starboard.tolerations }}
+      tolerations:
+        {{ toYaml . | indent 8 }}
+      {{- end }}
