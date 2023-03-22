@@ -189,18 +189,18 @@ spec:
               path: rootCA.crt
             {{- end }}
         {{- end }}
-{{- if .Values.nodeSelector }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.nodeSelector | indent 8 }}
+        {{ toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:
-{{ toYaml . | indent 8 }}
+        {{ toYaml . | nindent 8 }}
       {{- end }}
-{{- if and (.Values.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      {{- with .Values.tolerations }}
       tolerations:
-{{ toYaml .Values.tolerations | indent 8 }}
-  {{ end }}
+        {{ toYaml . | nindent 8 }}
+      {{ end }}
   selector:
     matchLabels:
       app: {{ include "kube-enforcer.fullname" . }}
