@@ -64,6 +64,11 @@ spec:
             value: {{ .Values.proxy.url }}
           {{- end }}
 
+          {{- if .Values.proxy.preference }}
+          - name: PROXY_PREFERENCE
+            value: {{ .Values.proxy.preference }}
+          {{- end }}
+
           {{- range $key, $value := .Values.connect.extraEnv }}
           - name: {{ $key }}
             value: "{{ $value }}"

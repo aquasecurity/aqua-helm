@@ -32,8 +32,19 @@ ssl:
 #    secure key
 #    -----BEGIN RSA PRIVATE KEY-----
 
+# Proxy configurations:
 proxy:
+  # The proxy url to redirect requests to.
   url:
+  # Proxy redirection preference
+  # Allowed values: inbound|outbound|both
+  # inbound: redirect only inbound requests through the proxy
+  # Description: requests to the integration only, requests to Aqua Security servers will not be proxied
+  # outbound: redirect only outbound requests through the proxy
+  # Description: requests to Aqua Security servers only, requests to the integration will not be proxied
+  # both: redirect both inbound and outbound requests through the proxy
+  # Description: requests to Aqua Security servers and requests to the integration will be proxied
+  preference: outbound
 
 connect:
   image: docker.io/aquasec/codesec-connector:minified
