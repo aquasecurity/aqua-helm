@@ -34,7 +34,7 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
-      serviceAccount: {{ .Values.serviceaccount.name }}
+      serviceAccountName: {{ .Values.serviceaccount.name }}
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30
@@ -107,11 +107,15 @@ spec:
             items:
               - path: connector.yaml
                 key: aqua-tunnels-cloud-connector-config
-{{- if .Values.nodeSelector }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.nodeSelector | indent 8 }}
+        {{ toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:
-{{ toYaml . | indent 8 }}
+        {{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
       {{- end }}
