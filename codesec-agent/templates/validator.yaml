@@ -28,3 +28,9 @@
 {{- if empty .Values.integration.source }}
 {{ fail "Error - missing .Values.integration.source" }}
 {{- end }}
+{{- if .Values.proxy.url }}
+    {{- if and (ne .Values.proxy.preference "outbound") (ne .Values.proxy.preference "inbound") (ne .Values.proxy.preference "both") -}}
+        {{ fail "Error - .Values.proxy.preference should be 'outbound' or 'inbound' or 'both'" }}
+    {{- end }}
+{{- end }}
+
