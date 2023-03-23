@@ -45,6 +45,9 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
+      {{- if or .Values.priorityClass.create .Values.priorityClass.name }}
+      priorityClassName: {{ template "priorityClass" . }}
+      {{- end }}
       serviceAccountName: {{ template "serviceAccount" . }}
       containers:
         - name: kube-enforcer
