@@ -230,6 +230,12 @@ affinity: {}
 podDisruptionBudget:
   minAvailable: 1
 
+priorityClass:
+  create: false
+  name: ""
+  preemptionPolicy: "PreemptLowerPriority"
+  value: 1000000
+
 TLS:
   # enable to true for secure communication
   enabled: false
