@@ -49,7 +49,7 @@ helm search repo aqua-helm/scanner --versions
 * Install Aqua
 
 ```shell
-helm upgrade --install --namespace aqua scanner aqua-helm/scanner --set imageCredentials.username=<>,imageCredentials.password=<>
+helm upgrade --install --namespace aqua scanner aqua-helm/scanner --set imageCredentials.username=<>,imageCredentials.password=<>,user=<>,password=<>,scannerToken=<>
 ```
 ### (Optional) Configure SSL communication with Aqua Server
 To enable SSL communication from the Scanner to the Aqua Server. Perform these steps:
