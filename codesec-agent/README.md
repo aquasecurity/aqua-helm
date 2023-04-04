@@ -67,7 +67,7 @@ In-order to deploy successfully there are mandatory and optional variables for c
 - Mandatory Aqua account credentials
 - Mandatory Integration credentials
 - Optional SSL credentials for Environments that are using CA and certificates
-- Optional Http/s Proxy specification with prefence for what calls to proxy "outbound" or "inbound" or "both"
+- Optional Http/s Proxy specification with no_proxy prefence to exclude specific domains from proxy
 
 ---
 
@@ -86,27 +86,28 @@ In-order to deploy successfully there are mandatory and optional variables for c
 
 ### Optional Variables
 
-| Variable                    | Type    | Description                                                                         | Example                                            | Default    |
-| --------------------------- | ------- | ----------------------------------------------------------------------------------- | -------------------------------------------------- | ---------- |
-| ssl.enabled                 | Boolean | Enable usage of SSL Certificates                                                    |                                                    | false      |
-| ssl.ca                      | String  | The CA file content                                                                 |                                                    |            |
-| ssl.cert                    | String  | The Certificate file content                                                        |                                                    |            |
-| ssl.key                     | String  | The Certificate private key                                                         |                                                    |            |
-| proxy.url                   | String  | The url to the http/s proxy including any required basic auth                       | https://username:password@my-proxy-server.com:8080 |            |
-| proxy.preference            | String  | Choose between 'outbound' / 'inbound' / 'both' to apply proxy rerouting accordingly | "outbound"                                         | "outbound" |
-| connect.port                | Number  | The connector http service port                                                     |                                                    | 9999       |
-| connect.service.port        | Number  | The connector service port                                                          |                                                    | 9999       |
-| connect.service.annotations | Object  | Any annotations for the Connector service                                           |                                                    |            |
-| connect.resources           | Object  | Resource limitation for the connector deployment                                    |                                                    | {}         |
-| connect.nodeSelector        | Object  | Node selector configuration for the connector deployment                            |                                                    | {}         |
-| connect.affinity            | Object  | Affinity configuration for the connector deployment                                 |                                                    | {}         |
-| connect.tolerations         | Object  | Tolerations configuration for the connector deployment                              |                                                    | {}         |
-| connect.hostAliases         | Object  | Host Aliases configuration for the connector deployment                             |                                                    |            |
-| connect.extraEnv            | Object  | Extra environment variables to pass to the connect container.                       |                                                    | {}         |
-| scan.replicas               | Number  | Number of pod replicas for the "scanner" service.                                   |                                                    | 1          |
-| scan.resources              | Object  | Resource limitation for the scanner deployment                                      |                                                    | {}         |
-| scan.nodeSelector           | Object  | Node selector configuration for the scanner deployment                              |                                                    | {}         |
-| scan.affinity               | Object  | Affinity configuration for the scanner deployment                                   |                                                    | {}         |
-| scan.tolerations            | Object  | Tolerations configuration for the scanner deployment                                |                                                    | {}         |
-| scan.hostAliases            | Object  | Host Aliases configuration for the scanner deployment                               |                                                    |            |
-| scan.extraEnv               | Object  | Extra environment variables to pass to the scanner container.                       |                                                    | {}         |
+| Variable                    | Type    | Description                                                                       | Example                                           | Default |
+| --------------------------- | ------- | --------------------------------------------------------------------------------- | ------------------------------------------------- | ------- |
+| ssl.enabled                 | Boolean | Enable usage of SSL Certificates                                                  |                                                   | false   |
+| ssl.ca                      | String  | The CA file content                                                               |                                                   |         |
+| ssl.cert                    | String  | The Certificate file content                                                      |                                                   |         |
+| ssl.key                     | String  | The Certificate private key                                                       |                                                   |         |
+| proxy.http_proxy            | String  | The url of a proxy server to forward http:// protocol requests through            | http://username:password@my-proxy-server.com:8080 |         |
+| proxy.https_proxy           | String  | The url of a proxy server to forward https:// protocol requests through           | https://username:password@my-proxy-server.com     |         |
+| proxy.no_proxy              | String  | Comma separated list of domains to exclude from proxying (Can be a single domain) | myserver.com,myserver.net,myserver.co             |         |
+| connect.port                | Number  | The connector http service port                                                   |                                                   | 9999    |
+| connect.service.port        | Number  | The connector service port                                                        |                                                   | 9999    |
+| connect.service.annotations | Object  | Any annotations for the Connector service                                         |                                                   |         |
+| connect.resources           | Object  | Resource limitation for the connector deployment                                  |                                                   | {}      |
+| connect.nodeSelector        | Object  | Node selector configuration for the connector deployment                          |                                                   | {}      |
+| connect.affinity            | Object  | Affinity configuration for the connector deployment                               |                                                   | {}      |
+| connect.tolerations         | Object  | Tolerations configuration for the connector deployment                            |                                                   | {}      |
+| connect.hostAliases         | Object  | Host Aliases configuration for the connector deployment                           |                                                   |         |
+| connect.extraEnv            | Object  | Extra environment variables to pass to the connect container.                     |                                                   | {}      |
+| scan.replicas               | Number  | Number of pod replicas for the "scanner" service.                                 |                                                   | 1       |
+| scan.resources              | Object  | Resource limitation for the scanner deployment                                    |                                                   | {}      |
+| scan.nodeSelector           | Object  | Node selector configuration for the scanner deployment                            |                                                   | {}      |
+| scan.affinity               | Object  | Affinity configuration for the scanner deployment                                 |                                                   | {}      |
+| scan.tolerations            | Object  | Tolerations configuration for the scanner deployment                              |                                                   | {}      |
+| scan.hostAliases            | Object  | Host Aliases configuration for the scanner deployment                             |                                                   |         |
+| scan.extraEnv               | Object  | Extra environment variables to pass to the scanner container.                     |                                                   | {}      |
