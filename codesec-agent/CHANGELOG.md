@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+_1.2.4
+* Connector and scanner now support native implementations from proxy using http/s_proxy and no_proxy environment variables.
+
 _1.2.3
 * Connector now supports choosing between outbound, inbound or both for proxy preferences.
 

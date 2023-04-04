@@ -1,7 +1,11 @@
 global:
+  # Used for connector tunnel
   connectServerUrl: https://connect.codesec.aquasec.com
+  # Used for scaning scheduling
   scanServerUrl: https://scan.codesec.aquasec.com
+  # Used for scanning upstream
   aquaServerUrl: https://api.aquasec.com
+  # Used for authentication
   cspmServerUrl: https://api.cloudsploit.com
 
 credentials:
@@ -34,17 +38,26 @@ ssl:
 
 # Proxy configurations:
 proxy:
-  # The proxy url to redirect requests to.
-  url:
-  # Proxy redirection preference
-  # Allowed values: inbound|outbound|both
-  # inbound: redirect only inbound requests through the proxy
-  # Description: requests to the integration only, requests to Aqua Security servers will not be proxied
-  # outbound: redirect only outbound requests through the proxy
-  # Description: requests to Aqua Security servers only, requests to the integration will not be proxied
-  # both: redirect both inbound and outbound requests through the proxy
-  # Description: requests to Aqua Security servers and requests to the integration will be proxied
-  preference: outbound
+  # Specify http_proxy when you want to proxy requests that use http:// protocol
+  # Example values:
+  # http_proxy: http://proxy.example.com:8080
+  # OR
+  # http_proxy: http://admin:admin@proxy.example.com
+  http_proxy:
+  # Specify https_proxy when you want to proxy requests that use https:// protocol
+  # Example values:
+  # https_proxy: https://proxy.example.com:8080
+  # OR
+  # https_proxy: https://admin:admin@proxy.example.com
+  https_proxy:
+  # Specify no_proxy when you want to exclude specific hosts from proxying
+  # You can specify multiple hosts by separating them with commas
+  # Example values:
+  # no_proxy: my.awesomeintegration.com
+  # OR
+  # no_proxy: my.awesomeintegration.com,my.awesomeservice.com
+  # You can observe in this file under global key the domains that are used to communicate with the codesec servers
+  no_proxy:
 
 connect:
   image: docker.io/aquasec/codesec-connector:minified
