@@ -72,7 +72,7 @@ And will be used serviceAccount created by parrent chart
 {{- printf "%s" .Values.serviceAccount.name -}}
 {{- else -}}
 {{- if not .Values.serviceAccount.create -}}
-{{- printf "%s-sa" .Release.Namespace -}}
+{{- printf "aqua-sa" -}}
 {{- end -}}
 {{- end -}}
 {{- end -}}
