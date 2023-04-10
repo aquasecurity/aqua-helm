@@ -59,14 +59,9 @@ spec:
           {{- end }}
           {{- end }}
 
-          {{- if .Values.proxy.url }}
-          - name: HTTP_PROXY
-            value: {{ .Values.proxy.url }}
-          {{- end }}
-
-          {{- if .Values.proxy.preference }}
-          - name: PROXY_PREFERENCE
-            value: {{ .Values.proxy.preference }}
+          {{- range $key, $value := .Values.proxy }}
+          - name: {{ $key }}
+            value: {{ $value }}
           {{- end }}
 
           {{- range $key, $value := .Values.connect.extraEnv }}
