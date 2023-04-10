@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.14 (Apr 10th, 2023)
+* Add securitycontext for job check-db-upgrade - Issue [#726](https://github.com/aquasecurity/aqua-helm/issues/726)
+* Update gateway chart version to `2022.4.12`
+
 ## 2022.4.13 (Mar 6th, 2023)
 * Add support policy/v1beta1 and policy/v1 based on cluster version 
 * Add option to add annotation to the gateway serviceAccount
