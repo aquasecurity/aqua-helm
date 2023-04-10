@@ -1,6 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.12 ( Apr 10th, 2023 )
+* Adjust default resource requests and limits - PR[#729](https://github.com/aquasecurity/aqua-helm/pull/729)
 ## 2022.4.11 ( Mar 22nd, 2023 )
 * Update tolerations [723](https://github.com/aquasecurity/aqua-helm/issues/723)
 ## 2022.4.10 ( Feb 13th, 2023 )

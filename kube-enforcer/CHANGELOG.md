@@ -1,8 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.22 ( Apr 10th, 2023 )
+* Add ability to define extraVolumes - PR [#728](https://github.com/aquasecurity/aqua-helm/pull/728)
+* Adjust default resource requests and limits - PR[#729](https://github.com/aquasecurity/aqua-helm/pull/729)
+* Add priorityClass - PR[#734](https://github.com/aquasecurity/aqua-helm/pull/734)
+* Fix starboard namespace default assignment - Issue[#735](https://github.com/aquasecurity/aqua-helm/issues/735)
+* Update enforcer chart version to `2022.4.12`
+
 ## 2022.4.21 ( Mar 22nd, 2023 )
 * Fix starboard and KE tolerations
+
 ## 2022.4.20 ( Mar 2nd, 2023 )
 * Update kube-bench version to v0.6.12
 * Make timeout for validatingWebhook and mutatingWebhook configurable
