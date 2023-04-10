@@ -12,11 +12,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 data:
-{{- if .Values.starboard.OPERATOR_NAMESPACE }}
-  OPERATOR_NAMESPACE: {{ .Values.starboard.OPERATOR_NAMESPACE }}
-{{- else }}
-  OPERATOR_NAMESPACE: {{ .Release.Namespace }}
-{{- end }}
+  OPERATOR_NAMESPACE: {{ .Values.starboard.OPERATOR_NAMESPACE | default .Release.Namespace}}
   OPERATOR_TARGET_NAMESPACES: "{{ .Values.starboard.OPERATOR_TARGET_NAMESPACES }}"
   OPERATOR_LOG_DEV_MODE: "{{ .Values.starboard.OPERATOR_LOG_DEV_MODE }}"
   OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT: "{{ .Values.starboard.OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT }}"

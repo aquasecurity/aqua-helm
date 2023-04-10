@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.12 (Apr 10th, 2023)
+* Change standard name for gateway serviceaccount - PR[#725](https://github.com/aquasecurity/aqua-helm/pull/725)
+
 ## 2022.4.11 (Mar 6th, 2023)
 * Add support policy/v1beta1 and policy/v1 based on cluster version
 * Add option to add annotation to the gateway serviceAccount

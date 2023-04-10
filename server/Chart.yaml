@@ -2,10 +2,10 @@ apiVersion: v2
 appVersion: "2022.4"
 description: A Helm chart for the Aqua Console components
 name: server
-version: "2022.4.13"
+version: "2022.4.14"
 dependencies:
   - name: gateway
-    version: "2022.4.11"
+    version: "2022.4.12"
     repository: "file://../gateway/"
     condition: gateway.enabled
 icon: https://avatars3.githubusercontent.com/u/12783832?s=200&v=4
