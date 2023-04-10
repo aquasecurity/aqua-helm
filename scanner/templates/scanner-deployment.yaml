@@ -1,6 +1,10 @@
 ---
 apiVersion: apps/v1
+{{- if .Values.persistence.enabled }}
+kind: StatefulSet
+{{- else }}
 kind: Deployment
+{{- end }}
 metadata:
   name: {{ .Release.Name }}-scanner
   namespace: {{ .Release.Namespace }}
@@ -10,13 +14,16 @@ metadata:
 {{ include "aqua.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
+{{- if .Values.persistence.enabled }}
+  serviceName: {{ .Release.Name }}-scanner
+{{- end }}
   selector:
     matchLabels:
       app: {{ .Release.Name }}-scanner
   template:
     metadata:
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/scanner-configmap.yaml") . | sha256sum }}      
+        checksum/config: {{ include (print $.Template.BasePath "/scanner-configmap.yaml") . | sha256sum }}
       {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
       {{- end }}
@@ -81,16 +88,12 @@ spec:
         {{- end }}
         envFrom:
         - configMapRef:
-            name: {{ .Release.Name }}-scanner-config        
+            name: {{ .Release.Name }}-scanner-config
         env:
         - name: AQUA_SCANNER_LOGICAL_NAME
-        {{- if .Values.nameOverride }}
-          value: {{ .Values.nameOverride }}
-        {{- else }}
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        {{- end }}
         {{- if .Values.scannerUserSecret.enable }}
           {{- if or  (not .Values.scannerUserSecret.secretName) (not .Values.scannerUserSecret.passwordKey) (not .Values.scannerUserSecret.userKey) }}
           {{- template "scannerSecret" . }}
@@ -121,7 +124,7 @@ spec:
         {{- end }}
         {{- include "scanner.extraEnvironmentVars" .Values | nindent 8 }}
         {{- include "scanner.extraSecretEnvironmentVars" .Values | nindent 8 }}
-        {{- if or (.Values.dockerSock.mount) (.Values.serverSSL.enable) (.Values.cyberCenter.mtls.enabled) (.Values.additionalCerts) }}
+        {{- if or (.Values.dockerSock.mount) (.Values.serverSSL.enable) (.Values.cyberCenter.mtls.enabled) (.Values.additionalCerts) (.Values.persistence.enabled) }}
         volumeMounts:
         {{- end }}
         {{- if .Values.dockerSock.mount }}
@@ -136,6 +139,10 @@ spec:
         - name: cc-mtls-certs
           mountPath: /opt/aquasec/ssl/
           readOnly: true
+        {{- end }}
+        {{- if .Values.persistence.enabled }}
+        - name: pvc
+          mountPath: /opt/aquascans
         {{- end }}
         {{- include "scanner.additionalCertVolumeMounts" .Values | nindent 8 }}
         ports:
@@ -199,3 +206,16 @@ spec:
           {{- end }}
       {{- end }}
       {{- include "scanner.additionalCertVolumes" .Values | nindent 6 }}
+  {{- if .Values.persistence.enabled }}
+  volumeClaimTemplate:
+  - metadata:
+      name: pvc
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      {{- if .Values.persistence.storageclass }}
+      storageClassName: {{ .Values.persistence.storageclass }}
+      {{- end }}
+      resources:
+        requests:
+          storage: {{ .Values.persistence.size_in_gb }}Gi
+  {{- end -}}

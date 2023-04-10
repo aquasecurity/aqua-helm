@@ -140,3 +140,10 @@ registries: []
 # registries:
 # - registry1
 # - registry2
+
+# Enable persistence for scanner
+# Warning: enabling this feature on an already-deployed scanner will delete the existing deployment and redeploy using a statefulset
+persistence:
+  enabled: false
+  #storageclass: (optional)
+  #size_in_gb: 10
