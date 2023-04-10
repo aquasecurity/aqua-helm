@@ -262,6 +262,12 @@ extraSecretEnvironmentVars: []
   #   secretName: name
   #   secretKey: key
 
+# extraVolumeMounts is a list of extra volumes to mount into the container's filesystem of the KubeEnforcer deployment
+extraVolumeMounts: []
+
+# extraVolumes is a list of volumes that can be mounted inside the KubeEnforcer deployment
+extraVolumes: []
+
 starboard:
   enabled: true
   replicaCount: "1"
