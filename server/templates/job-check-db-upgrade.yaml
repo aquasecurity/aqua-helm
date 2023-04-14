@@ -82,3 +82,7 @@ spec:
       {{- else }}
         - name: {{ .Values.imageCredentials.name }}
       {{- end }}
+      {{- with .Values.global.web.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+      {{- end }}
