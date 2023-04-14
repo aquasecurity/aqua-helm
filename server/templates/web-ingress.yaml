@@ -48,7 +48,7 @@ spec:
               {{- end }}
     {{- end -}}
   {{ else }}
-  {{- if or ($.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") (eq .Values.web.ingress.apiVersion "networking.k8s.io/v1/Ingress") }}
+  {{- if or ($.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress") (eq .Values.web.ingress.apiVersion "networking.k8s.io/v1") }}
   defaultBackend:
     service:
       name: {{ $fullname }}-console-svc
