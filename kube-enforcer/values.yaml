@@ -91,6 +91,7 @@ nameOverride: "aqua-kube-enforcer"
 fullnameOverride: "aqua-kube-enforcer"
 
 # Display a custom cluster name in the infrastructure tab of Aqua Enterprise
+# Follow https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names for naming conventions”
 clusterName: "Default-cluster-name"
 logicalName: ""
 logLevel: ""
@@ -230,6 +231,12 @@ affinity: {}
 podDisruptionBudget:
   minAvailable: 1
 
+priorityClass:
+  create: false
+  name: ""
+  preemptionPolicy: "PreemptLowerPriority"
+  value: 1000000
+
 TLS:
   # enable to true for secure communication
   enabled: false
@@ -261,6 +268,12 @@ extraSecretEnvironmentVars: []
   #   secretName: name
   #   secretKey: key
 
+# extraVolumeMounts is a list of extra volumes to mount into the container's filesystem of the KubeEnforcer deployment
+extraVolumeMounts: []
+
+# extraVolumes is a list of volumes that can be mounted inside the KubeEnforcer deployment
+extraVolumes: []
+
 starboard:
   enabled: true
   replicaCount: "1"
@@ -290,7 +303,7 @@ starboard:
       drop:
         - ALL
 
-  OPERATOR_NAMESPACE: "aqua"
+  OPERATOR_NAMESPACE: ""
   OPERATOR_TARGET_NAMESPACES: ""
   OPERATOR_LOG_DEV_MODE: "false"
   OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT: "10"

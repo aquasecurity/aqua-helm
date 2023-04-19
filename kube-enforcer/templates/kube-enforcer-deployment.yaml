@@ -45,6 +45,9 @@ spec:
       securityContext:
 {{ toYaml . | indent 8 }}
       {{- end }}
+      {{- if or .Values.priorityClass.create .Values.priorityClass.name }}
+      priorityClassName: {{ template "priorityClass" . }}
+      {{- end }}
       serviceAccountName: {{ template "serviceAccount" . }}
       containers:
         - name: kube-enforcer
@@ -104,6 +107,9 @@ spec:
           resources: {{ toYaml .Values.resources | nindent 12 }}
           {{- end }}
           volumeMounts:
+            {{- with .Values.extraVolumeMounts }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
             - name: "certs"
               mountPath: "/certs"
 {{- if .Values.kubeEnforcerAdvance.enable }}
@@ -149,6 +155,9 @@ spec:
 {{- end }}
 {{- end }}
       volumes:
+        {{- with .Values.extraVolumes }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
         - name: "certs"
           secret:
             secretName: {{ .Values.certsSecret.name }}
@@ -189,18 +198,18 @@ spec:
               path: rootCA.crt
             {{- end }}
         {{- end }}
-{{- if .Values.nodeSelector }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.nodeSelector | indent 8 }}
+        {{ toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:
-{{ toYaml . | indent 8 }}
+        {{ toYaml . | nindent 8 }}
       {{- end }}
-{{- if and (.Values.tolerations) (semverCompare "^1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+      {{- with .Values.tolerations }}
       tolerations:
-{{ toYaml .Values.tolerations | indent 8 }}
-  {{ end }}
+        {{ toYaml . | nindent 8 }}
+      {{ end }}
   selector:
     matchLabels:
       app: {{ include "kube-enforcer.fullname" . }}

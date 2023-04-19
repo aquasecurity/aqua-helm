@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.4 (Mar 20th, 2023)
+* Add support to configure tolerations(SLK-64711)
+* Fix PDB(SLK-64864)
+
 ## 2022.4.3 (Feb 14th, 2023)
 * Add extraEnvironmentVars to cloud connector deployment
 

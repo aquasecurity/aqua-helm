@@ -1,0 +1,14 @@
+{{- if .Values.priorityClass.create }}
+apiVersion: scheduling.k8s.io/v1
+description: Used for Aqua KubeEnforcer to be scheduled with higher priority.
+kind: PriorityClass
+metadata:
+  name: {{ template "priorityClass" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    aqua.component: kubeenforcer
+{{ include "aqua.labels" . | indent 4 }}
+preemptionPolicy: {{ .Values.priorityClass.preemptionPolicy }}
+value: {{ .Values.priorityClass.value }}
+{{- end }}

@@ -79,13 +79,19 @@ resources: {}
   #   cpu: 2000m
   #   memory: 2Gi
 
+# change it to "1" to enable tls_verify b/w Gateway and Cloud-Connector
 tls_verify:
-  value: "0"    # change it to "1" to enable tls_verify b/w Gateway and Cloud-Connector
+  value: "0"
 
+# nodeSelector -- Allows to schedule Aqua Cloud Connector on specific nodes
 nodeSelector: {}
+# tolerations -- Allows to schedule Aqua Cloud Connector on tainted nodes
 tolerations: []
-podAnnotations: {}
+# affinity -- Allows to specify affinity for Aqua Cloud Connector PODs
 affinity: {}
+# podAnnotations -- Allows setting additional annotations for Aqua Cloud Connector PODs
+podAnnotations: {}
+
 extraEnvironmentVars: {}
 
 tunnels:

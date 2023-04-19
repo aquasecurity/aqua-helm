@@ -55,6 +55,14 @@ Else if .Values.serviceAccount.create set to true, so will becreate serviceAccou
 {{- end -}}
 {{- end -}}
 
+{{- define "priorityClass" -}}
+{{- if .Values.priorityClass.create -}}
+    {{ .Values.priorityClass.name | default (printf "%s-kube-enforcer-priority-class" .Release.Name) }}
+{{- else if not .Values.priorityClass.create -}}
+    {{ .Values.priorityClass.name | default (printf "%s-kube-enforcer-priority-class" .Release.Name) }}
+{{- end -}}
+{{- end -}}
+
 {{/*
 Create chart name and version as used by the chart label.
 */}}

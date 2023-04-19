@@ -79,12 +79,16 @@ spec:
           {{- else }}
           resources: {{ toYaml .Values.starboard.resources | nindent 12 }}
           {{- end }}
-{{- if .Values.starboard.nodeSelector }}
+      {{- with .Values.starboard.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.starboard.nodeSelector | indent 8 }}
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.starboard.affinity }}
       affinity:
-{{ toYaml . | indent 8 }}
+        {{ toYaml . | nindent 8 }}
       {{- end }}
-{{- end }}
+      {{- with .Values.starboard.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}
