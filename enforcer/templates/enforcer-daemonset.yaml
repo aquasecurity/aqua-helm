@@ -166,7 +166,7 @@ spec:
             memory: "250Mi"
           limits:
             cpu: "1000m"
-            memory: "1200Mi"
+            memory: "1250Mi"
         {{- else }}
         resources: {{ toYaml .Values.resources | nindent 12 }}
         {{- end }}
