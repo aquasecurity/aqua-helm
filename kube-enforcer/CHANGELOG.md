@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.23 ( Apr 20th, 2023 )
+* Adjust default resource requests and limits - PR[#741](https://github.com/aquasecurity/aqua-helm/pull/741)
+* Update enforcer chart version to `2022.4.13`
+
 ## 2022.4.22 ( Apr 10th, 2023 )
 * Add ability to define extraVolumes - PR [#728](https://github.com/aquasecurity/aqua-helm/pull/728)
 * Adjust default resource requests and limits - PR[#729](https://github.com/aquasecurity/aqua-helm/pull/729)

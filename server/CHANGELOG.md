@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.15 (Apr 20th, 2023)
+* Add NodeSelectors to check-db-upgrade job
+* Add namespace definition to check-db-upgrade job
+* Fix API version check for ingress
+
 ## 2022.4.14 (Apr 10th, 2023)
 * Add securitycontext for job check-db-upgrade - Issue [#726](https://github.com/aquasecurity/aqua-helm/issues/726)
 * Update gateway chart version to `2022.4.12`

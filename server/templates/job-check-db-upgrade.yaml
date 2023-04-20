@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ .Release.Name }}-check-db-upgrade
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}-console
     aqua.component: server
@@ -81,4 +82,8 @@ spec:
         - name: {{ .Release.Namespace }}-registry-secret
       {{- else }}
         - name: {{ .Values.imageCredentials.name }}
+      {{- end }}
+      {{- with .Values.global.db.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | nindent 8 }}
       {{- end }}
