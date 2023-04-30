@@ -4,7 +4,7 @@ global:
   # Used for scaning scheduling
   scanServerUrl: https://scan.codesec.aquasec.com
   # Used for scanning upstream
-  aquaServerUrl: https://api.aquasec.com
+  aquaServerUrl: https://api.supply-chain.cloud.aquasec.com
   # Used for authentication
   cspmServerUrl: https://api.cloudsploit.com
 
