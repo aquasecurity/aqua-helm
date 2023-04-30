@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+_1.2.5
+* Updated the aqua server url.
+
 _1.2.4
 * Connector and scanner now support native implementations from proxy using http/s_proxy and no_proxy environment variables.
 
