@@ -83,8 +83,12 @@ The following table lists the configurable parameters of the Console and Enforce
 
 Parameter | Description                                                                                                                                                 | Default                | Mandatory 
 --------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------| ------- 
-`repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io`                                                                                                         | `registry.aquasec.com` | `YES` 
-`dockerSocket.mount` | boolean parameter if to mount docker socket                                                                                                                 | `unset`                | `NO` 
+`imageCredentials.create` | enables to create image credentials                                                                      | `false`               | `NO`
+`imageCredentials.name` | if `imageCredentials.create` is enabled sets imageCredentials name                                       |  | `NO`
+`imageCredentials.registry` | the registry that the credentials will be created for. mandatory if `imageCredentials.create` is enabled | `registry.aquasec.com` | `NO`
+`imageCredentials.username` | the username for the registry mandatory if `imageCredentials.create` is enabled                                                                           |  | `NO`
+`imageCredentials.password` | the password for the registry mandatory if `imageCredentials.create` is enabled                                                                           |  | `NO`
+`dockerSocket.mount` | boolean parameter if to mount docker socket                                                                                                                 | `unset`                | `NO`
 `dockerSocket.path` | docker socket path                                                                                                                                          | `/var/run/docker.sock` | `NO` 
 `platform` | Orchestration platform name for OpenShift deployment (use platform=openshift)                                                                               | `unset`                | `NO`
 `directCC.enabled` | scanner talk to the cybercenter directly                                                                                                                    | `yes`                  | `NO` 
