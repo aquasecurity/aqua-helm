@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.16 (May 11th, 2023)
+* Add support appProtocol in helm for L7 LB
+
 ## 2022.4.15 (Apr 20th, 2023)
 * Add NodeSelectors to check-db-upgrade job
 * Add namespace definition to check-db-upgrade job

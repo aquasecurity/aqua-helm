@@ -328,11 +328,15 @@ web:
         targetPort: 8080
         nodePort:
         protocol: TCP
+        # uncomment to support appProtocol for SCP L7 LBs.
+#        appProtocol: http
       - name: aqua-web-ssl
         port: 443
         targetPort: 8443
         nodePort:
         protocol: TCP
+        # uncomment to support appProtocol for SCP L7 LBs.
+#        appProtocol: http
     #As 443, 8443 already occupied in k3s kubernetes by traefik ingress. below are the console ports
     k3sPorts:
       - name: aqua-web
