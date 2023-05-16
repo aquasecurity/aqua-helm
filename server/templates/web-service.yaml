@@ -46,5 +46,8 @@ spec:
       {{- if $port.protocol }}
       protocol: {{ $port.protocol }}
       {{- end }}
+      {{- if $port.appProtocol }}
+      appProtocol: {{ $port.appProtocol }}
+      {{- end }}
   {{- end }}
   {{- end }}
