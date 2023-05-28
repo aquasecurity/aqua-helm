@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.16 (May 28, 2023)
+* Add support for external web secret
+
 ## 2022.4.15 (May 16, 2023)
 * Add support appProtocol in helm for L7 LB
 * Add NodeSelectors to check-db-upgrade job

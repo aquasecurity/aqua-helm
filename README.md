@@ -30,7 +30,7 @@ This repository includes the following charts; they can be deployed separately:
 
 | Chart                               | Description                                                                                                                                                   | Latest Chart Version |
 |-------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
-| [Server](server/)                   | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component                                                                     | 2022.4.15            |
+| [Server](server/)                   | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component                                                                     | 2022.4.16            |
 | [Enforcer](enforcer/)               | Deploys the Aqua Enforcer daemonset                                                                                                                           | 2022.4.13            |
 | [Scanner](scanner/)                 | Deploys the Aqua Scanner deployment                                                                                                                           | 2022.4.4             |
 | [KubeEnforcer](kube-enforcer/)      | Deploys Aqua KubeEnforcer                                                                                                                                     | 2022.4.23            |

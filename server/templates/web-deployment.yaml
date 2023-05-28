@@ -108,18 +108,18 @@ spec:
         - name: SSL_CERT_DIR
           value: "/etc/ext_db_certs:/etc/ssl/certs"
         {{- end }}
-        {{- if .Values.admin.token }}
+        {{- if or .Values.admin.token (not .Values.admin.createSecret) }}
         - name: LICENSE_TOKEN
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-console-secrets
+              name: {{ template "admin.secretName" . }}
               key: license-token
         {{- end }}
-        {{- if .Values.admin.password }}
+        {{- if or .Values.admin.password (not .Values.admin.createSecret) }}
         - name: ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-console-secrets
+              name: {{ template "admin.secretName" . }}
               key: admin-password
         {{- end }}
         {{- include "server.extraEnvironmentVars" .Values.web | nindent 8 }}
