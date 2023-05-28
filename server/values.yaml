@@ -35,6 +35,8 @@ clustermode: ""
 activeactive: ""
 
 admin:
+  createSecret: true
+  secretName: aqua-console-secrets
   token: ""
   password: ""
 

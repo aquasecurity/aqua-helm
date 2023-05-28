@@ -128,3 +128,16 @@ Inject additional certificates as volumemounts if populated
 {{- end }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Create web secret.
+*/}}
+{{- define "admin.secretName" -}}
+{{- if   .Values.admin.createSecret  -}}
+    {{ default (printf "%s-%s" .Release.Name "console-secrets") .Values.admin.secretName }}
+{{- else  }}
+     {{- .Values.admin.secretName  -}}
+{{- end -}}
+{{- end -}}
+
+
