@@ -9,6 +9,8 @@ global:
   cspmServerUrl: https://api.cloudsploit.com
 
 credentials:
+  createSecret: true
+  secretName: aqua-codesec-secrets
   aqua_key:
   aqua_secret:
 

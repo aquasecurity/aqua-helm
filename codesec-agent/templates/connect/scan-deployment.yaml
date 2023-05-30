@@ -68,7 +68,7 @@ spec:
           {{- end }}
           envFrom:
             - secretRef:
-                name: {{ printf "%s-%s" (include "chart.fullname" . ) "secrets" }}
+                name: {{ template "secretName" . }}
 
           resources:
             {{- toYaml $v.resources | indent 12 }}
@@ -82,7 +82,7 @@ spec:
       volumes:
         - name: ssl-secrets
           secret:
-            secretName: {{ printf "%s-%s" (include "chart.fullname" . ) "secrets" }}
+            secretName: {{ template "secretName" . }}
             items:
               {{- if .Values.ssl.ca }}
               - key: ssl-ca-certificate
