@@ -101,7 +101,7 @@ pipeline {
             steps {
                 script {
                     def parallelStagesMap = [:]
-                    def tmpCharts = [ 'server', 'kube-enforcer', 'enforcer', 'scanner', 'tenant-manager', 'cyber-center' ]
+                    def tmpCharts = [ 'server', 'kube-enforcer', 'enforcer', 'scanner', 'tenant-manager', 'cyber-center', 'codesec-agent' ]
                     tmpCharts.eachWithIndex { item, index ->
                         parallelStagesMap["${index}"] = helm.generateDeployStage(index, item)
                     }
