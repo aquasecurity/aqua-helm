@@ -16,7 +16,9 @@ spec:
   template:
     metadata:
       annotations:
+        {{- if .Values.credentials.createSecret }}
         checksum/config: {{ include (print $.Template.BasePath "/connect/secrets.yaml") . | sha256sum }}
+        {{- end }}
       labels:
         app.kubernetes.io/name: {{ $name }}
         app.kubernetes.io/instance: {{ .Release.Name }}
@@ -70,7 +72,7 @@ spec:
           {{- end }}
           envFrom:
             - secretRef:
-                name: {{ printf "%s-%s" (include "chart.fullname" . ) "secrets" }}
+                name: {{ template "secretName" . }}
           ports:
             - name: http
               containerPort: {{ $v.port}}
@@ -86,7 +88,7 @@ spec:
       volumes:
         - name: ssl-secrets
           secret:
-            secretName: {{ printf "%s-%s" (include "chart.fullname" . ) "secrets" }}
+            secretName: {{ template "secretName" . }}
             items:
               {{- if .Values.ssl.ca }}
               - key: ssl-ca-certificate

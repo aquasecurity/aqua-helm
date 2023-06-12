@@ -1,6 +1,8 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+_1.2.6
+* Add support for external codesec-agent secret.
 
 _1.2.5
 * Updated the aqua server url.

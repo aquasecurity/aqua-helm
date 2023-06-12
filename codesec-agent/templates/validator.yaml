@@ -10,11 +10,13 @@
 {{- if empty .Values.global.cspmServerUrl }}
 {{ fail "Error - missing .Values.global.cspmServerUrl" }}
 {{- end }}
+{{- if .Values.credentials.createSecret  }}
 {{- if empty .Values.credentials.aqua_key }}
 {{ fail "Error - missing .Values.credentials.aqua_key" }}
 {{- end }}
-{{- if empty .Values.credentials.aqua_secret }}
+{{- if  empty .Values.credentials.aqua_secret}}
 {{ fail "Error - missing .Values.credentials.aqua_secret" }}
+{{- end }}
 {{- end }}
 {{- if empty .Values.integration.url }}
 {{ fail "Error - missing .Values.integration.url" }}

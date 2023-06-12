@@ -119,3 +119,14 @@ example:
     {{- end }}
 {{- end }}
 {{- end -}}
+
+{{/*
+Create codesec-agent secret.
+*/}}
+{{- define "secretName" -}}
+{{- if   .Values.credentials.createSecret  -}}
+    {{ default (printf "%s-%s" .Release.Name "-codesec-secrets") .Values.credentials.secretName }}
+{{- else  }}
+     {{- .Values.credentials.secretName  -}}
+{{- end -}}
+{{- end -}}
