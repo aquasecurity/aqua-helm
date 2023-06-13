@@ -72,6 +72,12 @@ spec:
     rule: RunAsAny
   volumes:
   - '*'
+  hostPID: true
+  hostIPC: true
+  hostNetwork: true
+  hostPorts:
+  - min: 1
+    max: 65536
 {{- end }}
 ---
 ## Openshift RBAC
