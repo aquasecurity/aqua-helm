@@ -59,7 +59,7 @@ metadata:
     app: {{ .Release.Name }}
     aqua.component: server
 spec:
-  privileged: {{ .Values.podSecurityPolicy.privileged }}
+  privileged: {{ .Values.securityContext.privileged }}
   allowedCapabilities:
   - '*'
   fsGroup:

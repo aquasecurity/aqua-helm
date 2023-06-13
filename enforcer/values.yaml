@@ -97,9 +97,9 @@ securityContext:
       - IPC_LOCK
 
 # podsecurity policy [Deprecated from kubernetes version > 1.21]
+# if securityContext.privileged is set to true, the podSecurityPolicy will be configured to grant privileged access
 podSecurityPolicy:
   create: false     # Enable to true to create PSP
-  privileged: true
 
 multiple_gateway: # enable this to connect enforcer with multiple gateways
   enabled: false
