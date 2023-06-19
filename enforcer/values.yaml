@@ -15,7 +15,8 @@ global:
   enforcer:
     enabled: false
   gateway:
-    # change address to gateway endpoint
+    # change address to gateway endpoint. For Saas use the hostname containing `-gw` 
+    # from your onboarding email and switch port to 443
     address: aqua-gateway-svc.aqua
     port: 8443
   imageCredentials:
