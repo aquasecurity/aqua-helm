@@ -1,0 +1,33 @@
+{{- if or (.Values.windowsEnforcer.allWinNodes.enable) (.Values.windowsEnforcer.WinLinuxNodes.enable) }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app: {{ .Release.Name }}-windows-ds
+    aqua.component: windows-enforcer
+{{ include "aqua.labels" . | indent 4 }}
+    rbac.example.com/aggregate-to-monitoring: "true"
+  name: {{ .Release.Name }}-discovery-cr
+  namespace: {{ .Release.Namespace }}
+rules:
+- apiGroups: [""]
+  resources: ["nodes", "services", "endpoints", "pods", "deployments", "namespaces","componentstatuses"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["rbac.authorization.k8s.io"]
+  resources: ["*"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Release.Name }}-discovery-crb
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ .Release.Name }}-discovery-cr
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "agentServiceAccount" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end }}
