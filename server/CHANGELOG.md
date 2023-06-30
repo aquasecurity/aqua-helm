@@ -1,7 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2022.4.17 (Jun 27th, 2023)\
+## 2022.4.18 (Jun 30th, 2023)
+* Fix openshift scc
+## 2022.4.17 (Jun 27th, 2023)
 * Add vault agent injection support for db secrets
 ## 2022.4.16 (May 28, 2023)
 * Add support for external web secret
