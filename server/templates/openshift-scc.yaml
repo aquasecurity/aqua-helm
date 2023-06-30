@@ -19,7 +19,7 @@ allowHostIPC: false
 allowHostNetwork: false
 allowHostPID: false
 allowHostPorts: false
-allowPrivilegeEscalation: true
+allowPrivilegeEscalation: false
 allowPrivilegedContainer: false
 apiVersion: security.openshift.io/v1
 defaultAddCapabilities: null
