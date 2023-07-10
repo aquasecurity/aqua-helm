@@ -1,0 +1,16 @@
+{{- if or (.Values.windowsEnforcer.allWinNodes.enable) (.Values.windowsEnforcer.WinLinuxNodes.enable) }}
+{{- if .Values.priorityClass.create }}
+apiVersion: scheduling.k8s.io/v1
+description: Used for Aqua Windows Enforcer to be scheduled with higher priority.
+kind: PriorityClass
+metadata:
+  name: {{ template "priorityClass" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-windows-ds
+    aqua.component: windows-enforcer
+{{ include "aqua.labels" . | indent 4 }}
+preemptionPolicy: {{ .Values.windowsEnforcer.priorityClass.preemptionPolicy }}
+value: {{ .Values.windowsEnforcer.priorityClass.value }}
+{{- end }}
+{{- end }}

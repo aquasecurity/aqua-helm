@@ -1,0 +1,177 @@
+{{- if or (.Values.windowsEnforcer.allWinNodes.enable) (.Values.windowsEnforcer.WinLinuxNodes.enable) }}
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ .Release.Name }}-windows-ds
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-windows-ds
+    aqua.component: windows-enforcer
+    {{ include "aqua.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-windows-ds
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/enforcer-windows-configmap.yaml") . | sha256sum }}
+        container.apparmor.security.beta.kubernetes.io/aqua-windows-enforcer: unconfined
+      {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
+        scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
+      {{- end }}
+      {{- with .Values.windowsEnforcer.podAnnotations }}
+      {{- range $key,$value := . }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+      {{- end }}
+      labels:
+        app: {{ .Release.Name }}-windows-ds
+        aqua.component: windows-enforcer
+        {{- range $key, $value := .Values.windowsEnforcer.podLabels }}
+        {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 8 }}
+        {{- end }}
+        {{ include "aqua.labels" . | nindent 8 }}
+      name: {{ .Release.Name }}-windows-ds
+    spec:
+      {{- if .Values.windowsEnforcer.dnsNdots }}
+      dnsConfig:
+        options:
+          - name: ndots
+            value: {{ .Values.windowsEnforcer.dnsNdots | quote }}
+      {{- end }}
+      {{- if or .Values.windowsEnforcer.priorityClass.create .Values.windowsEnforcer.priorityClass.name }}
+      priorityClassName: {{ template "priorityClass" . }}
+      {{- end }}
+      serviceAccount: {{ template "agentServiceAccount" . }}
+      containers:
+      - name: aqua-windows-enforcer
+        image: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.windowsEnforcer.image.repository }}:{{ .Values.windowsEnforcer.image.tag }}"
+        imagePullPolicy: "{{ .Values.windowsEnforcer.image.pullPolicy }}"
+        securityContext:
+          {{- toYaml .Values.windowsEnforcer.securityContext | nindent 10 }}
+        command:
+          - powershell.exe
+          - -command
+          - $argList=@("/I","AquaAgentWindowsInstaller.msi","/qn","/L AquaAgentWindowsInstaller.install.log");
+          - $sysEnv=@(Get-ChildItem -Path Env:) | ForEach { $argList+=$_.Name+'="'+$_.Value+'"' };
+          - $Process=Start-Process -FilePath msiexec.exe -ArgumentList $argList -NoNewWindow -PassThru -Wait;
+          - Get-Content AquaAgentWindowsInstaller.install.log;
+          - While (Get-Service slkd | Where-Object {$_.Status -eq "Running"}){ Start-Sleep -s 30 }
+        startupProbe:
+          exec:
+            command:
+            - powershell.exe
+            - -c
+            - Get-Service -Name slkd
+          initialDelaySeconds: 15
+          periodSeconds: 15
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-windows-enforcer-config
+        env:
+        - name: AQUA_NODE_NAME
+        {{- if .Values.windowsEnforcer.nodeName }}
+          value: {{ .Values.windowsEnforcer.nodeName }}
+        {{- else }}
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        {{- end }}
+        {{- if .Values.windowsEnforcer.enforcerTokenSecretName }}
+        - name: AQUA_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.windowsEnforcer.enforcerTokenSecretName }}
+              key: {{ .Values.windowsEnforcer.enforcerTokenSecretKey }}
+        {{- else }}
+        - name: AQUA_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-windows-enforcer-token
+              key: windows-token
+        {{- end }}
+        {{- include "windowsExtraEnvironmentVars" .Values | nindent 8 }}
+        {{- include "windowsExtraSecretEnvironmentVars" .Values | nindent 8 }}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        terminationGracePeriodSeconds: 180
+        {{- if .Values.windowsEnforcer.TLS.enabled }}
+        volumeMounts:
+        - name: certs
+          mountPath: /opt/aquasec/ssl/
+          readOnly: true
+        {{- end }}
+        {{- if .Values.windowsEnforcer.healthMonitor.enabled }}
+        {{- with .Values.windowsEnforcer.livenessProbe }}
+        livenessProbe:
+        {{ toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.windowsEnforcer.readinessProbe }}
+        readinessProbe:
+        {{ toYaml . | nindent 10 }}
+        {{- end }}
+        {{- end }}
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - powershell.exe
+              - -c
+              - $argList=@("/X","AquaAgentWindowsInstaller.msi","/qn","/L c:\c\AquaAgentWindowsInstaller.remove.log","/norestart","MSIRESTARTMANAGERCONTROL=Disable");
+              - $Process=Start-Process -FilePath msiexec.exe -ArgumentList $argList -NoNewWindow -PassThru -Wait;
+        {{- if and (not .Values.windowsEnforcer.resources) .Values.expressMode }}
+        resources:
+          requests:
+            cpu: "350m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1.5Gi"
+        {{- else }}
+        resources: {{ toYaml .Values.windowsEnforcer.resources | nindent 12 }}
+        {{- end }}
+      dnsPolicy: {{ .Values.windowsEnforcer.dnsPolicy }}
+      hostNetwork: {{ .Values.windowsEnforcer.hostNetwork }}
+      hostPID: {{ .Values.windowsEnforcer.hostPID }}
+      restartPolicy: {{ .Values.windowsEnforcer.restartPolicy }}
+      schedulerName: {{ .Values.windowsEnforcer.schedulerName }}
+      terminationGracePeriodSeconds: {{ .Values.windowsEnforcer.terminationGracePeriodSeconds }}
+      {{- if .Values.windowsEnforcer.TLS.enabled }}
+      volumes:
+      - name: certs
+        secret:
+          defaultMode: 420
+          secretName: {{ .Values.windowsEnforcer.TLS.secretName }}
+          items:
+          - key: {{ .Values.windowsEnforcer.TLS.publicKey_fileName }}
+            path: cert.pem
+          - key: {{ .Values.windowsEnforcer.TLS.privateKey_fileName }}
+            path: key.pem
+          {{- if .Values.windowsEnforcer.TLS.rootCA_fileName }}
+          - key: {{ .Values.windowsEnforcer.TLS.rootCA_fileName }}
+            path: ca.pem
+          {{- end }}
+      {{- end }}
+      {{- with .Values.windowsEnforcer.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.windowsEnforcer.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+      {{ end }}
+      {{- with .Values.windowsEnforcer.affinity }}
+      affinity:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.windowsEnforcer.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+      {{ end }}
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: {{ .Values.windowsEnforcer.updateStrategy.maxUnavailable }}
+    type: {{ .Values.windowsEnforcer.updateStrategy.type }}
+{{- end }}

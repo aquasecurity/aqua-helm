@@ -1,3 +1,5 @@
+{{- if not .Values.windowsEnforcer.allWinNodes.enable }}
+
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -162,4 +164,5 @@ subjects:
 - kind: Group
   apiGroup: rbac.authorization.k8s.io
   name: system:serviceaccounts
+{{- end -}}
 {{- end -}}
