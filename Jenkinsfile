@@ -1,30 +1,14 @@
-@Library('aqua-pipeline-lib@master')_
+@Library('aqua-pipeline-lib@master') _
 import com.aquasec.deployments.orchestrators.*
 
 def orchestrator = new OrcFactory(this).GetOrc()
-def charts = [ 'server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager', 'codesec-agent' ]
+def charts = ['server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager', 'codesec-agent']
+def deployCharts = [ 'server', 'kube-enforcer', 'enforcer', 'scanner', 'tenant-manager', 'cyber-center', 'codesec-agent' ]
 def debug = false
 
 pipeline {
     agent {
         label 'deployment_slave'
-
-    }
-    environment {
-        ROOT_CA = credentials('deployment_ke_webook_root_ca')
-        SERVER_CERT = credentials('deployment_ke_webook_crt')
-        SERVER_KEY = credentials('deployment_ke_webook_key')
-        AFW_SERVER_LICENSE_TOKEN = credentials('aquaDeploymentLicenseToken')
-        DEPLOY_REGISTRY = "aquasec.azurecr.io"
-        AQUADEV_AZURE_ACR_PASSWORD = credentials('aquadevAzureACRpassword')
-        AUTH0_CREDS = credentials('auth0Credential')
-        VAULT_TERRAFORM_SID = credentials('VAULT_TERRAFORM_SID')
-        VAULT_TERRAFORM_SID_USERNAME = "$VAULT_TERRAFORM_SID_USR"
-        VAULT_TERRAFORM_SID_PASSWORD = "$VAULT_TERRAFORM_SID_PSW"
-        VAULT_TERRAFORM_RID = credentials('VAULT_TERRAFORM_RID')
-        VAULT_TERRAFORM_RID_USERNAME = "$VAULT_TERRAFORM_RID_USR"
-        VAULT_TERRAFORM_RID_PASSWORD = "$VAULT_TERRAFORM_RID_PSW"
-        ENV_PLATFORM = "k3s"
     }
     parameters {
         string(name: 'AUTOMATION_BRANCH', defaultValue: 'master', description: "Automation branch for MSTP tests", trim: true)
@@ -40,28 +24,44 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout([
-                        $class: 'GitSCM',
-                        branches: scm.branches,
-                        doGenerateSubmoduleConfigurations: false,
-                        extensions: [],
-                        submoduleCfg: [],
-                        userRemoteConfigs: scm.userRemoteConfigs
-                ])
+                checkout scm
             }
         }
-        stage ("Yamls Checking") {
+        stage("Helm lint") {
             steps {
                 script {
-                    def deploymentImage = docker.build("helm", "-f Dockerfile .")
-                    deploymentImage.inside("-u root") {
-                        sh "helm dependency update server/"
-                        sh "helm dependency update kube-enforcer/"
-                        def parallelStagesMap = [:]
-                        charts.eachWithIndex { item, index ->
-                            parallelStagesMap["${index}"] = helm.generateStage(index, item)
-                        }
-                        parallel parallelStagesMap
+                    parallel charts.collectEntries { chart ->
+                        ["${chart}": {
+                            stage("Helm Lint ${chart}") {
+                                helmBasic.lint(chart)
+                            }
+                        }]
+                    }
+                }
+            }
+        }
+        stage("Helm template") {
+            steps {
+                script {
+                    parallel charts.collectEntries { chart ->
+                        ["${chart}": {
+                            stage("Helm template ${chart}") {
+                                helmBasic.template(chart)
+                            }
+                        }]
+                    }
+                }
+            }
+        }
+        stage("Trivy scan") {
+            steps {
+                script {
+                    parallel charts.collectEntries { chart ->
+                        ["${chart}": {
+                            stage("Trivy scan ${chart}") {
+                                helmBasic.trivyScan(chart)
+                            }
+                        }]
                     }
                 }
             }
@@ -73,64 +73,63 @@ pipeline {
                 }
             }
         }
-        stage("updating consul") {
+        stage("Update consul") {
             steps {
                 script {
-                    helm.updateConsul("create")
+                    helmBasic.updateConsul("create")
                 }
             }
         }
         stage("Installing Helm") {
             steps {
                 script {
-                    helm.installHelm()
-                    helm.settingKubeConfig()
+                    helmBasic.installHelm()
+                    helmBasic.settingKubeConfig()
                 }
             }
         }
-        stage ("preparation") {
+        stage("Deploy charts") {
             steps {
                 script {
-                    kubectl.createNamespace create: "yes"
-                    //kubectl.createDockerRegistrySecret create: "yes", registry: env.DEPLOY_REGISTRY
-                }
-            }
-        }
-        stage("Deploying Aqua Charts") {
-            failFast true
-            steps {
-                script {
-                    def parallelStagesMap = [:]
-                    def tmpCharts = [ 'server', 'kube-enforcer', 'enforcer', 'scanner', 'tenant-manager', 'cyber-center', 'codesec-agent' ]
-                    tmpCharts.eachWithIndex { item, index ->
-                        parallelStagesMap["${index}"] = helm.generateDeployStage(index, item)
+                    parallel deployCharts.collectEntries { chart ->
+                        ["${chart}": {
+                            stage("Deploy ${chart}") {
+                                helmBasic.install(chart)
+                            }
+                        }]
                     }
-                    parallel parallelStagesMap
+                }
+            }
+        }
+        stage("Validate charts") {
+            steps {
+                script {
+                    parallel deployCharts.collectEntries { chart ->
+                        ["${chart}": {
+                            stage("Validate ${chart}") {
+                                helmBasic.validate(chart)
+                            }
+                        }]
+                    }
                 }
             }
         }
         stage("Running Mstp tests") {
             steps {
                 script {
-                    helm.runMstpTests debug: debug, afwImage: params.AUTOMATION_BRANCH
+                    helmBasic.runMstpTests debug: debug, afwImage: params.AUTOMATION_BRANCH
                 }
             }
         }
-        stage("Pushing Helm chart to dev repo")
-                {
+        stage("Push charts") {
             steps {
                 script {
-                    docker.image('alpine:latest').inside("-u root") {
-                        helm.pushPreparation env: "dev"
-                        def parallelStagesMap = [:]
-                        charts.each {chart ->
-                            parallelStagesMap[chart] = {
-                                stage(chart) {
-                                    helm.push(chart)
-                                }
+                    parallel charts.collectEntries { chart ->
+                        ["${chart}": {
+                            stage("Push ${chart}") {
+                                helmBasic.push(chart)
                             }
-                        }
-                        parallel parallelStagesMap
+                        }]
                     }
                 }
             }
@@ -139,10 +138,10 @@ pipeline {
     post {
         always {
             script {
-                helm.updateConsul("delete")
+                helmBasic.updateConsul("delete")
                 orchestrator.uninstall()
                 echo "k3s & server chart uninstalled"
-                helm.removeDockerLocalImages()
+                helmBasic.removeDockerLocalImages()
                 cleanWs()
                 notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: 'deployments@aquasec.com'
             }
