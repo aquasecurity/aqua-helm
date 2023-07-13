@@ -18,6 +18,7 @@ metadata:
       but allows users to run with any non-root UID and access hostPath. The user
       must specify the UID or it must be specified on the by the manifest of the container
       runtime.
+    "helm.sh/hook": pre-install
     release.openshift.io/create-only: "true"
   name: {{ .Release.Name }}-scc
 priority: null
