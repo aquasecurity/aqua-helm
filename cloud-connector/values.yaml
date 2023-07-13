@@ -92,7 +92,13 @@ affinity: {}
 # podAnnotations -- Allows setting additional annotations for Aqua Cloud Connector PODs
 podAnnotations: {}
 
+# The variables could be provided via values.yaml file as shown below
+# or using cli command, for example:  --set extraEnvironmentVars.http_proxy="1.1.1.1",extraEnvironmentVars.https_proxy="2.2.2.2"
 extraEnvironmentVars: {}
+  # http_proxy:
+  # https_proxy:
+  # no_proxy:
+  # ENV_NAME: value
 
 tunnels:
   # Host endpoints for Azure Functions

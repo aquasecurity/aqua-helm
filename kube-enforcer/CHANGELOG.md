@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.26 ( Jul 13th, 2023 )
+* Fix Openshift SecurityContextConstraints
+
 ## 2022.4.25 ( Jul 9th, 2023 )
 * Update kube-bench version to v0.6.15
 * Update starboard version to v0.15.13
