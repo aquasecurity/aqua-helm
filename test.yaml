@@ -1,0 +1,34 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+data:
+  mapRoles: |
+    - rolearn: arn:aws-us-gov:iam::157500467448:role/interop-node-role
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+    - rolearn: arn:aws-us-gov:sts::157500467448:assumed-role/AWSReservedSSO_PowerUserAccess_a4dc5118badeb170
+      groups:
+        - system:masters
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2023-07-18T10:25:50Z"
+  name: aws-auth
+  namespace: kube-system
+  resourceVersion: "10894"
+  uid: f8b11d7b-603c-48af-ab8c-fc8f9fa56d3a
+
+
+
+  - groups:
+      - system:bootstrappers
+      - system:nodes
+    rolearn: arn:aws-us-gov:iam::157500467448:role/interop-node-role
+    username: system:node:{{EC2PrivateDNSName}}
+  - rolearn: arn:aws-us-gov:iam::157500467448:role/aws-reserved/sso.amazonaws.com/us-gov-east-1/AWSReservedSSO_PowerUserAccess_a4dc5118badeb170
+    username: AWSReservedSSO_PowerUserAccess_a4dc5118badeb170
+    groups:
+      - system:masters

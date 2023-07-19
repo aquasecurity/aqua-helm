@@ -145,5 +145,7 @@ registries: []
 # Warning: enabling this feature on an already-deployed scanner will delete the existing deployment and redeploy using a statefulset
 persistence:
   enabled: false
-  #storageclass: (optional)
-  #size_in_gb: 10
+  accessMode: ReadWriteOnce
+  size: 30Gi    # Change to required size
+  storageClass: # Optional
+
