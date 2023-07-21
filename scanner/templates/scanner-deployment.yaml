@@ -170,7 +170,7 @@ spec:
       tolerations:
         {{ toYaml . | nindent 6 }}
       {{- end }}
-      {{- if or (.Values.dockerSock.mount) (.Values.serverSSL.enable) (.Values.cyberCenter.mtls.enabled) (.Values.additionalCerts) }}
+      {{- if or (.Values.dockerSock.mount) (.Values.serverSSL.enable) (.Values.cyberCenter.mtls.enabled) (.Values.additionalCerts) (.Values.persistence.enabled) }}
       volumes:
       {{- end }}
       {{- if .Values.dockerSock.mount }}
@@ -206,9 +206,8 @@ spec:
           {{- end }}
       {{- end }}
       {{- include "scanner.additionalCertVolumes" .Values | nindent 6 }}
-  {{- if .Values.persistence.enabled }}
-  volumes:
-  - name: scanner-pvc
+      {{- if .Values.persistence.enabled }}
+      - name: scanner-pvc
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-scanner-pvc
-  {{- end -}}
+      {{- end -}}
