@@ -1,6 +1,8 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## 2022.4.5 (Jul 19th, 2023)
+* Fix scanner persistence volume
 
 ## 2022.4.4 (May 4th, 2023)
 * Added persistence to scanner (Change deploy to statefulset if persistence enabled)
