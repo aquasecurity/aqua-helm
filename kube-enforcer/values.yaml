@@ -226,6 +226,7 @@ resources: {}
 nodeSelector: {}
 tolerations: []
 podAnnotations: {}
+deploymentAnnotations: {}
 podLabels: {}
 affinity: {}
 
