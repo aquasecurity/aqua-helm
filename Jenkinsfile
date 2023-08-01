@@ -3,7 +3,7 @@ import com.aquasec.deployments.orchestrators.*
 
 def orchestrator = new OrcFactory(this).GetOrc()
 def charts = ['server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager', 'codesec-agent']
-def deployCharts = [ 'server', 'kube-enforcer', 'enforcer', 'scanner', 'tenant-manager', 'cyber-center', 'codesec-agent' ]
+def deployCharts = [ 'server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-center', 'codesec-agent' ]
 def debug = false
 
 pipeline {
