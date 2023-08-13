@@ -1,7 +1,9 @@
+---
+{{- if .Values.trivy.enabled }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: trivy-operator
+  name: {{ .Values.trivy.appName }}
 rules:
   - apiGroups:
       - ""
@@ -224,3 +226,4 @@ rules:
       - serviceaccounts
     verbs:
       - get
+{{- end }}

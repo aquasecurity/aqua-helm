@@ -1,13 +1,15 @@
+---
+{{- if .Values.trivy.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: trivy-operator
-  namespace: aqua
+  name: {{ .Values.trivy.appName }}
+  namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: trivy-operator
-    app.kubernetes.io/instance: trivy-operator
-    app.kubernetes.io/version: "0.11.0"
-    app.kubernetes.io/managed-by: kubectl
+    app.kubernetes.io/name: {{ .Values.trivy.appName }}
+    app.kubernetes.io/instance: {{ .Values.trivy.appName }}
+    app.kubernetes.io/version: {{ .Values.trivy.image.tag | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 data:
   scanJob.podTemplateContainerSecurityContext: "{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"ALL\"]},\"privileged\":false,\"readOnlyRootFilesystem\":true}"
   scanJob.compressLogs: "true"
@@ -18,13 +20,13 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: trivy-operator-trivy-config
-  namespace: aqua
+  name: {{ .Values.trivy.appName }}-trivy-config
+  namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: trivy-operator
-    app.kubernetes.io/instance: trivy-operator
-    app.kubernetes.io/version: "0.11.0"
-    app.kubernetes.io/managed-by: kubectl
+    app.kubernetes.io/name: {{ .Values.trivy.appName }}
+    app.kubernetes.io/instance: {{ .Values.trivy.appName }}
+    app.kubernetes.io/version: {{ .Values.trivy.image.tag | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 data:
   trivy.repository: "ghcr.io/aquasecurity/trivy"
   trivy.tag: "0.36.0"
@@ -46,10 +48,11 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: trivy-operator-policies-config
-  namespace: aqua
+  name: {{ .Values.trivy.appName }}-policies-config
+  namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: trivy-operator
-    app.kubernetes.io/instance: trivy-operator
-    app.kubernetes.io/version: "0.11.0"
-    app.kubernetes.io/managed-by: kubectl
+    app.kubernetes.io/name: {{ .Values.trivy.appName }}
+    app.kubernetes.io/instance: {{ .Values.trivy.appName }}
+    app.kubernetes.io/version: {{ .Values.trivy.image.tag | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+{{- end }}

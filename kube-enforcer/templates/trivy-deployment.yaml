@@ -1,36 +1,39 @@
+---
+{{- if .Values.trivy.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: trivy-operator
-  namespace: aqua
+  name: {{ .Values.trivy.appName }}
+  namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: trivy-operator
-    app.kubernetes.io/instance: trivy-operator
-    app.kubernetes.io/version: "0.11.0"
-    app.kubernetes.io/managed-by: kubectl
+    app.kubernetes.io/name: {{ .Values.trivy.appName }}
+    app.kubernetes.io/instance: {{ .Values.trivy.appName }}
+    app.kubernetes.io/version: {{ .Values.trivy.image.tag | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+{{ include "aqua.labels" . | indent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.trivy.replicaCount }}
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app.kubernetes.io/name: trivy-operator
-      app.kubernetes.io/instance: trivy-operator
+      app.kubernetes.io/name: {{ .Values.trivy.appName }}
+      app.kubernetes.io/instance: {{ .Values.trivy.appName }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: trivy-operator
-        app.kubernetes.io/instance: trivy-operator
+        app.kubernetes.io/name: {{ .Values.trivy.appName }}
+        app.kubernetes.io/instance: {{ .Values.trivy.appName }}
     spec:
-      serviceAccountName: trivy-operator
+      serviceAccountName: {{ template "serviceAccountTrivy" . }}
       automountServiceAccountToken: true
       containers:
-        - name: "trivy-operator"
-          image: "docker.io/aquasec/trivy-operator:0.11.0"
-          imagePullPolicy: IfNotPresent
+        - name: {{ .Values.trivy.appName }}
+          image: "{{ .Values.trivy.image.registry }}/{{ .Values.trivy.image.repository }}:{{ .Values.trivy.image.tag }}"
+          imagePullPolicy: {{ .Values.trivy.image.pullPolicy }}
           env:
             - name: OPERATOR_NAMESPACE
-              value: aqua
+              value: {{ .Release.Namespace }}
             - name: OPERATOR_TARGET_NAMESPACES
               value: ""
             - name: OPERATOR_EXCLUDE_NAMESPACES
@@ -38,7 +41,7 @@ spec:
             - name: OPERATOR_TARGET_WORKLOADS
               value: "pod,replicaset,replicationcontroller,statefulset,daemonset,cronjob,job"
             - name: OPERATOR_SERVICE_ACCOUNT
-              value: "trivy-operator"
+              value: {{ .Values.trivy.appName }}
             - name: OPERATOR_LOG_DEV_MODE
               value: "true"
             - name: OPERATOR_SCAN_JOB_TIMEOUT
@@ -93,9 +96,9 @@ spec:
               value: "true"
           ports:
             - name: metrics
-              containerPort: 8080
+              containerPort: {{ .Values.trivy.ports.metricContainerPort }}
             - name: probes
-              containerPort: 9090
+              containerPort: {{ .Values.trivy.ports.probeContainerPort }}
           readinessProbe:
             httpGet:
               path: /readyz/
@@ -104,14 +107,10 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             failureThreshold: 3
+          {{- with .Values.trivy.livenessProbe }}
           livenessProbe:
-            httpGet:
-              path: /healthz/
-              port: probes
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            failureThreshold: 10
+          {{ toYaml . | nindent 12 }}
+          {{- end }}
           resources:
             {}
           securityContext:
@@ -123,3 +122,4 @@ spec:
             readOnlyRootFilesystem: true
       securityContext:
         {}
+{{- end }}
