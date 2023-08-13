@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trivy-operator
+  namespace: aqua
+  labels:
+    app.kubernetes.io/name: trivy-operator
+    app.kubernetes.io/instance: trivy-operator
+    app.kubernetes.io/version: "0.11.0"
+    app.kubernetes.io/managed-by: kubectl
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: trivy-operator
+      app.kubernetes.io/instance: trivy-operator
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: trivy-operator
+        app.kubernetes.io/instance: trivy-operator
+    spec:
+      serviceAccountName: trivy-operator
+      automountServiceAccountToken: true
+      containers:
+        - name: "trivy-operator"
+          image: "docker.io/aquasec/trivy-operator:0.11.0"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: OPERATOR_NAMESPACE
+              value: aqua
+            - name: OPERATOR_TARGET_NAMESPACES
+              value: ""
+            - name: OPERATOR_EXCLUDE_NAMESPACES
+              value: ""
+            - name: OPERATOR_TARGET_WORKLOADS
+              value: "pod,replicaset,replicationcontroller,statefulset,daemonset,cronjob,job"
+            - name: OPERATOR_SERVICE_ACCOUNT
+              value: "trivy-operator"
+            - name: OPERATOR_LOG_DEV_MODE
+              value: "true"
+            - name: OPERATOR_SCAN_JOB_TIMEOUT
+              value: "5m"
+            - name: OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT
+              value: "10"
+            - name: OPERATOR_SCAN_JOB_RETRY_AFTER
+              value: "30s"
+            - name: OPERATOR_BATCH_DELETE_LIMIT
+              value: "10"
+            - name: OPERATOR_BATCH_DELETE_DELAY
+              value: "10s"
+            - name: OPERATOR_METRICS_BIND_ADDRESS
+              value: ":8080"
+            - name: OPERATOR_METRICS_FINDINGS_ENABLED
+              value: "true"
+            - name: OPERATOR_METRICS_VULN_ID_ENABLED
+              value: "false"
+            - name: OPERATOR_HEALTH_PROBE_BIND_ADDRESS
+              value: ":9090"
+            - name: OPERATOR_VULNERABILITY_SCANNER_ENABLED
+              value: "false"
+            - name: OPERATOR_VULNERABILITY_SCANNER_SCAN_ONLY_CURRENT_REVISIONS
+              value: "true"
+            - name: OPERATOR_SCANNER_REPORT_TTL
+              value: "24h"
+            - name: OPERATOR_CONFIG_AUDIT_SCANNER_ENABLED
+              value: "true"
+            - name: OPERATOR_CLUSTER_COMPLIANCE_ENABLED
+              value: "false"
+            - name: OPERATOR_RBAC_ASSESSMENT_SCANNER_ENABLED
+              value: "true"
+            - name: OPERATOR_INFRA_ASSESSMENT_SCANNER_ENABLED
+              value: "false"
+            - name: OPERATOR_CONFIG_AUDIT_SCANNER_SCAN_ONLY_CURRENT_REVISIONS
+              value: "true"
+            - name: OPERATOR_EXPOSED_SECRET_SCANNER_ENABLED
+              value: "false"
+            - name: OPERATOR_WEBHOOK_BROADCAST_URL
+              value: ""
+            - name: OPERATOR_WEBHOOK_BROADCAST_TIMEOUT
+              value: "30s"
+            - name: OPERATOR_PRIVATE_REGISTRY_SCAN_SECRETS_NAMES
+              value: "{}"
+            - name: OPERATOR_ACCESS_GLOBAL_SECRETS_SERVICE_ACCOUNTS
+              value: "true"
+            - name: OPERATOR_BUILT_IN_TRIVY_SERVER
+              value: "false"
+            - name: TRIVY_SERVER_HEALTH_CHECK_CACHE_EXPIRATION
+              value: "10h"
+            - name: OPERATOR_MERGE_RBAC_FINDING_WITH_CONFIG_AUDIT
+              value: "true"
+          ports:
+            - name: metrics
+              containerPort: 8080
+            - name: probes
+              containerPort: 9090
+          readinessProbe:
+            httpGet:
+              path: /readyz/
+              port: probes
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /healthz/
+              port: probes
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 10
+          resources:
+            {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+      securityContext:
+        {}
