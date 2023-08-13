@@ -16,17 +16,6 @@ data:
   report.recordFailedChecksOnly: "false"
 ---
 apiVersion: v1
-kind: Secret
-metadata:
-  name: trivy-operator-trivy-config
-  namespace: aqua
-  labels:
-    app.kubernetes.io/name: trivy-operator
-    app.kubernetes.io/instance: trivy-operator
-    app.kubernetes.io/version: "0.11.0"
-    app.kubernetes.io/managed-by: kubectl
----
-apiVersion: v1
 kind: ConfigMap
 metadata:
   name: trivy-operator-policies-config
