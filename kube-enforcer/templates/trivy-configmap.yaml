@@ -18,6 +18,34 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: trivy-operator-trivy-config
+  namespace: aqua
+  labels:
+    app.kubernetes.io/name: trivy-operator
+    app.kubernetes.io/instance: trivy-operator
+    app.kubernetes.io/version: "0.11.0"
+    app.kubernetes.io/managed-by: kubectl
+data:
+  trivy.repository: "ghcr.io/aquasecurity/trivy"
+  trivy.tag: "0.36.0"
+  trivy.additionalVulnerabilityReportFields: ""
+  trivy.severity: "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL"
+  trivy.slow: "true"
+  trivy.dbRepository: "ghcr.io/aquasecurity/trivy-db"
+  trivy.command: "image"
+  trivy.dbRepositoryInsecure: "false"
+  trivy.useBuiltinRegoPolicies: "false"
+  trivy.supportedConfigAuditKinds: "Workload,Service,Role,RoleBinding,ClusterRole,ClusterRoleBinding,NetworkPolicy,Ingress,LimitRange,ResourceQuota,ConfigMap"
+  trivy.timeout: "5m0s"
+  trivy.mode: "Standalone"
+  trivy.resources.requests.cpu: 100m
+  trivy.resources.requests.memory: 100M
+  trivy.resources.limits.cpu: 500m
+  trivy.resources.limits.memory: 500M
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
   name: trivy-operator-policies-config
   namespace: aqua
   labels:
