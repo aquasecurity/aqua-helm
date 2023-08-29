@@ -10,7 +10,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Values.trivy.appName }}
     app.kubernetes.io/version: {{ .Values.trivy.image.tag | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-{{ include "aqua.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.trivy.replicaCount }}
   strategy:
@@ -24,6 +23,8 @@ spec:
       labels:
         app.kubernetes.io/name: {{ .Values.trivy.appName }}
         app.kubernetes.io/instance: {{ .Values.trivy.appName }}
+        app.kubernetes.io/version: {{ .Values.trivy.image.tag | quote }}
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     spec:
       serviceAccountName: {{ template "serviceAccountTrivy" . }}
       automountServiceAccountToken: true
