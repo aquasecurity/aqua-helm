@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2022.4.26 ( Aug 13th, 2023 )
+## 2022.4.27 ( Sep 5th, 2023 )
 * Add Trivy installation to kube-enforcer
 
 ### ⚠ BREAKING CHANGES
