@@ -148,3 +148,9 @@ persistence:
   accessMode: ReadWriteOnce
   size: 30Gi    # Change to required size
   storageClass: # Optional
+
+# Add additional volumes
+additionalVolumes: []
+
+# Add associated mount points
+additionalVolumeMounts: []

@@ -1,4 +1,4 @@
-{{- if .Values.persistence.enabled }}
+{{- if and (.Values.persistence.enabled) (not (and (eq .Values.persistence.accessMode "ReadWriteOnce") (gt .Values.replicaCount 1))) }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
