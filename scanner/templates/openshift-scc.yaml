@@ -35,4 +35,7 @@ volumes:
   - configMap
   - secret
   - hostPath
+  {{- if (.Values.persistence.enabled) }}
+  - persistentVolumeClaim
+  {{- end }}
 {{- end }}
