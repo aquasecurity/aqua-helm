@@ -154,6 +154,9 @@ spec:
 {{ toYaml . | indent 10 }}
 {{- end }}
         volumeMounts:
+        {{- with .Values.web.extraVolumeMounts }}
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         {{- if .Values.dockerSock.mount }}
         - mountPath: /var/run/docker.sock
           name: docker-socket-mount
@@ -191,6 +194,9 @@ spec:
         {{ toYaml . | nindent 6 }}
       {{- end }}
       volumes:
+      {{- with .Values.web.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- if .Values.dockerSock.mount }}
       - name: docker-socket-mount
         hostPath:
