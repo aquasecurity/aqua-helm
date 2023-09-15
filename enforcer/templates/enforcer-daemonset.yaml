@@ -21,7 +21,7 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/enforcer-configmap.yaml") . | sha256sum }}
-      {{- if not .Values.securityContext.privileged }}
+      {{- if not .Values.container_securityContext.privileged }}
         container.apparmor.security.beta.kubernetes.io/enforcer: unconfined
       {{- end }}
       {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
@@ -52,6 +52,10 @@ spec:
           - name: ndots
             value: {{ .Values.dnsNdots | quote }}
       {{- end }}
+      {{- with .Values.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+      {{- end }}
       {{- if or .Values.priorityClass.create .Values.priorityClass.name }}
       priorityClassName: {{ template "priorityClass" . }}
       {{- end }}
@@ -60,8 +64,8 @@ spec:
       - name: enforcer
         image: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
-        securityContext:
-          {{- toYaml .Values.securityContext | nindent 10 }}
+        container_securityContext:
+          {{- toYaml .Values.container_securityContext | nindent 10 }}
         {{- if .Values.vaultSecret.enabled }}
         command: ["/bin/sh"]
         args: ["-c", "source {{ .Values.vaultSecret.vaultFilepath }} && /autorun.sh"]

@@ -78,7 +78,9 @@ nameOverride:
 
 expressMode: false
 
-securityContext:
+securityContext: {}
+
+container_securityContext:
   privileged: false
   capabilities:
     add:
