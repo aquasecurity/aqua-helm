@@ -96,7 +96,6 @@ spec:
         {{- include "windowsExtraSecretEnvironmentVars" .Values | nindent 8 }}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
-        terminationGracePeriodSeconds: 180
         {{- if .Values.windowsEnforcer.TLS.enabled }}
         volumeMounts:
         - name: certs
@@ -166,10 +165,6 @@ spec:
       affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.windowsEnforcer.tolerations }}
-      tolerations:
-        {{ toYaml . | nindent 8 }}
-      {{ end }}
   updateStrategy:
     rollingUpdate:
       maxUnavailable: {{ .Values.windowsEnforcer.updateStrategy.maxUnavailable }}
