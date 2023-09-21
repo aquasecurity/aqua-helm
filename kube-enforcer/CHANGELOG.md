@@ -1,6 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.28 ( Sep 21st, 2023 )
+* Update enforcer chart version to `2022.4.16`
 ## 2022.4.27 ( Sep 14th, 2023 )
 * Update starboard version to v0.15.15
 ## 2022.4.26 ( Jul 13th, 2023 )

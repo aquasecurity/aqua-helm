@@ -1,6 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.16 ( Sep 21st, 2023 )
+* Fix PodSecurityPolicies privileged
 ## 2022.4.15 ( Jun 27th, 2023 )
 * Remove double sections in windows-enforcer template - PR[#772](https://github.com/aquasecurity/aqua-helm/pull/772)
 ## 2022.4.14 ( Jun 27th, 2023 )
