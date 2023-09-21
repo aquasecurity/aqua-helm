@@ -25,6 +25,11 @@ spec:
         {{ $key }}: {{ $value | quote }}
       {{- end }}
       {{- end }}
+      {{- if .Values.vaultSecret.enabled }}
+      {{- with .Values.vaultAnnotations }}
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- end }}
       labels:
         app: {{ .Release.Name }}-console
         aqua.component: server
@@ -50,7 +55,12 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ .Release.Name }}-web-config
+        {{- if .Values.vaultSecret.enabled }}
+        command: ["/bin/sh"]
+        args: ["-c", "source {{ .Values.vaultSecret.vaultFilepath }} && /web-entrypoint.sh"]
+        {{- end }}
         env:
+        {{- if not .Values.vaultSecret.enabled }}
         {{- if .Values.global.db.passwordFromSecret.enabled }}
         - name: SCALOCK_DBPASSWORD
           valueFrom:
@@ -104,6 +114,7 @@ spec:
               {{- end }}
           {{- end }}
         {{- end }}
+        {{- end }}
         {{- if .Values.global.db.externalDbCerts.enable }}
         - name: SSL_CERT_DIR
           value: "/etc/ext_db_certs:/etc/ssl/certs"
@@ -115,12 +126,14 @@ spec:
               name: {{ template "admin.secretName" . }}
               key: license-token
         {{- end }}
+        {{- if not .Values.vaultSecret.enabled }}
         {{- if or .Values.admin.password (not .Values.admin.createSecret) }}
         - name: ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ template "admin.secretName" . }}
               key: admin-password
+        {{- end }}
         {{- end }}
         {{- include "server.extraEnvironmentVars" .Values.web | nindent 8 }}
         {{- include "server.extraSecretEnvironmentVars" .Values.web | nindent 8 }}

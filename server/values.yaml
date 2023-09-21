@@ -34,6 +34,30 @@ serviceAccount:
 clustermode: ""
 activeactive: ""
 
+# Hashicorp Vault for secrets management
+# Below vaultSecret and vaultAnnotations section helps setting vault sidecar/init-container agents to load secrets securely
+vaultSecret:
+  enabled: false          # Enable to true once you have secrets in vault and annotations are enabled to load admin and db passwords from vault
+  vaultFilepath: ""       # Change the path to "/vault/secrets/<filename>" as per the setup
+
+# Add hashicorp Vault annotations to enable sidecar/init-container vault agent to load admin and db passwords
+# example annotations for self-hosted vault server:
+vaultAnnotations:
+  ####
+  # vault.hashicorp.com/agent-inject: "true"
+  # vault.hashicorp.com/agent-inject-status: update
+  # vault.hashicorp.com/agent-pre-populate-only: 'false'                 # Enable to true to add vault agent as init-container without sidecar
+  # vault.hashicorp.com/role: "aqua-server"                              # Specify your role used by vault agent auto-auth
+  # vault.hashicorp.com/agent-inject-secret-enforcer-server ""           # Specify your vault secrets path, e.g. `kv/aqua-server/server`
+  # vault.hashicorp.com/agent-inject-template-enforcer-server: |
+  #  {{- with secret "kv/aqua-server/server" -}}
+  #  export ADMIN_PASSWORD="{{ .Data.data.admin_password}}"              # Specify your stored vault secret keys, e.g. admin_password
+  #  export SCALOCK_DBPASSWORD="{{ .Data.data.db_password}}"
+  #  export SCALOCK_AUDIT_DBPASSWORD="{{ .Data.data.db_audit_password}}"
+  #  export AQUA_PUBSUB_DBPASSWORD="{{ .Data.data.db_pubsub_password}}"
+  #  {{- end -}}
+  ####
+
 admin:
   createSecret: true
   secretName: aqua-console-secrets
@@ -447,7 +471,7 @@ envoy:
     repository: envoy
     tag: "2022.4"
     pullPolicy: Always
-  
+
   service:
     type: LoadBalancer
     # Specify loadBalancerIP address for envoy in AKS platform

@@ -1,3 +1,4 @@
+{{- if not .Values.windowsEnforcer.allWinNodes.enable }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -28,3 +29,4 @@ data:
   {{- end }}
   AQUA_HEALTH_MONITOR_ENABLED: {{ .Values.healthMonitor.enabled | quote }}
   AQUA_EXPRESS_MODE: {{ .Values.expressMode | quote }}
+{{- end }}

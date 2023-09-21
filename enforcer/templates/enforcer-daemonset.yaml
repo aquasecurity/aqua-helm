@@ -1,3 +1,4 @@
+{{- if not .Values.windowsEnforcer.allWinNodes.enable }}
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -272,3 +273,4 @@ spec:
     rollingUpdate:
       maxUnavailable: {{ .Values.updateStrategy.maxUnavailable }}
     type: {{ .Values.updateStrategy.type }}
+{{- end }}

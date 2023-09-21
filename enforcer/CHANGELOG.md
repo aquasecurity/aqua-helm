@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.15 ( Jun 27th, 2023 )
+* Remove double sections in windows-enforcer template - PR[#772](https://github.com/aquasecurity/aqua-helm/pull/772)
+## 2022.4.14 ( Jun 27th, 2023 )
+* Add windows enforcer support
 ## 2022.4.13 ( Apr 20th, 2023 )
 * Increase enforcer memory limit in lightning to allow AMP - PR[#741](https://github.com/aquasecurity/aqua-helm/pull/741)
 ## 2022.4.12 ( Apr 10th, 2023 )

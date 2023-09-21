@@ -14,7 +14,8 @@ global:
   enforcer:
     enabled: false
   gateway:
-    # change address to gateway endpoint
+    # change address to gateway endpoint. For Saas use the hostname containing `-gw` 
+    # from your onboarding email and switch port to 443
     address: aqua-gateway-svc.aqua
     port: 8443
   # Specifies the secret data for imagePullSecrets needed to fetch the private docker images
@@ -81,7 +82,7 @@ microEnforcerImage:
 # Kubebench Image
 kubebenchImage:
   repository: "aquasec/kube-bench"  # Default aqua registry KubeBench repository name
-  tag: "v0.6.12"
+  tag: "v0.6.15"
 
 # Enable/Disable KB scanning on tainted nodes
 kubeBench:
@@ -292,7 +293,7 @@ starboard:
   image:
     repositoryUriPrefix: "docker.io/aquasec"
     repository: "starboard-operator"
-    tag: "0.15.10"
+    tag: "0.15.15"
     pullPolicy: Always
 
   container_securityContext:
@@ -312,6 +313,7 @@ starboard:
   OPERATOR_HEALTH_PROBE_BIND_ADDRESS: ":9090"
   OPERATOR_CIS_KUBERNETES_BENCHMARK_ENABLED: "false"
   OPERATOR_VULNERABILITY_SCANNER_ENABLED: "false"
+  OPERATOR_CONFIG_AUDIT_SCANNER_SCAN_ONLY_CURRENT_REVISIONS: "true"
   OPERATOR_BATCH_DELETE_LIMIT: "10"
   OPERATOR_BATCH_DELETE_DELAY: "10s"
   OPERATOR_CLUSTER_COMPLIANCE_ENABLED: false

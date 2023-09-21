@@ -4,7 +4,7 @@ metadata:
   name: configauditreports.aquasecurity.github.io
   labels:
     app.kubernetes.io/managed-by: starboard
-    app.kubernetes.io/version: "0.15.10"
+    app.kubernetes.io/version: "0.15.15"
 spec:
   group: aquasecurity.github.io
   versions:
@@ -50,6 +50,5 @@ spec:
     plural: configauditreports
     kind: ConfigAuditReport
     listKind: ConfigAuditReportList
-    categories: []
     shortNames:
       - configaudit

@@ -47,11 +47,25 @@ helm search repo aqua-helm/enforcer --versions
 ```
 
 * Install Aqua Enforcer
+  * Install enforcer on linux nodes:
 
-```shell
-helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set global.imageCredentials.create=<>,global.imageCredentials.username=<>,global.imageCredentials.password=<>,global.platform=<>,enforcerToken=<aquasec-token>
-```
+    ```shell
+    helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set global.imageCredentials.create=<>,global.imageCredentials.username=<>,global.imageCredentials.password=<>,global.platform=<>,enforcerToken=<aquasec-token>
+    ```
 
+      (or)
+
+  * Install enforcer on combination of linux and windows nodes:
+    ```shell
+      helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set global.imageCredentials.create=<>,global.imageCredentials.username=<>,global.imageCredentials.password=<>,global.platform=<>,enforcerToken=<aquasec-token>,windowsEnforcer.WinLinuxNodes.enable=true,windowsEnforcer.enforcerToken=<windows-enforcer-token>,windowsEnforcer.nodeSelector.key1=value1
+    ```
+
+      (or)
+
+  * Install enforcer on windows nodes only:
+    ```shell
+      helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set global.imageCredentials.create=<>,global.imageCredentials.username=<>,global.imageCredentials.password=<>,global.platform=<>,enforcerToken=<aquasec-token>,windowsEnforcer.allWinNodes.enable=true,windowsEnforcer.enforcerToken=<windows-enforcer-token>,windowsEnforcer.nodeSelector.key1=value1
+    ```
 
 ## Configuring Enforcer mTLS with Gateway/Envoy
   By default, deploying Aqua Enterprise configures TLS-based encrypted communication, using self-signed certificates, between Aqua components. If you want to use self-signed certificates to establish mTLS between enforcer and gateway/envoy use the below instrictions to generate rootCA and component certificates
@@ -138,54 +152,83 @@ For more details please visit [Link](https://docs.aquasec.com/docs/kubernetes#se
 
 ### Enforcer
 
-Parameter | Description                                                                                                                        | Default                                    | Mandatory
---------- |------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------| ---------
-`imageCredentials.create` | Set if to create new pull image secret                                                                                             | `false`                                    | `YES - New cluster`
-`imageCredentials.name` | Your Docker pull image secret name                                                                                                 | `aqua-registry-secret`                     | `YES - New cluster`
-`imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io`                                                                                | `registry.aquasec.com`                     | `YES - New cluster`
-`imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/`                                                                       | `registry.aquasec.com`                     | `YES - New cluster`
-`imageCredentials.username` | Your Docker registry (DockerHub, etc.) username                                                                                    | `aqua-registry-secret`                     | `YES - New cluster`
-`imageCredentials.password` | Your Docker registry (DockerHub, etc.) password                                                                                    | `unset`                                    | `YES - New cluster`
-`serviceAccount.create` | enable to create serviceaccount                                                                                                    | `false`                                    | `YES - New cluster`
-`serviceAccount.name` | service acccount name                                                                                                              | `aqua-sa`                                  | `NO`
-`clusterRole.roleRef` | cluster role reference name for cluster rolebinding                                                                                | `unset`                                    | `NO`
-`platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s)                        | `unset`                                    | `YES`
-`vaultSecret.enable` | Enable to true once you have secrets in vault and annotations are enabled to load enforcer token from hashicorp vault              | `false`                                    | `No` |
-`vaultSecret.vaultFilepath` | Change the path to "/vault/secrets/<filename>" as per the setup                                                                    | `""`                                       | `No` |
-`enforcerToken` | enforcer token value                                                                                                               | `enforcer-token`                           | `YES` if `enforcerTokenSecretName` is set to null
-`expressMode` | Install enforcer in EXPRESS MODE or not                                                                                            | `false`                                    | `YES`
-`enforcerTokenSecretName` | enforcer token secret name if exists                                                                                               | `null`                                     | `NO`
-`enforcerTokenSecretKey` | enforcer token secret key if exists                                                                                                | `null`                                     | `NO`
-`logicalName` | Specify the Logical Name the Aqua Enforcer will register under. if not specify the name will be `spec.nodeName`                    | `unset`                                    | `NO`
-`nodelName` | Specify the Node Name the Aqua Enforcer will register under. if not specify the name will be `spec.nodeName`                       | `unset`                                    | `NO`
-`securityContext.privileged` | determines if any container in a pod can enable privileged mode.                                                                   | `false`                                    | `NO`
-`securityContext.capabilities` | Linux capabilities provide a finer grained breakdown of the privileges traditionally associated with the superuser.                | `add {}`                                   | `NO`
-`podSecurityPolicy.create` | Enable Pod Security Policies with the required enforcer capabilities                                                               | `false`                                    | `NO`
-`podSecurityPolicy.privileged` | Enable privileged permissions to the Enforcer                                                                                      | `true` if podSecurityPolicy.create is `true` | `NO`
-`global.gateway.address` | Gateway host address                                                                                                               | `aqua-gateway-svc`                         | `YES`
-`global.gateway.port` | Gateway host port                                                                                                                  | `8443`                                     | `YES`
-`priorityClass.create` | If true priority class will be created                                                                                             | `False`                                    | `NO`
-`priorityClass.name` | Define the name of priority class or default value will be used                                                                    | ``                                         | `NO`
-`priorityClass.preemptionPolicy` | Preemption policy for priority class                                                                                               | `PreemptLowerPriority`                     | `NO`
-`priorityClass.value` | `The integer value of the priority`                                                                                                | `1000000`                                  | `NO`
-`image.repository` | the docker image name to use                                                                                                       | `enforcer`                                 | `YES`
-`image.tag` | The image tag to use.                                                                                                              | `2022.4`                                   | `YES`
-`image.pullPolicy` | The kubernetes image pull policy.                                                                                                  | `Always`                                   | `NO`
-`healthMonitor.enabled` | Enabling health monitoring for enforcer liveness and readiness                                                                     | `true`                                     | `YES`
-`resources` | 	Resource requests and limits                                                                                                      | `{}`                                       | `NO`
-`nodeSelector` | 	Kubernetes node selector	                                                                                                         | `{}`                                       | `NO`
-`tolerations` | 	Kubernetes node tolerations	                                                                                                      | `[]`                                       | `NO`
-`podAnnotations` | Kubernetes pod annotations                                                                                                         | `{}`                                       | `NO`
-`affinity` | 	Kubernetes node affinity                                                                                                          | `{}`                                       | `NO`
-`dnsNdots` | Modifies ndots DNS configuration for the deployment                                                                                | `unset`    | `NO`
-`TLS.enabled` | If require secure channel communication                                                                                            | `false`                                    | `NO`
-`TLS.secretName` | certificates secret name                                                                                                           | `nil`                                      | `YES` <br /> `if TLS.enabled is set to true`
-`TLS.publicKey_fileName` | filename of the public key eg: aqua_enforcer.crt                                                                                   | `nil`                                      |  `YES` <br /> `if TLS.enabled is set to true`
-`TLS.privateKey_fileName`   | filename of the private key eg: aqua_enforcer.key                                                                                  | `nil`                                      |  `YES` <br /> `if TLS.enabled is set to true`
-`TLS.rootCA_fileName` | filename of the rootCA, if using self-signed certificates eg: rootCA.crt                                                           | `nil`                                      |  `NO` <br /> `if TLS.enabled is set to true and using self-signed certificates for TLS/mTLS`
-`TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and ay/envoy                                                  | `0`                                        |  `YES` <br /> `if TLS.enabled is set to true`
-`extraEnvironmentVars` | is a list of extra environment variables to set in the enforcer daemonset.                                                         | `{}`                                       | `NO`
-`extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner daemonset, these variables take value from existing Secret objects. | `[]`                                       | `NO`
+Parameter | Description      | Default| Mandatory
+--------- |------------------|--------| ---------
+`imageCredentials.create` | Set if to create new pull image secret| `false`| `YES - New cluster`
+`imageCredentials.name` | Your Docker pull image secret name    | `aqua-registry-secret`| `YES - New cluster`
+`imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io`| `registry.aquasec.com`| `YES - New cluster`
+`imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/`| `registry.aquasec.com`| `YES - New cluster`
+`imageCredentials.username` | Your Docker registry (DockerHub, etc.) username| `aqua-registry-secret`| `YES - New cluster`
+`imageCredentials.password` | Your Docker registry (DockerHub, etc.) password| `unset`| `YES - New cluster`
+`serviceAccount.create` | enable to create serviceaccount       | `false`| `YES - New cluster`
+`serviceAccount.name` | service acccount name  | `aqua-sa`| `NO`
+`clusterRole.roleRef` | cluster role reference name for cluster rolebinding| `unset`| `NO`
+`platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s)   | `unset`| `YES`
+`vaultSecret.enable` | Enable to true once you have secrets in vault and annotations are enabled to load enforcer token from hashicorp vault | `false`| `No` |
+`vaultSecret.vaultFilepath` | Change the path to "/vault/secrets/<filename>" as per the setup     | `""`   | `No` |
+`enforcerToken` | enforcer token value   | `enforcer-token`      | `YES` if `enforcerTokenSecretName` is set to null
+`expressMode` | Install enforcer in EXPRESS MODE or not| `false`| `YES`
+`enforcerTokenSecretName` | enforcer token secret name if exists  | `null` | `NO`
+`enforcerTokenSecretKey` | enforcer token secret key if exists   | `null` | `NO`
+`logicalName` | Specify the Logical Name the Aqua Enforcer will register under. if not specify the name will be `spec.nodeName`     | `unset`| `NO`
+`nodelName` | Specify the Node Name the Aqua Enforcer will register under. if not specify the name will be `spec.nodeName`  | `unset`| `NO`
+`securityContext.privileged` | determines if any container in a pod can enable privileged mode.    | `false`| `NO`
+`securityContext.capabilities` | Linux capabilities provide a finer grained breakdown of the privileges traditionally associated with the superuser. | `add {}` | `NO`
+`podSecurityPolicy.create` | Enable Pod Security Policies with the required enforcer capabilities| `false`| `NO`
+`podSecurityPolicy.privileged` | Enable privileged permissions to the Enforcer| `true` if podSecurityPolicy.create is `true` | `NO`
+`global.gateway.address` | Gateway host address   | `aqua-gateway-svc`    | `YES`
+`global.gateway.port` | Gateway host port| `8443` | `YES`
+`priorityClass.create` | If true priority class will be created| `False`| `NO`
+`priorityClass.name` | Define the name of priority class or default value will be used     | ``     | `NO`
+`priorityClass.preemptionPolicy` | Preemption policy for priority class  | `PreemptLowerPriority`| `NO`
+`priorityClass.value` | `The integer value of the priority`   | `1000000`| `NO`
+`image.repository` | the docker image name to use | `enforcer`| `YES`
+`image.tag` | The image tag to use.  | `2022.4` | `YES`
+`image.pullPolicy` | The kubernetes image pull policy.     | `Always` | `NO`
+`healthMonitor.enabled` | Enabling health monitoring for enforcer liveness and readiness      | `true` | `YES`
+`resources` | 	Resource requests and limits| `{}`   | `NO`
+`nodeSelector` | 	Kubernetes node selector	| `{}`   | `NO`
+`tolerations` | 	Kubernetes node tolerations	| `[]`   | `NO`
+`podAnnotations` | Kubernetes pod annotations| `{}`   | `NO`
+`affinity` | 	Kubernetes node affinity| `{}`   | `NO`
+`dnsNdots` | Modifies ndots DNS configuration for the deployment| `unset`    | `NO`
+`TLS.enabled` | If require secure channel communication| `false`| `NO`
+`TLS.secretName` | certificates secret name | `nil`  | `YES` <br /> `if TLS.enabled is set to true`
+`TLS.publicKey_fileName` | filename of the public key eg: aqua_enforcer.crt| `nil`  |  `YES` <br /> `if TLS.enabled is set to true`
+`TLS.privateKey_fileName`   | filename of the private key eg: aqua_enforcer.key  | `nil`  |  `YES` <br /> `if TLS.enabled is set to true`
+`TLS.rootCA_fileName` | filename of the rootCA, if using self-signed certificates eg: rootCA.crt  | `nil`  |  `NO` <br /> `if TLS.enabled is set to true and using self-signed certificates for TLS/mTLS`
+`TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and ay/envoy        | `0`    |  `YES` <br /> `if TLS.enabled is set to true`
+`extraEnvironmentVars` | is a list of extra environment variables to set in the enforcer daemonset.| `{}`   | `NO`
+`extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner daemonset, these variables take value from existing Secret objects. | `[]`   | `NO`
+`windowsEnforcer.allWinNodes.enable` | Enable to true, If All the nodes are windows os and it deploys only windows agents on all windows nodes | `false` | `NO`
+`windowsEnforcer.WinLinuxNodes.enable` | Enable to true, If All the nodes are combination of windows os and linux, it deploys linux agents on linux nodes and  windows agents on windows nodes if nodeselector/tolerations provided according to the cluster| `false` | `NO`
+`windowsEnforcer.enforcerToken` | windows enforcer token value   | `enforcer-token`      | `YES` if `enforcerTokenSecretName` is set to null
+`windowsEnforcer.enforcerTokenSecretName` | windows enforcer token secret name if exists  | `null` | `NO`
+`windowsEnforcer.enforcerTokenSecretKey` | windows enforcer token secret key if exists   | `null` | `NO`
+`windowsEnforcer.nodeName` | Specify the windows Node Name the Aqua Enforcer will register under. if not specify the name will be `spec.nodeName`  | `unset`| `NO`
+`windowsEnforcer.securityContext` | determines if any container in a pod can enable privileged mode.    | `false`| `NO`
+`windowsEnforcer.priorityClass.create` | If true priority class will be created| `False`| `NO`
+`windowsEnforcer.priorityClass.name` | Define the name of priority class or default value will be used     | ``     | `NO`
+`windowsEnforcer.priorityClass.preemptionPolicy` | Preemption policy for priority class  | `PreemptLowerPriority`| `NO`
+`windowsEnforcer.priorityClass.value` | `The integer value of the priority`   | `1000000`| `NO`
+`windowsEnforcer.image.repository` | The windows agent docker image name to use | `enforcer`| `YES`
+`windowsEnforcer.image.tag` | The windows agent image tag to use.  | `2022.4` | `YES`
+`windowsEnforcer.image.pullPolicy` | The windows agent image pull policy.     | `Always` | `NO`
+`windowsEnforcer.healthMonitor.enabled` | Enabling health monitoring for windows enforcer liveness and readiness      | `true` | `YES`
+`windowsEnforcer.resources` | 	Resource requests and limits| `{}`   | `NO`
+`windowsEnforcer.nodeSelector` | 	windows agent node selector	| `{}`   | `NO`
+`windowsEnforcer.tolerations` | 	windows agent node tolerations of windows agent	| `[]`   | `NO`
+`windowsEnforcer.podAnnotations` | windows agent pod annotations of windows agent | `{}`   | `NO`
+`windowsEnforcer.affinity` | 	windows agent node affinity of windows agent | `{}`   | `NO`
+`windowsEnforcer.dnsNdots` | Modifies ndots DNS configuration for the windows agent deployment| `unset`    | `NO`
+`windowsEnforcer.TLS.enabled` | If require secure channel communication| `false`| `NO`
+`windowsEnforcer.TLS.secretName` | certificates secret name | `nil`  | `YES` <br /> `if TLS.enabled is set to true`
+`windowsEnforcer.TLS.publicKey_fileName` | filename of the public key eg: aqua_enforcer.crt| `nil`  |  `YES` <br /> `if TLS.enabled is set to true`
+`windowsEnforcer.TLS.privateKey_fileName`   | filename of the private key eg: aqua_enforcer.key  | `nil`  |  `YES` <br /> `if TLS.enabled is set to true`
+`windowsEnforcer.TLS.rootCA_fileName` | filename of the rootCA, if using self-signed certificates eg: rootCA.crt  | `nil`  |  `NO` <br /> `if TLS.enabled is set to true and using self-signed certificates for TLS/mTLS`
+`windowsEnforcer.TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and ay/envoy        | `0`    |  `YES` <br /> `if TLS.enabled is set to true`
+`windowsEnforcer.extraEnvironmentVars` | is a list of extra environment variables to set in the enforcer daemonset.| `{}`   | `NO`
+`windowsEnforcer.extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner daemonset, these variables take value from existing Secret objects. | `[]`   | `NO`
 
 > Note: that `imageCredentials.create` is false and if you need to create image pull secret please update to true, set the username and password for the registry and `serviceAccount.create` is false and if you're environment is new or not having aqua-sa serviceaccount please update it to true.
 

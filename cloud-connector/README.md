@@ -55,7 +55,7 @@ helm upgrade --install --namespace aqua aqua-cloud-connector aqua-helm/cloud-con
 | `imageCredentials.registry`            | set the registry url for dockerhub set `index.docker.io/v1/`                       | `registry.aquasec.com`  | `YES - New cluster`                          |
 | `imageCredentials.username`            | Your Docker registry (DockerHub, etc.) username                                    | `aqua-registry-secret`  | `YES - New cluster`                          |
 | `imageCredentials.password`            | Your Docker registry (DockerHub, etc.) password                                    | `""`                    | `YES - New cluster`                          |
-| `serviceAccount.create`                | enable to create aqua-sa serviceaccount if it is missing in the environment        | `false`                 | `YES - New cluster`                          |
+| `serviceaccount.create`                | enable to create aqua-sa serviceaccount if it is missing in the environment        | `false`                 | `YES - New cluster`                          |
 | `image.repository`                     | the docker image name to use                                                       | `cc-standard`           | `YES`                                        |
 | `image.tag`                            | The image tag to use.                                                              | `2022.4`                | `YES`                                        |
 |  `image.pullPolicy`                    | The kubernetes image pull policy                                                   | `Always`                | `NO`                                         |

@@ -15,7 +15,8 @@ global:
   enforcer:
     enabled: false
   gateway:
-    # change address to gateway endpoint
+    # change address to gateway endpoint. For Saas use the hostname containing `-gw`
+    # from your onboarding email and switch port to 443
     address: aqua-gateway-svc.aqua
     port: 8443
   imageCredentials:
@@ -149,6 +150,7 @@ affinity: {}
 dnsPolicy: "ClusterFirst"
 dnsNdots:
 hostPID: "true"
+hostRunPath: ""
 schedulerName: "default-scheduler"
 terminationGracePeriodSeconds: "30"
 
@@ -192,3 +194,135 @@ extraSecretEnvironmentVars: []
   # - envName: ENV_NAME
   #   secretName: name
   #   secretKey: key
+
+windowsEnforcer:
+  ## To Enable Windows Enforcer to deploy on windows agents
+  allWinNodes: # Enable to true, If All the nodes are windows os
+    enable: false
+
+  WinLinuxNodes: # Enable to true, If nodes are combination of linux and windows os
+    enable: false
+
+  # Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
+  enforcerToken: enforcer-token
+
+  # Use these values to reference a pre-existing secret for the enforcer token.
+  # Setting these values will make the chart ignore the content of enforcerToken
+  enforcerTokenSecretName: null
+  enforcerTokenSecretKey: null
+
+  nodeName:
+
+  securityContext:
+    windowsOptions:
+      hostProcess: true
+      runAsUserName: "NT AUTHORITY\\SYSTEM"
+
+  multiple_gateway: # enable this to connect enforcer with multiple gateways
+    enabled: false
+  # use the below hosts to add multiple gateways as required to enforcer. Format is <hostname>:<port_number>
+  multi_gates:
+  - aqua-gateway1-svc:8443 #example gateway 1
+  - aqua-gateway2-svc:8443 #example gateway 2
+
+
+  image:
+    repository: windows-enforcer
+    tag: "2022.4"
+    pullPolicy: Always
+
+  restartPolicy: Always
+
+  healthMonitor:
+    enabled: "true"
+
+  livenessProbe:
+    exec:
+      command:
+      - powershell.exe
+      - -c
+      - Get-Service -Name slkd
+    initialDelaySeconds: 15
+    periodSeconds: 15
+
+  readinessProbe:
+    exec:
+      command:
+      - powershell.exe
+      - -c
+      - Get-Service -Name slkd  | Where-Object {$_.Status -eq "Running"}
+    initialDelaySeconds: 15
+    periodSeconds: 15
+
+  resources: {}
+    # Note: For recommendations please check the official sizing guide.
+    # requests:
+    #   cpu: 350m
+    #   memory: 0.512Gi
+    # limits:
+    #   cpu: 1500m
+    #   memory: 1.5Gi
+
+  # Add nodeselector of windows agents
+  nodeSelector: {}
+    #kubernetes.io/os: windows
+
+  # Add tolerations of windows agents
+  tolerations: []
+    #- key: "kubernetes.io/os"
+    #  operator: "Equal"
+    #  value: "windows"
+    #  effect: "NoSchedule"
+
+  podAnnotations: {}
+  podLabels: {}
+  affinity: {}
+  #  my-annotation-key: my value; more value
+
+  dnsPolicy: "ClusterFirst"
+  dnsNdots: ""
+  hostNetwork: "true"
+  hostPID: "true"
+  schedulerName: "default-scheduler"
+  terminationGracePeriodSeconds: "30"
+
+  updateStrategy:
+    maxUnavailable: 1
+    type: "RollingUpdate"
+
+  priorityClass:
+    create: false
+    name:
+    preemptionPolicy: "PreemptLowerPriority"
+    value: 1000000
+
+  TLS:
+    enabled: false
+    # provide certificates secret name created to enable tls/mtls communication between enforcer and gateway/envoy
+    secretName: ""
+    #provide filename of the public key eg: aqua_enforcer.crt
+    publicKey_fileName: ""
+    #provide filename of the private key eg: aqua_enforcer.key
+    privateKey_fileName: ""
+    #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
+    rootCA_fileName: ""
+    # change it to true for enabling mTLS between enforcer and gateway/envoy
+    tls_verify: false
+
+  # extraEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
+  # https://docs.aquasec.com/docs/enforcer-optional-variables
+  # The variables could be provided via values.yaml file as shown below
+  # or using cli command, for example:  --set extraEnvironmentVars.http_proxy="1.1.1.1",extraEnvironmentVars.https_proxy="2.2.2.2"
+  extraEnvironmentVars: {}
+    # http_proxy:
+    # https_proxy:
+    # no_proxy:
+    # AQUA_OCP_FULL_VERSION: <OCP version> #set this variable with the exact OCP version to allow accurate vulnerability scanning
+    # ENV_NAME: value
+
+  # extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
+  # These variables take value from existing Secret objects.
+  extraSecretEnvironmentVars: []
+    # - envName: ENV_NAME
+    #   secretName: name
+    #   secretKey: key

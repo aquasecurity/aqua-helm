@@ -85,6 +85,37 @@ Inject extra environment populated by secrets, if populated
 {{- end -}}
 
 {{/*
+Windows Enforcer, Inject extra environment vars in the format key:value, if populated
+*/}}
+{{- define "windowsExtraEnvironmentVars" -}}
+{{ if .windowsEnforcer.extraEnvironmentVars -}}
+{{ range $key, $value := .windowsEnforcer.extraEnvironmentVars }}
+{{ if or (eq ( $key | lower ) "http_proxy") (eq ( $key | lower ) "https_proxy") (eq ( $key | lower ) "no_proxy") }}
+- name: {{ printf "%s" $key | replace "." "_" | lower | quote }}
+{{ else }}
+- name: {{ printf "%s" $key | replace "." "_" | upper | quote }}
+{{ end }}
+  value: {{ $value | quote }}
+{{- end }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Windows EnforcerInject extra environment populated by secrets, if populated
+*/}}
+{{- define "windowsExtraSecretEnvironmentVars" -}}
+{{- if .windowsEnforcer.extraSecretEnvironmentVars -}}
+{{- range .windowsEnforcer.extraSecretEnvironmentVars }}
+- name: {{ .envName }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ .secretName }}
+      key: {{ .secretKey }}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 {{- define "platform" }}
 {{- printf "%s" (required "A valid Values.global.platform entry required" .Values.global.platform ) | replace "\n" "" }}
 {{- end }}

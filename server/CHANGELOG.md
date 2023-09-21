@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.18 (Jun 30th, 2023)
+* Fix openshift scc
+## 2022.4.17 (Jun 27th, 2023)
+* Add vault agent injection support for db secrets
 ## 2022.4.16 (May 28, 2023)
 * Add support for external web secret
 
@@ -15,7 +19,7 @@ All notable changes to this project will be documented in this file.
 * Update gateway chart version to `2022.4.12`
 
 ## 2022.4.13 (Mar 6th, 2023)
-* Add support policy/v1beta1 and policy/v1 based on cluster version 
+* Add support policy/v1beta1 and policy/v1 based on cluster version
 * Add option to add annotation to the gateway serviceAccount
 
 ## 2022.4.12 (Feb 7th, 2023)

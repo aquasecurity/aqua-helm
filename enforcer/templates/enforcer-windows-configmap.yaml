@@ -1,0 +1,19 @@
+{{- if or (.Values.windowsEnforcer.allWinNodes.enable) (.Values.windowsEnforcer.WinLinuxNodes.enable) }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-windows-enforcer-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-windows-ds
+    aqua.component: windows-enforcer
+{{ include "aqua.labels" . | indent 4 }}
+data:
+  {{- if .Values.multiple_gateway.enabled }}
+  AQUA_SERVER: {{ join "," .Values.multi_gates }}
+  {{- else }}
+  AQUA_SERVER: {{ .Values.global.gateway.address | default "aqua-gateway-svc" }}:{{ .Values.global.gateway.port | default "8443" }}
+  {{- end }}
+  AQUA_ENFORCER_TYPE: "full"
+{{- end }}

@@ -21,6 +21,9 @@ rules:
   - apiGroups: ["operator.openshift.io"]
     resources: ["imagecontentsourcepolicies"]
     verbs: ["get", "list", "watch"]
+  - apiGroups: [ "apps.openshift.io" ]
+    resources: [ "deploymentconfigs" ]
+    verbs: [ "get", "list", "watch" ]
   {{- end }}
   - apiGroups:
       - "*"
@@ -134,6 +137,7 @@ rules:
       - watch
   - apiGroups:
       - networking.k8s.io
+      - extensions
     resources:
       - networkpolicies
       - ingresses
@@ -171,4 +175,12 @@ rules:
       - create
       - get
       - update
+  - apiGroups:
+      - apps.openshift.io
+    resources:
+      - deploymentconfigs
+    verbs:
+      - get
+      - list
+      - watch
 {{- end }}
