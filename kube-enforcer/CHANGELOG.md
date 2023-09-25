@@ -1,3 +1,5 @@
+## 6.5.24 ( Sep 14th, 2023 )
+* Update Starboard to 0.15.15
 ## 6.5.23 ( Mar 21st, 2023 )
 * Fix starboard tolerations
 ## 6.5.22 ( January 9th, 2023 )
