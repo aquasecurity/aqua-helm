@@ -61,7 +61,7 @@ metadata:
     app: {{ .Release.Name }}
     aqua.component: server
 spec:
-  privileged: {{ .Values.podSecurityPolicy.privileged }}
+  privileged: {{ .Values.securityContext.privileged }}
   allowedCapabilities:
   - '*'
   fsGroup:
@@ -74,6 +74,12 @@ spec:
     rule: RunAsAny
   volumes:
   - '*'
+  hostPID: true
+  hostIPC: true
+  hostNetwork: true
+  hostPorts:
+  - min: 1
+    max: 65536
 {{- end }}
 ---
 ## Openshift RBAC

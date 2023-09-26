@@ -1,13 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2022.4.27 ( Sep 5th, 2023 )
+## 2022.4.29 ( Sep 26th, 2023 )
 * Add Trivy installation to kube-enforcer
 
 ### ⚠ BREAKING CHANGES
-The following upgrade will uninstall Starboard and replace it with Trivy. 
+The following upgrade will uninstall Starboard and replace it with Trivy.
 The ```clusterconfigauditreports.aquasecurity.github.io``` and ```configauditreports.aquasecurity.github.io``` CustomResourceDefinitions need to be deleted before upgrading.
 
+## 2022.4.28 ( Sep 21st, 2023 )
+* Update enforcer chart version to `2022.4.16`
+
+## 2022.4.27 ( Sep 14th, 2023 )
+* Update starboard version to v0.15.15
 ## 2022.4.26 ( Jul 13th, 2023 )
 * Fix Openshift SecurityContextConstraints
 

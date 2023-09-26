@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.19 (Sep 21st, 2023)
+* Update pre-upgrade hook to support mtls with external DB
+* Update server deployment for extra volumes / volumemounts - PR[#776](https://github.com/aquasecurity/aqua-helm/pull/776)
+
 ## 2022.4.18 (Jun 30th, 2023)
 * Fix openshift scc
 ## 2022.4.17 (Jun 27th, 2023)
