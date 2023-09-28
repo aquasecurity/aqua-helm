@@ -1,8 +1,8 @@
 apiVersion: v2
 appVersion: "2022.4"
-description: A Helm chart for the Aqua KubeEnforcer Starboard
+description: A Helm chart for the Aqua KubeEnforcer
 name: kube-enforcer
-version: "2022.4.28"
+version: "2022.4.29"
 dependencies:
   - name: enforcer
     version: "2022.4.16"

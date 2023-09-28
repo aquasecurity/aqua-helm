@@ -275,8 +275,32 @@ extraVolumeMounts: []
 # extraVolumes is a list of volumes that can be mounted inside the KubeEnforcer deployment
 extraVolumes: []
 
-starboard:
+trivy:
   enabled: true
+  appName: "trivy-operator"
+  image:
+    registry: "docker.io/aquasec"
+    repository: "trivy-operator"
+    tag: "0.11.0"
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  ports:
+    metricContainerPort: 8080
+    probeContainerPort: 9090
+  serviceAccount:
+    create: true
+    name: "trivy-operator"
+  livenessProbe:
+    httpGet:
+      path: /healthz/
+      port: probes
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 10
+
+starboard:
+  enabled: false
   replicaCount: "1"
   appName: "starboard-operator"
   serviceAccount:
