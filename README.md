@@ -27,11 +27,11 @@ This repository includes the following charts; they can be deployed separately:
 
 | Chart                               | Description                                                                                                                                                   | Latest Chart Version |
 |-------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
-| [Server](server/)                   | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component                                                                     | 2022.4.19            |
+| [Server](server/)                   | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component                                                                     | 2022.4.20            |
 | [Enforcer](enforcer/)               | Deploys the Aqua Enforcer daemonset                                                                                                                           | 2022.4.16            |
 | [Scanner](scanner/)                 | Deploys the Aqua Scanner deployment                                                                                                                           | 2022.4.5             |
 | [KubeEnforcer](kube-enforcer/)      | Deploys Aqua KubeEnforcer                                                                                                                                     | 2022.4.28            |
-| [Gateway](gateway)                  | Deploys the Aqua Standalone Gateway                                                                                                                           | 2022.4.12            |
+| [Gateway](gateway)                  | Deploys the Aqua Standalone Gateway                                                                                                                           | 2022.4.13            |
 | [Tenant-Manager](tenant-manager/)   | Deploys the Aqua Tenant Manager                                                                                                                               | 2022.4.0             |
 | [Cyber Center](cyber-center/)       | Deploys Aqua CyberCenter offline for air-gap environment                                                                                                      | 2022.4.2             |
 | [Cloud Connector](cloud-connector/) | Deploys the Aqua Cloud Connector                                                                                                                              | 2022.4.4             |
