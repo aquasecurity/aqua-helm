@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.13 (Sep 4th, 2023)
+* Change to include topologyspreadconstraint for gateway - PR[#778](https://github.com/aquasecurity/aqua-helm/pull/778)
+
 ## 2022.4.12 (Apr 10th, 2023)
 * Change standard name for gateway serviceaccount - PR[#725](https://github.com/aquasecurity/aqua-helm/pull/725)
 

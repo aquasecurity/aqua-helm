@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.20 (Sep 4th, 2023)
+* Change to include topologyspreadconstraint for gateway - PR[#778](https://github.com/aquasecurity/aqua-helm/pull/778)
+
 ## 2022.4.19 (Sep 21st, 2023)
 * Update pre-upgrade hook to support mtls with external DB
 * Update server deployment for extra volumes / volumemounts - PR[#776](https://github.com/aquasecurity/aqua-helm/pull/776)
