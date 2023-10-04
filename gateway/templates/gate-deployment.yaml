@@ -33,6 +33,19 @@ spec:
 {{ include "aqua.labels" . | indent 8 }}
       name: {{ .Release.Name }}-gateway
     spec:
+    {{- if .Values.topologySpreadConstraints.enabled }}
+    {{- $releaseName := .Release.Name }}
+      topologySpreadConstraints:
+        {{- range $.Values.topologySpreadConstraints.constraints }}
+        - maxSkew: {{ .maxSkew }}
+          topologyKey: {{ .topologyKey | quote }}
+          whenUnsatisfiable: {{ .whenUnsatisfiable | quote }}
+          labelSelector:
+            matchLabels:
+              app: {{ printf "%s-%s" $releaseName "gateway" | quote }}
+        {{- end }}
+      {{- end }}
+      
       {{- with .Values.securityContext }}
       securityContext:
 {{ toYaml . | indent 8 }}
