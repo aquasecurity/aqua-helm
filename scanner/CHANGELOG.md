@@ -1,6 +1,9 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## 2022.4.6 (Sep 28th, 2023)
+* Add RBAC configuration - SLK-72111
+* 
 ## 2022.4.5 (Jul 19th, 2023)
 * Fix scanner persistence volume
 

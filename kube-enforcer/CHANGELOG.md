@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.30 ( Oct 4th, 2023 )
+* Update auto-generate-tls.yaml timeoutSeconds
+
 ## 2022.4.29 ( Sep 26th, 2023 )
 * Add Trivy installation to kube-enforcer
 

@@ -82,7 +82,7 @@ webhooks:
       service:
         namespace: {{ .Release.Namespace }}
         name: {{ include "kube-enforcer.fullname" . }}
-    timeoutSeconds: 5
+    timeoutSeconds: {{ .Values.webhooks.validatingWebhook.timeout }}
     admissionReviewVersions: ["v1beta1"]
 ---
 apiVersion: admissionregistration.k8s.io/v1
@@ -116,6 +116,6 @@ webhooks:
         namespace: {{ .Release.Namespace }}
         name: {{ include "kube-enforcer.fullname" . }}
         path: "/mutate"
-    timeoutSeconds: 5
+    timeoutSeconds: {{ .Values.webhooks.mutatingWebhook.timeout }}
     admissionReviewVersions: ["v1beta1"]
 {{- end }}

@@ -127,6 +127,9 @@ Parameter | Description                                                         
 `podAnnotations` | Kubernetes pod annotations                                                                                                                                  | `{}`                   | `NO`
 `extraEnvironmentVars` | is a list of extra environment variables to set in the scanner deployments.                                                                                 | `{}`                   | `NO`
 `extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner deployments, these variables take value from existing Secret objects.                        | `[]`                   | `NO`
+`rbac.create` | to create default cluster-role and cluster-role bindings according to the platform                                                                                                                 | `true`                                       | `NO`
+`clusterRole.roleRef` | cluster role reference name for cluster rolebinding                                                                                                                                                | `unset`                                      | `NO`
+
 ## Issues and feedback
 
 If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub.
