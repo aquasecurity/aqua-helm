@@ -127,6 +127,9 @@ Parameter | Description                                                         
 `podAnnotations` | Kubernetes pod annotations                                                                                                                                  | `{}`                   | `NO`
 `extraEnvironmentVars` | is a list of extra environment variables to set in the scanner deployments.                                                                                 | `{}`                   | `NO`
 `extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner deployments, these variables take value from existing Secret objects.                        | `[]`                   | `NO`
+`additionalVolumes` | is a list of extra volumes necessary to mount inside of the scanner container.                        | `[]`                   | `NO`
+`additionalVolumeMounts` | is a list of extra mount points for the additional volumes.                        | `[]`                   | `NO`
+
 ## Issues and feedback
 
 If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub.

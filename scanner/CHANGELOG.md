@@ -1,6 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## 2022.4.6 (Sept 6th, 2023)
+* Fix scanner persistence to allow for multiple scanners
+* Add support for custom volumes and mount points
+
 ## 2022.4.5 (Jul 19th, 2023)
 * Fix scanner persistence volume
 
