@@ -123,4 +123,8 @@ spec:
             readOnlyRootFilesystem: true
       securityContext:
         {}
+      {{- with .Values.starboard.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}
