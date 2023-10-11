@@ -123,7 +123,7 @@ spec:
             readOnlyRootFilesystem: true
       securityContext:
         {}
-      {{- with .Values.starboard.nodeSelector }}
+      {{- with .Values.trivy.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
