@@ -45,6 +45,10 @@ spec:
       priorityClassName: {{ template "priorityClass" . }}
       {{- end }}
       serviceAccount: {{ template "agentServiceAccount" . }}
+      {{- if .Values.windowsEnforcer.imageCredentials.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{- .Values.windowsEnforcer.imageCredentials.imagePullSecrets.secretName }}
+      {{- end }}
       containers:
       - name: aqua-windows-enforcer
         {{- if .Values.windowsEnforcer.imageCredentials.repositoryUriPrefix }}

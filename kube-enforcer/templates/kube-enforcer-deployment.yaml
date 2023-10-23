@@ -49,6 +49,10 @@ spec:
       priorityClassName: {{ template "priorityClass" . }}
       {{- end }}
       serviceAccountName: {{ template "serviceAccount" . }}
+      {{- if .Values.imageCredentials.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{- .Values.imageCredentials.imagePullSecrets.secretName }}
+      {{- end }}
       containers:
         - name: kube-enforcer
           {{- with .Values.container_securityContext }}

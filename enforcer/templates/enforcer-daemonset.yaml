@@ -56,6 +56,10 @@ spec:
       priorityClassName: {{ template "priorityClass" . }}
       {{- end }}
       serviceAccount: {{ template "agentServiceAccount" . }}
+      {{- if .Values.enforcer.imageCredentials.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{- .Values.enforcer.imageCredentials.imagePullSecrets.secretName }}
+      {{- end }}
       containers:
       - name: enforcer
         {{- if and .Values.enforcer.imageCredentials.repositoryUriPrefix .Values.enforcer.image.repository .Values.enforcer.image.tag }}
