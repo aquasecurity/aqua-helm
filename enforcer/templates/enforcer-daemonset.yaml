@@ -58,7 +58,13 @@ spec:
       serviceAccount: {{ template "agentServiceAccount" . }}
       containers:
       - name: enforcer
+        {{- if and .Values.enforcer.imageCredentials.repositoryUriPrefix .Values.enforcer.image.repository .Values.enforcer.image.tag }}
+        image: "{{ .Values.enforcer.imageCredentials.repositoryUriPrefix }}/{{ .Values.enforcer.image.repository }}:{{ .Values.enforcer.image.tag }}"
+        {{- else if .Values.enforcer.imageCredentials.repositoryUriPrefix }}
+        image: "{{ .Values.enforcer.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        {{- else }}
         image: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        {{- end }}
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         securityContext:
           {{- toYaml .Values.securityContext | nindent 10 }}

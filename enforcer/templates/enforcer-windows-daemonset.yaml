@@ -47,7 +47,11 @@ spec:
       serviceAccount: {{ template "agentServiceAccount" . }}
       containers:
       - name: aqua-windows-enforcer
+        {{- if .Values.windowsEnforcer.imageCredentials.repositoryUriPrefix }}
+        image: "{{ .Values.windowsEnforcer.imageCredentials.repositoryUriPrefix }}/{{ .Values.windowsEnforcer.image.repository }}:{{ .Values.windowsEnforcer.image.tag }}"
+        {{- else }}
         image: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.windowsEnforcer.image.repository }}:{{ .Values.windowsEnforcer.image.tag }}"
+        {{- end }}
         imagePullPolicy: "{{ .Values.windowsEnforcer.image.pullPolicy }}"
         securityContext:
           {{- toYaml .Values.windowsEnforcer.securityContext | nindent 10 }}

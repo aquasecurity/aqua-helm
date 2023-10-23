@@ -55,7 +55,11 @@ spec:
           securityContext:
 {{ toYaml . | indent 12 }}
           {{- end }}
+          {{- if .Values.imageCredentials.repositoryUriPrefix }}
+          image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- else }}
           image: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
           {{- if .Values.vaultSecret.enabled }}
           command: ["/bin/sh"]
@@ -123,7 +127,11 @@ spec:
 {{- end }}
 {{- if .Values.kubeEnforcerAdvance.enable }}
         - name: envoy
+          {{- if .Values.kubeEnforcerAdvance.imageCredentials.repositoryUriPrefix }}
+          image: "{{ .Values.kubeEnforcerAdvance.imageCredentials.repositoryUriPrefix }}/{{ .Values.kubeEnforcerAdvance.envoy.image.repository }}:{{ .Values.kubeEnforcerAdvance.envoy.image.tag }}"
+          {{- else }}
           image: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.kubeEnforcerAdvance.envoy.image.repository }}:{{ .Values.kubeEnforcerAdvance.envoy.image.tag }}"
+          {{- end }}
           imagePullPolicy: "{{ .Values.kubeEnforcerAdvance.envoy.image.pullPolicy }}"
           command: ["/bin/sh", "-c", "cp /etc/envoy/cds.yaml /etc/aquasec/envoy/cds.yaml && touch /etc/aquasec/envoy/ca-certificates.crt && envoy -c /etc/envoy/envoy.yaml"]
           ports:
