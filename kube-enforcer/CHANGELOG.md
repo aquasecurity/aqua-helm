@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.31 ( Oct 24th, 2023 )
+* Add support for trivy resource definition
+
 ## 2022.4.30 ( Oct 4th, 2023 )
 * Update auto-generate-tls.yaml timeoutSeconds
 

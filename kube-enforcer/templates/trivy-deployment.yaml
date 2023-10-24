@@ -112,8 +112,17 @@ spec:
           livenessProbe:
           {{ toYaml . | nindent 12 }}
           {{- end }}
+          {{- if  (not .Values.trivy.resources)  }}
           resources:
-            {}
+            requests:
+              cpu: "500m"
+              memory: "125Mi"
+            limits:
+              cpu: "1000m"
+              memory: "500Mi"
+          {{- else }}
+          resources: {{ toYaml .Values.trivy.resources | nindent 12 }}
+          {{- end }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -122,5 +131,5 @@ spec:
             privileged: false
             readOnlyRootFilesystem: true
       securityContext:
-        {}
+        { }
 {{- end }}
