@@ -28,6 +28,10 @@ spec:
     spec:
       serviceAccountName: {{ template "serviceAccountTrivy" . }}
       automountServiceAccountToken: true
+      {{- if .Values.trivy.image.secretName}}
+      imagePullSecrets:
+        - name: {{ .Values.trivy.image.secretName }}
+      {{- end }}
       containers:
         - name: {{ .Values.trivy.appName }}
           image: "{{ .Values.trivy.image.registry }}/{{ .Values.trivy.image.repository }}:{{ .Values.trivy.image.tag }}"
