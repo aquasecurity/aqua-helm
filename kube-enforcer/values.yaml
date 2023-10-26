@@ -301,6 +301,7 @@ trivy:
     successThreshold: 1
     failureThreshold: 10
   resources: {}
+  nodeSelector: {}
 
 starboard:
   enabled: false
