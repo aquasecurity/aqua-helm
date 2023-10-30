@@ -26,7 +26,7 @@ data:
   AQUA_KB_ME_REGISTRY_NAME: "{{ template "registrySecret" .  }}"
   {{- end }}
   {{- if .Values.global.enforcer.enabled }}
-  AQUA_ENFORCER_DS_NAME: aqua-enforcer-ds
+  AQUA_ENFORCER_DS_NAME: {{ .Release.Name }}-ds
   {{ else if ne .Values.enforcer_ds_name "" }}
   AQUA_ENFORCER_DS_NAME: {{ .Values.enforcer_ds_name }}
   {{- end }}

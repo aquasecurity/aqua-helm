@@ -283,6 +283,8 @@ trivy:
     repository: "trivy-operator"
     tag: "0.11.0"
     pullPolicy: IfNotPresent
+    # Reference the secret for private registry
+    secretName: ""
   replicaCount: 1
   ports:
     metricContainerPort: 8080
@@ -298,6 +300,7 @@ trivy:
     periodSeconds: 10
     successThreshold: 1
     failureThreshold: 10
+  resources: {}
   nodeSelector: {}
 
 starboard:

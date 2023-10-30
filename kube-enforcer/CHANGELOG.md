@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.31 ( Oct 24th, 2023 )
+* Add support for trivy resource definition SLK-74400
+* Add support for trivy images pull for private registry SLK-74401
+* Fix AQUA_ENFORCER_DS_NAME KubeEnforcer configMap value SLK-74436
+* Add certs secret to checksum/config of deployment PR[#784](https://github.com/aquasecurity/aqua-helm/pull/784)
+* Add nodeSelector to trivy operator PR[#786](https://github.com/aquasecurity/aqua-helm/pull/786)
+
 ## 2022.4.30 ( Oct 4th, 2023 )
 * Update auto-generate-tls.yaml timeoutSeconds
 
