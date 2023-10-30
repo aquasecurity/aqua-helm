@@ -28,7 +28,7 @@ spec:
     spec:
       serviceAccountName: {{ template "serviceAccountTrivy" . }}
       automountServiceAccountToken: true
-      {{- if .Values.trivy.image.secretName}}
+     {{- if ne .Values.trivy.image.secretName "" }}
       imagePullSecrets:
         - name: {{ .Values.trivy.image.secretName }}
       {{- end }}
