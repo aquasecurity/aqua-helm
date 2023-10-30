@@ -101,6 +101,13 @@ webhooks:
   annotations:
     cert-manager.io/inject-ca-from: < namespace >/< certsSecret.name >
 ```
+and
+```shell
+mutatingWebhook:
+  certManager: true
+  annotations:
+    cert-manager.io/inject-ca-from: < namespace >/< certsSecret.name >
+```
 
 ## Deploy the Helm chart
 ### Deploy the KubeEnforcer with Starboard from a Helm private repository
