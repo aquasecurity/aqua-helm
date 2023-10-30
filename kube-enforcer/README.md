@@ -98,15 +98,12 @@ You need set `webhook.certManager` to be `true` and add [annotations](https://ce
 ```shell
 webhooks:
   certManager: true
-  annotations:
-    cert-manager.io/inject-ca-from: < namespace >/< certsSecret.name >
-```
-and
-```shell
-mutatingWebhook:
-  certManager: true
-  annotations:
-    cert-manager.io/inject-ca-from: < namespace >/< certsSecret.name >
+  validatingWebhook:
+    annotations:
+      cert-manager.io/inject-ca-from: < namespace >/< certsSecret.name >
+  mutatingWebhook:
+    annotations:
+      cert-manager.io/inject-ca-from: < namespace >/< certsSecret.name >
 ```
 
 ## Deploy the Helm chart
