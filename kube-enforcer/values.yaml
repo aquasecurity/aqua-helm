@@ -302,7 +302,8 @@ trivy:
     failureThreshold: 10
   resources: {}
   nodeSelector: {}
-
+  securityContext: {}
+  
 starboard:
   enabled: false
   replicaCount: "1"
