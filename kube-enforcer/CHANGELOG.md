@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## 2022.4.32 ( Nov 8th, 2023 )
-* Make starboard operator as default, and Trivy operator as optional with KE deployment
+* Change starboard operator as default, and Trivy operator as optional with KE deployment
 
 ## 2022.4.31 ( Oct 24th, 2023 )
 * Add support for trivy resource definition SLK-74400
