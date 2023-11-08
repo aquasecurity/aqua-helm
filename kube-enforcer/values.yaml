@@ -275,36 +275,8 @@ extraVolumeMounts: []
 # extraVolumes is a list of volumes that can be mounted inside the KubeEnforcer deployment
 extraVolumes: []
 
-trivy:
-  enabled: true
-  appName: "trivy-operator"
-  image:
-    registry: "docker.io/aquasec"
-    repository: "trivy-operator"
-    tag: "0.11.0"
-    pullPolicy: IfNotPresent
-    # Reference the secret for private registry
-    secretName: ""
-  replicaCount: 1
-  ports:
-    metricContainerPort: 8080
-    probeContainerPort: 9090
-  serviceAccount:
-    create: true
-    name: "trivy-operator"
-  livenessProbe:
-    httpGet:
-      path: /healthz/
-      port: probes
-    initialDelaySeconds: 5
-    periodSeconds: 10
-    successThreshold: 1
-    failureThreshold: 10
-  resources: {}
-  nodeSelector: {}
-
 starboard:
-  enabled: false
+  enabled: true
   replicaCount: "1"
   appName: "starboard-operator"
   serviceAccount:
@@ -375,6 +347,36 @@ starboard:
   tolerations: []
   podAnnotations: {}
   affinity: {}
+
+## To Enable Trivy Operator instead of Starboard Operator
+trivy:
+  enabled: false    #Enable to install trivy operator and make starboard.enabled to false(only one operator can be enabled for KE per deployment)
+  appName: "trivy-operator"
+  image:
+    registry: "docker.io/aquasec"
+    repository: "trivy-operator"
+    tag: "0.11.0"
+    pullPolicy: IfNotPresent
+    # Reference the secret for private registry
+    secretName: ""
+  replicaCount: 1
+  ports:
+    metricContainerPort: 8080
+    probeContainerPort: 9090
+  serviceAccount:
+    create: true
+    name: "trivy-operator"
+  livenessProbe:
+    httpGet:
+      path: /healthz/
+      port: probes
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 10
+  resources: {}
+  nodeSelector: {}
+
 
 ##Kube Enforcer advance deployment options
 ### Advanced Deployment (for Pod Enforcer injection)
