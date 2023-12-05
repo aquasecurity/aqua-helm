@@ -168,10 +168,12 @@ webhooks:
   caBundle: ""
   failurePolicy: Ignore
   validatingWebhook:
+    enabled: true
     name: "kube-enforcer-admission-hook-config"
     timeout: 2
     annotations: {}
   mutatingWebhook:
+    enabled: true
     name: "kube-enforcer-me-injection-hook-config"
     timeout: 2
     annotations: {}
