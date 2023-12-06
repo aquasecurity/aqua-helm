@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.33 ( Dec 5th, 2023 )
+* Add option to enable/disable validating and mutating webhook PR[#805](https://github.com/aquasecurity/aqua-helm/pull/805)
+
 ## 2022.4.32 ( Nov 8th, 2023 )
 * Change starboard operator as default, and Trivy operator as optional with KE deployment
 
