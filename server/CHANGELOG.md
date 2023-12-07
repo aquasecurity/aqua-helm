@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.21 (Dec 5 th, 2023)
+* Allow the API version of PodDisruptionBudget to be overridden [#807](https://github.com/aquasecurity/aqua-helm/pull/807)
+
+## 2022.4.20 (Nov 9th, 2023)
+* Fix db crashing during the helm upgrade
+
 ## 2022.4.19 (Sep 21st, 2023)
 * Update pre-upgrade hook to support mtls with external DB
 * Update server deployment for extra volumes / volumemounts - PR[#776](https://github.com/aquasecurity/aqua-helm/pull/776)

@@ -1,3 +1,4 @@
+{{- if .Values.webhooks.mutatingWebhook.enabled }}
 {{- if not .Values.certsSecret.autoGenerate }}
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
@@ -32,4 +33,5 @@ webhooks:
         path: "/mutate"
     timeoutSeconds: {{ .Values.webhooks.mutatingWebhook.timeout }}
     admissionReviewVersions: ["v1beta1"]
+{{- end }}
 {{- end }}

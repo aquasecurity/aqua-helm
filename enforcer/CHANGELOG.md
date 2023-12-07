@@ -1,6 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.17 ( Oct 31st, 2023 )
+* SLK-73499 - Add robustness to removal of windows-enforcer - PR[#797](https://github.com/aquasecurity/aqua-helm/pull/797)
 ## 2022.4.16 ( Sep 21st, 2023 )
 * Fix PodSecurityPolicies privileged
 ## 2022.4.15 ( Jun 27th, 2023 )

@@ -10,6 +10,8 @@ metadata:
     aqua.component: database
 {{ include "aqua.labels" . | indent 4 }}
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: {{ .Release.Name }}-database
@@ -73,6 +75,10 @@ spec:
         {{- end }}
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
         imagePullPolicy: "{{ .Values.global.db.image.pullPolicy }}"
+        lifecycle:
+          preStop:
+            exec:
+              command: [ "/usr/local/bin/pg_ctl stop -D /var/lib/postgresql/data -w -t 60 -m fast" ]
         envFrom:
         - configMapRef:
             name: {{ .Release.Name }}-db-config
@@ -143,6 +149,8 @@ metadata:
     aqua.component: database-audit
 {{ include "aqua.labels" . | indent 4 }}
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: {{ .Release.Name }}-audit-database
@@ -209,6 +217,10 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ .Release.Name }}-db-config
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/usr/local/bin/pg_ctl stop -D /var/lib/postgresql/data -w -t 60 -m fast"]
         env:
         {{- if .Values.global.db.passwordFromSecret.enabled }}
         - name: POSTGRES_PASSWORD

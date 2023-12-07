@@ -241,6 +241,13 @@ seLinuxOptions:
   type: super_t
   level: s0
 ```
+
+* For Lightning deployment of mixed cluster (windows and linux nodes) use following command:  
+Replace variables in <> with appropriate values
+```shell
+helm upgrade --install --create-namespace --namespace aqua <cluster_name> aqua-helm/kube-enforcer --set global.gateway.address=<gateway_url>,global.gateway.port=<gateway_port>,certsSecret.autoGenerate=true,global.platform=k8s,global.enforcer.enabled=true,aquaSecret.kubeEnforcerToken=<kube_enforcer_token>,image.tag=<kube_enforcer_image_tag>,enforcer.enforcerToken=<aqua_enforcer_token>,enforcer.image.tag=<aqua_enfocer_image_tag>,serviceAccount.create=true,clusterName=<cluster_name>,global.imageCredentials.create=true,global.imageCredentials.repositoryUriPrefix=registry.aquasec.com,global.imageCredentials.registry=registry.aquasec.com,global.imageCredentials.username=<aqua_portal_username>,global.imageCredentials.password=<aqua_portal_password>,enforcer.expressMode=true,enforcer.windowsEnforcer.WinLinuxNodes.enable=true,enforcer.windowsEnforcer.enforcerToken=<aqua_enforcer_token>,enforcer.windowsEnforcer.tag=<windows_enforcer_image_tag>,extraEnvironmentVars.AQUA_DISABLE_KUBE_BENCH_SCAN=true --set-json 'enforcer.nodeSelector={"kubernetes.io/os": "linux"}','enforcer.windowsEnforcer.nodeSelector={"kubernetes.io/os": "windows"}','nodeSelector={"kubernetes.io/os": "linux"}','trivy.nodeSelector={"kubernetes.io/os": "linux"}' 
+```
+
 ## Issues and feedback
 
 If you encounter any problems or would like to give us feedback on deployments, we encourage you to raise issues here on GitHub.

@@ -54,6 +54,8 @@ spec:
         command:
           - powershell.exe
           - -command
+          - $Installation = Get-WmiObject -Class Win32_Product | Where-Object {$_.Vendor -eq "Aqua Security"};
+          - if ($Installation -ne $null) { $Installation.Uninstall() };
           - $argList=@("/I","AquaAgentWindowsInstaller.msi","/qn","/L AquaAgentWindowsInstaller.install.log");
           - $sysEnv=@(Get-ChildItem -Path Env:) | ForEach { $argList+=$_.Name+'="'+$_.Value+'"' };
           - $Process=Start-Process -FilePath msiexec.exe -ArgumentList $argList -NoNewWindow -PassThru -Wait;
@@ -118,8 +120,8 @@ spec:
               command:
               - powershell.exe
               - -c
-              - $argList=@("/X","AquaAgentWindowsInstaller.msi","/qn","/L c:\c\AquaAgentWindowsInstaller.remove.log","/norestart","MSIRESTARTMANAGERCONTROL=Disable");
-              - $Process=Start-Process -FilePath msiexec.exe -ArgumentList $argList -NoNewWindow -PassThru -Wait;
+              - $Installation = Get-WmiObject -Class Win32_Product | Where-Object {$_.Vendor -eq "Aqua Security"};
+              - if ($Installation -ne $null) { $Installation.Uninstall() };
         {{- if and (not .Values.windowsEnforcer.resources) .Values.expressMode }}
         resources:
           requests:
