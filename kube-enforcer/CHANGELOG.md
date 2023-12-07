@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.32 ( Dec 7th, 2023 )
+* Update starboard version to v0.15.18
+
 ## 2022.4.31 ( Oct 24th, 2023 )
 * Add support for trivy resource definition SLK-74400
 * Add support for trivy images pull for private registry SLK-74401
