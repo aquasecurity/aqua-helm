@@ -172,7 +172,8 @@ Parameter | Description                                                         
 `affinity` | 	Kubernetes node affinity                                                                                                                                      | `{}`                | `NO`
 `podAnnotations` | Kubernetes pod annotations                                                                                                                                     | `{}`                | `NO`
 `securityContext` | Set of security context for the container                                                                                                                      | `nil`               | `NO`
-`pdb.minAvailable` | Set minimum available value for gate pod PDB                                                                                                                   | `1`                 | `NO`
+`pdb.minAvailable` | Set minimum available value for gate                                                       | `1`                 | `NO`
+`pdb.apiVersion` | Override the API version of the gate PDB                                                         | ``                 | `NO`
 `TLS.enabled` | If require secure channel communication                                                                                                                        | `false`             | `NO`
 `TLS.secretName` | certificates secret name                                                                                                                                       | `nil`               | `YES` <br /> `if gate.TLS.enabled is set to true`
 `TLS.publicKey_fileName` | filename of the public key eg: aqua_gateway.crt                                                                                                                | `nil`               |  `YES` <br /> `if gate.TLS.enabled is set to true`

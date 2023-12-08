@@ -84,6 +84,10 @@ container_securityContext: {}
 
 pdb:
   minAvailable: "1"
+  # Allows you to specify the API version for the PodDisruptionBudget
+  # This is useful where .Capabilities.APIVersions.Has does not work e.g. Helm template & ArgoCD
+  # For example: policy/v1beta1 or policy/v1
+  apiVersion: 
 # TLS is for enabling mTLS/TLS establishment between gateway <-> server and gateway <-> enforcers
 TLS:
   enabled: false              # enable to true for secure communication (mTLS/TLS)
