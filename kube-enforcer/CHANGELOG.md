@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.34 ( Dec 7th, 2023 )
+* Updated starboard version to v0.15.18
+
 ## 2022.4.33 ( Dec 5th, 2023 )
 * Add option to enable/disable validating and mutating webhook PR[#805](https://github.com/aquasecurity/aqua-helm/pull/805)
 
