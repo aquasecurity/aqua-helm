@@ -294,7 +294,7 @@ starboard:
   image:
     repositoryUriPrefix: "docker.io/aquasec"
     repository: "starboard-operator"
-    tag: "0.15.15"
+    tag: "0.15.18"
     pullPolicy: Always
 
   container_securityContext:
