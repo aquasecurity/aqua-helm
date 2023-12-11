@@ -35,11 +35,11 @@ spec:
         {{- end }}
 {{ include "aqua.labels" . | indent 8 }}
     spec:
-      {{- if .Values.dnsNdots }}
+      {{- if .Values.global.dnsNdots }}
       dnsConfig:
         options:
           - name: ndots
-            value: {{ int .Values.dnsNdots | quote }}
+            value: {{ int .Values.global.dnsNdots | quote }}
       {{- end }}
       {{- with .Values.securityContext }}
       securityContext:
