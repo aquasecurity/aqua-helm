@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 * SLK-68752 - Change dnsNdots to global value
 * Fix dependencies repository - [#808](https://github.com/aquasecurity/aqua-helm/issues/808)
 * Fix README.md [#806](https://github.com/aquasecurity/aqua-helm/issues/806)
+* Add option to configure trivy securityContext
 
 ## 2022.4.34 ( Dec 7th, 2023 )
 * Updated starboard version to v0.15.18
