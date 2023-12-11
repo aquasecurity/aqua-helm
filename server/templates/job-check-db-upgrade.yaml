@@ -38,7 +38,7 @@ spec:
           {{- end }}
           image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
           imagePullPolicy: "{{ .Values.web.image.pullPolicy }}"
-          command: ["/opt/aquasec/sedockweb", "test-upgrade"]
+          command: [ "/opt/aquasec/sedockweb", "test-upgrade" ]
           envFrom:
             - configMapRef:
                 name: {{ .Release.Name }}-web-config
@@ -78,16 +78,16 @@ spec:
                   key: audit-password
           {{- end }}
         {{ if .Values.global.db.externalDbCerts.enable }}
-              - name: SSL_CERT_DIR
-                value: /etc/ext_db_certs
-                volumeMounts:
-                  - name: ext-db-cert
-                    mountPath: /etc/ext_db_certs
-                    readOnly: true
-                volumes:
-                - name: ext-db-cert
-                  secret:
-                    secretName: {{ .Values.global.db.externalDbCerts.certSecretName }}
+                - name: SSL_CERT_DIR
+                  value: /etc/ext_db_certs
+                  volumeMounts:
+                    - name: ext-db-cert
+                      mountPath: /etc/ext_db_certs
+                      readOnly: true
+                  volumes:
+                    - name: ext-db-cert
+                      secret:
+                        secretName: {{ .Values.global.db.externalDbCerts.certSecretName }}
         {{ end }}
       imagePullSecrets:
       {{- if .Values.imageCredentials.create }}
