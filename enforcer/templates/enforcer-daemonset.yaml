@@ -46,11 +46,11 @@ spec:
         {{ include "aqua.labels" . | nindent 8 }}
       name: {{ .Release.Name }}-ds
     spec:
-      {{- if .Values.dnsNdots }}
+      {{- if .Values.global.dnsNdots }}
       dnsConfig:
         options:
           - name: ndots
-            value: {{ .Values.dnsNdots | quote }}
+            value: {{ .Values.global.dnsNdots | quote }}
       {{- end }}
       {{- if or .Values.priorityClass.create .Values.priorityClass.name }}
       priorityClassName: {{ template "priorityClass" . }}
