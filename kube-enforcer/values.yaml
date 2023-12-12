@@ -377,6 +377,7 @@ trivy:
     failureThreshold: 10
   resources: {}
   nodeSelector: {}
+  securityContext: {}
 
 
 ##Kube Enforcer advance deployment options
