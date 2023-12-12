@@ -134,7 +134,10 @@ spec:
                 - ALL
             privileged: false
             readOnlyRootFilesystem: true
+      {{- with .Values.trivy.securityContext }}
       securityContext:
+      {{ toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.trivy.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}

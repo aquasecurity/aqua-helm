@@ -12,6 +12,7 @@ global:
   # k3s = k3s kubernetes platform
   # mke = Mirantis Kubernetes Engine
   platform: ""
+  dnsNdots:
   enforcer:
     enabled: false
   gateway:
@@ -148,7 +149,6 @@ affinity: {}
 #  my-annotation-key: my value; more value
 
 dnsPolicy: "ClusterFirst"
-dnsNdots:
 hostPID: "true"
 hostRunPath: ""
 schedulerName: "default-scheduler"

@@ -41,7 +41,8 @@ static_resources:
               - name: "x-envoy-livenessprobe"
                 exact_match: "healthz"
           - name: envoy.filters.http.router
-            typed_config: {}
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
       transport_socket:
         name: envoy.transport_sockets.tls
         typed_config:

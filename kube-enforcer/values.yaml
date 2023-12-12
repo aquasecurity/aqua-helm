@@ -11,6 +11,7 @@ global:
   # k3s = k3s kubernetes platform
   # mke = Mirantis Kubernetes Engine
   platform: ""
+  dnsNdots:
   enforcer:
     enabled: false
   gateway:
@@ -99,8 +100,6 @@ logLevel: ""
 
 # Comma-separated node-labels for nodes on which Kube-Bench is to be skipped. key1=val1,key2=val2,...
 skipNodes: ""
-
-dnsNdots:
 
 # Set create to false if you want to use an existing secret for the kube-enforcer certs
 # If certsSecret.create and certsSecret.name defined then need provide certsSecret.serverCertificate and
@@ -384,6 +383,7 @@ trivy:
     failureThreshold: 10
   resources: {}
   nodeSelector: {}
+  securityContext: {}
 
 
 ##Kube Enforcer advance deployment options
