@@ -92,6 +92,11 @@ affinity: {}
 # podAnnotations -- Allows setting additional annotations for Aqua Cloud Connector PODs
 podAnnotations: {}
 
+# Allows you to specify the API version for the PodDisruptionBudget
+# This is useful where .Capabilities.APIVersions.Has does not work e.g. Helm template & ArgoCD
+# For example: policy/v1beta1 or policy/v1
+pdbApiVersion:
+
 # The variables could be provided via values.yaml file as shown below
 # or using cli command, for example:  --set extraEnvironmentVars.http_proxy="1.1.1.1",extraEnvironmentVars.https_proxy="2.2.2.2"
 extraEnvironmentVars: {}
