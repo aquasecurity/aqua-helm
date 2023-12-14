@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.36 ( Dec 14th, 2023 )
+* Updated trivy-operator version to v0.16.1
+
 ## 2022.4.35 ( Dec 10th, 2023 )
 ### ⚠ BREAKING CHANGES
 * SLK-68752 - Change dnsNdots to global value
