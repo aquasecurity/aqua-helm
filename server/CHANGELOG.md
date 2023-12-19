@@ -1,10 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2022.4.35 ( Dec 10th, 2023 )
+## 2022.4.23 ( Dec 24th, 2023 )
+* Add support for ArgoCD deployment - [#799](https://github.com/aquasecurity/aqua-helm/issues/799)
+* Immutable Secrets - Preventing changes to the data of an existing Secret (DB)
+
+
+## 2022.4.22 ( Dec 10th, 2023 )
 * Fix indentation and formatting for external DB - [#790](https://github.com/aquasecurity/aqua-helm/issues/790) 
 * Fix envoy configuration
-* 
+
 ## 2022.4.21 (Dec 5 th, 2023)
 * Allow the API version of PodDisruptionBudget to be overridden [#807](https://github.com/aquasecurity/aqua-helm/pull/807)
 
