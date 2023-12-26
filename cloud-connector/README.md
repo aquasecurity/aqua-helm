@@ -47,58 +47,58 @@ helm upgrade --install --namespace aqua aqua-cloud-connector aqua-helm/cloud-con
 
 ### Cloud-Connector
 
-| Parameter                              | Description                                                                        | Default                 | Mandatory                                    |
-|----------------------------------------|------------------------------------------------------------------------------------|-------------------------|----------------------------------------------|
-| `imageCredentials.create`              | Set if to create new pull image secret                                             | `false`                 | `YES - New cluster`                          |
-| `imageCredentials.name`                | Your Docker pull image secret name                                                 | `aqua-registry-secret`  | `YES - New cluster`                          |
-| `imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io`                                | `registry.aquasec.com`  | `YES - New cluster`                          |
-| `imageCredentials.registry`            | set the registry url for dockerhub set `index.docker.io/v1/`                       | `registry.aquasec.com`  | `YES - New cluster`                          |
-| `imageCredentials.username`            | Your Docker registry (DockerHub, etc.) username                                    | `aqua-registry-secret`  | `YES - New cluster`                          |
-| `imageCredentials.password`            | Your Docker registry (DockerHub, etc.) password                                    | `""`                    | `YES - New cluster`                          |
-| `serviceaccount.create`                | enable to create aqua-sa serviceaccount if it is missing in the environment        | `false`                 | `YES - New cluster`                          |
-| `image.repository`                     | the docker image name to use                                                       | `cc-standard`           | `YES`                                        |
-| `image.tag`                            | The image tag to use.                                                              | `2022.4`                | `YES`                                        |
-|  `image.pullPolicy`                    | The kubernetes image pull policy                                                   | `Always`                | `NO`                                         |
-| `replicaCount`                         | Kubernetes replica count                                                           | `1`                     | `YES`                                        |
-| `authType.tokenAuth`                   | Boolean value to select authentication type as token                               | `true`                  | `YES`                                        |
-| `authType.userCreds`                   | Boolean value to select authentication type as user/password                       | `false`                 | `YES`                                        |
-| `token`                                | Token value generated from the UI                                                  | `""`                    | `YES - authtype selected as token`           |
-| `tokenFromSecret.enable`               | Enable to true to load token from existing secret                                  | `false`                 | `NO`                                         |
-| `tokenFromSecret.secretName`           | Loaded secret name for token                                                       | `""`                    | `NO`                                         |
-| `tokenFromSecret.tokenKey`             | Loaded secret token key value                                                      | `""`                    | `NO`                                         |
-| `userCreds.username`                   | Admin Username                                                                     | `""`                    | `YES`                                        |
-| `userCreds.password`                   | Admin Password                                                                     | `""`                    | `YES`                                        |
-| `userCredsFromSecret.enable`           | Enable to true to load user credentials from existing secret                       | `false`                 | `NO`                                         |
-| `userCredsFromSecret.secretName`       | Loaded secret name for user credentials                                            | `""`                    | `NO`                                         |
-| `userCredsFromSecret.userKey`          | Loaded secret username key value                                                   | `""`                    | `NO`                                         |
-| `userCredsFromSecret.passwordKey`      | loaded secret password key value                                                   | `""`                    | `NO`                                         |
-| `healthPort.port`                      | Aqua Cloud Connector Health Port                                                   | `8080`                  | `YES`                                        |
-| `tunnels.azure.registryHost`           | Azure conatainer registry host, if ACR is in use for container images              | `""`                    | `NO`                                         |
-| `tunnels.azure.registryPort`           | Azure conatainer registry port, if ACR is in use for container images              | `""`                    | `NO`                                         |
-| `tunnels.aws.registryHost`             | AWS conatainer registry host, if ECR is in use for container images                | `""`                    | `NO`                                         |
-| `tunnels.aws.registryPort`             | AWS conatainer registry type, if ECR is in use for container images                | `ecr`                   | `NO`                                         |
-| `tunnels.aws.service.type`             | AWS conatainer registry region, if ECR is in use for container images              | `""`                    | `YES - if AWS ECR in use`                    |
-| `tunnels.aws.service.region`           | AWS conatainer registry port, if ECR is in use for container images                | `""`                    | `YES - if AWS ECR in use`                    |
-| `tunnels.gcp.registryHost`             | GCP conatainer registry host, if GCR is in use for container images                | `""`                    | `NO`                                         |
-| `tunnels.gcp.registryPort`             | Azure conatainer registry port, if GCR is in use for container images              | `""`                    | `NO`                                         |
-| `tunnels.jfrog.registryHost`           | JFrog conatainer registry host, if JFrog regostry is in use for container images   | `""`                    |                                              |
-| `tunnels.jfrog.registryPort`           | JFrog conatainer registry port, if JFrog registry is in use for container images   | `""`                    | `NO`                                         |
-| `tunnels.onprem.registryHost`          | onprem conatainer registry host, if onprem registry is in use for container images | `""`                    | `NO`                                         |
-| `tunnels.onprem.registryPort`          | onprem conatainer registry port, if onprem registry is in use for container images | `""`                    | `NO`                                         |
-| `gateway.host`                         | gateway host                                                                       | `aqua-gateway-svc.aqua` | `YES`                                        |
-| `gateway.port`                         | gateway port                                                                       | `8443`                  | `YES`                                        |
-| `TLS.aqua_verify_enforcer`             | change it to "1" or "0" for enabling/disabling mTLS between enforcer and envoy     | `0`                     | `YES` <br /> `if TLS.enabled is set to true` |
-| `container_securityContext.privileged` | Container security context                                                         | `false`                 | `NO`                                         |
-| `resources`                            | 	Resource requests and limits                                                      | `{}`                    | `NO`                                         |
-| `nodeSelector`                         | 	Kubernetes node selector	                                                        | `{}`                    | `NO`                                         |
-| `tolerations`                          | 	Kubernetes node tolerations	                                                      | `[]`                    | `NO`                                         |
-| `podAnnotations`                       | Kubernetes pod annotations                                                         | `{}`                    | `NO`                                         |
-| `pdbApiVersion`                        | Override the API Version of PodDisruptionBudget                                    | ``                      | `NO`                                         |
-| `extraEnvironmentVars`                 | is a list of extra environment variables to set in the cc deployments.             | `{}`                    | `NO`                                         |
-| `affinity`                             | 	Kubernetes node affinity                                                          | `{}`                    | `NO`                                         |
+| Parameter                              | Description                                                                       | Default                 | Mandatory                                    |
+|----------------------------------------|-----------------------------------------------------------------------------------|-------------------------|----------------------------------------------|
+| `imageCredentials.create`              | Set if to create new pull image secret                                            | `false`                 | `YES - New cluster`                          |
+| `imageCredentials.name`                | Your Docker pull image secret name                                                | `aqua-registry-secret`  | `YES - New cluster`                          |
+| `imageCredentials.repositoryUriPrefix` | Repository uri prefix for dockerhub set `docker.io`                               | `registry.aquasec.com`  | `YES - New cluster`                          |
+| `imageCredentials.registry`            | Set the registry url for dockerhub set `index.docker.io/v1/`                      | `registry.aquasec.com`  | `YES - New cluster`                          |
+| `imageCredentials.username`            | Your Docker registry (DockerHub, etc.) username                                   | `aqua-registry-secret`  | `YES - New cluster`                          |
+| `imageCredentials.password`            | Your Docker registry (DockerHub, etc.) password                                   | `""`                    | `YES - New cluster`                          |
+| `serviceaccount.create`                | Enable to create aqua-sa serviceAccount if it is missing in the environment       | `false`                 | `YES - New cluster`                          |
+| `image.repository`                     | The docker image name to use                                                      | `cc-standard`           | `YES`                                        |
+| `image.tag`                            | The image tag to use.                                                             | `2022.4`                | `YES`                                        |
+| `image.pullPolicy`                     | The kubernetes image pull policy                                                  | `Always`                | `NO`                                         |
+| `replicaCount`                         | Kubernetes replica count                                                          | `1`                     | `YES`                                        |
+| `authType.tokenAuth`                   | Boolean value to select authentication type as token                              | `true`                  | `YES`                                        |
+| `authType.userCreds`                   | Boolean value to select authentication type as user/password                      | `false`                 | `YES`                                        |
+| `token`                                | Token value generated from the UI                                                 | `""`                    | `YES - authtype selected as token`           |
+| `tokenFromSecret.enable`               | Enable to true to load token from existing secret                                 | `false`                 | `NO`                                         |
+| `tokenFromSecret.secretName`           | Loaded secret name for token                                                      | `""`                    | `NO`                                         |
+| `tokenFromSecret.tokenKey`             | Loaded secret token key value                                                     | `""`                    | `NO`                                         |
+| `userCreds.username`                   | Admin Username                                                                    | `""`                    | `YES`                                        |
+| `userCreds.password`                   | Admin Password                                                                    | `""`                    | `YES`                                        |
+| `userCredsFromSecret.enable`           | Enable to true to load user credentials from existing secret                      | `false`                 | `NO`                                         |
+| `userCredsFromSecret.secretName`       | Loaded secret name for user credentials                                           | `""`                    | `NO`                                         |
+| `userCredsFromSecret.userKey`          | Loaded secret username key value                                                  | `""`                    | `NO`                                         |
+| `userCredsFromSecret.passwordKey`      | Loaded secret password key value                                                  | `""`                    | `NO`                                         |
+| `healthPort.port`                      | Aqua Cloud Connector Health Port                                                  | `8080`                  | `YES`                                        |
+| `tunnels.azure.registryHost`           | Azure container registry host, if ACR is in use for container images              | `""`                    | `NO`                                         |
+| `tunnels.azure.registryPort`           | Azure container registry port, if ACR is in use for container images              | `""`                    | `NO`                                         |
+| `tunnels.aws.registryHost`             | AWS container registry host, if ECR is in use for container images                | `""`                    | `NO`                                         |
+| `tunnels.aws.registryPort`             | AWS container registry type, if ECR is in use for container images                | `ecr`                   | `NO`                                         |
+| `tunnels.aws.service.type`             | AWS container registry region, if ECR is in use for container images              | `""`                    | `YES - if AWS ECR in use`                    |
+| `tunnels.aws.service.region`           | AWS container registry port, if ECR is in use for container images                | `""`                    | `YES - if AWS ECR in use`                    |
+| `tunnels.gcp.registryHost`             | GCP container registry host, if GCR is in use for container images                | `""`                    | `NO`                                         |
+| `tunnels.gcp.registryPort`             | Azure container registry port, if GCR is in use for container images              | `""`                    | `NO`                                         |
+| `tunnels.jfrog.registryHost`           | JFrog container registry host, if JFrog registry is in use for container images   | `""`                    |                                              |
+| `tunnels.jfrog.registryPort`           | JFrog container registry port, if JFrog registry is in use for container images   | `""`                    | `NO`                                         |
+| `tunnels.onprem.registryHost`          | OnPrem container registry host, if onPrem registry is in use for container images | `""`                    | `NO`                                         |
+| `tunnels.onprem.registryPort`          | OnPrem container registry port, if onPrem registry is in use for container images | `""`                    | `NO`                                         |
+| `gateway.host`                         | Gateway host                                                                      | `aqua-gateway-svc.aqua` | `YES`                                        |
+| `gateway.port`                         | Gateway port                                                                      | `8443`                  | `YES`                                        |
+| `TLS.aqua_verify_enforcer`             | Change it to "1" or "0" for enabling/disabling mTLS between enforcer and envoy    | `0`                     | `YES` <br /> `if TLS.enabled is set to true` |
+| `container_securityContext.privileged` | Container security context                                                        | `false`                 | `NO`                                         |
+| `resources`                            | Resource requests and limits                                                      | `{}`                    | `NO`                                         |
+| `nodeSelector`                         | Kubernetes node selector	                                                         | `{}`                    | `NO`                                         |
+| `tolerations`                          | Kubernetes node tolerations	                                                      | `[]`                    | `NO`                                         |
+| `podAnnotations`                       | Kubernetes pod annotations                                                        | `{}`                    | `NO`                                         |
+| `pdbApiVersion`                        | Override the API Version of PodDisruptionBudget                                   | ``                      | `NO`                                         |
+| `extraEnvironmentVars`                 | Is a list of extra environment variables to set in the cc deployments.            | `{}`                    | `NO`                                         |
+| `affinity`                             | Kubernetes node affinity                                                          | `{}`                    | `NO`                                         |
 
 
-> Note: that `imageCredentials.create` is false and if you need to create image pull secret please update to true, set the username and password for the registry and `serviceAccount.create` is false and if you're environment is new or not having aqua-sa serviceaccount please update it to true.
+> Note: that `imageCredentials.create` is false and if you need to create image pull secret please update to true, set the username and password for the registry and `serviceAccount.create` is false and if you're environment is new or not having aqua-sa serviceAccount please update it to true.
 
 ## Issues and feedback
 

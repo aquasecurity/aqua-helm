@@ -7,8 +7,12 @@ Expand the name of the chart.
 {{- end -}}
 
 {{- define "platform" }}
-{{- printf "%s" (required "A valid .Values.platform entry required" .Values.platform ) | replace "\n" "" }}
+{{- $platform := .Values.platform }}
+{{- if not $platform }}
+{{-   fail "A valid .Values.platform entry is required.\nPlease provide one of the following options: aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s, mke" }}
 {{- end }}
+{{- end }}
+
 
 {{/*
 Create a default fully qualified app name.

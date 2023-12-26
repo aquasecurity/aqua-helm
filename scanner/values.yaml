@@ -18,7 +18,19 @@ imageCredentials:
   username: ""
   password: ""
 
-#Define this variable for openshift platform
+# Specify the Kubernetes (k8s) platform acronym.
+# Allowed values are:
+# - aks: Azure Kubernetes Service
+# - eks: Amazon Elastic Kubernetes Service
+# - gke: Google Kubernetes Engine
+# - openshift: Red Hat OpenShift/OCP
+# - tkg: VMware Tanzu Kubernetes Grid
+# - tkgi: VMware Tanzu Kubernetes Grid Integrated Edition
+# - k8s: Plain/on-prem Vanilla Kubernetes
+# - rancher: Rancher Kubernetes Platform
+# - gs: Giant Swarm platform
+# - k3s: k3s Kubernetes platform
+# - mke: Mirantis Kubernetes Engine
 platform: ""
 
 clusterRole:
@@ -56,23 +68,23 @@ server:
   port: 8080
 
 # Additional certificates that the server should trust, such as a network proxy
-# The certificates should be bundled into a single file inside of a configmap
+# The certificates should be bundled into a single file inside a configmap
 additionalCerts: []
   # - createSecret: true                # Change to false if you're using existing server certificate secret
   #   secretName: "proxy-server-certs"  # Change secret name if already exists with server/web public certificate
-  #   certFile:                         # If additionalCerts createSecret enable to true, add base64 value of the the server public certificate or add filename of certificate if loading from custom secret
+  #   certFile:                         # If additionalCerts createSecret enable to true, add base64 value of the server public certificate or add filename of certificate if loading from custom secret
 
 
 serverSSL:
   enable: false                   # Enable to true to establish secure connection with server
   createSecret: true              # Change to false if you're using existing server certificate secret
   secretName: "scanner-web-cert"  # Change secret name if already exists with server/web public certificate
-  certFile:                       # If serverSSL createSecret enable to true, add base64 value of the the server public certificate or add filename of certificate if loading from custom secret
+  certFile:                       # If serverSSL createSecret enable to true, add base64 value of the server public certificate or add filename of certificate if loading from custom secret
 
 cyberCenter:
   mtls:
     enabled: false                # enable to true for mTLS communication with cyber center
-    secretName: ""                # provide certificates secret name created to enable tls/mtls communication between scanner and cybercenter
+    secretName: ""                # provide certificates secret name created to enable tls/mtls communication between scanner and cyberCenter
     publicKey_fileName: ""        # provide filename of the public key eg: aqua_scanner.crt
     privateKey_fileName: ""       # provide filename of the private key eg: aqua_scanner.key
     rootCA_fileName: ""           # provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
@@ -85,10 +97,10 @@ image:
 logLevel:
 
 #The scanners will be registered with the random name
-#Working only for single scanner instance. If need to deploy a several replicas keep it empty
+#Working only for single scanner instance. If you need to deploy a several replicas keep it empty
 nameOverride: ""
 
-user: ""            # user name for the scanner created in the console
+user: ""            # username for the scanner created in the console
 password: ""        # password for the scanner user you can also use "passwordSecret" below for loading password from secrets
 scannerToken: ""    # token used for deploying USE scanners
 
@@ -149,7 +161,7 @@ registries: []
 # - registry2
 
 # Enable persistence for scanner
-# Warning: enabling this feature on an already-deployed scanner will delete the existing deployment and redeploy using a statefulset
+# Warning: enabling this feature on an already-deployed scanner will delete the existing deployment and redeploy using a StatefulSets
 persistence:
   enabled: false
   accessMode: ReadWriteOnce

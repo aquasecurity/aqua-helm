@@ -20,8 +20,12 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end }}
 
 {{- define "platform" }}
-{{- printf "%s" (required "A valid .Values.platform entry required" .Values.platform ) | replace "\n" "" }}
+{{- $platform := .Values.platform }}
+{{- if not $platform }}
+{{-   fail "A valid .Values.platform entry is required.\nPlease provide one of the following options: aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s, mke" }}
 {{- end }}
+{{- end }}
+
 
 {{- define "registrySecret" -}}
 {{- if .Values.imageCredentials.create -}}
