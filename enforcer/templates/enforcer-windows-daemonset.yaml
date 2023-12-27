@@ -139,7 +139,7 @@ spec:
         {{- else }}
         resources: {{ toYaml .Values.windowsEnforcer.resources | nindent 12 }}
         {{- end }}
-      dnsPolicy: {{ .Values.windowsEnforcer.dnsPolicy }}
+      dnsPolicy: "None"
       hostNetwork: {{ .Values.windowsEnforcer.hostNetwork }}
       hostPID: {{ .Values.windowsEnforcer.hostPID }}
       restartPolicy: {{ .Values.windowsEnforcer.restartPolicy }}
