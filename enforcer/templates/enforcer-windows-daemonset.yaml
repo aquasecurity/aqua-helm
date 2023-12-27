@@ -35,12 +35,18 @@ spec:
         {{ include "aqua.labels" . | nindent 8 }}
       name: {{ .Release.Name }}-windows-ds
     spec:
-      {{- if .Values.windowsEnforcer.dnsNdots }}
       dnsConfig:
+        nameservers:
+          - 10.0.0.10 # this is an example
+        searches:
+          - aqua.svc.cluster.local
+          - svc.cluster.local
+          - cluster.local
+          -
         options:
           - name: ndots
-            value: {{ .Values.windowsEnforcer.dnsNdots | quote }}
-      {{- end }}
+            value: "5"
+          - name: edns0
       {{- if or .Values.windowsEnforcer.priorityClass.create .Values.windowsEnforcer.priorityClass.name }}
       priorityClassName: {{ template "priorityClass" . }}
       {{- end }}
