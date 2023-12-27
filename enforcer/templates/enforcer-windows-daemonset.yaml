@@ -42,7 +42,6 @@ spec:
           - aqua.svc.cluster.local
           - svc.cluster.local
           - cluster.local
-          -
         options:
           - name: ndots
             value: "5"
