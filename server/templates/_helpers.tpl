@@ -22,8 +22,12 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{- define "platform" }}
-{{- printf "%s" (required "A valid .Values.global.platform entry required" .Values.global.platform ) | replace "\n" "" }}
+{{- $platform := .Values.global.platform }}
+{{- if not $platform }}
+{{-   fail "A valid .Values.global.platform entry is required.\nPlease provide one of the following options: aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s, mke" }}
 {{- end }}
+{{- end }}
+
 
 {{/*
 If .Values.serviceAccount.create set to false and .Values.serviceAccount.name not defined

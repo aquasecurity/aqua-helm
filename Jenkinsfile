@@ -127,7 +127,7 @@ pipeline {
                     parallel charts.collectEntries { chart ->
                         ["${chart}": {
                             stage("Push ${chart}") {
-                                helmBasic.push(chart)
+                                helmBasic.push(chart, "dev")
                             }
                         }]
                     }
