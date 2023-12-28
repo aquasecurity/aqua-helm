@@ -52,6 +52,7 @@ spec:
           - name: ndots
             value: {{ .Values.global.dnsNdots | quote }}
       {{- end }}
+      {{- if .Values.global.dnsConfig }}
       dnsConfig:
         {{- toYaml .Values.global.dnsConfig | nindent 8 }}
       {{- end }}
