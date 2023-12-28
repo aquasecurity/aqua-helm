@@ -13,6 +13,7 @@ global:
   # mke = Mirantis Kubernetes Engine
   platform: ""
   dnsNdots:
+  dnsConfig: {}
   enforcer:
     enabled: false
   gateway:

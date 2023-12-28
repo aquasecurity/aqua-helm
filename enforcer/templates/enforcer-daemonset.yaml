@@ -52,6 +52,10 @@ spec:
           - name: ndots
             value: {{ .Values.global.dnsNdots | quote }}
       {{- end }}
+      dnsConfig:
+        {{- toYaml .Values.global.dnsConfig | nindent 8 }}
+      {{- end }}
+
       {{- if or .Values.priorityClass.create .Values.priorityClass.name }}
       priorityClassName: {{ template "priorityClass" . }}
       {{- end }}

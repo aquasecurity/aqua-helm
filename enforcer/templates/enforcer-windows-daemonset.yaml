@@ -35,14 +35,18 @@ spec:
         {{ include "aqua.labels" . | nindent 8 }}
       name: {{ .Release.Name }}-windows-ds
     spec:
-      {{- if .Values.windowsEnforcer.dnsNdots }}
+      {{- if .Values.global.dnsNdots }}
       dnsConfig:
         options:
           - name: ndots
-            value: {{ .Values.windowsEnforcer.dnsNdots | quote }}
+            value: {{ .Values.global.dnsNdots | quote }}
       {{- end }}
       {{- if or .Values.windowsEnforcer.priorityClass.create .Values.windowsEnforcer.priorityClass.name }}
       priorityClassName: {{ template "priorityClass" . }}
+      {{- end }}
+      {{- if .Values.global.dnsConfig }}
+      dnsConfig:
+        {{- toYaml .Values.global.dnsConfig | nindent 8 }}
       {{- end }}
       serviceAccount: {{ template "agentServiceAccount" . }}
       containers:
