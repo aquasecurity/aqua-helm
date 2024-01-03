@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.37 ( Jan 3rd, 2024 )
+* Updated enforcer chart version to 2022.4.19
+
 ## 2022.4.36 ( Dec 14th, 2023 )
 * Updated trivy-operator version to v0.16.1
 
