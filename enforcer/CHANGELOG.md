@@ -1,5 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2022.4.19 ( Jan 3rd, 2024 )
+* SLK-76863 - Support Security Context at Pod Level
 ## 2022.4.18 ( Dec 10th, 2023 )
 ### ⚠ BREAKING CHANGES
 * SLK-68752 - Change dnsNdots to global value

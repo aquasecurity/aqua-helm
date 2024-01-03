@@ -146,6 +146,7 @@ nodeSelector: {}
 tolerations: []
 podAnnotations: {}
 podLabels: {}
+podSecurityContext: {}
 affinity: {}
 #  my-annotation-key: my value; more value
 
