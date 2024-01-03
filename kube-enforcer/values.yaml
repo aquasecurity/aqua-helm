@@ -85,7 +85,7 @@ microEnforcerImage:
 # KubeBench Image
 kubebenchImage:
   repository: "aquasec/kube-bench"  # Default aqua registry KubeBench repository name
-  tag: "v0.6.15"
+  tag: "v.0.7.0"
 
 # Enable/Disable KB scanning on tainted nodes
 kubeBench:
@@ -302,7 +302,7 @@ starboard:
   image:
     repositoryUriPrefix: "docker.io/aquasec"
     repository: "starboard-operator"
-    tag: "0.15.18"
+    tag: "0.15.19"
     pullPolicy: Always
 
   container_securityContext:
