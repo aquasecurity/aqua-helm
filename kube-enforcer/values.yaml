@@ -85,7 +85,7 @@ microEnforcerImage:
 # KubeBench Image
 kubebenchImage:
   repository: "aquasec/kube-bench"  # Default aqua registry KubeBench repository name
-  tag: "v0.6.15"
+  tag: "v0.7.0"
 
 # Enable/Disable KB scanning on tainted nodes
 kubeBench:
@@ -302,7 +302,7 @@ starboard:
   image:
     repositoryUriPrefix: "docker.io/aquasec"
     repository: "starboard-operator"
-    tag: "0.15.18"
+    tag: "0.15.19"
     pullPolicy: Always
 
   container_securityContext:
@@ -326,6 +326,7 @@ starboard:
   OPERATOR_BATCH_DELETE_LIMIT: "10"
   OPERATOR_BATCH_DELETE_DELAY: "10s"
   OPERATOR_CLUSTER_COMPLIANCE_ENABLED: false
+  OPERATOR_CONFIG_AUDIT_SCANNER_SCAN_ONLY_CURRENT_REVISIONS: true
 
   ports:
     metricContainerPort: 8080
