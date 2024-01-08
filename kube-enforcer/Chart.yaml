@@ -2,10 +2,10 @@ apiVersion: v2
 appVersion: "2022.4"
 description: A Helm chart for the Aqua KubeEnforcer
 name: kube-enforcer
-version: "2022.4.37"
+version: "2022.4.38"
 dependencies:
   - name: enforcer
-    version: "2022.4.19"
+    version: "2022.4.20"
     repository: "https://helm.aquasec.com"
     condition: global.enforcer.enabled
 icon: https://avatars3.githubusercontent.com/u/12783832?s=200&v=4

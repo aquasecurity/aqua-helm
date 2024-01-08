@@ -1,6 +1,6 @@
 # Changelog
 All notable changes to this project will be documented in this file.
-## 2022.4.20 ( Jan 8rd, 2024 )
+## 2022.4.20 ( Jan 8th, 2024 )
 * SLK-73499 - Add robustness to removal of windows-enforcer
 ## 2022.4.19 ( Jan 3rd, 2024 )
 * SLK-76863 - Support Security Context at Pod Level
