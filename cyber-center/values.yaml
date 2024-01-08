@@ -47,8 +47,10 @@ resources: {}
 tolerations: []
 securityContext: {}
 container_securityContext: {}
+deploymentAnnotations: {}
+  # my-annotation-key: my value; more value
 podAnnotations: {}
-  #  my-annotation-key: my value; more value
+  # my-annotation-key: my value; more value
 nodeSelector: {}
 affinity: {}
 

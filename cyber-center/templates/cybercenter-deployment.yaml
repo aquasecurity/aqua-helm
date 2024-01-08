@@ -7,6 +7,14 @@ metadata:
   labels:
     app: {{ .Release.Namespace }}-cc
 {{ include "aqua.labels" . | indent 4 }}
+{{- if .Values.deploymentAnnotations}}
+  annotations:
+  {{- with .Values.deploymentAnnotations }}
+  {{- range $key,$value := . }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+{{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
