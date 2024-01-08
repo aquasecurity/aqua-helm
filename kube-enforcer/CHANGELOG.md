@@ -1,8 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2022.4.38 ( Jan 3rd, 2024 )
+## 2022.4.39 ( Jan 8rd, 2024 )
 * Updated enforcer chart version to 2022.4.20
+
+## 2022.4.38 ( Jan 8th, 2024 )
+* Updated trivy-operator.yaml to include sbom env variable
 
 ## 2022.4.37 ( Jan 3rd, 2024 )
 * Updated enforcer chart version to 2022.4.19
