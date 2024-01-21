@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.39 ( Jan 21st, 2024 )
+* Add priority class to starboard-operator
+
 ## 2022.4.38 ( Jan 8th, 2024 )
 * Updated trivy-operator.yaml to include sbom env variable
 * New enforcer version 2022.4.20
