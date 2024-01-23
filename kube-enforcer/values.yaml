@@ -358,6 +358,12 @@ starboard:
   podAnnotations: {}
   affinity: {}
 
+  priorityClass:
+    create: false
+    name: ""
+    preemptionPolicy: "PreemptLowerPriority"
+    value: 1000000
+
 ## To Enable Trivy Operator instead of Starboard Operator
 trivy:
   enabled: false    #Enable to install trivy operator and make starboard.enabled to false(only one operator can be enabled for KE per deployment)

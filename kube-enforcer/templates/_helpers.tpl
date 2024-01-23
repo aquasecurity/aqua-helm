@@ -63,6 +63,14 @@ Else if .Values.serviceAccount.create set to true, so will becreate serviceAccou
 {{- end -}}
 {{- end -}}
 
+{{- define "starboardPriorityClass" -}}
+{{- if .Values.starboard.priorityClass.create -}}
+    {{ .Values.starboard.priorityClass.name | default (printf "%s-starboard-priority-class" .Release.Name) }}
+{{- else if not .Values.starboard.priorityClass.create -}}
+    {{ .Values.starboard.priorityClass.name | default (printf "%s-starboard-priority-class" .Release.Name) }}
+{{- end -}}
+{{- end -}}
+
 {{/*
 Create chart name and version as used by the chart label.
 */}}
