@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.40 ( Feb 9th, 2024 )
+* starboard-operator version upgrade to 0.15.20
+* kube-bench version upgrade to v0.7.1
+
 ## 2022.4.39 ( Jan 21st, 2024 )
 * Add priority class to starboard-operator
 * Updated cluster-role.yaml to include additional permissions required for running kube-bench cis benchmarks in openshift container platform
