@@ -182,8 +182,8 @@ load balancer. Following are the detailed steps to enable and deploy a secure en
 
 ## Database
 
-1. By default, Aqua helm chart will deploy a database container. If you wish to use an external database please
-   set `db.external.enabled` to true and the following with appropriate values.
+1. By default, the Aqua helm chart will deploy a database container. If you wish to use an external database please
+   set `global.db.external.enabled` to true and the following with appropriate values.
    ```shell
    global.db.external.name
    global.db.external.host
@@ -191,7 +191,7 @@ load balancer. Following are the detailed steps to enable and deploy a secure en
    global.db.external.user
    global.db.external.password
    ```
-2. By default, same database (Packaged DB Container | Managed DB like AWS RDS) will be used to host both main DB and
+2. By default, the same database (Packaged DB Container | Managed DB like AWS RDS) will be used to host both main DB and
    Audit DB. If you want to use a different database for audit db then set following variables in the values.yaml file
    ```shell
    global.db.external.auditName
@@ -201,7 +201,7 @@ load balancer. Following are the detailed steps to enable and deploy a secure en
    global.db.external.auditPassword
    ```
 3. If you are using packaged DB container then
-    1. AQUA_ENV_SIZE variable can be used to define the sizing of your DB container in terms of number of connections
+    1. The AQUA_ENV_SIZE variable can be used to define the sizing of your DB container in terms of number of connections
        and optimized configuration but not the PV size. Please choose appropriate PV size as per your requirements.
     2. By default, AQUA_ENV_SIZE is set to `"S"` and the possible values are `"M", "L"`
 
@@ -224,7 +224,7 @@ own SSL/TLS certs you can do this in two different ways
        ```
 
     2. Enable `web.TLS.enable `to `true` in values.yaml
-    3. Add the certificates secret name `web.TLS.secretName` in values.yaml
+    3. Add the certificate's secret name `web.TLS.secretName` in values.yaml
     4. Add respective certificate file names to `web.TLS.publicKey_fileName`, `web.TLS.privateKey_fileName`
        and `web.TLS.rootCA_fileName`(Add rootCA if certs are self-signed) in values.yaml
     5. Proceed with the deployment.
@@ -253,7 +253,7 @@ behalf. So keep it in a safe place!
    openssl genrsa -des3 -out rootCA.key 4096
    ```
 
-If you want a non password protected key just remove the `-des3` option
+If you want a non-password-protected key just remove the `-des3` option
 
 **2. Create and self sign the Root Certificate**
 
@@ -275,7 +275,7 @@ the certificate.
 ***Important:*** Please mind that while creating the signing request is important to specify the `Common Name` providing
 the IP address or domain name for the service, otherwise the certificate cannot be verified.
 
-***Important for multi-cluster:*** When using multi-cluster setup like enforcer/kube-enforcers from various clusters or
+***Important for multi-cluster:*** When using a multi-cluster setup like enforcer/kube-enforcers from various clusters or
 connecting over the internet with gateway/envoy, then `SAN(subjectAltName)` section should contain alternate domain/IP
 addresses of the component.
 
