@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.41 ( Feb 27th, 2024 )
+* Add additional permissions for executing ocp checks in kube-bench
+
 ## 2022.4.40 ( Feb 9th, 2024 )
 * starboard-operator version upgrade to 0.15.20
 * kube-bench version upgrade to v0.7.1
