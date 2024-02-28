@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## 2022.4.41 ( Feb 19th, 2024 )
 * Add a new environment variable AQUA_HEALTH_MONITOR_PORT
+* Add namespaceSelector to KE admission controller
+* Add additional permissions required for kube-bench checks in openshift container platform
 
 ## 2022.4.40 ( Feb 9th, 2024 )
 * starboard-operator version upgrade to 0.15.20

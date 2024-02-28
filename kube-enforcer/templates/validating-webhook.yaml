@@ -47,5 +47,16 @@ webhooks:
         name: {{ include "kube-enforcer.fullname" . }}
     timeoutSeconds: {{ .Values.webhooks.validatingWebhook.timeout }}
     admissionReviewVersions: ["v1beta1"]
+    sideEffects: "None"
+    {{- if eq .Values.global.platform "openshift"}}
+    namespaceSelector:
+      matchExpressions:
+        - key: kubernetes.io/metadata.name
+          operator: NotIn
+          values:
+            - kube-system
+            - kube-node-lease
+      scope: Namespaced
+    {{- end }}
 {{- end }}
 {{- end }}
