@@ -17,6 +17,13 @@ webhooks:
   - name: imageassurance.aquasec.com
     failurePolicy: {{ .Values.webhooks.failurePolicy }}
     sideEffects: "None"
+    namespaceSelector:
+      matchExpressions:
+        - key: kubernetes.io/metadata.name
+          operator: NotIn
+          values:
+            - kube-system
+            - kube-node-lease
     rules:
       - operations: ["CREATE", "UPDATE"]
         apiGroups: ["*"]

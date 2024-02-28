@@ -17,6 +17,13 @@ metadata:
 webhooks:
   - name: microenforcer.aquasec.com
     sideEffects: "None"
+    namespaceSelector:
+     matchExpressions:
+       - key: kubernetes.io/metadata.name
+         operator: NotIn
+         values:
+           - kube-system
+           - kube-node-lease
     failurePolicy: {{ .Values.webhooks.failurePolicy }}
     rules:
       - operations: ["CREATE", "UPDATE"]
