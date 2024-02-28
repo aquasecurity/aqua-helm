@@ -42,7 +42,6 @@ webhooks:
           values:
             - kube-system
             - kube-node-lease
-      scope: Namespaced
     {{- end }}
 {{- end }}
 {{- end }}
