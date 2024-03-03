@@ -33,5 +33,13 @@ webhooks:
         path: "/mutate"
     timeoutSeconds: {{ .Values.webhooks.mutatingWebhook.timeout }}
     admissionReviewVersions: ["v1beta1"]
+    sideEffects: "None"
+    namespaceSelector:
+      matchExpressions:
+        - key: kubernetes.io/metadata.name
+          operator: NotIn
+          values:
+            - kube-system
+            - kube-node-lease
 {{- end }}
 {{- end }}
