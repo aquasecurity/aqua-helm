@@ -45,6 +45,11 @@ spec:
             value: {{ .Values.integration.url }}
           - name: BROKER_CLIENT_URL
             value: {{ $v.client_url }}
+          {{- if .Values.global.brokerToken }}
+          - name: BROKER_TOKEN
+            value: {{ .Values.global.brokerToken }}
+          {{- end }}
+
 
           {{- if .Values.ssl.enabled }}
           {{- if .Values.ssl.ca }}
