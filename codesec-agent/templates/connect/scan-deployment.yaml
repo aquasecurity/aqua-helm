@@ -41,6 +41,10 @@ spec:
             value: {{ .Values.integration.source }}
           - name: SCM_URL
             value: {{ .Values.integration.url }}
+          {{- if .Values.global.brokerToken }}
+          - name: BROKER_TOKEN
+            value: {{ .Values.global.brokerToken }}
+          {{- end }}
 
           {{- if .Values.ssl.enabled }}
           {{- if .Values.ssl.ca }}
