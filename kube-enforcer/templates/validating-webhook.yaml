@@ -48,7 +48,6 @@ webhooks:
     timeoutSeconds: {{ .Values.webhooks.validatingWebhook.timeout }}
     admissionReviewVersions: ["v1beta1"]
     sideEffects: "None"
-    {{- if eq .Values.global.platform "openshift"}}
     namespaceSelector:
       matchExpressions:
         - key: kubernetes.io/metadata.name
@@ -56,6 +55,5 @@ webhooks:
           values:
             - kube-system
             - kube-node-lease
-    {{- end }}
 {{- end }}
 {{- end }}
