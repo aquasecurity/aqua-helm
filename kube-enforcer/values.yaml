@@ -187,7 +187,7 @@ webhooks:
     annotations: {}
       # cert-manager.io/inject-ca-from: < namespace >/< certsSecret.name >
       # If you are using webhooks.certManager=true, so need to add cert-manager annotations
-    namespaceSelector: { }
+    namespaceSelector: {}
     #  matchExpressions:
     #    - key: kubernetes.io/metadata.name
     #      operator: NotIn
