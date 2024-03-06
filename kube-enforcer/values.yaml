@@ -173,6 +173,13 @@ webhooks:
     name: "kube-enforcer-admission-hook-config"
     timeout: 2
     annotations: {}
+    namespaceSelector: {}
+    #  matchExpressions:
+    #    - key: kubernetes.io/metadata.name
+    #      operator: NotIn
+    #      values:
+    #        - kube-system
+    #        - kube-node-lease
   mutatingWebhook:
     enabled: true
     name: "kube-enforcer-me-injection-hook-config"
@@ -180,6 +187,13 @@ webhooks:
     annotations: {}
       # cert-manager.io/inject-ca-from: < namespace >/< certsSecret.name >
       # If you are using webhooks.certManager=true, so need to add cert-manager annotations
+    namespaceSelector: {}
+    #  matchExpressions:
+    #    - key: kubernetes.io/metadata.name
+    #      operator: NotIn
+    #      values:
+    #        - kube-system
+    #        - kube-node-lease
 
 securityContext:
   runAsUser: 11431
