@@ -48,12 +48,9 @@ webhooks:
     timeoutSeconds: {{ .Values.webhooks.validatingWebhook.timeout }}
     admissionReviewVersions: ["v1beta1"]
     sideEffects: "None"
+    {{- with .Values.webhooks.validatingWebhook.namespaceSelector }}
     namespaceSelector:
-      matchExpressions:
-        - key: kubernetes.io/metadata.name
-          operator: NotIn
-          values:
-            - kube-system
-            - kube-node-lease
+    {{ toYaml . | nindent 8 }}
+    {{ end }}
 {{- end }}
 {{- end }}

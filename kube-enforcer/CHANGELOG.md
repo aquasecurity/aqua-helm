@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.42 ( Feb 19th, 2024 )
+* Fix namespaceSelector for KE admission controller
+
 ## 2022.4.41 ( Feb 19th, 2024 )
 * Add a new environment variable AQUA_HEALTH_MONITOR_PORT
 * Add namespaceSelector to KE admission controller
