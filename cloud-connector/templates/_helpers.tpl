@@ -17,3 +17,15 @@ Inject extra environment vars in the format key:value, if populated
 {{- end }}
 {{- end -}}
 {{- end -}}
+
+{{- define "extraSecretEnvironmentVars" -}}
+{{- if .extraSecretEnvironmentVars -}}
+{{- range .extraSecretEnvironmentVars }}
+- name: {{ .envName }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ .secretName }}
+      key: {{ .secretKey }}
+{{- end -}}
+{{- end -}}
+{{- end -}}
