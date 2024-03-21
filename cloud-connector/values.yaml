@@ -1,3 +1,6 @@
+# in case of openshift will apply SCC
+platform: ""
+
 # Specifies the secret data for imagePullSecrets needed to fetch the private docker images
 imageCredentials:
   create: false
@@ -104,6 +107,13 @@ extraEnvironmentVars: {}
   # https_proxy:
   # no_proxy:
   # ENV_NAME: value
+
+# extraSecretEnvironmentVars is a list of extra environment variables to set in the cloud-connector Deployment.
+# These variables take value from existing Secret objects.
+extraSecretEnvironmentVars: []
+  # - envName: ENV_NAME
+  #   secretName: name
+  #   secretKey: key
 
 tunnels:
   # Host endpoints for Azure Functions
