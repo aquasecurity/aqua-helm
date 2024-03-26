@@ -87,3 +87,14 @@ scan:
   tolerations: {}
   hostAliases:
   extraEnv: {}
+
+remediation:
+  image: docker.io/aquasec/codesec-remediation:latest
+  pullPolicy: Always
+  replicas: 1
+  resources: {}
+  nodeSelector: {}
+  affinity: {}
+  tolerations: {}
+  hostAliases:
+  extraEnv: {}
