@@ -49,6 +49,9 @@ spec:
         {{- end }}
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        securityContext:
+          privileged: false
+          runAsUser: 0
         args:
         {{- range $port := .Values.service.ports }}
         - --address=:{{ $port.targetPort }}

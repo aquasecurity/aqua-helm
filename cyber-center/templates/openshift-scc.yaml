@@ -26,7 +26,7 @@ priority: null
 readOnlyRootFilesystem: false
 requiredDropCapabilities: null
 runAsUser:
-  type: MustRunAsNonRoot
+  type: RunAsAny
 seLinuxContext:
   type: MustRunAs
 supplementalGroups:
