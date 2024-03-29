@@ -10,6 +10,9 @@ imageCredentials:
   username: ""
   password: ""
 
+# For Openshift platforms use platform: openshift
+platform: ""
+
 serviceaccount:
   # make it to true to create service-account
   create: false
