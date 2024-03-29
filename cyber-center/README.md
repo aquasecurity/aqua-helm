@@ -6,14 +6,14 @@ These are Helm charts for installing and maintaining the Aqua Security CyberCent
 
 ## Contents
 
-- [Aqua Security Cyber Center Helm Chart](#aqua-security-cyber-center-helm-chart)
+- [Aqua Security CyberCenter Helm Chart](#aqua-security-cybercenter-helm-chart)
   - [Contents](#contents)
   - [Prerequisites](#prerequisites)
     - [Container Registry Credentials](#container-registry-credentials)
   - [Installing the Chart](#installing-the-chart)
-    - [Installing Aqua CyberCenter from Helm Private Repository](#installing-aquacyber-center-from-helm-private-repository)
+    - [Installing Aqua CyberCenter from Helm Private Repository](#installing-aqua-cybercenter-from-helm-private-repository)
   - [Configuring mTLS/TLS](#configuring-mtlstls)
-  - [How to connect to offline cyber-center from aqua console](#how-to-connect-to-offline-cyber-center-from-aqua-console)
+  - [How to connect to the offline CyberCenter from the Aqua console](#how-to-connect-to-the-offline-cybercenter-from-the-aqua-console)
   - [Configurable Variables for the CyberCenter](#configurable-variables-for-the-cybercenter)
   - [Issues and feedback](#issues-and-feedback)
 
@@ -102,34 +102,35 @@ For more information, refer to [Link](https://docs.aquasec.com/docs/cybercenter-
 
 ## Configurable Variables for the CyberCenter
 
-| Parameter                              | Description                                                                  | Default                | Mandatory                                                                                   |
-|----------------------------------------|------------------------------------------------------------------------------|------------------------|---------------------------------------------------------------------------------------------|
-| `imageCredentials.create`              | Enable to create new pull image secret                                       | `false`                | `YES - New cluster`                                                                         |
-| `imageCredentials.name`                | Your Docker pull image secret name                                           | `aqua-registry-secret` | `YES - New cluster`                                                                         |
-| `imageCredentials.repositoryUriPrefix` | Repository URI prefix for Docker Hub set `docker.io`                         | `registry.aquasec.com` | `YES - New cluster`                                                                         |
-| `imageCredentials.registry`            | Set the registry URL for Docker Hub set `index.docker.io/v1/`                | `registry.aquasec.com` | `YES - New cluster`                                                                         |
-| `imageCredentials.username`            | Your Docker registry (Docker Hub, etc.) username                             | `aqua-registry-secret` | `YES - New cluster`                                                                         |
-| `imageCredentials.password`            | Your Docker registry (Docker Hub, etc.) password                             | `unset`                | `YES - New cluster`                                                                         |
-| `serviceAccount.create`                | Enable to create aqua-sa serviceAccount if it is missing in the environment  | `false`                | `YES - New cluster`                                                                         |
-| `serviceAccount.name`                  | Service account name                                                         | `aqua-sa`              | `NO`                                                                                        |
-| `image.repository`                     | Docker image name to use                                                     | `cc-standard`          | `YES`                                                                                       |
-| `image.tag`                            | Image tag to use                                                             | `2022.4`               | `YES`                                                                                       |
-| `image.pullPolicy`                     | Kubernetes image pull policy                                                 | `Always`               | `NO`                                                                                        |
-| `service.type`                         | Kubernetes service type                                                      | `ClusterIP`            | `NO`                                                                                        |
-| `service.annotations`                  | Service annotations	                                                        | `{}`                   | `NO`                                                                                        |
-| `service.ports`                        | Array of ports settings                                                      | `array`                | `NO`                                                                                        |
-| `tolerations`                          | Kubernetes node tolerations	                                                | `[]`                   | `NO`                                                                                        |
-| `deploymentAnnotations`                | Kubernetes deployment annotations                                            | `{}`                   | `NO`                                                                                        |
-| `podAnnotations`                       | Kubernetes pod annotations                                                   | `{}`                   | `NO`                                                                                        |
-| `resources`                            | Resource requests and limits                                                 | `{}`                   | `NO`                                                                                        |
-| `nodeSelector`                         | Kubernetes node selector	                                                    | `{}`                   | `NO`                                                                                        |
-| `affinity`                             | Kubernetes node affinity                                                     | `{}`                   | `NO`                                                                                        |
-| `TLS.enabled`                          | If secure channel communication is required                                  | `false`                | `NO`                                                                                        |
-| `TLS.secretName`                       | Certificates secret name                                                     | `nil`                  | `YES` <br /> `if TLS.enabled is set to true`                                                |
-| `TLS.publicKey_fileName`               | Filename of the public key, e.g., aqua_cyber-center.crt                      | `nil`                  | `YES` <br /> `if TLS.enabled is set to true`                                                |
-| `TLS.privateKey_fileName`              | Filename of the private key, e.g., aqua_cyber-center.key                     | `nil`                  | `YES` <br /> `if TLS.enabled is set to true`                                                |
-| `TLS.rootCA_fileName`                  | Filename of the rootCA, if using self-signed certificates, e.g., rootCA.crt  | `nil`                  | `NO` <br /> `if TLS.enabled is set to true and using self-signed certificates for TLS/mTLS` |
-
+| Parameter                              | Description                                                                 | Default                | Mandatory                                                                                     |
+|----------------------------------------|-----------------------------------------------------------------------------|------------------------|-----------------------------------------------------------------------------------------------|
+| `imageCredentials.create`              | Enable to create new pull image secret                                      | `false`                | `YES - New cluster`                                                                           |
+| `imageCredentials.name`                | Your Docker pull image secret name                                          | `aqua-registry-secret` | `YES - New cluster`                                                                           |
+| `imageCredentials.repositoryUriPrefix` | Repository URI prefix for Docker Hub set `docker.io`                        | `registry.aquasec.com` | `YES - New cluster`                                                                           |
+| `imageCredentials.registry`            | Set the registry URL for Docker Hub set `index.docker.io/v1/`               | `registry.aquasec.com` | `YES - New cluster`                                                                           |
+| `imageCredentials.username`            | Your Docker registry (Docker Hub, etc.) username                            | `aqua-registry-secret` | `YES - New cluster`                                                                           |
+| `imageCredentials.password`            | Your Docker registry (Docker Hub, etc.) password                            | `unset`                | `YES - New cluster`                                                                           |
+| `serviceAccount.name`                  | Service account name                                                        | `aqua-sa`              | `NO`                                                                                          |
+| `serviceAccount.create`                | Enable to create aqua-sa serviceAccount if it is missing in the environment | `false`                | `YES - New cluster`                                                                           |
+| `platform`                             | Platform name (for Openshift)                                               | ``                     | `NO`                                                                                          |
+| `image.repository`                     | Docker image name to use                                                    | `cc-standard`          | `YES`                                                                                         |
+| `image.tag`                            | Image tag to use                                                            | `2022.4`               | `YES`                                                                                         |
+| `image.pullPolicy`                     | Kubernetes image pull policy                                                | `Always`               | `NO`                                                                                          |
+| `service.type`                         | Kubernetes service type                                                     | `ClusterIP`            | `NO`                                                                                          |
+| `service.annotations`                  | Service annotations	                                                        | `{}`                   | `NO`                                                                                          |
+| `service.ports`                        | Array of ports settings                                                     | `array`                | `NO`                                                                                          |
+| `tolerations`                          | Kubernetes node tolerations	                                                | `[]`                   | `NO`                                                                                          |
+| `deploymentAnnotations`                | Kubernetes deployment annotations                                           | `{}`                   | `NO`                                                                                          |
+| `podAnnotations`                       | Kubernetes pod annotations                                                  | `{}`                   | `NO`                                                                                          |
+| `resources`                            | Resource requests and limits                                                | `{}`                   | `NO`                                                                                          |
+| `nodeSelector`                         | Kubernetes node selector	                                                | `{}`                   | `NO`                                                                                          |
+| `affinity`                             | Kubernetes node affinity                                                    | `{}`                   | `NO`                                                                                          |
+| `TLS.enabled`                          | If secure channel communication is required                                 | `false`                | `NO`                                                                                          |
+| `TLS.secretName`                       | Certificates secret name                                                    | `nil`                  | `YES` <br /> `if TLS.enabled is set to true`                                                  |
+| `TLS.publicKey_fileName`               | Filename of the public key, e.g., aqua_cyber-center.crt                     | `nil`                  | `YES` <br /> `if TLS.enabled is set to true`                                                  |
+| `TLS.privateKey_fileName`              | Filename of the private key, e.g., aqua_cyber-center.key                    | `nil`                  | `YES` <br /> `if TLS.enabled is set to true`                                                  |
+| `TLS.rootCA_fileName`                  | Filename of the rootCA, if using self-signed certificates, e.g., rootCA.crt | `nil`                  | `NO` <br /> `if TLS.enabled is set to true and using self-signed certificates for TLS/mTLS`   |
+|----------------------------------------|-----------------------------------------------------------------------------|------------------------|-----------------------------------------------------------------------------------------------|
 > Note: `imageCredentials.create` is false; if you need to create an image pull secret, update this to true, set the username and password for the registry, and set `serviceAccount.create` to false. If your environment is new or not having aqua-sa serviceAccount, update it to true.
 
 ## Issues and feedback
