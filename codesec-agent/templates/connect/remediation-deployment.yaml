@@ -1,3 +1,4 @@
+{{ if .Values.remediation.enabled }}
 {{- $v := .Values.remediation }}
 {{- $name := printf "%s-%s" (include "chart.fullname" . ) "remediation" }}
 apiVersion: apps/v1
@@ -113,3 +114,4 @@ spec:
       tolerations:
         {{ toYaml . | indent 8 }}
     {{- end }}
+{{- end }}
