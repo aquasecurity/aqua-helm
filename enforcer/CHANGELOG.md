@@ -1,5 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2022.4.21 ( Apr 3rd, 2024 )
+* SLK-77315 - Support AKS 1.28
 ## 2022.4.20 ( Jan 8th, 2024 )
 * SLK-73499 - Add robustness to removal of windows-enforcer
 ## 2022.4.19 ( Jan 3rd, 2024 )
