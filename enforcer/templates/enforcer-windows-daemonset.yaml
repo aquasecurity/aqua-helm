@@ -78,6 +78,7 @@ spec:
             - powershell.exe
             - -c
             - Get-Service -Name slkd
+          timeoutSeconds: 5
           initialDelaySeconds: 15
           periodSeconds: 15
         envFrom:
