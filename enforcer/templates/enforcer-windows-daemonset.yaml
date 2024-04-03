@@ -54,22 +54,24 @@ spec:
         command:
         - powershell.exe
         - -command
-        - |
-          $Installation = Get-WmiObject -Class Win32_Product | Where-Object {$_.Vendor -eq "Aqua Security"}
-          if ($Installation -ne $null) {
-            Write-Output "Backing up Aqua-Enforcer logs to C:\Temp\Aquasec\"
-            Copy-Item -Path "C:\Program Files\AquaSec\log" -Destination "C:\Temp\Aquasec\" -Recurse -Force -ErrorAction SilentlyContinue
-            Write-Output "Removing $Installation.Name..."
-            $argList=@("/X",$Installation.IdentifyingNumber,"/qn","/L C:\Temp\Aquasec\AquaAgentWindowsInstaller.remove.log","/norestart","MSIRESTARTMANAGERCONTROL=Disable")
-            $Process=Start-Process -FilePath msiexec.exe -ArgumentList $argList -NoNewWindow -PassThru -Wait
-          }
-          Write-Output "Installing Aqua-Enforcer from $env:CONTAINER_SANDBOX_MOUNT_POINT"
-          $argList=@("/I","$env:CONTAINER_SANDBOX_MOUNT_POINT\AquaAgentWindowsInstaller.msi","/qn","/L C:\Temp\Aquasec\AquaAgentWindowsInstaller.install.log")
-          New-Item -Path "C:\Temp\Aquasec" -ItemType Directory -Force
-          $sysEnv=@(Get-ChildItem -Path Env:) | ForEach { $argList+=$_.Name+'="'+$_.Value+'"' }
-          $Process=Start-Process -FilePath msiexec.exe -ArgumentList $argList -NoNewWindow -PassThru -Wait
-          Get-Content C:\Temp\Aquasec\AquaAgentWindowsInstaller.install.log
-          While (Get-Service slkd | Where-Object {$_.Status -eq "Running"}){ Start-Sleep -s 30 }
+        - $Installation = Get-WmiObject -Class Win32_Product | Where-Object {$_.Vendor -eq "Aqua Security"};
+        - if ($Installation -ne $null) {
+            Get-ChildItem -Path "C:\Program Files\AquaSec\log";
+            Write-Output "Backing up Aqua-Enforcer logs to $Env:TEMP\Aquasec\";
+            Copy-Item -Path "C:\Program Files\AquaSec\log" -Destination "$Env:TEMP\Aquasec" -Recurse -Force -ErrorAction SilentlyContinue;
+            Write-Output "Removing $Installation.Name...";
+            $argList=@("/X",$Installation.IdentifyingNumber,"/qn","/L $Env:TEMP\Aquasec\AquaAgentWindowsInstaller.remove.log","/norestart","MSIRESTARTMANAGERCONTROL=Disable");
+            $Process=Start-Process -FilePath msiexec.exe -ArgumentList $argList -NoNewWindow -PassThru -Wait;
+          };
+        - Write-Output "List $Env:CONTAINER_SANDBOX_MOUNT_POINT";
+        - Get-ChildItem -Path $Env:CONTAINER_SANDBOX_MOUNT_POINT;
+        - Copy-Item -Path $(Join-Path -Path "$Env:CONTAINER_SANDBOX_MOUNT_POINT" -ChildPath "\AquaAgentWindowsInstaller.msi") -Destination $(Join-Path -Path "$Env:TEMP" -ChildPath "\AquaAgentWindowsInstaller.msi") -Force;
+        - $argList=@("/I","$Env:TEMP\AquaAgentWindowsInstaller.msi","/qn","/L*V AquaAgentWindowsInstaller.install.log");
+        - $sysEnv=@(Get-ChildItem -Path Env:) | ForEach { $argList+=$_.Name+'="'+$_.Value+'"' };
+        - Write-Output "Running Start-Process -FilePath msiexec.exe -ArgumentList " $argList " -NoNewWindow -PassThru -Wait";
+        - $Process=Start-Process -FilePath msiexec.exe -ArgumentList $argList -NoNewWindow -PassThru -Wait;
+        - Get-Content AquaAgentWindowsInstaller.install.log;
+        - While ( $true ){ Start-Sleep -s 30 }
         startupProbe:
           exec:
             command:
@@ -129,15 +131,15 @@ spec:
               command:
               - powershell.exe
               - -command
-              - |
-                $Installation = Get-WmiObject -Class Win32_Product | Where-Object {$_.Vendor -eq "Aqua Security"}
-                if ($Installation -ne $null) {
-                  Write-Output "Backing up Aqua-Enforcer logs to C:\Temp\Aquasec\"
-                  Copy-Item -Path "C:\Program Files\AquaSec\log" -Destination "C:\Temp\Aquasec\" -Recurse -Force -ErrorAction SilentlyContinue
-                  Write-Output "Removing $Installation.Name..."
-                  $argList=@("/X",$Installation.IdentifyingNumber,"/qn","/L C:\Temp\Aquasec\AquaAgentWindowsInstaller.remove.log","/norestart","MSIRESTARTMANAGERCONTROL=Disable")
-                  $Process=Start-Process -FilePath msiexec.exe -ArgumentList $argList -NoNewWindow -PassThru -Wait
-                }
+              - $Installation = Get-WmiObject -Class Win32_Product | Where-Object {$_.Vendor -eq "Aqua Security"};
+              - if ($Installation -ne $null) {
+                  Get-ChildItem -Path "C:\Program Files\AquaSec\log";
+                  Write-Output "Backing up Aqua-Enforcer logs to $Env:TEMP\Aquasec\";
+                  Copy-Item -Path "C:\Program Files\AquaSec\log" -Destination "$Env:TEMP\Aquasec\" -Recurse -Force -ErrorAction SilentlyContinue;
+                  Write-Output "Removing $Installation.Name...";
+                  $argList=@("/X",$Installation.IdentifyingNumber,"/qn","/L $Env:TEMP\Aquasec\AquaAgentWindowsInstaller.remove.log","/norestart","MSIRESTARTMANAGERCONTROL=Disable");
+                  $Process=Start-Process -FilePath msiexec.exe -ArgumentList $argList -NoNewWindow -PassThru -Wait;
+                };
         {{- if and (not .Values.windowsEnforcer.resources) .Values.expressMode }}
         resources:
           requests:
