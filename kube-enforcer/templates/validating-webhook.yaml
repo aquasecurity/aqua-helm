@@ -47,7 +47,6 @@ webhooks:
         name: {{ include "kube-enforcer.fullname" . }}
     timeoutSeconds: {{ .Values.webhooks.validatingWebhook.timeout }}
     admissionReviewVersions: ["v1beta1"]
-    sideEffects: "None"
     {{- with .Values.webhooks.validatingWebhook.namespaceSelector }}
     namespaceSelector:
     {{ toYaml . | nindent 8 }}
