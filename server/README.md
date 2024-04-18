@@ -2,8 +2,7 @@
 
 # Aqua Security Server Helm Chart
 
-These are Helm charts for installation and maintenance of Aqua Container Security Platform: Console Server, Gateway,
-Database.
+These are Helm charts for installation and maintenance of Aqua Container Security Platform: Console Server, Gateway & Database.
 
 ## Contents
 

@@ -51,8 +51,8 @@ spec:
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.global.db.passwordFromSecret.global.dbPasswordName }}
-              key: {{ .Values.global.db.passwordFromSecret.global.dbPasswordKey }}
+              name: {{ .Values.global.db.passwordFromSecret.dbPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.dbPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
@@ -87,8 +87,8 @@ spec:
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.global.db.passwordFromSecret.global.dbPasswordName }}
-              key: {{ .Values.global.db.passwordFromSecret.global.dbPasswordKey }}
+              name: {{ .Values.global.db.passwordFromSecret.dbPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.dbPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
@@ -190,8 +190,8 @@ spec:
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordName }}
-              key: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordKey }}
+              name: {{ .Values.global.db.passwordFromSecret.dbAuditPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.dbAuditPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
@@ -226,8 +226,8 @@ spec:
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordName }}
-              key: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordKey }}
+              name: {{ .Values.global.db.passwordFromSecret.dbAuditPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.dbAuditPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
