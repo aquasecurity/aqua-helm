@@ -163,7 +163,7 @@ Parameter | Description      | Default| Mandatory
 `serviceAccount.create` | enable to create serviceaccount       | `false`| `YES - New cluster`
 `serviceAccount.name` | service acccount name  | `aqua-sa`| `NO`
 `clusterRole.roleRef` | cluster role reference name for cluster rolebinding| `unset`| `NO`
-`platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s)   | `unset`| `YES`
+`platform` | Orchestration platform name (Allowed values are aks, eks, gke, gke-autopilot, openshift, tkg, tkgi, k8s, rancher, gs, k3s)   | `unset`| `YES`
 `vaultSecret.enable` | Enable to true once you have secrets in vault and annotations are enabled to load enforcer token from hashicorp vault | `false`| `No` |
 `vaultSecret.vaultFilepath` | Change the path to "/vault/secrets/<filename>" as per the setup     | ` `   | `NO`
 `enforcerToken` | enforcer token value   | `enforcer-token`      | `YES` if `enforcerTokenSecretName` is set to null
