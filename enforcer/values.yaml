@@ -4,6 +4,7 @@ global:
   # - aks: Azure Kubernetes Service
   # - eks: Amazon Elastic Kubernetes Service
   # - gke: Google Kubernetes Engine
+  # - gke-autopilot: Google Kubernetes Engine Autopilot
   # - openshift: Red Hat OpenShift/OCP
   # - tkg: VMware Tanzu Kubernetes Grid
   # - tkgi: VMware Tanzu Kubernetes Grid Integrated Edition
@@ -97,6 +98,16 @@ securityContext:
       - SYSLOG
       - SYS_CHROOT
       - SYS_RESOURCE
+      - IPC_LOCK
+      - LINUX_IMMUTABLE
+      - CHOWN
+      - DAC_OVERRIDE
+      - FSETID
+      - FOWNER
+      - SETFCAP
+      - SETPCAP
+      - NET_BIND_SERVICE
+      - AUDIT_WRITE
       - IPC_LOCK
 
 # podsSecurity policy [Deprecated from kubernetes version > 1.21]

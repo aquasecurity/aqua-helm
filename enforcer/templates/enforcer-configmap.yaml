@@ -15,7 +15,12 @@ data:
   {{- else }}
   AQUA_SERVER: {{ .Values.global.gateway.address | default "aqua-gateway-svc" }}:{{ .Values.global.gateway.port | default "8443" }}
   {{- end }}
+  {{- if eq .Values.global.platform "gke-autopilot" -}}
+  AQUA_INSTALL_PATH: "/var/autopilot/addon/aquasec"
+  AQUA_PRODUCT_PATH: "/var/autopilot/addon/aquasec"
+  {{- else }}
   AQUA_INSTALL_PATH: "/var/lib/aquasec"
+  {{- end }}
   {{- if .Values.hostRunPath }}
   AQUA_HOST_RUN_PATH: {{ .Values.hostRunPath | quote }}
   {{- end }}
