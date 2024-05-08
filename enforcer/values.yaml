@@ -99,16 +99,6 @@ securityContext:
       - SYS_CHROOT
       - SYS_RESOURCE
       - IPC_LOCK
-      - LINUX_IMMUTABLE
-      - CHOWN
-      - DAC_OVERRIDE
-      - FSETID
-      - FOWNER
-      - SETFCAP
-      - SETPCAP
-      - NET_BIND_SERVICE
-      - AUDIT_WRITE
-      - IPC_LOCK
 
 # podsSecurity policy [Deprecated from kubernetes version > 1.21]
 # if securityContext.privileged is set to true, the podSecurityPolicy will be configured to grant privileged access
