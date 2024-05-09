@@ -123,6 +123,9 @@ spec:
 {{ toYaml . | indent 10 }}
 {{- end }}
         volumeMounts:
+{{- with .Values.extraVolumeMounts }}
+  {{- toYaml . | nindent 10 }}
+{{- end }}
         {{- if .Values.TLS.enabled }}
         - name: certs
           mountPath: /opt/aquasec/ssl/
@@ -148,6 +151,9 @@ spec:
 {{ toYaml .Values.tolerations | indent 6 }}
       {{- end }}
       volumes:
+{{- with .Values.extraVolumes }}
+  {{- toYaml . | nindent 6 }}
+{{- end }}
       {{- if .Values.TLS.enabled }}
       - name: certs
         secret:
