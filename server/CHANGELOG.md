@@ -1,12 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2022.4.23 ( Dec 24th, 2023 )
+## 2022.4.24 (Apr 16th, 2024)
+* Fixed a bug in the database password value references, that linked to wrong, non exitend values
+* Fixed some typos and formatting style related aspects
+
+## 2022.4.23 (Dec 24th, 2023)
 * Add support for ArgoCD deployment - [#799](https://github.com/aquasecurity/aqua-helm/issues/799)
 * Immutable Secrets - Preventing changes to the data of an existing Secret (DB)
 
-
-## 2022.4.22 ( Dec 10th, 2023 )
+## 2022.4.22 (Dec 10th, 2023)
 * Fix indentation and formatting for external DB - [#790](https://github.com/aquasecurity/aqua-helm/issues/790) 
 * Fix envoy configuration
 
@@ -22,8 +25,10 @@ All notable changes to this project will be documented in this file.
 
 ## 2022.4.18 (Jun 30th, 2023)
 * Fix openshift scc
+
 ## 2022.4.17 (Jun 27th, 2023)
 * Add vault agent injection support for db secrets
+
 ## 2022.4.16 (May 28, 2023)
 * Add support for external web secret
 

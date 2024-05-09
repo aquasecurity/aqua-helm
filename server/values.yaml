@@ -113,19 +113,19 @@ global:
       pubsubPassword: ""
 
     passwordFromSecret:
-      #Enable if loading passwords for db and audit-db from secret
+      # Enable if loading passwords for db and audit-db from secret
       enabled: false
-      #Specify the Password Secret name used for db password
+      # Specify the Password Secret name used for db password
       dbPasswordName: ""
-      #Specify the db password key name stored in the #dbPasswordName secret
+      # Specify the db password key name stored in the #dbPasswordName secret
       dbPasswordKey: ""
-      #Specify the Password Secret name used for audit db password
+      # Specify the Password Secret name used for audit db password
       dbAuditPasswordName: ""
-      #Specify the audit db password key name stored in the #dbAuditPasswordName secret
+      # Specify the audit db password key name stored in the #dbAuditPasswordName secret
       dbAuditPasswordKey: ""
-      #Specify the Password Secret name used for pubsub db password
+      # Specify the Password Secret name used for pubsub db password
       dbPubsubPasswordName: ""
-      #Specify the pubsub db password key name stored in the #PubsubPasswordName secret
+      # Specify the pubsub db password key name stored in the #PubsubPasswordName secret
       dbPubsubPasswordKey: ""
 
     ssl: false

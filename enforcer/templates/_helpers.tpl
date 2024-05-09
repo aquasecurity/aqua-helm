@@ -148,3 +148,15 @@ Create chart name and version as used by the chart label.
 {{- define "aqua.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Set /var/lib path
+For gke-autopilot should be /var/autopilot/addon
+*/}}
+{{- define "varLibPrefix" -}}
+{{- if eq .Values.global.platform "gke-autopilot" -}}
+{{- printf "%s" "/var/autopilot/addon" -}}
+{{- else -}}
+{{- printf "%s" "/var/lib" -}}
+{{- end -}}
+{{- end -}}

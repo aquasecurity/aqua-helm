@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.44 ( May 6rd, 2024 )
+* Enforcer version changed to 2022.4.22
+
+## 2022.4.43 ( Apr 3rd, 2024 )
+* Enforcer version changed to 2022.4.21
+
 ## 2022.4.42 ( Feb 19th, 2024 )
 * Fix namespaceSelector for KE admission controller
 
