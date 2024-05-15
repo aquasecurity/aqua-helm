@@ -154,16 +154,10 @@ For more details please visit [Link](https://docs.aquasec.com/docs/kubernetes#se
 
 Parameter | Description      | Default| Mandatory
 --------- |------------------|--------| ---------
-`imageCredentials.create` | Set if to create new pull image secret| `false`| `YES - New cluster`
-`imageCredentials.name` | Your Docker pull image secret name    | `aqua-registry-secret`| `YES - New cluster`
-`imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io`| `registry.aquasec.com`| `YES - New cluster`
-`imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/`| `registry.aquasec.com`| `YES - New cluster`
-`imageCredentials.username` | Your Docker registry (DockerHub, etc.) username| `aqua-registry-secret`| `YES - New cluster`
-`imageCredentials.password` | Your Docker registry (DockerHub, etc.) password| `unset`| `YES - New cluster`
 `serviceAccount.create` | enable to create serviceaccount       | `false`| `YES - New cluster`
 `serviceAccount.name` | service acccount name  | `aqua-sa`| `NO`
 `clusterRole.roleRef` | cluster role reference name for cluster rolebinding| `unset`| `NO`
-`platform` | Orchestration platform name (Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s)   | `unset`| `YES`
+`platform` | Orchestration platform name (Allowed values are aks, eks, gke, gke-autopilot, openshift, tkg, tkgi, k8s, rancher, gs, k3s)   | `unset`| `YES`
 `vaultSecret.enable` | Enable to true once you have secrets in vault and annotations are enabled to load enforcer token from hashicorp vault | `false`| `No` |
 `vaultSecret.vaultFilepath` | Change the path to "/vault/secrets/<filename>" as per the setup     | ` `   | `NO`
 `enforcerToken` | enforcer token value   | `enforcer-token`      | `YES` if `enforcerTokenSecretName` is set to null
@@ -177,6 +171,12 @@ Parameter | Description      | Default| Mandatory
 `podSecurityContext` | Set Pod Security Context ( see: https://kubernetes.io/docs/tasks/configure-pod-container/security-context ) | `unset` | `NO` 
 `podSecurityPolicy.create` | Enable Pod Security Policies with the required enforcer capabilities| `false`| `NO`
 `podSecurityPolicy.privileged` | Enable privileged permissions to the Enforcer| `true` if podSecurityPolicy.create is `true` | `NO`
+`global.imageCredentials.create` | Set if to create new pull image secret| `false`| `YES - New cluster`
+`global.imageCredentials.name` | Your Docker pull image secret name    | `aqua-registry-secret`| `YES - New cluster`
+`global.imageCredentials.repositoryUriPrefix` | repository uri prefix for dockerhub set `docker.io`| `registry.aquasec.com`| `YES - New cluster`
+`global.imageCredentials.registry` | set the registry url for dockerhub set `index.docker.io/v1/`| `registry.aquasec.com`| `YES - New cluster`
+`global.imageCredentials.username` | Your Docker registry (DockerHub, etc.) username| `aqua-registry-secret`| `YES - New cluster`
+`global.imageCredentials.password` | Your Docker registry (DockerHub, etc.) password| `unset`| `YES - New cluster`
 `global.gateway.address` | Gateway host address   | `aqua-gateway-svc`    | `YES`
 `global.gateway.port` | Gateway host port| `8443` | `YES`
 `priorityClass.create` | If true priority class will be created| `False`| `NO`

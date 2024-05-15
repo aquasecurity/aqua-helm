@@ -1,6 +1,9 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+_1.2.7
+* Add support for broker token integration.
+
 _1.2.6
 * Add support for external codesec-agent secret.
 

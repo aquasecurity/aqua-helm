@@ -42,6 +42,9 @@ rules:
   - apiGroups: ["machineconfiguration.openshift.io"]
     resources: ["machineconfigs", "machineconfigpools"]
     verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: [ "pods/log" ]
+    verbs: [ "get" ]
   {{- end }}
   - apiGroups:
       - "*"

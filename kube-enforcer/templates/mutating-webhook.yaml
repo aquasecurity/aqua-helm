@@ -33,5 +33,9 @@ webhooks:
         path: "/mutate"
     timeoutSeconds: {{ .Values.webhooks.mutatingWebhook.timeout }}
     admissionReviewVersions: ["v1beta1"]
+    {{- with .Values.webhooks.mutatingWebhook.namespaceSelector }}
+    namespaceSelector:
+    {{ toYaml . | nindent 8 }}
+    {{ end }}
 {{- end }}
 {{- end }}

@@ -1,6 +1,6 @@
 dependencies:
 - name: gateway
   repository: https://helm.aquasec.com
-  version: 2022.4.12
-digest: sha256:47dae0cfdf1eb452427a37a790892afbc5fc2248d7110d395b65f8912be8f094
-generated: "2023-12-19T16:37:32.076402+02:00"
+  version: 2022.4.13
+digest: sha256:2325025e19d4a42783bf37d21b538c0cc39e93e1edfef8ce23c2038519f47e80
+generated: "2024-04-02T17:34:42.751088+03:00"

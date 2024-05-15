@@ -4,6 +4,7 @@ global:
   # - aks: Azure Kubernetes Service
   # - eks: Amazon Elastic Kubernetes Service
   # - gke: Google Kubernetes Engine
+  # - gke-autopilot: Google Kubernetes Engine Autopilot
   # - openshift: Red Hat OpenShift/OCP
   # - tkg: VMware Tanzu Kubernetes Grid
   # - tkgi: VMware Tanzu Kubernetes Grid Integrated Edition
@@ -243,7 +244,8 @@ windowsEnforcer:
       command:
       - powershell.exe
       - -c
-      - Get-Service -Name slkd
+      - Get-Service -Name slkd | Where-Object {$_.Status -eq "Running"}
+    timeoutSeconds: 5
     initialDelaySeconds: 15
     periodSeconds: 15
 
@@ -252,7 +254,14 @@ windowsEnforcer:
       command:
       - powershell.exe
       - -c
-      - Get-Service -Name slkd  | Where-Object {$_.Status -eq "Running"}
+      - Start-Process -FilePath "C:\Program Files\AquaSec\slk.exe" -ArgumentList @("health","check") -Wait -NoNewWindow -RedirectStandardOutput "$Env:TEMP\aqua-enforcer-health.check";
+      - $connection = Get-Content -Path "$Env:TEMP\aqua-enforcer-health.check" | Select-String "connection to management server";
+      - Get-Content -Path "$Env:TEMP\aqua-enforcer-health.check";
+      - if ($connection | Select-String "PASSED" -Quiet) {
+          Exit 0;
+        };
+      - Exit 1;
+    timeoutSeconds: 15
     initialDelaySeconds: 15
     periodSeconds: 15
 
