@@ -85,7 +85,7 @@ microEnforcerImage:
 # KubeBench Image
 kubebenchImage:
   repository: "aquasec/kube-bench"  # Default aqua registry KubeBench repository name
-  tag: "v0.7.1"
+  tag: "v0.7.3"
 
 # Enable/Disable KB scanning on tainted nodes
 kubeBench:
@@ -385,7 +385,7 @@ trivy:
   image:
     registry: "docker.io/aquasec"
     repository: "trivy-operator"
-    tag: "0.16.1"
+    tag: "0.20.1"
     pullPolicy: IfNotPresent
     # Reference the secret for private registry
     secretName: ""

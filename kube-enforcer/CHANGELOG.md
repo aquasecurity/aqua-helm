@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.45 ( May 15th, 2024 )
+* upgraded kube-bench version to v0.7.3
+* upgraded trivy-operator version to 0.20.1
+* added CONTROLLER_CACHE_SYNC_TIMEOUT to resolve CRD sync issue
+
 ## 2022.4.44 ( May 6rd, 2024 )
 * Enforcer version changed to 2022.4.22
 
