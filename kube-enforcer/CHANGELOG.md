@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.46 ( May 21st, 2024 )
+* Add pod hostNetwork option for KE deployment
+
 ## 2022.4.45 ( May 15th, 2024 )
 * upgraded kube-bench version to v0.7.3
 * upgraded trivy-operator version to 0.20.1

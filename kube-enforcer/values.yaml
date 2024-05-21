@@ -162,6 +162,7 @@ role:
 roleBinding:
   name: "aqua-kube-enforcer"
 
+hostNetwork: false
 webhooks:
   # set this field true if you're using cert-manager and don't need to pass a caBundle
   certManager: false
