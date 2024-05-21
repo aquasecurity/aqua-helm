@@ -620,9 +620,9 @@ envoy:
     #                     cluster: aqua-gateway-svc
     #                     timeout: 0s
     #             http_filters:
-    #             - name: envoy.filters.http.health_check
+    #             - name: envoy..extensions.filters.http.health_check
     #               typed_config:
-    #                 "@type": type.googleapis.com/envoy.config.filter.http.health_check.v2.HealthCheck
+    #                 "@type": type.googleapis.com/envoy.extensions.filters.http.health_check.v3.HealthCheck
     #                 pass_through_mode: false
     #                 headers:
     #                 - name: ":path"
@@ -630,7 +630,8 @@ envoy:
     #                 - name: "x-envoy-livenessprobe"
     #                   exact_match: "healthz"
     #             - name: envoy.filters.http.router
-    #               typed_config: {}
+    #               typed_config:
+    #                  "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
     #         transport_socket:
     #           name: envoy.transport_sockets.tls
     #           typed_config:

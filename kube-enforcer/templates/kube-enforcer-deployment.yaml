@@ -35,6 +35,7 @@ spec:
         {{- end }}
 {{ include "aqua.labels" . | indent 8 }}
     spec:
+      hostNetwork: {{ .Values.hostNetwork }}
       {{- if .Values.global.dnsNdots }}
       dnsConfig:
         options:
