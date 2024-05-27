@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.6 ( May 27th, 2024 )
+* add cybercenter db volume mount
 ## 2022.4.5 ( Apr 3rd, 2024 )
 * remove ocp scc and root user for cc
 * Add non-root user in security context

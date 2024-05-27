@@ -74,6 +74,8 @@ spec:
         - name: certs
           mountPath: /opt/aquasec/ssl/
           readOnly: true
+        - name: cybercenter-db
+          mountPath: /var/lib/cybercenter/db
       volumes:
       - name: certs
         secret:
@@ -88,6 +90,8 @@ spec:
           - key: {{ .Values.TLS.rootCA_fileName }}
             path: ca.pem
           {{- end }}
+      - name: cybercenter-db
+        emptyDir: {}
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
