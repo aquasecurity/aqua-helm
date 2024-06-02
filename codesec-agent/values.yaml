@@ -89,7 +89,7 @@ scan:
   extraEnv: {}
 
 remediation:
-  enabled: false
+  enabled: true
   image: docker.io/aquasec/codesec-remediation:latest
   pullPolicy: Always
   replicas: 1
