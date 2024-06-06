@@ -12,7 +12,7 @@ This page provides instructions for using Helm charts to configure and deploy th
   - [Prerequisites](#prerequisites)
     - [Container registry credentials](#container-registry-credentials)
     - [Clone the GitHub repository with the charts](#clone-the-github-repository-with-the-charts)
-    - [Conncet to Aqua Saas / Gateway via proxy](#Conncet-to-Aqua-Saas-/-Gateway-via-proxy)
+    - [Conncet to Aqua Saas / Gateway via proxy](#conncet-to-aqua-saas--gateway-via-proxy)
     - [Configure TLS authentication between the KubeEnforcer and the API Server](#configure-tls-authentication-between-the-kubeenforcer-and-the-api-server)
       - [How to use cert-manager to configure TLS authentication between the KubeEnforcer and the API Server](#how-to-use-cert-manager-to-configure-tls-authentication-between-the-kubeenforcer-and-the-api-server)
   - [Deploy the Helm chart](#deploy-the-helm-chart)
