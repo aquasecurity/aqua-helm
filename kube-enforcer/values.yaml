@@ -284,7 +284,7 @@ TLS:
 extraEnvironmentVars: {}
   # http_proxy: < >
   # https_proxy: < >
-  # no_proxy: < > at least add the IP range of the kube API here. To make sure KE communicate directly with k8s.
+  # no_proxy: < > e.g. "srv.cluster.local". KE must be able to reach Kube API
   # ENV_NAME: value
 
 # extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonSet.
