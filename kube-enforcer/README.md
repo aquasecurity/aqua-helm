@@ -12,6 +12,7 @@ This page provides instructions for using Helm charts to configure and deploy th
   - [Prerequisites](#prerequisites)
     - [Container registry credentials](#container-registry-credentials)
     - [Clone the GitHub repository with the charts](#clone-the-github-repository-with-the-charts)
+    - [Conncet to Aqua Saas / Gateway via proxy](#conncet-to-aqua-saas--gateway-via-proxy)
     - [Configure TLS authentication between the KubeEnforcer and the API Server](#configure-tls-authentication-between-the-kubeenforcer-and-the-api-server)
       - [How to use cert-manager to configure TLS authentication between the KubeEnforcer and the API Server](#how-to-use-cert-manager-to-configure-tls-authentication-between-the-kubeenforcer-and-the-api-server)
   - [Deploy the Helm chart](#deploy-the-helm-chart)
@@ -55,6 +56,18 @@ When Starboard is **not** deployed, the KubeEnforcer will check workloads for co
 git clone -b 2022.4 https://github.com/aquasecurity/aqua-helm.git
 cd aqua-helm/
 ```
+### Conncet to Aqua Saas / Gateway via proxy 
+
+Aqua Enforcers can use http proxies for their communication. The http proxy must support gRPC, TLS/SSL inspection is not recommended. 
+To configure a proxy set `http_proxy`, `https_proxy` and `no_proxy` in `extraEnvironmentVars`
+```
+extraEnvironmentVars:
+  http_proxy:  http://proxy01.proxy.svc.cluster.local:8080
+  https_proxy: http://proxy01.proxy.svc.cluster.local:8080
+  no_proxy: .svc.cluster.local
+```
+As Kube Enforcer need to communicate with the KubeAPI, make sure `no_proxy` is configured to by pass the proxy. Use a comma separated list of IPs, FQDN or FQDN suffixes.
+If you deploy the Aqua Enforcer `enforcer.enabled=true` with this chart, make sure you set the environment variables accordingly in the `enforcer` section. 
 
 ### Configure TLS authentication between the KubeEnforcer and the API Server
 
