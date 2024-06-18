@@ -151,9 +151,11 @@ spec:
         ports:
         - containerPort: 8080
           protocol: TCP
+{{- if .Values.enableLivenessProbe }}
 {{- with .Values.livenessProbe }}
         livenessProbe:
 {{ toYaml . | indent 10 }}
+{{- end }}
 {{- end }}
 {{- with .Values.readinessProbe }}
         readinessProbe:

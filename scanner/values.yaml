@@ -117,7 +117,18 @@ scannerUserSecret:
   passwordKey: "" # secret key of the scanner password
 
 replicaCount: 1
-livenessProbe: {}
+# set this value to true for enabiling the livenessProbe
+enableLivenessProbe: false
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 8081
+    scheme: HTTP
+  initial_delay_seconds: 15
+  period_seconds: 60
+  success_threshold: 1
+  failure_threshold: 3
+  timeout_seconds: 1
 readinessProbe: {}
 resources: {}
   # Note: For recommendations please check the official sizing guide.
