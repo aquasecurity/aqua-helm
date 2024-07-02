@@ -74,6 +74,8 @@ spec:
         - name: certs
           mountPath: /opt/aquasec/ssl/
           readOnly: true
+        {{- include "extraEnvironmentVars" .Values | nindent 8 }}
+        {{- include "extraSecretEnvironmentVars" .Values | nindent 8 }}
       volumes:
       - name: certs
         secret:
