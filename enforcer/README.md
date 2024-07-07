@@ -156,6 +156,7 @@ Parameter | Description      | Default| Mandatory
 --------- |------------------|--------| ---------
 `serviceAccount.create` | enable to create serviceaccount       | `false`| `YES - New cluster`
 `serviceAccount.name` | service acccount name  | `aqua-sa`| `NO`
+`serviceAccount.attachImagePullSecret` | attach image pull secret to created service account? | `true` | `NO`
 `clusterRole.roleRef` | cluster role reference name for cluster rolebinding| `unset`| `NO`
 `platform` | Orchestration platform name (Allowed values are aks, eks, gke, gke-autopilot, openshift, tkg, tkgi, k8s, rancher, gs, k3s)   | `unset`| `YES`
 `vaultSecret.enable` | Enable to true once you have secrets in vault and annotations are enabled to load enforcer token from hashicorp vault | `false`| `No` |

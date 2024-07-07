@@ -37,6 +37,7 @@ global:
 serviceAccount:
   # change to true if deploying enforcer on new cluster or aqua-sa serviceAccount doesn't exist.
   create: false
+  attachImagePullSecret: true
   # use it to overwrite the default serviceAccount name
   name:
 
