@@ -24,11 +24,11 @@ Access the pod you want to debug by executing
   $ kubectl exec --namespace {{ .Release.Namespace }} -ti <NAME OF THE POD> -- bash
 
 For more information about Aqua Kube-Enforcer, you can look over the docs on using:
-https://docs.aquasec.com/docs/kubeenforcer
+https://docs.aquasec.com/v2022.4/platform/runtime-protection/enforcers/kubeenforcer/
 
 {{- if .Values.global.enforcer.enabled }}
 
 For more information about Aqua Enforcer, you can look over the docs on using:
-https://docs.aquasec.com/docs/aqua-enforcer
+https://docs.aquasec.com/v2022.4/platform/runtime-protection/enforcers/kubeenforcer/
 {{- end }}
 =======================================================================================
