@@ -22,6 +22,8 @@ data:
   {{- if .Values.TLS.enabled }}
   {{- if .Values.TLS.privateKey_fileName }}
   AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/key.pem"
+  {{- end}}
+  {{- if .Values.TLS.publicKey_fileName }}
   AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/cert.pem"
   {{- end}}
   {{- if .Values.TLS.rootCA_fileName }}
