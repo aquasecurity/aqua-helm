@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.25 (Jul 26th, 2024)
+* Fix indentation and formatting for external DB - [#790](https://github.com/aquasecurity/aqua-helm/pull/790)
+
 ## 2022.4.24 (Apr 16th, 2024)
 * Fixed a bug in the database password value references, that linked to wrong, non exitend values
 * Fixed some typos and formatting style related aspects

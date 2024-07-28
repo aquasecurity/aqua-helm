@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.6 ( Jul 26th, 2024 )
+* Add support for Extra Environment Variables - [#874](https://github.com/aquasecurity/aqua-helm/pull/874)
+
 ## 2022.4.5 ( Apr 3rd, 2024 )
 * remove ocp scc and root user for cc
 * Add non-root user in security context
