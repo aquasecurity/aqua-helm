@@ -97,7 +97,7 @@ TLS:
   rootCA_fileName: ""          #provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
   aqua_verify_enforcer: "0"    # change it to "1" for enabling mTLS between enforcer and gateway/envoy
 # extraEnvironmentVars is a list of extra environment variables to set in the gateway deployments.
-# https://docs.aquasec.com/docs/gateway-optional-variables
+# https://docs.aquasec.com/v2022.4/platform/deployments/environment-variables/gateway-optional-variables/
 extraEnvironmentVars: {}
 # ENV_NAME: value
 # extraSecretEnvironmentVars is a list of extra environment variables to set in the gateway deployments.

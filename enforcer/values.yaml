@@ -182,7 +182,7 @@ TLS:
   tls_verify: false
 
 # extraEnvironmentVars is a list of extra environment variables to set in the enforcer daemonSet.
-# https://docs.aquasec.com/docs/enforcer-optional-variables
+# https://docs.aquasec.com/v2022.4/platform/deployments/environment-variables/enforcer-optional-variables/
 # The variables could be provided via values.yaml file as shown below
 # or using cli command, for example:  --set extraEnvironmentVars.http_proxy="1.1.1.1",extraEnvironmentVars.https_proxy="2.2.2.2"
 extraEnvironmentVars: {}
@@ -322,7 +322,7 @@ windowsEnforcer:
     tls_verify: false
 
   # extraEnvironmentVars is a list of extra environment variables to set in the enforcer daemonSet.
-  # https://docs.aquasec.com/docs/enforcer-optional-variables
+  # https://docs.aquasec.com/v2022.4/platform/deployments/environment-variables/enforcer-optional-variables/
   # The variables could be provided via values.yaml file as shown below
   # or using cli command, for example:  --set extraEnvironmentVars.http_proxy="1.1.1.1",extraEnvironmentVars.https_proxy="2.2.2.2"
   extraEnvironmentVars: {}
