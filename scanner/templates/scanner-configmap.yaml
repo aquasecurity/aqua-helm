@@ -9,7 +9,11 @@ metadata:
     aqua.component: scanner
 {{ include "aqua.labels" . | indent 4 }}
 data:
-  SCALOCK_LOG_LEVEL: {{ .Values.logLevel | default "INFO" }}  
+  SCALOCK_LOG_LEVEL: {{ .Values.logLevel | default "INFO" }}
+  {{- if .Values.enableLivenessProbe }}
+  AQUA_HEALTH_MONITOR_ENABLED: "true"
+  AQUA_HEALTH_MONITOR_PORT: {{ .Values.livenessProbe.httpGet.port }}
+  {{- end }}
   {{- if .Values.cyberCenter.mtls.enabled }}
   AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/key.pem"
   AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/cert.pem"

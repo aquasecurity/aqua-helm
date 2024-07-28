@@ -1,5 +1,8 @@
 # Changelog
 
+## 2022.4.8 (June 18th, 2024)
+* Added Liveness probe Configuration spec
+* 
 All notable changes to this project will be documented in this file.
 ## 2022.4.6 (Sep 28th, 2023)
 * Add RBAC configuration - SLK-72111
