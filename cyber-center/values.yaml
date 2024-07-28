@@ -69,3 +69,17 @@ TLS:
   privateKey_fileName: ""
   # provide filename of the rootCA, if using self-signed certificates eg: rootCA.crt
   rootCA_fileName: ""
+
+  # extraEnvironmentVars is a list of extra environment variables to set in the Offline CyberCenter deployment.
+  extraEnvironmentVars: {}
+    # http_proxy: < >
+    # https_proxy: < >
+    # no_proxy: < >
+    # ENV_NAME: value
+
+
+  # These variables take value from existing Secret objects.
+  extraSecretEnvironmentVars: []
+    # - envName: ENV_NAME
+    #   secretName: name
+    #   secretKey: key
