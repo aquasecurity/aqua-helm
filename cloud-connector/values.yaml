@@ -1,3 +1,6 @@
+# in case of openshift will apply SCC
+platform: ""
+
 # Specifies the secret data for imagePullSecrets needed to fetch the private docker images
 imageCredentials:
   create: false
@@ -92,6 +95,11 @@ affinity: {}
 # podAnnotations -- Allows setting additional annotations for Aqua Cloud Connector PODs
 podAnnotations: {}
 
+# Allows you to specify the API version for the PodDisruptionBudget
+# This is useful where .Capabilities.APIVersions.Has does not work e.g. Helm template & ArgoCD
+# For example: policy/v1beta1 or policy/v1
+pdbApiVersion:
+
 # The variables could be provided via values.yaml file as shown below
 # or using cli command, for example:  --set extraEnvironmentVars.http_proxy="1.1.1.1",extraEnvironmentVars.https_proxy="2.2.2.2"
 extraEnvironmentVars: {}
@@ -99,6 +107,13 @@ extraEnvironmentVars: {}
   # https_proxy:
   # no_proxy:
   # ENV_NAME: value
+
+# extraSecretEnvironmentVars is a list of extra environment variables to set in the cloud-connector Deployment.
+# These variables take value from existing Secret objects.
+extraSecretEnvironmentVars: []
+  # - envName: ENV_NAME
+  #   secretName: name
+  #   secretKey: key
 
 tunnels:
   # Host endpoints for Azure Functions

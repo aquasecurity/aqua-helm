@@ -1,17 +1,20 @@
 global:
-  #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
-  # aks = Azure Kubernetes Service
-  # eks = Amazon Kubernetes Service
-  # gke = Google kubernetes Engine
-  # openshift = RedHat Openshift/OCP
-  # tkg = VMware Tanzu kubernetes Grid
-  # tkgi = VMware Tanzu kubernetes Grid Integrated Edition
-  # k8s = Plain/on-prem Vanilla Kubernetes
-  # rancher = Rancher Kubernetes Platform
-  # gs = GaintSwarm platform
-  # k3s = k3s kubernetes platform
-  # mke = Mirantis Kubernetes Engine
+  # Specify the Kubernetes (k8s) platform acronym.
+  # Allowed values are:
+  # - aks: Azure Kubernetes Service
+  # - eks: Amazon Elastic Kubernetes Service
+  # - gke: Google Kubernetes Engine
+  # - gke-autopilot: Google Kubernetes Engine Autopilot
+  # - openshift: Red Hat OpenShift/OCP
+  # - tkg: VMware Tanzu Kubernetes Grid
+  # - tkgi: VMware Tanzu Kubernetes Grid Integrated Edition
+  # - k8s: Plain/on-prem Vanilla Kubernetes
+  # - rancher: Rancher Kubernetes Platform
+  # - gs: Giant Swarm platform
+  # - k3s: k3s Kubernetes platform
+  # - mke: Mirantis Kubernetes Engine
   platform: ""
+  dnsNdots:
   enforcer:
     enabled: false
   gateway:
@@ -34,6 +37,7 @@ global:
 serviceAccount:
   # change to true if deploying enforcer on new cluster or aqua-sa serviceAccount doesn't exist.
   create: false
+  attachImagePullSecret: true
   # use it to overwrite the default serviceAccount name
   name:
 
@@ -41,7 +45,7 @@ clusterRole:
   roleRef: ""
 
 # Hashicorp Vault is a secrets management tool
-# Below vaultSecret and vaultAnnotations section helps setting vault sidecar/initcontainer agents to load enforcer-token securely
+# Below vaultSecret and vaultAnnotations section helps setting vault sidecar/initContainer agents to load enforcer-token securely
 vaultSecret:
   enabled: false          # Enable to true once you have secrets in vault and annotations are enabled to load enforcer token from hashicorp vault
   vaultFilepath: ""       # Change the path to "/vault/secrets/<filename>" as per the setup
@@ -97,7 +101,7 @@ securityContext:
       - SYS_RESOURCE
       - IPC_LOCK
 
-# podsecurity policy [Deprecated from kubernetes version > 1.21]
+# podsSecurity policy [Deprecated from kubernetes version > 1.21]
 # if securityContext.privileged is set to true, the podSecurityPolicy will be configured to grant privileged access
 podSecurityPolicy:
   create: false     # Enable to true to create PSP
@@ -144,11 +148,11 @@ nodeSelector: {}
 tolerations: []
 podAnnotations: {}
 podLabels: {}
+podSecurityContext: {}
 affinity: {}
 #  my-annotation-key: my value; more value
 
 dnsPolicy: "ClusterFirst"
-dnsNdots:
 hostPID: "true"
 hostRunPath: ""
 schedulerName: "default-scheduler"
@@ -177,7 +181,7 @@ TLS:
   # change it to true for enabling mTLS between enforcer and gateway/envoy
   tls_verify: false
 
-# extraEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
+# extraEnvironmentVars is a list of extra environment variables to set in the enforcer daemonSet.
 # https://docs.aquasec.com/docs/enforcer-optional-variables
 # The variables could be provided via values.yaml file as shown below
 # or using cli command, for example:  --set extraEnvironmentVars.http_proxy="1.1.1.1",extraEnvironmentVars.https_proxy="2.2.2.2"
@@ -188,7 +192,7 @@ extraEnvironmentVars: {}
   # AQUA_OCP_FULL_VERSION: <OCP version> #set this variable with the exact OCP version to allow accurate vulnerability scanning
   # ENV_NAME: value
 
-# extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
+# extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonSet.
 # These variables take value from existing Secret objects.
 extraSecretEnvironmentVars: []
   # - envName: ENV_NAME
@@ -197,10 +201,10 @@ extraSecretEnvironmentVars: []
 
 windowsEnforcer:
   ## To Enable Windows Enforcer to deploy on windows agents
-  allWinNodes: # Enable to true, If All the nodes are windows os
+  allWinNodes: # Enable to true, If All the nodes are Windows os
     enable: false
 
-  WinLinuxNodes: # Enable to true, If nodes are combination of linux and windows os
+  WinLinuxNodes: # Enable to true, If nodes are combination of linux and Windows os
     enable: false
 
   # Enter the enforcer token in "clear-text" format without quotes generated from the Console UI
@@ -241,7 +245,8 @@ windowsEnforcer:
       command:
       - powershell.exe
       - -c
-      - Get-Service -Name slkd
+      - Get-Service -Name slkd | Where-Object {$_.Status -eq "Running"}
+    timeoutSeconds: 5
     initialDelaySeconds: 15
     periodSeconds: 15
 
@@ -250,7 +255,14 @@ windowsEnforcer:
       command:
       - powershell.exe
       - -c
-      - Get-Service -Name slkd  | Where-Object {$_.Status -eq "Running"}
+      - Start-Process -FilePath "C:\Program Files\AquaSec\slk.exe" -ArgumentList @("health","check") -Wait -NoNewWindow -RedirectStandardOutput "$Env:TEMP\aqua-enforcer-health.check";
+      - $connection = Get-Content -Path "$Env:TEMP\aqua-enforcer-health.check" | Select-String "connection to management server";
+      - Get-Content -Path "$Env:TEMP\aqua-enforcer-health.check";
+      - if ($connection | Select-String "PASSED" -Quiet) {
+          Exit 0;
+        };
+      - Exit 1;
+    timeoutSeconds: 15
     initialDelaySeconds: 15
     periodSeconds: 15
 
@@ -263,7 +275,7 @@ windowsEnforcer:
     #   cpu: 1500m
     #   memory: 1.5Gi
 
-  # Add nodeselector of windows agents
+  # Add nodeSelector of windows agents
   nodeSelector: {}
     #kubernetes.io/os: windows
 
@@ -309,7 +321,7 @@ windowsEnforcer:
     # change it to true for enabling mTLS between enforcer and gateway/envoy
     tls_verify: false
 
-  # extraEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
+  # extraEnvironmentVars is a list of extra environment variables to set in the enforcer daemonSet.
   # https://docs.aquasec.com/docs/enforcer-optional-variables
   # The variables could be provided via values.yaml file as shown below
   # or using cli command, for example:  --set extraEnvironmentVars.http_proxy="1.1.1.1",extraEnvironmentVars.https_proxy="2.2.2.2"
@@ -320,7 +332,7 @@ windowsEnforcer:
     # AQUA_OCP_FULL_VERSION: <OCP version> #set this variable with the exact OCP version to allow accurate vulnerability scanning
     # ENV_NAME: value
 
-  # extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonset.
+  # extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonSet.
   # These variables take value from existing Secret objects.
   extraSecretEnvironmentVars: []
     # - envName: ENV_NAME

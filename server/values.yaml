@@ -35,7 +35,7 @@ clustermode: ""
 activeactive: ""
 
 # Hashicorp Vault for secrets management
-# Below vaultSecret and vaultAnnotations section helps setting vault sidecar/init-container agents to load secrets securely
+# Below vaultSecret and vaultAnnotations section helps to set vault sidecar/init-container agents to load secrets securely
 vaultSecret:
   enabled: false          # Enable to true once you have secrets in vault and annotations are enabled to load admin and db passwords from vault
   vaultFilepath: ""       # Change the path to "/vault/secrets/<filename>" as per the setup
@@ -72,22 +72,25 @@ dockerSock:
 
 nameOverride: ""
 
-# podsecurity policy [Deprecated from kubernetes version > 1.21]
+# podSecurity policy [Deprecated from kubernetes version > 1.21]
 podSecurityPolicy:
   create: false     # Enable to true to create PSP
   privileged: true
 
 global:
-  #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
-  # aks = Azure Kubernetes Service
-  # gke = Google kubernetes Engine
-  # openshift = RedHat Openshift/OCP
-  # tkg = VMware Tanzu kubernetes Grid
-  # tkgi = VMware Tanzu kubernetes Grid Integrated Edition
-  # k8s = Plain/on-prem Vanilla Kubernetes
-  # rancher = Rancher Kubernetes Platform
-  # gs = GaintSwarm platform
-  # k3s = k3s kubernetes platform
+  # Specify the Kubernetes (k8s) platform acronym.
+  # Allowed values are:
+  # - aks: Azure Kubernetes Service
+  # - eks: Amazon Elastic Kubernetes Service
+  # - gke: Google Kubernetes Engine
+  # - openshift: Red Hat OpenShift/OCP
+  # - tkg: VMware Tanzu Kubernetes Grid
+  # - tkgi: VMware Tanzu Kubernetes Grid Integrated Edition
+  # - k8s: Plain/on-prem Vanilla Kubernetes
+  # - rancher: Rancher Kubernetes Platform
+  # - gs: Giant Swarm platform
+  # - k3s: k3s Kubernetes platform
+  # - mke: Mirantis Kubernetes Engine
   platform: ""
 
   db:
@@ -110,19 +113,19 @@ global:
       pubsubPassword: ""
 
     passwordFromSecret:
-      #Enable if loading passwords for db and audit-db from secret
+      # Enable if loading passwords for db and audit-db from secret
       enabled: false
-      #Specify the Password Secret name used for db password
+      # Specify the Password Secret name used for db password
       dbPasswordName: ""
-      #Specify the db password key name stored in the #dbPasswordName secret
+      # Specify the db password key name stored in the #dbPasswordName secret
       dbPasswordKey: ""
-      #Specify the Password Secret name used for audit db password
+      # Specify the Password Secret name used for audit db password
       dbAuditPasswordName: ""
-      #Specify the audit db password key name stored in the #dbAuditPasswordName secret
+      # Specify the audit db password key name stored in the #dbAuditPasswordName secret
       dbAuditPasswordKey: ""
-      #Specify the Password Secret name used for pubsub db password
+      # Specify the Password Secret name used for pubsub db password
       dbPubsubPasswordName: ""
-      #Specify the pubsub db password key name stored in the #PubsubPasswordName secret
+      # Specify the pubsub db password key name stored in the #PubsubPasswordName secret
       dbPubsubPasswordKey: ""
 
     ssl: false
@@ -336,11 +339,11 @@ web:
     pullPolicy: Always
 
   # Additional certificates that the server should trust, such as a network proxy
-  # The certificates should be bundled into a single file inside of a configmap
+  # The certificates should be bundled into a single file inside a configmap
   additionalCerts: []
     # - createSecret: true                # Change to false if you're using existing server certificate secret
     #   secretName: "proxy-server-certs"  # Change secret name if already exists with server/web public certificate
-    #   certFile:                         # If additionalCerts createSecret enable to true, add base64 value of the the server public certificate or add filename of certificate if loading from custom secret
+    #   certFile:                         # If additionalCerts createSecret enable to true, add base64 value of the server public certificate or add filename of certificate if loading from custom secret
 
   service:
     type: LoadBalancer
@@ -377,9 +380,9 @@ web:
         protocol: TCP
   ingress:
     enabled: false
-    # Allows you to specify the API version for the Ingesss
+    # Allows you to specify the API version for the Ingress
     # This is useful where .Capabilities.APIVersions.Has does not work e.g. Helm template & ArgoCD
-    # For example: or networking.k8s.io/v1 or networking.k8s.io/v1beta1
+    # For example: networking.k8s.io/v1 or networking.k8s.io/v1beta1
     apiVersion:
     externalPort:
     annotations: {}
@@ -423,6 +426,10 @@ web:
   podAnnotations: {}
   #  my-annotation-key: my value; more value
   podLabels: {}
+  # Allows you to specify the API version for the PodDisruptionBudget
+  # This is useful where .Capabilities.APIVersions.Has does not work e.g. Helm template & ArgoCD
+  # For example: policy/v1beta1 or policy/v1
+  pdbApiVersion:
 
   securityContext:
     runAsUser: 11431
@@ -570,6 +577,10 @@ envoy:
 
   pdb:
     minAvailable: "1"
+    # Allows you to specify the API version for the PodDisruptionBudget
+    # This is useful where .Capabilities.APIVersions.Has does not work e.g. Helm template & ArgoCD
+    # For example: policy/v1beta1 or policy/v1
+    apiVersion:
 
   securityContext: {}
 
@@ -609,9 +620,9 @@ envoy:
     #                     cluster: aqua-gateway-svc
     #                     timeout: 0s
     #             http_filters:
-    #             - name: envoy.filters.http.health_check
+    #             - name: envoy..extensions.filters.http.health_check
     #               typed_config:
-    #                 "@type": type.googleapis.com/envoy.config.filter.http.health_check.v2.HealthCheck
+    #                 "@type": type.googleapis.com/envoy.extensions.filters.http.health_check.v3.HealthCheck
     #                 pass_through_mode: false
     #                 headers:
     #                 - name: ":path"
@@ -619,7 +630,8 @@ envoy:
     #                 - name: "x-envoy-livenessprobe"
     #                   exact_match: "healthz"
     #             - name: envoy.filters.http.router
-    #               typed_config: {}
+    #               typed_config:
+    #                  "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
     #         transport_socket:
     #           name: envoy.transport_sockets.tls
     #           typed_config:

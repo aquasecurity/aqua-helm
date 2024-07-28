@@ -38,6 +38,9 @@ spec:
         {{- end }}
 {{ include "aqua.labels" . | indent 8 }}
     spec:
+      {{- if or .Values.starboard.priorityClass.create .Values.starboard.priorityClass.name }}
+      priorityClassName: {{ template "starboardPriorityClass" . }}
+      {{- end }}
       serviceAccountName: {{ template "serviceAccountStarboard" . }}
       automountServiceAccountToken: {{ .Values.starboard.automountServiceAccountToken }}
       {{- with .Values.starboard.securityContext }}

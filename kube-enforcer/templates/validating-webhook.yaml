@@ -1,3 +1,4 @@
+{{- if .Values.webhooks.validatingWebhook.enabled }}
 {{- if not .Values.certsSecret.autoGenerate }}
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
@@ -46,4 +47,9 @@ webhooks:
         name: {{ include "kube-enforcer.fullname" . }}
     timeoutSeconds: {{ .Values.webhooks.validatingWebhook.timeout }}
     admissionReviewVersions: ["v1beta1"]
+    {{- with .Values.webhooks.validatingWebhook.namespaceSelector }}
+    namespaceSelector:
+    {{ toYaml . | nindent 8 }}
+    {{ end }}
+{{- end }}
 {{- end }}

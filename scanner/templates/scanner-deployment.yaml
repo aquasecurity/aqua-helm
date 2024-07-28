@@ -124,8 +124,11 @@ spec:
         {{- end }}
         {{- include "scanner.extraEnvironmentVars" .Values | nindent 8 }}
         {{- include "scanner.extraSecretEnvironmentVars" .Values | nindent 8 }}
-        {{- if or (.Values.dockerSock.mount) (.Values.serverSSL.enable) (.Values.cyberCenter.mtls.enabled) (.Values.additionalCerts) (.Values.persistence.enabled) }}
         volumeMounts:
+        {{- if or (.Values.dockerSock.mount) (.Values.serverSSL.enable) (.Values.cyberCenter.mtls.enabled) (.Values.additionalCerts) (.Values.persistence.enabled) }}
+        {{- end }}
+        {{- with .Values.extraVolumeMounts }}
+          {{- toYaml . | nindent 8 }}
         {{- end }}
         {{- if .Values.dockerSock.mount }}
         - mountPath: /var/run/docker.sock
@@ -170,8 +173,11 @@ spec:
       tolerations:
         {{ toYaml . | nindent 6 }}
       {{- end }}
-      {{- if or (.Values.dockerSock.mount) (.Values.serverSSL.enable) (.Values.cyberCenter.mtls.enabled) (.Values.additionalCerts) (.Values.persistence.enabled) }}
       volumes:
+      {{- if or (.Values.dockerSock.mount) (.Values.serverSSL.enable) (.Values.cyberCenter.mtls.enabled) (.Values.additionalCerts) (.Values.persistence.enabled) }}
+      {{- end }}
+      {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 6 }}
       {{- end }}
       {{- if .Values.dockerSock.mount }}
       - name: docker-socket-mount

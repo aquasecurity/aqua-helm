@@ -44,11 +44,17 @@ resources: {}
   #   cpu: 2000m
   #   memory: 2Gi
 
+securityContext:
+  runAsUser: 11431
+  runAsGroup: 11433
+  fsGroup: 11433
+
 tolerations: []
-securityContext: {}
 container_securityContext: {}
+deploymentAnnotations: {}
+  # my-annotation-key: my value; more value
 podAnnotations: {}
-  #  my-annotation-key: my value; more value
+  # my-annotation-key: my value; more value
 nodeSelector: {}
 affinity: {}
 

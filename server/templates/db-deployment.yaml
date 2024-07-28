@@ -10,6 +10,8 @@ metadata:
     aqua.component: database
 {{ include "aqua.labels" . | indent 4 }}
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: {{ .Release.Name }}-database
@@ -49,8 +51,8 @@ spec:
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.global.db.passwordFromSecret.global.dbPasswordName }}
-              key: {{ .Values.global.db.passwordFromSecret.global.dbPasswordKey }}
+              name: {{ .Values.global.db.passwordFromSecret.dbPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.dbPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
@@ -73,6 +75,10 @@ spec:
         {{- end }}
         image: "{{ .Values.imageCredentials.repositoryUriPrefix }}/{{ .Values.global.db.image.repository }}:{{ .Values.global.db.image.tag }}"
         imagePullPolicy: "{{ .Values.global.db.image.pullPolicy }}"
+        lifecycle:
+          preStop:
+            exec:
+              command: [ "/usr/local/bin/pg_ctl stop -D /var/lib/postgresql/data -w -t 60 -m fast" ]
         envFrom:
         - configMapRef:
             name: {{ .Release.Name }}-db-config
@@ -81,8 +87,8 @@ spec:
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.global.db.passwordFromSecret.global.dbPasswordName }}
-              key: {{ .Values.global.db.passwordFromSecret.global.dbPasswordKey }}
+              name: {{ .Values.global.db.passwordFromSecret.dbPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.dbPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
@@ -143,6 +149,8 @@ metadata:
     aqua.component: database-audit
 {{ include "aqua.labels" . | indent 4 }}
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: {{ .Release.Name }}-audit-database
@@ -182,8 +190,8 @@ spec:
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordName }}
-              key: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordKey }}
+              name: {{ .Values.global.db.passwordFromSecret.dbAuditPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.dbAuditPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:
@@ -209,13 +217,17 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ .Release.Name }}-db-config
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/usr/local/bin/pg_ctl stop -D /var/lib/postgresql/data -w -t 60 -m fast"]
         env:
         {{- if .Values.global.db.passwordFromSecret.enabled }}
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordName }}
-              key: {{ .Values.global.db.passwordFromSecret.global.dbAuditPasswordKey }}
+              name: {{ .Values.global.db.passwordFromSecret.dbAuditPasswordName }}
+              key: {{ .Values.global.db.passwordFromSecret.dbAuditPasswordKey }}
         {{- else }}
         - name: POSTGRES_PASSWORD
           valueFrom:

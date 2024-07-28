@@ -13,7 +13,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/kube-enforcer-configmap.yaml") . | sha256sum }}
+        checksum/config: {{ printf "%s-%s" (include (print $.Template.BasePath "/kube-enforcer-configmap.yaml") . | sha256sum) (include (print $.Template.BasePath "/kube-enforcer-certs.yaml") . | sha256sum) | sha256sum }}
       {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
       {{- end }}
@@ -35,11 +35,12 @@ spec:
         {{- end }}
 {{ include "aqua.labels" . | indent 8 }}
     spec:
-      {{- if .Values.dnsNdots }}
+      hostNetwork: {{ .Values.hostNetwork }}
+      {{- if .Values.global.dnsNdots }}
       dnsConfig:
         options:
           - name: ndots
-            value: {{ int .Values.dnsNdots | quote }}
+            value: {{ int .Values.global.dnsNdots | quote }}
       {{- end }}
       {{- with .Values.securityContext }}
       securityContext:

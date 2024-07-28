@@ -28,6 +28,10 @@ spec:
     spec:
       serviceAccountName: {{ template "serviceAccountTrivy" . }}
       automountServiceAccountToken: true
+     {{- if ne .Values.trivy.image.secretName "" }}
+      imagePullSecrets:
+        - name: {{ .Values.trivy.image.secretName }}
+      {{- end }}
       containers:
         - name: {{ .Values.trivy.appName }}
           image: "{{ .Values.trivy.image.registry }}/{{ .Values.trivy.image.repository }}:{{ .Values.trivy.image.tag }}"
@@ -69,6 +73,8 @@ spec:
               value: "true"
             - name: OPERATOR_SCANNER_REPORT_TTL
               value: "24h"
+            - name: OPERATOR_SBOM_GENERATION_ENABLED
+              value: "false"
             - name: OPERATOR_CONFIG_AUDIT_SCANNER_ENABLED
               value: "true"
             - name: OPERATOR_CLUSTER_COMPLIANCE_ENABLED
@@ -95,6 +101,8 @@ spec:
               value: "10h"
             - name: OPERATOR_MERGE_RBAC_FINDING_WITH_CONFIG_AUDIT
               value: "true"
+            - name: CONTROLLER_CACHE_SYNC_TIMEOUT
+              value: "5m"
           ports:
             - name: metrics
               containerPort: {{ .Values.trivy.ports.metricContainerPort }}
@@ -112,8 +120,17 @@ spec:
           livenessProbe:
           {{ toYaml . | nindent 12 }}
           {{- end }}
+          {{- if  (not .Values.trivy.resources)  }}
           resources:
-            {}
+            requests:
+              cpu: "500m"
+              memory: "125Mi"
+            limits:
+              cpu: "1000m"
+              memory: "500Mi"
+          {{- else }}
+          resources: {{ toYaml .Values.trivy.resources | nindent 12 }}
+          {{- end }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -121,6 +138,12 @@ spec:
                 - ALL
             privileged: false
             readOnlyRootFilesystem: true
+      {{- with .Values.trivy.securityContext }}
       securityContext:
-        {}
+      {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.trivy.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}

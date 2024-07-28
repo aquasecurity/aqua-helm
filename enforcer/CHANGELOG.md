@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
-
+## 2022.4.22 ( Apr 30th, 2024 )
+* SLK-79144 - Support gke-autopilot platform
+## 2022.4.21 ( Apr 3rd, 2024 )
+* SLK-77315 - Support AKS 1.28
+## 2022.4.20 ( Jan 8th, 2024 )
+* SLK-73499 - Add robustness to removal of windows-enforcer
+## 2022.4.19 ( Jan 3rd, 2024 )
+* SLK-76863 - Support Security Context at Pod Level
+## 2022.4.18 ( Dec 10th, 2023 )
+### ⚠ BREAKING CHANGES
+* SLK-68752 - Change dnsNdots to global value
+## 2022.4.17 ( Oct 31st, 2023 )
+* SLK-73499 - Add robustness to removal of windows-enforcer - PR[#797](https://github.com/aquasecurity/aqua-helm/pull/797)
 ## 2022.4.16 ( Sep 21st, 2023 )
 * Fix PodSecurityPolicies privileged
 ## 2022.4.15 ( Jun 27th, 2023 )

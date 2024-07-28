@@ -1,5 +1,6 @@
-{{- $v := .Values.connect }}
-{{- $name := printf "%s-%s" (include "chart.fullname" . ) "connector" }}
+{{ if .Values.remediation.enabled }}
+{{- $v := .Values.remediation }}
+{{- $name := printf "%s-%s" (include "chart.fullname" . ) "remediation" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8,17 +9,13 @@ metadata:
     app.kubernetes.io/name: {{ $name }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.remediation.replicas }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ $name }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
-      annotations:
-        {{- if .Values.credentials.createSecret }}
-        checksum/config: {{ include (print $.Template.BasePath "/connect/secrets.yaml") . | sha256sum }}
-        {{- end }}
       labels:
         app.kubernetes.io/name: {{ $name }}
         app.kubernetes.io/instance: {{ .Release.Name }}
@@ -31,25 +28,24 @@ spec:
       containers:
         - name: {{ $name }}
           image: {{ $v.image }}
-          imagePullPolicy: {{ $v.pullPolicy | default "Always" }}
+          imagePullPolicy: {{ $v.pullPolicy }}
           env:
-          - name: SERVER_URL
-            value: {{ .Values.global.connectServerUrl }}
-          - name: CSPM_URL
+          - name: SCANNER_SERVER
+            value: {{ .Values.global.scanServerUrl }}
+          - name: CSPM_SERVER_URL
             value: {{ .Values.global.cspmServerUrl }}
+          - name: AQUA_SERVER_URL
+            value: {{ .Values.global.aquaServerUrl }}
           - name: PORT
             value: {{ $v.port | quote }}
           - name: SOURCE
             value: {{ .Values.integration.source }}
           - name: SCM_URL
             value: {{ .Values.integration.url }}
-          - name: BROKER_CLIENT_URL
-            value: {{ $v.client_url }}
           {{- if .Values.global.brokerToken }}
           - name: BROKER_TOKEN
             value: {{ .Values.global.brokerToken }}
           {{- end }}
-
 
           {{- if .Values.ssl.enabled }}
           {{- if .Values.ssl.ca }}
@@ -71,25 +67,23 @@ spec:
             value: {{ $value }}
           {{- end }}
 
-          {{- range $key, $value := .Values.connect.extraEnv }}
+          {{- range $key, $value := .Values.remediation.extraEnv }}
           - name: {{ $key }}
             value: "{{ $value }}"
           {{- end }}
           envFrom:
             - secretRef:
                 name: {{ template "secretName" . }}
-          ports:
-            - name: http
-              containerPort: {{ $v.port}}
-              protocol: TCP
+
           resources:
             {{- toYaml $v.resources | indent 12 }}
-          {{- if .Values.ssl.enabled}}
+
+          {{- if .Values.ssl.enabled }}
           volumeMounts:
             - name: ssl-secrets
               mountPath: "/home/node"
           {{- end }}
-      {{- if .Values.ssl.enabled }}
+          {{- if .Values.ssl.enabled }}
       volumes:
         - name: ssl-secrets
           secret:
@@ -120,3 +114,4 @@ spec:
       tolerations:
         {{ toYaml . | indent 8 }}
     {{- end }}
+{{- end }}

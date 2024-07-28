@@ -63,6 +63,14 @@ Else if .Values.serviceAccount.create set to true, so will becreate serviceAccou
 {{- end -}}
 {{- end -}}
 
+{{- define "starboardPriorityClass" -}}
+{{- if .Values.starboard.priorityClass.create -}}
+    {{ .Values.starboard.priorityClass.name | default (printf "%s-starboard-priority-class" .Release.Name) }}
+{{- else if not .Values.starboard.priorityClass.create -}}
+    {{ .Values.starboard.priorityClass.name | default (printf "%s-starboard-priority-class" .Release.Name) }}
+{{- end -}}
+{{- end -}}
+
 {{/*
 Create chart name and version as used by the chart label.
 */}}
@@ -94,13 +102,11 @@ Create chart name and version as used by the chart label.
 {{- printf "%s" (required "A valid .Values.global.imageCredentials.name required" .Values.global.imageCredentials.name ) }}
 {{- end }}
 
-{{/*
 {{- define "platform" }}
-{{- printf "%s" (required "A valid Values.global.platform entry required" .Values.global.platform ) | replace "\n" "" }}
+{{- $platform := .Values.global.platform }}
+{{- if not $platform }}
+{{-   fail "A valid .Values.global.platform entry is required.\nPlease provide one of the following options: aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s, mke" }}
 {{- end }}
-*/}}
-{{- define "platform" }}
-{{- printf "%s" .Values.global.platform | default "k8s" }}
 {{- end }}
 
 {{/*

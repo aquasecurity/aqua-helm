@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.5 (Mar 14th, 2024)
+* Added SCC for Openshift
+* Added extraSecretEnvironmentVars
+
+
 ## 2022.4.4 (Mar 20th, 2023)
 * Add support to configure tolerations(SLK-64711)
 * Fix PDB(SLK-64864)

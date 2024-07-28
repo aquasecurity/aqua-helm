@@ -24,9 +24,10 @@ data:
   AQUA_KB_IMAGE_NAME: "{{ .Values.kubebenchImage.repository }}:{{ .Values.kubebenchImage.tag }}"
   AQUA_ME_IMAGE_NAME: "{{ .Values.global.imageCredentials.repositoryUriPrefix }}/{{ .Values.microEnforcerImage.repository }}:{{ .Values.microEnforcerImage.tag }}"
   AQUA_KB_ME_REGISTRY_NAME: "{{ template "registrySecret" .  }}"
+  AQUA_HEALTH_MONITOR_PORT: "{{ .Values.readinessProbe.httpGet.port }}"
   {{- end }}
   {{- if .Values.global.enforcer.enabled }}
-  AQUA_ENFORCER_DS_NAME: aqua-enforcer-ds
+  AQUA_ENFORCER_DS_NAME: {{ .Release.Name }}-ds
   {{ else if ne .Values.enforcer_ds_name "" }}
   AQUA_ENFORCER_DS_NAME: {{ .Values.enforcer_ds_name }}
   {{- end }}

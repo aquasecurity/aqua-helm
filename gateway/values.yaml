@@ -84,6 +84,10 @@ container_securityContext: {}
 
 pdb:
   minAvailable: "1"
+  # Allows you to specify the API version for the PodDisruptionBudget
+  # This is useful where .Capabilities.APIVersions.Has does not work e.g. Helm template & ArgoCD
+  # For example: policy/v1beta1 or policy/v1
+  apiVersion: 
 # TLS is for enabling mTLS/TLS establishment between gateway <-> server and gateway <-> enforcers
 TLS:
   enabled: false              # enable to true for secure communication (mTLS/TLS)
@@ -103,21 +107,29 @@ extraSecretEnvironmentVars: []
   #   secretName: name
   #   secretKey: key
 
+# extraVolumeMounts is a list of extra volumes to mount into the container's filesystem of the KubeEnforcer deployment
+extraVolumeMounts: []
+
+# extraVolumes is a list of volumes that can be mounted inside the KubeEnforcer deployment
+extraVolumes: []
+
 #enable or disable creation of headless service for envoy
 headlessService: true
 
-
 global:
-  #Please specify k8s platform acronym. Allowed values are aks, eks, gke, openshift, tkg, tkgi, k8s
-  # aks = Azure Kubernetes Service
-  # gke = Google kubernetes Engine
-  # openshift = RedHat Openshift/OCP
-  # tkg = VMware Tanzu kubernetes Grid
-  # tkgi = VMware Tanzu kubernetes Grid Integrated Edition
-  # k8s = Plain/on-prem Vanilla Kubernetes
-  # rancher = Rancher Kubernetes Platform
-  # gs = GaintSwarm platform
-  # k3s = k3s kubernetes platform
+  # Specify the Kubernetes (k8s) platform acronym.
+  # Allowed values are:
+  # - aks: Azure Kubernetes Service
+  # - eks: Amazon Elastic Kubernetes Service
+  # - gke: Google Kubernetes Engine
+  # - openshift: Red Hat OpenShift/OCP
+  # - tkg: VMware Tanzu Kubernetes Grid
+  # - tkgi: VMware Tanzu Kubernetes Grid Integrated Edition
+  # - k8s: Plain/on-prem Vanilla Kubernetes
+  # - rancher: Rancher Kubernetes Platform
+  # - gs: Giant Swarm platform
+  # - k3s: k3s Kubernetes platform
+  # - mke: Mirantis Kubernetes Engine
   platform: ""
   db:
     external:

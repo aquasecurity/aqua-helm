@@ -115,13 +115,11 @@ Windows EnforcerInject extra environment populated by secrets, if populated
 {{- end -}}
 {{- end -}}
 
-{{/*
 {{- define "platform" }}
-{{- printf "%s" (required "A valid Values.global.platform entry required" .Values.global.platform ) | replace "\n" "" }}
+{{- $platform := .Values.global.platform }}
+{{- if not $platform }}
+{{-   fail "A valid .Values.global.platform entry is required.\nPlease provide one of the following options: aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s, mke" }}
 {{- end }}
-*/}}
-{{- define "platform" }}
-{{- printf "%s" .Values.global.platform | default "k8s" }}
 {{- end }}
 
 {{/*
@@ -149,4 +147,16 @@ Create chart name and version as used by the chart label.
 */}}
 {{- define "aqua.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Set /var/lib path
+For gke-autopilot should be /var/autopilot/addon
+*/}}
+{{- define "varLibPrefix" -}}
+{{- if eq .Values.global.platform "gke-autopilot" -}}
+{{- printf "%s" "/var/autopilot/addon" -}}
+{{- else -}}
+{{- printf "%s" "/var/lib" -}}
+{{- end -}}
 {{- end -}}

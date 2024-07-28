@@ -1,6 +1,71 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.46 ( May 21st, 2024 )
+* Add pod hostNetwork option for KE deployment
+
+## 2022.4.45 ( May 15th, 2024 )
+* upgraded kube-bench version to v0.7.3
+* upgraded trivy-operator version to 0.20.1
+* added CONTROLLER_CACHE_SYNC_TIMEOUT to resolve CRD sync issue
+
+## 2022.4.44 ( May 6rd, 2024 )
+* Enforcer version changed to 2022.4.22
+
+## 2022.4.43 ( Apr 3rd, 2024 )
+* Enforcer version changed to 2022.4.21
+
+## 2022.4.42 ( Feb 19th, 2024 )
+* Fix namespaceSelector for KE admission controller
+
+## 2022.4.41 ( Feb 19th, 2024 )
+* Add a new environment variable AQUA_HEALTH_MONITOR_PORT
+* Add namespaceSelector to KE admission controller
+* Add additional permissions required for kube-bench checks in openshift container platform
+
+## 2022.4.40 ( Feb 9th, 2024 )
+* starboard-operator version upgrade to 0.15.20
+* kube-bench version upgrade to v0.7.1
+
+## 2022.4.39 ( Jan 21st, 2024 )
+* Add priority class to starboard-operator
+* Updated cluster-role.yaml to include additional permissions required for running kube-bench cis benchmarks in openshift container platform
+
+## 2022.4.38 ( Jan 8th, 2024 )
+* Updated trivy-operator.yaml to include sbom env variable
+* New enforcer version 2022.4.20
+
+## 2022.4.37 ( Jan 3rd, 2024 )
+* Updated enforcer chart version to 2022.4.19
+* Update startboard version to 0.15.19
+* Update kube-bench version to v0.7.0
+
+## 2022.4.36 ( Dec 14th, 2023 )
+* Updated trivy-operator version to v0.16.1
+
+## 2022.4.35 ( Dec 10th, 2023 )
+### ⚠ BREAKING CHANGES
+* SLK-68752 - Change dnsNdots to global value
+* Fix dependencies repository - [#808](https://github.com/aquasecurity/aqua-helm/issues/808)
+* Fix README.md [#806](https://github.com/aquasecurity/aqua-helm/issues/806)
+* Add option to configure trivy securityContext
+
+## 2022.4.34 ( Dec 7th, 2023 )
+* Updated starboard version to v0.15.18
+
+## 2022.4.33 ( Dec 5th, 2023 )
+* Add option to enable/disable validating and mutating webhook PR[#805](https://github.com/aquasecurity/aqua-helm/pull/805)
+
+## 2022.4.32 ( Nov 8th, 2023 )
+* Change starboard operator as default, and Trivy operator as optional with KE deployment
+
+## 2022.4.31 ( Oct 24th, 2023 )
+* Add support for trivy resource definition SLK-74400
+* Add support for trivy images pull for private registry SLK-74401
+* Fix AQUA_ENFORCER_DS_NAME KubeEnforcer configMap value SLK-74436
+* Add certs secret to checksum/config of deployment PR[#784](https://github.com/aquasecurity/aqua-helm/pull/784)
+* Add nodeSelector to trivy operator PR[#786](https://github.com/aquasecurity/aqua-helm/pull/786)
+
 ## 2022.4.30 ( Oct 4th, 2023 )
 * Update auto-generate-tls.yaml timeoutSeconds
 
