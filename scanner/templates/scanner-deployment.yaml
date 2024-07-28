@@ -8,6 +8,9 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-scanner
   namespace: {{ .Release.Namespace }}
+  {{- if .Values.annotations }}
+  annotations: {{- toYaml .Values.annotations | nindent 4 }}
+  {{- end }}
   labels:
     app: {{ .Release.Name }}-scanner
     aqua.component: scanner

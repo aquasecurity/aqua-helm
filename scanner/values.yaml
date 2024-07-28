@@ -144,6 +144,10 @@ affinity: {}
 podAnnotations: {}
 #  my-annotation-key: my value; more value
 podLabels: {}
+
+# Annotations for Scanner deployment
+annotations: {}
+
 securityContext:
   runAsUser: 11431
   runAsGroup: 11433
