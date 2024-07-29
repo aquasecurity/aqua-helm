@@ -4,7 +4,7 @@
 
 # Specifies the secret data for imagePullSecrets needed to fetch the private docker images
 imageCredentials:
-  create: true
+  create: false
   # example
   name: aqua-registry-secret
   # for dockerhub - "docker.io"
@@ -59,10 +59,10 @@ vaultAnnotations:
   ####
 
 admin:
-  createSecret: true
+  createSecret: false
   secretName: aqua-console-secrets
   token: ""
-  password: ""
+  password: "@Password1"
 
 dockerSock:
   # put true for mount docker socket.
@@ -91,20 +91,20 @@ global:
   # - gs: Giant Swarm platform
   # - k3s: k3s Kubernetes platform
   # - mke: Mirantis Kubernetes Engine
-  platform: ""
+  platform: "gke"
 
   db:
     external:
-      enabled: false
-      name: ""
-      host: ""
-      port: ""
-      user: ""
+      enabled: true
+      name: "scalock"
+      host: "jasondb.postgres.database.azure.com"
+      port: "5432"
+      user: "postgres"
       password: ""
-      auditName: ""
-      auditHost: ""
-      auditPort: ""
-      auditUser: ""
+      auditName: "slk_audit"
+      auditHost: "jasondb.postgres.database.azure.com"
+      auditPort: "5432"
+      auditUser: "postgres"
       auditPassword: ""
       pubsubName: ""
       pubsubHost: ""
@@ -114,31 +114,31 @@ global:
 
     passwordFromSecret:
       # Enable if loading passwords for db and audit-db from secret
-      enabled: false
+      enabled: true
       # Specify the Password Secret name used for db password
-      dbPasswordName: ""
+      dbPasswordName: "db-creds"
       # Specify the db password key name stored in the #dbPasswordName secret
-      dbPasswordKey: ""
+      dbPasswordKey: "password"
       # Specify the Password Secret name used for audit db password
-      dbAuditPasswordName: ""
+      dbAuditPasswordName: "db-creds"
       # Specify the audit db password key name stored in the #dbAuditPasswordName secret
-      dbAuditPasswordKey: ""
+      dbAuditPasswordKey: "password"
       # Specify the Password Secret name used for pubsub db password
-      dbPubsubPasswordName: ""
+      dbPubsubPasswordName: "db-creds"
       # Specify the pubsub db password key name stored in the #PubsubPasswordName secret
-      dbPubsubPasswordKey: ""
+      dbPubsubPasswordKey: "password"
 
-    ssl: false
-    sslmode: require          # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
-    auditssl: false
-    auditsslmode: require     # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
+    ssl: true
+    sslmode: verify-ca          # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
+    auditssl: true
+    auditsslmode: verify-ca     # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
     pubsubssl: false
     pubsubsslmode: require    # accepts: allow | prefer | require | verify-ca | verify-full (Default: Require)
 
     # To establish mTLS/verify-ca/verify-full with External DB, enable to true and supply dbcerts secret to dcertSecretName
     externalDbCerts:
-      enable: false
-      certSecretName: ""
+      enable: true
+      certSecretName: "db-cert"
 
     securityContext:
       runAsUser: 70
@@ -341,9 +341,9 @@ web:
   # Additional certificates that the server should trust, such as a network proxy
   # The certificates should be bundled into a single file inside a configmap
   additionalCerts: []
-    # - createSecret: true                # Change to false if you're using existing server certificate secret
-    #   secretName: "proxy-server-certs"  # Change secret name if already exists with server/web public certificate
-    #   certFile:                         # If additionalCerts createSecret enable to true, add base64 value of the server public certificate or add filename of certificate if loading from custom secret
+    #- createSecret: false                # Change to false if you're using existing server certificate secret
+    #  secretName: ""  # Change secret name if already exists with server/web public certificate
+    #  certFile: ""                        # If additionalCerts createSecret enable to true, add base64 value of the server public certificate or add filename of certificate if loading from custom secret
 
   service:
     type: LoadBalancer
@@ -460,7 +460,8 @@ web:
 
   # extraEnvironmentVars is a list of extra environment variables to set in the web deployments.
   # https://docs.aquasec.com/docs/server-optional-variables
-  extraEnvironmentVars: {}
+  extraEnvironmentVars:
+    AQUA_RESTORE_ADMIN_USER: "true"
     # ENV_NAME: value
 
   # extraSecretEnvironmentVars is a list of extra environment variables to set in the web deployments.

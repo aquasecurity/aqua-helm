@@ -81,14 +81,14 @@ spec:
         {{- if .Values.global.db.externalDbCerts.enable }}
             - name: SSL_CERT_DIR
               value: /etc/ext_db_certs
-              volumeMounts:
-              - name: ext-db-cert
-                mountPath: /etc/ext_db_certs
-                readOnly: true
-              volumes:
-              - name: ext-db-cert
-                secret:
-                  secretName: {{ .Values.global.db.externalDbCerts.certSecretName }}
+          volumeMounts:
+          - name: ext-db-cert
+            mountPath: /etc/ext_db_certs
+            readOnly: true
+      volumes:
+      - name: ext-db-cert
+        secret:
+          secretName: {{ .Values.global.db.externalDbCerts.certSecretName }}
         {{- end }}
       imagePullSecrets:
       {{- if .Values.imageCredentials.create }}
