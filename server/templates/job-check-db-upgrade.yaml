@@ -50,12 +50,26 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.global.db.passwordFromSecret.dbPasswordName }}
                   key: {{ .Values.global.db.passwordFromSecret.dbPasswordKey }}
+            - name: AQUA_PUBSUB_DBPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.db.passwordFromSecret.dbPubsubPasswordName }}
+                  key: {{ .Values.global.db.passwordFromSecret.dbPubsubPasswordKey }}
         {{- else }}
             - name: SCALOCK_DBPASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Release.Name }}-database-password
                   key: db-password
+            - name: AQUA_PUBSUB_DBPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-database-password
+            {{- if .Values.global.db.external.pubsubPassword }}
+                  key: pubsub-password
+            {{- else }}
+                  key: db-password
+            {{- end }}
         {{- end }}
             - name: SCALOCK_AUDIT_DBPASSWORD
           {{- if .Values.global.db.passwordFromSecret.enabled }}
@@ -81,14 +95,14 @@ spec:
         {{- if .Values.global.db.externalDbCerts.enable }}
             - name: SSL_CERT_DIR
               value: /etc/ext_db_certs
-              volumeMounts:
-              - name: ext-db-cert
-                mountPath: /etc/ext_db_certs
-                readOnly: true
-              volumes:
-              - name: ext-db-cert
-                secret:
-                  secretName: {{ .Values.global.db.externalDbCerts.certSecretName }}
+          volumeMounts:
+          - name: ext-db-cert
+            mountPath: /etc/ext_db_certs
+            readOnly: true
+      volumes:
+      - name: ext-db-cert
+        secret:
+          secretName: {{ .Values.global.db.externalDbCerts.certSecretName }}
         {{- end }}
       imagePullSecrets:
       {{- if .Values.imageCredentials.create }}
