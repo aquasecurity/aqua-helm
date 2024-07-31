@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.26 (Jul 29th, 2024)
+* Fix 'volumes' & 'volumeMounts' indentation in job-check-db-upgrade job (SLK-83783)
+* Add AQUA_PUBSUB_DBPASSWORD env variable in job-check-db-upgrade job (SLK-84299)
+
 ## 2022.4.25 (Jul 26th, 2024)
 * Fix indentation and formatting for external DB - [#790](https://github.com/aquasecurity/aqua-helm/pull/790)
 
