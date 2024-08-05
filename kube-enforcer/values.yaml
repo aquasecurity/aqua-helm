@@ -47,13 +47,14 @@ global:
 # If serviceAccount.create=false and serviceAccount.name defined then will be used serviceAccount with defined name
 # but in this case serviceAccount should be created manually before chart deploying
 #####################
-# If serviceAccount.create=create and serviceAccount.name not defined
+# If serviceAccount.create=true and serviceAccount.name not defined
 # then will be created a serviceAccount with name <Chart ReleaseName>-sa
 #####################
-# If serviceAccount.create=create and serviceAccount.name defined
+# If serviceAccount.create=true and serviceAccount.name defined
 # then will be created a serviceAccount with name provided name
 serviceAccount:
   create: true
+  attachImagePullSecret: true
   name: ""
 
 # Replica count
@@ -459,6 +460,7 @@ kubeEnforcerAdvance:
 enforcer:
   serviceAccount:
     create: true
+    attachImagePullSecret: true
     name: ""
 
   clusterRole:
