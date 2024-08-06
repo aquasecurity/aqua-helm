@@ -100,7 +100,7 @@ remediation:
   hostAliases:
   extraEnv: {}
 
-bleed-secrets:
+bleedsecrets:
   enabled: false
   image: docker.io/aquasec/codesec-bleed-secrets:latest
   pullPolicy: Always
