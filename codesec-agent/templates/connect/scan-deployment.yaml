@@ -75,7 +75,7 @@ spec:
                 name: {{ template "secretName" . }}
 
           resources:
-            {{- toYaml $v.resources | indent 12 }}
+            {{- toYaml $v.resources | nindent 12 }}
 
           {{- if .Values.ssl.enabled }}
           volumeMounts:
@@ -103,13 +103,13 @@ spec:
       {{- end }}
     {{- with $v.nodeSelector }}
       nodeSelector:
-        {{ toYaml . | indent 8 }}
+        {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- with $v.affinity }}
       affinity:
-        {{ toYaml . | indent 8 }}
+        {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- with $v.tolerations }}
       tolerations:
-        {{ toYaml . | indent 8 }}
+        {{- toYaml . | nindent 8 }}
     {{- end }}
