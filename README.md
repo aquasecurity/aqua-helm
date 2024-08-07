@@ -36,7 +36,7 @@ This repository includes the following charts; they can be deployed separately:
 | [Cyber Center](cyber-center/)       | Deploys Aqua CyberCenter offline for air-gap environment                                                                                                      | 2022.4.6             |
 | [Cloud Connector](cloud-connector/) | Deploys the Aqua Cloud Connector                                                                                                                              | 2022.4.5             |
 | [QuickStart](aqua-quickstart/)      | Not for production use (see [below](#quick-start-deployment-not-for-production-purposes)). Deploys the Console, Database, Gateway and KubeEnforcer components | 2022.4.1             |
-| [Codesec-Agent](codesec-agent/)     | Argon Broker Deployment                                                                                                                                       | 1.2.7                |
+| [Codesec-Agent](codesec-agent/)     | Argon Broker Deployment                                                                                                                                       | 1.2.10               |
 
 # Deployment instructions
 
