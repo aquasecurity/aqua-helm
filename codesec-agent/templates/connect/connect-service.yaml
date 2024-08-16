@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/name: {{ $name }}
     app.kubernetes.io/instance: {{ .Release.Name }}
   annotations:
-{{ $v.service.annotations | toYaml | indent 4 }}
+{{- $v.service.annotations | toYaml | nindent 4 }}
 spec:
   selector:
     app.kubernetes.io/name: {{ $name }}
