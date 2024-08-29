@@ -303,6 +303,9 @@ extraVolumes: []
 
 starboard:
   enabled: true
+  # enable to true to manage starboard crds by Helm
+  crds:
+    enabled: true
   replicaCount: "1"
   appName: "starboard-operator"
   serviceAccount:
