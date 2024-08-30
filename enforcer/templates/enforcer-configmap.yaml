@@ -18,6 +18,9 @@ data:
   {{- if eq .Values.global.platform "gke-autopilot" }}
   AQUA_INSTALL_PATH: "/var/autopilot/addon/aquasec"
   AQUA_PRODUCT_PATH: "/var/autopilot/addon/aquasec"
+  {{- else if eq .Values.global.platform "tkgi" }}
+  AQUA_INSTALL_PATH: "/var/vcap/data/aquasec"
+  AQUA_PRODUCT_PATH: "/var/vcap/data/aquasec"
   {{- else }}
   AQUA_INSTALL_PATH: "/var/lib/aquasec"
   {{- end }}

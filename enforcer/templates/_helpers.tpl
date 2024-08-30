@@ -156,6 +156,8 @@ For gke-autopilot should be /var/autopilot/addon
 {{- define "varLibPrefix" -}}
 {{- if eq .Values.global.platform "gke-autopilot" -}}
 {{- printf "%s" "/var/autopilot/addon" -}}
+{{- else if eq .Values.global.platform "tkgi" -}}
+{{- printf "%s" "/var/vcap/data" -}}
 {{- else -}}
 {{- printf "%s" "/var/lib" -}}
 {{- end -}}
