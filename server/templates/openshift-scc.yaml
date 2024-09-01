@@ -19,8 +19,8 @@ allowHostIPC: false
 allowHostNetwork: false
 allowHostPID: false
 allowHostPorts: false
-allowPrivilegeEscalation: false
-allowPrivilegedContainer: false
+allowPrivilegeEscalation: {{ .Values.rbac.allowPrivilegeEscalation | default false }}
+allowPrivilegedContainer: {{ .Values.rbac.allowPrivilegedContainer | default false }}
 apiVersion: security.openshift.io/v1
 defaultAddCapabilities: null
 fsGroup:
@@ -36,7 +36,7 @@ metadata:
     release.openshift.io/create-only: "true"
   name: {{ .Release.Name }}-scc
 priority: null
-readOnlyRootFilesystem: false
+readOnlyRootFilesystem: {{ .Values.rbac.readOnlyRootFilesystem | default false }}
 requiredDropCapabilities: null
 runAsUser:
   type: MustRunAsNonRoot
