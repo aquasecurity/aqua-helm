@@ -174,10 +174,14 @@ spec:
             defaultMode: 420
             secretName: {{ .Values.TLS.secretName }}
             items:
+            {{- if .Values.TLS.publicKey_fileName }}
             - key: {{ .Values.TLS.publicKey_fileName }}
               path: cert.pem
+            {{- end }}
+            {{- if .Values.TLS.privateKey_fileName }}
             - key: {{ .Values.TLS.privateKey_fileName }}
               path: key.pem
+            {{- end }}
             {{- if .Values.TLS.rootCA_fileName }}
             - key: {{ .Values.TLS.rootCA_fileName }}
               path: ca.pem
