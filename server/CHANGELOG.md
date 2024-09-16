@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2022.4.26 (Sep 1st, 2024)
+## 2022.4.27 (Sep 1st, 2024)
 * add configurable allowPrivilegeEscalation, allowPrivilegedContainer, readOnlyRootFilesystem
 * defaults stayed the same
 
