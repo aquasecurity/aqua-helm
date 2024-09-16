@@ -1,5 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2022.4.48 ( Sep 16th, 2024 )
+* changing the default registry DEVOPS-227
 
 ## 2022.4.47 ( Aug 5th, 2024 )
 * remove imagepullsecret from the service account SLK-84166
