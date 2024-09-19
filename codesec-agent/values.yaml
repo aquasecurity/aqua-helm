@@ -101,7 +101,7 @@ remediation:
   extraEnv: {}
 
 bleedsecrets:
-  enabled: false
+  enabled: true
   image: docker.io/aquasec/codesec-bleed-secrets:latest
   pullPolicy: Always
   replicas: 1
