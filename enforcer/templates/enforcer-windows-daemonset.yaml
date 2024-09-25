@@ -94,8 +94,8 @@ spec:
               fieldPath: spec.nodeName
         {{- end }}
         - name: AQUA_LOGICAL_NAME
-        {{- if .Values.logicalName }}
-          value: {{ .Values.logicalName }}
+        {{- if .Values.windowsEnforcer.logicalName }}
+          value: {{ .Values.windowsEnforcer.logicalName }}
         {{- else }}
           valueFrom:
             fieldRef:
