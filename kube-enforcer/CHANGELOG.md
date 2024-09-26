@@ -1,6 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
-
+## 2022.4.47 ( Sep 26th, 2024 )
+* Enforcer version changed to 2022.4.23
+* 
 ## 2022.4.47 ( Aug 5th, 2024 )
 * remove imagepullsecret from the service account SLK-84166
 
