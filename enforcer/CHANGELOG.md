@@ -1,5 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2022.4.23 ( Sep 26th, 2024 )
+* SLK-80942 - Amend helm values file for the Enforcer deployment on Windows - PR[#894](https://github.com/aquasecurity/aqua-helm/pull/894)
 ## 2022.4.22 ( Apr 30th, 2024 )
 * SLK-79144 - Support gke-autopilot platform
 ## 2022.4.21 ( Apr 3rd, 2024 )
