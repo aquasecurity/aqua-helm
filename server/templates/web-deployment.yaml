@@ -154,6 +154,8 @@ spec:
 {{ toYaml . | indent 10 }}
 {{- end }}
         volumeMounts:
+        - name: aqua-home
+          mountPath: /home/aqua
         {{- with .Values.web.extraVolumeMounts }}
           {{- toYaml . | nindent 10 }}
         {{- end }}
@@ -194,6 +196,8 @@ spec:
         {{ toYaml . | nindent 6 }}
       {{- end }}
       volumes:
+      - name: aqua-home
+        emptyDir: {}
       {{- with .Values.web.extraVolumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}

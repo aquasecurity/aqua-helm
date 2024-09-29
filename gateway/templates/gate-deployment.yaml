@@ -125,7 +125,6 @@ spec:
         volumeMounts:
         - name: aqua-home
           mountPath: /home/aqua
-          readOnly: false
 {{- with .Values.extraVolumeMounts }}
   {{- toYaml . | nindent 10 }}
 {{- end }}
@@ -155,6 +154,7 @@ spec:
       {{- end }}
       volumes:
       - name: aqua-home
+        emptyDir: {}
 
 {{- with .Values.extraVolumes }}
   {{- toYaml . | nindent 6 }}
