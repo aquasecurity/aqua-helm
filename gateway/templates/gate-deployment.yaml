@@ -155,7 +155,7 @@ spec:
       {{- end }}
       volumes:
       - name: aqua-home
-        emptyDir: {}
+
 {{- with .Values.extraVolumes }}
   {{- toYaml . | nindent 6 }}
 {{- end }}
