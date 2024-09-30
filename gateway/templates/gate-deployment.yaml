@@ -123,7 +123,7 @@ spec:
 {{ toYaml . | indent 10 }}
 {{- end }}
         volumeMounts:
-        {{- if eq .Values.rbac.readOnlyRootFilesystem "true"}}
+        {{- if eq .Values.rbac.readOnlyRootFilesystem }}
         - name: aqua-home
           mountPath: /home/aqua/data/
           readOnly: false
@@ -156,7 +156,7 @@ spec:
 {{ toYaml .Values.tolerations | indent 6 }}
       {{- end }}
       volumes:
-      {{- if eq .Values.rbac.readOnlyRootFilesystem "true"}}
+      {{- if eq .Values.rbac.readOnlyRootFilesystem }}
       - name: aqua-home
       {{- end }}
 
