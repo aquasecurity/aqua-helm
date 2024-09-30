@@ -173,6 +173,11 @@ spec:
           mountPath: /etc/ext_db_certs/
           readOnly: true
         {{- end }}
+        {{- if eq .Values.gateway.rbac.readOnlyRootFilesystem "true"}}
+        - name: aqua-home
+          mountPath: /home/aqua/data/
+          readOnly: false
+        {{- end }}
         {{- include "server.additionalCertVolumeMounts" .Values | nindent 8 }}
         resources:
 {{ toYaml .Values.web.resources | indent 12 }}
@@ -205,6 +210,9 @@ spec:
       - name: docker-socket-mount
         hostPath:
           path: {{ .Values.dockerSock.path }}
+      {{- end }}
+      {{- if eq .Values.gateway.rbac.readOnlyRootFilesystem "true"}}
+      - name: aqua-home
       {{- end }}
       {{- if .Values.web.TLS.enabled }}
       - name: certs
