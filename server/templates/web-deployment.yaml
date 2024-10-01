@@ -155,7 +155,7 @@ spec:
 {{- end }}
         volumeMounts:
         - name: aqua-home
-          mountPath: /home/aqua
+          mountPath: /home/aqua/data
         {{- with .Values.web.extraVolumeMounts }}
           {{- toYaml . | nindent 10 }}
         {{- end }}
@@ -175,7 +175,7 @@ spec:
         {{- end }}
         {{- if .Values.gateway.rbac.readOnlyRootFilesystem }}
         - name: aqua-home
-          mountPath: /home/aqua/data/
+          mountPath: /home/aqua/data
           readOnly: false
         {{- end }}
         {{- include "server.additionalCertVolumeMounts" .Values | nindent 8 }}
@@ -211,6 +211,7 @@ spec:
       {{- end }}
       {{- if .Values.gateway.rbac.readOnlyRootFilesystem }}
       - name: aqua-home
+        emptyDir: {}
       {{- end }}
       {{- if .Values.web.TLS.enabled }}
       - name: certs

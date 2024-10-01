@@ -158,6 +158,7 @@ spec:
       volumes:
       {{- if .Values.rbac.readOnlyRootFilesystem }}
       - name: aqua-home
+        emptyDir: {}
       {{- end }}
 
 {{- with .Values.extraVolumes }}
