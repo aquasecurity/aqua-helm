@@ -154,8 +154,6 @@ spec:
 {{ toYaml . | indent 10 }}
 {{- end }}
         volumeMounts:
-        - name: aqua-home
-          mountPath: /home/aqua/data
         {{- with .Values.web.extraVolumeMounts }}
           {{- toYaml . | nindent 10 }}
         {{- end }}
