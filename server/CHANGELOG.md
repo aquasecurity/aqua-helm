@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.27 (Oct 8st, 2024)
+* add configurable allowPrivilegeEscalation, allowPrivilegedContainer, readOnlyRootFilesystem
+* defaults stayed the same
+* Changed gateway chart version
+
 ## 2022.4.26 (Jul 29th, 2024)
 * Fix 'volumes' & 'volumeMounts' indentation in job-check-db-upgrade job (SLK-83783)
 * Add AQUA_PUBSUB_DBPASSWORD env variable in job-check-db-upgrade job (SLK-84299)
