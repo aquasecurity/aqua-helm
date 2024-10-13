@@ -103,9 +103,9 @@ starboard:
   automountServiceAccountToken: "true"
   securityContext: {}
   image:
-    repositoryUriPrefix: "docker.io/aquasec"
+    repositoryUriPrefix: "registry.aquasec.com"
     repository: "starboard-operator"
-    tag: "0.13.0"
+    tag: "0.15.20"
     pullPolicy: Always
   container_securityContext:
     privileged: false

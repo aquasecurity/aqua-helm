@@ -2,6 +2,7 @@
 
 # Overview
 
+
 This page contains instructions for deploying Aqua Enterprise in a Kubernetes cluster, using the [Helm package manager](https://helm.sh/).
 
 Refer to the Aqua Enterprise product documentation for the broader context: [Kubernetes with Helm Charts](https://docs.aquasec.com/v2022.4/docs/kubernetes-with-helm).
