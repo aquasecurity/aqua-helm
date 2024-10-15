@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file.
 * Add pod hostNetwork option for KE deployment
 
 ## 2022.4.45 ( May 15th, 2024 )
-* upgraded kube-bench version to v0.7.3
+* upgraded kube-bench version to v0.9.0
 * upgraded trivy-operator version to 0.20.1
 * added CONTROLLER_CACHE_SYNC_TIMEOUT to resolve CRD sync issue
 
