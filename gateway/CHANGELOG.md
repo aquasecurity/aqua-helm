@@ -1,9 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.15 (Oct 8th, 2024)
+* add configurable allowPrivilegeEscalation, allowPrivilegedContainer, readOnlyRootFilesystem
+* defaults stayed the same
+
+## 2022.4.14 (Mar 20th, 2024)
+* Added extra volume mounts
+
 ## 2022.4.13 (Dec 26th, 2023)
 * Added the ability to specify the API version for the PodDisruptionBudget
-
 
 ## 2022.4.12 (Apr 10th, 2023)
 * Change standard name for gateway serviceaccount - PR[#725](https://github.com/aquasecurity/aqua-helm/pull/725)

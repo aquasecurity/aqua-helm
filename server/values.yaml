@@ -39,7 +39,6 @@ activeactive: ""
 vaultSecret:
   enabled: false          # Enable to true once you have secrets in vault and annotations are enabled to load admin and db passwords from vault
   vaultFilepath: ""       # Change the path to "/vault/secrets/<filename>" as per the setup
-
 # Add hashicorp Vault annotations to enable sidecar/init-container vault agent to load admin and db passwords
 # example annotations for self-hosted vault server:
 vaultAnnotations:
@@ -225,6 +224,9 @@ gateway:
     registry: "registry.aquasec.com"
   rbac:
     enabled: false
+    allowPrivilegeEscalation: false
+    allowPrivilegedContainer: false
+    readOnlyRootFilesystem: true # Use volume mount to set R/O filesystem
   clusterRole:
     roleRef: ""
   platform:
