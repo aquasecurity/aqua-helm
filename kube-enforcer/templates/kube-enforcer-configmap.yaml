@@ -51,7 +51,7 @@ data:
   AQUA_KAP_ADD_ALL_CONTROL: "true"
   AQUA_WATCH_CONFIG_AUDIT_REPORT: "true"
 {{- if .Values.kubeEnforcerAdvance.enable }}
-  AQUA_TLS_PORT: "8449"
+  AQUA_TLS_PORT: {{ .Values.ports.tlsContainerPort | quote }}
   AQUA_KE_SERVER_PORT: "8442"
   AQUA_ENVOY_MODE: "true"
 {{- else }}

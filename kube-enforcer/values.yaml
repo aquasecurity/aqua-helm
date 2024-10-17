@@ -204,6 +204,9 @@ securityContext:
 
 container_securityContext: {}
 
+ports:
+  tlsContainerPort: 8443
+
 readinessProbe:
   httpGet:
     path: /readyz

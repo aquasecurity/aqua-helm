@@ -81,7 +81,8 @@ spec:
           {{- include "extraSecretEnvironmentVars" .Values | nindent 10 }}
           ports:
           {{- if not .Values.kubeEnforcerAdvance.enable }}
-            - containerPort: 8443
+            - containerPort: {{ .Values.ports.tlsContainerPort }}
+              name: https
           {{- else }}
             - containerPort: 8449
             - containerPort: 8442
