@@ -1,7 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
-## 2022.4.48 ( Sep 16th, 2024 )
+## 2022.4.49 ( Sep 16th, 2024 )
 * changing the default registry DEVOPS-227
+* remove duplicate value starboard configMap SLK-86761
 
 ## 2022.4.48 ( Aug 29th, 2024 )
 * Allow disabling the installation of starboard CRDs when starboard is enabled 
