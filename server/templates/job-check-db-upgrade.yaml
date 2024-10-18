@@ -50,17 +50,20 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.global.db.passwordFromSecret.dbPasswordName }}
                   key: {{ .Values.global.db.passwordFromSecret.dbPasswordKey }}
+          {{- if .Values.activeactive }}
             - name: AQUA_PUBSUB_DBPASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.global.db.passwordFromSecret.dbPubsubPasswordName }}
                   key: {{ .Values.global.db.passwordFromSecret.dbPubsubPasswordKey }}
+          {{- end }}
         {{- else }}
             - name: SCALOCK_DBPASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Release.Name }}-database-password
                   key: db-password
+          {{- if .Values.activeactive }}
             - name: AQUA_PUBSUB_DBPASSWORD
               valueFrom:
                 secretKeyRef:
@@ -70,6 +73,7 @@ spec:
             {{- else }}
                   key: db-password
             {{- end }}
+          {{- end }}
         {{- end }}
             - name: SCALOCK_AUDIT_DBPASSWORD
           {{- if .Values.global.db.passwordFromSecret.enabled }}
