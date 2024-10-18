@@ -225,6 +225,9 @@ gateway:
     registry: "registry.aquasec.com"
   rbac:
     enabled: false
+    allowPrivilegeEscalation: false
+    allowPrivilegedContainer: false
+    readOnlyRootFilesystem: false
   clusterRole:
     roleRef: ""
   platform:
