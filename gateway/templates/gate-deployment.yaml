@@ -124,8 +124,8 @@ spec:
 {{- end }}
         volumeMounts:
         {{- if .Values.rbac.readOnlyRootFilesystem }}
-        - name: aqua-home
-          mountPath: /home/aqua/data/
+        - name: opt
+          mountPath: /opt/
           readOnly: false
         {{- end }}
 {{- with .Values.extraVolumeMounts }}
@@ -157,7 +157,7 @@ spec:
       {{- end }}
       volumes:
       {{- if .Values.rbac.readOnlyRootFilesystem }}
-      - name: aqua-home
+      - name: opt
         emptyDir: {}
       {{- end }}
 

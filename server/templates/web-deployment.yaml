@@ -172,8 +172,8 @@ spec:
           readOnly: true
         {{- end }}
         {{- if .Values.gateway.rbac.readOnlyRootFilesystem }}
-        - name: aqua-home
-          mountPath: /home/aqua/data
+        - name: opt
+          mountPath: /opt/
           readOnly: false
         {{- end }}
         {{- include "server.additionalCertVolumeMounts" .Values | nindent 8 }}
@@ -208,7 +208,7 @@ spec:
           path: {{ .Values.dockerSock.path }}
       {{- end }}
       {{- if .Values.gateway.rbac.readOnlyRootFilesystem }}
-      - name: aqua-home
+      - name: opt
         emptyDir: {}
       {{- end }}
       {{- if .Values.web.TLS.enabled }}
