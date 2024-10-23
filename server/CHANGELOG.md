@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.27 (Oct 15th, 2024)
+* wrap AQUA_PUBSUB_DBPASSWORD env var with if statement of active-active cluster enabled env variable in job-check-db-upgrade job (SLK-86284)
+
 ## 2022.4.26 (Jul 29th, 2024)
 * Fix 'volumes' & 'volumeMounts' indentation in job-check-db-upgrade job (SLK-83783)
 * Add AQUA_PUBSUB_DBPASSWORD env variable in job-check-db-upgrade job (SLK-84299)
