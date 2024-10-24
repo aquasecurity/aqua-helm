@@ -6,6 +6,12 @@ metadata:
     app: {{ include "kube-enforcer.fullname" . }}
     aqua.component: kubeenforcer
 {{ include "aqua.labels" . | indent 4 }}
+  {{- with .Values.deploymentAnnotations }}
+  annotations:
+    {{- range $key,$value := . }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+  {{- end }}
   name: {{ include "kube-enforcer.fullname" . }}
   namespace: {{ .Release.Namespace }}
 spec:
