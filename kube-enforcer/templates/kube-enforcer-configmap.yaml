@@ -40,8 +40,12 @@ data:
   {{- end }}
 # mTLS env config
 {{- if .Values.TLS.enabled }}
+{{- if .Values.TLS.privateKey_fileName }}
   AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/key.pem"
+{{- end}}
+{{- if .Values.TLS.publicKey_fileName }}
   AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/cert.pem"
+{{- end}}
   AQUA_TLS_VERIFY: {{ .Values.TLS.tls_verify | quote }}
 {{- if .Values.TLS.rootCA_fileName }}
   AQUA_ROOT_CA: "/opt/aquasec/ssl/ca.pem"
