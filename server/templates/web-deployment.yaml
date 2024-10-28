@@ -175,6 +175,9 @@ spec:
         - name: opt
           mountPath: /opt/
           readOnly: false
+        - name: workaround
+          mountPath: /workaround/
+          readOnly: false
         {{- end }}
         {{- include "server.additionalCertVolumeMounts" .Values | nindent 8 }}
         resources:
@@ -209,6 +212,8 @@ spec:
       {{- end }}
       {{- if .Values.gateway.rbac.readOnlyRootFilesystem }}
       - name: opt
+        emptyDir: {}
+      - name: workaround
         emptyDir: {}
       {{- end }}
       {{- if .Values.web.TLS.enabled }}
