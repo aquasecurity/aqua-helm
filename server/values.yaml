@@ -694,14 +694,3 @@ initContainers:
 #    - name: init-name
 #      image: image:tag
 # etc..
-    - name: workaround
-      image: aquadev.azurecr.io/console:roee-slk-85182-volume-onprem
-      command:
-        - /bin/sh
-        - -c
-      args:
-        - cp -R /opt/aquasec/* /workaround/
-      volumeMounts:
-      - name: workaround
-        mountPath: /workaround/
-        readOnly: false

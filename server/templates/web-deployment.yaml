@@ -171,14 +171,6 @@ spec:
           mountPath: /etc/ext_db_certs/
           readOnly: true
         {{- end }}
-        {{- if .Values.gateway.rbac.readOnlyRootFilesystem }}
-        - name: opt
-          mountPath: /opt/
-          readOnly: false
-        - name: workaround
-          mountPath: /workaround/
-          readOnly: false
-        {{- end }}
         {{- include "server.additionalCertVolumeMounts" .Values | nindent 8 }}
         resources:
 {{ toYaml .Values.web.resources | indent 12 }}
@@ -209,12 +201,6 @@ spec:
       - name: docker-socket-mount
         hostPath:
           path: {{ .Values.dockerSock.path }}
-      {{- end }}
-      {{- if .Values.gateway.rbac.readOnlyRootFilesystem }}
-      - name: opt
-        emptyDir: {}
-      - name: workaround
-        emptyDir: {}
       {{- end }}
       {{- if .Values.web.TLS.enabled }}
       - name: certs
