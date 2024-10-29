@@ -226,7 +226,6 @@ gateway:
     enabled: false
     allowPrivilegeEscalation: false
     allowPrivilegedContainer: false
-    readOnlyRootFilesystem: true # Use volume mount to set R/O filesystem
   clusterRole:
     roleRef: ""
   platform:
