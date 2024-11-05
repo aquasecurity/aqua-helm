@@ -36,7 +36,7 @@ metadata:
     release.openshift.io/create-only: "true"
   name: {{ .Release.Name }}-scc
 priority: null
-readOnlyRootFilesystem: {{ .Values.gateway.rbac.readOnlyRootFilesystem | default false }}
+readOnlyRootFilesystem: true
 requiredDropCapabilities: null
 runAsUser:
   type: MustRunAsNonRoot
