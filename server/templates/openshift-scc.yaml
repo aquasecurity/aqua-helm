@@ -19,8 +19,8 @@ allowHostIPC: false
 allowHostNetwork: false
 allowHostPID: false
 allowHostPorts: false
-allowPrivilegeEscalation: {{ .Values.gateway.rbac.allowPrivilegeEscalation | default false }}
-allowPrivilegedContainer: {{ .Values.gateway.rbac.allowPrivilegedContainer | default false }}
+allowPrivilegeEscalation: false
+allowPrivilegedContainer: false
 apiVersion: security.openshift.io/v1
 defaultAddCapabilities: null
 fsGroup:
