@@ -123,11 +123,6 @@ spec:
 {{ toYaml . | indent 10 }}
 {{- end }}
         volumeMounts:
-        {{- if .Values.rbac.readOnlyRootFilesystem }}
-        - name: opt
-          mountPath: /opt/
-          readOnly: false
-        {{- end }}
 {{- with .Values.extraVolumeMounts }}
   {{- toYaml . | nindent 10 }}
 {{- end }}
@@ -156,11 +151,6 @@ spec:
 {{ toYaml .Values.tolerations | indent 6 }}
       {{- end }}
       volumes:
-      {{- if .Values.rbac.readOnlyRootFilesystem }}
-      - name: opt
-        emptyDir: {}
-      {{- end }}
-
 {{- with .Values.extraVolumes }}
   {{- toYaml . | nindent 6 }}
 {{- end }}
