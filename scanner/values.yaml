@@ -152,7 +152,11 @@ securityContext:
   runAsUser: 11431
   runAsGroup: 11433
   fsGroup: 11433
-container_securityContext: {}
+container_securityContext:
+  allowPrivilegeEscalation: false
+  privileged: false
+  readOnlyRootFilesystem: true
+
 
 # extraEnvironmentVars is a list of extra environment variables to set in the scanner deployments.
 # https://docs.aquasec.com/docs/scanner-optional-variables

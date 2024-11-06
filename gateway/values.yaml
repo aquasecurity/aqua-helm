@@ -84,7 +84,10 @@ securityContext:
   runAsUser: 11431
   runAsGroup: 11433
   fsGroup: 11433
-container_securityContext: {}
+container_securityContext:
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  privileged: false
 
 pdb:
   minAvailable: "1"

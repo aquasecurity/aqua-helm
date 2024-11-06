@@ -224,8 +224,7 @@ gateway:
     registry: "registry.aquasec.com"
   rbac:
     enabled: false
-    allowPrivilegeEscalation: false
-    allowPrivilegedContainer: false
+
   clusterRole:
     roleRef: ""
   platform:
@@ -301,7 +300,10 @@ gateway:
     runAsUser: 11431
     runAsGroup: 11433
     fsGroup: 11433
-  container_securityContext: {}
+  container_securityContext:
+    allowPrivilegeEscalation: false
+    privileged: false
+    readOnlyRootFilesystem: true
   pdb:
     minAvailable: "1"
 
@@ -436,7 +438,10 @@ web:
     runAsUser: 11431
     runAsGroup: 11433
     fsGroup: 11433
-  container_securityContext: {}
+  container_securityContext:
+    allowPrivilegeEscalation: false
+    allowPrivilegedContainer: false
+    readOnlyRootFilesystem: true
 
   pdb:
     minAvailable: "1"
