@@ -36,6 +36,7 @@ metadata:
     release.openshift.io/create-only: "true"
   name: {{ .Release.Name }}-scc
 priority: null
+readOnlyRootFilesystem: false
 requiredDropCapabilities: null
 runAsUser:
   type: MustRunAsNonRoot
