@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## 2022.4.27 (Oct 8st, 2024)
-* add configurable allowPrivilegeEscalation, allowPrivilegedContainer, readOnlyRootFilesystem
+* add configurable allowPrivilegeEscalation, privileged, readOnlyRootFilesystem
 * defaults stayed the same
 * Changed gateway chart version
 
