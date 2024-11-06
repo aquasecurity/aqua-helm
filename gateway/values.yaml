@@ -9,9 +9,6 @@ imageCredentials:
 
 rbac:
   enabled: false
-  allowPrivilegeEscalation: false
-  allowPrivilegedContainer: false
-  readOnlyRootFilesystem: true # Use volume mount to set R/O filesystem
   create: false # Enable to create RBAC for gateway chart, when deploying Gateway only
 
 clusterRole:
