@@ -45,7 +45,7 @@ seLinuxContext:
 supplementalGroups:
   type: RunAsAny
 users:
-  - system:serviceaccount:{{ .Release.Namespace }}:{{ .Release.Namespace }}-sa
+  - system:serviceaccount:{{ .Release.Namespace }}:{{ .Release.Name }}-sa
 volumes:
   - configMap
   - downwardAPI
