@@ -124,11 +124,11 @@ livenessProbe:
     path: /healthz
     port: 8081
     scheme: HTTP
-  initial_delay_seconds: 15
-  period_seconds: 60
-  success_threshold: 1
-  failure_threshold: 3
-  timeout_seconds: 1
+  initialDelaySeconds: 15
+  periodSeconds: 60
+  successThreshold: 1
+  failureThreshold: 3
+  timeoutSeconds: 1
 readinessProbe: {}
 resources: {}
   # Note: For recommendations please check the official sizing guide.
