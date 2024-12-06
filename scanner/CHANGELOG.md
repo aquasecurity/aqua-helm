@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.9 (Dec 6th, 2024)
+* Fixed enableLivenessProbe related errors - [#909](https://github.com/aquasecurity/aqua-helm/issues/909)
+
 ## 2022.4.8 (June 18th, 2024)
 * Added Liveness probe Configuration spec - [#871](https://github.com/aquasecurity/aqua-helm/pull/871)
 * Add missing annotations field to values.yaml and scanner-deployment - [#873](https://github.com/aquasecurity/aqua-helm/pull/873)
