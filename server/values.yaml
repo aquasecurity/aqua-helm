@@ -199,6 +199,7 @@ global:
     tolerations: []
     affinity: {}
     podAnnotations: {}
+    dbUpgradeJobAnnotations: {}
     podLabels: {}
     #  my-annotation-key: my value; more value
 
