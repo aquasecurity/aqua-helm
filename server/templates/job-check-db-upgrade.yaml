@@ -21,11 +21,8 @@ spec:
   backoffLimit: 0
   template:
     metadata:
-    {{- if .Values.db.dbUpgradeJobAnnotations }}
-      annotations:
-        {{- range $key, $value := .Values.db.dbUpgradeJobAnnotations }}
-          {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 8 }}
-        {{- end }}
+    {{- if $.Values.global.db.dbUpgradeJobAnnotations }}
+      annotations: {{ .Values.global.db.dbUpgradeJobAnnotations }}
     {{- end }}
       name: "{{ .Release.Name }}"
       labels:
