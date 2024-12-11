@@ -1,7 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-_1.2.10
+
+_1.2.11
+* Fix toleration definition.
+
+  _1.2.10
 * Bug fix for external codesec-agent deployment 
 
 _1.2.7
