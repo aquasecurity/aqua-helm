@@ -70,6 +70,7 @@ connect:
     port: 9999
     type: ClusterIP
     annotations: {}
+  deploymentAnnotations: {}
   resources: {}
   nodeSelector: {}
   affinity: {}
@@ -81,6 +82,7 @@ scan:
   image: docker.io/aquasec/codesec-scanner:latest
   pullPolicy: Always
   replicas: 1
+  deploymentAnnotations: {}
   resources: {}
   nodeSelector: {}
   affinity: {}
@@ -93,6 +95,7 @@ remediation:
   image: docker.io/aquasec/codesec-remediation:latest
   pullPolicy: Always
   replicas: 1
+  deploymentAnnotations: {}
   resources: {}
   nodeSelector: {}
   affinity: {}
@@ -105,6 +108,7 @@ bleedsecrets:
   image: docker.io/aquasec/codesec-bleed-secrets:latest
   pullPolicy: Always
   replicas: 1
+  deploymentAnnotations: {}
   resources: {}
   nodeSelector: {}
   affinity: {}

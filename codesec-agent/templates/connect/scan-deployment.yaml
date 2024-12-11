@@ -7,6 +7,13 @@ metadata:
   labels:
     app.kubernetes.io/name: {{ $name }}
     app.kubernetes.io/instance: {{ .Release.Name }}
+  {{- $annotations := .Values.scan.deploymentAnnotations | default dict }}
+  {{- if $annotations }}
+  annotations:
+    {{- range $key,$value := $annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+  {{- end }}
 spec:
   replicas: {{ .Values.scan.replicas }}
   selector:
