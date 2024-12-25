@@ -160,3 +160,10 @@ For gke-autopilot should be /var/autopilot/addon
 {{- printf "%s" "/var/lib" -}}
 {{- end -}}
 {{- end -}}
+{{- define "hostAquasecPath" -}}
+{{- if .Values.hostAquasecPath -}}
+{{- printf "%s" .Values.hostAquasecPath }}
+{{- else -}}
+{{- template "varLibPrefix" . }}/aquasec
+{{- end -}}
+{{- end -}}

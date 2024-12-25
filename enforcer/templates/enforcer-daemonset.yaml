@@ -150,7 +150,7 @@ spec:
           name: aquasec-audit
         - mountPath: /data
           name: aquasec-data
-        - mountPath: {{ template "varLibPrefix" . }}/containers
+        - mountPath: /var/lib/containers
           name: containers
         {{- if .Values.healthMonitor.enabled }}
         {{- with .Values.livenessProbe }}
@@ -220,18 +220,18 @@ spec:
           type: ""
       - name: aquasec
         hostPath:
-          path: {{ template "varLibPrefix" . }}/aquasec
+          path: {{ template "hostAquasecPath" . }}
           type: ""
       - name: aquasec-tmp
         hostPath:
-          path: {{ template "varLibPrefix" . }}/aquasec/tmp
+          path: {{ template "hostAquasecPath" . }}/tmp
           type: ""
       - name: aquasec-audit
         hostPath:
-          path: {{ template "varLibPrefix" . }}/aquasec/audit
+          path: {{ template "hostAquasecPath" . }}/audit
       - name: aquasec-data
         hostPath:
-          path: {{ template "varLibPrefix" . }}/aquasec/data
+          path: {{ template "hostAquasecPath" . }}/data
           type: ""
       - name: containers
         hostPath:
