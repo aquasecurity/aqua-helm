@@ -200,6 +200,7 @@ Parameter | Description      | Default| Mandatory
 `TLS.privateKey_fileName`   | filename of the private key eg: aqua_enforcer.key  | `nil`  |  `YES` <br /> `if TLS.enabled is set to true`
 `TLS.rootCA_fileName` | filename of the rootCA, if using self-signed certificates eg: rootCA.crt  | `nil`  |  `NO` <br /> `if TLS.enabled is set to true and using self-signed certificates for TLS/mTLS`
 `TLS.aqua_verify_enforcer` | change it to "1" or "0" for enabling/disabling mTLS between enforcer and ay/envoy        | `0`    |  `YES` <br /> `if TLS.enabled is set to true`
+`hostAquasecPath` | folder on host machine where aquasec folder in the container will be mounted | `unset` | `NO`
 `extraEnvironmentVars` | is a list of extra environment variables to set in the enforcer daemonset.| `{}`   | `NO`
 `extraSecretEnvironmentVars` | is a list of extra environment variables to set in the scanner daemonset, these variables take value from existing Secret objects. | `[]`   | `NO`
 `windowsEnforcer.allWinNodes.enable` | Enable to true, If All the nodes are windows os and it deploys only windows agents on all windows nodes | `false` | `NO`
