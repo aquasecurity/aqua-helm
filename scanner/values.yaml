@@ -72,7 +72,17 @@ server:
 additionalCerts: []
   # - createSecret: true                # Change to false if you're using existing server certificate secret
   #   secretName: "proxy-server-certs"  # Change secret name if already exists with server/web public certificate
-  #   certFile:                         # If additionalCerts createSecret enable to true, add base64 value of the server public certificate or add filename of certificate if loading from custom secret
+  #   certFile:                         # If additionalCerts createSecret enable to true, add unencoded value of the certificate to be added
+  # Multi-cert Usage Example
+  # - createSecret: true
+  #   secretName: "proxy-server-certs"
+  #   certFile: |
+  #     -----BEGIN CERTIFICATE-----
+  #     CERT
+  #     -----END CERTIFICATE-----
+  # - createSecret: true
+  #   secretName: "another-cert"
+  #   certFile: "UNECODED_CERT_DATA"
 
 
 serverSSL:

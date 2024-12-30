@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.10 (Dec 30th, 2024)
+* Fixed additionalCert errors
+
 ## 2022.4.9 (Dec 6th, 2024)
 * Fixed enableLivenessProbe related errors - [#909](https://github.com/aquasecurity/aqua-helm/issues/909)
 
