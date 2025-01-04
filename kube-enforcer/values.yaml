@@ -324,6 +324,8 @@ starboard:
     repository: "starboard-operator"
     tag: "0.15.23"
     pullPolicy: Always
+    # Reference the secret for private registry
+    secretName: ""
 
   container_securityContext:
     privileged: false
