@@ -43,6 +43,10 @@ spec:
       {{- end }}
       serviceAccountName: {{ template "serviceAccountStarboard" . }}
       automountServiceAccountToken: {{ .Values.starboard.automountServiceAccountToken }}
+      {{- if ne .Values.starboard.image.secretName "" }}
+      imagePullSecrets:
+        - name: {{ .Values.starboard.image.secretName }}
+      {{- end }}
       {{- with .Values.starboard.securityContext }}
       securityContext:
 {{ toYaml . | indent 8 }}
