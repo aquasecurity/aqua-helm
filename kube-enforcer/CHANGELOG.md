@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.51 ( Feb 19th, 2025 )
+* upgraded kube-bench version to v0.10.2
+
 ## 2022.4.50 ( Jan 1st, 2025 )
 * upgraded kube-bench version to v0.10.0
 
