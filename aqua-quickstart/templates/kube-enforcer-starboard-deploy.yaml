@@ -64,6 +64,8 @@ spec:
               value: "{{ .Values.starboard.OPERATOR_BATCH_DELETE_LIMIT }}"
             - name: OPERATOR_BATCH_DELETE_DELAY
               value: "{{ .Values.starboard.OPERATOR_BATCH_DELETE_DELAY }}"
+            - name: OPERATOR_EXCLUDE_NAMESPACES
+              value: {{ .Values.starboard.OPERATOR_EXCLUDE_NAMESPACES }}
           ports:
             - name: metrics
               containerPort: {{ .Values.starboard.ports.metricContainerPort }}
