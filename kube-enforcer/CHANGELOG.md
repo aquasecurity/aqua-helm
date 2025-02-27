@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2022.4.51 ( Feb 19th, 2025 )
 * upgraded kube-bench version to v0.10.2
+* Removed ```componentstatuses``` from cluster-role_YAML as it the API is depricated
 
 ## 2022.4.50 ( Jan 1st, 2025 )
 * upgraded kube-bench version to v0.10.0
