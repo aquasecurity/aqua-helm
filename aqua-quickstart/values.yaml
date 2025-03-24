@@ -103,9 +103,9 @@ starboard:
   automountServiceAccountToken: "true"
   securityContext: {}
   image:
-    repositoryUriPrefix: "docker.io/aquasec"
+    repositoryUriPrefix: "registry.aquasec.com"
     repository: "starboard-operator"
-    tag: "0.13.0"
+    tag: "0.15.24"
     pullPolicy: Always
   container_securityContext:
     privileged: false
@@ -116,6 +116,7 @@ starboard:
         - ALL
   OPERATOR_NAMESPACE: "aqua"
   OPERATOR_TARGET_NAMESPACES: ""
+  OPERATOR_EXCLUDE_NAMESPACES: "kube-system"
   OPERATOR_LOG_DEV_MODE: "false"
   OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT: "10"
   OPERATOR_SCAN_JOB_RETRY_AFTER: "30s"

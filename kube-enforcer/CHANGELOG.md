@@ -1,11 +1,34 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.53 ( Mar 13th, 2025 )
+* upgraded kube-bench version to v0.10.4
+
+## 2022.4.52 ( Feb 19th, 2025 )
+* upgraded kube-bench version to v0.10.2 and starboard version to 0.15.24
+
+## 2022.4.51 ( Feb 19th, 2025 )
+* upgraded kube-bench version to v0.10.2
+
+## 2022.4.50 ( Jan 1st, 2025 )
+* upgraded kube-bench version to v0.10.0
+
+## 2022.4.49 ( Sep 16th, 2024 )
+* changing the default registry DEVOPS-227
+* remove duplicate value starboard configMap SLK-86761
+
+## 2022.4.48 ( Aug 29th, 2024 )
+* Allow disabling the installation of starboard CRDs when starboard is enabled 
+* Enforcer version changed to 2022.4.23
+ 
+## 2022.4.47 ( Aug 5th, 2024 )
+* remove imagepullsecret from the service account SLK-84166
+
 ## 2022.4.46 ( May 21st, 2024 )
 * Add pod hostNetwork option for KE deployment
 
 ## 2022.4.45 ( May 15th, 2024 )
-* upgraded kube-bench version to v0.7.3
+* upgraded kube-bench version to v0.9.1
 * upgraded trivy-operator version to 0.20.1
 * added CONTROLLER_CACHE_SYNC_TIMEOUT to resolve CRD sync issue
 

@@ -79,7 +79,7 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{- define "imagePullSecret" }}
-{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (required "A valid .Values.global.imageCredentials.registry entry required" .Values.global.imageCredentials.registry) (printf "%s:%s" (required "A valid .Values.global.imageCredentials.username entry required" .Values.global.imageCredentials.username) (required "A valid .Values.global.imageCredentials.password entry required" .Values.global.imageCredentials.password) | b64enc) | b64enc }}
+{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (required "A valid .Values.global.imageCredentials.registry entry required" .Values.global.imageCredentials.registry) (printf "%s:%s" (default "A valid .Values.global.imageCredentials.username entry" .Values.global.imageCredentials.username) (default "A valid .Values.global.imageCredentials.password entry" .Values.global.imageCredentials.password) | b64enc) | b64enc }}
 {{- end }}
 
 {{- define "serverCertificate" }}

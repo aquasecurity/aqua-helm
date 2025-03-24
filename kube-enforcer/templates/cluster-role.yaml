@@ -17,6 +17,9 @@ rules:
   - apiGroups: ["*"]
     resources: ["configmaps"]
     verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: [ "serviceaccounts" ]
+    verbs: [ "get","list","watch" ]
   {{- if eq .Values.global.platform "openshift"}}
   - apiGroups: ["operator.openshift.io"]
     resources: ["imagecontentsourcepolicies", "openshiftapiservers", "kubeapiservers"]
@@ -31,7 +34,7 @@ rules:
     resources: ["pods/exec"]
     verbs: ["create"]
   - apiGroups: [ "" ]
-    resources: [ "serviceaccounts", "endpoints" ]
+    resources: [ "endpoints" ]
     verbs: [ "list" ]
   - apiGroups: [ "config.openshift.io" ]
     resources: [ "clusteroperators" ]

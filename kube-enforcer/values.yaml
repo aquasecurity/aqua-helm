@@ -47,13 +47,14 @@ global:
 # If serviceAccount.create=false and serviceAccount.name defined then will be used serviceAccount with defined name
 # but in this case serviceAccount should be created manually before chart deploying
 #####################
-# If serviceAccount.create=create and serviceAccount.name not defined
+# If serviceAccount.create=true and serviceAccount.name not defined
 # then will be created a serviceAccount with name <Chart ReleaseName>-sa
 #####################
-# If serviceAccount.create=create and serviceAccount.name defined
+# If serviceAccount.create=true and serviceAccount.name defined
 # then will be created a serviceAccount with name provided name
 serviceAccount:
   create: true
+  attachImagePullSecret: true
   name: ""
 
 # Replica count
@@ -84,8 +85,8 @@ microEnforcerImage:
 
 # KubeBench Image
 kubebenchImage:
-  repository: "aquasec/kube-bench"  # Default aqua registry KubeBench repository name
-  tag: "v0.7.3"
+  repository: "registry.aquasec.com/kube-bench"  # Default aqua registry KubeBench repository name
+  tag: "v0.10.4"
 
 # Enable/Disable KB scanning on tainted nodes
 kubeBench:
@@ -279,11 +280,12 @@ TLS:
 # extraEnvironmentVars is a list of extra environment variables to set in the kube-enforcer deployment
 # https://docs.aquasec.com/docs/kubeenforcer-variables
 # The variables could be provided via values.yaml file as shown below
-# or using cli command, for example:  --set extraEnvironmentVars.http_proxy="1.1.1.1",extraEnvironmentVars.https_proxy="2.2.2.2"
+# or using cli command, for example:  
+# --set extraEnvironmentVars.http_proxy="1.1.1.1",extraEnvironmentVars.https_proxy="2.2.2.2",no_proxy=".svc.cluster.local"
 extraEnvironmentVars: {}
   # http_proxy: < >
   # https_proxy: < >
-  # no_proxy: < >
+  # no_proxy: < > e.g. "srv.cluster.local". KE must be able to reach Kube API
   # ENV_NAME: value
 
 # extraSecretEnvironmentVars is a list of extra environment variables to set in the enforcer daemonSet.
@@ -301,6 +303,9 @@ extraVolumes: []
 
 starboard:
   enabled: true
+  # enable to true to manage starboard crds by Helm
+  crds:
+    enabled: true  
   replicaCount: "1"
   appName: "starboard-operator"
   serviceAccount:
@@ -317,7 +322,7 @@ starboard:
   image:
     repositoryUriPrefix: "docker.io/aquasec"
     repository: "starboard-operator"
-    tag: "0.15.20"
+    tag: "0.15.24"
     pullPolicy: Always
 
   container_securityContext:
@@ -330,6 +335,7 @@ starboard:
 
   OPERATOR_NAMESPACE: ""
   OPERATOR_TARGET_NAMESPACES: ""
+  OPERATOR_EXCLUDE_NAMESPACES: "kube-system"
   OPERATOR_LOG_DEV_MODE: "false"
   OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT: "10"
   OPERATOR_SCAN_JOB_RETRY_AFTER: "30s"
@@ -340,8 +346,7 @@ starboard:
   OPERATOR_CONFIG_AUDIT_SCANNER_SCAN_ONLY_CURRENT_REVISIONS: "true"
   OPERATOR_BATCH_DELETE_LIMIT: "10"
   OPERATOR_BATCH_DELETE_DELAY: "10s"
-  OPERATOR_CLUSTER_COMPLIANCE_ENABLED: false
-  OPERATOR_CONFIG_AUDIT_SCANNER_SCAN_ONLY_CURRENT_REVISIONS: true
+  OPERATOR_CLUSTER_COMPLIANCE_ENABLED: "false"
 
   ports:
     metricContainerPort: 8080
@@ -458,6 +463,7 @@ kubeEnforcerAdvance:
 enforcer:
   serviceAccount:
     create: true
+    attachImagePullSecret: true
     name: ""
 
   clusterRole:
@@ -583,7 +589,8 @@ enforcer:
   # extraEnvironmentVars is a list of extra environment variables to set in the enforcer daemonSet.
   # https://docs.aquasec.com/docs/enforcer-optional-variables
   # The variables could be provided via values.yaml file as shown below
-  # or using cli command, for example:  --set extraEnvironmentVars.http_proxy="1.1.1.1",extraEnvironmentVars.https_proxy="2.2.2.2"
+  # or using cli command, for example:  
+  # --set enforcer.extraEnvironmentVars.http_proxy="1.1.1.1",enforcer.extraEnvironmentVars.https_proxy="2.2.2.2"
   extraEnvironmentVars: {}
     # http_proxy: < >
     # https_proxy: < >
