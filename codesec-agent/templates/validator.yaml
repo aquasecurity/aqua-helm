@@ -18,9 +18,6 @@
 {{ fail "Error - missing .Values.credentials.aqua_secret" }}
 {{- end }}
 {{- end }}
-{{- if empty .Values.integration.url }}
-{{ fail "Error - missing .Values.integration.url" }}
-{{- end }}
 {{- if empty .Values.integration.username }}
 {{ fail "Error - missing .Values.integration.username" }}
 {{- end }}
