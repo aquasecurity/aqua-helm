@@ -17,10 +17,10 @@ credentials:
 # SCM configurations:
 integration:
   # Should be one of: github|gitlab_server|azure|jenkins|etc...
-  source:
-  url:
-  username:
-  password:
+  source: ""
+  url: ""
+  username: ""
+  password: ""
 
 # Optionally add ssl ca cert and client cert/key for ssl connection to the SCM/CI server:
 ssl:
