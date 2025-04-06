@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.54 ( Apr 6th, 2025 )
+* upgraded trivy-operator version to 0.25.0
+* added OPERATOR_CLUSTER_SBOM_CACHE_ENABLED to resolve CRD sync issue
+* Updated deployment template to render 'resources' only if defined in values.yaml
+
 ## 2022.4.53 ( Mar 13th, 2025 )
 * upgraded kube-bench version to v0.10.4
 
