@@ -1,8 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2022.4.54 ( Apr 25th, 2025 )
+## 2022.4.55 ( Apr 25th, 2025 )
 * upgraded kube-bench version to v0.10.6
+
+## 2022.4.54 ( Apr 22th, 2025 )
+* upgraded starboard version to 0.15.25
 
 ## 2022.4.53 ( Mar 13th, 2025 )
 * upgraded kube-bench version to v0.10.4
