@@ -1,5 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2022.4.24 ( Sep 26th, 2024 )
+* SLK-88616 - Adding varLibPath based on values entry - PR[#929](https://github.com/aquasecurity/aqua-helm/pull/929)
 ## 2022.4.23 ( Sep 26th, 2024 )
 * SLK-80942 - Amend helm values file for the Enforcer deployment on Windows - PR[#894](https://github.com/aquasecurity/aqua-helm/pull/894)
 ## 2022.4.22 ( Apr 30th, 2024 )
