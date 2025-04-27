@@ -24,7 +24,7 @@
 {{ fail "Error - missing .Values.integration.password" }}
 {{- end }}
 {{- end }}
-{{- if empty .Values.integration.url }}
+{{- if and (contains "server" .Values.integration.source) (empty .Values.integration.url) }}
 {{ fail "Error - missing .Values.integration.url" }}
 {{- end }}
 {{- if empty .Values.integration.source }}
