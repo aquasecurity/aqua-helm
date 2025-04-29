@@ -154,9 +154,11 @@ Set /var/lib path
 For gke-autopilot should be /var/autopilot/addon
 */}}
 {{- define "varLibPrefix" -}}
-{{- if eq .Values.global.platform "gke-autopilot" -}}
-{{- printf "%s" "/var/autopilot/addon" -}}
+{{- if .Values.global.varLibPath }}
+  {{- printf "%s" .Values.global.varLibPath -}}
+{{- else if eq .Values.global.platform "gke-autopilot" -}}
+  {{- printf "%s" "/var/autopilot/addon" -}}
 {{- else -}}
-{{- printf "%s" "/var/lib" -}}
-{{- end -}}
+  {{- printf "%s" "/var/lib" -}}
+{{- end }}
 {{- end -}}
