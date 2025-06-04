@@ -73,7 +73,9 @@ spec:
             name: {{ .Release.Name }}-enforcer-config
         env:
         - name: AQUA_K8S_CLUSTERID
+          {{- if .Release.IsInstall }}
           value: {{ (lookup "v1" "Namespace" "" "kube-system").metadata.uid | "temp" }}
+          {{- end}}
 
         - name: AQUA_NODE_NAME
         {{- if .Values.nodeName }}
