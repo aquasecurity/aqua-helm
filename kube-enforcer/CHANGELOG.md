@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.57 ( Jun 6th, 2025 )
+* upgraded kube-bench version to v0.10.7
+
 ## 2022.4.56 ( Apr 25th, 2025 )
 * Enforcer version changed to 2022.4.24
 
