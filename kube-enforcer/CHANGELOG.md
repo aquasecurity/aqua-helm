@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.59 ( Jun 26th, 2025 )
+* upgraded kube-bench version to v0.11.1 and starboard version to 0.15.26
+
 ## 2022.4.58 ( Jun 25th, 2025 )
 * align kube-enforcer chart version
 
