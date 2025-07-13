@@ -19,8 +19,7 @@ serviceaccount:
 replicaCount: 1
 
 image:
-  # for CC premium change repository to "cc-premium"
-  repository: "cc-standard"
+  repository: "cc-premium"
   tag: "latest"
   pullPolicy: Always
 

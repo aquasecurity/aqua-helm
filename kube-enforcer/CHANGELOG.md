@@ -1,10 +1,27 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2022.4.54 ( Apr 6th, 2025 )
+## 2022.4.59 ( Jun 26th, 2025 )
+* upgraded kube-bench version to v0.11.1 and starboard version to 0.15.26
+* upgraded starboard version to 0.15.26
 * upgraded trivy-operator version to 0.25.0
 * added OPERATOR_CLUSTER_SBOM_CACHE_ENABLED to resolve CRD sync issue
-* Updated deployment template to render 'resources' only if defined in values.yaml
+* update deployment template to render 'resources' only if defined in values.yaml
+
+## 2022.4.58 ( Jun 25th, 2025 )
+* align kube-enforcer chart version
+
+## 2022.4.57 ( Jun 6th, 2025 )
+* upgraded kube-bench version to v0.10.7
+
+## 2022.4.56 ( Apr 25th, 2025 )
+* Enforcer version changed to 2022.4.24
+
+## 2022.4.55 ( Apr 25th, 2025 )
+* upgraded kube-bench version to v0.10.6
+
+## 2022.4.54 ( Apr 22th, 2025 )
+* upgraded starboard version to 0.15.25
 
 ## 2022.4.53 ( Mar 13th, 2025 )
 * upgraded kube-bench version to v0.10.4

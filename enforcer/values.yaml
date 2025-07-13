@@ -33,6 +33,8 @@ global:
     registry: "registry.aquasec.com"
     username: ""
     password: ""
+  # If set the varLibPath will change for all created volumes
+  varLibPath: ""
 
 serviceAccount:
   # change to true if deploying enforcer on new cluster or aqua-sa serviceAccount doesn't exist.
