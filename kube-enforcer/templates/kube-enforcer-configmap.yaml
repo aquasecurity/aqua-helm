@@ -14,7 +14,9 @@ data:
   AQUA_ENABLE_CACHE: {{ .Values.aqua_enable_cache | quote }}
   AQUA_CACHE_EXPIRATION_PERIOD: {{ .Values.aqua_cache_expiration_period | default "60" | quote }}
   AQUA_LOGICAL_NAME: {{ .Values.logicalName | quote }}
+  {{- if .Values.clusterName }}
   CLUSTER_NAME: {{ .Values.clusterName | quote }}
+  {{- end }}
   AQUA_NODE_LABELS_TO_SKIP_KB: {{ .Values.skipNodes | quote }}
   {{- if .Values.me_ke_custom_registry.enable }}
   AQUA_KB_IMAGE_NAME: "{{ .Values.me_ke_custom_registry.registry }}/{{ .Values.kubebenchImage.repository }}:{{ .Values.kubebenchImage.tag }}"

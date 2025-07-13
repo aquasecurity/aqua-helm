@@ -96,8 +96,9 @@ nameOverride: "aqua-kube-enforcer"
 fullnameOverride: "aqua-kube-enforcer"
 
 # Display a custom cluster name in the infrastructure tab of Aqua Enterprise
+# Leave blank to discover the cluster name or statically define
 # Follow https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names for naming conventions
-clusterName: "Default-cluster-name"
+clusterName: ""
 logicalName: ""
 logLevel: ""
 
