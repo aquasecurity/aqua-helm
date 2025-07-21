@@ -6,7 +6,7 @@ This repository contains Helm charts for Aqua Security components. When reviewin
 
 - If `README.md` or other documentation files contain hardcoded chart versions or installation examples, confirm that these versions match the newly updated chart version.
 
-- Some charts have dependencies on others. For example, `server` depends on `gateway`, and `kube-enforcer` depends on `enforcer`. If a dependent chart was changed, check whether the other related chart should also be updated or versioned to stay compatible.
+- Some charts have Helm chart dependencies defined in their `Chart.yaml` files. For example, `server` depends on `gateway`, and `kube-enforcer` depends on `enforcer`. If a dependent chart was changed, check whether the other related chart should also be updated or versioned to ensure compatibility. Compatibility means aligning versions in `Chart.yaml` and verifying that the charts work together as expected, which may involve testing or reviewing dependency constraints.
 
 - For YAML or Helm template changes, check that the syntax is valid and consistent. You may suggest running `helm lint` if structural changes are made.
 
