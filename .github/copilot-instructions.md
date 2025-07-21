@@ -2,7 +2,7 @@ This repository contains Aqua Security Helm charts. These charts require the fol
 
 
 1. Chart version bump
-   * Increment the `version` field of the update charts in the `Chart.yaml` file(s) to reflect the changes made.
+   * Increment the `version` field of the updated charts in the `Chart.yaml` file(s) to reflect the changes made.
 
 2. Update the Changelog
    * A summary of changes should be added to `CHANGELOG.md` in the appropriate section and version entry.
