@@ -1,37 +1,13 @@
-Review all pull requests for the following:
+This repository contains Helm charts for Aqua Security components. When reviewing pull requests, please check the following:
 
-### 1. Chart Version Bump
+- If a Helm chart is changed, ensure the `version` field in the corresponding `Chart.yaml` file has been incremented appropriately. The change should follow semantic versioning based on what was modified.
 
-- If a Helm chart is modified (e.g., `Chart.yaml`, `values.yaml`, `templates/`), verify that the `version` field in the corresponding `Chart.yaml` file is incremented.
-- Ensure the version bump reflects the nature of the change (e.g., patch for bugfix, minor for feature, major for breaking change).
+- Check that a new section has been added to `CHANGELOG.md` reflecting the updated chart version. This section should summarize the changes introduced in the pull request.
 
-**Flag if** a chart is modified without a version update.
+- If `README.md` or other documentation files contain hardcoded chart versions or installation examples, confirm that these versions match the newly updated chart version.
 
-### 2. CHANGELOG Entry
+- Some charts have dependencies on others. For example, `server` depends on `gateway`, and `kube-enforcer` depends on `enforcer`. If a dependent chart was changed, check whether the other related chart should also be updated or versioned to stay compatible.
 
-- Confirm that `CHANGELOG.md` includes a new entry matching the updated chart version.
-- Ensure the entry summarizes the changes made.
+- For YAML or Helm template changes, check that the syntax is valid and consistent. You may suggest running `helm lint` if structural changes are made.
 
-**Flag if** the changelog is missing or does not reflect the changes.
-
-### 3. Version References in Documentation
-
-- Check for version strings in files like `README.md` or installation examples.
-- Ensure the version used in examples matches the updated chart version.
-
-**Flag if** version examples are outdated or inconsistent.
-
-### 4. Intra-Chart Dependencies
-
-- If a chart with dependencies is changed, confirm that any dependent charts are also updated if needed.
-
-  Dependency rules:
-  - `server` depends on `gateway`
-  - `kube-enforcer` depends on `enforcer`
-
-**Flag if** a dependent chart is not reviewed or updated accordingly.
-
-### 5. General Consistency
-
-- Ensure YAML is valid and that chart structure and syntax remain consistent.
-- Optionally suggest running `helm lint` or `helm template` if structural changes are made.
+Flag any pull request that misses any of these steps or introduces inconsistencies.
