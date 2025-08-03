@@ -74,7 +74,7 @@ pipeline {
             steps {
                 script {
                     sh "curl -sfL https://github.com/k3s-io/k3s/releases/latest/download/k3s -o /usr/local/bin/k3s && chmod +x /usr/local/bin/k3s"
-                    sh "k3s server"
+                    sh "k3s server --snapshotter=native"
                     sh "k3s kubectl get nodes"
                     error "byush"
                 }
