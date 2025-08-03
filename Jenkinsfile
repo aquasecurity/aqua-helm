@@ -3,7 +3,8 @@ import com.aquasec.deployments.orchestrators.*
 
 def orchestrator = new OrcFactory(this).GetOrc()
 def charts = ['server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager', 'codesec-agent']
-def deployCharts = [ 'server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-center', 'codesec-agent' ]
+// deployCharts = ['server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-center', 'codesec-agent']
+def deployCharts = ['server']
 def debug = false
 
 pipeline {
@@ -78,6 +79,7 @@ pipeline {
                     sh "nohup k3s server --snapshotter=native > /tmp/k3s.log 2>&1 &"
                     sleep(10)
                     sh "k3s kubectl get nodes"
+                    sh "k3s kubectl get sa -A"
                     //error "byush"
                 }
             }
