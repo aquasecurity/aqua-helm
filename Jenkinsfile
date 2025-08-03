@@ -25,9 +25,10 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    checkout scm
-                    sh "wget -q https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz && tar xf kubeval-linux-amd64.tar.gz && mv kubeval /usr/local/bin"
-                    sh "curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin"
+                    log.info "hi"
+                    //checkout scm
+                    //sh "wget -q https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz && tar xf kubeval-linux-amd64.tar.gz && mv kubeval /usr/local/bin"
+                    //sh "curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin"
                 }
             }
         }
@@ -77,17 +78,17 @@ pipeline {
                     sh "nohup k3s server --snapshotter=native > /tmp/k3s.log 2>&1 &"
                     sleep(10)
                     sh "k3s kubectl get nodes"
-                    error "byush"
+                    //error "byush"
                 }
             }
         }
-        stage("Update consul") {
-            steps {
-                script {
-                    helmBasic.updateConsul("create")
-                }
-            }
-        }
+//         stage("Update consul") {
+//             steps {
+//                 script {
+//                     helmBasic.updateConsul("create")
+//                 }
+//             }
+//         }
         stage("Installing Helm") {
             steps {
                 script {
