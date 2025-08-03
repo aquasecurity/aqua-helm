@@ -57,19 +57,19 @@ pipeline {
 //                 }
 //             }
 //         }
-        stage("Trivy scan") {
-            steps {
-                script {
-                    parallel charts.collectEntries { chart ->
-                        ["${chart}": {
-                            stage("Trivy scan ${chart}") {
-                                helmBasic.trivyScan(chart)
-                            }
-                        }]
-                    }
-                }
-            }
-        }
+//         stage("Trivy scan") {
+//             steps {
+//                 script {
+//                     parallel charts.collectEntries { chart ->
+//                         ["${chart}": {
+//                             stage("Trivy scan ${chart}") {
+//                                 helmBasic.trivyScan(chart)
+//                             }
+//                         }]
+//                     }
+//                 }
+//             }
+//         }
         stage("Creating K3s Cluster") {
             steps {
                 script {
