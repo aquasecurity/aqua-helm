@@ -1,4 +1,4 @@
-@Library('aqua-pipeline-lib@master') _
+@Library('aqua-pipeline-lib@lihiz_helm_jenkins') _
 import com.aquasec.deployments.orchestrators.*
 
 def orchestrator = new OrcFactory(this).GetOrc()
