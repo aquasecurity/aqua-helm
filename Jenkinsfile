@@ -8,7 +8,7 @@ def debug = false
 
 pipeline {
     agent {
-        label 'deployment_slave'
+        kubernetes kubernetesAgents.devopsCommon(size: 'Large', cloud: 'kubernetes', dind: 'True')
     }
     parameters {
         string(name: 'AUTOMATION_BRANCH', defaultValue: 'master', description: "Automation branch for MSTP tests", trim: true)
