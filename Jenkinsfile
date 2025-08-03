@@ -102,6 +102,7 @@ pipeline {
         stage("Deploy charts") {
             steps {
                 script {
+                    sh "k3s kubectl get sa -A"
                     parallel deployCharts.collectEntries { chart ->
                         ["${chart}": {
                             stage("Deploy ${chart}") {
@@ -125,14 +126,14 @@ pipeline {
                 }
             }
         }
-        stage("Running Mstp tests") {
-            steps {
-                script {
-                    //helmBasic.runMstpTests debug: debug, afwImage: params.AUTOMATION_BRANCH
-                    print "Running Mstp tests"
-                }
-            }
-        }
+//         stage("Running Mstp tests") {
+//             steps {
+//                 script {
+//                     //helmBasic.runMstpTests debug: debug, afwImage: params.AUTOMATION_BRANCH
+//                     print "Running Mstp tests"
+//                 }
+//             }
+//         }
         stage("Push charts") {
             steps {
                 script {
@@ -147,16 +148,16 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            script {
-                helmBasic.updateConsul("delete")
-                orchestrator.uninstall()
-                echo "k3s & server chart uninstalled"
-                helmBasic.removeDockerLocalImages()
-                cleanWs()
-                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: 'deployments@aquasec.com'
-            }
-        }
-    }
+//     post {
+//         always {
+//             script {
+//                 //helmBasic.updateConsul("delete")
+//                 //orchestrator.uninstall()
+//                 //echo "k3s & server chart uninstalled"
+//                 //helmBasic.removeDockerLocalImages()
+//                 //cleanWs()
+//                 notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: 'deployments@aquasec.com'
+//             }
+//         }
+//     }
 }
