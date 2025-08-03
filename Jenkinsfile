@@ -103,6 +103,7 @@ pipeline {
             steps {
                 script {
                     sh "k3s kubectl get sa -A"
+                    sh "helm list -A"
                     parallel deployCharts.collectEntries { chart ->
                         ["${chart}": {
                             stage("Deploy ${chart}") {
