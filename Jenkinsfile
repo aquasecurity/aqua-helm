@@ -103,6 +103,9 @@ pipeline {
             steps {
                 script {
                     sh "k3s kubectl get sa -A"
+                    sh "kubectl config current-context"
+                    sh "kubectl config get-contexts"
+                    sh "echo \$KUBECONFIG"
                     sh "helm list -A"
                     parallel deployCharts.collectEntries { chart ->
                         ["${chart}": {
