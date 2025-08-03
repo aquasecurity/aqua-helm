@@ -149,6 +149,9 @@ spec:
         {{- if .Values.persistence.enabled }}
         - name: scanner-pvc
           mountPath: /opt/aquascans
+        {{- else }}
+        - name: scanner-emptydir
+          mountPath: /opt/aquascans
         {{- end }}
         {{- include "scanner.additionalCertVolumeMounts" .Values | nindent 8 }}
         ports:
@@ -221,4 +224,7 @@ spec:
       - name: scanner-pvc
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-scanner-pvc
+      {{- else }}
+      - name: scanner-emptydir
+        emptyDir: {}
       {{- end -}}
