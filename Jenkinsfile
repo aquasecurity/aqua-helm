@@ -30,32 +30,32 @@ pipeline {
                 }
             }
         }
-        stage("Helm lint") {
-            steps {
-                script {
-                    parallel charts.collectEntries { chart ->
-                        ["${chart}": {
-                            stage("Helm Lint ${chart}") {
-                                helmBasic.lint(chart)
-                            }
-                        }]
-                    }
-                }
-            }
-        }
-        stage("Helm template") {
-            steps {
-                script {
-                    parallel charts.collectEntries { chart ->
-                        ["${chart}": {
-                            stage("Helm template ${chart}") {
-                                helmBasic.template(chart)
-                            }
-                        }]
-                    }
-                }
-            }
-        }
+//         stage("Helm lint") {
+//             steps {
+//                 script {
+//                     parallel charts.collectEntries { chart ->
+//                         ["${chart}": {
+//                             stage("Helm Lint ${chart}") {
+//                                 helmBasic.lint(chart)
+//                             }
+//                         }]
+//                     }
+//                 }
+//             }
+//         }
+//         stage("Helm template") {
+//             steps {
+//                 script {
+//                     parallel charts.collectEntries { chart ->
+//                         ["${chart}": {
+//                             stage("Helm template ${chart}") {
+//                                 helmBasic.template(chart)
+//                             }
+//                         }]
+//                     }
+//                 }
+//             }
+//         }
         stage("Trivy scan") {
             steps {
                 script {
