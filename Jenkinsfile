@@ -170,16 +170,17 @@ pipeline {
             }
         }
     }
-//     post {
-//         always {
-//             script {
-//                 //helmBasic.updateConsul("delete")
-//                 //orchestrator.uninstall()
-//                 //echo "k3s & server chart uninstalled"
-//                 //helmBasic.removeDockerLocalImages()
-//                 //cleanWs()
-//                 notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: 'deployments@aquasec.com'
-//             }
-//         }
-//     }
+    post {
+        always {
+            script {
+                input "please wait..."
+                //helmBasic.updateConsul("delete")
+                //orchestrator.uninstall()
+                //echo "k3s & server chart uninstalled"
+                //helmBasic.removeDockerLocalImages()
+                //cleanWs()
+                //notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: 'deployments@aquasec.com'
+            }
+        }
+    }
 }
