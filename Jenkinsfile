@@ -102,6 +102,7 @@ pipeline {
         stage("Deploy charts") {
             steps {
                 script {
+                    sleep(3000)
 //                     sh "k3s kubectl get sa -A"
 //                     sh "kubectl config current-context"
 //                     sh "kubectl config get-contexts"
