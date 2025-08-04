@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     log.info "hi"
-                    //checkout scm
+                    checkout scm
                     //sh "wget -q https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz && tar xf kubeval-linux-amd64.tar.gz && mv kubeval /usr/local/bin"
                     //sh "curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin"
                 }
