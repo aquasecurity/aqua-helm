@@ -86,7 +86,7 @@ microEnforcerImage:
 # KubeBench Image
 kubebenchImage:
   repository: "registry.aquasec.com/kube-bench"  # Default aqua registry KubeBench repository name
-  tag: "v0.10.6"
+  tag: "v0.11.2"
 
 # Enable/Disable KB scanning on tainted nodes
 kubeBench:
@@ -96,8 +96,9 @@ nameOverride: "aqua-kube-enforcer"
 fullnameOverride: "aqua-kube-enforcer"
 
 # Display a custom cluster name in the infrastructure tab of Aqua Enterprise
+# Leave blank to discover the cluster name or statically define
 # Follow https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-label-names for naming conventions
-clusterName: "Default-cluster-name"
+clusterName: ""
 logicalName: ""
 logLevel: ""
 
@@ -322,7 +323,7 @@ starboard:
   image:
     repositoryUriPrefix: "docker.io/aquasec"
     repository: "starboard-operator"
-    tag: "0.15.25"
+    tag: "0.15.26"
     pullPolicy: Always
 
   container_securityContext:
@@ -391,7 +392,7 @@ trivy:
   image:
     registry: "docker.io/aquasec"
     repository: "trivy-operator"
-    tag: "0.20.1"
+    tag: "0.25.0"
     pullPolicy: IfNotPresent
     # Reference the secret for private registry
     secretName: ""

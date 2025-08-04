@@ -106,6 +106,8 @@ spec:
         {{- if .Values.global.db.persistence.database.enabled }}
         - mountPath: /var/lib/postgresql/data
           name: postgres-database
+        - mountPath: /dev/shm
+          name: dshm
         {{- end }}
         ports:
         - containerPort: 5432
@@ -137,6 +139,10 @@ spec:
       - name: postgres-database
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-database-pvc
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: {{ include "aqua.db.shmSize" . }}
       {{- end }}
 ---
 apiVersion: apps/v1
@@ -245,6 +251,8 @@ spec:
         {{- if .Values.global.db.persistence.audit_database.enabled }}
         - mountPath: /var/lib/postgresql/data
           name: postgres-audit-database
+        - mountPath: /dev/shm
+          name: dshm
         {{- end }}
         ports:
         - containerPort: 5432
@@ -276,5 +284,9 @@ spec:
       - name: postgres-audit-database
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-audit-database-pvc
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: {{ include "aqua.db.shmSize" . }}
       {{- end }}
 {{- end }}

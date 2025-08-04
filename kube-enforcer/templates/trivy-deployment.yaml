@@ -103,6 +103,8 @@ spec:
               value: "true"
             - name: CONTROLLER_CACHE_SYNC_TIMEOUT
               value: "5m"
+            - name: OPERATOR_CLUSTER_SBOM_CACHE_ENABLED
+              value: "false"
           ports:
             - name: metrics
               containerPort: {{ .Values.trivy.ports.metricContainerPort }}
@@ -120,15 +122,7 @@ spec:
           livenessProbe:
           {{ toYaml . | nindent 12 }}
           {{- end }}
-          {{- if  (not .Values.trivy.resources)  }}
-          resources:
-            requests:
-              cpu: "500m"
-              memory: "125Mi"
-            limits:
-              cpu: "1000m"
-              memory: "500Mi"
-          {{- else }}
+          {{- if .Values.trivy.resources }}
           resources: {{ toYaml .Values.trivy.resources | nindent 12 }}
           {{- end }}
           securityContext:

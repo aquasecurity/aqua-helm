@@ -144,4 +144,15 @@ Create web secret.
 {{- end -}}
 {{- end -}}
 
+{{/*
+Return the shared memory size for the Aqua DB container
+based on env_size, unless explicitly overridden via shmSize
+*/}}
+{{- define "aqua.db.shmSize" -}}
+{{- $defaultShm := dict "S" "64Mi" "M" "128Mi" "L" "256Mi" }}
+{{- $envSize := .Values.global.db.env_size | default "S" }}
+{{- $shmSize := .Values.global.db.shmSize | default (index $defaultShm $envSize) }}
+{{- $shmSize | quote }}
+{{- end }}
+
 
