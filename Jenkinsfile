@@ -102,7 +102,9 @@ pipeline {
         stage("Deploy charts") {
             steps {
                 script {
-                    sleep(3000)
+                    withCredentials([usernamePassword(credentialsId: "dockerCredentials", passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
+                        sh script: "echo \$PASSWORD | docker login --username \$USER --password-stdin aquasec.azurecr.io"
+                    }
 //                     sh "k3s kubectl get sa -A"
 //                     sh "kubectl config current-context"
 //                     sh "kubectl config get-contexts"
