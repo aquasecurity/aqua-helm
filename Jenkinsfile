@@ -104,6 +104,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: "aquasec-acr-pull-creds", passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
                         sh script: "echo \$PASSWORD | docker login --username \$USER --password-stdin aquasec.azurecr.io"
+                        sh "ls"
                     }
 //                     sh "k3s kubectl get sa -A"
 //                     sh "kubectl config current-context"
