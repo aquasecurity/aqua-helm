@@ -35,19 +35,19 @@ pipeline {
                 }
             }
         }
-        stage("Helm dependency update") {
-            steps {
-                script {
-                    parallel charts.collectEntries { chart ->
-                        ["${chart}": {
-                            stage("Helm Lint ${chart}") {
-                                sh "helm dependency update ${chart}/"
-                            }
-                        }]
-                    }
-                }
-            }
-        }
+//         stage("Helm dependency update") {
+//             steps {
+//                 script {
+//                     parallel charts.collectEntries { chart ->
+//                         ["${chart}": {
+//                             stage("Helm Lint ${chart}") {
+//                                 sh "helm dependency update ${chart}/"
+//                             }
+//                         }]
+//                     }
+//                 }
+//             }
+//         }
 //         stage("Helm lint") {
 //             steps {
 //                 script {
@@ -87,18 +87,18 @@ pipeline {
 //                 }
 //             }
 //         }
-        stage("Creating K3s Cluster") {
-            steps {
-                script {
-                    sh "curl -sfL https://github.com/k3s-io/k3s/releases/latest/download/k3s -o /usr/local/bin/k3s && chmod +x /usr/local/bin/k3s"
-                    sh "nohup k3s server --snapshotter=native > /tmp/k3s.log 2>&1 &"
-                    sleep(10)
-                    sh "k3s kubectl get nodes"
-                    sh "k3s kubectl get sa -A"
-                    //error "byush"
-                }
-            }
-        }
+//         stage("Creating K3s Cluster") {
+//             steps {
+//                 script {
+//                     sh "curl -sfL https://github.com/k3s-io/k3s/releases/latest/download/k3s -o /usr/local/bin/k3s && chmod +x /usr/local/bin/k3s"
+//                     sh "nohup k3s server --snapshotter=native > /tmp/k3s.log 2>&1 &"
+//                     sleep(10)
+//                     sh "k3s kubectl get nodes"
+//                     sh "k3s kubectl get sa -A"
+//                     //error "byush"
+//                 }
+//             }
+//         }
 //         stage("Update consul") {
 //             steps {
 //                 script {
@@ -106,50 +106,50 @@ pipeline {
 //                 }
 //             }
 //         }
-        stage("Installing Helm") {
-            steps {
-                script {
-                    helmBasic.installHelm()
-                    helmBasic.settingKubeConfig()
-                }
-            }
-        }
-        stage("Deploy charts") {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: "aquasec-acr-pull-creds", passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
-                        sh script: "echo \$PASSWORD | docker login --username \$USER --password-stdin aquasec.azurecr.io"
-                        sh "ls"
-                        //sh "helm repo add https://helm.aquasec.com"
-                    }
-//                     sh "k3s kubectl get sa -A"
-//                     sh "kubectl config current-context"
-//                     sh "kubectl config get-contexts"
-//                     sh "echo \$KUBECONFIG"
-//                     sh "helm list -A"
-                    parallel deployCharts.collectEntries { chart ->
-                        ["${chart}": {
-                            stage("Deploy ${chart}") {
-                                helmBasic.install(chart)
-                            }
-                        }]
-                    }
-                }
-            }
-        }
-        stage("Validate charts") {
-            steps {
-                script {
-                    parallel deployCharts.collectEntries { chart ->
-                        ["${chart}": {
-                            stage("Validate ${chart}") {
-                                helmBasic.validate(chart)
-                            }
-                        }]
-                    }
-                }
-            }
-        }
+//         stage("Installing Helm") {
+//             steps {
+//                 script {
+//                     helmBasic.installHelm()
+//                     helmBasic.settingKubeConfig()
+//                 }
+//             }
+//         }
+//         stage("Deploy charts") {
+//             steps {
+//                 script {
+//                     withCredentials([usernamePassword(credentialsId: "aquasec-acr-pull-creds", passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
+//                         sh script: "echo \$PASSWORD | docker login --username \$USER --password-stdin aquasec.azurecr.io"
+//                         sh "ls"
+//                         //sh "helm repo add https://helm.aquasec.com"
+//                     }
+// //                     sh "k3s kubectl get sa -A"
+// //                     sh "kubectl config current-context"
+// //                     sh "kubectl config get-contexts"
+// //                     sh "echo \$KUBECONFIG"
+// //                     sh "helm list -A"
+//                     parallel deployCharts.collectEntries { chart ->
+//                         ["${chart}": {
+//                             stage("Deploy ${chart}") {
+//                                 helmBasic.install(chart)
+//                             }
+//                         }]
+//                     }
+//                 }
+//             }
+//         }
+//         stage("Validate charts") {
+//             steps {
+//                 script {
+//                     parallel deployCharts.collectEntries { chart ->
+//                         ["${chart}": {
+//                             stage("Validate ${chart}") {
+//                                 helmBasic.validate(chart)
+//                             }
+//                         }]
+//                     }
+//                 }
+//             }
+//         }
 //         stage("Running Mstp tests") {
 //             steps {
 //                 script {
