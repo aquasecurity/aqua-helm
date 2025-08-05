@@ -14,7 +14,6 @@ pipeline {
         skipStagesAfterUnstable()
         skipDefaultCheckout()
         buildDiscarder(logRotator(daysToKeepStr: '7'))
-        lock("k3s")
     }
     stages {
         stage('Checkout and downloads') {
