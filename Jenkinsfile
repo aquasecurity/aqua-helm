@@ -2,11 +2,8 @@
 import com.aquasec.deployments.orchestrators.*
 
 def orchestrator = new OrcFactory(this).GetOrc()
-//def charts = ['server']
 def charts = ['server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager', 'codesec-agent']
-
 def deployCharts = ['server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-center', 'codesec-agent']
-//def deployCharts = ['server']
 def debug = false
 
 pipeline {
@@ -25,7 +22,6 @@ pipeline {
         stage('Checkout and downloads') {
             steps {
                 script {
-                    log.info "hi"
                     checkout scm
                     sh "wget -q https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz && tar xf kubeval-linux-amd64.tar.gz && mv kubeval /usr/local/bin"
                     sh "curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin"
@@ -38,7 +34,7 @@ pipeline {
                 script {
                     parallel charts.collectEntries { chart ->
                         ["${chart}": {
-                            stage("Helm Lint ${chart}") {
+                            stage("Helm dependency updates: ${chart}") {
                                 sh "helm dependency update ${chart}/"
                             }
                         }]
@@ -91,9 +87,6 @@ pipeline {
                     sh "curl -sfL https://github.com/k3s-io/k3s/releases/latest/download/k3s -o /usr/local/bin/k3s && chmod +x /usr/local/bin/k3s"
                     sh "nohup k3s server --snapshotter=native > /tmp/k3s.log 2>&1 &"
                     sleep(10)
-                    sh "k3s kubectl get nodes"
-                    sh "k3s kubectl get sa -A"
-                    //error "byush"
                 }
             }
         }
@@ -111,14 +104,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: "aquasec-acr-pull-creds", passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
                         sh script: "echo \$PASSWORD | docker login --username \$USER --password-stdin aquasec.azurecr.io"
-                        sh "ls"
-                        //sh "helm repo add https://helm.aquasec.com"
                     }
-//                     sh "k3s kubectl get sa -A"
-//                     sh "kubectl config current-context"
-//                     sh "kubectl config get-contexts"
-//                     sh "echo \$KUBECONFIG"
-//                     sh "helm list -A"
                     parallel deployCharts.collectEntries { chart ->
                         ["${chart}": {
                             stage("Deploy ${chart}") {
@@ -153,19 +139,6 @@ pipeline {
                         }]
                     }
                 }
-            }
-        }
-    }
-    post {
-        always {
-            script {
-                input "please wait..."
-                //helmBasic.updateConsul("delete")
-                //orchestrator.uninstall()
-                //echo "k3s & server chart uninstalled"
-                //helmBasic.removeDockerLocalImages()
-                //cleanWs()
-                //notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: 'deployments@aquasec.com'
             }
         }
     }
