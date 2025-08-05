@@ -2,7 +2,7 @@
 
 def charts = ['server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager', 'codesec-agent']
 // def deployCharts = ['server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-center', 'codesec-agent']
-def deployCharts = ['codesec-agent']
+def deployCharts = ['kube-enforcer']
 def debug = false
 
 pipeline {
@@ -15,6 +15,7 @@ pipeline {
         skipStagesAfterUnstable()
         skipDefaultCheckout()
         buildDiscarder(logRotator(daysToKeepStr: '7'))
+        lock("helm_pr_run")
     }
     stages {
         stage('Checkout and downloads') {
