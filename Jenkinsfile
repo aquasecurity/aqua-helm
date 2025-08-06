@@ -86,7 +86,10 @@ pipeline {
                     chmod +x ./kind
                     sudo mv ./kind /usr/local/bin/kind
                     '''
-                    sh "kind create cluster"
+                    retry(3) {
+                        sh "kind create cluster"
+                    }
+
                     sh "kubectl config current-context"
                     sh "kubectl get nodes"
                 }
@@ -119,7 +122,6 @@ pipeline {
         stage("Validate charts") {
             steps {
                 script {
-                    input "hi"
                     parallel deployCharts.collectEntries { chart ->
                         ["${chart}": {
                             stage("Validate ${chart}") {
