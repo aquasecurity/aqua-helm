@@ -141,7 +141,7 @@ pipeline {
             script {
                 helmBasic.updateConsul("delete")
                 orchestrator.uninstall()
-                echo "k3s & server chart uninstalled"
+                echo "k3s & server chart uninstalled a"
                 helmBasic.removeDockerLocalImages()
                 cleanWs()
                 notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: 'deployments@aquasec.com'
