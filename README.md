@@ -84,7 +84,7 @@ aqua-helm/cyber-center          2022.4.6        2022.4          A Helm chart for
 aqua-helm/enforcer              2022.4.25       2022.4          A Helm chart for the Aqua Enforcer
 aqua-helm/kube-enforcer         2022.4.61       2022.4          A Helm chart for the Aqua KubeEnforcer Starboard/Trivy
 aqua-helm/gateway               2022.4.14       2022.4          A Helm chart for the Aqua Gateway
-aqua-helm/scanner               2022.4.10       2022.4          A Helm chart for the Aqua Scanner CLI component
+aqua-helm/scanner               2022.4.11       2022.4          A Helm chart for the Aqua Scanner CLI component
 aqua-helm/server                2022.4.28       2022.4          A Helm chart for the Aqua Console components
 aqua-helm/tenant-manager        2022.4.1        2022.4          A Helm chart for the Aqua Tenant Manager
 ```
