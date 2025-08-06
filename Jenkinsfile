@@ -6,6 +6,7 @@ def charts = ['server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart
 def deployCharts = [ 'server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-center', 'codesec-agent' ]
 def debug = false
 
+
 pipeline {
     agent {
         label 'deployment_slave'
