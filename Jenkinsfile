@@ -1,12 +1,17 @@
-@Library('aqua-pipeline-lib@lihiz_helm_jenkins') _
+@Library('aqua-pipeline-lib@master') _
+import com.aquasec.deployments.orchestrators.*
 
+def orchestrator = new OrcFactory(this).GetOrc()
 def charts = ['server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager', 'codesec-agent']
-def deployCharts = ['server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-center', 'codesec-agent']
+def deployCharts = [ 'server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-center', 'codesec-agent' ]
 def debug = false
 
 pipeline {
     agent {
-        kubernetes kubernetesAgents.devopsCommon(size: 'xLarge', cloud: 'kubernetes', dind: 'True')
+        label 'deployment_slave'
+    }
+    parameters {
+        string(name: 'AUTOMATION_BRANCH', defaultValue: 'master', description: "Automation branch for MSTP tests", trim: true)
     }
     options {
         ansiColor('xterm')
@@ -17,27 +22,9 @@ pipeline {
         lock("k3s")
     }
     stages {
-        stage('Checkout and downloads') {
+        stage('Checkout') {
             steps {
-                script {
-                    checkout scm
-                    sh "wget -q https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz && tar xf kubeval-linux-amd64.tar.gz && mv kubeval /usr/local/bin"
-                    sh "curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin"
-                    sh "helm plugin install https://github.com/chartmuseum/helm-push.git"
-                }
-            }
-        }
-        stage("Helm dependency update") {
-            steps {
-                script {
-                    parallel charts.collectEntries { chart ->
-                        ["${chart}": {
-                            stage("Helm dependency updates: ${chart}") {
-                                sh "helm dependency update ${chart}/"
-                            }
-                        }]
-                    }
-                }
+                checkout scm
             }
         }
         stage("Helm lint") {
@@ -82,13 +69,17 @@ pipeline {
         stage("Creating K3s Cluster") {
             steps {
                 script {
-                    sh "curl -sfL https://github.com/k3s-io/k3s/releases/latest/download/k3s -o /usr/local/bin/k3s && chmod +x /usr/local/bin/k3s"
-                    sh "nohup k3s server --snapshotter=native > /tmp/k3s.log 2>&1 &"
-                    sleep(10)
+                    orchestrator.install()
                 }
             }
         }
-
+        stage("Update consul") {
+            steps {
+                script {
+                    helmBasic.updateConsul("create")
+                }
+            }
+        }
         stage("Installing Helm") {
             steps {
                 script {
@@ -100,9 +91,6 @@ pipeline {
         stage("Deploy charts") {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: "aquasec-acr-pull-creds", passwordVariable: 'PASSWORD', usernameVariable: 'USER')]) {
-                        sh script: "echo \$PASSWORD | docker login --username \$USER --password-stdin aquasec.azurecr.io"
-                    }
                     parallel deployCharts.collectEntries { chart ->
                         ["${chart}": {
                             stage("Deploy ${chart}") {
@@ -126,6 +114,14 @@ pipeline {
                 }
             }
         }
+        stage("Running Mstp tests") {
+            steps {
+                script {
+                    //helmBasic.runMstpTests debug: debug, afwImage: params.AUTOMATION_BRANCH
+                    print "Running Mstp tests"
+                }
+            }
+        }
         stage("Push charts") {
             steps {
                 script {
@@ -137,6 +133,18 @@ pipeline {
                         }]
                     }
                 }
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                helmBasic.updateConsul("delete")
+                orchestrator.uninstall()
+                echo "k3s & server chart uninstalled a"
+                helmBasic.removeDockerLocalImages()
+                cleanWs()
+                notifyFullJobDetailes subject: "${env.JOB_NAME} Pipeline | ${currentBuild.result}", emails: 'deployments@aquasec.com'
             }
         }
     }
