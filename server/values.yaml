@@ -27,6 +27,7 @@ openshift_route:
 
 serviceAccount:
   annotations: {}
+  attachImagePullSecret: true
   create: true      # change to false if service-account exists in the cluster to deploy server & gateway.
   name: ""            # mention existing service-account name to overwrite the default serviceAccount name, Default is {{ .Release.Namespace }}-sa
 

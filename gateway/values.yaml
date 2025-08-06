@@ -21,6 +21,7 @@ serviceAccount:
   annotations: {}
   create: false
   name: "aqua-sa"
+  attachImagePullSecret: true
 
 replicaCount: 1
 logLevel:
