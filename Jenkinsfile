@@ -2,12 +2,10 @@
 
 def charts = ['server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager', 'codesec-agent']
 def deployCharts = ['server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-center', 'codesec-agent']
-//def deployCharts = ['server', 'enforcer']
-def debug = false
 
 pipeline {
     agent {
-        kubernetes kubernetesAgents.devopsCommon(size: 'xLarge', cloud: 'kubernetes', dind: 'True')
+        kubernetes kubernetesAgents.devopsCommon(size: '4xLarge', cloud: 'kubernetes', dind: 'True', capacityType: 'on-demand')
     }
     options {
         ansiColor('xterm')
@@ -15,7 +13,6 @@ pipeline {
         skipStagesAfterUnstable()
         skipDefaultCheckout()
         buildDiscarder(logRotator(daysToKeepStr: '7'))
-        lock("helm_pr_run")
     }
     stages {
         stage('Checkout and downloads') {
@@ -41,32 +38,32 @@ pipeline {
                 }
             }
         }
-//         stage("Helm lint") {
-//             steps {
-//                 script {
-//                     parallel charts.collectEntries { chart ->
-//                         ["${chart}": {
-//                             stage("Helm Lint ${chart}") {
-//                                 helmBasic.lint(chart)
-//                             }
-//                         }]
-//                     }
-//                 }
-//             }
-//         }
-//         stage("Helm template") {
-//             steps {
-//                 script {
-//                     parallel charts.collectEntries { chart ->
-//                         ["${chart}": {
-//                             stage("Helm template ${chart}") {
-//                                 helmBasic.template(chart)
-//                             }
-//                         }]
-//                     }
-//                 }
-//             }
-//         }
+        stage("Helm lint") {
+            steps {
+                script {
+                    parallel charts.collectEntries { chart ->
+                        ["${chart}": {
+                            stage("Helm Lint ${chart}") {
+                                helmBasic.lint(chart)
+                            }
+                        }]
+                    }
+                }
+            }
+        }
+        stage("Helm template") {
+            steps {
+                script {
+                    parallel charts.collectEntries { chart ->
+                        ["${chart}": {
+                            stage("Helm template ${chart}") {
+                                helmBasic.template(chart)
+                            }
+                        }]
+                    }
+                }
+            }
+        }
 //         stage("Trivy scan") {
 //             steps {
 //                 script {
@@ -80,12 +77,18 @@ pipeline {
 //                 }
 //             }
 //         }
-        stage("Creating K3s Cluster") {
+        stage("Creating Kind Cluster") {
             steps {
                 script {
-                    sh "curl -sfL https://github.com/k3s-io/k3s/releases/latest/download/k3s -o /usr/local/bin/k3s && chmod +x /usr/local/bin/k3s"
-                    sh "nohup k3s server --snapshotter=native > /tmp/k3s.log 2>&1 &"
-                    sleep(10)
+                    sh '''
+                    ARCH=$(uname -m); [ "$ARCH" = "x86_64" ] && ARCH=amd64
+                    curl -Lo ./kind "https://kind.sigs.k8s.io/dl/latest/kind-$(uname -s | tr '[:upper:]' '[:lower:]')-$ARCH"
+                    chmod +x ./kind
+                    sudo mv ./kind /usr/local/bin/kind
+                    '''
+                    sh "kind create cluster"
+                    sh "kubectl config current-context"
+                    sh "kubectl get nodes"
                 }
             }
         }
@@ -94,7 +97,6 @@ pipeline {
             steps {
                 script {
                     helmBasic.installHelm()
-                    helmBasic.settingKubeConfig()
                 }
             }
         }
@@ -117,6 +119,7 @@ pipeline {
         stage("Validate charts") {
             steps {
                 script {
+                    input "hi"
                     parallel deployCharts.collectEntries { chart ->
                         ["${chart}": {
                             stage("Validate ${chart}") {
