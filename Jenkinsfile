@@ -5,7 +5,7 @@ def deployCharts = ['server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-cen
 
 pipeline {
     agent {
-        kubernetes kubernetesAgents.devopsCommon(size: '4xLarge', cloud: 'kubernetes', dind: 'True', capacityType: 'on-demand')
+        kubernetes kubernetesAgents.bottlerocket(size: '4xLarge', cloud: 'kubernetes', dind: 'True', capacityType: 'on-demand')
     }
     options {
         ansiColor('xterm')
@@ -80,17 +80,18 @@ pipeline {
         stage("Creating Kind Cluster") {
             steps {
                 script {
+                    // Install kind
                     sh '''
                     ARCH=$(uname -m); [ "$ARCH" = "x86_64" ] && ARCH=amd64
                     curl -Lo ./kind "https://kind.sigs.k8s.io/dl/latest/kind-$(uname -s | tr '[:upper:]' '[:lower:]')-$ARCH"
                     chmod +x ./kind
                     sudo mv ./kind /usr/local/bin/kind
                     '''
-                    retry(3) {
-                        sh "kind create cluster"
-                    }
-
+                    // Create the kind cluster
+                    sh "kind create cluster --name ${env.BUILD_NUMBER}"
+                    // Set kubeconfig context
                     sh "kubectl config current-context"
+                    // Check the kind deployment
                     sh "kubectl get nodes"
                 }
             }
@@ -132,18 +133,30 @@ pipeline {
                 }
             }
         }
-//         stage("Push charts") {
-//             steps {
-//                 script {
-//                     parallel charts.collectEntries { chart ->
-//                         ["${chart}": {
-//                             stage("Push ${chart}") {
-//                                 helmBasic.push(chart, "dev")
-//                             }
-//                         }]
-//                     }
-//                 }
-//             }
-//         }
+        stage("Push charts") {
+            steps {
+                script {
+                    parallel charts.collectEntries { chart ->
+                        ["${chart}": {
+                            stage("Push ${chart}") {
+                                helmBasic.push(chart, "dev")
+                            }
+                        }]
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                try {
+                    sh "kind delete cluster --name ${env.BUILD_NUMBER}"
+                } catch (err) {
+                    sh "kind delete cluster --name ${env.BUILD_NUMBER}"
+                }
+                sh "docker system prune -f"
+            }
+        }
     }
 }
