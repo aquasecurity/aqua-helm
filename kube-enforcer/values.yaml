@@ -311,6 +311,7 @@ starboard:
   appName: "starboard-operator"
   serviceAccount:
     create: true
+    attachImagePullSecret: true
     name: "starboard-operator"
   clusterRoleBinding:
     name: "starboard-operator"
