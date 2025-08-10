@@ -31,7 +31,7 @@ imageCredentials:
 # - gs: Giant Swarm platform
 # - k3s: k3s Kubernetes platform
 # - mke: Mirantis Kubernetes Engine
-platform: "eks"
+platform: ""
 
 clusterRole:
   roleRef: ""
