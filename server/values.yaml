@@ -25,6 +25,10 @@ openshift_route:
   #Enable if required openshift route for web and gateway
   create: false
 
+#####################
+# If serviceAccount.attachImagePullSecret=false 
+# All creation and attachement options will not commence
+
 serviceAccount:
   annotations: {}
   attachImagePullSecret: true

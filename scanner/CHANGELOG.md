@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.12 (Aug 6th, 2025)
+* SLK-99202 Adding conditional imagePullSecret attachement - [#963](https://github.com/aquasecurity/aqua-helm/issues/963) 
+
 ## 2022.4.11 (Aug 6th, 2025)
 * SLK-94741 Adding emptyDir when persistence is disabled - [#962](https://github.com/aquasecurity/aqua-helm/issues/962) 
 
