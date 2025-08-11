@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## 2022.4.30 (Aug 11th, 2025)
-* DEVOPS-1763 Update chart dependency for gateway 2022.4.15 in server - [#963](https://github.com/aquasecurity/aqua-helm/issues/963)
+* DEVOPS-1763 Update chart dependency for gateway 2022.4.15 in server - [#968](https://github.com/aquasecurity/aqua-helm/issues/968)
 
 ## 2022.4.29 (Aug 10th, 2025)
 * SLK-99202 Adding conditional imagePullSecret attachement - [#963](https://github.com/aquasecurity/aqua-helm/issues/963)
