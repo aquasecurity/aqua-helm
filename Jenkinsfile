@@ -13,6 +13,7 @@ pipeline {
         skipStagesAfterUnstable()
         skipDefaultCheckout()
         buildDiscarder(logRotator(daysToKeepStr: '7'))
+        disableConcurrentBuilds(abortPrevious: true)
     }
     stages {
         stage('Checkout and downloads') {
