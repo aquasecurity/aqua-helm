@@ -17,10 +17,15 @@ console:
   publicIP:
   publicPort:
 
+#####################
+# If serviceAccount.attachImagePullSecret=false 
+# All creation and attachement options will not commence
+
 serviceAccount:
   annotations: {}
   create: false
   name: "aqua-sa"
+  attachImagePullSecret: true
 
 replicaCount: 1
 logLevel:

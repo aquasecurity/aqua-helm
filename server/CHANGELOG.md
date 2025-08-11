@@ -1,8 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.29 (Aug 10th, 2025)
+* SLK-99202 Adding conditional imagePullSecret attachement - [#963](https://github.com/aquasecurity/aqua-helm/issues/963)
+
 ## 2022.4.28 (Jun 5th, 2025)
-* Add dynamic /dev/shm sizing based on env_size [#937](https://github.com/aquasecurity/aqua-helm/issues/937)
+* Add dynamic /dev/shm sizing based on env_size - [#937](https://github.com/aquasecurity/aqua-helm/issues/937)
 
 ## 2022.4.27 (Oct 15th, 2024)
 * wrap AQUA_PUBSUB_DBPASSWORD env var with if statement of active-active cluster enabled env variable in job-check-db-upgrade job (SLK-86284)
