@@ -241,6 +241,7 @@ gateway:
     create: false
     name: ""
     annotations: {}
+    attachImagePullSecret: true
   replicaCount: 1
   logLevel:
   image:
