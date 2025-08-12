@@ -1,4 +1,4 @@
-@Library('aqua-pipeline-lib@lihiz_helm_jenkins') _
+@Library('aqua-pipeline-lib@master') _
 
 def charts = ['server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager', 'codesec-agent']
 def deployCharts = ['server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-center', 'codesec-agent']
