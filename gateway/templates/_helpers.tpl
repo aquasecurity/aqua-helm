@@ -23,11 +23,7 @@ Inject extra environment vars in the format key:value, if populated
 {{- define "server.extraEnvironmentVars" -}}
 {{- if .extraEnvironmentVars -}}
 {{- range $key, $value := .extraEnvironmentVars }}
-{{- if or (eq ( $key | lower ) "http_proxy") (eq ( $key | lower ) "https_proxy") (eq ( $key | lower ) "no_proxy") }}
-- name: {{ printf "%s" $key | replace "." "_" | lower | quote -}}
-{{- else -}}
-- name: {{ printf "%s" $key | replace "." "_" | upper | quote -}}
-{{- end }}
+- name: {{ printf "%s" $key | replace "." "_" | upper | quote }}
   value: {{ $value | quote }}
 {{- end }}
 {{- end -}}
