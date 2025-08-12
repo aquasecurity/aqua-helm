@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.62 ( Aug 12st, 2025 )
+* Add RBAC rules for imagedigestmirrorsets and imagetagmirrorsets.
+
 ## 2022.4.61 ( Apr 25th, 2025 )
 * Enforcer version changed to 2022.4.25
 
