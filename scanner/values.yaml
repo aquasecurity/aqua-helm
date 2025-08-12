@@ -58,9 +58,14 @@ directCC:
   #####################
   # If serviceAccount.create=create and serviceAccount.name defined
   # then will be created a serviceAccount with name provided name
+  #####################
+  # If serviceAccount.attachImagePullSecret=false 
+  # All creation and attachement options will not commence
+  
 serviceAccount:
   create: false
   name:
+  attachImagePullSecret: true
 
 server:
   scheme: "http" #specify the schema for the server host URL, default it is http

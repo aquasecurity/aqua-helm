@@ -1,9 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.15 (Aug 10th, 2025)
+* SLK-99202 Adding conditional imagePullSecret attachement - PR[#963](https://github.com/aquasecurity/aqua-helm/pull/963)
+
+## 2022.4.14 (Apr 1st, 2024)
+* Adding extraVolumes and extraVolumeMounts
+
 ## 2022.4.13 (Dec 26th, 2023)
 * Added the ability to specify the API version for the PodDisruptionBudget
-
 
 ## 2022.4.12 (Apr 10th, 2023)
 * Change standard name for gateway serviceaccount - PR[#725](https://github.com/aquasecurity/aqua-helm/pull/725)
