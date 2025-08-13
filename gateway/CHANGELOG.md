@@ -1,9 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.16 (Aug 13th, 2025)
+* SLK-95693 Support lowercase proxy variables
+
 ## 2022.4.15 (Aug 10th, 2025)
 * SLK-99202 Adding conditional imagePullSecret attachement - PR[#963](https://github.com/aquasecurity/aqua-helm/pull/963)
-* SLK-95693 Support lowercase proxy variables
 
 ## 2022.4.14 (Apr 1st, 2024)
 * Adding extraVolumes and extraVolumeMounts
