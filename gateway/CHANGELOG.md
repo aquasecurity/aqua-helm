@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.16 (Aug 13th, 2025)
+* SLK-95693 Gateway charts to support lowercase proxy variables
+
 ## 2022.4.15 (Aug 10th, 2025)
 * SLK-99202 Adding conditional imagePullSecret attachement - PR[#963](https://github.com/aquasecurity/aqua-helm/pull/963)
 
