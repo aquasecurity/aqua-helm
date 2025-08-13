@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.31 (Aug 13th, 2025)
+* Server charts to support lowercase proxy variables
+
 ## 2022.4.30 (Aug 11th, 2025)
 * DEVOPS-1763 Update chart dependency for gateway 2022.4.15 in server - [#968](https://github.com/aquasecurity/aqua-helm/issues/968)
 

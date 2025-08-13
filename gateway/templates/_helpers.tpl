@@ -23,8 +23,13 @@ Inject extra environment vars in the format key:value, if populated
 {{- define "server.extraEnvironmentVars" -}}
 {{- if .extraEnvironmentVars -}}
 {{- range $key, $value := .extraEnvironmentVars }}
-- name: {{ printf "%s" $key | replace "." "_" | upper | quote }}
-  value: {{ $value | quote }}
+{{- $k := printf "%s" $key }}
+{{- if or (eq (lower $k) "http_proxy") (eq (lower $k) "https_proxy") (eq (lower $k) "no_proxy") }}
+- name: {{ $k | replace "." "_" | lower | quote }}
+{{- else }}
+- name: {{ $k | replace "." "_" | upper | quote }}
+{{- end }}
+  value: {{ if or (kindIs "map" $value) (kindIs "slice" $value) }}{{ toJson $value | quote }}{{ else }}{{ $value | quote }}{{ end }}
 {{- end }}
 {{- end -}}
 {{- end -}}
