@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.63 ( Aug 13st, 2025 )
+* Fix ImagePullSecret Warnings in Starboard Pod.
+
 ## 2022.4.62 ( Aug 12st, 2025 )
 * Add RBAC rules for imagedigestmirrorsets and imagetagmirrorsets.
 
