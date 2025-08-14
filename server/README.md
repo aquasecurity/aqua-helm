@@ -57,6 +57,8 @@ There are 3 scenarios for the service account usage:
    and the values that need to be provided are:
     * `serviceAccount.name` and `gateway.serviceAccount.name` containing the value `aqua-custom-sa`.
     * `serviceAccount.create` with the value`false`
+  
+ 4. By default imagePullSecrets are attached to the service account. This handles all child resources of the server chart such Web, DB ,checkDBupgrade and Envoy. The attachement policy can be changed in the corresponding values.
 
 ### PostgreSQL database
 
