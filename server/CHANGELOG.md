@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.32 (Aug 18th, 2025)
+* SLK-99711 Adding DB Upgrade Job annotations
+
 ## 2022.4.31 (Aug 17th, 2025)
 * SLK-95693 Server chart to support lowercase proxy variables
 

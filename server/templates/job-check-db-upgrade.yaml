@@ -17,6 +17,9 @@ metadata:
     "helm.sh/hook-weight": "0"
     "helm.sh/hook-delete-policy": before-hook-creation
     argocd.argoproj.io/hook: Skip
+    {{- with .Values.global.db.upgradeJobAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   backoffLimit: 0
   template:
