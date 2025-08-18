@@ -208,6 +208,9 @@ global:
     podLabels: {}
     #  my-annotation-key: my value; more value
 
+    # Annotations for the database upgrade job
+    upgradeJobAnnotations: {}
+
     # extraEnvironmentVars is a list of extra environment variables to set in the database deployments.
     extraEnvironmentVars: {}
       # ENV_NAME: value
