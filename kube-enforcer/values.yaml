@@ -184,7 +184,8 @@ webhooks:
     #        - kube-system
     #        - kube-node-lease
   mutatingWebhook:
-    enabled: true
+    #enable when planning to deploy the PodEnforcer
+    enabled: false
     name: "kube-enforcer-me-injection-hook-config"
     timeout: 2
     annotations: {}
