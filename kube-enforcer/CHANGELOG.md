@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.64 ( Aug 21st, 2025 )
+* Add option to disable imagePullSecrets for Starboard Operator service account
+* Fix Starboard service account template to use correct value path for attachImagePullSecret
+
 ## 2022.4.63 ( Aug 13st, 2025 )
 * Fix ImagePullSecret Warnings in Starboard Pod.
 
