@@ -14,6 +14,11 @@ helm.sh/chart: '{{ include "aqua.chart" . }}'
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
+{{- if .Values.global.commonLabels }}
+{{- with .Values.global.commonLabels }}
+{{ toYaml . }}
+{{- end }}
+{{- end }}
 {{- end -}}
 
 {{/*

@@ -14,6 +14,8 @@ global:
   # - k3s: k3s Kubernetes platform
   # - mke: Mirantis Kubernetes Engine
   platform: ""
+  # Common labels to be applied to all resources
+  commonLabels: {}
   dnsNdots:
   enforcer:
     enabled: false

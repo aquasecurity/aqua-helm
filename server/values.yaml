@@ -98,6 +98,9 @@ global:
   # - mke: Mirantis Kubernetes Engine
   platform: ""
 
+  # Common labels to be applied to all resources
+  commonLabels: {}
+
   db:
     external:
       enabled: false

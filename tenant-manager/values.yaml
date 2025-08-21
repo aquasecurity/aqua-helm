@@ -1,3 +1,8 @@
+# Global configuration
+global:
+  # Common labels to be applied to all resources
+  commonLabels: {}
+
 # Specifies the secret data for imagePullSecrets needed to fetch the private docker images
 imageCredentials:
   create: false
