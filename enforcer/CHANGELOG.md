@@ -1,5 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2022.4.26 (Today)
+* Add support for global.commonLabels to apply custom labels to all resources - [#978](https://github.com/aquasecurity/aqua-helm/issues/978)
 ## 2022.4.25 ( Aug 4th, 2025 )
 * SLK-93661 - Adding AQUA_K8S_CLUSTER_ID - PR[#955](https://github.com/aquasecurity/aqua-helm/pull/955)
 ## 2022.4.24 ( Sep 26th, 2024 )

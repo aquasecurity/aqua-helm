@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.7 (Today)
+* Add support for global.commonLabels to apply custom labels to all resources - [#978](https://github.com/aquasecurity/aqua-helm/issues/978)
+
 ## 2022.4.6 ( Jul 26th, 2024 )
 * Add support for Extra Environment Variables - [#874](https://github.com/aquasecurity/aqua-helm/pull/874)
 

@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.64 (Today)
+* Add support for global.commonLabels to apply custom labels to all resources - [#978](https://github.com/aquasecurity/aqua-helm/issues/978)
+
 ## 2022.4.63 ( Aug 13st, 2025 )
 * Fix ImagePullSecret Warnings in Starboard Pod.
 

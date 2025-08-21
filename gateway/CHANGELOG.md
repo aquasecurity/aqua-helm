@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.17 (Today)
+* Add support for global.commonLabels to apply custom labels to all resources - [#978](https://github.com/aquasecurity/aqua-helm/issues/978)
+
 ## 2022.4.16 (Aug 13th, 2025)
 * SLK-95693 Gateway charts to support lowercase proxy variables
 
