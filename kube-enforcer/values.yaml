@@ -246,6 +246,7 @@ resources: {}
 nodeSelector: {}
 tolerations: []
 podAnnotations: {}
+deploymentAnnotations: {}
 podLabels: {}
 
 # Allows you to specify the API version for the PodDisruptionBudget
