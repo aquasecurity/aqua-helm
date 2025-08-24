@@ -2,6 +2,9 @@
 {{ template "platform" .}}
 {{- end }}
 {{- if .Values.rbac.create }}
+
+{{- $pspSupported := .Capabilities.APIVersions.Has "policy/v1beta1/PodSecurityPolicy" -}}
+
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -19,8 +22,8 @@ rules:
 - apiGroups: ["rbac.authorization.k8s.io"]
   resources: ["*"]
   verbs: ["get", "list", "watch"]
-{{- if and (.Values.podSecurityPolicy.create) (le .Capabilities.KubeVersion.Minor "24") }}
-- apiGroups: ["policies"]
+{{- if and (.Values.podSecurityPolicy.create) ($pspSupported) }}
+- apiGroups: ["policy"]
   resources: ["podsecuritypolicies"]
   verbs: ["use"]
   resourceNames:
@@ -53,7 +56,8 @@ subjects:
   - kind: ServiceAccount
     namespace: {{ .Release.Namespace }}
     name: {{ template "server.serviceAccount" . }}
-{{- if and (.Values.podSecurityPolicy.create) (le .Capabilities.KubeVersion.Minor "24") }}
+
+{{- if and (.Values.podSecurityPolicy.create) ($pspSupported) }}
 ---
 # PodSecurityPolicy
 apiVersion: policy/v1beta1
@@ -78,7 +82,8 @@ spec:
   volumes:
   - '*'
 {{- end }}
-{{- if eq .Values.global.platform "tkg" }}
+
+{{- if and (eq .Values.global.platform "tkg") ($pspSupported) }}
 ## TKG RBAC
 ---
 kind: RoleBinding

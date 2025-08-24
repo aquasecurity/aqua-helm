@@ -1,15 +1,17 @@
 {{- if .Values.rbac.enabled -}}
+  {{- $pspSupported := .Capabilities.APIVersions.Has "policy/v1beta1/PodSecurityPolicy" -}}
   {{- if not .Values.rbac.roleRef }}
+{{- if $pspSupported }}
 ---
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-    name: {{ .Release.Name }}-psp
-    labels:
-      app: {{ .Release.Name }}
-      chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-      release: "{{ .Release.Name }}"
-      heritage: "{{ .Release.Service }}"
+  name: {{ .Release.Name }}-psp
+  labels:
+    app: {{ .Release.Name }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
 spec:
   privileged: {{ .Values.rbac.privileged }}
   allowedCapabilities:
@@ -24,6 +26,7 @@ spec:
     rule: RunAsAny
   volumes:
   - '*'
+{{- end }}
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -36,17 +39,19 @@ metadata:
     heritage: "{{ .Release.Service }}"
     rbac.example.com/aggregate-to-monitoring: "true"
 rules:
+{{- if $pspSupported }}
 - apiGroups: ["extensions"]
   resourceNames: [{{ .Release.Name }}-psp]
   resources: ["podsecuritypolicies"]
   verbs: ["use"]
+{{- end }}
 - apiGroups: [""]
   resources: ["nodes", "services", "endpoints", "pods", "deployments", "namespaces","componentstatuses"]
   verbs: ["get", "list", "watch"]
 - apiGroups: ["rbac.authorization.k8s.io"]
   resources: ["*"]
   verbs: ["get", "list", "watch"]
-{{- end }}
+  {{- end }}
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -142,6 +147,7 @@ volumes:
 - hostPath
 
 {{- else if eq .Values.platform "tkg" }}
+{{- if $pspSupported }}
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -156,5 +162,6 @@ subjects:
 - kind: Group
   apiGroup: rbac.authorization.k8s.io
   name: system:serviceaccounts
+{{- end }}
 {{- end -}}
 {{- end }}

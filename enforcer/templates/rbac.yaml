@@ -1,5 +1,7 @@
 {{- if not .Values.windowsEnforcer.allWinNodes.enable }}
 
+{{- $pspSupported := .Capabilities.APIVersions.Has "policy/v1beta1/PodSecurityPolicy" -}}
+
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -16,8 +18,8 @@ rules:
 - apiGroups: ["rbac.authorization.k8s.io"]
   resources: ["*"]
   verbs: ["get", "list", "watch"]
-{{- if and (.Values.podSecurityPolicy.create) (le .Capabilities.KubeVersion.Minor "24") }}
-- apiGroups: ["policies"]
+{{- if and (.Values.podSecurityPolicy.create) ($pspSupported) }}
+- apiGroups: ["policy"]
   resources: ["podsecuritypolicies"]
   verbs: ["use"]
   resourceNames:
@@ -50,7 +52,7 @@ subjects:
   - kind: ServiceAccount
     name: {{ template "agentServiceAccount" . }}
     namespace: {{ .Release.Namespace }}
-{{- if and (.Values.podSecurityPolicy.create) (le .Capabilities.KubeVersion.Minor "24") }}
+{{- if and (.Values.podSecurityPolicy.create) ($pspSupported) }}
 ---
 # PodSecurityPolicy
 apiVersion: policy/v1beta1
@@ -155,7 +157,7 @@ volumes:
 {{- end }}
 
 ## TKG RBAC
-{{- if eq .Values.global.platform "tkg" }}
+{{- if and (eq .Values.global.platform "tkg") ($pspSupported) }}
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
