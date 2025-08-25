@@ -1,15 +1,16 @@
 {{- if .Values.rbac.enabled -}}
   {{- if not .Values.rbac.roleRef }}
+{{- if le (int .Capabilities.KubeVersion.Minor) 24 }}
 ---
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-    name: {{ .Release.Name }}-psp
-    labels:
-      app: {{ .Release.Name }}
-      chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-      release: "{{ .Release.Name }}"
-      heritage: "{{ .Release.Service }}"
+  name: {{ .Release.Name }}-psp
+  labels:
+    app: {{ .Release.Name }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
 spec:
   privileged: {{ .Values.rbac.privileged }}
   allowedCapabilities:
@@ -24,6 +25,7 @@ spec:
     rule: RunAsAny
   volumes:
   - '*'
+{{- end }}
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -36,10 +38,12 @@ metadata:
     heritage: "{{ .Release.Service }}"
     rbac.example.com/aggregate-to-monitoring: "true"
 rules:
+{{- if le (int .Capabilities.KubeVersion.Minor) 24 }}
 - apiGroups: ["extensions"]
   resourceNames: [{{ .Release.Name }}-psp]
   resources: ["podsecuritypolicies"]
   verbs: ["use"]
+{{- end }}
 - apiGroups: [""]
   resources: ["nodes", "services", "endpoints", "pods", "deployments", "namespaces","componentstatuses"]
   verbs: ["get", "list", "watch"]
@@ -142,6 +146,7 @@ volumes:
 - hostPath
 
 {{- else if eq .Values.platform "tkg" }}
+{{- if le (int .Capabilities.KubeVersion.Minor) 24 }}
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -156,5 +161,6 @@ subjects:
 - kind: Group
   apiGroup: rbac.authorization.k8s.io
   name: system:serviceaccounts
+{{- end }}
 {{- end -}}
 {{- end }}
