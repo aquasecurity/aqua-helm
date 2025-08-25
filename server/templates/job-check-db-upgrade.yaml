@@ -112,11 +112,13 @@ spec:
           secretName: {{ .Values.global.db.externalDbCerts.certSecretName }}
         {{- end }}
       imagePullSecrets:
-      {{- if .Values.imageCredentials.create }}
+        {{- if .Values.imageCredentials.create }}
         - name: {{ .Release.Namespace }}-registry-secret
-      {{- else }}
+        {{- else if .Values.imageCredentials.name }}
         - name: {{ .Values.imageCredentials.name }}
-      {{- end }}
+        {{- else }}
+        - name: aqua-registry-secret
+        {{- end }}
       {{- with .Values.global.db.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}
