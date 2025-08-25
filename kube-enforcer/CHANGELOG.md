@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.64 (Aug 24th 2025)
+* add deploymentAnnotations option to control deployment annotations
+
 ## 2022.4.63 ( Aug 13st, 2025 )
 * Fix ImagePullSecret Warnings in Starboard Pod.
 
