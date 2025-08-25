@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.34 (Aug 25th, 2025)
+* SLK-99523 Adding DB Upgrade Job image pull policy attachement enforcement - [#987](https://github.com/aquasecurity/aqua-helm/issues/987)
+
 ## 2022.4.33 (Aug 25th, 2025)
 * DEVOPS-1809 Update chart dependency for gateway 2022.4.17 in server - [#986](https://github.com/aquasecurity/aqua-helm/issues/986)
 
