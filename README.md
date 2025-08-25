@@ -86,7 +86,7 @@ aqua-helm/kube-enforcer         2022.4.63       2022.4          A Helm chart for
 aqua-helm/gateway               2022.4.17       2022.4          A Helm chart for the Aqua Gateway
 aqua-helm/scanner               2022.4.13       2022.4          A Helm chart for the Aqua Scanner CLI component
 aqua-helm/server                2022.4.32       2022.4          A Helm chart for the Aqua Console components
-aqua-helm/tenant-manager        2022.4.2        2022.4          A Helm chart for the Aqua Tenant Manager
+aqua-helm/tenant-manager        2022.4.1        2022.4          A Helm chart for the Aqua Tenant Manager
 ```
 
 ### Deploy the Helm charts
