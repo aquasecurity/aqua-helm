@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.65 (Aug 25th 2025)
+* Resolving issue [#771](https://github.com/aquasecurity/aqua-helm/issues/771)
+* Setting aligned default value for image credential name
+
 ## 2022.4.64 (Aug 24th 2025)
 * add deploymentAnnotations option to control deployment annotations
 
