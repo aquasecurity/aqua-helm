@@ -116,9 +116,9 @@ spec:
         - name: {{ .Release.Namespace }}-registry-secret
       {{- else if .Values.imageCredentials.name }}
         - name: {{ .Values.imageCredentials.name }}
-        {{- else }}
+      {{- else }}
         - name: aqua-registry-secret
-        {{- end }}
+      {{- end }}
       {{- with .Values.global.db.nodeSelector }}
       nodeSelector:
         {{ toYaml . | nindent 8 }}
