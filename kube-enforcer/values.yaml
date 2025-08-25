@@ -35,9 +35,12 @@ global:
     # If imageCredentials.create=create and imageCredentials.name defined
     # then will be created a secret with name provided name
     create: false
-    name: "aqua-registry"
-    repositoryUriPrefix: "registry.aquasec.com" # for dockerhub - "docker.io"
-    registry: "registry.aquasec.com" #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+    # Set to override default name
+    name:
+    # for dockerhub - "docker.io"
+    repositoryUriPrefix: "registry.aquasec.com" 
+    #REQUIRED only if create is true, for dockerhub - "index.docker.io/v1/"
+    registry: "registry.aquasec.com" 
     username: ""
     password: ""
 
