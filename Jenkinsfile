@@ -9,7 +9,6 @@ pipeline {
     }
     options {
         ansiColor('xterm')
-        timestamps()
         skipStagesAfterUnstable()
         skipDefaultCheckout()
         buildDiscarder(logRotator(daysToKeepStr: '7'))
@@ -81,19 +80,8 @@ pipeline {
         stage("Creating Kind Cluster") {
             steps {
                 script {
-                    // Install kind
-                    sh '''
-                    ARCH=$(uname -m); [ "$ARCH" = "x86_64" ] && ARCH=amd64
-                    curl -Lo ./kind "https://kind.sigs.k8s.io/dl/latest/kind-$(uname -s | tr '[:upper:]' '[:lower:]')-$ARCH"
-                    chmod +x ./kind
-                    sudo mv ./kind /usr/local/bin/kind
-                    '''
-                    // Create the kind cluster
-                    sh "kind create cluster --name ${env.BUILD_NUMBER}"
-                    // Set kubeconfig context
-                    sh "kubectl config current-context"
-                    // Check the kind deployment
-                    sh "kubectl get nodes"
+                    deployments.installKind()
+                    deployments.createKindCluster clusterName: env.BUILD_NUMBER
                 }
             }
         }
@@ -151,12 +139,7 @@ pipeline {
     post {
         always {
             script {
-                try {
-                    sh "kind delete cluster --name ${env.BUILD_NUMBER}"
-                } catch (err) {
-                    sh "kind delete cluster --name ${env.BUILD_NUMBER}"
-                }
-                sh "docker system prune -f"
+                deployments.deleteKindCluster clusterName: env.BUILD_NUMBER
             }
         }
     }
