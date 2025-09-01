@@ -86,7 +86,7 @@ pipeline {
             }
         }
 
-        stage("Installing Helm") {
+        stage("Install Helm") {
             steps {
                 script {
                     helmBasic.installHelm()
