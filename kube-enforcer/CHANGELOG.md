@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.66 ( Sep 9th, 2025 )
+* upgraded starboard version to 0.15.27
+
 ## 2022.4.65 (Aug 25th 2025)
 * Resolving issue [#771](https://github.com/aquasecurity/aqua-helm/issues/771)
 * Setting aligned default value for image credential name
