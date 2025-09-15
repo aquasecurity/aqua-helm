@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.67 ( Sep 15th, 2025 )
+* upgraded trivy-operator version to 0.28.0
+
 ## 2022.4.66 ( Sep 9th, 2025 )
 * upgraded starboard version to 0.15.27
 
