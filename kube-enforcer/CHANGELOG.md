@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.68 ( Oct 16th, 2025 )
+* added priorityClass block to enforcer subsection in kube-enforcer chart to keep parity with aqua enforcer chart. 
+
 ## 2022.4.67 ( Sep 15th, 2025 )
 * upgraded trivy-operator version to 0.28.0
 

@@ -591,6 +591,12 @@ enforcer:
     # change it to true for enabling mTLS between enforcer and gateway/envoy
     tls_verify: false
 
+  priorityClass:
+    create: false
+    name: ""
+    preemptionPolicy: "PreemptLowerPriority"
+    value: 1000000
+
   # extraEnvironmentVars is a list of extra environment variables to set in the enforcer daemonSet.
   # https://docs.aquasec.com/docs/enforcer-optional-variables
   # The variables could be provided via values.yaml file as shown below
