@@ -307,7 +307,7 @@ extraVolumeMounts: []
 extraVolumes: []
 
 starboard:
-  enabled: true
+  enabled: false
   # enable to true to manage starboard crds by Helm
   crds:
     enabled: true  
@@ -389,9 +389,9 @@ starboard:
     preemptionPolicy: "PreemptLowerPriority"
     value: 1000000
 
-## To Enable Trivy Operator instead of Starboard Operator
+## Trivy Operator (default security scanner for KubeEnforcer)
 trivy:
-  enabled: false    #Enable to install trivy operator and make starboard.enabled to false(only one operator can be enabled for KE per deployment)
+  enabled: true    #Trivy Operator is the default. To use Starboard instead, set this to false and starboard.enabled to true (only one operator can be enabled for KE per deployment)
   appName: "trivy-operator"
   image:
     registry: "docker.io/aquasec"

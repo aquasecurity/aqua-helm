@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.68 ( Oct 23rd, 2025 )
+* Set trivy.enabled to true in values.yaml
+
 ## 2022.4.67 ( Sep 15th, 2025 )
 * upgraded trivy-operator version to 0.28.0
 
