@@ -36,6 +36,7 @@ data:
   server.key: {{ $serverKey }}
 {{- end }}
 ---
+{{- if .Values.webhooks.validatingWebhook.enabled }}
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
@@ -88,7 +89,9 @@ webhooks:
     namespaceSelector:
     {{ toYaml . | nindent 8 }}
     {{ end }}
+{{- end }}
 ---
+{{- if .Values.webhooks.mutatingWebhook.enabled }}
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
@@ -126,4 +129,5 @@ webhooks:
     namespaceSelector:
     {{ toYaml . | nindent 8 }}
     {{ end }}
+{{- end }}
 {{- end }}

@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.69 ( Oct 29th, 2025 )
+* Fix webhook logic
+
 ## 2022.4.68 ( Oct 23rd, 2025 )
 * Set trivy.enabled to true in values.yaml
 
