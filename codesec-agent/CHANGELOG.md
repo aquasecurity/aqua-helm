@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+_1.2.12_
+* Add support for github enterprise cloud custom subdomain env: CUSTOM_API_URL
+
 _1.2.11
 * Fix toleration definition.
 

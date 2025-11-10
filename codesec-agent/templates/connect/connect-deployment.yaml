@@ -49,7 +49,10 @@ spec:
           - name: BROKER_TOKEN
             value: {{ .Values.global.brokerToken }}
           {{- end }}
-
+          {{- if .Values.global.customApiUrl }}
+          - name: CUSTOM_API_URL
+            value: {{ .Values.global.customApiUrl }}
+          {{- end }}
 
           {{- if .Values.ssl.enabled }}
           {{- if .Values.ssl.ca }}
