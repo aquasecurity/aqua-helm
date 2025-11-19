@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.70 ( Nov 14th, 2025 )
+* Fixed issue with wrong ServiceAccount name being used for Trivy Operatory RoleBinding and ClusterRoleBinding.
+
 ## 2022.4.69 ( Oct 29th, 2025 )
 * Fix webhook logic
 

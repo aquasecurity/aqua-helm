@@ -16,6 +16,6 @@ roleRef:
   name: {{ .Values.trivy.appName }}
 subjects:
   - kind: ServiceAccount
-    name: {{ .Values.trivy.appName }}
+    name: {{ template "serviceAccountTrivy" . }}
     namespace: {{ .Release.Namespace }}
 {{- end }}
