@@ -17,7 +17,6 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/enforcer-windows-configmap.yaml") . | sha256sum }}
-        container.apparmor.security.beta.kubernetes.io/aqua-windows-enforcer: unconfined
       {{- if and (.Values.tolerations) (semverCompare "<1.6-0" .Capabilities.KubeVersion.GitVersion) }}
         scheduler.alpha.kubernetes.io/tolerations: '{{ toJson .Values.tolerations }}'
       {{- end }}
