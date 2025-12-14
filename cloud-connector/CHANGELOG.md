@@ -2,10 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 10.0.0 ( Feb 1st, 2026)
+* Moving to Aqua 10 versioning
+
 ## 2022.4.5 (Mar 14th, 2024)
 * Added SCC for Openshift
 * Added extraSecretEnvironmentVars
-
 
 ## 2022.4.4 (Mar 20th, 2023)
 * Add support to configure tolerations(SLK-64711)

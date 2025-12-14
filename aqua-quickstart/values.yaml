@@ -62,7 +62,7 @@ ke:
   container_securityContext: {}
   image:
     repository: kube-enforcer
-    tag: "2022.4"
+    tag: "10"
     pullPolicy: Always
   nameOverride: "aqua-kube-enforcer"
   fullnameOverride: "aqua-kube-enforcer"
@@ -189,7 +189,7 @@ db:
     privileged: false
   image:
     repository: database
-    tag: "2022.4"
+    tag: "10"
     pullPolicy: Always
   service:
     type: ClusterIP
@@ -246,7 +246,7 @@ gate:
   logLevel:
   image:
     repository: gateway
-    tag: "2022.4"
+    tag: "10"
     pullPolicy: Always
   service:
     type: LoadBalancer     # you can enable gateway to external by changing type to "LoadBalancer"
@@ -326,7 +326,7 @@ web:
   logLevel:
   image:
     repository: console
-    tag: "2022.4"
+    tag: "10"
     pullPolicy: Always
   service:
     type: LoadBalancer

@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 10.0.0 ( Feb 1st, 2026)
+* Moving to Aqua 10 versioning
+
 ## 2022.4.2 (Aug 25th, 2025)
 * Resolving issue [#869](https://github.com/aquasecurity/aqua-helm/issues/869)
 * Aligning PSP refernces to correct K8s versions

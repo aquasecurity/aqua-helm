@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 10.0.0 ( Feb 1st, 2026)
+* Moving to Aqua 10 versioning
+
 ## 2022.4.70 ( Nov 14th, 2025 )
 * Fixed issue with wrong ServiceAccount name being used for Trivy Operatory RoleBinding and ClusterRoleBinding.
 
