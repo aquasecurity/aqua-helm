@@ -57,7 +57,7 @@ helm upgrade --install --namespace aqua aqua-cloud-connector aqua-helm/cloud-con
 | `imageCredentials.password`            | Your Docker registry (DockerHub, etc.) password                                  | `""`                    | `YES - New cluster`                          |
 | `serviceaccount.create`                | Enable to create aqua-sa serviceAccount if it is missing in the environment      | `false`                 | `YES - New cluster`                          |
 | `image.repository`                     | The docker image name to use                                                     | `cc-premium`            | `YES`                                        |
-| `image.tag`                            | The image tag to use.                                                            | `2022.4`                | `YES`                                        |
+| `image.tag`                            | The image tag to use.                                                            | `10`                | `YES`                                        |
 | `image.pullPolicy`                     | The kubernetes image pull policy                                                 | `Always`                | `NO`                                         |
 | `replicaCount`                         | Kubernetes replica count                                                         | `1`                     | `YES`                                        |
 | `authType.tokenAuth`                   | Boolean value to select authentication type as token                             | `true`                  | `YES`                                        |

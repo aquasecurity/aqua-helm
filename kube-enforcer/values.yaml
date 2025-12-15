@@ -71,7 +71,7 @@ aqua_cache_expiration_period: "60"
 # Kube-Enforcer Image
 image:
   repository: "kube-enforcer"
-  tag: "2022.4"
+  tag: "10"
   pullPolicy: Always
 
 # MicroEnforcer & KubeBench custom image registry
@@ -84,7 +84,7 @@ me_ke_custom_registry:
 # Micro Enforcer Image
 microEnforcerImage:
   repository: "microenforcer"   # Default aqua registry MicroEnforcer repository name
-  tag: "2022.4"
+  tag: "10"
 
 # KubeBench Image
 kubebenchImage:
@@ -432,7 +432,7 @@ kubeEnforcerAdvance:
   envoy:
     image:
       repository: "envoy"
-      tag: "2022.4"
+      tag: "10"
       pullPolicy: Always
 
     # Enabling Envoy requires the use of TLS certificates for the cluster section, while the cluster TLS section is optional and to be enabled if TLS is in use for kube-enforcer and gateway.
@@ -538,7 +538,7 @@ enforcer:
 
   image:
     repository: enforcer
-    tag: "2022.4"
+    tag: "10"
     pullPolicy: Always
 
   restartPolicy: Always

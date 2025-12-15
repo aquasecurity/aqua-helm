@@ -185,7 +185,7 @@ Parameter | Description      | Default| Mandatory
 `priorityClass.preemptionPolicy` | Preemption policy for priority class  | `PreemptLowerPriority`| `NO`
 `priorityClass.value` | `The integer value of the priority`   | `1000000`| `NO`
 `image.repository` | the docker image name to use | `enforcer`| `YES`
-`image.tag` | The image tag to use.  | `2022.4` | `YES`
+`image.tag` | The image tag to use.  | `10` | `YES`
 `image.pullPolicy` | The kubernetes image pull policy.     | `Always` | `NO`
 `healthMonitor.enabled` | Enabling health monitoring for enforcer liveness and readiness      | `true` | `YES`
 `resources` | 	Resource requests and limits| `{}`   | `NO`
@@ -214,7 +214,7 @@ Parameter | Description      | Default| Mandatory
 `windowsEnforcer.priorityClass.preemptionPolicy` | Preemption policy for priority class  | `PreemptLowerPriority`| `NO`
 `windowsEnforcer.priorityClass.value` | `The integer value of the priority`   | `1000000`| `NO`
 `windowsEnforcer.image.repository` | The windows agent docker image name to use | `enforcer`| `YES`
-`windowsEnforcer.image.tag` | The windows agent image tag to use.  | `2022.4` | `YES`
+`windowsEnforcer.image.tag` | The windows agent image tag to use.  | `10` | `YES`
 `windowsEnforcer.image.pullPolicy` | The windows agent image pull policy.     | `Always` | `NO`
 `windowsEnforcer.healthMonitor.enabled` | Enabling health monitoring for windows enforcer liveness and readiness      | `true` | `YES`
 `windowsEnforcer.resources` | 	Resource requests and limits| `{}`   | `NO`

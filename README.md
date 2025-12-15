@@ -2,10 +2,9 @@
 
 # Overview
 
-
 This page contains instructions for deploying Aqua Enterprise in a Kubernetes cluster, using the [Helm package manager](https://helm.sh/).
 
-Refer to the Aqua Enterprise product documentation for the broader context: [Kubernetes with Helm Charts](https://docs.aquasec.com/v2022.4/docs/kubernetes-with-helm).
+Refer to the Aqua Enterprise product documentation for the broader context: [Kubernetes with Helm Charts](https://docs.aquasec.com/v10/docs/kubernetes-with-helm).
 
 ## Contents
 
@@ -28,15 +27,15 @@ This repository includes the following charts; they can be deployed separately:
 
 | Chart                               | Description                                                                                                                                                   | Latest Chart Version |
 |-------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
-| [Server](server/)                   | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component                                                                     | 2022.4.34            |
-| [Enforcer](enforcer/)               | Deploys the Aqua Enforcer daemonset                                                                                                                           | 2022.4.25            |
-| [Scanner](scanner/)                 | Deploys the Aqua Scanner deployment                                                                                                                           | 2022.4.13            |
-| [KubeEnforcer](kube-enforcer/)      | Deploys Aqua KubeEnforcer                                                                                                                                     | 2022.4.70            |
-| [Gateway](gateway)                  | Deploys the Aqua Standalone Gateway                                                                                                                           | 2022.4.17            |
-| [Tenant-Manager](tenant-manager/)   | Deploys the Aqua Tenant Manager                                                                                                                               | 2022.4.1             |
-| [Cyber Center](cyber-center/)       | Deploys Aqua CyberCenter offline for air-gap environment                                                                                                      | 2022.4.6             |
-| [Cloud Connector](cloud-connector/) | Deploys the Aqua Cloud Connector                                                                                                                              | 2022.4.5             |
-| [QuickStart](aqua-quickstart/)      | Not for production use (see [below](#quick-start-deployment-not-for-production-purposes)). Deploys the Console, Database, Gateway and KubeEnforcer components | 2022.4.2             |
+| [Server](server/)                   | Deploys the Console, Database, and Gateway components; optionally deploys Envoy component                                                                     | 10.0.0            |
+| [Enforcer](enforcer/)               | Deploys the Aqua Enforcer daemonset                                                                                                                           | 10.0.0            |
+| [Scanner](scanner/)                 | Deploys the Aqua Scanner deployment                                                                                                                           | 10.0.0            |
+| [KubeEnforcer](kube-enforcer/)      | Deploys Aqua KubeEnforcer                                                                                                                                     | 10.0.0            |
+| [Gateway](gateway)                  | Deploys the Aqua Standalone Gateway                                                                                                                           | 10.0.0            |
+| [Tenant-Manager](tenant-manager/)   | Deploys the Aqua Tenant Manager                                                                                                                               | 10.0.0             |
+| [Cyber Center](cyber-center/)       | Deploys Aqua CyberCenter offline for air-gap environment                                                                                                      | 10.0.0             |
+| [Cloud Connector](cloud-connector/) | Deploys the Aqua Cloud Connector                                                                                                                              | 10.0.0             |
+| [QuickStart](aqua-quickstart/)      | Not for production use (see [below](#quick-start-deployment-not-for-production-purposes)). Deploys the Console, Database, Gateway and KubeEnforcer components | 10.0.0             |
 | [Codesec-Agent](codesec-agent/)     | Argon Broker Deployment                                                                                                                                       | 1.2.11               |
 
 # Deployment instructions
@@ -64,7 +63,7 @@ Follow the steps in this section for production-grade deployments. You can eithe
 helm search aqua-helm
 # Examples
 helm search aqua-helm --versions
-helm search aqua-helm --version 2022.4
+helm search aqua-helm --version 10.0.0
 ```
 
 ##### For Helm 3.x
@@ -72,21 +71,21 @@ helm search aqua-helm --version 2022.4
 helm search repo aqua-helm
 # Examples
 helm search repo aqua-helm --versions
-helm search repo aqua-helm --version 2022.4
+helm search repo aqua-helm --version 10.0.0
 ```
 
 Example output:
 ```csv
 NAME                            CHART VERSION   APP VERSION     DESCRIPTION
-aqua-helm/codesec-agent         1.2.11          2022.4          A Helm chart for the Argon Broker Deployment
-aqua-helm/cloud-connector       2022.4.4        2022.4          A Helm chart for Aqua Cloud-Connector
-aqua-helm/cyber-center          2022.4.6        2022.4          A Helm chart for Aqua CyberCenter
-aqua-helm/enforcer              2022.4.25       2022.4          A Helm chart for the Aqua Enforcer
-aqua-helm/kube-enforcer         2022.4.70       2022.4          A Helm chart for the Aqua KubeEnforcer Starboard/Trivy
-aqua-helm/gateway               2022.4.17       2022.4          A Helm chart for the Aqua Gateway
-aqua-helm/scanner               2022.4.13       2022.4          A Helm chart for the Aqua Scanner CLI component
-aqua-helm/server                2022.4.34       2022.4          A Helm chart for the Aqua Console components
-aqua-helm/tenant-manager        2022.4.1        2022.4          A Helm chart for the Aqua Tenant Manager
+aqua-helm/codesec-agent         1.2.11          10.0            A Helm chart for the Argon Broker Deployment
+aqua-helm/cloud-connector       10.0.0          10.0            A Helm chart for Aqua Cloud-Connector
+aqua-helm/cyber-center          10.0.0          10.0            A Helm chart for Aqua CyberCenter
+aqua-helm/enforcer              10.0.0          10.0            A Helm chart for the Aqua Enforcer
+aqua-helm/kube-enforcer         10.0.0          10.0            A Helm chart for the Aqua KubeEnforcer Starboard/Trivy
+aqua-helm/gateway               10.0.0          10.0            A Helm chart for the Aqua Gateway
+aqua-helm/scanner               10.0.0          10.0            A Helm chart for the Aqua Scanner CLI component
+aqua-helm/server                10.0.0          10.0            A Helm chart for the Aqua Console components
+aqua-helm/tenant-manager        10.0.0          10.0            A Helm chart for the Aqua Tenant Manager
 ```
 
 ### Deploy the Helm charts

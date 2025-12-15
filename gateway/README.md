@@ -31,7 +31,7 @@ Follow the steps in this section for production grade deployments. You can eithe
 
 1. Clone the GitHub repository with the charts
     ```shell
-    git clone -b 2022.4 https://github.com/aquasecurity/aqua-helm.git
+    git clone https://github.com/aquasecurity/aqua-helm.git
     cd aqua-helm/
     ```
 
@@ -158,7 +158,7 @@ Follow the steps in this section for production grade deployments. You can eithe
 | `global.db.externalDbCerts.enable`                  | If true, external db can connect with mTLS i.e.., verify-ca/verify-full ssl mode by mounting the ca cert to console & gateway                                  | `false`                | `NO`                                                                                             |
 | `global.db.externalDbCerts.certSecretName`          | If `global.db.externalDbCerts.enable` true, Secret name which holds external db ca certificate files                                                           | `null`                 | `NO`                                                                                             |
 | `image.repository`                                  | The docker image name to use                                                                                                                                   | `gateway`              | `NO`                                                                                             |
-| `image.tag`                                         | The image tag to use.                                                                                                                                          | `2022.4`               | `NO`                                                                                             |
+| `image.tag`                                         | The image tag to use.                                                                                                                                          | `10`               | `NO`                                                                                             |
 | `image.pullPolicy`                                  | The kubernetes image pull policy.                                                                                                                              | `IfNotPresent`         | `NO`                                                                                             |
 | `service.type`                                      | Kubernetes service type                                                                                                                                        | `ClusterIP`            | `NO`                                                                                             |
 | `service.loadbalancerIP`                            | Can specify loadBalancerIP address for aqua-gateway in AKS platform                                                                                            | `null`                 | `NO`                                                                                             |
