@@ -105,7 +105,7 @@ starboard:
   image:
     repositoryUriPrefix: "registry.aquasec.com"
     repository: "starboard-operator"
-    tag: "0.15.27"
+    tag: "0.15.29"
     pullPolicy: Always
   container_securityContext:
     privileged: false
