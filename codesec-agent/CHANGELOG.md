@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 _1.2.13_
 
 - Add support for GitHub App authentication parameters: GITHUB_CLIENT_ID, GITHUB_APP_ID, GITHUB_SECRET, GITHUB_CERT_PATH, GITHUB_INSTALLATION_ID
+- GitHub App certificate can be provided via `github.cert` value and will be automatically mounted at `/home/node/github-app.pem`
 
 _1.2.12_
 
