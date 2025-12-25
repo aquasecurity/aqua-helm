@@ -8,6 +8,21 @@ global:
   # Used for authentication
   cspmServerUrl: https://api.cloudsploit.com
 
+# Broker token for integration
+#  brokerToken: ""
+# GitHub Enterprise Cloud custom API URL (e.g., for custom subdomains ex: https://api.<subdomain>.ghe.com/api/v3)
+#  customApiUrl: ""
+
+# GitHub App integration parameters (optional for GitHub Enterprise Cloud):
+# GitHub OAuth App Client ID
+#  githubClientId: ""
+# GitHub App ID
+#  githubAppId: ""
+# GitHub App Client Secret
+#  githubSecret: ""
+# GitHub App Installation ID
+#  githubInstallationId: ""
+
 credentials:
   createSecret: true
   secretName: aqua-codesec-secrets
@@ -37,6 +52,18 @@ ssl:
 #    -----BEGIN RSA PRIVATE KEY-----
 #    secure key
 #    -----BEGIN RSA PRIVATE KEY-----
+
+# GitHub App authentication (optional):
+# When using GitHub App authentication, provide the following credentials:
+github:
+  # GitHub App private key certificate (PEM format)
+  # This will be mounted at /home/node/github-app.pem
+  # Recommended: Use --set-file github.cert=/path/to/github-app.pem when installing
+  # Alternatively, you can use YAML literal block scalar syntax (|) in values.yaml
+#  cert: |
+#    -----BEGIN RSA PRIVATE KEY-----
+#    your-github-app-private-key
+#    -----END RSA PRIVATE KEY-----
 
 # Proxy configurations:
 proxy:
