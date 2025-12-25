@@ -2,46 +2,63 @@
 
 All notable changes to this project will be documented in this file.
 
+_1.2.13_
+
+- Add support for GitHub App authentication parameters: GITHUB_CLIENT_ID, GITHUB_APP_ID, GITHUB_SECRET, GITHUB_CERT_PATH, GITHUB_INSTALLATION_ID
+
 _1.2.12_
-* Add support for github enterprise cloud custom subdomain env: CUSTOM_API_URL
 
-_1.2.11
-* Fix toleration definition.
+- Add support for github enterprise cloud custom subdomain env: CUSTOM_API_URL
 
-  _1.2.10
-* Bug fix for external codesec-agent deployment 
+\_1.2.11
 
-_1.2.7
-* Add support for broker token integration.
+- Fix toleration definition.
 
-_1.2.6
-* Add support for external codesec-agent secret.
+  \_1.2.10
 
-_1.2.5
-* Updated the aqua server url.
+- Bug fix for external codesec-agent deployment
 
-_1.2.4
-* Connector and scanner now support native implementations from proxy using http/s_proxy and no_proxy environment variables.
+\_1.2.7
 
-_1.2.3
-* Connector now supports choosing between outbound, inbound or both for proxy preferences.
+- Add support for broker token integration.
+
+\_1.2.6
+
+- Add support for external codesec-agent secret.
+
+\_1.2.5
+
+- Updated the aqua server url.
+
+\_1.2.4
+
+- Connector and scanner now support native implementations from proxy using http/s_proxy and no_proxy environment variables.
+
+\_1.2.3
+
+- Connector now supports choosing between outbound, inbound or both for proxy preferences.
 
 _1.2.2_
-* Inject authentication (CSPM_URL) and API (AQUA_SERVER_URL) environment variables to deployment objects.
-* Fix default value of "aquaServerUrl".
+
+- Inject authentication (CSPM_URL) and API (AQUA_SERVER_URL) environment variables to deployment objects.
+- Fix default value of "aquaServerUrl".
 
 _1.2.1_
-* Remove "client_url" from env vars validator.
+
+- Remove "client_url" from env vars validator.
 
 _1.2.0_
-* Add "extraEnv" setting to scanner and connector containers.
+
+- Add "extraEnv" setting to scanner and connector containers.
 
 _1.1.0_
-* Add "replicas" setting to 'scan.replicas' values.
+
+- Add "replicas" setting to 'scan.replicas' values.
 
 _1.0.9_
 First release:
-* Added SSL configurations as secrets.
-* Cosmetics / docs / other small fixes.
-* Removed unneeded providers.
-* Add "hostAliases" to support connectivity from minikube -> localhost scenarios.
+
+- Added SSL configurations as secrets.
+- Cosmetics / docs / other small fixes.
+- Removed unneeded providers.
+- Add "hostAliases" to support connectivity from minikube -> localhost scenarios.
