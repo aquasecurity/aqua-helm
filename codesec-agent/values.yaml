@@ -58,6 +58,8 @@ ssl:
 github:
   # GitHub App private key certificate (PEM format)
   # This will be mounted at /home/node/github-app.pem
+  # Recommended: Use --set-file github.cert=/path/to/github-app.pem when installing
+  # Alternatively, you can use YAML literal block scalar syntax (|) in values.yaml
 #  cert: |
 #    -----BEGIN RSA PRIVATE KEY-----
 #    your-github-app-private-key
