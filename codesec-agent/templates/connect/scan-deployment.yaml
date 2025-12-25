@@ -68,23 +68,23 @@ spec:
 
           {{- if .Values.global.githubClientId }}
           - name: GITHUB_CLIENT_ID
-            value: {{ .Values.global.githubClientId }}
+            value: {{ .Values.global.githubClientId | quote }}
           {{- end }}
           {{- if .Values.global.githubAppId }}
           - name: GITHUB_APP_ID
-            value: {{ .Values.global.githubAppId }}
+            value: {{ .Values.global.githubAppId | quote }}
           {{- end }}
           {{- if .Values.global.githubSecret }}
           - name: GITHUB_SECRET
-            value: {{ .Values.global.githubSecret }}
+            value: {{ .Values.global.githubSecret | quote }}
           {{- end }}
-          {{- if .Values.github.cert }}
+          {{- if .Values.global.githubAppId }}
           - name: GITHUB_CERT_PATH
             value: /home/node/github-app.pem
           {{- end }}
           {{- if .Values.global.githubInstallationId }}
           - name: GITHUB_INSTALLATION_ID
-            value: {{ .Values.global.githubInstallationId }}
+            value: {{ .Values.global.githubInstallationId | quote }}
           {{- end }}
 
           {{- range $key, $value := .Values.proxy }}
@@ -103,12 +103,12 @@ spec:
           resources:
             {{- toYaml $v.resources | nindent 12 }}
 
-          {{- if or .Values.ssl.enabled .Values.github.cert }}
+          {{- if or .Values.ssl.enabled (and .Values.github .Values.github.cert) }}
           volumeMounts:
             - name: ssl-secrets
               mountPath: "/home/node"
           {{- end }}
-          {{- if or .Values.ssl.enabled .Values.github.cert }}
+          {{- if or .Values.ssl.enabled (and .Values.github .Values.github.cert) }}
       volumes:
         - name: ssl-secrets
           secret:
@@ -126,7 +126,7 @@ spec:
               - key: ssl-key
                 path: key.pem
               {{- end }}
-              {{- if .Values.github.cert }}
+              {{- if and .Values.github .Values.github.cert }}
               - key: github-certificate
                 path: github-app.pem
               {{- end }}
