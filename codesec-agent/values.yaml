@@ -8,21 +8,20 @@ global:
   # Used for authentication
   cspmServerUrl: https://api.cloudsploit.com
 
-  # Broker token for integration
+# Broker token for integration
 #  brokerToken: ""
-  # GitHub Enterprise Cloud custom API URL (e.g., for custom subdomains ex: https://api.<subdomain>.ghe.com/api/v3)
+# GitHub Enterprise Cloud custom API URL (e.g., for custom subdomains ex: https://api.<subdomain>.ghe.com/api/v3)
 #  customApiUrl: ""
 
-  # GitHub App integration parameters (optional for GitHub Enterprise Cloud):
-  # GitHub OAuth App Client ID
+# GitHub App integration parameters (optional for GitHub Enterprise Cloud):
+# GitHub OAuth App Client ID
 #  githubClientId: ""
-  # GitHub App ID
+# GitHub App ID
 #  githubAppId: ""
-  # GitHub App Client Secret
+# GitHub App Client Secret
 #  githubSecret: ""
-  # GitHub App Installation ID
+# GitHub App Installation ID
 #  githubInstallationId: ""
-
 
 credentials:
   createSecret: true
