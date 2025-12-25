@@ -65,7 +65,6 @@ spec:
           - name: CUSTOM_API_URL
             value: {{ .Values.global.customApiUrl }}
           {{- end }}
-
           {{- if .Values.global.githubClientId }}
           - name: GITHUB_CLIENT_ID
             value: {{ .Values.global.githubClientId | quote }}
