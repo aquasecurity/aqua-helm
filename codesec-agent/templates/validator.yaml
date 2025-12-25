@@ -17,11 +17,13 @@
 {{- if  empty .Values.credentials.aqua_secret }}
 {{ fail "Error - missing .Values.credentials.aqua_secret" }}
 {{- end }}
+{{- if not .Values.global.githubAppId }}
 {{- if empty .Values.integration.username }}
-{{ fail "Error - missing .Values.integration.username" }}
+{{ fail "Error - missing .Values.integration.username (not required when using GitHub App authentication with githubAppId)" }}
 {{- end }}
 {{- if empty .Values.integration.password }}
-{{ fail "Error - missing .Values.integration.password" }}
+{{ fail "Error - missing .Values.integration.password (not required when using GitHub App authentication with githubAppId)" }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- if and (contains "server" .Values.integration.source) (empty .Values.integration.url) }}
