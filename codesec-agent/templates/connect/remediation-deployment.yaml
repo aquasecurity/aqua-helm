@@ -46,6 +46,30 @@ spec:
           - name: BROKER_TOKEN
             value: {{ .Values.global.brokerToken }}
           {{- end }}
+          {{- if .Values.global.customApiUrl }}
+          - name: CUSTOM_API_URL
+            value: {{ .Values.global.customApiUrl }}
+          {{- end }}
+          {{- if .Values.global.githubClientId }}
+          - name: GITHUB_CLIENT_ID
+            value: {{ .Values.global.githubClientId | quote }}
+          {{- end }}
+          {{- if .Values.global.githubAppId }}
+          - name: GITHUB_APP_ID
+            value: {{ .Values.global.githubAppId | quote }}
+          {{- end }}
+          {{- if .Values.global.githubSecret }}
+          - name: GITHUB_SECRET
+            value: {{ .Values.global.githubSecret | quote }}
+          {{- end }}
+          {{- if .Values.global.githubAppId }}
+          - name: GITHUB_CERT_PATH
+            value: /home/node/github-app.pem
+          {{- end }}
+          {{- if .Values.global.githubInstallationId }}
+          - name: GITHUB_INSTALLATION_ID
+            value: {{ .Values.global.githubInstallationId | quote }}
+          {{- end }}
 
           {{- if .Values.ssl.enabled }}
           {{- if .Values.ssl.ca }}
@@ -78,12 +102,12 @@ spec:
           resources:
             {{- toYaml $v.resources | nindent 12 }}
 
-          {{- if .Values.ssl.enabled }}
+          {{- if or .Values.ssl.enabled (and .Values.github .Values.github.cert) }}
           volumeMounts:
             - name: ssl-secrets
               mountPath: "/home/node"
           {{- end }}
-          {{- if .Values.ssl.enabled }}
+          {{- if or .Values.ssl.enabled (and .Values.github .Values.github.cert) }}
       volumes:
         - name: ssl-secrets
           secret:
@@ -100,6 +124,10 @@ spec:
               {{- if .Values.ssl.key }}
               - key: ssl-key
                 path: key.pem
+              {{- end }}
+              {{- if and .Values.github .Values.github.cert }}
+              - key: github-certificate
+                path: github-app.pem
               {{- end }}
       {{- end }}
     {{- with $v.nodeSelector }}
