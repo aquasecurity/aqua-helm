@@ -103,6 +103,30 @@ connect:
   tolerations: {}
   hostAliases:
   extraEnv: {}
+  # Writable directories (required when readOnlyRootFilesystem: true)
+  # Add directories that need to be writable, e.g., ["/tmp", "/var/tmp"]
+  writableDirs: []
+  # Security context configuration
+  # WARNING: These settings may impact functionality. Test thoroughly before enabling.
+  securityContext:
+    # Pod-level security context
+    pod:
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # runAsGroup: 1000
+      # fsGroup: 1000
+      # seccompProfile:
+      #   type: RuntimeDefault
+    # Container-level security context
+    container:
+      # allowPrivilegeEscalation: false
+      # readOnlyRootFilesystem: false
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # capabilities:
+      #   drop:
+      #     - ALL
+      #   add: []  # Add only required capabilities if needed
 
 scan:
   image: docker.io/aquasec/codesec-scanner:latest
@@ -114,6 +138,30 @@ scan:
   tolerations: {}
   hostAliases:
   extraEnv: {}
+  # Writable directories (required when readOnlyRootFilesystem: true)
+  # Add directories that need to be writable, e.g., ["/tmp", "/var/tmp"]
+  writableDirs: []
+  # Security context configuration
+  # WARNING: These settings may impact functionality. Test thoroughly before enabling.
+  securityContext:
+    # Pod-level security context
+    pod:
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # runAsGroup: 1000
+      # fsGroup: 1000
+      # seccompProfile:
+      #   type: RuntimeDefault
+    # Container-level security context
+    container:
+      # allowPrivilegeEscalation: false
+      # readOnlyRootFilesystem: false
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # capabilities:
+      #   drop:
+      #     - ALL
+      #   add: []  # Add only required capabilities if needed
 
 remediation:
   enabled: true
@@ -126,6 +174,31 @@ remediation:
   tolerations: {}
   hostAliases:
   extraEnv: {}
+  # Writable volume mounts (required when readOnlyRootFilesystem: true)
+  # Add directories that need to be writable
+  writableDirs:
+    - /tmp # Required for remediation.log
+  # Security context configuration
+  # WARNING: These settings may impact functionality. Test thoroughly before enabling.
+  securityContext:
+    # Pod-level security context
+    pod:
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # runAsGroup: 1000
+      # fsGroup: 1000
+      # seccompProfile:
+      #   type: RuntimeDefault
+    # Container-level security context
+    container:
+      # allowPrivilegeEscalation: false
+      # readOnlyRootFilesystem: false
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # capabilities:
+      #   drop:
+      #     - ALL
+      #   add: []  # Add only required capabilities if needed
 
 bleedsecrets:
   enabled: true
@@ -138,3 +211,27 @@ bleedsecrets:
   tolerations: {}
   hostAliases:
   extraEnv: {}
+  # Writable directories (required when readOnlyRootFilesystem: true)
+  # Add directories that need to be writable, e.g., ["/tmp", "/var/tmp"]
+  writableDirs: []
+  # Security context configuration
+  # WARNING: These settings may impact functionality. Test thoroughly before enabling.
+  securityContext:
+    # Pod-level security context
+    pod:
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # runAsGroup: 1000
+      # fsGroup: 1000
+      # seccompProfile:
+      #   type: RuntimeDefault
+    # Container-level security context
+    container:
+      # allowPrivilegeEscalation: false
+      # readOnlyRootFilesystem: false
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # capabilities:
+      #   drop:
+      #     - ALL
+      #   add: []  # Add only required capabilities if needed

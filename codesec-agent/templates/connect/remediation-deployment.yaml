@@ -21,6 +21,10 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
 {{ include "common.podLabels" . | indent 8 }}
     spec:
+      {{- with .Values.remediation.securityContext.pod }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.connect.hostAliases }}
       hostAliases:
         {{- toYaml . | nindent 8 }}
@@ -29,6 +33,10 @@ spec:
         - name: {{ $name }}
           image: {{ $v.image }}
           imagePullPolicy: {{ $v.pullPolicy }}
+          {{- with .Values.remediation.securityContext.container }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           env:
           - name: SCANNER_SERVER
             value: {{ .Values.global.scanServerUrl }}
@@ -102,13 +110,22 @@ spec:
           resources:
             {{- toYaml $v.resources | nindent 12 }}
 
-          {{- if or .Values.ssl.enabled (and .Values.github .Values.github.cert) }}
+          {{- if or (or .Values.ssl.enabled (and .Values.github .Values.github.cert)) .Values.remediation.writableDirs }}
           volumeMounts:
+            {{- if or .Values.ssl.enabled (and .Values.github .Values.github.cert) }}
             - name: ssl-secrets
               mountPath: "/home/node"
+            {{- end }}
+            {{- if .Values.remediation.writableDirs }}
+            {{- range .Values.remediation.writableDirs }}
+            - name: writable-{{ . | replace "/" "-" | replace "_" "-" | trimPrefix "-" }}
+              mountPath: {{ . }}
+            {{- end }}
+            {{- end }}
           {{- end }}
-          {{- if or .Values.ssl.enabled (and .Values.github .Values.github.cert) }}
+          {{- if or (or .Values.ssl.enabled (and .Values.github .Values.github.cert)) .Values.remediation.writableDirs }}
       volumes:
+            {{- if or .Values.ssl.enabled (and .Values.github .Values.github.cert) }}
         - name: ssl-secrets
           secret:
             secretName: {{ template "secretName" . }}
@@ -129,6 +146,13 @@ spec:
               - key: github-certificate
                 path: github-app.pem
               {{- end }}
+            {{- end }}
+            {{- if .Values.remediation.writableDirs }}
+            {{- range .Values.remediation.writableDirs }}
+        - name: writable-{{ . | replace "/" "-" | replace "_" "-" | trimPrefix "-" }}
+          emptyDir: {}
+            {{- end }}
+            {{- end }}
       {{- end }}
     {{- with $v.nodeSelector }}
       nodeSelector:
