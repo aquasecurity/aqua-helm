@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.14 (Jan 8th, 2026)
+* SLK-108625 [Scanner] Update OpenShift SCC to whitelist emptyDir or persistentVolumeClaim volumes to prevent validation errors
+
 ## 2022.4.13 (Aug 25th, 2025)
 * Resolving issue [#869](https://github.com/aquasecurity/aqua-helm/issues/869)
 * Aligning PSP refernces to correct K8s versions
