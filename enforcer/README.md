@@ -12,6 +12,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
     - [Container Registry Credentials](#container-registry-credentials)
   - [Installing the Chart](#installing-the-chart)
     - [Installing Aqua Enforcer from Helm Private Repository](#installing-aqua-enforcer-from-helm-private-repository)
+  - [Migrating from Aqua Operator](#migrating-from-aqua-operator)
   - [Configuring Enforcer mTLS with Gateway/Envoy](#configuring-enforcer-mtls-with-gatewayenvoy)
     - [Create Root CA (Done once)](#create-root-ca-done-once)
     - [Create the certificate and key for enforcer from existing rootca cert](#create-the-certificate-and-key-for-enforcer-from-existing-rootca-cert)
@@ -66,6 +67,46 @@ helm search repo aqua-helm/enforcer --versions
     ```shell
       helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer --set global.imageCredentials.create=<>,global.imageCredentials.username=<>,global.imageCredentials.password=<>,global.platform=<>,enforcerToken=<aquasec-token>,windowsEnforcer.allWinNodes.enable=true,windowsEnforcer.enforcerToken=<windows-enforcer-token>,windowsEnforcer.nodeSelector.key1=value1
     ```
+
+## Migrating from Aqua Operator
+
+When migrating from the Aqua Operator to the Helm chart, you can reuse existing RBAC resources (ClusterRole, ClusterRoleBinding, ServiceAccount) created by the operator. This avoids permission conflicts and allows for a smoother transition.
+
+### Migration Steps
+
+1. **Identify existing RBAC resources** created by the operator:
+   ```shell
+   kubectl get clusterrole,clusterrolebinding,serviceaccount -n aqua | grep -i enforcer
+   ```
+
+2. **Install the Helm chart with RBAC creation disabled**:
+   ```shell
+   helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer \
+     --set clusterRole.create=false \
+     --set serviceAccount.create=false \
+     --set serviceAccount.name=<existing-sa-name> \
+     --set global.platform=<platform> \
+     --set enforcerToken=<token>
+   ```
+
+3. **If you need to reference a specific existing ClusterRole** for the binding:
+   ```shell
+   helm upgrade --install --namespace aqua aqua-enforcer aqua-helm/enforcer \
+     --set clusterRole.create=false \
+     --set clusterRole.roleRef=<existing-cluster-role-name> \
+     --set serviceAccount.create=false \
+     --set serviceAccount.name=<existing-sa-name> \
+     --set global.platform=<platform> \
+     --set enforcerToken=<token>
+   ```
+
+4. **After successful migration**, you can clean up the operator resources:
+   ```shell
+   # Remove the AquaEnforcer CR (this will NOT delete the enforcer pods managed by Helm)
+   kubectl delete aquaenforcer <name> -n aqua
+   ```
+
+> **Note:** When `clusterRole.create=false`, no ClusterRole, ClusterRoleBinding, or platform-specific RBAC resources (OpenShift SCC, TKG RoleBinding) will be created by the chart. Ensure your existing RBAC setup has the required permissions.
 
 ## Configuring Enforcer mTLS with Gateway/Envoy
   By default, deploying Aqua Enterprise configures TLS-based encrypted communication, using self-signed certificates, between Aqua components. If you want to use self-signed certificates to establish mTLS between enforcer and gateway/envoy use the below instrictions to generate rootCA and component certificates
@@ -157,6 +198,7 @@ Parameter | Description      | Default| Mandatory
 `serviceAccount.create` | enable to create serviceaccount       | `false`| `YES - New cluster`
 `serviceAccount.name` | service acccount name  | `aqua-sa`| `NO`
 `serviceAccount.attachImagePullSecret` | attach image pull secret to created service account? | `true` | `NO`
+`clusterRole.create` | Set to false to skip ClusterRole and ClusterRoleBinding creation (useful for operator migration) | `true` | `NO`
 `clusterRole.roleRef` | cluster role reference name for cluster rolebinding| `unset`| `NO`
 `platform` | Orchestration platform name (Allowed values are aks, eks, gke, gke-autopilot, openshift, tkg, tkgi, k8s, rancher, gs, k3s)   | `unset`| `YES`
 `vaultSecret.enable` | Enable to true once you have secrets in vault and annotations are enabled to load enforcer token from hashicorp vault | `false`| `No` |
