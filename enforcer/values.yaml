@@ -52,6 +52,15 @@ clusterRole:
   # Only used for ClusterRoleBinding when create=true, or as the role reference when create=false.
   roleRef: ""
 
+# OpenShift SecurityContextConstraints configuration
+securityContextConstraints:
+  # Set to false to skip SCC creation (e.g., when migrating from aqua-operator).
+  # Only applies when global.platform=openshift
+  create: true
+  # Override the default SCC name ({{ .Release.Name }}-agent-scc).
+  # Set to "aqua-scc" when migrating from aqua-operator to reuse existing SCC.
+  name: ""
+
 # Hashicorp Vault is a secrets management tool
 # Below vaultSecret and vaultAnnotations section helps setting vault sidecar/initContainer agents to load enforcer-token securely
 vaultSecret:
