@@ -98,9 +98,9 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-reader
-  {{- end }}
-  {{- end }}
-  {{- if and (eq .Values.global.platform "openshift") .Values.securityContextConstraints.create }}
+{{- end }}
+{{- end }}
+{{- if and (eq .Values.global.platform "openshift") .Values.securityContextConstraints.create }}
 ---
 allowHostDirVolumePlugin: true
 allowHostIPC: false
@@ -175,6 +175,5 @@ subjects:
 - kind: Group
   apiGroup: rbac.authorization.k8s.io
   name: system:serviceaccounts
-{{- end }}
 {{- end }}
 {{- end -}}
