@@ -1,4 +1,5 @@
 {{- if not .Values.windowsEnforcer.allWinNodes.enable }}
+{{- $autoDetectK8sClusterId := include "autoDetectK8sClusterId" . }}
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -73,7 +74,7 @@ spec:
             name: {{ .Release.Name }}-enforcer-config
         env:
         - name: AQUA_K8S_CLUSTER_ID
-          value: {{ if .Release.IsInstall }}{{ with (lookup "v1" "Namespace" "" "kube-system") }}"{{ .metadata.uid }}"{{ else }}"temp"{{ end }}{{ else }}"temp"{{ end }}
+          value: {{ coalesce .Values.k8sClusterId $autoDetectK8sClusterId }}
         - name: AQUA_NODE_NAME
         {{- if .Values.nodeName }}
           value: {{ .Values.nodeName }}

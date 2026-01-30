@@ -43,6 +43,12 @@ serviceAccount:
   # use it to overwrite the default serviceAccount name
   name:
 
+# controls the cluster the enforcer will appear under in the aquasec console.
+# 
+# By default, the metadata.uid of the target namespace will be injected by Helm at sync-time and "auto" will be
+# rendered at template-time. This setting overrides such behavior.
+k8sClusterId: null
+
 clusterRole:
   # Set to false to skip ClusterRole and ClusterRoleBinding creation.
   # Useful when migrating from aqua-operator or reusing pre-existing RBAC resources.

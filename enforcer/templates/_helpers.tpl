@@ -162,3 +162,10 @@ For gke-autopilot should be /var/autopilot/addon
   {{- printf "%s" "/var/lib" -}}
 {{- end }}
 {{- end -}}
+
+{{/*
+Calculate AQUA_K8S_CLUSTER_ID from the kube-system namespace uid at install time
+*/}}
+{{- define "autoDetectK8sClusterId" -}}
+{{ if .Release.IsInstall }}{{ with (lookup "v1" "Namespace" "" "kube-system") }}"{{ .metadata.uid }}"{{ else }}"auto"{{ end }}{{ else }}"auto"{{ end }}
+{{- end -}}
