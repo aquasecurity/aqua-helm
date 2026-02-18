@@ -9,7 +9,7 @@ metadata:
 {{ include "aqua.labels" . | indent 4 }}
 rules:
   - apiGroups: ["*"]
-    resources: ["pods", "nodes", "namespaces", "deployments", "jobs", "cronjobs", "daemonsets", "replicasets", "replicationcontrollers", "statefulsets", "clusterroles", "clusterrolebindings", "componentstatuses", "services" ]
+    resources: ["pods", "nodes", "namespaces", "deployments", "jobs", "cronjobs", "daemonsets", "replicasets", "replicationcontrollers", "statefulsets", "clusterroles", "clusterrolebindings", "componentstatuses", "services", "persistentvolumes", "persistentvolumeclaims", "ingresses", "networkpolicies", "customresourcedefinitions" ]
     verbs: ["get", "list", "watch"]
   - apiGroups: ["aquasecurity.github.io"]
     resources: ["configauditreports", "clusterconfigauditreports"]
@@ -45,6 +45,12 @@ rules:
   - apiGroups: ["security.openshift.io"]
     resources: ["securitycontextconstraints"]
     verbs: ["get", "list"]
+  - apiGroups: [ "" ]
+    resources: [ "persistentvolumes", "persistentvolumeclaims" ]
+    verbs: [ "get", "list", "watch" ]
+  - apiGroups: [ "networking.k8s.io" ]
+    resources: [ "ingresses", "networkpolicies" ]
+    verbs: [ "get", "list", "watch" ]
   - apiGroups: ["machineconfiguration.openshift.io"]
     resources: ["machineconfigs", "machineconfigpools"]
     verbs: ["get", "list"]
@@ -168,6 +174,22 @@ rules:
     resources:
       - networkpolicies
       - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - persistentvolumes
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - persistentvolumeclaims
     verbs:
       - get
       - list
