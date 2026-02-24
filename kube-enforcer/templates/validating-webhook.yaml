@@ -38,6 +38,10 @@ webhooks:
           - clusterroles
           - clusterrolebindings
           - customresourcedefinitions
+          - persistentvoulumes
+          - persistentvolumeclaims
+          - ingresses
+          - networkpolicies
     clientConfig:
       {{- if not .Values.webhooks.certManager }}
       caBundle: {{ template "caBundle" . }}
