@@ -1,9 +1,6 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2022.4.75 ( Feb 23, 2026 )
-* add kap support for the new resources
-
 ## 2022.4.74 ( Feb 19th, 2026 )
 * updated kube-bench version to 0.15.0
 
