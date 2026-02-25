@@ -24,10 +24,14 @@ webhooks:
         resources:
           - pods
           - deployments
+          - deployments/scale
           - deploymentconfigs
           - replicasets
+          - replicasets/scale
           - replicationcontrollers
+          - replicationcontrollers/scale
           - statefulsets
+          - statefulsets/scale
           - daemonsets
           - jobs
           - cronjobs
