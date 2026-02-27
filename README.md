@@ -81,7 +81,7 @@ NAME                            CHART VERSION   APP VERSION     DESCRIPTION
 aqua-helm/codesec-agent         1.2.11          2022.4          A Helm chart for the Argon Broker Deployment
 aqua-helm/cloud-connector       2022.4.4        2022.4          A Helm chart for Aqua Cloud-Connector
 aqua-helm/cyber-center          2022.4.6        2022.4          A Helm chart for Aqua CyberCenter
-aqua-helm/enforcer              2022.4.25       2022.4          A Helm chart for the Aqua Enforcer
+aqua-helm/enforcer              2022.4.26       2022.4          A Helm chart for the Aqua Enforcer
 aqua-helm/kube-enforcer         2022.4.70       2022.4          A Helm chart for the Aqua KubeEnforcer Starboard/Trivy
 aqua-helm/gateway               2022.4.17       2022.4          A Helm chart for the Aqua Gateway
 aqua-helm/scanner               2022.4.13       2022.4          A Helm chart for the Aqua Scanner CLI component

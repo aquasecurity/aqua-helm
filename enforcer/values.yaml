@@ -92,6 +92,8 @@ expressMode: false
 
 securityContext:
   privileged: false
+  appArmorProfile:
+    type: Unconfined
   capabilities:
     add:
       - SYS_ADMIN
@@ -226,6 +228,8 @@ windowsEnforcer:
   nodeName:
 
   securityContext:
+    appArmorProfile:
+      type: Unconfined
     windowsOptions:
       hostProcess: true
       runAsUserName: "NT AUTHORITY\\SYSTEM"
