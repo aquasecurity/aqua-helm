@@ -8,6 +8,21 @@ global:
   # Used for authentication
   cspmServerUrl: https://api.cloudsploit.com
 
+# Broker token for integration
+#  brokerToken: ""
+# GitHub Enterprise Cloud custom API URL (e.g., for custom subdomains ex: https://api.<subdomain>.ghe.com/api/v3)
+#  customApiUrl: ""
+
+# GitHub App integration parameters (optional for GitHub Enterprise Cloud):
+# GitHub OAuth App Client ID
+#  githubClientId: ""
+# GitHub App ID
+#  githubAppId: ""
+# GitHub App Client Secret
+#  githubSecret: ""
+# GitHub App Installation ID
+#  githubInstallationId: ""
+
 credentials:
   createSecret: true
   secretName: aqua-codesec-secrets
@@ -37,6 +52,18 @@ ssl:
 #    -----BEGIN RSA PRIVATE KEY-----
 #    secure key
 #    -----BEGIN RSA PRIVATE KEY-----
+
+# GitHub App authentication (optional):
+# When using GitHub App authentication, provide the following credentials:
+github:
+  # GitHub App private key certificate (PEM format)
+  # This will be mounted at /home/node/github-app.pem
+  # Recommended: Use --set-file github.cert=/path/to/github-app.pem when installing
+  # Alternatively, you can use YAML literal block scalar syntax (|) in values.yaml
+#  cert: |
+#    -----BEGIN RSA PRIVATE KEY-----
+#    your-github-app-private-key
+#    -----END RSA PRIVATE KEY-----
 
 # Proxy configurations:
 proxy:
@@ -76,6 +103,30 @@ connect:
   tolerations: {}
   hostAliases:
   extraEnv: {}
+  # Writable directories (required when readOnlyRootFilesystem: true)
+  # Add directories that need to be writable, e.g., ["/tmp", "/var/tmp"]
+  writableDirs: []
+  # Security context configuration
+  # WARNING: These settings may impact functionality. Test thoroughly before enabling.
+  securityContext:
+    # Pod-level security context
+    pod:
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # runAsGroup: 1000
+      # fsGroup: 1000
+      # seccompProfile:
+      #   type: RuntimeDefault
+    # Container-level security context
+    container:
+      # allowPrivilegeEscalation: false
+      # readOnlyRootFilesystem: false
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # capabilities:
+      #   drop:
+      #     - ALL
+      #   add: []  # Add only required capabilities if needed
 
 scan:
   image: docker.io/aquasec/codesec-scanner:latest
@@ -87,6 +138,30 @@ scan:
   tolerations: {}
   hostAliases:
   extraEnv: {}
+  # Writable directories (required when readOnlyRootFilesystem: true)
+  # Add directories that need to be writable, e.g., ["/tmp", "/var/tmp"]
+  writableDirs: []
+  # Security context configuration
+  # WARNING: These settings may impact functionality. Test thoroughly before enabling.
+  securityContext:
+    # Pod-level security context
+    pod:
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # runAsGroup: 1000
+      # fsGroup: 1000
+      # seccompProfile:
+      #   type: RuntimeDefault
+    # Container-level security context
+    container:
+      # allowPrivilegeEscalation: false
+      # readOnlyRootFilesystem: false
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # capabilities:
+      #   drop:
+      #     - ALL
+      #   add: []  # Add only required capabilities if needed
 
 remediation:
   enabled: true
@@ -99,6 +174,31 @@ remediation:
   tolerations: {}
   hostAliases:
   extraEnv: {}
+  # Writable volume mounts (required when readOnlyRootFilesystem: true)
+  # Add directories that need to be writable
+  writableDirs:
+    - /tmp # Required for remediation.log
+  # Security context configuration
+  # WARNING: These settings may impact functionality. Test thoroughly before enabling.
+  securityContext:
+    # Pod-level security context
+    pod:
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # runAsGroup: 1000
+      # fsGroup: 1000
+      # seccompProfile:
+      #   type: RuntimeDefault
+    # Container-level security context
+    container:
+      # allowPrivilegeEscalation: false
+      # readOnlyRootFilesystem: false
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # capabilities:
+      #   drop:
+      #     - ALL
+      #   add: []  # Add only required capabilities if needed
 
 bleedsecrets:
   enabled: true
@@ -111,3 +211,27 @@ bleedsecrets:
   tolerations: {}
   hostAliases:
   extraEnv: {}
+  # Writable directories (required when readOnlyRootFilesystem: true)
+  # Add directories that need to be writable, e.g., ["/tmp", "/var/tmp"]
+  writableDirs: []
+  # Security context configuration
+  # WARNING: These settings may impact functionality. Test thoroughly before enabling.
+  securityContext:
+    # Pod-level security context
+    pod:
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # runAsGroup: 1000
+      # fsGroup: 1000
+      # seccompProfile:
+      #   type: RuntimeDefault
+    # Container-level security context
+    container:
+      # allowPrivilegeEscalation: false
+      # readOnlyRootFilesystem: false
+      # runAsNonRoot: true
+      # runAsUser: 1000
+      # capabilities:
+      #   drop:
+      #     - ALL
+      #   add: []  # Add only required capabilities if needed

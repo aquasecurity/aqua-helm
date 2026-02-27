@@ -1,4 +1,5 @@
 {{- if or (.Values.windowsEnforcer.allWinNodes.enable) (.Values.windowsEnforcer.WinLinuxNodes.enable) }}
+{{- if .Values.clusterRole.create }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -25,9 +26,14 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
+  {{- if .Values.clusterRole.roleRef }}
+  name: {{ .Values.clusterRole.roleRef }}
+  {{- else }}
   name: {{ .Release.Name }}-discovery-cr
+  {{- end }}
 subjects:
   - kind: ServiceAccount
     name: {{ template "agentServiceAccount" . }}
     namespace: {{ .Release.Namespace }}
+{{- end }}
 {{- end }}

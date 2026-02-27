@@ -44,6 +44,12 @@ serviceAccount:
   name:
 
 clusterRole:
+  # Set to false to skip ClusterRole and ClusterRoleBinding creation.
+  # Useful when migrating from aqua-operator or reusing pre-existing RBAC resources.
+  # When false, ensure the serviceAccount has the required permissions.
+  create: true
+  # Reference an existing ClusterRole instead of creating one.
+  # Only used for ClusterRoleBinding when create=true, or as the role reference when create=false.
   roleRef: ""
 
 # Hashicorp Vault is a secrets management tool
