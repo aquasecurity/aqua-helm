@@ -417,6 +417,7 @@ trivy:
     failureThreshold: 10
   resources: {}
   nodeSelector: {}
+  tolerations: []
   securityContext: {}
 
 
