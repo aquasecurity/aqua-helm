@@ -140,4 +140,8 @@ spec:
       nodeSelector:
         {{ toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.trivy.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}
