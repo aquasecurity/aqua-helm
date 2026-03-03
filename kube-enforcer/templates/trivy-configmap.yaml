@@ -29,7 +29,7 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 data:
   trivy.repository: "ghcr.io/aquasecurity/trivy"
-  trivy.tag: "0.64.1"
+  trivy.tag: "0.69.1"
   trivy.additionalVulnerabilityReportFields: ""
   trivy.severity: "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL"
   trivy.slow: "true"

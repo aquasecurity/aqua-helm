@@ -24,10 +24,14 @@ webhooks:
         resources:
           - pods
           - deployments
+          - deployments/scale
           - deploymentconfigs
           - replicasets
+          - replicasets/scale
           - replicationcontrollers
+          - replicationcontrollers/scale
           - statefulsets
+          - statefulsets/scale
           - daemonsets
           - jobs
           - cronjobs
@@ -38,6 +42,10 @@ webhooks:
           - clusterroles
           - clusterrolebindings
           - customresourcedefinitions
+          - persistentvoulumes
+          - persistentvolumeclaims
+          - ingresses
+          - networkpolicies
     clientConfig:
       {{- if not .Values.webhooks.certManager }}
       caBundle: {{ template "caBundle" . }}
