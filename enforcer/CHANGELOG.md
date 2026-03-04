@@ -1,7 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 ## 2022.4.28 ( Feb 23st, 2026 )
-Add kap support for the new resources
+* Add kap support for the new resources
+* allow AQUA_K8S_CLUSTER_ID to be set explicitly
 ## 2022.4.26 ( Jan 21st, 2026 )
 * Add clusterRole.create option for operator migration - allows reusing existing RBAC resources when migrating from Aqua Operator to Helm charts
 ## 2022.4.25 ( Aug 4th, 2025 )
