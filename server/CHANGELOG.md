@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.35 (Mar 4th, 2026)
+* Support Ingress spec IngressClassName on server/web-ingress.yaml - [#719](https://github.com/aquasecurity/aqua-helm/issues/719)
+
 ## 2022.4.34 (Aug 25th, 2025)
 * SLK-99523 Adding DB Upgrade Job image pull policy attachement enforcement - [#987](https://github.com/aquasecurity/aqua-helm/issues/987)
 
