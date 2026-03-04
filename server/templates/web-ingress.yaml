@@ -28,6 +28,9 @@ metadata:
 {{ toYaml .Values.web.ingress.annotations | indent 4 }}
 {{- end }}
 spec:
+{{ if .Values.web.ingress.ingressClass }}
+  ingressClassName: {{ .Values.web.ingress.ingressClass }}
+{{ end }}
   {{ if .Values.web.ingress.hosts }}
   rules:
     {{- range $host := (required "A valid .Values.web.ingress.hosts entry required!" .Values.web.ingress.hosts) }}
