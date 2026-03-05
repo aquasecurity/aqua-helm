@@ -1,6 +1,6 @@
 dependencies:
 - name: enforcer
   repository: https://helm.aquasec.com
-  version: 2022.4.28
-digest: sha256:4d8c8541059b67b87817f842486b017ccfcb82ff4b79d680892a47980c94acfe
-generated: "2026-03-01T12:03:10.340585+02:00"
+  version: 2022.4.29
+digest: sha256:0e951a11b7582d9d9e28cff485894b9a887a8ce0fa2c208ca8aa73effd424714
+generated: "2026-03-05T09:49:02.031110959Z"
