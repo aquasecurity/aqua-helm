@@ -115,7 +115,6 @@ allowedCapabilities:
 - MKNOD
 - SETGID
 - SETUID
-- SYS_MODULE
 - AUDIT_CONTROL
 - SYSLOG
 - SYS_CHROOT
