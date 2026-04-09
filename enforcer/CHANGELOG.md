@@ -1,5 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2022.4.30 ( April 9th, 2026 )
+* Add GlobalNetworkPolicy support for the new resources
 ## 2022.4.29 ( Mar 5th, 2026 )
 * allow AQUA_K8S_CLUSTER_ID to be set explicitly
 ## 2022.4.28 ( Feb 23rd, 2026 )

@@ -9,7 +9,7 @@ metadata:
 {{ include "aqua.labels" . | indent 4 }}
 rules:
   - apiGroups: ["*"]
-    resources: ["pods", "nodes", "namespaces", "deployments", "jobs", "cronjobs", "daemonsets", "replicasets", "replicationcontrollers", "statefulsets", "clusterroles", "clusterrolebindings", "componentstatuses", "services", "persistentvolumes", "persistentvolumeclaims", "ingresses", "networkpolicies", "customresourcedefinitions" ]
+    resources: ["pods", "nodes", "namespaces", "deployments", "jobs", "cronjobs", "daemonsets", "replicasets", "replicationcontrollers", "statefulsets", "clusterroles", "clusterrolebindings", "componentstatuses", "services", "persistentvolumes", "persistentvolumeclaims", "ingresses", "networkpolicies", "customresourcedefinitions", "globalnetworkpolicies" ]
     verbs: ["get", "list", "watch"]
   - apiGroups: ["aquasecurity.github.io"]
     resources: ["configauditreports", "clusterconfigauditreports"]
@@ -51,6 +51,9 @@ rules:
   - apiGroups: [ "networking.k8s.io" ]
     resources: [ "ingresses", "networkpolicies" ]
     verbs: [ "get", "list", "watch" ]
+  - apiGroups: ["crd.projectcalico.org"]
+    resources: ["globalnetworkpolicies"]
+    verbs: ["get", "list", "watch"]
   - apiGroups: ["machineconfiguration.openshift.io"]
     resources: ["machineconfigs", "machineconfigpools"]
     verbs: ["get", "list"]
@@ -174,6 +177,14 @@ rules:
     resources:
       - networkpolicies
       - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - crd.projectcalico.org
+    resources:
+      - globalnetworkpolicies
     verbs:
       - get
       - list
