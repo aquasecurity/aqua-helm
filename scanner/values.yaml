@@ -36,6 +36,16 @@ platform: ""
 clusterRole:
   roleRef: ""
 
+# OpenShift SecurityContextConstraints configuration
+securityContextConstraints:
+  # Set to false to skip SCC creation (e.g., when SCCs are centrally managed
+  # by the platform team and pre-created outside of Helm).
+  # Only applies when platform=openshift.
+  create: true
+  # Override the default SCC name ({{ .Release.Name }}-scc).
+  # Useful to reuse a pre-existing SCC (e.g., "aqua-scc" from aqua-operator).
+  name: ""
+
 # Create default cluster-role and cluster-role bindings according to the platform
 rbac:
   create: true

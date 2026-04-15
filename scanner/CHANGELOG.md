@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022.4.15 (Apr 15th, 2026)
+* Add securityContextConstraints.create option to skip SCC creation on OpenShift (for centrally managed SCCs) and securityContextConstraints.name to override the default SCC name
+
 ## 2022.4.14 (Jan 8th, 2026)
 * SLK-108625 [Scanner] Update OpenShift SCC to whitelist emptyDir or persistentVolumeClaim volumes to prevent validation errors
 
