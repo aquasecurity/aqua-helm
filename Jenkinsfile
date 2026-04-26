@@ -1,7 +1,7 @@
 @Library('aqua-pipeline-lib@master') _
 
 def charts = ['server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager', 'codesec-agent']
-def deployCharts = ['server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-center', 'codesec-agent']
+def deployCharts = ['server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-center'] // DT-17460: disabled codesec-agent
 
 pipeline {
     agent {
