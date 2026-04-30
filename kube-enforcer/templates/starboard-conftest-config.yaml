@@ -28,5 +28,5 @@ metadata:
     heritage: "{{ .Release.Service }}"
     app.kubernetes.io/name: {{ .Values.starboard.appName }}
     app.kubernetes.io/instance: {{ .Values.starboard.appName }}
-    app.kubernetes.io/version: {{ .Values.starboard.image.tag | quote }}
+    app.kubernetes.io/version: {{ .Values.starboard.image.tag | trunc 63 | quote }}
 {{- end }}
