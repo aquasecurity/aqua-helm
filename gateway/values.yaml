@@ -182,3 +182,12 @@ global:
     externalDbCerts:
       enable: false
       certSecretName: ""
+
+    # To enable Kerberos authentication for PostgreSQL, set enabled: true and provide the required fields.
+    # Requires a K8s Secret containing the keytab file and the Kerberos principal.
+    kerberos:
+      enabled: false
+      principal: ""                   # e.g. postgres/dbhost.example.com@REALM.COM
+      keytabSecretName: ""            # K8s Secret name containing the keytab file
+      keytabSecretKey: "service.keytab"
+      renewalInterval: ""             # Optional: ticket renewal interval in seconds (default: 14400)

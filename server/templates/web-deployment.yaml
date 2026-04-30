@@ -119,6 +119,18 @@ spec:
         - name: SSL_CERT_DIR
           value: "/etc/ext_db_certs:/etc/ssl/certs"
         {{- end }}
+        {{- if .Values.global.db.kerberos.enabled }}
+        - name: AQUA_DB_KERBEROS_ENABLED
+          value: "true"
+        - name: AQUA_DB_KERBEROS_PRINCIPAL
+          value: {{ .Values.global.db.kerberos.principal | quote }}
+        - name: AQUA_DB_KERBEROS_KEYTAB
+          value: {{ printf "/etc/security/keytabs/%s" .Values.global.db.kerberos.keytabSecretKey | quote }}
+        {{- if .Values.global.db.kerberos.renewalInterval }}
+        - name: AQUA_DB_KERBEROS_RENEWAL_INTERVAL
+          value: {{ .Values.global.db.kerberos.renewalInterval | quote }}
+        {{- end }}
+        {{- end }}
         {{- if or .Values.admin.token (not .Values.admin.createSecret) }}
         - name: LICENSE_TOKEN
           valueFrom:
@@ -171,6 +183,11 @@ spec:
           mountPath: /etc/ext_db_certs/
           readOnly: true
         {{- end }}
+        {{- if .Values.global.db.kerberos.enabled }}
+        - name: kerberos-keytab
+          mountPath: /etc/security/keytabs
+          readOnly: true
+        {{- end }}
         {{- include "server.additionalCertVolumeMounts" .Values | nindent 8 }}
         resources:
 {{ toYaml .Values.web.resources | indent 12 }}
@@ -221,6 +238,15 @@ spec:
       - name: ext-db-cert
         secret:
           secretName: {{ .Values.global.db.externalDbCerts.certSecretName }}
+      {{- end }}
+      {{- if .Values.global.db.kerberos.enabled }}
+      - name: kerberos-keytab
+        secret:
+          secretName: {{ .Values.global.db.kerberos.keytabSecretName }}
+          defaultMode: 0400
+          items:
+          - key: {{ .Values.global.db.kerberos.keytabSecretKey }}
+            path: {{ .Values.global.db.kerberos.keytabSecretKey }}
       {{- end }}
       {{- include "server.additionalCertVolumes" .Values | nindent 6 }}
 
