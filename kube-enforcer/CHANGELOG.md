@@ -1,5 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2022.4.77 ( May 4th, 2026 )
+* update enforcer chart to 2022.4.30
+
+## 2022.4.76 ( Apr 29th, 2026 )
 
 ## 2022.4.75 ( Mar 5th, 2026 )
 * update dependency to enforcer chart
