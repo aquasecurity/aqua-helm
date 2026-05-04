@@ -9,6 +9,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Values.trivy.appName }}
     app.kubernetes.io/version: {{ .Values.trivy.image.tag | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    helm.sh/chart: {{ include "aqua.chart" . }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
