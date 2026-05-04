@@ -42,7 +42,7 @@ webhooks:
           - clusterroles
           - clusterrolebindings
           - customresourcedefinitions
-          - persistentvoulumes
+          - persistentvolumes
           - persistentvolumeclaims
           - ingresses
           - networkpolicies
