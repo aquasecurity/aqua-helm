@@ -1,5 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+
+## 2022.4.78 ( May 4th, 2026)
+* Add helm.sh/chart label to Trivy resources
+
 ## 2022.4.77 ( May 4th, 2026 )
 * update enforcer chart to 2022.4.30
 

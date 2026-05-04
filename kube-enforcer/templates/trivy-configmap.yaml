@@ -10,6 +10,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Values.trivy.appName }}
     app.kubernetes.io/version: {{ .Values.trivy.image.tag | trunc 63 | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    helm.sh/chart: {{ include "aqua.chart" . }}
 data:
   scanJob.podTemplateContainerSecurityContext: "{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"ALL\"]},\"privileged\":false,\"readOnlyRootFilesystem\":true}"
   scanJob.compressLogs: "true"
@@ -27,6 +28,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Values.trivy.appName }}
     app.kubernetes.io/version: {{ .Values.trivy.image.tag | trunc 63 | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    helm.sh/chart: {{ include "aqua.chart" . }}
 data:
   trivy.repository: "ghcr.io/aquasecurity/trivy"
   trivy.tag: "0.69.1"
@@ -55,4 +57,5 @@ metadata:
     app.kubernetes.io/instance: {{ .Values.trivy.appName }}
     app.kubernetes.io/version: {{ .Values.trivy.image.tag | trunc 63 | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    helm.sh/chart: {{ include "aqua.chart" . }}
 {{- end }}
