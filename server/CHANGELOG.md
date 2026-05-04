@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.36 (May 4th, 2026)
+* SAAS-31561 | Add variables to support CSP Kerberos connection to Postgres
+
 ## 2022.4.35 (Mar 4th, 2026)
 * Support Ingress spec IngressClassName on server/web-ingress.yaml - [#719](https://github.com/aquasecurity/aqua-helm/issues/719)
 
