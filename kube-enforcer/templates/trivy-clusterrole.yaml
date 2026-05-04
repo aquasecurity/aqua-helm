@@ -205,6 +205,14 @@ rules:
       - list
       - watch
   - apiGroups:
+      - crd.projectcalico.org
+    resources:
+      - globalnetworkpolicies
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
       - rbac.authorization.k8s.io
     resources:
       - clusterrolebindings
