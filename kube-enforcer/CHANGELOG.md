@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2022.4.76 ( May 4th, 2026 )
+## 2022.4.78 ( May 4th, 2026 )
 * Add dnsPolicy value for kube-enforcer
 
 ## 2022.4.77 ( May 4th, 2026 )
