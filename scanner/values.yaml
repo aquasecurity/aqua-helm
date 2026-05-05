@@ -36,14 +36,19 @@ platform: ""
 clusterRole:
   roleRef: ""
 
-# OpenShift SecurityContextConstraints configuration
+# OpenShift SecurityContextConstraints configuration.
+# Only applies when platform=openshift.
 securityContextConstraints:
-  # Set to false to skip SCC creation (e.g., when SCCs are centrally managed
-  # by the platform team and pre-created outside of Helm).
-  # Only applies when platform=openshift.
+  # Whether the chart should render an SCC for the scanner.
+  # Set to false when an SCC is managed externally (e.g., centrally provisioned
+  # by the platform team or pre-created by aqua-operator). When false, the chart
+  # renders no SCC, and you are responsible for ensuring an appropriate SCC is
+  # bound to the scanner's service account.
   create: true
-  # Override the default SCC name ({{ .Release.Name }}-scc).
-  # Useful to reuse a pre-existing SCC (e.g., "aqua-scc" from aqua-operator).
+  # Name of the SCC the chart will create. Only used when create=true.
+  # Defaults to "{{ .Release.Name }}-scc" when empty.
+  # Note: this renames the SCC the chart creates -- it does not adopt or bind
+  # to an existing SCC.
   name: ""
 
 # Create default cluster-role and cluster-role bindings according to the platform
