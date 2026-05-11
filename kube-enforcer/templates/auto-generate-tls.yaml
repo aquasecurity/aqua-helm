@@ -80,6 +80,11 @@ webhooks:
           - clusterroles
           - clusterrolebindings
           - customresourcedefinitions
+          - persistentvolumes
+          - persistentvolumeclaims
+          - ingresses
+          - networkpolicies
+          - globalnetworkpolicies
     clientConfig:
       {{- if not .Values.webhooks.certManager }}
       caBundle: {{ $rootCaCert }}

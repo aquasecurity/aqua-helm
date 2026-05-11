@@ -1,5 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+
+## 2022.4.78 ( May 11th, 2026 )
+* Add new resources in validation webhook when autogenerate secrets is enabled
+
 ## 2022.4.77 ( May 4th, 2026 )
 * update enforcer chart to 2022.4.30
 
