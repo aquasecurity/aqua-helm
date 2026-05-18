@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.79 ( May 18th, 2026 )
+* updated kube-bench version to 0.15.5
+
 ## 2022.4.78 ( May 11th, 2026 )
 * Add new resources in validation webhook when autogenerate secrets is enabled
 
