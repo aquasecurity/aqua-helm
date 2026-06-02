@@ -89,7 +89,7 @@ microEnforcerImage:
 # KubeBench Image
 kubebenchImage:
   repository: "registry.aquasec.com/kube-bench"  # Default aqua registry KubeBench repository name
-  tag: "v0.15.5"
+  tag: "v0.15.6"
 
 # Enable/Disable KB scanning on tainted nodes
 kubeBench:

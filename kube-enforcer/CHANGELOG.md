@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.80 ( June 1st, 2026 )
+* updated kube-bench version to 0.15.6
+
 ## 2022.4.79 ( May 18th, 2026 )
 * updated kube-bench version to 0.15.5
 * added GKE CIS 1.9 benchmark tests
