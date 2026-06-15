@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.81 ( June 15th, 2026 )
+* updated trivy-operator version to 0.31.1, documentation - default to trivy-operator
+
 ## 2022.4.80 ( June 1st, 2026 )
 * updated kube-bench version to 0.15.6
 
