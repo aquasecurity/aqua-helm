@@ -8,7 +8,7 @@ This page provides instructions for using Helm charts to configure and deploy th
 
 - [Aqua KubeEnforcer Helm Charts](#aqua-kubeenforcer-helm-charts)
   - [Contents](#contents)
-  - [Starboard](#starboard)
+  - [Trivy Operator](#trivy-operator)
   - [Prerequisites](#prerequisites)
     - [Container registry credentials](#container-registry-credentials)
     - [Clone the GitHub repository with the charts](#clone-the-github-repository-with-the-charts)
@@ -16,7 +16,7 @@ This page provides instructions for using Helm charts to configure and deploy th
     - [Configure TLS authentication between the KubeEnforcer and the API Server](#configure-tls-authentication-between-the-kubeenforcer-and-the-api-server)
       - [How to use cert-manager to configure TLS authentication between the KubeEnforcer and the API Server](#how-to-use-cert-manager-to-configure-tls-authentication-between-the-kubeenforcer-and-the-api-server)
   - [Deploy the Helm chart](#deploy-the-helm-chart)
-    - [Deploy the KubeEnforcer with Starboard from a Helm private repository](#deploy-the-kubeenforcer-with-starboard-from-a-helm-private-repository)
+    - [Deploy the KubeEnforcer with Trivy Operator from a Helm private repository](#deploy-the-kubeenforcer-with-trivy-operator-from-a-helm-private-repository)
   - [Configuration for discovery](#configuration-for-discovery)
   - [Configuration for performing kube-bench scans](#configuration-for-performing-kube-bench-scans)
   - [4. Configuring KubeEnforcer mTLS with Gateway/Envoy](#4-configuring-kubeenforcer-mtls-with-gatewayenvoy)
@@ -29,19 +29,19 @@ This page provides instructions for using Helm charts to configure and deploy th
   - [Configurable Variables](#configurable-variables)
   - [Issues and feedback](#issues-and-feedback)
 
-## Starboard
+## Trivy Operator
 
-Starboard is an Aqua Security open-source tool that increases the effectiveness of Kubernetes security. For this reason, Starboard is deployed by default when you deploy KubeEnforcers.
+Trivy Operator is the default security scanner for KubeEnforcer in this chart version. The chart enables Trivy Operator by default and keeps Starboard disabled unless you explicitly switch.
 
-> :exclamation: Starboard supported from Kubernetes v1.19.x. Starboard will not be deployed on earlier versions of Kubernetes
+> :exclamation: Only one operator should be enabled per deployment. Use either `trivy.enabled=true` **or** `starboard.enabled=true`.
 
 An important part of Kubernetes security is the evaluation of workload compliance results with respect to Kubernetes Assurance Policies, and preventing the deployment of non-compliant workloads; see Admission control for Kubernetes containers.
 
-When Starboard **is** deployed, it assesses workload compliance throughout the lifecycle of the workloads. This enables the KubeEnforcer to:
+When Trivy Operator **is** deployed, it assesses workload compliance throughout the lifecycle of the workloads. This enables the KubeEnforcer to:
 * Re-evaluate workload compliance during workload runtime, taking any workload and policy changes into account
 * Reflect the results of compliance evaluation in the Aqua UI at all times, not only when workloads are created
 
-When Starboard is **not** deployed, the KubeEnforcer will check workloads for compliance only when the workloads are started.
+When Trivy Operator is **not** deployed, the KubeEnforcer will check workloads for compliance only when the workloads are started.
 
 
 ## Prerequisites
@@ -120,7 +120,7 @@ webhooks:
 ```
 
 ## Deploy the Helm chart
-### Deploy the KubeEnforcer with Starboard from a Helm private repository
+### Deploy the KubeEnforcer with Trivy Operator from a Helm private repository
 
 1. Add Aqua Helm Repository
 
@@ -416,7 +416,22 @@ To perform kube-bench scans in the cluster, the KubeEnforcer needs:
 | `TLS.publicKey_fileName`                                     | Filename of the public key eg: aqua_ke.crt                                                                                                                                                                                                           | `nil`                                    | `Yes` <br /> `if gate.TLS.enabled is set to true`                                                |
 | `TLS.privateKey_fileName`                                    | Filename of the private key eg: aqua_ke.key                                                                                                                                                                                                          | `nil`                                    | `Yes` <br /> `if gate.TLS.enabled is set to true`                                                |
 | `TLS.rootCA_fileName`                                        | Filename of the rootCA, if using self-signed certificates eg: rootCA.crt                                                                                                                                                                             | `nil`                                    | `No` <br /> `if gate.TLS.enabled is set to true and using self-signed certificates for TLS/mTLS` |
-| `starboard.enabled`                                          | Starboard deployment                                                                                                                                                                                                                                 | `true`                                   | `No`                                                                                             |
+| `trivy.enabled`                                              | Trivy Operator deployment. Default scanner for KubeEnforcer                                                                                                                                                                                           | `true`                                   | `No`                                                                                             |
+| `trivy.appName`                                              | Trivy Operator application name                                                                                                                                                                                                                        | `trivy-operator`                         | `Yes`                                                                                            |
+| `trivy.image.registry`                                       | Trivy Operator image registry                                                                                                                                                                                                                          | `docker.io/aquasec`                      | `Yes`                                                                                            |
+| `trivy.image.repository`                                     | Trivy Operator image repository                                                                                                                                                                                                                        | `trivy-operator`                         | `Yes`                                                                                            |
+| `trivy.image.tag`                                            | Trivy Operator image tag                                                                                                                                                                                                                               | `0.31.1`                                 | `Yes`                                                                                            |
+| `trivy.image.pullPolicy`                                     | Trivy Operator image pull policy                                                                                                                                                                                                                       | `IfNotPresent`                           | `Yes`                                                                                            |
+| `trivy.image.secretName`                                     | Secret name used to pull Trivy Operator image from a private registry                                                                                                                                                                                 | `""`                                     | `No`                                                                                             |
+| `trivy.replicaCount`                                         | Trivy Operator replica count                                                                                                                                                                                                                           | `1`                                      | `Yes`                                                                                            |
+| `trivy.ports.metricContainerPort`                            | Trivy Operator metrics port                                                                                                                                                                                                                            | `8080`                                   | `Yes`                                                                                            |
+| `trivy.ports.probeContainerPort`                             | Trivy Operator health probe port                                                                                                                                                                                                                       | `9090`                                   | `Yes`                                                                                            |
+| `trivy.serviceAccount.create`                                | Create Trivy Operator service account                                                                                                                                                                                                                  | `true`                                   | `No`                                                                                             |
+| `trivy.serviceAccount.name`                                  | Trivy Operator service account name                                                                                                                                                                                                                    | `trivy-operator`                         | `Yes`                                                                                            |
+| `trivy.resources`                                            | Trivy Operator resources                                                                                                                                                                                                                               | `{}`                                     | `No`                                                                                             |
+| `trivy.nodeSelector`                                         | Trivy Operator node selectors                                                                                                                                                                                                                          | `{}`                                     | `No`                                                                                             |
+| `trivy.securityContext`                                      | Trivy Operator pod security context                                                                                                                                                                                                                    | `{}`                                     | `No`                                                                                             |
+| `starboard.enabled`                                          | Starboard deployment                                                                                                                                                                                                                                 | `false`                                  | `No`                                                                                             |
 | `starboard.crds.enabled`                                     | Starboard CRDs installation                                                                                                                                                                                                                          | `true`                                   | `No`                                                                                             |
 | `starboard.replicaCount`                                     | Starboard replica count                                                                                                                                                                                                                              | `1`                                      | `Yes`                                                                                            |
 | `starboard.appName`                                          | Starboard application name                                                                                                                                                                                                                           | `starboard-operator`                     | `Yes`                                                                                            |
