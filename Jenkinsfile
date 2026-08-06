@@ -5,7 +5,7 @@ def deployCharts = ['server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-cen
 
 pipeline {
     agent {
-        kubernetes kubernetesAgents.bottlerocket(size: '4xLarge', cloud: 'kubernetes', dind: 'True', capacityType: 'on-demand')
+        kubernetes kubernetesAgents.bottlerocket(size: '4xLarge', cloud: 'kubernetes', dind: 'True', capacityType: 'on-demand', superT: 'True')
     }
     options {
         ansiColor('xterm')
@@ -81,7 +81,7 @@ pipeline {
             steps {
                 script {
                     deployments.installKind()
-                    deployments.createKindCluster clusterName: env.BUILD_NUMBER
+                    deployments.createKindCluster clusterName: env.BUILD_NUMBER, kmsgWorkaround: true
                 }
             }
         }
