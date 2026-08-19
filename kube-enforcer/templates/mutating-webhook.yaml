@@ -4,7 +4,6 @@ apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
   name: {{ .Values.webhooks.mutatingWebhook.name }}
-  namespace: {{ .Release.Namespace }}
   labels:
     role: {{ .Release.Name }}
     app: {{ include "kube-enforcer.fullname" . }}
