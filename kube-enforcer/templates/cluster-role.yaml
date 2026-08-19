@@ -9,7 +9,7 @@ metadata:
 {{ include "aqua.labels" . | indent 4 }}
 rules:
   - apiGroups: ["*"]
-    resources: ["pods", "nodes", "namespaces", "deployments", "jobs", "cronjobs", "daemonsets", "replicasets", "replicationcontrollers", "statefulsets", "clusterroles", "clusterrolebindings", "componentstatuses", "services", "persistentvolumes", "persistentvolumeclaims", "ingresses", "networkpolicies", "customresourcedefinitions", "globalnetworkpolicies" ]
+    resources: ["pods", "nodes", "namespaces", "deployments", "rollouts", "jobs", "cronjobs", "daemonsets", "replicasets", "replicationcontrollers", "statefulsets", "clusterroles", "clusterrolebindings", "componentstatuses", "services", "persistentvolumes", "persistentvolumeclaims", "ingresses", "networkpolicies", "customresourcedefinitions", "globalnetworkpolicies" ]
     verbs: ["get", "list", "watch"]
   - apiGroups: ["aquasecurity.github.io"]
     resources: ["configauditreports", "clusterconfigauditreports"]
@@ -22,6 +22,9 @@ rules:
     verbs: [ "get","list","watch" ]
   - apiGroups: [ "crd.projectcalico.org" ]
     resources: [ "globalnetworkpolicies" ]
+    verbs: [ "get", "list", "watch" ]
+  - apiGroups: [ "argoproj.io" ]
+    resources: [ "rollouts" ]
     verbs: [ "get", "list", "watch" ]
   - apiGroups: [ "" ]
     resources: [ "persistentvolumes", "persistentvolumeclaims" ]
@@ -239,6 +242,14 @@ rules:
       - apps.openshift.io
     resources:
       - deploymentconfigs
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - rollouts
     verbs:
       - get
       - list
