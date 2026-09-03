@@ -1,4 +1,5 @@
-@Library('aqua-pipeline-lib@master') _
+// DO NOT MERGE - throwaway CI smoke test for DEVOPS-2240 enforcer unpin (pipeline-libs branch lihiz_revert_pr_1857).
+@Library('aqua-pipeline-lib@lihiz_revert_pr_1857') _
 
 def charts = ['server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager', 'codesec-agent']
 def deployCharts = ['server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-center'] // DT-17460: disabled codesec-agent
