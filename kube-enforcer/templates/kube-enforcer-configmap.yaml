@@ -52,7 +52,11 @@ data:
 {{- $gateway := .Values.global.gateway | default (dict) }}
   AQUA_GATEWAY_SECURE_ADDRESS: {{ $gateway.address | default "aqua-gateway-svc" }}:{{ $gateway.port | default "8443" }}
   AQUA_KAP_ADD_ALL_CONTROL: "true"
-  AQUA_WATCH_CONFIG_AUDIT_REPORT: "true"
+  # KE checks at runtime that the config-audit CRDs are installed before watching them,
+  # so this stays true unless the user opts out via watchConfigAuditReport. The accepted
+  # off spellings match KE's own parsing in utils.GetEnvAsBoolWthDefaultVal.
+  {{- $watchCAR := lower (toString .Values.watchConfigAuditReport) }}
+  AQUA_WATCH_CONFIG_AUDIT_REPORT: {{ if or (eq $watchCAR "false") (eq $watchCAR "no") (eq $watchCAR "0") }}"false"{{ else }}"true"{{ end }}
 {{- if .Values.kubeEnforcerAdvance.enable }}
   AQUA_TLS_PORT: "8449"
   AQUA_KE_SERVER_PORT: "8442"
