@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.84 ( September 24th, 2026 )
+* Set AQUA_WATCH_CONFIG_AUDIT_REPORT from starboard/trivy operator enablement
+
 ## 2022.4.83 ( August 18th, 2026 )
 * Add optional NetworkPolicy support for kube-enforcer
 

@@ -52,7 +52,10 @@ data:
 {{- $gateway := .Values.global.gateway | default (dict) }}
   AQUA_GATEWAY_SECURE_ADDRESS: {{ $gateway.address | default "aqua-gateway-svc" }}:{{ $gateway.port | default "8443" }}
   AQUA_KAP_ADD_ALL_CONTROL: "true"
-  AQUA_WATCH_CONFIG_AUDIT_REPORT: "true"
+  # KAP config-audit work is driven by Trivy Operator or Starboard Operator.
+  # When neither is deployed, tell KE not to watch or re-evaluate their CRDs
+  # so it does not log errors for kinds that are not installed.
+  AQUA_WATCH_CONFIG_AUDIT_REPORT: {{ or .Values.starboard.enabled .Values.trivy.enabled | quote }}
 {{- if .Values.kubeEnforcerAdvance.enable }}
   AQUA_TLS_PORT: "8449"
   AQUA_KE_SERVER_PORT: "8442"
