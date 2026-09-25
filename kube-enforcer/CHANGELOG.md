@@ -155,7 +155,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2022.4.37 ( Jan 3rd, 2024 )
 * Updated enforcer chart version to 2022.4.19
-* Update startboard version to 0.15.19
+* Update starboard version to 0.15.19
 * Update kube-bench version to v0.7.0
 
 ## 2022.4.36 ( Dec 14th, 2023 )
