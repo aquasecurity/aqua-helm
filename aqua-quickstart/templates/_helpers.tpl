@@ -97,3 +97,10 @@ Create chart name and version as used by the chart label.
 {{-   fail "A valid .Values.global.platform entry is required.\nPlease provide one of the following options: aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s, mke" }}
 {{- end }}
 {{- end }}
+{{- define "serviceAccountTrivy" -}}
+{{- if .Values.trivy.serviceAccount.create -}}
+    {{ .Values.trivy.serviceAccount.name | default (printf "%s-trivy-sa" .Release.Name) }}
+{{- else if not .Values.trivy.serviceAccount.create -}}
+    {{ .Values.trivy.serviceAccount.name | default (printf "%s-sa" .Release.Name) }}
+{{- end -}}
+{{- end -}}
