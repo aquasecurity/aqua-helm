@@ -4,8 +4,52 @@ metadata:
   name: {{ .Values.ke.clusterRole.name }}
 rules:
   - apiGroups: ["*"]
-    resources: ["pods", "nodes", "namespaces", "deployments", "jobs", "cronjobs", "daemonsets", "replicasets", "replicationcontrollers", "statefulsets", "clusterroles", "clusterrolebindings", "componentstatuses", "services" ]
+    resources: ["pods", "nodes", "namespaces", "deployments", "jobs", "cronjobs", "daemonsets", "replicasets", "replicationcontrollers", "statefulsets", "clusterroles", "clusterrolebindings", "componentstatuses", "services", "persistentvolumes", "persistentvolumeclaims", "ingresses", "networkpolicies", "customresourcedefinitions", "globalnetworkpolicies" ]
     verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: [ "serviceaccounts" ]
+    verbs: [ "get","list","watch" ]
+  - apiGroups: [ "crd.projectcalico.org" ]
+    resources: [ "globalnetworkpolicies" ]
+    verbs: [ "get", "list", "watch" ]
+  - apiGroups: [ "" ]
+    resources: [ "persistentvolumes", "persistentvolumeclaims" ]
+    verbs: [ "get", "list", "watch" ]
+  - apiGroups: [ "networking.k8s.io" ]
+    resources: [ "ingresses", "networkpolicies" ]
+    verbs: [ "get", "list", "watch" ]
+  {{- if eq .Values.platform "openshift"}}
+  - apiGroups: ["operator.openshift.io"]
+    resources: ["imagecontentsourcepolicies", "openshiftapiservers", "kubeapiservers"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [ "config.openshift.io" ]
+    resources: [ "imagedigestmirrorsets", "imagetagmirrorsets" ]
+    verbs: [ "get", "list", "watch" ]
+  - apiGroups: [ "apps.openshift.io" ]
+    resources: [ "deploymentconfigs" ]
+    verbs: [ "get", "list", "watch" ]
+  - apiGroups: ["*"]
+    resources: ["pods","namespaces"]
+    verbs: ["create", "delete"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
+  - apiGroups: [ "" ]
+    resources: [ "endpoints" ]
+    verbs: [ "list" ]
+  - apiGroups: [ "config.openshift.io" ]
+    resources: [ "clusteroperators" ]
+    verbs: [ "get", "list" ]
+  - apiGroups: ["security.openshift.io"]
+    resources: ["securitycontextconstraints"]
+    verbs: ["get", "list"]
+  - apiGroups: ["machineconfiguration.openshift.io"]
+    resources: ["machineconfigs", "machineconfigpools"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: [ "pods/log" ]
+    verbs: [ "get" ]
+  {{- end }}
   - apiGroups: [ "*" ]
     resources: [ "secrets" ]
     verbs: [ "get", "list", "watch", "update", "create", "delete" ]
@@ -34,123 +78,3 @@ rules:
       - get
       - list
       - watch
-
-{{- if (semverCompare ">= 1.19" .Capabilities.KubeVersion.GitVersion) }}
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: {{ .Values.starboard.clusterRole.name }}
-  namespace: {{ .Release.Namespace }}
-rules:
-  - apiGroups:
-      - ""
-    resources:
-      - pods
-      - pods/log
-      - replicationcontrollers
-      - services
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - ""
-    resources:
-      - nodes
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - ""
-    resources:
-      - configmaps
-      - secrets
-      - serviceaccounts
-    verbs:
-      - list
-      - watch
-      - get
-      - create
-      - update
-  - apiGroups:
-      - ""
-    resources:
-      - secrets
-    verbs:
-      - delete
-  - apiGroups:
-      - ""
-    resources:
-      - events
-    verbs:
-      - create
-  - apiGroups:
-      - apps
-    resources:
-      - replicasets
-      - statefulsets
-      - daemonsets
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - batch
-    resources:
-      - jobs
-      - cronjobs
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - rbac.authorization.k8s.io
-    resources:
-      - roles
-      - rolebindings
-      - clusterroles
-      - clusterrolebindings
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - apiextensions.k8s.io
-    resources:
-      - customresourcedefinitions
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - batch
-    resources:
-      - jobs
-    verbs:
-      - create
-      - delete
-  - apiGroups:
-      - aquasecurity.github.io
-    resources:
-      - vulnerabilityreports
-      - configauditreports
-      - clusterconfigauditreports
-      - ciskubebenchreports
-    verbs:
-      - get
-      - list
-      - watch
-      - create
-      - update
-      - delete
-  - apiGroups:
-      - coordination.k8s.io
-    resources:
-      - leases
-    verbs:
-      - create
-      - get
-      - update
-{{- end }}

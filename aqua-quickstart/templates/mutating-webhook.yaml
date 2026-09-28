@@ -19,7 +19,4 @@ webhooks:
         namespace: {{ .Release.Namespace }}
         name: {{ include "kube-enforcer.fullname" . }}
         path: "/mutate"
-    timeoutSeconds: 5
-    failurePolicy: Ignore
-    admissionReviewVersions: ["v1beta1"]
-    sideEffects: "None"
+    timeoutSeconds: {{ .Values.ke.webhooks.mutatingWebhook.timeout }}

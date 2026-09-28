@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2022.4.17 (Aug 25th, 2025)
 * Resolving issue [#869](https://github.com/aquasecurity/aqua-helm/issues/869)
-* Aligning PSP refernces to correct K8s versions
+* Aligning PSP references to correct K8s versions
 * PR[#984](https://github.com/aquasecurity/aqua-helm/pull/984)
 
 ## 2022.4.16 (Aug 13th, 2025)
