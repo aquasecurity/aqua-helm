@@ -123,6 +123,14 @@ skipNodes: ""
 # requires a Kube-Enforcer restart.
 featureFlagOverrides: ""
 
+# Watch and re-evaluate the config-audit reports (ConfigAuditReport / ClusterConfigAuditReport)
+# produced by Trivy Operator or Starboard Operator, for Kubernetes Assurance Policy (KAP) results.
+# Kube-Enforcer checks once, early in its run, that the report CRDs are installed and skips any
+# that are not, so leave this true even when trivy.enabled and starboard.enabled are both false -
+# including when the operator is installed outside this chart.
+# Set to false to turn KAP config-audit processing off entirely.
+watchConfigAuditReport: true
+
 # Set create to false if you want to use an existing secret for the kube-enforcer certs
 # If certsSecret.create and certsSecret.name defined then need provide certsSecret.serverCertificate and
 # certsSecret.serverKey and webhooks.caBundle encrypted with base64 and secret for TLS connectivity with kube-api will be created

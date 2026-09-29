@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.84 ( September 24th, 2026 )
+* Add `watchConfigAuditReport` (default `true`) to turn off KubeEnforcer config-audit report processing
+
 ## 2022.4.83 ( August 18th, 2026 )
 * Add optional NetworkPolicy support for kube-enforcer
 
