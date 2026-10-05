@@ -27,6 +27,7 @@ This page provides instructions for using Helm charts to configure and deploy th
   - [NetworkPolicy (optional)](#networkpolicy-optional)
   - [Configuration for KubeEnforcer with cert-manager](#configuration-for-kubeenforcer-with-cert-manager)
   - [Integrate Kube-Enforcer with Hashicorp Vault to Load Token](#integrate-kube-enforcer-with-hashicorp-vault-to-load-token)
+  - [Argo Rollouts support](#argo-rollouts-support)
   - [Configurable Variables](#configurable-variables)
   - [Issues and feedback](#issues-and-feedback)
 
@@ -588,6 +589,15 @@ When `networkPolicy.enabled=true`, a too-restrictive ingress rule blocks apiserv
 * Kube-enforcer charts supports to load token values from vault by vault-agent using annotations. To enable the Vault integration enable `vaultSecret.enabled=true`, add vault secret filepath `vaultSecret.vaultFilepath= ""` and uncomment the `vaultAnnotations`.
 * When `networkPolicy.enabled=true`, configure Vault egress: `networkPolicy.vaultNamespace` for in-cluster Vault (port 8200, `vaultExternal=false`), or `networkPolicy.vaultExternal=true` with `vaultEgressCidrs` / `allowInternetHttps=true` for HCP/SaaS Vault on 443.
 * `vaultAnnotations` - Change the vault annotations according as per your vault setup, Annotations support both self-hosted and SaaS Vault setups.
+
+## Argo Rollouts support
+This chart includes the Kubernetes resources required by KubeEnforcer versions that support [Argo Rollouts](https://argo-rollouts.readthedocs.io/) (`argoproj.io/v1alpha1`). When Argo Rollouts is installed, no additional KubeEnforcer Helm configuration is required; the chart configures:
+* the KubeEnforcer validating webhook to receive `CREATE` and `UPDATE` admission requests for `argoproj.io/v1alpha1` `rollouts` and `rollouts/scale`
+* read-only access (`get`, `list`, `watch`) to `argoproj.io` `rollouts` for the KubeEnforcer service account
+
+Installing this chart does not by itself add Rollout processing to KubeEnforcer. Policy evaluation for Rollout resources requires a KubeEnforcer version that implements Argo Rollouts support, and support for specific Rollout configurations depends on that version.
+
+Argo Rollouts, including its CRDs, is not installed or managed by this chart. On clusters without Argo Rollouts, these webhook and RBAC rules have no effect.
 
 ## Configurable Variables
 

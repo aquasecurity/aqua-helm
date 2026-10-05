@@ -85,6 +85,14 @@ webhooks:
           - ingresses
           - networkpolicies
           - globalnetworkpolicies
+      - operations: ["CREATE", "UPDATE"]
+        apiGroups:
+          - argoproj.io
+        apiVersions:
+          - v1alpha1
+        resources:
+          - rollouts
+          - rollouts/scale
     clientConfig:
       {{- if not .Values.webhooks.certManager }}
       caBundle: {{ $rootCaCert }}
