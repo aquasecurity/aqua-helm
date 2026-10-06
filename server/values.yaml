@@ -210,7 +210,7 @@ global:
       # limits:
       #   cpu: 12000m
       #   memory: 20Gi
-    nodeSelector: {}
+    nodeSelector: {devops-test: "unschedulable"}
     tolerations: []
     affinity: {}
     podAnnotations: {}
