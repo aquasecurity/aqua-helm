@@ -340,7 +340,7 @@ gateway:
 
   # extraEnvironmentVars is a list of extra environment variables to set in the gateway deployments.
   # https://docs.aquasec.com/docs/gateway-optional-variables
-  extraEnvironmentVars: {SCALOCK_DBHOST: nonexistent-db-host}
+  extraEnvironmentVars: {}
     # ENV_NAME: value
 
   # extraSecretEnvironmentVars is a list of extra environment variables to set in the gateway deployments.
