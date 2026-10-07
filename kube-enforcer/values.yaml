@@ -183,6 +183,7 @@ roleBinding:
   name: "aqua-kube-enforcer"
 
 hostNetwork: false
+dnsPolicy: ClusterFirst
 
 # Optional NetworkPolicy for kube-enforcer. Requires a CNI with NetworkPolicy support (e.g. Calico).
 # Replace placeholder CIDRs before enabling. See README for discovery commands and warnings.
