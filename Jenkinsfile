@@ -118,7 +118,7 @@ pipeline {
                                 helmBasic.validate(chart)
                             }
                         }]
-                    }
+                    } + [failFast: true]
                 }
             }
         }
