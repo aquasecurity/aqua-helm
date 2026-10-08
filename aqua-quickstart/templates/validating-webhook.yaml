@@ -16,10 +16,11 @@ webhooks:
           - pods
           - deployments
           - deployments/scale
+          - deploymentconfigs
           - replicasets
           - replicasets/scale
           - replicationcontrollers
-          - replicationcontrollers/sccale
+          - replicationcontrollers/scale
           - statefulsets
           - statefulsets/scale
           - daemonsets
@@ -32,12 +33,14 @@ webhooks:
           - clusterroles
           - clusterrolebindings
           - customresourcedefinitions
+          - persistentvolumes
+          - persistentvolumeclaims
+          - ingresses
+          - networkpolicies
+          - globalnetworkpolicies
     clientConfig:
       caBundle: {{ template "caBundle" . }}
       service:
         namespace: {{ .Release.Namespace }}
         name: {{ include "kube-enforcer.fullname" . }}
-    timeoutSeconds: 5
-    failurePolicy: Ignore
-    admissionReviewVersions: ["v1beta1"]
-    sideEffects: "None"
+    timeoutSeconds: {{ .Values.ke.webhooks.validatingWebhook.timeout }}

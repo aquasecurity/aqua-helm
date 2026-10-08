@@ -88,61 +88,28 @@ ke:
     failurePolicy: Ignore
     validatingWebhook:
       name: kube-enforcer-admission-hook-config
+      timeout: 2
     mutatingWebhook:
       name: kube-enforcer-me-injection-hook-config
+      timeout: 2
 
-starboard:
-  enabled: "true"
-  appName: "starboard-operator"
-  serviceAccount:
-    name: "starboard-operator"
-  clusterRoleBinding:
-    name: "starboard-operator"
-  clusterRole:
-    name: "starboard-operator"
-  automountServiceAccountToken: "true"
-  securityContext: {}
+trivy:
+  enabled: true    # Trivy Operator; set to false to deploy KubeEnforcer without it
+  appName: "trivy-operator"
   image:
-    repositoryUriPrefix: "registry.aquasec.com"
-    repository: "starboard-operator"
-    tag: "0.15.32"
-    pullPolicy: Always
-  container_securityContext:
-    privileged: false
-    readOnlyRootFilesystem: true
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop:
-        - ALL
-  OPERATOR_NAMESPACE: "aqua"
-  OPERATOR_TARGET_NAMESPACES: ""
-  OPERATOR_EXCLUDE_NAMESPACES: "kube-system"
-  OPERATOR_LOG_DEV_MODE: "false"
-  OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT: "10"
-  OPERATOR_SCAN_JOB_RETRY_AFTER: "30s"
-  OPERATOR_METRICS_BIND_ADDRESS: ":8080"
-  OPERATOR_HEALTH_PROBE_BIND_ADDRESS: ":9090"
-  OPERATOR_CIS_KUBERNETES_BENCHMARK_ENABLED: "false"
-  OPERATOR_VULNERABILITY_SCANNER_ENABLED: "false"
-  OPERATOR_BATCH_DELETE_LIMIT: "10"
-  OPERATOR_BATCH_DELETE_DELAY: "10s"
-
-  conftest_resources_requests_cpu: "1m"
-  conftest_resources_requests_memory: "10M"
-  conftest_resources_limits_cpu: "15m"
-  conftest_resources_limits_memory: "40M"
-
+    registry: "docker.io/aquasec"
+    repository: "trivy-operator"
+    tag: "0.31.1"
+    pullPolicy: IfNotPresent
+    # Reference the secret for private registry
+    secretName: ""
+  replicaCount: 1
   ports:
     metricContainerPort: 8080
-    probeCntainerPort: 9090
-  readinessProbe:
-    httpGet:
-      path: /readyz/
-      port: probes
-    initialDelaySeconds: 5
-    periodSeconds: 10
-    successThreshold: 1
-    failureThreshold: 3
+    probeContainerPort: 9090
+  serviceAccount:
+    create: true
+    name: "trivy-operator"
   livenessProbe:
     httpGet:
       path: /healthz/
@@ -151,6 +118,10 @@ starboard:
     periodSeconds: 10
     successThreshold: 1
     failureThreshold: 10
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  securityContext: {}
 
 db:
   external:
