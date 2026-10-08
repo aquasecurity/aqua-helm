@@ -29,6 +29,9 @@ rules:
   - apiGroups: [ "networking.k8s.io" ]
     resources: [ "ingresses", "networkpolicies" ]
     verbs: [ "get", "list", "watch" ]
+  - apiGroups: [ "argoproj.io" ]
+    resources: [ "rollouts" ]
+    verbs: [ "get", "list", "watch" ]
   {{- if eq .Values.global.platform "openshift"}}
   - apiGroups: ["operator.openshift.io"]
     resources: ["imagecontentsourcepolicies", "openshiftapiservers", "kubeapiservers"]

@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.84 ( October 1st, 2026 )
+* Add Helm configuration for KubeEnforcer Argo Rollouts support: add validating webhook rules for `argoproj.io/v1alpha1` `rollouts` and `rollouts/scale`, and read-only Rollout access to the KubeEnforcer ClusterRole
+
 ## 2022.4.83 ( August 18th, 2026 )
 * Add optional NetworkPolicy support for kube-enforcer
 
