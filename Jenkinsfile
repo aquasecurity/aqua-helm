@@ -1,4 +1,4 @@
-@Library('aqua-pipeline-lib@master') _
+@Library('aqua-pipeline-lib@DEVOPS-2396-helmbasic-use-kubectl-pod-status') _
 
 def charts = ['server', 'kube-enforcer', 'enforcer', 'gateway', 'aqua-quickstart', 'cyber-center', 'cloud-connector', 'scanner', 'tenant-manager', 'codesec-agent']
 def deployCharts = ['server', 'kube-enforcer', 'enforcer', 'scanner', 'cyber-center'] // DT-17460: disabled codesec-agent
