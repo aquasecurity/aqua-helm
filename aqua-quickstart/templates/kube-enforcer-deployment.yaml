@@ -11,6 +11,8 @@ spec:
   replicas: 1
   template:
     metadata:
+      annotations:
+        checksum/certs: {{ include (print $.Template.BasePath "/kube-enforcer-certs.yaml") . | sha256sum }}
       labels:
         app: {{ include "kube-enforcer.fullname" . }}
         aqua.component: kubeenforcer
@@ -58,8 +60,6 @@ spec:
             - name: AQUA_GATEWAY_SECURE_ADDRESS
               value: {{ .Release.Name }}-gateway-svc:8443
             - name: AQUA_KAP_ADD_ALL_CONTROL
-              value: "true"
-            - name: AQUA_WATCH_CONFIG_AUDIT_REPORT
               value: "true"
             - name: AQUA_TLS_PORT
               value: "8443"
