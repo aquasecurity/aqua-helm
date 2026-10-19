@@ -123,6 +123,11 @@ skipNodes: ""
 # requires a Kube-Enforcer restart.
 featureFlagOverrides: ""
 
+# Port of the dedicated Kube-Enforcer Prometheus listener, which serves /metrics over plain HTTP.
+# Passed to Kube-Enforcer as AQUA_PROMETHEUS_PORT. Kube-Enforcer validates it (1-65535, must not
+# collide with its other ports) and skips only the Prometheus listener if it is invalid.
+prometheusPort: 8996
+
 # Set create to false if you want to use an existing secret for the kube-enforcer certs
 # If certsSecret.create and certsSecret.name defined then need provide certsSecret.serverCertificate and
 # certsSecret.serverKey and webhooks.caBundle encrypted with base64 and secret for TLS connectivity with kube-api will be created
