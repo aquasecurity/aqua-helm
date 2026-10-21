@@ -124,8 +124,12 @@ skipNodes: ""
 featureFlagOverrides: ""
 
 # Port of the dedicated Kube-Enforcer Prometheus listener, which serves /metrics over plain HTTP.
-# Passed to Kube-Enforcer as AQUA_PROMETHEUS_PORT. Kube-Enforcer validates it (1-65535, must not
-# collide with its other ports) and skips only the Prometheus listener if it is invalid.
+# Passed to Kube-Enforcer as AQUA_PROMETHEUS_PORT, and also used for the container's named
+# "prometheus" port and the NetworkPolicy ingress port, so changing it updates all three.
+# This only sets the port; it does not turn the listener on or off (0 is not a disable switch).
+# Kube-Enforcer opens the listener only while both the Console global setting and the Enforcer
+# Group setting for Kube-Enforcer Prometheus metrics are enabled. Kube-Enforcer validates the
+# port (1-65535, no collision with its other ports) and skips only the Prometheus listener if invalid.
 prometheusPort: 8996
 
 # Set create to false if you want to use an existing secret for the kube-enforcer certs
