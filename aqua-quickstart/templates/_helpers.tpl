@@ -75,16 +75,48 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{/*
+KubeEnforcer webhook TLS material when ke.certsSecret.autoGenerate is set: a CA and a server certificate generated
+as the kube-enforcer chart does, reusing the existing Secret on upgrade. Generated once per render and kept in
+.Values, so the Secret, both webhooks and the deployment checksum all see the same CA.
+*/}}
+{{- define "keGeneratedCerts" -}}
+{{- if not .Values.ke.certsSecret.generated }}
+{{- $secret := lookup "v1" "Secret" .Release.Namespace .Values.ke.certsSecret.name }}
+{{- if and $secret (index ($secret.data | default dict) "ca.crt") }}
+{{- $_ := set .Values.ke.certsSecret "generated" (dict "ca" (index $secret.data "ca.crt") "cert" (index $secret.data "server.crt") "key" (index $secret.data "server.key")) }}
+{{- else }}
+{{- $name := include "kube-enforcer.fullname" . }}
+{{- $altNames := list (printf "%s.%s" $name .Release.Namespace) (printf "%s.%s.svc" $name .Release.Namespace) }}
+{{- $ca := genCA "kube-enforcer-ca" 365 }}
+{{- $cert := genSignedCert $name nil $altNames 365 $ca }}
+{{- $_ := set .Values.ke.certsSecret "generated" (dict "ca" ($ca.Cert | b64enc) "cert" ($cert.Cert | b64enc) "key" ($cert.Key | b64enc)) }}
+{{- end }}
+{{- end }}
+{{- end -}}
+
 {{- define "serverCertificate" }}
+{{- if .Values.ke.certsSecret.autoGenerate }}
+{{- include "keGeneratedCerts" . }}{{ .Values.ke.certsSecret.generated.cert }}
+{{- else }}
 {{- printf "%s" (required "A valid .Values.ke.certsSecret.serverCertificate entry required!" .Values.ke.certsSecret.serverCertificate) | replace "\n" "" }}
+{{- end }}
 {{- end }}
 
 {{- define "serverKey" }}
+{{- if .Values.ke.certsSecret.autoGenerate }}
+{{- include "keGeneratedCerts" . }}{{ .Values.ke.certsSecret.generated.key }}
+{{- else }}
 {{- printf "%s" (required "A valid .Values.ke.certsSecret.serverKey entry required!" .Values.ke.certsSecret.serverKey) | replace "\n" "" }}
+{{- end }}
 {{- end }}
 
 {{- define "caBundle" }}
+{{- if .Values.ke.certsSecret.autoGenerate }}
+{{- include "keGeneratedCerts" . }}{{ .Values.ke.certsSecret.generated.ca }}
+{{- else }}
 {{- printf "%s" (required "A valid .Values.ke.webhooks.caBundle entry required!" .Values.ke.webhooks.caBundle) | replace "\n" "" }}
+{{- end }}
 {{- end }}
 
 {{- define "imageCredentials_name" }}
@@ -94,6 +126,13 @@ Create chart name and version as used by the chart label.
 {{- define "platform" }}
 {{- $platform := .Values.platform }}
 {{- if not $platform }}
-{{-   fail "A valid .Values.global.platform entry is required.\nPlease provide one of the following options: aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s, mke" }}
+{{-   fail "A valid .Values.platform entry is required.\nPlease provide one of the following options: aks, eks, gke, openshift, tkg, tkgi, k8s, rancher, gs, k3s, mke" }}
 {{- end }}
 {{- end }}
+{{- define "serviceAccountTrivy" -}}
+{{- if .Values.trivy.serviceAccount.create -}}
+    {{ .Values.trivy.serviceAccount.name | default (printf "%s-trivy-sa" .Release.Name) }}
+{{- else if not .Values.trivy.serviceAccount.create -}}
+    {{ .Values.trivy.serviceAccount.name | default (printf "%s-sa" .Release.Name) }}
+{{- end -}}
+{{- end -}}
