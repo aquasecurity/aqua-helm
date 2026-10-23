@@ -60,6 +60,11 @@ data:
   AQUA_TLS_PORT: "8443"
 {{- end }}
   AQUA_PROMETHEUS_PORT: {{ include "kube-enforcer.prometheusPort" . | quote }}
+  {{- /* Only an explicit false disables: a missing key (e.g. --reuse-values from an older chart)
+  must keep the listener allowed, and `default true` would turn an explicit false back into true. */}}
+  {{- if eq (toString .Values.prometheusListenerEnabled | lower) "false" }}
+  AQUA_DISABLE_PROMETHEUS_LISTENER: "true"
+  {{- end }}
   AQUA_KB_SCAN_TAINTED_NODES: "{{ .Values.kubeBench.scanTainted }}"
   {{- if .Values.featureFlagOverrides }}
   # Feature flags pinned locally; the console/Gateway cannot change these. Restart required to apply.

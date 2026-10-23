@@ -127,10 +127,19 @@ featureFlagOverrides: ""
 # Passed to Kube-Enforcer as AQUA_PROMETHEUS_PORT, and also used for the container's named
 # "prometheus" port and the NetworkPolicy ingress port, so changing it updates all three.
 # This only sets the port; it does not turn the listener on or off (0 is not a disable switch).
-# Kube-Enforcer opens the listener only while both the Console global setting and the Enforcer
-# Group setting for Kube-Enforcer Prometheus metrics are enabled. Kube-Enforcer validates the
-# port (1-65535, no collision with its other ports) and skips only the Prometheus listener if invalid.
+# Kube-Enforcer opens the listener only while prometheusListenerEnabled allows it and both the
+# Console global setting and the Enforcer Group setting for Kube-Enforcer Prometheus metrics are
+# enabled. Kube-Enforcer validates the port (1-65535, no collision with its other ports) and skips
+# only the Prometheus listener if invalid.
 prometheusPort: 8996
+
+# Set to false to keep the dedicated Prometheus listener off regardless of the Console global and
+# Enforcer Group settings. Renders AQUA_DISABLE_PROMETHEUS_LISTENER: "true"; true (the default) or
+# leaving it unset renders nothing, so the Console settings decide. Applied at Kube-Enforcer startup;
+# a helm upgrade that changes this value rolls the Kube-Enforcer pod automatically through the
+# ConfigMap checksum. Does not affect /metrics on the health port (8080) or prometheusPort, and the
+# container port and NetworkPolicy port are still declared.
+prometheusListenerEnabled: true
 
 # Set create to false if you want to use an existing secret for the kube-enforcer certs
 # If certsSecret.create and certsSecret.name defined then need provide certsSecret.serverCertificate and

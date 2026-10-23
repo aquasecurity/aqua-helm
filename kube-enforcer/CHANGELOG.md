@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.86 ( October 23rd, 2026 )
+* Add `prometheusListenerEnabled` value (default `true`); setting it to `false` renders `AQUA_DISABLE_PROMETHEUS_LISTENER: "true"`, which keeps the KubeEnforcer dedicated Prometheus listener off regardless of the Console settings
+
 ## 2022.4.85 ( October 15th, 2026 )
 * Add `prometheusPort` value (default `8996`) to configure the KubeEnforcer Prometheus listener port, passed to KubeEnforcer as `AQUA_PROMETHEUS_PORT`, declared as the named `prometheus` container port and allowed by the optional NetworkPolicy ingress rule
 
