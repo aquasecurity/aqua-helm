@@ -87,6 +87,8 @@ spec:
       ports:
         - protocol: TCP
           port: 8443
+        - protocol: TCP
+          port: {{ include "kube-enforcer.prometheusPort" . }}
         {{- $probePorts := include "networkPolicy.probePorts" . | trim }}
         {{- if $probePorts }}
         {{- $probePorts | nindent 8 }}

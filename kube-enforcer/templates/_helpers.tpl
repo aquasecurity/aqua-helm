@@ -269,6 +269,16 @@ sidecar's probe.
 {{- end -}}
 
 {{/*
+The dedicated Prometheus listener port (.Values.prometheusPort, default 8996). The ConfigMap
+(AQUA_PROMETHEUS_PORT), the container's named "prometheus" port and the NetworkPolicy ingress
+port all read it from here so they can't drift apart. Validation is left to kube-enforcer,
+which skips only the Prometheus listener on an invalid or colliding port.
+*/}}
+{{- define "kube-enforcer.prometheusPort" -}}
+{{- .Values.prometheusPort | default 8996 -}}
+{{- end -}}
+
+{{/*
 Common labels
 */}}
 {{- define "aqua.labels" -}}

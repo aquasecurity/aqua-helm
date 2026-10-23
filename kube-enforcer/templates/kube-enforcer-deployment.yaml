@@ -92,6 +92,9 @@ spec:
             - containerPort: 8449
             - containerPort: 8442
           {{- end }}
+            - name: prometheus
+              containerPort: {{ include "kube-enforcer.prometheusPort" . }}
+              protocol: TCP
           {{- if not .Values.kubeEnforcerAdvance.enable }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
