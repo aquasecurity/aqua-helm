@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.86 ( October 26th, 2026 )
+* Add `metricsEnabled` value (default `true`), rendered as `AQUA_ENABLE_METRICS`: `true` enables KubeEnforcer `kube_enforcer_*` metric collection and lets the dedicated Prometheus listener open while the Console global and Enforcer Group settings are enabled; `false` disables collection and keeps the listener closed regardless of the Console
+* `metricsEnabled` defaults to `true`, so `kube_enforcer_*` metric collection is now enabled by default (also on the health-monitor `/metrics` endpoint); set `metricsEnabled: false` to disable it
+
 ## 2022.4.85 ( October 15th, 2026 )
 * Add `prometheusPort` value (default `8996`) to configure the KubeEnforcer Prometheus listener port, passed to KubeEnforcer as `AQUA_PROMETHEUS_PORT`, declared as the named `prometheus` container port and allowed by the optional NetworkPolicy ingress rule
 
