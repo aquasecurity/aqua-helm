@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2022.4.84 ( October 1st, 2026 )
 * Add Helm configuration for KubeEnforcer Argo Rollouts support: add validating webhook rules for `argoproj.io/v1alpha1` `rollouts` and `rollouts/scale`, and read-only Rollout access to the KubeEnforcer ClusterRole
+* Remove the unused `AQUA_WATCH_CONFIG_AUDIT_REPORT` setting
 
 ## 2022.4.83 ( August 18th, 2026 )
 * Add optional NetworkPolicy support for kube-enforcer
@@ -161,7 +162,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2022.4.37 ( Jan 3rd, 2024 )
 * Updated enforcer chart version to 2022.4.19
-* Update startboard version to 0.15.19
+* Update starboard version to 0.15.19
 * Update kube-bench version to v0.7.0
 
 ## 2022.4.36 ( Dec 14th, 2023 )

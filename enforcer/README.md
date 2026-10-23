@@ -129,7 +129,7 @@ When migrating from the Aqua Operator to the Helm chart, you can reuse existing 
   The certificate signing request is where you specify the details for the certificate you want to generate.
   This request will be processed by the owner of the Root key (you in this case since you create it earlier) to generate the certificate.
 
-  ***Important:*** Please mind that while creating the signign request is important to specify the `Common Name` providing the IP address or domain name for the service, otherwise the certificate cannot be verified.
+  ***Important:*** Please mind that while creating the signing request is important to specify the `Common Name` providing the IP address or domain name for the service, otherwise the certificate cannot be verified.
 
   - Generating aqua_enforcer csr:
   ```shell
@@ -196,7 +196,7 @@ For more details please visit [Link](https://docs.aquasec.com/docs/kubernetes#se
 Parameter | Description      | Default| Mandatory
 --------- |------------------|--------| ---------
 `serviceAccount.create` | enable to create serviceaccount       | `false`| `YES - New cluster`
-`serviceAccount.name` | service acccount name  | `aqua-sa`| `NO`
+`serviceAccount.name` | service account name  | `aqua-sa`| `NO`
 `serviceAccount.attachImagePullSecret` | attach image pull secret to created service account? | `true` | `NO`
 `clusterRole.create` | Set to false to skip ClusterRole and ClusterRoleBinding creation (useful for operator migration) | `true` | `NO`
 `clusterRole.roleRef` | cluster role reference name for cluster rolebinding| `unset`| `NO`
