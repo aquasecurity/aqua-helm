@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.87 ( October 28th, 2026 )
+* Add `trivy.podLabels`, `trivy.podAnnotations`, `trivy.affinity` and `trivy.priorityClassName` values for the Trivy Operator deployment
+
 ## 2022.4.86 ( October 26th, 2026 )
 * Add `metricsEnabled` value (default `true`), rendered as `AQUA_ENABLE_METRICS`: `true` enables KubeEnforcer `kube_enforcer_*` metric collection and lets the dedicated Prometheus listener open while the Console global and Enforcer Group settings are enabled; `false` disables collection and keeps the listener closed regardless of the Console
 * `metricsEnabled` defaults to `true`, so `kube_enforcer_*` metric collection is now enabled by default (also on the health-monitor `/metrics` endpoint); set `metricsEnabled: false` to disable it

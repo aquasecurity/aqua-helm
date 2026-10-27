@@ -489,6 +489,13 @@ trivy:
   nodeSelector: {}
   tolerations: []
   securityContext: {}
+  # Additional labels for the Trivy Operator pod
+  podLabels: {}
+  # Additional annotations for the Trivy Operator pod
+  podAnnotations: {}
+  affinity: {}
+  # Name of an existing PriorityClass for the Trivy Operator pod
+  priorityClassName: ""
 
 
 ##Kube Enforcer advance deployment options
