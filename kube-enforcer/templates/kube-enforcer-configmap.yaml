@@ -52,7 +52,6 @@ data:
 {{- $gateway := .Values.global.gateway | default (dict) }}
   AQUA_GATEWAY_SECURE_ADDRESS: {{ $gateway.address | default "aqua-gateway-svc" }}:{{ $gateway.port | default "8443" }}
   AQUA_KAP_ADD_ALL_CONTROL: "true"
-  AQUA_WATCH_CONFIG_AUDIT_REPORT: "true"
 {{- if .Values.kubeEnforcerAdvance.enable }}
   AQUA_TLS_PORT: "8449"
   AQUA_KE_SERVER_PORT: "8442"
@@ -60,6 +59,8 @@ data:
 {{- else }}
   AQUA_TLS_PORT: "8443"
 {{- end }}
+  AQUA_PROMETHEUS_PORT: {{ include "kube-enforcer.prometheusPort" . | quote }}
+  AQUA_ENABLE_METRICS: {{ include "kube-enforcer.metricsEnabled" . | quote }}
   AQUA_KB_SCAN_TAINTED_NODES: "{{ .Values.kubeBench.scanTainted }}"
   {{- if .Values.featureFlagOverrides }}
   # Feature flags pinned locally; the console/Gateway cannot change these. Restart required to apply.

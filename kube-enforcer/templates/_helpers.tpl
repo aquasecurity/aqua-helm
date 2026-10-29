@@ -269,6 +269,33 @@ sidecar's probe.
 {{- end -}}
 
 {{/*
+The dedicated Prometheus listener port (.Values.prometheusPort, default 8996). The ConfigMap
+(AQUA_PROMETHEUS_PORT), the container's named "prometheus" port and the NetworkPolicy ingress
+port all read it from here so they can't drift apart. Validation is left to kube-enforcer,
+which skips only the Prometheus listener on an invalid or colliding port.
+*/}}
+{{- define "kube-enforcer.prometheusPort" -}}
+{{- .Values.prometheusPort | default 8996 -}}
+{{- end -}}
+
+{{/*
+AQUA_ENABLE_METRICS from .Values.metricsEnabled, rendered as "true" or "false". A missing key
+(e.g. --reuse-values from a chart before this value existed) keeps the default "true"; `default`
+can't be used because it would also turn an explicit false into true. Accepts a bool or the
+strings "true"/"false" (--set-string), and fails on anything else rather than guessing.
+*/}}
+{{- define "kube-enforcer.metricsEnabled" -}}
+{{- $value := .Values.metricsEnabled -}}
+{{- if kindIs "invalid" $value -}}
+true
+{{- else if has (toString $value | lower) (list "true" "false") -}}
+{{- toString $value | lower -}}
+{{- else -}}
+{{- fail (printf "metricsEnabled must be true or false, got %q" (toString $value)) -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Common labels
 */}}
 {{- define "aqua.labels" -}}

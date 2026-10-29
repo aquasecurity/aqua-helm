@@ -6,3 +6,6 @@ metadata:
 data:
   server.crt: {{ template "serverCertificate" . }}  # place server cert
   server.key: {{ template "serverKey" . }}  # place server key
+{{- if .Values.ke.certsSecret.autoGenerate }}
+  ca.crt: {{ template "caBundle" . }}
+{{- end }}
