@@ -506,6 +506,10 @@ envoy:
     pullPolicy: Always
 
   service:
+    # Set to false to stop rendering the aqua-lb Service.
+    # When migrating to Gateway API, keep it true until all Enforcers have moved
+    # to the Gateway hostname, then upgrade with false.
+    enabled: true
     type: LoadBalancer
     # Specify loadBalancerIP address for envoy in AKS platform
     loadbalancerIP: ""
@@ -696,6 +700,46 @@ envoy:
     #       socket_address:
     #         address: 127.0.0.1
     #         port_value: 8090
+
+# Expose Envoy through the Kubernetes Gateway API using TLS Passthrough.
+# Requirements:
+#   - Gateway API CRDs v1.6.2+ and an implementation that supports TLSRoute with Passthrough
+#   - envoy.enabled=true and envoy.TLS.listener.enabled=true; the Envoy listener
+#     certificate SAN must contain gatewayAPI.hostname
+# The Gateway forwards TLS to Envoy without terminating it; Envoy load balances to the gateways.
+gatewayAPI:
+  enabled: false
+  # REQUIRED. DNS name Enforcers connect with (TLS SNI). IP addresses are not allowed by TLSRoute.
+  # Create a DNS record pointing this name at the Gateway address.
+  hostname: ""
+  gatewayClass:
+    # Set to true only if your Gateway API implementation did not create a GatewayClass
+    # (e.g. Envoy Gateway). Check with: kubectl get gatewayclass
+    create: false
+    # Existing GatewayClass name, or the name to create. Required when gateway.create=true.
+    name: ""
+    # Required when gatewayClass.create=true. Controller of your implementation, e.g.
+    #   gateway.envoyproxy.io/gatewayclass-controller   (Envoy Gateway)
+    #   projectcontour.io/gateway-controller            (Contour)
+    controllerName: ""
+  gateway:
+    # Set to false to attach the TLSRoute to an existing (shared) Gateway instead of creating one.
+    # The existing Gateway's listener must allow routes from this release's namespace.
+    create: true
+    # Gateway name. Defaults to <release>-gateway-proxy when create=true.
+    # Required when create=false.
+    name: ""
+    # Namespace of an existing Gateway (create=false). Defaults to the release namespace.
+    namespace: ""
+    # Listener name. Must match the existing Gateway's listener when create=false.
+    sectionName: aqua-tls-passthrough
+    # REQUIRED when create=true. External listener port Enforcers connect to (integer).
+    port:
+    labels: {}
+    annotations: {}
+  tlsRoute:
+    labels: {}
+    annotations: {}
 
 sidecarContainers:
   enabled: false

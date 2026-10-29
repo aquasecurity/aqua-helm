@@ -15,6 +15,7 @@ These are Helm charts for installation and maintenance of Aqua Container Securit
         - [Installing Aqua Web from Helm Private Repository](#installing-aqua-web-from-helm-private-repository)
     - [Advanced Configuration](#advanced-configuration)
     - [Envoy](#envoy)
+    - [Gateway API](#gateway-api)
     - [Database](#database)
     - [Configuring HTTPS for Aqua's server](#configuring-https-for-aquas-server)
     - [Configuring mTLS/TLS for Aqua Server and Aqua Gateway](#configuring-mtlstls-for-aqua-server-and-aqua-gateway)
@@ -180,6 +181,95 @@ load balancer. Following are the detailed steps to enable and deploy a secure en
    ```
 
 5. For more customizations please refer to [***Configurable Variables***](#configurable-variables)
+
+## Gateway API
+
+As an alternative to the `aqua-lb` LoadBalancer, Envoy can be exposed through the
+[Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) using **TLS Passthrough**. The Gateway forwards TLS
+connections from Enforcers to Envoy without terminating TLS; Envoy terminates TLS and load balances across the
+Aqua Gateway pods.
+
+```
+Enforcer --TLS--> Gateway (Passthrough) --TLS--> Envoy --gRPC--> Aqua Gateway Pods
+```
+
+The Aqua Web Console is not routed through the Gateway API.
+
+### Prerequisites
+
+1. Gateway API CRDs v1.6.2 or later (`TLSRoute` is in the standard channel from v1.6.2).
+2. A Gateway API implementation that supports `TLSRoute` with `Passthrough`. Support varies by implementation and
+   version, and some require it to be enabled explicitly. Check your vendor's documentation.
+3. `envoy.enabled=true` and `envoy.TLS.listener.enabled=true`. With TLS Passthrough, Enforcers receive Envoy's
+   certificate directly, so its SAN must contain `gatewayAPI.hostname`. The chart fails to render otherwise.
+4. A DNS record pointing `gatewayAPI.hostname` at the Gateway address.
+
+### How it works
+
+- `TLSRoute` requires a hostname and does not accept IP addresses, so `gatewayAPI.hostname` is mandatory.
+  Enforcers and KubeEnforcers must connect using this DNS name. Connections by IP, or without SNI, are reset at the
+  Gateway.
+- Check whether your implementation already created a GatewayClass: `kubectl get gatewayclass`. If it did, set
+  `gatewayAPI.gatewayClass.name` to it. Only set `gatewayAPI.gatewayClass.create=true` (with `name` and
+  `controllerName`) if none exists, for example with Envoy Gateway. Do not reuse the name of an existing
+  GatewayClass: its controller cannot be changed. A GatewayClass created by the chart is kept on `helm uninstall`.
+- To attach to an existing, shared Gateway, set `gatewayAPI.gateway.create=false` and set
+  `gatewayAPI.gateway.name`, `namespace` and `sectionName`. That Gateway's listener must allow routes from this
+  release's namespace and use the same hostname.
+- `gatewayAPI.gateway.port` has no default. Choose a port not already used on the Gateway's address (for example
+  when LoadBalancer services share one IP).
+
+### Example values
+
+```yaml
+envoy:
+  enabled: true
+  TLS:
+    listener:
+      enabled: true
+      secretName: envoy-ssl
+      publicKey_fileName: tls.crt
+      privateKey_fileName: tls.key
+
+gatewayAPI:
+  enabled: true
+  hostname: aqua-gw.example.com
+  gatewayClass:
+    create: true            # false if your implementation already created one
+    name: aqua-gateway-class
+    controllerName: gateway.envoyproxy.io/gatewayclass-controller
+  gateway:
+    port: <PORT>
+```
+
+Configure Enforcers and KubeEnforcers with `global.gateway.address=<gatewayAPI.hostname>` and
+`global.gateway.port=<gatewayAPI.gateway.port>`.
+
+> The certificate used by the Aqua Gateway (`gateway.TLS`) must include the names Envoy uses to reach it:
+> `<release>-gateway-svc` and `<release>-gateway-headless-svc.<namespace>.svc.cluster.local`.
+
+> **Limitation:** KubeEnforcer in Advanced mode (`kubeEnforcerAdvance`) uses a fixed TLS server name
+> (`aqua-gateway`) towards the gateway, which a Gateway API listener with a hostname does not accept. Do not use
+> Advanced mode with a Gateway API endpoint until the `kube-enforcer` chart supports a configurable server name.
+
+### Migrating from `aqua-lb`
+
+Migrate in this order so Enforcers are not disconnected:
+
+1. Upgrade with `gatewayAPI.enabled=true`. `aqua-lb` keeps serving.
+2. Verify the Gateway and TLSRoute, create the DNS record, and move all Enforcers and KubeEnforcers to the
+   Gateway hostname and port.
+3. Upgrade with `envoy.service.enabled=false` to remove `aqua-lb`, so Envoy is no longer exposed directly,
+   bypassing the Gateway.
+
+### Verification
+
+```bash
+kubectl get gatewayclass
+kubectl get gateway -n <namespace>          # PROGRAMMED=True, ADDRESS populated
+kubectl get tlsroute -n <namespace>         # Accepted
+openssl s_client -connect <gateway-address>:<PORT> -servername <gatewayAPI.hostname> </dev/null
+```
 
 ## Database
 
@@ -531,6 +621,7 @@ here, change the `subjectAltName` accordingly to your domain.
 | `envoy.image.repository`                            | The docker image name to use                                                                                                                                                                       | `envoyproxy/envoy-alpine`                    | `NO`                                                                                             |
 | `envoy.image.tag`                                   | The image tag to use.                                                                                                                                                                              | `v1.14.1`                                    | `NO`                                                                                             |
 | `envoy.image.pullPolicy`                            | The kubernetes image pull policy.                                                                                                                                                                  | `IfNotPresent`                               | `NO`                                                                                             |
+| `envoy.service.enabled`                             | Render the `aqua-lb` Service. Set to false after migrating Enforcers to the Gateway API hostname so Envoy is no longer exposed directly                                                            | `true`                                       | `NO`                                                                                             |
 | `envoy.service.type`                                | Kubernetes service type                                                                                                                                                                            | `LoadBalancer`                               | `NO`                                                                                             |
 | `envoy.service.loadbalancerIP`                      | Can specify loadBalancerIP address for aqua-web in AKS platform                                                                                                                                    | `null`                                       | `NO`                                                                                             |
 | `envoy.service.annotations`                         | Use this field to pass additional annotations for the service, useful to drive Cloud providers behavior in creating the LB resource. E.g. `service.beta.kubernetes.io/aws-load-balancer-type: nlb` | `{}`                                         | `NO`                                                                                             |
@@ -556,6 +647,20 @@ here, change the `subjectAltName` accordingly to your domain.
 | `envoy.affinity`                                    | Kubernetes node affinity                                                                                                                                                                           | `{}`                                         | `NO`                                                                                             |
 | `envoy.securityContext`                             | Set of security context for the container                                                                                                                                                          | `nil`                                        | `NO`                                                                                             |
 | `envoy.files.envoy.yaml`                            | Content of a full envoy configuration file as documented in https://www.envoyproxy.io/docs/envoy/latest/configuration/configuration                                                                | check [values.yaml](values.yaml)             |                                                                                                  |
+| `gatewayAPI.enabled`                                | Expose Envoy through the Kubernetes Gateway API (TLS Passthrough). Requires `envoy.enabled` and `envoy.TLS.listener.enabled`                                                                       | `false`                                      | `NO`                                                                                             |
+| `gatewayAPI.hostname`                               | DNS name Enforcers connect with (TLS SNI). IP addresses are not allowed. The Envoy listener certificate SAN must contain it                                                                        | `""`                                         | `YES` <br /> `if gatewayAPI.enabled is set to true`                                              |
+| `gatewayAPI.gatewayClass.create`                    | Create a GatewayClass. Set to true only if your implementation did not create one                                                                                                                  | `false`                                      | `NO`                                                                                             |
+| `gatewayAPI.gatewayClass.name`                      | Existing GatewayClass name, or the name to create                                                                                                                                                  | `""`                                         | `YES` <br /> `if gatewayAPI.gateway.create is set to true`                                       |
+| `gatewayAPI.gatewayClass.controllerName`            | Controller of your implementation, e.g. `gateway.envoyproxy.io/gatewayclass-controller`                                                                                                            | `""`                                         | `YES` <br /> `if gatewayAPI.gatewayClass.create is set to true`                                  |
+| `gatewayAPI.gateway.create`                         | Create the Gateway. Set to false to attach the TLSRoute to an existing (shared) Gateway                                                                                                            | `true`                                       | `NO`                                                                                             |
+| `gatewayAPI.gateway.name`                           | Gateway name. Defaults to `<release>-gateway-proxy` when created                                                                                                                                   | `""`                                         | `YES` <br /> `if gatewayAPI.gateway.create is set to false`                                      |
+| `gatewayAPI.gateway.namespace`                      | Namespace of an existing Gateway. Defaults to the release namespace                                                                                                                                | `""`                                         | `NO`                                                                                             |
+| `gatewayAPI.gateway.sectionName`                    | Listener name. Must match the existing Gateway's listener when `gateway.create` is false                                                                                                           | `aqua-tls-passthrough`                       | `NO`                                                                                             |
+| `gatewayAPI.gateway.port`                           | External listener port that Enforcers connect to (integer)                                                                                                                                         | `nil`                                        | `YES` <br /> `if gatewayAPI.gateway.create is set to true`                                       |
+| `gatewayAPI.gateway.labels`                         | Additional labels for the Gateway                                                                                                                                                                  | `{}`                                         | `NO`                                                                                             |
+| `gatewayAPI.gateway.annotations`                    | Additional annotations for the Gateway                                                                                                                                                             | `{}`                                         | `NO`                                                                                             |
+| `gatewayAPI.tlsRoute.labels`                        | Additional labels for the TLSRoute                                                                                                                                                                 | `{}`                                         | `NO`                                                                                             |
+| `gatewayAPI.tlsRoute.annotations`                   | Additional annotations for the TLSRoute                                                                                                                                                            | `{}`                                         | `NO`                                                                                             |
 | `initContainers.enabled`                            | If true, init container definitions will take effect                                                                                                                                               | `Fasle`                                      | `NO`                                                                                             |
 | `initContainers.ContainersDefinitions`              | Container definitions for init containers                                                                                                                                                          | `nil`                                        | `NO`                                                                                             |
 | `sidecarContainers.enabled`                         | If true, init sidecar containers definitions will take effect                                                                                                                                      | `Fasle`                                      | `NO`                                                                                             |

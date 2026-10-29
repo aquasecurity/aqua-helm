@@ -37,6 +37,18 @@ Get Endpoint of aqua gateway to connect enforcers
  $ kubectl get svc/{{ .Release.Name }}-gateway-svc --namespace {{ .Release.Namespace }}
 {{- end }}
 
+{{- if .Values.gatewayAPI.enabled }}
+
+Aqua Gateway is exposed through the Kubernetes Gateway API (TLS Passthrough):
+  $ kubectl get gateway,tlsroute --namespace {{ .Release.Namespace }}
+
+Create a DNS record for {{ .Values.gatewayAPI.hostname }} pointing at the Gateway address, then configure
+Enforcers with:
+  global.gateway.address={{ .Values.gatewayAPI.hostname }}
+  global.gateway.port=<gatewayAPI.gateway.port>
+Enforcers must connect by this DNS name; connections by IP address are rejected by the Gateway.
+{{- end }}
+
 For more information about Aqua Server, you can look over the docs on using:
 https://docs.aquasec.com/v{{ .Chart.AppVersion  }}/platform/aqua-environment-and-configuration/aqua-server-recommendations/
 

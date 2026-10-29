@@ -1,0 +1,21 @@
+{{- if and .Values.envoy.enabled .Values.gatewayAPI.enabled }}
+# ClusterIP backend for the TLSRoute. Separate from aqua-lb so both paths can run during migration.
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-envoy-svc
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-envoy
+    aqua.component: envoy
+{{ include "aqua.labels" . | indent 4 }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .Release.Name }}-envoy
+  ports:
+    - name: https
+      port: 8443
+      targetPort: 8443
+      protocol: TCP
+{{- end }}
