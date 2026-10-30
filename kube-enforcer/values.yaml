@@ -114,9 +114,9 @@ skipNodes: ""
 #
 # Set this in a values file. Helm's --set reads an unescaped comma as a value separator, so it keeps
 # only the first pin and silently discards the rest - and --set-string behaves the same way:
-#   featureFlagOverrides: "SLK-93383=false,KubeBench with KE=true"
+#   featureFlagOverrides: "SLK-93383=true,KubeBench with KE=true"
 # If you must use --set, escape every comma:
-#   --set 'featureFlagOverrides=SLK-93383=false\,KubeBench with KE=true'
+#   --set 'featureFlagOverrides=SLK-93383=true\,KubeBench with KE=true'
 #
 # A pinned flag cannot be changed from the console or by 'kubenf featureflags update', and shows up
 # as "pinned locally" in the Kube-Enforcer health output. Read at startup only, so changing this
