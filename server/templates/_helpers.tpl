@@ -160,4 +160,41 @@ based on env_size, unless explicitly overridden via shmSize
 {{- $shmSize | quote }}
 {{- end }}
 
+{{/*
+Gateway API: name of the Gateway the TLSRoute attaches to
+*/}}
+{{- define "aqua.gatewayAPI.gatewayName" -}}
+{{- if .Values.gatewayAPI.gateway.create -}}
+{{- .Values.gatewayAPI.gateway.name | default (printf "%s-gateway-proxy" .Release.Name) -}}
+{{- else -}}
+{{- required "gatewayAPI.gateway.name is required when gatewayAPI.gateway.create=false" .Values.gatewayAPI.gateway.name -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Gateway API: fail fast on invalid configuration
+*/}}
+{{- define "aqua.gatewayAPI.validate" -}}
+{{- $g := .Values.gatewayAPI -}}
+{{- if not .Values.envoy.enabled -}}
+{{- fail "gatewayAPI.enabled requires envoy.enabled=true" -}}
+{{- end -}}
+{{- if not .Values.envoy.TLS.listener.enabled -}}
+{{- fail "gatewayAPI.enabled requires envoy.TLS.listener.enabled=true: the Envoy listener certificate SAN must contain gatewayAPI.hostname" -}}
+{{- end -}}
+{{- $hostname := required "gatewayAPI.hostname is required (DNS name Enforcers connect with)" $g.hostname -}}
+{{- if regexMatch "^[0-9.]+$|:" $hostname -}}
+{{- fail "gatewayAPI.hostname must be a DNS name; TLSRoute does not accept IP addresses" -}}
+{{- end -}}
+{{- if $g.gateway.create -}}
+{{- if not $g.gatewayClass.name -}}
+{{- fail "gatewayAPI.gatewayClass.name is required when gatewayAPI.gateway.create=true" -}}
+{{- end -}}
+{{- $port := int (required "gatewayAPI.gateway.port is required when gatewayAPI.gateway.create=true" $g.gateway.port) -}}
+{{- if or (lt $port 1) (gt $port 65535) -}}
+{{- fail "gatewayAPI.gateway.port must be an integer between 1 and 65535" -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
 

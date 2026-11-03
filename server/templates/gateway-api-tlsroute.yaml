@@ -1,0 +1,33 @@
+{{- if .Values.gatewayAPI.enabled }}
+{{- include "aqua.gatewayAPI.validate" . }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: TLSRoute
+metadata:
+  name: {{ .Release.Name }}-envoy-passthrough
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-envoy-passthrough
+{{ include "aqua.labels" . | indent 4 }}
+{{- with .Values.gatewayAPI.tlsRoute.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+{{- with .Values.gatewayAPI.tlsRoute.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  parentRefs:
+    - name: {{ include "aqua.gatewayAPI.gatewayName" . }}
+      {{- if not .Values.gatewayAPI.gateway.create }}
+      namespace: {{ .Values.gatewayAPI.gateway.namespace | default .Release.Namespace }}
+      {{- end }}
+      sectionName: {{ .Values.gatewayAPI.gateway.sectionName }}
+  # Required by TLSRoute (Gateway API v1.6+); must match the Gateway listener hostname.
+  hostnames:
+    - {{ .Values.gatewayAPI.hostname | quote }}
+  rules:
+    - backendRefs:
+        - name: {{ .Release.Name }}-envoy-svc
+          port: 8443
+{{- end }}
+

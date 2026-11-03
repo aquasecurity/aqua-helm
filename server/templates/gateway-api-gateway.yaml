@@ -1,0 +1,33 @@
+{{- if .Values.gatewayAPI.enabled }}
+{{- include "aqua.gatewayAPI.validate" . }}
+{{- if .Values.gatewayAPI.gateway.create }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: {{ include "aqua.gatewayAPI.gatewayName" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}-gateway-proxy
+{{ include "aqua.labels" . | indent 4 }}
+{{- with .Values.gatewayAPI.gateway.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+{{- with .Values.gatewayAPI.gateway.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  gatewayClassName: {{ .Values.gatewayAPI.gatewayClass.name | quote }}
+  listeners:
+    - name: {{ .Values.gatewayAPI.gateway.sectionName }}
+      port: {{ int .Values.gatewayAPI.gateway.port }}
+      protocol: TLS
+      hostname: {{ .Values.gatewayAPI.hostname | quote }}
+      tls:
+        mode: Passthrough
+      allowedRoutes:
+        namespaces:
+          from: Same
+{{- end }}
+{{- end }}
+

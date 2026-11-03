@@ -1,0 +1,14 @@
+{{- if and .Values.gatewayAPI.enabled .Values.gatewayAPI.gatewayClass.create }}
+# Optional: only for implementations that do not create a GatewayClass on install.
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: {{ required "gatewayAPI.gatewayClass.name is required when gatewayAPI.gatewayClass.create=true" .Values.gatewayAPI.gatewayClass.name }}
+  labels:
+{{ include "aqua.labels" . | indent 4 }}
+  annotations:
+    # GatewayClass is cluster-scoped and may be shared by other Gateways; keep it on helm uninstall.
+    helm.sh/resource-policy: keep
+spec:
+  controllerName: {{ required "gatewayAPI.gatewayClass.controllerName is required when gatewayAPI.gatewayClass.create=true" .Values.gatewayAPI.gatewayClass.controllerName | quote }}
+{{- end }}
