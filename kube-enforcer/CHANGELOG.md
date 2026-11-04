@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.87 ( October 28th, 2026 )
+* Add `trivy.podLabels`, `trivy.podAnnotations`, `trivy.affinity` and `trivy.priorityClassName` values for the Trivy Operator deployment
+
 ## 2022.4.86 ( October 26th, 2026 )
 * The KubeEnforcer Prometheus listener on `prometheusPort` opens only while both the Console global and Enforcer Group Prometheus settings are enabled; `AQUA_ENABLE_METRICS` is not required and the chart does not set it
 
