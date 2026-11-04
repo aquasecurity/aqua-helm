@@ -279,23 +279,6 @@ which skips only the Prometheus listener on an invalid or colliding port.
 {{- end -}}
 
 {{/*
-AQUA_ENABLE_METRICS from .Values.metricsEnabled, rendered as "true" or "false". A missing key
-(e.g. --reuse-values from a chart before this value existed) keeps the default "true"; `default`
-can't be used because it would also turn an explicit false into true. Accepts a bool or the
-strings "true"/"false" (--set-string), and fails on anything else rather than guessing.
-*/}}
-{{- define "kube-enforcer.metricsEnabled" -}}
-{{- $value := .Values.metricsEnabled -}}
-{{- if kindIs "invalid" $value -}}
-true
-{{- else if has (toString $value | lower) (list "true" "false") -}}
-{{- toString $value | lower -}}
-{{- else -}}
-{{- fail (printf "metricsEnabled must be true or false, got %q" (toString $value)) -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
 Common labels
 */}}
 {{- define "aqua.labels" -}}
