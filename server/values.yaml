@@ -478,6 +478,25 @@ web:
     #It will define the environment variable AQUA_MAINTENANCE_DBNAME
     name: ""
 
+  # Terminated-container retention (Is Running = No in Inventory > Containers and
+  # Vulnerabilities > Containers). Unset or <= 0 keeps the Console default.
+  terminatedContainers:
+    # Statement timeout, in seconds, for the queries behind the Is Running = No lists.
+    # It will define the environment variable AQUA_TERMINATED_CONTAINERS_QUERY_TIMEOUT_SECONDS
+    queryTimeoutSeconds: 60
+    # Highest number of days the Cleanup retention setting accepts. 1-30; any other value keeps 3.
+    # It will define the environment variable AQUA_TERMINATED_CONTAINERS_RETENTION_MAX_DAYS
+    retentionMaxDays: 3
+    # Ceiling that a max_rows set in the retention setting is clamped to.
+    # It will define the environment variable AQUA_TERMINATED_CONTAINERS_RETENTION_MAX_ROWS_CAP
+    retentionMaxRowsCap: 2000000
+    # How often, in minutes, the terminated-containers cleanup job runs.
+    # It will define the environment variable AQUA_TERMINATED_CONTAINERS_CLEANUP_INTERVAL_MINUTES
+    cleanupIntervalMinutes: 60
+    # Rows deleted per batch by the terminated-containers cleanup job.
+    # It will define the environment variable AQUA_TERMINATED_CONTAINERS_CLEANUP_BATCH_SIZE
+    cleanupBatchSize: 5000
+
   # extraEnvironmentVars is a list of extra environment variables to set in the web deployments.
   # https://docs.aquasec.com/docs/server-optional-variables
   extraEnvironmentVars: {}

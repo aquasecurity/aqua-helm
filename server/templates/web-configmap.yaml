@@ -61,6 +61,23 @@ data:
   {{- if .Values.web.maintenance_db.name }}
   AQUA_MAINTENANCE_DBNAME: {{ .Values.web.maintenance_db.name }}
   {{- end }}
+  {{- with .Values.web.terminatedContainers }}
+  {{- if .queryTimeoutSeconds }}
+  AQUA_TERMINATED_CONTAINERS_QUERY_TIMEOUT_SECONDS: {{ .queryTimeoutSeconds | int64 | quote }}
+  {{- end }}
+  {{- if .retentionMaxDays }}
+  AQUA_TERMINATED_CONTAINERS_RETENTION_MAX_DAYS: {{ .retentionMaxDays | int64 | quote }}
+  {{- end }}
+  {{- if .retentionMaxRowsCap }}
+  AQUA_TERMINATED_CONTAINERS_RETENTION_MAX_ROWS_CAP: {{ .retentionMaxRowsCap | int64 | quote }}
+  {{- end }}
+  {{- if .cleanupIntervalMinutes }}
+  AQUA_TERMINATED_CONTAINERS_CLEANUP_INTERVAL_MINUTES: {{ .cleanupIntervalMinutes | int64 | quote }}
+  {{- end }}
+  {{- if .cleanupBatchSize }}
+  AQUA_TERMINATED_CONTAINERS_CLEANUP_BATCH_SIZE: {{ .cleanupBatchSize | int64 | quote }}
+  {{- end }}
+  {{- end }}
   {{- if .Values.web.TLS.enabled }}
   AQUA_PRIVATE_KEY: "/opt/aquasec/ssl/key.pem"
   AQUA_PUBLIC_KEY: "/opt/aquasec/ssl/cert.pem"

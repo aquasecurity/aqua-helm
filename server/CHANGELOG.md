@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.37 (Nov 11th, 2026)
+* SLK-149142 Add web.terminatedContainers values for the Console terminated-container retention env vars (SLK-133183)
+
 ## 2022.4.36 (May 4th, 2026)
 * SAAS-31561 | Add variables to support CSP Kerberos connection to Postgres
 
