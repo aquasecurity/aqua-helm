@@ -20,12 +20,22 @@ spec:
       app.kubernetes.io/instance: {{ .Values.trivy.appName }}
   template:
     metadata:
+      {{- with .Values.trivy.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
         app.kubernetes.io/name: {{ .Values.trivy.appName }}
         app.kubernetes.io/instance: {{ .Values.trivy.appName }}
         app.kubernetes.io/version: {{ .Values.trivy.image.tag | quote }}
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        {{- with .Values.trivy.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
+      {{- with .Values.trivy.priorityClassName }}
+      priorityClassName: {{ . }}
+      {{- end }}
       serviceAccountName: {{ template "serviceAccountTrivy" . }}
       automountServiceAccountToken: true
      {{- if ne .Values.trivy.image.secretName "" }}
@@ -138,6 +148,10 @@ spec:
       {{- end }}
       {{- with .Values.trivy.nodeSelector }}
       nodeSelector:
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.trivy.affinity }}
+      affinity:
         {{ toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.trivy.tolerations }}
