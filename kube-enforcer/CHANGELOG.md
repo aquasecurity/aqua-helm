@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.87 ( November 26th, 2026 )
+* Update trivy-operator to 0.36.1 (`trivy.image.tag`) and the Trivy scanner image to 0.76.1 (`trivy.tag` in the trivy-operator ConfigMap), aligned with upstream trivy-operator chart 0.38.1
+
 ## 2022.4.86 ( October 26th, 2026 )
 * The KubeEnforcer Prometheus listener on `prometheusPort` opens only while both the Console global and Enforcer Group Prometheus settings are enabled; `AQUA_ENABLE_METRICS` is not required and the chart does not set it
 

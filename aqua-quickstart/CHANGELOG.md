@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2022.4.4 (Nov 26th, 2026)
+* Update trivy-operator to 0.36.1 and the Trivy scanner image to 0.76.1, aligned with the kube-enforcer chart
+
 ## 2022.4.3 (Oct 16th, 2026)
 * KubeEnforcer admission for deploymentconfigs, persistentvolumes, persistentvolumeclaims, ingresses, networkpolicies and globalnetworkpolicies
 * Fix replicationcontrollers/scale admission rule
