@@ -102,7 +102,7 @@ trivy:
   image:
     registry: "docker.io/aquasec"
     repository: "trivy-operator"
-    tag: "0.31.1"
+    tag: "0.36.1"
     pullPolicy: IfNotPresent
     # Reference the secret for private registry
     secretName: ""
