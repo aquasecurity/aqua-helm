@@ -161,6 +161,43 @@ based on env_size, unless explicitly overridden via shmSize
 {{- end }}
 
 {{/*
+Gateway API: apiVersion for GatewayClass and Gateway
+*/}}
+{{- define "aqua.gatewayAPI.apiVersion" -}}
+{{- if .Values.gatewayAPI.apiVersion -}}
+{{- .Values.gatewayAPI.apiVersion -}}
+{{- else if .Capabilities.APIVersions.Has "gateway.networking.k8s.io/v1/Gateway" -}}
+gateway.networking.k8s.io/v1
+{{- else if .Capabilities.APIVersions.Has "gateway.networking.k8s.io/v1beta1/Gateway" -}}
+gateway.networking.k8s.io/v1beta1
+{{- else -}}
+gateway.networking.k8s.io/v1
+{{- end -}}
+{{- end -}}
+
+{{/*
+Gateway API: apiVersion for TLSRoute (independent of gatewayAPI.apiVersion)
+*/}}
+{{- define "aqua.gatewayAPI.tlsRoute.apiVersion" -}}
+{{- if .Values.gatewayAPI.tlsRoute.apiVersion -}}
+{{- .Values.gatewayAPI.tlsRoute.apiVersion -}}
+{{- else if .Capabilities.APIVersions.Has "gateway.networking.k8s.io/v1/TLSRoute" -}}
+gateway.networking.k8s.io/v1
+{{- else if .Capabilities.APIVersions.Has "gateway.networking.k8s.io/v1alpha3/TLSRoute" -}}
+gateway.networking.k8s.io/v1alpha3
+{{- else if .Capabilities.APIVersions.Has "gateway.networking.k8s.io/v1alpha2/TLSRoute" -}}
+gateway.networking.k8s.io/v1alpha2
+{{- else -}}
+gateway.networking.k8s.io/v1
+{{- end -}}
+{{- end -}}
+
+{{/*
+Gateway API: port of <release>-envoy-svc, used by the Service and the TLSRoute backendRef
+*/}}
+{{- define "aqua.gatewayAPI.envoyServicePort" -}}8443{{- end -}}
+
+{{/*
 Gateway API: name of the Gateway the TLSRoute attaches to
 */}}
 {{- define "aqua.gatewayAPI.gatewayName" -}}
@@ -172,7 +209,7 @@ Gateway API: name of the Gateway the TLSRoute attaches to
 {{- end -}}
 
 {{/*
-Gateway API: fail fast on invalid configuration
+Gateway API: fail fast on invalid configuration (included once, from gateway-api-tlsroute.yaml)
 */}}
 {{- define "aqua.gatewayAPI.validate" -}}
 {{- $g := .Values.gatewayAPI -}}
@@ -182,17 +219,34 @@ Gateway API: fail fast on invalid configuration
 {{- if not .Values.envoy.TLS.listener.enabled -}}
 {{- fail "gatewayAPI.enabled requires envoy.TLS.listener.enabled=true: the Envoy listener certificate SAN must contain gatewayAPI.hostname" -}}
 {{- end -}}
-{{- $hostname := required "gatewayAPI.hostname is required (DNS name Enforcers connect with)" $g.hostname -}}
+{{- $hostname := toString (required "gatewayAPI.hostname is required (DNS name Enforcers connect with)" $g.hostname) -}}
 {{- if regexMatch "^[0-9.]+$|:" $hostname -}}
 {{- fail "gatewayAPI.hostname must be a DNS name; TLSRoute does not accept IP addresses" -}}
 {{- end -}}
+{{- if or (gt (len $hostname) 253) (not (regexMatch `^(\*\.)?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$` $hostname)) -}}
+{{- fail "gatewayAPI.hostname must be a lowercase RFC 1123 hostname (a-z, 0-9, '-', '.'; no uppercase, underscores or trailing dot; max 253 characters)" -}}
+{{- end -}}
+{{- $section := toString $g.gateway.sectionName -}}
+{{- if or (not $section) (gt (len $section) 253) (not (regexMatch `^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$` $section)) -}}
+{{- fail "gatewayAPI.gateway.sectionName is required and must be a lowercase RFC 1123 name (it is the Gateway listener name)" -}}
+{{- end -}}
 {{- if $g.gateway.create -}}
+{{- if $g.gateway.namespace -}}
+{{- fail "gatewayAPI.gateway.namespace has no effect when gatewayAPI.gateway.create=true (the Gateway is created in the release namespace); unset it" -}}
+{{- end -}}
 {{- if not $g.gatewayClass.name -}}
 {{- fail "gatewayAPI.gatewayClass.name is required when gatewayAPI.gateway.create=true" -}}
 {{- end -}}
 {{- $port := int (required "gatewayAPI.gateway.port is required when gatewayAPI.gateway.create=true" $g.gateway.port) -}}
 {{- if or (lt $port 1) (gt $port 65535) -}}
 {{- fail "gatewayAPI.gateway.port must be an integer between 1 and 65535" -}}
+{{- end -}}
+{{- else -}}
+{{- if $g.gatewayClass.create -}}
+{{- fail "gatewayAPI.gatewayClass.create=true has no effect when gatewayAPI.gateway.create=false (no Gateway would use it); set it to false" -}}
+{{- end -}}
+{{- if $g.gateway.port -}}
+{{- fail "gatewayAPI.gateway.port has no effect when gatewayAPI.gateway.create=false (the shared Gateway defines the port); unset it" -}}
 {{- end -}}
 {{- end -}}
 {{- end -}}

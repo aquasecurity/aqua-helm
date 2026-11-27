@@ -1,4 +1,13 @@
-{{- if and .Values.envoy.enabled (ne (toString .Values.envoy.service.enabled) "false") }}
+{{- if .Values.envoy.enabled }}
+{{- $svc := .Values.envoy.service.enabled }}
+{{- if kindIs "invalid" $svc }}{{- $svc = true }}{{- end }}{{/* key absent, e.g. --reuse-values from an older chart */}}
+{{- if not (kindIs "bool" $svc) }}
+{{- fail "envoy.service.enabled must be a boolean (true or false)" }}
+{{- end }}
+{{- if and (not $svc) (not .Values.gatewayAPI.enabled) }}
+{{- fail "envoy.service.enabled=false requires gatewayAPI.enabled=true: otherwise neither aqua-lb nor the Gateway API Service exists and Envoy is unreachable" }}
+{{- end }}
+{{- if $svc }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -49,5 +58,6 @@ spec:
       {{- end }}
   {{- end }}
 
+{{- end }}
 {{- end }}
 {{- end }}

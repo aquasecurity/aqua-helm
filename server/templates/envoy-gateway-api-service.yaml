@@ -15,7 +15,7 @@ spec:
     app: {{ .Release.Name }}-envoy
   ports:
     - name: https
-      port: 8443
-      targetPort: 8443
+      port: {{ include "aqua.gatewayAPI.envoyServicePort" . }}
+      targetPort: https   # container port name in envoy-deployment.yaml
       protocol: TCP
 {{- end }}

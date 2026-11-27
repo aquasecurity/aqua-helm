@@ -1,7 +1,6 @@
 {{- if .Values.gatewayAPI.enabled }}
-{{- include "aqua.gatewayAPI.validate" . }}
 {{- if .Values.gatewayAPI.gateway.create }}
-apiVersion: gateway.networking.k8s.io/v1
+apiVersion: {{ include "aqua.gatewayAPI.apiVersion" . }}
 kind: Gateway
 metadata:
   name: {{ include "aqua.gatewayAPI.gatewayName" . }}

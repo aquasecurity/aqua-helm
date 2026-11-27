@@ -709,7 +709,11 @@ envoy:
 # The Gateway forwards TLS to Envoy without terminating it; Envoy load balances to the gateways.
 gatewayAPI:
   enabled: false
-  # REQUIRED. DNS name Enforcers connect with (TLS SNI). IP addresses are not allowed by TLSRoute.
+  # Optional apiVersion for GatewayClass and Gateway, e.g. gateway.networking.k8s.io/v1.
+  # When empty it is detected from the cluster, falling back to gateway.networking.k8s.io/v1
+  # (e.g. helm template / ArgoCD, where the cluster is not queried).
+  apiVersion: ""
+  # REQUIRED. Lowercase RFC 1123 DNS name Enforcers connect with (TLS SNI). IP addresses are not allowed by TLSRoute.
   # Create a DNS record pointing this name at the Gateway address.
   hostname: ""
   gatewayClass:
@@ -729,15 +733,18 @@ gatewayAPI:
     # Gateway name. Defaults to <release>-gateway-proxy when create=true.
     # Required when create=false.
     name: ""
-    # Namespace of an existing Gateway (create=false). Defaults to the release namespace.
+    # Namespace of an existing Gateway (create=false only). Defaults to the release namespace.
     namespace: ""
-    # Listener name. Must match the existing Gateway's listener when create=false.
+    # REQUIRED. Listener name (lowercase RFC 1123). Must match the existing Gateway's listener when create=false.
     sectionName: aqua-tls-passthrough
-    # REQUIRED when create=true. External listener port Enforcers connect to (integer).
+    # REQUIRED when create=true; must be unset when create=false. External listener port Enforcers connect to (integer).
     port:
     labels: {}
     annotations: {}
   tlsRoute:
+    # Optional apiVersion for TLSRoute: gateway.networking.k8s.io/v1, v1alpha3 or v1alpha2.
+    # Detected from the cluster when empty, falling back to gateway.networking.k8s.io/v1.
+    apiVersion: ""
     labels: {}
     annotations: {}
 

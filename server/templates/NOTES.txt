@@ -38,14 +38,23 @@ Get Endpoint of aqua gateway to connect enforcers
 {{- end }}
 
 {{- if .Values.gatewayAPI.enabled }}
+{{- $gwName := include "aqua.gatewayAPI.gatewayName" . }}
+{{- $gwNs := .Release.Namespace }}
+{{- if not .Values.gatewayAPI.gateway.create }}{{- $gwNs = .Values.gatewayAPI.gateway.namespace | default .Release.Namespace }}{{- end }}
 
 Aqua Gateway is exposed through the Kubernetes Gateway API (TLS Passthrough):
-  $ kubectl get gateway,tlsroute --namespace {{ .Release.Namespace }}
+  $ kubectl get gateway {{ $gwName }} --namespace {{ $gwNs }}
+  $ kubectl get tlsroute {{ .Release.Name }}-envoy-passthrough --namespace {{ .Release.Namespace }}
 
 Create a DNS record for {{ .Values.gatewayAPI.hostname }} pointing at the Gateway address, then configure
 Enforcers with:
   global.gateway.address={{ .Values.gatewayAPI.hostname }}
-  global.gateway.port=<gatewayAPI.gateway.port>
+{{- if .Values.gatewayAPI.gateway.create }}
+  global.gateway.port={{ int .Values.gatewayAPI.gateway.port }}
+{{- else }}
+  global.gateway.port=<listener port of the shared Gateway>, shown by:
+  $ kubectl get gateway {{ $gwName }} --namespace {{ $gwNs }} -o jsonpath='{.spec.listeners[?(@.name=="{{ .Values.gatewayAPI.gateway.sectionName }}")].port}'
+{{- end }}
 Enforcers must connect by this DNS name; connections by IP address are rejected by the Gateway.
 {{- end }}
 

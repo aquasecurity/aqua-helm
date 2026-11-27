@@ -1,6 +1,6 @@
 {{- if .Values.gatewayAPI.enabled }}
 {{- include "aqua.gatewayAPI.validate" . }}
-apiVersion: gateway.networking.k8s.io/v1
+apiVersion: {{ include "aqua.gatewayAPI.tlsRoute.apiVersion" . }}
 kind: TLSRoute
 metadata:
   name: {{ .Release.Name }}-envoy-passthrough
@@ -28,6 +28,6 @@ spec:
   rules:
     - backendRefs:
         - name: {{ .Release.Name }}-envoy-svc
-          port: 8443
+          port: {{ include "aqua.gatewayAPI.envoyServicePort" . }}
 {{- end }}
 

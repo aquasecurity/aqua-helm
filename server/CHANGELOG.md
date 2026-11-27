@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 ## 2022.4.37 (Oct 21st, 2026)
 * Add Kubernetes Gateway API (TLSRoute, TLS Passthrough) support for Envoy via `gatewayAPI.*` values
 * Add `envoy.service.enabled` to optionally disable the `aqua-lb` Service
+* Add `gatewayAPI.apiVersion` and `gatewayAPI.tlsRoute.apiVersion` overrides with cluster version detection
+* Validate Gateway API hostname, listener name and conflicting settings at render time
 
 ## 2022.4.36 (May 4th, 2026)
 * SAAS-31561 | Add variables to support CSP Kerberos connection to Postgres
